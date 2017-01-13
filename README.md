@@ -1,0 +1,2 @@
+# IntelliSearch Search Client
+

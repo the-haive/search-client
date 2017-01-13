@@ -1,0 +1,17 @@
+{
+    "presets": ["es2015-native-modules"],
+    "plugins": [
+        "transform-object-rest-spread"
+    ],
+    "env": {
+        "production": {
+            "plugins": [
+                "transform-decorators-legacy",
+                ["discard-module-references", {
+                    "targets": [ "tape" ],
+                    "unusedWhitelist": [  ]
+                }]
+            ]
+        }
+    }
+}
