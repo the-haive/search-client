@@ -7,7 +7,7 @@ const { CheckerPlugin } = require('awesome-typescript-loader')
 module.exports = {
   context: path.resolve(__dirname, './src'),
   entry: {
-    "search-client": './index.js',
+    "search-client": './index.ts',
   },
   devtool: 'source-map',
   output: {
@@ -20,8 +20,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      tape: 'browser-tap',
-//      sinon: 'sinon/pkg/sinon', // https://github.com/webpack/webpack/issues/177#issuecomment-185718237
+      tape: 'browser-tap'
     },
     extensions: ['.ts', 'tsx', '.js', '.jsx'],
     modules:[
@@ -31,7 +30,6 @@ module.exports = {
   },
   module: {
     noParse: [
-//      /sinon/,
       /browser-tap/
     ],
     rules: [
@@ -47,13 +45,6 @@ module.exports = {
         exclude: /(node_modules)/
       }
     ]
-  },
-  // these are all enzyme specific
-  externals: {
-    'cheerio': 'window',
-    'react/addons': true,
-    'react/lib/ExecutionEnvironment': true,
-    'react/lib/ReactContext': true
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),

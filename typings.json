@@ -1,6 +1,6 @@
 {
   "globalDevDependencies": {
-    "sinon": "registry:dt/sinon#1.16.1+20161208163514",
     "webpack-dev-server": "registry:dt/webpack-dev-server#1.12.1+20161122001659"
-  }
+  },
+  "globalDependencies": {}
 }
