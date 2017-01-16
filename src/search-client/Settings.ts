@@ -3,31 +3,53 @@ import Matches from './Matches'
 import Categories from './Categories'
 import Suggestions from './Suggestions'
 
+/**
+ * Settings as used by the SearchClient.
+ */
 export default class Settings{
-    // @param {string} settings.baseServiceUrl - The service URL for the REST API
-    baseServiceUrl: string;
-    // @param {string} settings.findUrl - The service URL for the REST API
-    findUrl: string;
-    // @param {string} settings.categorizeUrl - The service URL for the REST API
-    categorizeUrl:string;
-    // @param {string} settings.allCategoriesUrl - The service URL for the REST API
-    allCategoriesUrl: string;
-    // @param {string} settings.autocompleteUrl - The service URL for the REST API
-    autocompleteUrl: string;
-    // @param {string} settings.bestBetsUrl - The service URL for the REST API
-    bestBetsUrl: string;
-    // @param {string} [settings.authenticationUrl] - The authentication URL if using JWT authentication
-    authenticationUrl?: URL;
-    // @param {Object} [settings.queryOptions] - Default options for queries
+    /** The service URL for the REST API. */
+    baseUrl: string;
+
+    /** The JWT authentication token to use. */
+    authenticationToken: string;
+
+    /** Default options for queries. */
     query?: Query
-    // @param {Function} [settings.findResultHandler] - A custom function for handling find results
-    findResultHandler?: (matches: Matches) => {};
-    // @param {Function} [settings.categorizeResultHandler] - A custom function for handling categorize results
-    categorizeResultHandler?: (categories: Categories) => {};
-    // @param {Function} [settings.autocompleteResultHandler] - A custom function for handling autocomplete results
-    autocompleteResultHandler?: (suggestions: Suggestions) => {};
-    allCategoriesResultHandler?: (categories: Categories) => {};
-    bestBetsResultHandler?: (bestbets: any[]) => {};
+
+    /** Settings for find operations */
+    find: {
+        /** The endpoint url for the find REST API. */
+        url?: string;
+
+        /** A custom function for handling find results. */
+        handler?: (matches: Matches) => {};
+    }
+    categorize: {
+        /** The endpoint url for the categorize REST API. */
+        url?: string;
+        /** A custom function for handling categorize results. */
+        handler?: (categories: Categories) => {};
+    }
+    autocomplete: {
+        /** The endpoint url for the autocomplete REST API. */
+        url?: string;
+        /** A custom function for handling autocomplete results. */
+        handler?: (suggestions: Suggestions) => {};        
+    }
+    allCategories: {
+        /** The endpoint url for the allCategories REST API. */
+        url?: string;
+        /** A custom function for handling allCategories results. */
+        handler?: (categories: Categories) => {};
+    }
+
+    bestBets: {
+        /** The endpoint url for the bestBets REST API. */
+        url?: string;
+        /** A custom function for handling bestBets results. */
+        handler?: (bestbets: any[]) => {};
+    }
+
     // // @param {Object} [settings.searchField] - A DOM Object representing the search field
     // searchField?: HTMLInputElement;
     // // @param {Object} [settings.searchFieldOptions] - Options for the search field, requires settings.searchField to be set
@@ -52,4 +74,12 @@ export default class Settings{
     //         }
     //     }
     // }
+
+    constructor(){
+        this.allCategories = this.allCategories || {};
+        this.autocomplete = this.autocomplete || {};
+        this.bestBets = this.bestBets || {};
+        this.categorize = this.categorize || {};
+        this.find = this.find || {};
+    }
 }

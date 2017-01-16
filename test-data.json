@@ -1,0 +1,2649 @@
+{
+    "autocomplete": [
+        "testing",
+        "teste ",
+        "testande ",
+        "testane ",
+        "testar ",
+        "testas ",
+        "testast ",
+        "testen ",
+        "testing ",
+        "testingane "
+    ],
+    "find": {
+        "BestBets": [
+
+        ],
+        "DidYouMeanList": [
+
+        ],
+        "EstimatedMatchCount": 101,
+        "ExpandedQuery": "test",
+        "NextPageRef": 2,
+        "SearchMatches": [{
+                "Abstract": "",
+                "Date": "\/Date(1448364691681+0100)\/",
+                "Extracts": [
+                    "Dette er en <b>test<\/b> tekst av noe slag og ny tekst og 2..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 441,
+                "IsTrueMatch": true,
+                "ItemId": "aee7821bfdc388384cc5f1c55c3e3371",
+                "MetaList": [{
+                        "Key": "Author",
+                        "Value": "Lars Frode"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Lars F."
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "6"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "2015-03-04T11:35:00Z"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "2015-11-24T12:31:00Z"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal.dotm"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "6"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "8"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "44"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Office Word"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "51"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "false"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "16.0000"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "docx"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "temp.docx"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "11\/24\/2015 12:31:31 PM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:22 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:20:38 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/temp.docx"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "aee7821bfdc388384cc5f1c55c3e3371"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "aee7821bfdc388384cc5f1c55c3e3371.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.358397E+17,
+                "SourceName": "File",
+                "Title": "temp.docx",
+                "Url": "C:\\TestData\\Norway\\temp.docx"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1394616277299+0100)\/",
+                "Extracts": [
+                    "<b>test<\/b>.pdf..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 324,
+                "IsTrueMatch": true,
+                "ItemId": "21693fda8ebc3d8edc2015164ec1f0a8",
+                "MetaList": [{
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "pdf"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "test.pdf"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "3\/12\/2014 10:24:37 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:49 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:20:39 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/test.pdf"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "21693fda8ebc3d8edc2015164ec1f0a8"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "21693fda8ebc3d8edc2015164ec1f0a8.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.35302148E+17,
+                "SourceName": "File",
+                "Title": "test.pdf",
+                "Url": "C:\\TestData\\Norway\\test.pdf"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1196923241149+0100)\/",
+                "Extracts": [
+                    "Sportsklubb pÃ¥ KarmÃ¸y fikk ny <b>hjertestarter<\/b> av If.doc..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 340,
+                "IsTrueMatch": true,
+                "ItemId": "3d123f22218ca578f1af578550c7dbc9",
+                "MetaList": [{
+                        "Key": "Author",
+                        "Value": "Gro Merethe Johnsrud"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal.dotm"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Gro Merethe Johnsrud"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "4"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "05\/12\/2007 16:46:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "05\/12\/2007 16:50:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "318"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "1688"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Office Word"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "14"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "4"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "IntelliSearch AS"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "2002"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "12.0"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\IF"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "12\/6\/2007 7:40:41 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:21 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|IF"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:26:39 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/IF\/Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "3d123f22218ca578f1af578550c7dbc9"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "3d123f22218ca578f1af578550c7dbc9.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.333252E+17,
+                "SourceName": "File",
+                "Title": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc",
+                "Url": "C:\\TestData\\Norway\\IF\\Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730577955+0100)\/",
+                "Extracts": [
+                    "Forklare hvorfor det er viktig Ã¥ lage og <b>teste<\/b> hypoteser ved systematiske observasjoner og forsÃ¸k, og hvorfor det...",
+                    "planlegge, bygge og <b>teste<\/b> enkle modeller av byggkonstruksjoner og dokumentere prosessen...",
+                    "Planlegge, bygge og <b>teste<\/b> mekaniske leker, beskrive ulike bevegelser i lekene og prinsipper...",
+                    "Planlegge, bygge og <b>teste<\/b> enkle produkter som gjÃ¸r bruk av elektrisk energi, forklare..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 531,
+                "IsTrueMatch": true,
+                "ItemId": "65a827d9784e9c22183cc079f6422197",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "MATEMATIKK â€“ delmÃ¥l synoptisk oppstilt"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Bibliotek - admin"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "PaalK"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "10"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "25"
+                    },
+                    {
+                        "Key": "DateLastPrinted",
+                        "Value": "31\/10\/2006 15:45:00"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "16\/01\/2007 15:06:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "27\/02\/2007 10:28:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "1235"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "6549"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Word 10.0"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "54"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "15"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "Gjerdrum kommune"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "7769"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "10.4219"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "Naturfag.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:49:37 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:18 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:24:15 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Naturfag.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "65a827d9784e9c22183cc079f6422197"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "65a827d9784e9c22183cc079f6422197.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "Naturfag.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\Naturfag.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730686048+0100)\/",
+                "Extracts": [
+                    "...reineiere fra Jokkmokk, , man kan blande nett-teknologier â€“ <b>test<\/b> pÃ¥ jokkmokkfjellet nÃ¥ 7-12 august, strÃ¸mforsyning mÃ¥ sikres til...",
+                    "Triple helix: nÃ¦ringslivet prod struktur, kunnskapsstruktur â€“ <b>myndighere\/stÃ¸ttestruktur<\/b> â€“ FÃ… TIL ET SAMSPILL via ulike forksningsprogrmmaer. ...",
+                    "<b>flyttestrÃ¸mmen<\/b> kan fortsette fra lokalsamfunn hvis ikke man gjÃ¸r noe..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 504,
+                "IsTrueMatch": true,
+                "ItemId": "f3ce38b3d28b9360cf50e87e56b115c0",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "MÃ¥l 3 Nord 2007 â€“ 2013"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Olav Hansen"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "toou"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "90"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "827"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "10\/08\/2006 14:55:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "14\/08\/2006 09:57:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "6695"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "38164"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Word 9.0"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "318"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "76"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "Finnmark fylkeskommune"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "46868"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "9.6926"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:51:26 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:16 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:22:21 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "f3ce38b3d28b9360cf50e87e56b115c0"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "f3ce38b3d28b9360cf50e87e56b115c0.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730577908+0100)\/",
+                "Extracts": [
+                    "Kan du finne <b>testar<\/b> eller andre former for vurderingar du kan lene deg til..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 478,
+                "IsTrueMatch": true,
+                "ItemId": "30b944969fa27a7042cd9edffffd4993",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "Prosjektoppgave ID101404 Informasjonsteknologi"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Bibliotek - admin"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Helge Kristiansen"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "6"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "64"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "23\/02\/2005 13:45:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "01\/03\/2005 15:17:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "979"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "5190"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Office Word"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "43"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "12"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "HÃ¸gskolen i Ã…lesund"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "6157"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "11.5606"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:49:37 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:21 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:25:06 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "30b944969fa27a7042cd9edffffd4993"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "30b944969fa27a7042cd9edffffd4993.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730765345+0100)\/",
+                "Extracts": [
+                    "...organisasjoner av nye lovforslag, for eksempel ved bruk av <b>testpaneler<\/b>. ..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 467,
+                "IsTrueMatch": true,
+                "ItemId": "251b0508ea31533ba0734bf48eae6ec7",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "Norge trenger mer arbeidskraft"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Marie Nielsen"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Allan Auke"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "2"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "12"
+                    },
+                    {
+                        "Key": "DateLastPrinted",
+                        "Value": "16\/09\/2004 12:36:00"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "07\/04\/2006 10:12:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "07\/04\/2006 10:12:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "5601"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "31930"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Word 9.0"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "266"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "63"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "HSH"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "39212"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "9.6926"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "1bfd359ef2.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:52:45 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:13 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:20:51 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/1bfd359ef2.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "251b0508ea31533ba0734bf48eae6ec7"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "251b0508ea31533ba0734bf48eae6ec7.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "1bfd359ef2.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\1bfd359ef2.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730577892+0100)\/",
+                "Extracts": [
+                    "...ved HSH er p.t. godt forspent med <b>fÃ¸rstestillinger<\/b>. ...",
+                    "...Minst 50 % av fagmiljÃ¸et skal dekkes av ansatte med <b>fÃ¸rstestillingskompetanse<\/b>, av disse skal...",
+                    "...vil i lÃ¸pet av 2006 ha inntil seks tilsatte i <b>fÃ¸rstestilling<\/b> og en professor 2 i miljÃ¸et. Professorstillingen vil bidra...",
+                    "SÃ¸knad med CV, kopi av vitnemÃ¥l, <b>attester<\/b> og publikasjoner sendes i fire eksemplar til:..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 440,
+                "IsTrueMatch": true,
+                "ItemId": "c5a3aaca3f110911037da1ea6f377198",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "Utlysing av professorat innen organisasjon og ledelse"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Bibliotek - admin"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "styresbm"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Jorunn Miljeteig"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "2"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "DateLastPrinted",
+                        "Value": "15\/06\/2006 12:34:00"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "16\/06\/2006 12:31:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "16\/06\/2006 12:31:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "909"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "4819"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Office Word"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "40"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "11"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "HSH"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "5717"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "11.5606"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "sak 38.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:49:37 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:21 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:25:28 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/sak 38.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "c5a3aaca3f110911037da1ea6f377198"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "c5a3aaca3f110911037da1ea6f377198.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "sak 38.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\sak 38.doc"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730765361+0100)\/",
+                "Extracts": [
+                    "...analyser 70 000 Utlevering av datafiler 1 400 Kvalitetssikring (<b>ringtester<\/b>) 150...",
+                    "...FlystÃ¸y og rekreasjon Fremmedstoffer i mat og tykktarmskreft Kjemikalier, <b>testikkelskader<\/b> og DNA reparasjon Luftveisallergi og betennelsesreaksjoner i luftveiene forÃ¥rsaket av..."
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 453,
+                "IsTrueMatch": true,
+                "ItemId": "90c98c48f1605fb3d5a95a8a34bd271b",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "Nasjonalt folkehelseinstitutt"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Marie Nielsen"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "C:\\Programfiler\\Microsoft Office\\Maler\\Presentasjonsutforminger\\FHI_transparent_liggende_med_symbol.pot"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "GESL"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "15"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "1386"
+                    },
+                    {
+                        "Key": "DateLastPrinted",
+                        "Value": "30\/04\/2002 09:01:26"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "15\/04\/2002 11:51:37"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "30\/05\/2002 10:10:13"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "581"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft PowerPoint 7.0"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "PresentationFormat",
+                        "Value": "Skjermfremvisning"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "74789"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "144"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "20"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "Statens institutt for folkehelse"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "8.5425"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "ppt"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "Folkehelseinstnyerolle.ppt"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:52:45 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:23 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:22:24 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Folkehelseinstnyerolle.ppt"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "90c98c48f1605fb3d5a95a8a34bd271b"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "90c98c48f1605fb3d5a95a8a34bd271b.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "Folkehelseinstnyerolle.ppt",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\Folkehelseinstnyerolle.ppt"
+            },
+            {
+                "Abstract": "",
+                "Date": "\/Date(1193730577861+0100)\/",
+                "Extracts": [
+                    "<b>Markedstester<\/b>"
+                ],
+                "InstanceId": -151581941,
+                "InternalId": 378,
+                "IsTrueMatch": true,
+                "ItemId": "735e3f6145847d552e484c32cd02586a",
+                "MetaList": [{
+                        "Key": "Title",
+                        "Value": "NTNU"
+                    },
+                    {
+                        "Key": "Author",
+                        "Value": "Bibliotek - admin"
+                    },
+                    {
+                        "Key": "Template",
+                        "Value": "Normal.dot"
+                    },
+                    {
+                        "Key": "LastSavedBy",
+                        "Value": "Lise Sagdahl"
+                    },
+                    {
+                        "Key": "RevisionNumber",
+                        "Value": "2"
+                    },
+                    {
+                        "Key": "TotalEditTime",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "DateLastPrinted",
+                        "Value": "31\/01\/2005 14:53:00"
+                    },
+                    {
+                        "Key": "DateCreated",
+                        "Value": "02\/02\/2005 14:18:00"
+                    },
+                    {
+                        "Key": "DateLastSaved",
+                        "Value": "02\/02\/2005 14:18:00"
+                    },
+                    {
+                        "Key": "PageCount",
+                        "Value": "1"
+                    },
+                    {
+                        "Key": "WordCount",
+                        "Value": "3903"
+                    },
+                    {
+                        "Key": "CharacterCount",
+                        "Value": "20686"
+                    },
+                    {
+                        "Key": "ApplicationName",
+                        "Value": "Microsoft Word 10.0"
+                    },
+                    {
+                        "Key": "DocumentSecurity",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "ByteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "LineCount",
+                        "Value": "172"
+                    },
+                    {
+                        "Key": "ParagraphCount",
+                        "Value": "49"
+                    },
+                    {
+                        "Key": "SlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "NoteCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "HiddenSlideCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "MultimediaClipCount",
+                        "Value": "0"
+                    },
+                    {
+                        "Key": "Company",
+                        "Value": "NTNU"
+                    },
+                    {
+                        "Key": "CharacterCountWithSpaces",
+                        "Value": "24540"
+                    },
+                    {
+                        "Key": "SharedDocument",
+                        "Value": "False"
+                    },
+                    {
+                        "Key": "Version",
+                        "Value": "10.3501"
+                    },
+                    {
+                        "Key": "Path",
+                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-18"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-544"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-32-545"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                    },
+                    {
+                        "Key": "FileType",
+                        "Value": "doc"
+                    },
+                    {
+                        "Key": "Filename",
+                        "Value": "styresak-samlokalisering310105.doc"
+                    },
+                    {
+                        "Key": "ModifiedDate",
+                        "Value": "10\/30\/2007 8:49:37 AM"
+                    },
+                    {
+                        "Key": "CreatedDate",
+                        "Value": "7\/5\/2016 12:06:22 PM"
+                    },
+                    {
+                        "Key": "System",
+                        "Value": "File|TestData|Norway|Diverse_NO"
+                    },
+                    {
+                        "Key": "Owner",
+                        "Value": "aaron"
+                    },
+                    {
+                        "Key": "Permission",
+                        "Value": "Generic|Public"
+                    },
+                    {
+                        "Key": "CrawledDate",
+                        "Value": "7\/5\/2016 12:26:00 PM"
+                    },
+                    {
+                        "Key": "ItemIdUri",
+                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/styresak-samlokalisering310105.doc"
+                    },
+                    {
+                        "Key": "ItemIdHash",
+                        "Value": "735e3f6145847d552e484c32cd02586a"
+                    },
+                    {
+                        "Key": "CrawlerName",
+                        "Value": "File"
+                    },
+                    {
+                        "Key": "PreviewUrl",
+                        "Value": "735e3f6145847d552e484c32cd02586a.jpg"
+                    },
+                    {
+                        "Key": "PreviewUrl_AddedPostSearch",
+                        "Value": "true"
+                    }
+                ],
+                "ParentInternalId": -2,
+                "ParentLevel": -1,
+                "Relevance": 6.3329334E+17,
+                "SourceName": "File",
+                "Title": "styresak-samlokalisering310105.doc",
+                "Url": "C:\\TestData\\Norway\\Diverse_NO\\styresak-samlokalisering310105.doc"
+            }
+        ],
+        "SerializedQuery": "#2|test|GoogleStyle|False||0|Date|False|False||"
+    },
+    "categorize": {
+        "Groups": [{
+                "Categories": [{
+                    "CategoryName": [
+                        "System",
+                        "File"
+                    ],
+                    "Children": [{
+                        "CategoryName": [
+                            "System",
+                            "File",
+                            "Testdata"
+                        ],
+                        "Children": [{
+                            "CategoryName": [
+                                "System",
+                                "File",
+                                "Testdata",
+                                "Norway"
+                            ],
+                            "Children": [
+
+                            ],
+                            "Count": 101,
+                            "DisplayName": "Norway",
+                            "Expanded": false,
+                            "Name": "Norway"
+                        }],
+                        "Count": 101,
+                        "DisplayName": "Testdata",
+                        "Expanded": false,
+                        "Name": "Testdata"
+                    }],
+                    "Count": 101,
+                    "DisplayName": "Files",
+                    "Expanded": false,
+                    "Name": "File"
+                }],
+                "DisplayName": "System",
+                "Expanded": true,
+                "Name": "System"
+            },
+            {
+                "Categories": [{
+                        "CategoryName": [
+                            "Author",
+                            "Bibliotek - Admin"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 7,
+                        "DisplayName": "Bibliotek - Admin",
+                        "Expanded": false,
+                        "Name": "Bibliotek - Admin"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Olav Hansen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 6,
+                        "DisplayName": "Olav Hansen",
+                        "Expanded": false,
+                        "Name": "Olav Hansen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Gro Merethe Johnsrud"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Gro Merethe Johnsrud",
+                        "Expanded": false,
+                        "Name": "Gro Merethe Johnsrud"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "GESL"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "GESL",
+                        "Expanded": false,
+                        "Name": "GESL"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Marie Nielsen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 2,
+                        "DisplayName": "Marie Nielsen",
+                        "Expanded": false,
+                        "Name": "Marie Nielsen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "PÃ¥l Mikkel Vika"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "PÃ¥l Mikkel Vika",
+                        "Expanded": false,
+                        "Name": "PÃ¥l Mikkel Vika"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "PaalK"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "PaalK",
+                        "Expanded": false,
+                        "Name": "PaalK"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Dan Charles"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Dan Charles",
+                        "Expanded": false,
+                        "Name": "Dan Charles"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Khole"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Khole",
+                        "Expanded": false,
+                        "Name": "Khole"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "jjansen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "jjansen",
+                        "Expanded": false,
+                        "Name": "jjansen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "IDI"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "IDI",
+                        "Expanded": false,
+                        "Name": "IDI"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Susanne Koch"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Susanne Koch",
+                        "Expanded": false,
+                        "Name": "Susanne Koch"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Student_LU"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Student_LU",
+                        "Expanded": false,
+                        "Name": "Student_LU"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "kjetil.strand"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "kjetil.strand",
+                        "Expanded": false,
+                        "Name": "kjetil.strand"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Astrid Ã˜ksenvÃ¥g"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Astrid Ã˜ksenvÃ¥g",
+                        "Expanded": false,
+                        "Name": "Astrid Ã˜ksenvÃ¥g"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Allan Auke"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Allan Auke",
+                        "Expanded": false,
+                        "Name": "Allan Auke"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "lises"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "lises",
+                        "Expanded": false,
+                        "Name": "lises"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "lkg"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "lkg",
+                        "Expanded": false,
+                        "Name": "lkg"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Lars Frode"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Lars Frode",
+                        "Expanded": false,
+                        "Name": "Lars Frode"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Lars F."
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Lars F.",
+                        "Expanded": false,
+                        "Name": "Lars F."
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Lise Sagdahl"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Lise Sagdahl",
+                        "Expanded": false,
+                        "Name": "Lise Sagdahl"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Heidi Ã˜stbÃ¸ Haugen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Heidi Ã˜stbÃ¸ Haugen",
+                        "Expanded": false,
+                        "Name": "Heidi Ã˜stbÃ¸ Haugen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Helge Kristiansen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Helge Kristiansen",
+                        "Expanded": false,
+                        "Name": "Helge Kristiansen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "toou"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "toou",
+                        "Expanded": false,
+                        "Name": "toou"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Jorunn Miljeteig"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Jorunn Miljeteig",
+                        "Expanded": false,
+                        "Name": "Jorunn Miljeteig"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "Tore Amundsen"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "Tore Amundsen",
+                        "Expanded": false,
+                        "Name": "Tore Amundsen"
+                    },
+                    {
+                        "CategoryName": [
+                            "Author",
+                            "olsenw"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "olsenw",
+                        "Expanded": false,
+                        "Name": "olsenw"
+                    }
+                ],
+                "DisplayName": "Author",
+                "Expanded": false,
+                "Name": "Author"
+            },
+            {
+                "Categories": [{
+                        "CategoryName": [
+                            "ModifiedDate",
+                            "2007"
+                        ],
+                        "Children": [{
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2007",
+                                    "Month"
+                                ],
+                                "Children": [{
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Month",
+                                            "9"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 71,
+                                        "DisplayName": "September",
+                                        "Expanded": false,
+                                        "Name": "9"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Month",
+                                            "10"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 27,
+                                        "DisplayName": "October",
+                                        "Expanded": false,
+                                        "Name": "10"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Month",
+                                            "12"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 1,
+                                        "DisplayName": "December",
+                                        "Expanded": false,
+                                        "Name": "12"
+                                    }
+                                ],
+                                "Count": 99,
+                                "DisplayName": "Month",
+                                "Expanded": false,
+                                "Name": "Month"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2007",
+                                    "Week"
+                                ],
+                                "Children": [{
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "38"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 70,
+                                        "DisplayName": "38",
+                                        "Expanded": false,
+                                        "Name": "38"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "39"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 1,
+                                        "DisplayName": "39",
+                                        "Expanded": false,
+                                        "Name": "39"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "41"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 7,
+                                        "DisplayName": "41",
+                                        "Expanded": false,
+                                        "Name": "41"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "43"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 5,
+                                        "DisplayName": "43",
+                                        "Expanded": false,
+                                        "Name": "43"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "44"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 15,
+                                        "DisplayName": "44",
+                                        "Expanded": false,
+                                        "Name": "44"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Week",
+                                            "49"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 1,
+                                        "DisplayName": "49",
+                                        "Expanded": false,
+                                        "Name": "49"
+                                    }
+                                ],
+                                "Count": 99,
+                                "DisplayName": "Week",
+                                "Expanded": false,
+                                "Name": "Week"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2007",
+                                    "Quarter"
+                                ],
+                                "Children": [{
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Quarter",
+                                            "3"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 98,
+                                        "DisplayName": "3",
+                                        "Expanded": false,
+                                        "Name": "3"
+                                    },
+                                    {
+                                        "CategoryName": [
+                                            "ModifiedDate",
+                                            "2007",
+                                            "Quarter",
+                                            "4"
+                                        ],
+                                        "Children": [
+
+                                        ],
+                                        "Count": 1,
+                                        "DisplayName": "4",
+                                        "Expanded": false,
+                                        "Name": "4"
+                                    }
+                                ],
+                                "Count": 99,
+                                "DisplayName": "Quarter",
+                                "Expanded": false,
+                                "Name": "Quarter"
+                            }
+                        ],
+                        "Count": 99,
+                        "DisplayName": "2007",
+                        "Expanded": false,
+                        "Name": "2007"
+                    },
+                    {
+                        "CategoryName": [
+                            "ModifiedDate",
+                            "2014"
+                        ],
+                        "Children": [{
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2014",
+                                    "Month"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2014",
+                                        "Month",
+                                        "3"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "March",
+                                    "Expanded": false,
+                                    "Name": "3"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Month",
+                                "Expanded": false,
+                                "Name": "Month"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2014",
+                                    "Week"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2014",
+                                        "Week",
+                                        "11"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "11",
+                                    "Expanded": false,
+                                    "Name": "11"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Week",
+                                "Expanded": false,
+                                "Name": "Week"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2014",
+                                    "Quarter"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2014",
+                                        "Quarter",
+                                        "1"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "1",
+                                    "Expanded": false,
+                                    "Name": "1"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Quarter",
+                                "Expanded": false,
+                                "Name": "Quarter"
+                            }
+                        ],
+                        "Count": 1,
+                        "DisplayName": "2014",
+                        "Expanded": false,
+                        "Name": "2014"
+                    },
+                    {
+                        "CategoryName": [
+                            "ModifiedDate",
+                            "2015"
+                        ],
+                        "Children": [{
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2015",
+                                    "Month"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2015",
+                                        "Month",
+                                        "11"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "November",
+                                    "Expanded": false,
+                                    "Name": "11"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Month",
+                                "Expanded": false,
+                                "Name": "Month"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2015",
+                                    "Week"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2015",
+                                        "Week",
+                                        "48"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "48",
+                                    "Expanded": false,
+                                    "Name": "48"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Week",
+                                "Expanded": false,
+                                "Name": "Week"
+                            },
+                            {
+                                "CategoryName": [
+                                    "ModifiedDate",
+                                    "2015",
+                                    "Quarter"
+                                ],
+                                "Children": [{
+                                    "CategoryName": [
+                                        "ModifiedDate",
+                                        "2015",
+                                        "Quarter",
+                                        "3"
+                                    ],
+                                    "Children": [
+
+                                    ],
+                                    "Count": 1,
+                                    "DisplayName": "3",
+                                    "Expanded": false,
+                                    "Name": "3"
+                                }],
+                                "Count": 1,
+                                "DisplayName": "Quarter",
+                                "Expanded": false,
+                                "Name": "Quarter"
+                            }
+                        ],
+                        "Count": 1,
+                        "DisplayName": "2015",
+                        "Expanded": false,
+                        "Name": "2015"
+                    }
+                ],
+                "DisplayName": "Modified date",
+                "Expanded": false,
+                "Name": "ModifiedDate"
+            },
+            {
+                "Categories": [{
+                        "CategoryName": [
+                            "FileType",
+                            "DOC"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 19,
+                        "DisplayName": "DOC",
+                        "Expanded": false,
+                        "Name": "DOC"
+                    },
+                    {
+                        "CategoryName": [
+                            "FileType",
+                            "PDF"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 79,
+                        "DisplayName": "PDF",
+                        "Expanded": false,
+                        "Name": "PDF"
+                    },
+                    {
+                        "CategoryName": [
+                            "FileType",
+                            "PPT"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 1,
+                        "DisplayName": "PPT",
+                        "Expanded": false,
+                        "Name": "PPT"
+                    },
+                    {
+                        "CategoryName": [
+                            "FileType",
+                            "HTML"
+                        ],
+                        "Children": [
+
+                        ],
+                        "Count": 2,
+                        "DisplayName": "HTML",
+                        "Expanded": false,
+                        "Name": "HTML"
+                    }
+                ],
+                "DisplayName": "File type",
+                "Expanded": false,
+                "Name": "FileType"
+            }
+        ],
+        "IsEstimatedCount": false,
+        "MatchCount": 101
+    }
+}

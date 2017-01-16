@@ -11,23 +11,38 @@ import Suggestions from './Suggestions';
 export { Settings, Matches, Categories, Query, Filters, Suggestions };
 
 export default class SearchClient {
-    settings: Settings;
-	query: Query; 
+    private settings: Settings;
 
+	/** The endpoint url for the autocomplete() call. */
+	public autocompleteUrl: URL;
+	/** The endpoint url for the allCategories() call. */
+	public allCategoriesUrl: URL;
+	/** The endpoint url for the bestBets() call. */
+	public bestBetsUrl: URL;
+	/** The endpoint url for the categorize() call. */
+	public categorizeUrl: URL;
+	/** The endpoint url for the find() call. */
+	public findUrl: URL;
+
+	/** The query settings for the search. */
+	public query: Query; 
+
+	/** 
+	 * The SearchClient constructor allows you to create a 'search-client' instance that allows
+	 * execuing find(), categorize(), autocomplete(), bestBets() and allCategories() calls on the 
+	 * search engine that it connects to.
+	 */
     constructor(settings: Settings){
-		if (!settings.baseServiceUrl || settings.baseServiceUrl == '') {
-			throw new Error('settings.baseServiceUrl cannot be empty');
+		if (isNullOrWhitespace(settings.baseUrl)) {
+			throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl.');
 		}
 
-		// Remove trailing slashes, if any
-		settings.baseServiceUrl = settings.baseServiceUrl.trim().replace(/(\/*)$/, '');
-		this.settings = Object.assign({}, settings, {
-            findUrl: settings.findUrl || settings.baseServiceUrl + '/search/find',
-            categorizeUrl: settings.categorizeUrl || settings.baseServiceUrl + '/search/categorize',
-            allCategoriesUrl: settings.allCategoriesUrl || settings.baseServiceUrl + '/search/allcategories',
-            autocompleteUrl: settings.autocompleteUrl || settings.baseServiceUrl + '/autocomplete',
-            bestBetsUrl: settings.bestBetsUrl || settings.baseServiceUrl + '/manage/bestbets',
-        });
+		this.settings = {...settings};
+		this.allCategoriesUrl = new URL(settings.allCategories.url || `${settings.baseUrl}/search/allcategories`);
+		this.autocompleteUrl = new URL(settings.autocomplete.url || `${settings.baseUrl}/autocomplete`);
+		this.bestBetsUrl = new URL(settings.bestBets.url || `${settings.baseUrl}/manage/bestbets`);
+		this.categorizeUrl = new URL(settings.categorize.url || `${settings.baseUrl}/search/categorize`);
+		this.findUrl = new URL(settings.find.url || `${settings.baseUrl}/search/find`);
 	}
 
 	find(query: Query) : Promise<Matches> {
@@ -38,7 +53,7 @@ export default class SearchClient {
 		// But, in any case, we store the current-page so that we know how to get page before/after.
 		this.query = merge(this.settings.query, this.query, query);
 
-		return fetch(this.settings.findUrl, { credentials: "include" })
+		return fetch(this.settings.find.url.toString(), { credentials: "include" })
 			.then((response) => {
 				if (!response.ok){
 					throw Error(response.statusText);
@@ -49,8 +64,8 @@ export default class SearchClient {
 				// At this stage we know that the data received is good
 				// TODO: Store the page-ref
 
-				if (this.settings.findResultHandler)
-					this.settings.findResultHandler(response);
+				if (this.settings.find.handler)
+					this.settings.find.handler(response);
 				return response;
 			})
 			.catch(error => {
@@ -65,7 +80,7 @@ export default class SearchClient {
 		// * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
 		this.query = merge(this.settings.query, this.query, query);
 
-		return fetch(this.settings.categorizeUrl, { credentials: "include" })
+		return fetch(this.settings.categorize.url.toString(), { credentials: "include" })
 			.then((response) => {
 				if (!response.ok){
 					throw Error(response.statusText);
@@ -73,8 +88,8 @@ export default class SearchClient {
 				return response.json();
 			})
 			.then((response:Categories) => {
-				if (this.settings.categorizeResultHandler)
-					this.settings.categorizeResultHandler(response);
+				if (this.settings.categorize.handler)
+					this.settings.categorize.handler(response);
 				return response;
 			})
 			.catch(error => {
@@ -86,7 +101,7 @@ export default class SearchClient {
 		// * If a resultHandler is set then we deliver the results to it via a callback.
 		// * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
 
-		return fetch(this.settings.allCategoriesUrl, { credentials: "include" })
+		return fetch(this.settings.allCategories.url.toString(), { credentials: "include" })
 			.then((response) => {
 				if (!response.ok){
 					throw Error(response.statusText);
@@ -94,8 +109,8 @@ export default class SearchClient {
 				return response.json();
 			})
 			.then((response:Categories) => {
-				if (this.settings.allCategoriesResultHandler)
-					this.settings.allCategoriesResultHandler(response);
+				if (this.settings.allCategories.handler)
+					this.settings.allCategories.handler(response);
 				return response;
 			})
 			.catch(error => {
@@ -108,7 +123,7 @@ export default class SearchClient {
 		// * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
 		this.query = merge(this.settings.query, this.query, query);
 
-		return fetch(this.settings.bestBetsUrl, { credentials: "include" })
+		return fetch(this.settings.bestBets.url.toString(), { credentials: "include" })
 			.then((response) => {
 				if (!response.ok){
 					throw Error(response.statusText);
@@ -116,8 +131,8 @@ export default class SearchClient {
 				return response.json();
 			})
 			.then((response:any[]) => {
-				if (this.settings.bestBetsResultHandler)
-					this.settings.bestBetsResultHandler(response);
+				if (this.settings.bestBets.handler)
+					this.settings.bestBets.handler(response);
 				return response;
 			})
 			.catch(error => {
@@ -429,3 +444,6 @@ export default class SearchClient {
 // 	}
 // }
 
+function isNullOrWhitespace(input: string): boolean {
+  return !input || !input.trim();
+}
