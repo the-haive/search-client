@@ -22,6 +22,7 @@
   "homepage": "https://github.com/intellisearch/search-client#readme",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
+    "json-server": "json-server --watch test-data.json --routes test-data-routes.json",
     "dev": "webpack-dev-server --hot",
     "pretest": "cross-env NODE_ENV=ci webpack",
     "test": "cat public/index.html | browser-run --input html --static ./public | tap-spec"
