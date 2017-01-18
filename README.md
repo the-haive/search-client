@@ -24,13 +24,13 @@ development IDE in use).
 
 In development mode, to run the tests and have the REST endpoint mocked you have to:
 
-    npm install --global json-server
+    > npm install --global json-server
 
 You then have to run the following command from the root of the project:
 
-    json-server --watch test-data.json
+    > json-server --watch test-data.json --routes test-data-routes.json
 
 ## Questions, issues and bugs 
 
-Please report to the repo (www.github.com/intellisearch/search-client).
+Please report to the repo (http://www.github.com/intellisearch/search-client).
 We are also happy to receive pull-requests to add features or fix issues.

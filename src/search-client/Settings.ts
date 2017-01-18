@@ -7,43 +7,40 @@ import Suggestions from './Suggestions'
  * Settings as used by the SearchClient.
  */
 export default class Settings{
-    /** The service URL for the REST API. */
-    baseUrl: string;
-
     /** The JWT authentication token to use. */
-    authenticationToken: string;
+    authenticationToken?: string;
 
     /** Default options for queries. */
     query?: Query
 
     /** Settings for find operations */
-    find: {
+    find?: {
         /** The endpoint url for the find REST API. */
         url?: string;
 
         /** A custom function for handling find results. */
         handler?: (matches: Matches) => {};
     }
-    categorize: {
+    categorize?: {
         /** The endpoint url for the categorize REST API. */
         url?: string;
         /** A custom function for handling categorize results. */
         handler?: (categories: Categories) => {};
     }
-    autocomplete: {
+    autocomplete?: {
         /** The endpoint url for the autocomplete REST API. */
         url?: string;
         /** A custom function for handling autocomplete results. */
         handler?: (suggestions: Suggestions) => {};        
     }
-    allCategories: {
+    allCategories?: {
         /** The endpoint url for the allCategories REST API. */
         url?: string;
         /** A custom function for handling allCategories results. */
         handler?: (categories: Categories) => {};
     }
 
-    bestBets: {
+    bestBets?: {
         /** The endpoint url for the bestBets REST API. */
         url?: string;
         /** A custom function for handling bestBets results. */

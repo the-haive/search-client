@@ -12,2638 +12,2638 @@
         "testingane "
     ],
     "find": {
-        "BestBets": [
+        "bestBets": [
 
         ],
-        "DidYouMeanList": [
+        "didYouMeanList": [
 
         ],
-        "EstimatedMatchCount": 101,
-        "ExpandedQuery": "test",
-        "NextPageRef": 2,
-        "SearchMatches": [{
-                "Abstract": "",
-                "Date": "\/Date(1448364691681+0100)\/",
-                "Extracts": [
+        "estimatedMatchCount": 101,
+        "expandedQuery": "test",
+        "nextPageRef": 2,
+        "searchMatches": [{
+                "abstract": "",
+                "date": "\/Date(1448364691681+0100)\/",
+                "extracts": [
                     "Dette er en <b>test<\/b> tekst av noe slag og ny tekst og 2..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 441,
-                "IsTrueMatch": true,
-                "ItemId": "aee7821bfdc388384cc5f1c55c3e3371",
-                "MetaList": [{
-                        "Key": "Author",
-                        "Value": "Lars Frode"
+                "instanceId": -151581941,
+                "internalId": 441,
+                "isTrueMatch": true,
+                "itemId": "aee7821bfdc388384cc5f1c55c3e3371",
+                "metaList": [{
+                        "key": "Author",
+                        "value": "Lars Frode"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Lars F."
+                        "key": "LastSavedBy",
+                        "value": "Lars F."
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "6"
+                        "key": "RevisionNumber",
+                        "value": "6"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "2015-03-04T11:35:00Z"
+                        "key": "DateCreated",
+                        "value": "2015-03-04T11:35:00Z"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "2015-11-24T12:31:00Z"
+                        "key": "DateLastSaved",
+                        "value": "2015-11-24T12:31:00Z"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal.dotm"
+                        "key": "Template",
+                        "value": "Normal.dotm"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "6"
+                        "key": "TotalEditTime",
+                        "value": "6"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "8"
+                        "key": "WordCount",
+                        "value": "8"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "44"
+                        "key": "CharacterCount",
+                        "value": "44"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Office Word"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Office Word"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "1"
+                        "key": "LineCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "1"
+                        "key": "ParagraphCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "51"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "51"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "false"
+                        "key": "SharedDocument",
+                        "value": "false"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "16.0000"
+                        "key": "Version",
+                        "value": "16.0000"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "docx"
+                        "key": "FileType",
+                        "value": "docx"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "temp.docx"
+                        "key": "Filename",
+                        "value": "temp.docx"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "11\/24\/2015 12:31:31 PM"
+                        "key": "ModifiedDate",
+                        "value": "11\/24\/2015 12:31:31 PM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:22 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:22 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway"
+                        "key": "System",
+                        "value": "File|TestData|Norway"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:20:38 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:20:38 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/temp.docx"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/temp.docx"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "aee7821bfdc388384cc5f1c55c3e3371"
+                        "key": "ItemIdHash",
+                        "value": "aee7821bfdc388384cc5f1c55c3e3371"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "aee7821bfdc388384cc5f1c55c3e3371.jpg"
+                        "key": "PreviewUrl",
+                        "value": "aee7821bfdc388384cc5f1c55c3e3371.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.358397E+17,
-                "SourceName": "File",
-                "Title": "temp.docx",
-                "Url": "C:\\TestData\\Norway\\temp.docx"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.358397E+17,
+                "sourceName": "File",
+                "title": "temp.docx",
+                "url": "C:\\TestData\\Norway\\temp.docx"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1394616277299+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1394616277299+0100)\/",
+                "extracts": [
                     "<b>test<\/b>.pdf..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 324,
-                "IsTrueMatch": true,
-                "ItemId": "21693fda8ebc3d8edc2015164ec1f0a8",
-                "MetaList": [{
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway"
+                "instanceId": -151581941,
+                "internalId": 324,
+                "isTrueMatch": true,
+                "itemId": "21693fda8ebc3d8edc2015164ec1f0a8",
+                "metaList": [{
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "pdf"
+                        "key": "FileType",
+                        "value": "pdf"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "test.pdf"
+                        "key": "Filename",
+                        "value": "test.pdf"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "3\/12\/2014 10:24:37 AM"
+                        "key": "ModifiedDate",
+                        "value": "3\/12\/2014 10:24:37 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:49 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:49 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway"
+                        "key": "System",
+                        "value": "File|TestData|Norway"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:20:39 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:20:39 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/test.pdf"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/test.pdf"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "21693fda8ebc3d8edc2015164ec1f0a8"
+                        "key": "ItemIdHash",
+                        "value": "21693fda8ebc3d8edc2015164ec1f0a8"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "21693fda8ebc3d8edc2015164ec1f0a8.jpg"
+                        "key": "PreviewUrl",
+                        "value": "21693fda8ebc3d8edc2015164ec1f0a8.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.35302148E+17,
-                "SourceName": "File",
-                "Title": "test.pdf",
-                "Url": "C:\\TestData\\Norway\\test.pdf"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.35302148E+17,
+                "sourceName": "File",
+                "title": "test.pdf",
+                "url": "C:\\TestData\\Norway\\test.pdf"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1196923241149+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1196923241149+0100)\/",
+                "extracts": [
                     "Sportsklubb pÃ¥ KarmÃ¸y fikk ny <b>hjertestarter<\/b> av If.doc..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 340,
-                "IsTrueMatch": true,
-                "ItemId": "3d123f22218ca578f1af578550c7dbc9",
-                "MetaList": [{
-                        "Key": "Author",
-                        "Value": "Gro Merethe Johnsrud"
+                "instanceId": -151581941,
+                "internalId": 340,
+                "isTrueMatch": true,
+                "itemId": "3d123f22218ca578f1af578550c7dbc9",
+                "metaList": [{
+                        "key": "Author",
+                        "value": "Gro Merethe Johnsrud"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal.dotm"
+                        "key": "Template",
+                        "value": "Normal.dotm"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Gro Merethe Johnsrud"
+                        "key": "LastSavedBy",
+                        "value": "Gro Merethe Johnsrud"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "1"
+                        "key": "RevisionNumber",
+                        "value": "1"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "4"
+                        "key": "TotalEditTime",
+                        "value": "4"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "05\/12\/2007 16:46:00"
+                        "key": "DateCreated",
+                        "value": "05\/12\/2007 16:46:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "05\/12\/2007 16:50:00"
+                        "key": "DateLastSaved",
+                        "value": "05\/12\/2007 16:50:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "318"
+                        "key": "WordCount",
+                        "value": "318"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "1688"
+                        "key": "CharacterCount",
+                        "value": "1688"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Office Word"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Office Word"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "14"
+                        "key": "LineCount",
+                        "value": "14"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "4"
+                        "key": "ParagraphCount",
+                        "value": "4"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "IntelliSearch AS"
+                        "key": "Company",
+                        "value": "IntelliSearch AS"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "2002"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "2002"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "12.0"
+                        "key": "Version",
+                        "value": "12.0"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\IF"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\IF"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+                        "key": "Filename",
+                        "value": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "12\/6\/2007 7:40:41 AM"
+                        "key": "ModifiedDate",
+                        "value": "12\/6\/2007 7:40:41 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:21 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:21 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|IF"
+                        "key": "System",
+                        "value": "File|TestData|Norway|IF"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:26:39 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:26:39 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/IF\/Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/IF\/Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "3d123f22218ca578f1af578550c7dbc9"
+                        "key": "ItemIdHash",
+                        "value": "3d123f22218ca578f1af578550c7dbc9"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "3d123f22218ca578f1af578550c7dbc9.jpg"
+                        "key": "PreviewUrl",
+                        "value": "3d123f22218ca578f1af578550c7dbc9.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.333252E+17,
-                "SourceName": "File",
-                "Title": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc",
-                "Url": "C:\\TestData\\Norway\\IF\\Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.333252E+17,
+                "sourceName": "File",
+                "title": "Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc",
+                "url": "C:\\TestData\\Norway\\IF\\Sportsklubb pÃ¥ KarmÃ¸y fikk ny hjertestarter av If.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730577955+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730577955+0100)\/",
+                "extracts": [
                     "Forklare hvorfor det er viktig Ã¥ lage og <b>teste<\/b> hypoteser ved systematiske observasjoner og forsÃ¸k, og hvorfor det...",
                     "planlegge, bygge og <b>teste<\/b> enkle modeller av byggkonstruksjoner og dokumentere prosessen...",
                     "Planlegge, bygge og <b>teste<\/b> mekaniske leker, beskrive ulike bevegelser i lekene og prinsipper...",
                     "Planlegge, bygge og <b>teste<\/b> enkle produkter som gjÃ¸r bruk av elektrisk energi, forklare..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 531,
-                "IsTrueMatch": true,
-                "ItemId": "65a827d9784e9c22183cc079f6422197",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "MATEMATIKK â€“ delmÃ¥l synoptisk oppstilt"
+                "instanceId": -151581941,
+                "internalId": 531,
+                "isTrueMatch": true,
+                "itemId": "65a827d9784e9c22183cc079f6422197",
+                "metaList": [{
+                        "key": "title",
+                        "value": "MATEMATIKK â€“ delmÃ¥l synoptisk oppstilt"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Bibliotek - admin"
+                        "key": "Author",
+                        "value": "Bibliotek - admin"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal"
+                        "key": "Template",
+                        "value": "Normal"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "PaalK"
+                        "key": "LastSavedBy",
+                        "value": "PaalK"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "10"
+                        "key": "RevisionNumber",
+                        "value": "10"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "25"
+                        "key": "TotalEditTime",
+                        "value": "25"
                     },
                     {
-                        "Key": "DateLastPrinted",
-                        "Value": "31\/10\/2006 15:45:00"
+                        "key": "DateLastPrinted",
+                        "value": "31\/10\/2006 15:45:00"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "16\/01\/2007 15:06:00"
+                        "key": "DateCreated",
+                        "value": "16\/01\/2007 15:06:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "27\/02\/2007 10:28:00"
+                        "key": "DateLastSaved",
+                        "value": "27\/02\/2007 10:28:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "1235"
+                        "key": "WordCount",
+                        "value": "1235"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "6549"
+                        "key": "CharacterCount",
+                        "value": "6549"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Word 10.0"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Word 10.0"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "54"
+                        "key": "LineCount",
+                        "value": "54"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "15"
+                        "key": "ParagraphCount",
+                        "value": "15"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "Gjerdrum kommune"
+                        "key": "Company",
+                        "value": "Gjerdrum kommune"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "7769"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "7769"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "10.4219"
+                        "key": "Version",
+                        "value": "10.4219"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "Naturfag.doc"
+                        "key": "Filename",
+                        "value": "Naturfag.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:49:37 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:49:37 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:18 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:18 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:24:15 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:24:15 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Naturfag.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Naturfag.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "65a827d9784e9c22183cc079f6422197"
+                        "key": "ItemIdHash",
+                        "value": "65a827d9784e9c22183cc079f6422197"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "65a827d9784e9c22183cc079f6422197.jpg"
+                        "key": "PreviewUrl",
+                        "value": "65a827d9784e9c22183cc079f6422197.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "Naturfag.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\Naturfag.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "Naturfag.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\Naturfag.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730686048+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730686048+0100)\/",
+                "extracts": [
                     "...reineiere fra Jokkmokk, , man kan blande nett-teknologier â€“ <b>test<\/b> pÃ¥ jokkmokkfjellet nÃ¥ 7-12 august, strÃ¸mforsyning mÃ¥ sikres til...",
                     "Triple helix: nÃ¦ringslivet prod struktur, kunnskapsstruktur â€“ <b>myndighere\/stÃ¸ttestruktur<\/b> â€“ FÃ… TIL ET SAMSPILL via ulike forksningsprogrmmaer. ...",
                     "<b>flyttestrÃ¸mmen<\/b> kan fortsette fra lokalsamfunn hvis ikke man gjÃ¸r noe..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 504,
-                "IsTrueMatch": true,
-                "ItemId": "f3ce38b3d28b9360cf50e87e56b115c0",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "MÃ¥l 3 Nord 2007 â€“ 2013"
+                "instanceId": -151581941,
+                "internalId": 504,
+                "isTrueMatch": true,
+                "itemId": "f3ce38b3d28b9360cf50e87e56b115c0",
+                "metaList": [{
+                        "key": "title",
+                        "value": "MÃ¥l 3 Nord 2007 â€“ 2013"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Olav Hansen"
+                        "key": "Author",
+                        "value": "Olav Hansen"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal"
+                        "key": "Template",
+                        "value": "Normal"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "toou"
+                        "key": "LastSavedBy",
+                        "value": "toou"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "90"
+                        "key": "RevisionNumber",
+                        "value": "90"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "827"
+                        "key": "TotalEditTime",
+                        "value": "827"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "10\/08\/2006 14:55:00"
+                        "key": "DateCreated",
+                        "value": "10\/08\/2006 14:55:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "14\/08\/2006 09:57:00"
+                        "key": "DateLastSaved",
+                        "value": "14\/08\/2006 09:57:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "6695"
+                        "key": "WordCount",
+                        "value": "6695"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "38164"
+                        "key": "CharacterCount",
+                        "value": "38164"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Word 9.0"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Word 9.0"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "318"
+                        "key": "LineCount",
+                        "value": "318"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "76"
+                        "key": "ParagraphCount",
+                        "value": "76"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "Finnmark fylkeskommune"
+                        "key": "Company",
+                        "value": "Finnmark fylkeskommune"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "46868"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "46868"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "9.6926"
+                        "key": "Version",
+                        "value": "9.6926"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+                        "key": "Filename",
+                        "value": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:51:26 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:51:26 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:16 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:16 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:22:21 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:22:21 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "f3ce38b3d28b9360cf50e87e56b115c0"
+                        "key": "ItemIdHash",
+                        "value": "f3ce38b3d28b9360cf50e87e56b115c0"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "f3ce38b3d28b9360cf50e87e56b115c0.jpg"
+                        "key": "PreviewUrl",
+                        "value": "f3ce38b3d28b9360cf50e87e56b115c0.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "ff284eb8-2b6d-4978-a653-beb1facbe56d.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\ff284eb8-2b6d-4978-a653-beb1facbe56d.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730577908+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730577908+0100)\/",
+                "extracts": [
                     "Kan du finne <b>testar<\/b> eller andre former for vurderingar du kan lene deg til..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 478,
-                "IsTrueMatch": true,
-                "ItemId": "30b944969fa27a7042cd9edffffd4993",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "Prosjektoppgave ID101404 Informasjonsteknologi"
+                "instanceId": -151581941,
+                "internalId": 478,
+                "isTrueMatch": true,
+                "itemId": "30b944969fa27a7042cd9edffffd4993",
+                "metaList": [{
+                        "key": "title",
+                        "value": "Prosjektoppgave ID101404 Informasjonsteknologi"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Bibliotek - admin"
+                        "key": "Author",
+                        "value": "Bibliotek - admin"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal"
+                        "key": "Template",
+                        "value": "Normal"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Helge Kristiansen"
+                        "key": "LastSavedBy",
+                        "value": "Helge Kristiansen"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "6"
+                        "key": "RevisionNumber",
+                        "value": "6"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "64"
+                        "key": "TotalEditTime",
+                        "value": "64"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "23\/02\/2005 13:45:00"
+                        "key": "DateCreated",
+                        "value": "23\/02\/2005 13:45:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "01\/03\/2005 15:17:00"
+                        "key": "DateLastSaved",
+                        "value": "01\/03\/2005 15:17:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "979"
+                        "key": "WordCount",
+                        "value": "979"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "5190"
+                        "key": "CharacterCount",
+                        "value": "5190"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Office Word"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Office Word"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "43"
+                        "key": "LineCount",
+                        "value": "43"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "12"
+                        "key": "ParagraphCount",
+                        "value": "12"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "HÃ¸gskolen i Ã…lesund"
+                        "key": "Company",
+                        "value": "HÃ¸gskolen i Ã…lesund"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "6157"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "6157"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "11.5606"
+                        "key": "Version",
+                        "value": "11.5606"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+                        "key": "Filename",
+                        "value": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:49:37 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:49:37 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:21 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:21 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:25:06 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:25:06 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "30b944969fa27a7042cd9edffffd4993"
+                        "key": "ItemIdHash",
+                        "value": "30b944969fa27a7042cd9edffffd4993"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "30b944969fa27a7042cd9edffffd4993.jpg"
+                        "key": "PreviewUrl",
+                        "value": "30b944969fa27a7042cd9edffffd4993.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\ProsjektoppgÃ¥ve ID101404 Informasjonsteknologi.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730765345+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730765345+0100)\/",
+                "extracts": [
                     "...organisasjoner av nye lovforslag, for eksempel ved bruk av <b>testpaneler<\/b>. ..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 467,
-                "IsTrueMatch": true,
-                "ItemId": "251b0508ea31533ba0734bf48eae6ec7",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "Norge trenger mer arbeidskraft"
+                "instanceId": -151581941,
+                "internalId": 467,
+                "isTrueMatch": true,
+                "itemId": "251b0508ea31533ba0734bf48eae6ec7",
+                "metaList": [{
+                        "key": "title",
+                        "value": "Norge trenger mer arbeidskraft"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Marie Nielsen"
+                        "key": "Author",
+                        "value": "Marie Nielsen"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal"
+                        "key": "Template",
+                        "value": "Normal"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Allan Auke"
+                        "key": "LastSavedBy",
+                        "value": "Allan Auke"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "2"
+                        "key": "RevisionNumber",
+                        "value": "2"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "12"
+                        "key": "TotalEditTime",
+                        "value": "12"
                     },
                     {
-                        "Key": "DateLastPrinted",
-                        "Value": "16\/09\/2004 12:36:00"
+                        "key": "DateLastPrinted",
+                        "value": "16\/09\/2004 12:36:00"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "07\/04\/2006 10:12:00"
+                        "key": "DateCreated",
+                        "value": "07\/04\/2006 10:12:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "07\/04\/2006 10:12:00"
+                        "key": "DateLastSaved",
+                        "value": "07\/04\/2006 10:12:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "5601"
+                        "key": "WordCount",
+                        "value": "5601"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "31930"
+                        "key": "CharacterCount",
+                        "value": "31930"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Word 9.0"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Word 9.0"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "266"
+                        "key": "LineCount",
+                        "value": "266"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "63"
+                        "key": "ParagraphCount",
+                        "value": "63"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "HSH"
+                        "key": "Company",
+                        "value": "HSH"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "39212"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "39212"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "9.6926"
+                        "key": "Version",
+                        "value": "9.6926"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "1bfd359ef2.doc"
+                        "key": "Filename",
+                        "value": "1bfd359ef2.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:52:45 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:52:45 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:13 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:13 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:20:51 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:20:51 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/1bfd359ef2.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/1bfd359ef2.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "251b0508ea31533ba0734bf48eae6ec7"
+                        "key": "ItemIdHash",
+                        "value": "251b0508ea31533ba0734bf48eae6ec7"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "251b0508ea31533ba0734bf48eae6ec7.jpg"
+                        "key": "PreviewUrl",
+                        "value": "251b0508ea31533ba0734bf48eae6ec7.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "1bfd359ef2.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\1bfd359ef2.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "1bfd359ef2.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\1bfd359ef2.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730577892+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730577892+0100)\/",
+                "extracts": [
                     "...ved HSH er p.t. godt forspent med <b>fÃ¸rstestillinger<\/b>. ...",
                     "...Minst 50 % av fagmiljÃ¸et skal dekkes av ansatte med <b>fÃ¸rstestillingskompetanse<\/b>, av disse skal...",
                     "...vil i lÃ¸pet av 2006 ha inntil seks tilsatte i <b>fÃ¸rstestilling<\/b> og en professor 2 i miljÃ¸et. Professorstillingen vil bidra...",
                     "SÃ¸knad med CV, kopi av vitnemÃ¥l, <b>attester<\/b> og publikasjoner sendes i fire eksemplar til:..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 440,
-                "IsTrueMatch": true,
-                "ItemId": "c5a3aaca3f110911037da1ea6f377198",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "Utlysing av professorat innen organisasjon og ledelse"
+                "instanceId": -151581941,
+                "internalId": 440,
+                "isTrueMatch": true,
+                "itemId": "c5a3aaca3f110911037da1ea6f377198",
+                "metaList": [{
+                        "key": "title",
+                        "value": "Utlysing av professorat innen organisasjon og ledelse"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Bibliotek - admin"
+                        "key": "Author",
+                        "value": "Bibliotek - admin"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "styresbm"
+                        "key": "Template",
+                        "value": "styresbm"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Jorunn Miljeteig"
+                        "key": "LastSavedBy",
+                        "value": "Jorunn Miljeteig"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "2"
+                        "key": "RevisionNumber",
+                        "value": "2"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "0"
+                        "key": "TotalEditTime",
+                        "value": "0"
                     },
                     {
-                        "Key": "DateLastPrinted",
-                        "Value": "15\/06\/2006 12:34:00"
+                        "key": "DateLastPrinted",
+                        "value": "15\/06\/2006 12:34:00"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "16\/06\/2006 12:31:00"
+                        "key": "DateCreated",
+                        "value": "16\/06\/2006 12:31:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "16\/06\/2006 12:31:00"
+                        "key": "DateLastSaved",
+                        "value": "16\/06\/2006 12:31:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "909"
+                        "key": "WordCount",
+                        "value": "909"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "4819"
+                        "key": "CharacterCount",
+                        "value": "4819"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Office Word"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Office Word"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "40"
+                        "key": "LineCount",
+                        "value": "40"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "11"
+                        "key": "ParagraphCount",
+                        "value": "11"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "HSH"
+                        "key": "Company",
+                        "value": "HSH"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "5717"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "5717"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "11.5606"
+                        "key": "Version",
+                        "value": "11.5606"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "sak 38.doc"
+                        "key": "Filename",
+                        "value": "sak 38.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:49:37 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:49:37 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:21 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:21 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:25:28 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:25:28 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/sak 38.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/sak 38.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "c5a3aaca3f110911037da1ea6f377198"
+                        "key": "ItemIdHash",
+                        "value": "c5a3aaca3f110911037da1ea6f377198"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "c5a3aaca3f110911037da1ea6f377198.jpg"
+                        "key": "PreviewUrl",
+                        "value": "c5a3aaca3f110911037da1ea6f377198.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "sak 38.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\sak 38.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "sak 38.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\sak 38.doc"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730765361+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730765361+0100)\/",
+                "extracts": [
                     "...analyser 70 000 Utlevering av datafiler 1 400 Kvalitetssikring (<b>ringtester<\/b>) 150...",
                     "...FlystÃ¸y og rekreasjon Fremmedstoffer i mat og tykktarmskreft Kjemikalier, <b>testikkelskader<\/b> og DNA reparasjon Luftveisallergi og betennelsesreaksjoner i luftveiene forÃ¥rsaket av..."
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 453,
-                "IsTrueMatch": true,
-                "ItemId": "90c98c48f1605fb3d5a95a8a34bd271b",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "Nasjonalt folkehelseinstitutt"
+                "instanceId": -151581941,
+                "internalId": 453,
+                "isTrueMatch": true,
+                "itemId": "90c98c48f1605fb3d5a95a8a34bd271b",
+                "metaList": [{
+                        "key": "title",
+                        "value": "Nasjonalt folkehelseinstitutt"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Marie Nielsen"
+                        "key": "Author",
+                        "value": "Marie Nielsen"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "C:\\Programfiler\\Microsoft Office\\Maler\\Presentasjonsutforminger\\FHI_transparent_liggende_med_symbol.pot"
+                        "key": "Template",
+                        "value": "C:\\Programfiler\\Microsoft Office\\Maler\\Presentasjonsutforminger\\FHI_transparent_liggende_med_symbol.pot"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "GESL"
+                        "key": "LastSavedBy",
+                        "value": "GESL"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "15"
+                        "key": "RevisionNumber",
+                        "value": "15"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "1386"
+                        "key": "TotalEditTime",
+                        "value": "1386"
                     },
                     {
-                        "Key": "DateLastPrinted",
-                        "Value": "30\/04\/2002 09:01:26"
+                        "key": "DateLastPrinted",
+                        "value": "30\/04\/2002 09:01:26"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "15\/04\/2002 11:51:37"
+                        "key": "DateCreated",
+                        "value": "15\/04\/2002 11:51:37"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "30\/05\/2002 10:10:13"
+                        "key": "DateLastSaved",
+                        "value": "30\/05\/2002 10:10:13"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "0"
+                        "key": "PageCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "581"
+                        "key": "WordCount",
+                        "value": "581"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "0"
+                        "key": "CharacterCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft PowerPoint 7.0"
+                        "key": "ApplicationName",
+                        "value": "Microsoft PowerPoint 7.0"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "PresentationFormat",
-                        "Value": "Skjermfremvisning"
+                        "key": "PresentationFormat",
+                        "value": "Skjermfremvisning"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "74789"
+                        "key": "ByteCount",
+                        "value": "74789"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "0"
+                        "key": "LineCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "144"
+                        "key": "ParagraphCount",
+                        "value": "144"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "20"
+                        "key": "SlideCount",
+                        "value": "20"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "1"
+                        "key": "NoteCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "Statens institutt for folkehelse"
+                        "key": "Company",
+                        "value": "Statens institutt for folkehelse"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "0"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "0"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "8.5425"
+                        "key": "Version",
+                        "value": "8.5425"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "ppt"
+                        "key": "FileType",
+                        "value": "ppt"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "Folkehelseinstnyerolle.ppt"
+                        "key": "Filename",
+                        "value": "Folkehelseinstnyerolle.ppt"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:52:45 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:52:45 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:23 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:23 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:22:24 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:22:24 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Folkehelseinstnyerolle.ppt"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/Folkehelseinstnyerolle.ppt"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "90c98c48f1605fb3d5a95a8a34bd271b"
+                        "key": "ItemIdHash",
+                        "value": "90c98c48f1605fb3d5a95a8a34bd271b"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "90c98c48f1605fb3d5a95a8a34bd271b.jpg"
+                        "key": "PreviewUrl",
+                        "value": "90c98c48f1605fb3d5a95a8a34bd271b.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "Folkehelseinstnyerolle.ppt",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\Folkehelseinstnyerolle.ppt"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "Folkehelseinstnyerolle.ppt",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\Folkehelseinstnyerolle.ppt"
             },
             {
-                "Abstract": "",
-                "Date": "\/Date(1193730577861+0100)\/",
-                "Extracts": [
+                "abstract": "",
+                "date": "\/Date(1193730577861+0100)\/",
+                "extracts": [
                     "<b>Markedstester<\/b>"
                 ],
-                "InstanceId": -151581941,
-                "InternalId": 378,
-                "IsTrueMatch": true,
-                "ItemId": "735e3f6145847d552e484c32cd02586a",
-                "MetaList": [{
-                        "Key": "Title",
-                        "Value": "NTNU"
+                "instanceId": -151581941,
+                "internalId": 378,
+                "isTrueMatch": true,
+                "itemId": "735e3f6145847d552e484c32cd02586a",
+                "metaList": [{
+                        "key": "title",
+                        "value": "NTNU"
                     },
                     {
-                        "Key": "Author",
-                        "Value": "Bibliotek - admin"
+                        "key": "Author",
+                        "value": "Bibliotek - admin"
                     },
                     {
-                        "Key": "Template",
-                        "Value": "Normal.dot"
+                        "key": "Template",
+                        "value": "Normal.dot"
                     },
                     {
-                        "Key": "LastSavedBy",
-                        "Value": "Lise Sagdahl"
+                        "key": "LastSavedBy",
+                        "value": "Lise Sagdahl"
                     },
                     {
-                        "Key": "RevisionNumber",
-                        "Value": "2"
+                        "key": "RevisionNumber",
+                        "value": "2"
                     },
                     {
-                        "Key": "TotalEditTime",
-                        "Value": "0"
+                        "key": "TotalEditTime",
+                        "value": "0"
                     },
                     {
-                        "Key": "DateLastPrinted",
-                        "Value": "31\/01\/2005 14:53:00"
+                        "key": "DateLastPrinted",
+                        "value": "31\/01\/2005 14:53:00"
                     },
                     {
-                        "Key": "DateCreated",
-                        "Value": "02\/02\/2005 14:18:00"
+                        "key": "DateCreated",
+                        "value": "02\/02\/2005 14:18:00"
                     },
                     {
-                        "Key": "DateLastSaved",
-                        "Value": "02\/02\/2005 14:18:00"
+                        "key": "DateLastSaved",
+                        "value": "02\/02\/2005 14:18:00"
                     },
                     {
-                        "Key": "PageCount",
-                        "Value": "1"
+                        "key": "PageCount",
+                        "value": "1"
                     },
                     {
-                        "Key": "WordCount",
-                        "Value": "3903"
+                        "key": "WordCount",
+                        "value": "3903"
                     },
                     {
-                        "Key": "CharacterCount",
-                        "Value": "20686"
+                        "key": "CharacterCount",
+                        "value": "20686"
                     },
                     {
-                        "Key": "ApplicationName",
-                        "Value": "Microsoft Word 10.0"
+                        "key": "ApplicationName",
+                        "value": "Microsoft Word 10.0"
                     },
                     {
-                        "Key": "DocumentSecurity",
-                        "Value": "0"
+                        "key": "DocumentSecurity",
+                        "value": "0"
                     },
                     {
-                        "Key": "ByteCount",
-                        "Value": "0"
+                        "key": "ByteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "LineCount",
-                        "Value": "172"
+                        "key": "LineCount",
+                        "value": "172"
                     },
                     {
-                        "Key": "ParagraphCount",
-                        "Value": "49"
+                        "key": "ParagraphCount",
+                        "value": "49"
                     },
                     {
-                        "Key": "SlideCount",
-                        "Value": "0"
+                        "key": "SlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "NoteCount",
-                        "Value": "0"
+                        "key": "NoteCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "HiddenSlideCount",
-                        "Value": "0"
+                        "key": "HiddenSlideCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "MultimediaClipCount",
-                        "Value": "0"
+                        "key": "MultimediaClipCount",
+                        "value": "0"
                     },
                     {
-                        "Key": "Company",
-                        "Value": "NTNU"
+                        "key": "Company",
+                        "value": "NTNU"
                     },
                     {
-                        "Key": "CharacterCountWithSpaces",
-                        "Value": "24540"
+                        "key": "CharacterCountWithSpaces",
+                        "value": "24540"
                     },
                     {
-                        "Key": "SharedDocument",
-                        "Value": "False"
+                        "key": "SharedDocument",
+                        "value": "False"
                     },
                     {
-                        "Key": "Version",
-                        "Value": "10.3501"
+                        "key": "Version",
+                        "value": "10.3501"
                     },
                     {
-                        "Key": "Path",
-                        "Value": "C:\\TestData\\Norway\\Diverse_NO"
+                        "key": "Path",
+                        "value": "C:\\TestData\\Norway\\Diverse_NO"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-18"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-18"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-544"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-544"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-32-545"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-32-545"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
+                        "key": "Permission",
+                        "value": "Sid|S-1-5-21-4292006906-2120589061-4142939720-1107"
                     },
                     {
-                        "Key": "FileType",
-                        "Value": "doc"
+                        "key": "FileType",
+                        "value": "doc"
                     },
                     {
-                        "Key": "Filename",
-                        "Value": "styresak-samlokalisering310105.doc"
+                        "key": "Filename",
+                        "value": "styresak-samlokalisering310105.doc"
                     },
                     {
-                        "Key": "ModifiedDate",
-                        "Value": "10\/30\/2007 8:49:37 AM"
+                        "key": "ModifiedDate",
+                        "value": "10\/30\/2007 8:49:37 AM"
                     },
                     {
-                        "Key": "CreatedDate",
-                        "Value": "7\/5\/2016 12:06:22 PM"
+                        "key": "CreatedDate",
+                        "value": "7\/5\/2016 12:06:22 PM"
                     },
                     {
-                        "Key": "System",
-                        "Value": "File|TestData|Norway|Diverse_NO"
+                        "key": "System",
+                        "value": "File|TestData|Norway|Diverse_NO"
                     },
                     {
-                        "Key": "Owner",
-                        "Value": "aaron"
+                        "key": "Owner",
+                        "value": "aaron"
                     },
                     {
-                        "Key": "Permission",
-                        "Value": "Generic|Public"
+                        "key": "Permission",
+                        "value": "Generic|Public"
                     },
                     {
-                        "Key": "CrawledDate",
-                        "Value": "7\/5\/2016 12:26:00 PM"
+                        "key": "CrawledDate",
+                        "value": "7\/5\/2016 12:26:00 PM"
                     },
                     {
-                        "Key": "ItemIdUri",
-                        "Value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/styresak-samlokalisering310105.doc"
+                        "key": "ItemIdUri",
+                        "value": "file:\/\/\/C:\/TestData\/Norway\/Diverse_NO\/styresak-samlokalisering310105.doc"
                     },
                     {
-                        "Key": "ItemIdHash",
-                        "Value": "735e3f6145847d552e484c32cd02586a"
+                        "key": "ItemIdHash",
+                        "value": "735e3f6145847d552e484c32cd02586a"
                     },
                     {
-                        "Key": "CrawlerName",
-                        "Value": "File"
+                        "key": "CrawlerName",
+                        "value": "File"
                     },
                     {
-                        "Key": "PreviewUrl",
-                        "Value": "735e3f6145847d552e484c32cd02586a.jpg"
+                        "key": "PreviewUrl",
+                        "value": "735e3f6145847d552e484c32cd02586a.jpg"
                     },
                     {
-                        "Key": "PreviewUrl_AddedPostSearch",
-                        "Value": "true"
+                        "key": "PreviewUrl_AddedPostSearch",
+                        "value": "true"
                     }
                 ],
-                "ParentInternalId": -2,
-                "ParentLevel": -1,
-                "Relevance": 6.3329334E+17,
-                "SourceName": "File",
-                "Title": "styresak-samlokalisering310105.doc",
-                "Url": "C:\\TestData\\Norway\\Diverse_NO\\styresak-samlokalisering310105.doc"
+                "parentInternalId": -2,
+                "parentLevel": -1,
+                "relevance": 6.3329334E+17,
+                "sourceName": "File",
+                "title": "styresak-samlokalisering310105.doc",
+                "url": "C:\\TestData\\Norway\\Diverse_NO\\styresak-samlokalisering310105.doc"
             }
         ],
         "SerializedQuery": "#2|test|GoogleStyle|False||0|Date|False|False||"
     },
     "categorize": {
-        "Groups": [{
-                "Categories": [{
-                    "CategoryName": [
+        "groups": [{
+                "categories": [{
+                    "categoryName": [
                         "System",
                         "File"
                     ],
-                    "Children": [{
-                        "CategoryName": [
+                    "children": [{
+                        "categoryName": [
                             "System",
                             "File",
                             "Testdata"
                         ],
-                        "Children": [{
-                            "CategoryName": [
+                        "children": [{
+                            "categoryName": [
                                 "System",
                                 "File",
                                 "Testdata",
                                 "Norway"
                             ],
-                            "Children": [
+                            "children": [
 
                             ],
-                            "Count": 101,
-                            "DisplayName": "Norway",
-                            "Expanded": false,
-                            "Name": "Norway"
+                            "count": 101,
+                            "displayName": "Norway",
+                            "expanded": false,
+                            "name": "Norway"
                         }],
-                        "Count": 101,
-                        "DisplayName": "Testdata",
-                        "Expanded": false,
-                        "Name": "Testdata"
+                        "count": 101,
+                        "displayName": "Testdata",
+                        "expanded": false,
+                        "name": "Testdata"
                     }],
-                    "Count": 101,
-                    "DisplayName": "Files",
-                    "Expanded": false,
-                    "Name": "File"
+                    "count": 101,
+                    "displayName": "Files",
+                    "expanded": false,
+                    "name": "File"
                 }],
-                "DisplayName": "System",
-                "Expanded": true,
-                "Name": "System"
+                "displayName": "System",
+                "expanded": true,
+                "name": "System"
             },
             {
-                "Categories": [{
-                        "CategoryName": [
+                "categories": [{
+                        "categoryName": [
                             "Author",
                             "Bibliotek - Admin"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 7,
-                        "DisplayName": "Bibliotek - Admin",
-                        "Expanded": false,
-                        "Name": "Bibliotek - Admin"
+                        "count": 7,
+                        "displayName": "Bibliotek - Admin",
+                        "expanded": false,
+                        "name": "Bibliotek - Admin"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Olav Hansen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 6,
-                        "DisplayName": "Olav Hansen",
-                        "Expanded": false,
-                        "Name": "Olav Hansen"
+                        "count": 6,
+                        "displayName": "Olav Hansen",
+                        "expanded": false,
+                        "name": "Olav Hansen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Gro Merethe Johnsrud"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Gro Merethe Johnsrud",
-                        "Expanded": false,
-                        "Name": "Gro Merethe Johnsrud"
+                        "count": 1,
+                        "displayName": "Gro Merethe Johnsrud",
+                        "expanded": false,
+                        "name": "Gro Merethe Johnsrud"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "GESL"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "GESL",
-                        "Expanded": false,
-                        "Name": "GESL"
+                        "count": 1,
+                        "displayName": "GESL",
+                        "expanded": false,
+                        "name": "GESL"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Marie Nielsen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 2,
-                        "DisplayName": "Marie Nielsen",
-                        "Expanded": false,
-                        "Name": "Marie Nielsen"
+                        "count": 2,
+                        "displayName": "Marie Nielsen",
+                        "expanded": false,
+                        "name": "Marie Nielsen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "PÃ¥l Mikkel Vika"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "PÃ¥l Mikkel Vika",
-                        "Expanded": false,
-                        "Name": "PÃ¥l Mikkel Vika"
+                        "count": 1,
+                        "displayName": "PÃ¥l Mikkel Vika",
+                        "expanded": false,
+                        "name": "PÃ¥l Mikkel Vika"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "PaalK"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "PaalK",
-                        "Expanded": false,
-                        "Name": "PaalK"
+                        "count": 1,
+                        "displayName": "PaalK",
+                        "expanded": false,
+                        "name": "PaalK"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Dan Charles"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Dan Charles",
-                        "Expanded": false,
-                        "Name": "Dan Charles"
+                        "count": 1,
+                        "displayName": "Dan Charles",
+                        "expanded": false,
+                        "name": "Dan Charles"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Khole"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Khole",
-                        "Expanded": false,
-                        "Name": "Khole"
+                        "count": 1,
+                        "displayName": "Khole",
+                        "expanded": false,
+                        "name": "Khole"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "jjansen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "jjansen",
-                        "Expanded": false,
-                        "Name": "jjansen"
+                        "count": 1,
+                        "displayName": "jjansen",
+                        "expanded": false,
+                        "name": "jjansen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "IDI"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "IDI",
-                        "Expanded": false,
-                        "Name": "IDI"
+                        "count": 1,
+                        "displayName": "IDI",
+                        "expanded": false,
+                        "name": "IDI"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Susanne Koch"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Susanne Koch",
-                        "Expanded": false,
-                        "Name": "Susanne Koch"
+                        "count": 1,
+                        "displayName": "Susanne Koch",
+                        "expanded": false,
+                        "name": "Susanne Koch"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Student_LU"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Student_LU",
-                        "Expanded": false,
-                        "Name": "Student_LU"
+                        "count": 1,
+                        "displayName": "Student_LU",
+                        "expanded": false,
+                        "name": "Student_LU"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "kjetil.strand"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "kjetil.strand",
-                        "Expanded": false,
-                        "Name": "kjetil.strand"
+                        "count": 1,
+                        "displayName": "kjetil.strand",
+                        "expanded": false,
+                        "name": "kjetil.strand"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Astrid Ã˜ksenvÃ¥g"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Astrid Ã˜ksenvÃ¥g",
-                        "Expanded": false,
-                        "Name": "Astrid Ã˜ksenvÃ¥g"
+                        "count": 1,
+                        "displayName": "Astrid Ã˜ksenvÃ¥g",
+                        "expanded": false,
+                        "name": "Astrid Ã˜ksenvÃ¥g"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Allan Auke"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Allan Auke",
-                        "Expanded": false,
-                        "Name": "Allan Auke"
+                        "count": 1,
+                        "displayName": "Allan Auke",
+                        "expanded": false,
+                        "name": "Allan Auke"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "lises"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "lises",
-                        "Expanded": false,
-                        "Name": "lises"
+                        "count": 1,
+                        "displayName": "lises",
+                        "expanded": false,
+                        "name": "lises"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "lkg"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "lkg",
-                        "Expanded": false,
-                        "Name": "lkg"
+                        "count": 1,
+                        "displayName": "lkg",
+                        "expanded": false,
+                        "name": "lkg"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Lars Frode"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Lars Frode",
-                        "Expanded": false,
-                        "Name": "Lars Frode"
+                        "count": 1,
+                        "displayName": "Lars Frode",
+                        "expanded": false,
+                        "name": "Lars Frode"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Lars F."
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Lars F.",
-                        "Expanded": false,
-                        "Name": "Lars F."
+                        "count": 1,
+                        "displayName": "Lars F.",
+                        "expanded": false,
+                        "name": "Lars F."
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Lise Sagdahl"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Lise Sagdahl",
-                        "Expanded": false,
-                        "Name": "Lise Sagdahl"
+                        "count": 1,
+                        "displayName": "Lise Sagdahl",
+                        "expanded": false,
+                        "name": "Lise Sagdahl"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Heidi Ã˜stbÃ¸ Haugen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Heidi Ã˜stbÃ¸ Haugen",
-                        "Expanded": false,
-                        "Name": "Heidi Ã˜stbÃ¸ Haugen"
+                        "count": 1,
+                        "displayName": "Heidi Ã˜stbÃ¸ Haugen",
+                        "expanded": false,
+                        "name": "Heidi Ã˜stbÃ¸ Haugen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Helge Kristiansen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Helge Kristiansen",
-                        "Expanded": false,
-                        "Name": "Helge Kristiansen"
+                        "count": 1,
+                        "displayName": "Helge Kristiansen",
+                        "expanded": false,
+                        "name": "Helge Kristiansen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "toou"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "toou",
-                        "Expanded": false,
-                        "Name": "toou"
+                        "count": 1,
+                        "displayName": "toou",
+                        "expanded": false,
+                        "name": "toou"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Jorunn Miljeteig"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Jorunn Miljeteig",
-                        "Expanded": false,
-                        "Name": "Jorunn Miljeteig"
+                        "count": 1,
+                        "displayName": "Jorunn Miljeteig",
+                        "expanded": false,
+                        "name": "Jorunn Miljeteig"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "Tore Amundsen"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "Tore Amundsen",
-                        "Expanded": false,
-                        "Name": "Tore Amundsen"
+                        "count": 1,
+                        "displayName": "Tore Amundsen",
+                        "expanded": false,
+                        "name": "Tore Amundsen"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "Author",
                             "olsenw"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "olsenw",
-                        "Expanded": false,
-                        "Name": "olsenw"
+                        "count": 1,
+                        "displayName": "olsenw",
+                        "expanded": false,
+                        "name": "olsenw"
                     }
                 ],
-                "DisplayName": "Author",
-                "Expanded": false,
-                "Name": "Author"
+                "displayName": "Author",
+                "expanded": false,
+                "name": "Author"
             },
             {
-                "Categories": [{
-                        "CategoryName": [
+                "categories": [{
+                        "categoryName": [
                             "ModifiedDate",
                             "2007"
                         ],
-                        "Children": [{
-                                "CategoryName": [
+                        "children": [{
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2007",
                                     "Month"
                                 ],
-                                "Children": [{
-                                        "CategoryName": [
+                                "children": [{
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Month",
                                             "9"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 71,
-                                        "DisplayName": "September",
-                                        "Expanded": false,
-                                        "Name": "9"
+                                        "count": 71,
+                                        "displayName": "September",
+                                        "expanded": false,
+                                        "name": "9"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Month",
                                             "10"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 27,
-                                        "DisplayName": "October",
-                                        "Expanded": false,
-                                        "Name": "10"
+                                        "count": 27,
+                                        "displayName": "October",
+                                        "expanded": false,
+                                        "name": "10"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Month",
                                             "12"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 1,
-                                        "DisplayName": "December",
-                                        "Expanded": false,
-                                        "Name": "12"
+                                        "count": 1,
+                                        "displayName": "December",
+                                        "expanded": false,
+                                        "name": "12"
                                     }
                                 ],
-                                "Count": 99,
-                                "DisplayName": "Month",
-                                "Expanded": false,
-                                "Name": "Month"
+                                "count": 99,
+                                "displayName": "Month",
+                                "expanded": false,
+                                "name": "Month"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2007",
                                     "Week"
                                 ],
-                                "Children": [{
-                                        "CategoryName": [
+                                "children": [{
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "38"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 70,
-                                        "DisplayName": "38",
-                                        "Expanded": false,
-                                        "Name": "38"
+                                        "count": 70,
+                                        "displayName": "38",
+                                        "expanded": false,
+                                        "name": "38"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "39"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 1,
-                                        "DisplayName": "39",
-                                        "Expanded": false,
-                                        "Name": "39"
+                                        "count": 1,
+                                        "displayName": "39",
+                                        "expanded": false,
+                                        "name": "39"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "41"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 7,
-                                        "DisplayName": "41",
-                                        "Expanded": false,
-                                        "Name": "41"
+                                        "count": 7,
+                                        "displayName": "41",
+                                        "expanded": false,
+                                        "name": "41"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "43"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 5,
-                                        "DisplayName": "43",
-                                        "Expanded": false,
-                                        "Name": "43"
+                                        "count": 5,
+                                        "displayName": "43",
+                                        "expanded": false,
+                                        "name": "43"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "44"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 15,
-                                        "DisplayName": "44",
-                                        "Expanded": false,
-                                        "Name": "44"
+                                        "count": 15,
+                                        "displayName": "44",
+                                        "expanded": false,
+                                        "name": "44"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Week",
                                             "49"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 1,
-                                        "DisplayName": "49",
-                                        "Expanded": false,
-                                        "Name": "49"
+                                        "count": 1,
+                                        "displayName": "49",
+                                        "expanded": false,
+                                        "name": "49"
                                     }
                                 ],
-                                "Count": 99,
-                                "DisplayName": "Week",
-                                "Expanded": false,
-                                "Name": "Week"
+                                "count": 99,
+                                "displayName": "Week",
+                                "expanded": false,
+                                "name": "Week"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2007",
                                     "Quarter"
                                 ],
-                                "Children": [{
-                                        "CategoryName": [
+                                "children": [{
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Quarter",
                                             "3"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 98,
-                                        "DisplayName": "3",
-                                        "Expanded": false,
-                                        "Name": "3"
+                                        "count": 98,
+                                        "displayName": "3",
+                                        "expanded": false,
+                                        "name": "3"
                                     },
                                     {
-                                        "CategoryName": [
+                                        "categoryName": [
                                             "ModifiedDate",
                                             "2007",
                                             "Quarter",
                                             "4"
                                         ],
-                                        "Children": [
+                                        "children": [
 
                                         ],
-                                        "Count": 1,
-                                        "DisplayName": "4",
-                                        "Expanded": false,
-                                        "Name": "4"
+                                        "count": 1,
+                                        "displayName": "4",
+                                        "expanded": false,
+                                        "name": "4"
                                     }
                                 ],
-                                "Count": 99,
-                                "DisplayName": "Quarter",
-                                "Expanded": false,
-                                "Name": "Quarter"
+                                "count": 99,
+                                "displayName": "Quarter",
+                                "expanded": false,
+                                "name": "Quarter"
                             }
                         ],
-                        "Count": 99,
-                        "DisplayName": "2007",
-                        "Expanded": false,
-                        "Name": "2007"
+                        "count": 99,
+                        "displayName": "2007",
+                        "expanded": false,
+                        "name": "2007"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "ModifiedDate",
                             "2014"
                         ],
-                        "Children": [{
-                                "CategoryName": [
+                        "children": [{
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2014",
                                     "Month"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2014",
                                         "Month",
                                         "3"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "March",
-                                    "Expanded": false,
-                                    "Name": "3"
+                                    "count": 1,
+                                    "displayName": "March",
+                                    "expanded": false,
+                                    "name": "3"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Month",
-                                "Expanded": false,
-                                "Name": "Month"
+                                "count": 1,
+                                "displayName": "Month",
+                                "expanded": false,
+                                "name": "Month"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2014",
                                     "Week"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2014",
                                         "Week",
                                         "11"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "11",
-                                    "Expanded": false,
-                                    "Name": "11"
+                                    "count": 1,
+                                    "displayName": "11",
+                                    "expanded": false,
+                                    "name": "11"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Week",
-                                "Expanded": false,
-                                "Name": "Week"
+                                "count": 1,
+                                "displayName": "Week",
+                                "expanded": false,
+                                "name": "Week"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2014",
                                     "Quarter"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2014",
                                         "Quarter",
                                         "1"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "1",
-                                    "Expanded": false,
-                                    "Name": "1"
+                                    "count": 1,
+                                    "displayName": "1",
+                                    "expanded": false,
+                                    "name": "1"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Quarter",
-                                "Expanded": false,
-                                "Name": "Quarter"
+                                "count": 1,
+                                "displayName": "Quarter",
+                                "expanded": false,
+                                "name": "Quarter"
                             }
                         ],
-                        "Count": 1,
-                        "DisplayName": "2014",
-                        "Expanded": false,
-                        "Name": "2014"
+                        "count": 1,
+                        "displayName": "2014",
+                        "expanded": false,
+                        "name": "2014"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "ModifiedDate",
                             "2015"
                         ],
-                        "Children": [{
-                                "CategoryName": [
+                        "children": [{
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2015",
                                     "Month"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2015",
                                         "Month",
                                         "11"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "November",
-                                    "Expanded": false,
-                                    "Name": "11"
+                                    "count": 1,
+                                    "displayName": "November",
+                                    "expanded": false,
+                                    "name": "11"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Month",
-                                "Expanded": false,
-                                "Name": "Month"
+                                "count": 1,
+                                "displayName": "Month",
+                                "expanded": false,
+                                "name": "Month"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2015",
                                     "Week"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2015",
                                         "Week",
                                         "48"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "48",
-                                    "Expanded": false,
-                                    "Name": "48"
+                                    "count": 1,
+                                    "displayName": "48",
+                                    "expanded": false,
+                                    "name": "48"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Week",
-                                "Expanded": false,
-                                "Name": "Week"
+                                "count": 1,
+                                "displayName": "Week",
+                                "expanded": false,
+                                "name": "Week"
                             },
                             {
-                                "CategoryName": [
+                                "categoryName": [
                                     "ModifiedDate",
                                     "2015",
                                     "Quarter"
                                 ],
-                                "Children": [{
-                                    "CategoryName": [
+                                "children": [{
+                                    "categoryName": [
                                         "ModifiedDate",
                                         "2015",
                                         "Quarter",
                                         "3"
                                     ],
-                                    "Children": [
+                                    "children": [
 
                                     ],
-                                    "Count": 1,
-                                    "DisplayName": "3",
-                                    "Expanded": false,
-                                    "Name": "3"
+                                    "count": 1,
+                                    "displayName": "3",
+                                    "expanded": false,
+                                    "name": "3"
                                 }],
-                                "Count": 1,
-                                "DisplayName": "Quarter",
-                                "Expanded": false,
-                                "Name": "Quarter"
+                                "count": 1,
+                                "displayName": "Quarter",
+                                "expanded": false,
+                                "name": "Quarter"
                             }
                         ],
-                        "Count": 1,
-                        "DisplayName": "2015",
-                        "Expanded": false,
-                        "Name": "2015"
+                        "count": 1,
+                        "displayName": "2015",
+                        "expanded": false,
+                        "name": "2015"
                     }
                 ],
-                "DisplayName": "Modified date",
-                "Expanded": false,
-                "Name": "ModifiedDate"
+                "displayName": "Modified date",
+                "expanded": false,
+                "name": "ModifiedDate"
             },
             {
-                "Categories": [{
-                        "CategoryName": [
+                "categories": [{
+                        "categoryName": [
                             "FileType",
                             "DOC"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 19,
-                        "DisplayName": "DOC",
-                        "Expanded": false,
-                        "Name": "DOC"
+                        "count": 19,
+                        "displayName": "DOC",
+                        "expanded": false,
+                        "name": "DOC"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "FileType",
                             "PDF"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 79,
-                        "DisplayName": "PDF",
-                        "Expanded": false,
-                        "Name": "PDF"
+                        "count": 79,
+                        "displayName": "PDF",
+                        "expanded": false,
+                        "name": "PDF"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "FileType",
                             "PPT"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 1,
-                        "DisplayName": "PPT",
-                        "Expanded": false,
-                        "Name": "PPT"
+                        "count": 1,
+                        "displayName": "PPT",
+                        "expanded": false,
+                        "name": "PPT"
                     },
                     {
-                        "CategoryName": [
+                        "categoryName": [
                             "FileType",
                             "HTML"
                         ],
-                        "Children": [
+                        "children": [
 
                         ],
-                        "Count": 2,
-                        "DisplayName": "HTML",
-                        "Expanded": false,
-                        "Name": "HTML"
+                        "count": 2,
+                        "displayName": "HTML",
+                        "expanded": false,
+                        "name": "HTML"
                     }
                 ],
-                "DisplayName": "File type",
-                "Expanded": false,
-                "Name": "FileType"
+                "displayName": "File type",
+                "expanded": false,
+                "name": "FileType"
             }
         ],
-        "IsEstimatedCount": false,
-        "MatchCount": 101
+        "isEstimatedCount": false,
+        "matchCount": 101
     }
 }
