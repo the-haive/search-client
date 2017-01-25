@@ -1,50 +1,40 @@
 import Query from './Query'
 import Matches from './Matches'
 import Categories from './Categories'
-import Suggestions from './Suggestions'
 
 /**
  * Settings as used by the SearchClient.
  */
-export default class Settings{
+export default class Settings {
     /** The JWT authentication token to use. */
     authenticationToken?: string;
 
-    /** Default options for queries. */
-    query?: Query
-
-    /** Settings for find operations */
-    find?: {
+    /** Options for overriding the url for the various search endpoints. */
+    url?: {
         /** The endpoint url for the find REST API. */
-        url?: string;
-
-        /** A custom function for handling find results. */
-        handler?: (matches: Matches) => {};
-    }
-    categorize?: {
+        find?: string,
         /** The endpoint url for the categorize REST API. */
-        url?: string;
-        /** A custom function for handling categorize results. */
-        handler?: (categories: Categories) => {};
-    }
-    autocomplete?: {
+        categorize?: string,
         /** The endpoint url for the autocomplete REST API. */
-        url?: string;
-        /** A custom function for handling autocomplete results. */
-        handler?: (suggestions: Suggestions) => {};        
-    }
-    allCategories?: {
+        autocomplete?: string,
         /** The endpoint url for the allCategories REST API. */
-        url?: string;
-        /** A custom function for handling allCategories results. */
-        handler?: (categories: Categories) => {};
+        allCategories?: string,
+        /** The endpoint url for the bestBets REST API. */
+        bestBets?: string
     }
 
-    bestBets?: {
-        /** The endpoint url for the bestBets REST API. */
-        url?: string;
-        /** A custom function for handling bestBets results. */
-        handler?: (bestbets: any[]) => {};
+    /** Options for callbacks on the various search-operations. */
+    callback?: {
+        /** A callback function for handling find results. */
+        find?: (matches: Matches) => any;
+        /** A callback function for handling categorize results. */
+        categorize?: (categories: Categories) => any;
+        /** A callback function for handling autocomplete results. */
+        autocomplete?: (suggestions: string[]) => any;        
+        /** A callback function for handling allCategories results. */
+        allCategories?: (categories: Categories) => any;
+        /** A callback function for handling bestBets results. */
+        bestBets?: (bestbets: any[]) => any;
     }
 
     // // @param {Object} [settings.searchField] - A DOM Object representing the search field
@@ -71,12 +61,9 @@ export default class Settings{
     //         }
     //     }
     // }
-
-    constructor(){
-        this.allCategories = this.allCategories || {};
-        this.autocomplete = this.autocomplete || {};
-        this.bestBets = this.bestBets || {};
-        this.categorize = this.categorize || {};
-        this.find = this.find || {};
+    constructor(settings: Settings = { callback: {}, url: {}}){
+        settings = settings || {};
+        this.url = settings.url || {};
+        this.callback = settings.callback || {};
     }
 }

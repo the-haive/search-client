@@ -5,10 +5,10 @@ import Settings from './Settings';
 import Matches from './Matches';
 import Categories from './Categories';
 import Query from './Query';
-import Filters from './Filters';
-import Suggestions from './Suggestions';
+import SearchType from './SearchType';
+import Order from './Order';
 
-export { Settings, Matches, Categories, Query, Filters, Suggestions };
+export { Settings, Matches, Categories, Query, SearchType, Order };
 
 export default class SearchClient {
     private settings: Settings;
@@ -24,9 +24,6 @@ export default class SearchClient {
     /** The endpoint url for the find() call. */
     public findUrl: URL;
 
-    /** The query settings for the search. */
-    public query: Query; 
-
     /** 
      * The SearchClient constructor allows you to create a 'search-client' instance that allows
      * execuing find(), categorize(), autocomplete(), bestBets() and allCategories() calls on the 
@@ -35,25 +32,28 @@ export default class SearchClient {
     //constructor(settings: Settings){
     constructor(baseUrl: string, settings?: Settings) {
         if (isNullOrWhitespace(baseUrl)) {
-            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl.');
+            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]. If using default relative endpoints then this should be just the domain.com, without additional path and without trailing slash.');
         }
-        settings = settings || new Settings();
-        this.settings = {...settings};
-        this.allCategoriesUrl = new URL(settings.allCategories.url || `${baseUrl}/search/allcategories`);
-        this.autocompleteUrl = new URL(settings.autocomplete.url || `${baseUrl}/autocomplete`);
-        this.bestBetsUrl = new URL(settings.bestBets.url || `${baseUrl}/manage/bestbets`);
-        this.categorizeUrl = new URL(settings.categorize.url || `${baseUrl}/search/categorize`);
-        this.findUrl = new URL(settings.find.url || `${baseUrl}/search/find`);
+        this.settings = new Settings(settings);
+
+        this.allCategoriesUrl = new URL(baseUrl + (this.settings.url.allCategories || '/search/allcategories'));
+        this.autocompleteUrl = new URL(baseUrl + (this.settings.url.autocomplete || '/autocomplete'));
+        this.bestBetsUrl = new URL(baseUrl + (this.settings.url.bestBets || '/manage/bestbets'));
+        this.categorizeUrl = new URL(baseUrl + (this.settings.url.categorize || '/search/categorize'));
+        this.findUrl = new URL(baseUrl + (this.settings.url.find || '/search/find'));
     }
 
-    find(query: Query) : Promise<Matches> {
+    find(query: Query, callback?: (matches: Matches) => any) : Promise<Matches> {
+        query = query || new Query();
         // TODO
         // * Use the passed query to override the current query, which in turn overrides the settings query
         // * If a resultHandler is set then we deliver the results to it via a callback.
         // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
         // But, in any case, we store the current-page so that we know how to get page before/after.
         //this.query = merge(this.settings.query, this.query, query);
-        const url = this.findUrl.toString();
+        // The find query-options also needs to be passed to the rest-style interface.
+        const url = `${this.findUrl.toString()}${query.toFindUrlParam()}`;
+
         return fetch(url, { credentials: "include" })
             .then((response: Response) => {
                 if (!response.ok){
@@ -64,9 +64,8 @@ export default class SearchClient {
             .then((response: Matches) => {
                 // At this stage we know that the data received is good
                 // TODO: Store the page-ref
-
-                if (this.settings.find.handler)
-                    this.settings.find.handler(response);
+                if (callback || this.settings.callback.find)
+                    (callback || this.settings.callback.find)(response);
                 return response;
             })
             .catch(error => {
@@ -75,23 +74,25 @@ export default class SearchClient {
             });
     }
 
-    categorize(query: Query) : Promise<Categories>{
+    categorize(query: Query, callback?: (categories: Categories) => any) : Promise<Categories>{
+        query = query || new Query();
         // TODO
         // * Use the query to set the url params
         // * If a resultHandler is set then we deliver the results to it via a callback.
         // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
-        this.query = merge(this.settings.query, this.query, query);
+        //this.query = merge(this.settings.query, this.query, query);
 
-        return fetch(this.categorizeUrl.toString(), { credentials: "include" })
+        const url = `${this.categorizeUrl.toString()}${query.toCategorizeUrlParam()}`;
+        return fetch(url, { credentials: "include" })
             .then((response: Response) => {
                 if (!response.ok){
-                    return Promise.reject(new Error(response.statusText));
+                    throw new Error(`${response.status} ${response.statusText}`);
                 }
                 return response.json();
             })
             .then((response: Categories) => {
-                if (this.settings.categorize.handler)
-                    this.settings.categorize.handler(response);
+                if (callback || this.settings.callback.categorize)
+                    (callback || this.settings.callback.categorize)(response);
                 return response;
             })
             .catch(error => {
@@ -99,48 +100,48 @@ export default class SearchClient {
             });
     }
 
-    allCategories(): Promise<Categories>{
-        // * If a resultHandler is set then we deliver the results to it via a callback.
-        // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
+    // allCategories(): Promise<Categories>{
+    //     // * If a resultHandler is set then we deliver the results to it via a callback.
+    //     // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
 
-        return fetch(this.allCategoriesUrl.toString(), { credentials: "include" })
-            .then((response) => {
-                if (!response.ok){
-                    throw Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then((response:Categories) => {
-                if (this.settings.allCategories.handler)
-                    this.settings.allCategories.handler(response);
-                return response;
-            })
-            .catch(error => {
-                throw Error("Error when calling 'allCategories': " + error);
-            });
-    }
+    //     return fetch(this.allCategoriesUrl.toString(), { credentials: "include" })
+    //         .then((response) => {
+    //             if (!response.ok){
+    //                 throw Error(response.statusText);
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((response:Categories) => {
+    //             if (this.settings.allCategories.handler)
+    //                 this.settings.allCategories.handler(response);
+    //             return response;
+    //         })
+    //         .catch(error => {
+    //             throw Error("Error when calling 'allCategories': " + error);
+    //         });
+    // }
 
-    bestBets(query: Query): Promise<any[]>{
-        // * If a resultHandler is set then we deliver the results to it via a callback.
-        // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
-        this.query = merge(this.settings.query, this.query, query);
+    // bestBets(query: Query): Promise<any[]>{
+    //     // * If a resultHandler is set then we deliver the results to it via a callback.
+    //     // * We return/fulfill the promise anyhow, so that the caller can use it anyway they want.
+    //     this.query = merge(this.settings.query, this.query, query);
 
-        return fetch(this.bestBetsUrl.toString(), { credentials: "include" })
-            .then((response) => {
-                if (!response.ok){
-                    throw Error(response.statusText);
-                }
-                return response.json();
-            })
-            .then((response:any[]) => {
-                if (this.settings.bestBets.handler)
-                    this.settings.bestBets.handler(response);
-                return response;
-            })
-            .catch(error => {
-                throw Error("Error when calling 'bestBets': " + error);
-            });
-    }
+    //     return fetch(this.bestBetsUrl.toString(), { credentials: "include" })
+    //         .then((response) => {
+    //             if (!response.ok){
+    //                 throw Error(response.statusText);
+    //             }
+    //             return response.json();
+    //         })
+    //         .then((response:any[]) => {
+    //             if (this.settings.bestBets.handler)
+    //                 this.settings.bestBets.handler(response);
+    //             return response;
+    //         })
+    //         .catch(error => {
+    //             throw Error("Error when calling 'bestBets': " + error);
+    //         });
+    // }
 
     page(n:number){}
 

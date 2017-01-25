@@ -1,19 +1,19 @@
 import SearchType from './SearchType';
-import Filters from './Filters';
+//import Filters from './Filters';
 import Order from './Order';
 
 /**
  * Defines the query parameters for the various API calls (find, categorize, bestBets, autocomplete, ...)
  * 
  * @export
- * @interface Query
+ * @class Query
  */
-export interface Query{
+class Query {
     /**
      * The text to search for.
      * @default Empty
      */
-    query?: string;
+    queryText?: string;
 
     /**
      * The type of search to perform. Allowed values: "Keywords", "Relevance". 
@@ -29,7 +29,7 @@ export interface Query{
      * Note the above names are case sensitive.
      * @default Empty (no filter set)
      */
-    filters?: Filters;
+    filters?: string[];
 
     /**
      * Used to specify the "from datetime" of a date-range filter. 
@@ -74,6 +74,50 @@ export interface Query{
      * @default IOrder.Date
      */
     orderBy?: Order;
+
+    private commonUrlParams(): string[] {
+        let params: string[] = [];
+
+        if (this.queryText) 
+            params.push(`q=${this.queryText}`);
+        if (this.searchType) 
+            params.push(`t=${SearchType[this.searchType]}`);
+        if (this.filters)
+            params.push(`f=${this.filters.join(';')}`);
+        if (this.dateFrom) 
+            params.push(`df=${this.dateFrom.toISOString()}`);
+        if (this.dateTo) 
+            params.push(`dt=${this.dateTo.toISOString()}`);
+        if (this.clientId) 
+            params.push(`c=${this.clientId}`);
+
+        return params;
+    }
+
+    private renderUrlParams(params: string[]): string {
+        return (params && params.length > 0) ? `?${params.join('&')}` : '';
+    }
+
+    public toFindUrlParam(){
+        let params = this.commonUrlParams();
+
+        // These params are additional for the find call
+        if (this.pageSize) 
+            params.push(`s=${this.pageSize.toString()}`);
+        if (this.page) 
+            params.push(`p=${this.page.toString()}`);
+        if (this.useGrouping) 
+            params.push(`g=${this.useGrouping.toString()}`);
+        if (this.orderBy) 
+            params.push(`o=${Order[this.orderBy]}`);
+        
+        return this.renderUrlParams(params);
+    }
+
+    public toCategorizeUrlParam(){
+        // The categorize call takes only the common params from commonUrlParams()
+        return this.renderUrlParams(this.commonUrlParams());
+    }
 }
 
 export default Query;
