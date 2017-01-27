@@ -2,16 +2,14 @@ var webpack = require('webpack');
 var path = require('path');
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
-//let targetFolder = process.env.NODE_ENV === 'dev' ? 'public' : 'public'; // TODO: Change to use lib on production (problem is that the tsconfig.json probably also must have this somehow)
-
 module.exports = {
   context: path.resolve(__dirname, './src'),
   entry: {
-    "search-client": './index.ts',
+    "search-client": process.env.NODE_ENV === 'dev' ? './index.ts' : './search-client/index.ts'
   },
   devtool: 'source-map',
   output: {
-    filename: '[name].js',
+    filename: 'index.js',
     path: path.resolve(__dirname, './lib'),
     publicPath: '/assets'                          // New
   },
@@ -57,10 +55,10 @@ module.exports = {
   ]
 };
 
-if (process.env.NODE_ENV === 'dev') {
-  module.exports.entry.push('webpack-dev-server/client?http://0.0.0.0:8080');
-  module.exports.entry.push('webpack/hot/only-dev-server');
-}
+// if (process.env.NODE_ENV === 'dev') {
+//   module.exports.entry.push('webpack-dev-server/client?http://0.0.0.0:8080');
+//   module.exports.entry.push('webpack/hot/only-dev-server');
+// }
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins.push(new webpack.LoaderOptionsPlugin({

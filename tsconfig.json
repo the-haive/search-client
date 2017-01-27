@@ -5,12 +5,12 @@
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "declaration": true,
-        "sourceMap": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declarationDir": "lib"
+        "declarationDir": "lib", 
+        "outDir": "tmp"
     },
     "buildOnSave": false,
     "compileOnSave": true,
@@ -25,7 +25,7 @@
         "rewriteTsconfig": false
     },
     "include": [
-        "./src/*"
+        "./src/search-client/*"
     ],
     "awesomeTypescriptLoaderOptions": {
         "useCache": true,
