@@ -1,10 +1,10 @@
 {
   "name": "search-client",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "Javascript library for executing searches in the IntelliSearch search-index.",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "index.js",
+  "typings": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intellisearch/search-client.git"
@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/intellisearch/search-client#readme",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack && tsc",
+    "clean": "DEL /Q *.d.ts index.js index.js.map >nul 2>&1",
+    "prePublishOnly": "npm run clean && cross-env NODE_ENV=production webpack && tsc",
     "json-server": "json-server --watch test-data.json --routes test-data-routes.json",
     "dev": "cross-env NODE_ENV=dev webpack-dev-server --hot",
     "pretest": "cross-env NODE_ENV=ci webpack",

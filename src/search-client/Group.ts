@@ -1,10 +1,8 @@
-import Category from './Category';
+import { Category } from './Category';
 
-interface Group {
+export interface Group {
     categories: Category[];
     displayName: string;
     expanded: boolean;
     name: string;
 }
-
-export default Group;

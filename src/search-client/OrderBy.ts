@@ -1,9 +1,8 @@
 /**
  * Ordering algorithm options. Allowed values: "Date", "Relevance"
  * @default "Date"
- * @enum {number}
  */
-enum Order{
+export enum OrderBy{
     /**
      * Order results by date, newest first.
      */
@@ -13,5 +12,3 @@ enum Order{
      */
     Relevance
 }
-
-export default Order;

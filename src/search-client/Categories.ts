@@ -1,9 +1,7 @@
-import Group from './Group';
+import { Group } from './Group';
 
-interface Categories {
+export interface Categories {
     groups: Group[];
     isEstimatedCount: boolean;
     matchCount: number;
 }
-
-export default Categories;

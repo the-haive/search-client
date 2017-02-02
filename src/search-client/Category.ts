@@ -1,4 +1,4 @@
-interface Category {
+export interface Category {
     categoryName: string[];
     children: Category[];
     count: number;
@@ -6,5 +6,3 @@ interface Category {
     expanded: boolean;
     name: string;
 }
-
-export default Category;

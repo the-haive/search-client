@@ -1,11 +1,11 @@
-import Query from './Query'
-import Matches from './Matches'
-import Categories from './Categories'
+import { Query } from './Query'
+import { Matches } from './Matches'
+import { Categories } from './Categories'
 
 /**
  * Settings as used by the SearchClient.
  */
-export default class Settings {
+export class Settings {
     /** The JWT authentication token to use. */
     authenticationToken?: string;
 

@@ -1,23 +1,13 @@
-import SearchType from './SearchType';
+import { SearchType } from './SearchType';
 //import Filters from './Filters';
-import Order from './Order';
+import { OrderBy } from './OrderBy';
 
-/**
- * Defines the query parameters for the various API calls (find, categorize, bestBets, autocomplete, ...)
- * 
- * @export
- * @class Query
- */
-class Query {
-    /**
-     * The text to search for.
-     * @default Empty
-     */
+export class QueryProps {
     queryText?: string;
 
     /**
      * The type of search to perform. Allowed values: "Keywords", "Relevance". 
-     * @default ISearchType.Keywords
+     * @default SearchType.Keywords
      */
     searchType?: SearchType;
 
@@ -36,14 +26,14 @@ class Query {
      * Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details.
      * @default Empty (not set, in effect meaning that items will be returned no matter how **old** they are)
      */
-    dateFrom?: Date;
+    from?: Date;
 
     /**
      * Used to specify the "to datetime" of a date-range filter. 
      * Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details.
      * @default Empty (not set, in effect meaning that items will be returned no matter how **new** they are)
      */
-    dateTo?: Date;
+    to?: Date;
 
     /**
      * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
@@ -71,23 +61,28 @@ class Query {
 
     /**
      * Decides which ordering algorithm to use. Allowed values: "Date", "Relevance", 
-     * @default IOrder.Date
+     * @default OrderBy.Date
      */
-    orderBy?: Order;
+    orderBy?: OrderBy;
+}
 
+/**
+ * Defines the query parameters for the various API calls (find, categorize, bestBets, autocomplete, ...)
+ */
+export class Query extends QueryProps {
     private commonUrlParams(): string[] {
         let params: string[] = [];
 
         if (this.queryText) 
             params.push(`q=${this.queryText}`);
-        if (this.searchType) 
+        if (this.searchType != null) 
             params.push(`t=${SearchType[this.searchType]}`);
         if (this.filters)
             params.push(`f=${this.filters.join(';')}`);
-        if (this.dateFrom) 
-            params.push(`df=${this.dateFrom.toISOString()}`);
-        if (this.dateTo) 
-            params.push(`dt=${this.dateTo.toISOString()}`);
+        if (this.from) 
+            params.push(`df=${this.from.toISOString()}`);
+        if (this.to) 
+            params.push(`dt=${this.to.toISOString()}`);
         if (this.clientId) 
             params.push(`c=${this.clientId}`);
 
@@ -96,6 +91,35 @@ class Query {
 
     private renderUrlParams(params: string[]): string {
         return (params && params.length > 0) ? `?${params.join('&')}` : '';
+    }
+
+    /**
+     * The constructor can either take the listed params as function arguments, or you can send in a object with each of the listed params as keys (JSON notation).
+     * 
+     * @param queryText - The text to search for.
+     * @param searchType - The type of search to perform. @see SearchType.
+     * @param filters - Specifies which filters to apply. Each filter should contain it's group name followed by category names, representing the complete hierarchy of the category, all separated by pipe-characters. The names specified here is derived from category Name property (not its display name).
+     * @param from - Used to specify the "from datetime" of a date-range filter. Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details. The default is empty (not set), in effect meaning that items will be returned no matter how old they are.
+     * @param to - Used to specify the "to datetime" of a date-range filter. Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details. The default is empty (not set), in effect meaning that items will be returned no matter how new they are. 
+     * @param clientId - Any string that you want to identify the client (you) with. It can be used in the categories configuration and in the relevance tuning. If none of those features are in use, or if the clientId passed desn match, or if it is not supplied then it will be ignored.
+     * @param pageSize - The number of results per page to fetch. If you want your users to browse (page) results then you should keep this the same for every request.
+     * @param page - The actual page to fetch. The numbering is zero-based, meaning that the first page is page 0. Use this to allow browsing (paging) the results.
+     * @param useGrouping - Set to true to use the parent-grouping feature that groups the results by their parents.
+     * @param orderBy - Used to change the ordering of the results. @see OrderBy.
+     */
+    constructor(queryText?: string | QueryProps, searchType?: SearchType, filters?: string[], from?: Date, to?: Date, clientId?: string, pageSize?: number, page?: number, useGrouping?: boolean, orderBy?: OrderBy) {
+        super();
+        let o: QueryProps = typeof queryText == "object" ? queryText : {} as QueryProps;
+        this.queryText = o.queryText || queryText as string || '';
+        this.searchType = o.searchType || searchType || SearchType.Keywords;
+        this.filters = o.filters || filters || [];
+        this.from = o.from || from;
+        this.to = o.to || to;
+        this.clientId = o.clientId || clientId;
+        this.pageSize = o.pageSize || pageSize || 10;
+        this.page = o.page || page || 0
+        this.useGrouping = o.useGrouping || useGrouping || false;
+        this.orderBy = o.orderBy || orderBy || OrderBy.Date;
     }
 
     public toFindUrlParam(){
@@ -108,8 +132,8 @@ class Query {
             params.push(`p=${this.page.toString()}`);
         if (this.useGrouping) 
             params.push(`g=${this.useGrouping.toString()}`);
-        if (this.orderBy) 
-            params.push(`o=${Order[this.orderBy]}`);
+        if (this.orderBy != null) 
+            params.push(`o=${OrderBy[this.orderBy]}`);
         
         return this.renderUrlParams(params);
     }
@@ -120,4 +144,3 @@ class Query {
     }
 }
 
-export default Query;

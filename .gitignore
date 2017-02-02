@@ -243,4 +243,6 @@ node_modules/
 .vscode/
 .awcache/
 tmp/
-lib/
+*.d.ts
+index.js
+index.js.map

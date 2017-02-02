@@ -1,0 +1,12 @@
+.awcache/
+.vscode/
+src/
+tmp/
+typings/
+.babelrc
+.gitignore
+test-data*.json
+tsconfig.json
+typings.json
+webpack.config
+yarn.lock

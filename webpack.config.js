@@ -10,11 +10,11 @@ module.exports = {
   devtool: 'source-map',
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, './lib'),
-    publicPath: '/assets'                          // New
+    path: path.resolve(__dirname),
+    publicPath: '/assets'
   },
   devServer: {
-    contentBase: path.resolve(__dirname, './src'),  // New
+    contentBase: path.resolve(__dirname, './src')
   },
   resolve: {
     alias: {

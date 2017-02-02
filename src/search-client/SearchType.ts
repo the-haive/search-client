@@ -1,9 +1,8 @@
 /**
  * Defines the different searchtypes that can be used (modes). 
- * @export
- * @enum {number}
+ * @default Keywords
  */
-enum SearchType{
+export enum SearchType{
     /**
      * Find results via keywords mode (AND-search)
      */
@@ -13,5 +12,3 @@ enum SearchType{
      */
     Relevance
 }
-
-export default SearchType

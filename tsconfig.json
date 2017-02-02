@@ -5,11 +5,11 @@
         "noImplicitAny": true,
         "suppressImplicitAnyIndexErrors": true,
         "declaration": true,
-        "removeComments": true,
+        "removeComments": false,
         "preserveConstEnums": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declarationDir": "lib", 
+        "declarationDir": "./", 
         "outDir": "tmp"
     },
     "buildOnSave": false,

@@ -1,16 +1,23 @@
 import * as merge from 'deepmerge';
 import { fetch } from 'domain-task';
 
-import Settings from './Settings';
-import Matches from './Matches';
-import Categories from './Categories';
-import Query from './Query';
-import SearchType from './SearchType';
-import Order from './Order';
+import { Settings } from './Settings';
+import { Matches } from './Matches';
+import { Categories } from './Categories';
+import { Query } from './Query';
 
-export { Settings, Matches, Categories, Query, SearchType, Order };
+export * from './Categories';
+export * from './Category';
+export * from './Group';
+export * from './Matches';
+export * from './MatchItem';
+export * from './MetaList';
+export * from './OrderBy';
+export * from './Query';
+export * from './SearchType';
+export * from './Settings';
 
-export default class SearchClient {
+export class SearchClient {
     private settings: Settings;
 
     /** The endpoint url for the autocomplete() call. */
@@ -28,6 +35,8 @@ export default class SearchClient {
      * The SearchClient constructor allows you to create a 'search-client' instance that allows
      * execuing find(), categorize(), autocomplete(), bestBets() and allCategories() calls on the 
      * search engine that it connects to.
+     * @param baseUrl - The baseUrl for the search-engine, typically 'http:<search-server.domain>/RestService/v3/'
+     * @param settings - A settings object for more control of initialization values.
      */
     //constructor(settings: Settings){
     constructor(baseUrl: string, settings?: Settings) {
