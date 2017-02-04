@@ -1,68 +1,183 @@
+var nodeExternals = require('webpack-node-externals');
 var webpack = require('webpack');
+var browserify = require('browserify');
 var path = require('path');
-const { CheckerPlugin } = require('awesome-typescript-loader')
+var fs = require('fs');
+var os = require('os');
+var dts = require('dts-bundle');
+var deleteEmpty = require('delete-empty');
 
-module.exports = {
-  context: path.resolve(__dirname, './src'),
-  entry: {
-    "search-client": process.env.NODE_ENV === 'dev' ? './index.ts' : './search-client/index.ts'
-  },
-  devtool: 'source-map',
-  output: {
-    filename: 'index.js',
-    path: path.resolve(__dirname),
-    publicPath: '/assets'
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, './src')
-  },
-  resolve: {
-    alias: {
-      tape: 'browser-tap'
-    },
-    extensions: ['.ts', 'tsx', '.js', '.jsx'],
-    modules:[
-      path.resolve('./src'),
-      'node_modules'
-    ]
-  },
-  module: {
-    noParse: [
-      /browser-tap/
-    ],
-    rules: [
-      { 
-        test: /\.tsx?$/, 
-        use: "awesome-typescript-loader",
-      },
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { 
-        enforce: 'pre',
-        test: /\.js$/, 
-        use: "source-map-loader",
-        exclude: /(node_modules)/
-      }
-    ]
-  },
-  plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'dev')
-      }
-    }),
-    new CheckerPlugin()
-  ]
+/* helper function to get into build directory */
+var libPath = function(name) {
+	if ( undefined === name ) {
+		return 'dist';
+	}
+
+	return path.join('dist', name);
+}
+
+/* helper to clean leftovers */
+var outputCleanup = function(dir, initial) {
+	if (false === fs.existsSync(libPath())){
+		return;
+	}
+
+	if ( true === initial ) {
+		console.log("Build leftover found, cleans it up.");
+	}
+
+	var list = fs.readdirSync(dir);
+	for(var i = 0; i < list.length; i++) {
+		var filename = path.join(dir, list[i]);
+		var stat = fs.statSync(filename);
+
+		if(filename === "." || filename === "..") {
+			// pass these files
+			} else if(stat.isDirectory()) {
+				// outputCleanup recursively
+				outputCleanup(filename, false);
+			} else {
+				// rm fiilename
+				fs.unlinkSync(filename);
+			}
+	}
+	fs.rmdirSync(dir);
 };
 
-// if (process.env.NODE_ENV === 'dev') {
-//   module.exports.entry.push('webpack-dev-server/client?http://0.0.0.0:8080');
-//   module.exports.entry.push('webpack/hot/only-dev-server');
-// }
+/* precentage handler is used to hook build start and ending */
+var percentage_handler = function handler(percentage, msg) {
+	if ( 0 === percentage ) {
+		/* Build Started */
+		outputCleanup(libPath(), true);
+		console.log("Build started... Good luck!");
+	} else if ( 1 === percentage ) {
+		// TODO: No Error detection. :(
+		create_browser_version(webpack_opts.output.filename);
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.plugins.push(new webpack.LoaderOptionsPlugin({
-    minimize: true,
-    debug: false
-  }))
+		// Invokes dts bundling
+		console.log("Bundling d.ts files ...");
+		dts.bundle(bundle_opts);
+
+		// Invokes lib/ cleanup
+		deleteEmpty(bundle_opts.baseDir, function(err, deleted) {
+			if ( err ) {
+				console.error("Couldn't clean up : " + err);
+				throw err;
+			} else {
+				console.log("Cleanup " + deleted);
+			}
+		});
+	}
 }
+
+var bundle_opts = {
+
+	// Required
+
+	// name of module likein package.json
+	// - used to declare module & import/require
+	name: 'search-client',
+	// path to entry-point (generated .d.ts file for main module)
+	// if you want to load all .d.ts files from a path recursively you can use "path/project/**/*.d.ts"
+	//  ^ *** Experimental, TEST NEEDED, see "All .d.ts files" section
+	// - either relative or absolute
+	main: 'src/SearchClient.d.ts',
+
+	// Optional
+
+	// base directory to be used for discovering type declarations (i.e. from this project itself)
+	// - default: dirname of main
+	baseDir: 'src',
+	// path of output file. Is relative from baseDir but you can use absolute paths.
+	// if starts with "~/" then is relative to current path. See https://github.com/TypeStrong/dts-bundle/issues/26
+	//  ^ *** Experimental, TEST NEEDED
+	// - default: "<baseDir>/<name>.d.ts"
+	out: '../dist/search-client.d.ts',
+	// include typings outside of the 'baseDir' (i.e. like node.d.ts)
+	// - default: false
+	externals: false,
+	// reference external modules as <reference path="..." /> tags *** Experimental, TEST NEEDED
+	// - default: false
+	referenceExternals: false,
+	// filter to exclude typings, either a RegExp or a callback. match path relative to opts.baseDir
+	// - RegExp: a match excludes the file
+	// - function: (file:String, external:Boolean) return true to exclude, false to allow
+	// - always use forward-slashes (even on Windows)
+	// - default: *pass*
+	exclude: /^defs\/$/,
+	// delete all source typings (i.e. "<baseDir>/**/*.d.ts")
+	// - default: false
+	removeSource: true,
+	// newline to use in output file
+	newline: os.EOL,
+	// indentation to use in output file
+	// - default 4 spaces
+	indent: '  ',
+	// prefix for rewriting module names
+	// - default ''
+	prefix: '',
+	// separator for rewriting module 'path' names
+	// - default: forward slash (like sub-modules)
+	separator: '/',
+	// enable verbose mode, prints detailed info about all references and includes/excludes
+	// - default: false
+	verbose: false,
+	// emit although included files not found. See "Files not found" section.
+	// *** Experimental, TEST NEEDED
+	// - default: false
+	emitOnIncludedFileNotFound: false,
+	// emit although no included files not found. See "Files not found" section.
+	// *** Experimental, TEST NEEDED
+	// - default: false
+	emitOnNoIncludedFileNotFound: false,
+	// output d.ts as designed for module folder. (no declare modules)
+	outputAsModuleFolder: false
+};
+
+var webpack_opts = {
+	entry: './src/SearchClient.ts',
+	target: 'node',
+	output: {
+		filename: libPath('search-client.js'),
+		libraryTarget: "commonjs2"
+	},
+	resolve: {
+		extensions: ['', '.ts', '.js'],
+		modules: [
+			'node_modules',
+			'src',
+		]
+	},
+	module: {
+		preLoaders: [{ test: /\.ts$/, loaders: ['tslint'] }],
+		loaders: [{ test: /\.ts$/, loaders: ['babel-loader', 'awesome-typescript-loader'] }]
+	},
+	externals: [nodeExternals()],
+	plugins: [
+		new webpack.optimize.UglifyJsPlugin(),
+		new webpack.ProgressPlugin(percentage_handler)
+	],
+	tslint: {
+		emitErrors: true,
+		failOnHint: true
+	}
+}
+
+var create_browser_version = function (inputJs) {
+	let outputName = inputJs.replace(/\.[^/.]+$/, "");
+	outputName = `${outputName}.browser.js`;
+	console.log("Creating browser version ...");
+
+	let b = browserify(inputJs, {
+		standalone: bundle_opts.name
+	});
+
+	b.bundle(function(err, src) {
+		if ( err !== null ) {
+			console.error("Browserify error:");
+			console.error(err);
+		}
+	}).pipe(fs.createWriteStream(outputName));
+}
+
+module.exports = webpack_opts;
