@@ -1,6 +1,0 @@
-{
-  "globalDevDependencies": {
-    "webpack-dev-server": "registry:dt/webpack-dev-server#1.12.1+20161122001659"
-  },
-  "globalDependencies": {}
-}
