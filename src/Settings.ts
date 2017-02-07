@@ -1,4 +1,4 @@
-import { Query } from './Query';
+//import { Query } from './Query';
 import { Matches } from './Matches';
 import { Categories } from './Categories';
 

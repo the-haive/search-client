@@ -14,7 +14,7 @@ var libPath = function(name) {
 	}
 
 	return path.join('dist', name);
-}
+};
 
 /* helper to clean leftovers */
 var outputCleanup = function(dir, initial) {
@@ -68,7 +68,7 @@ var percentage_handler = function handler(percentage, msg) {
 			}
 		});
 	}
-}
+};
 
 var bundle_opts = {
 
@@ -142,10 +142,10 @@ var webpack_opts = {
 		libraryTarget: "commonjs2"
 	},
 	resolve: {
-		extensions: ['', '.ts', '.js'],
+		extensions: ['', '.ts', 'tsx', '.js', '.jsx'],
 		modules: [
 			'node_modules',
-			'src',
+			'src'
 		]
 	},
 	module: {
@@ -161,7 +161,7 @@ var webpack_opts = {
 		emitErrors: true,
 		failOnHint: true
 	}
-}
+};
 
 var create_browser_version = function (inputJs) {
 	let outputName = inputJs.replace(/\.[^/.]+$/, "");
@@ -178,6 +178,6 @@ var create_browser_version = function (inputJs) {
 			console.error(err);
 		}
 	}).pipe(fs.createWriteStream(outputName));
-}
+};
 
 module.exports = webpack_opts;
