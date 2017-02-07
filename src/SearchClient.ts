@@ -1,5 +1,7 @@
 //import * as merge from 'deepmerge';
 import { fetch } from 'domain-task';
+import { baseUrl as rootUrl } from 'domain-task/fetch';
+import { isWebUri } from 'valid-url';
 
 import { Settings } from './Settings';
 import { Matches } from './Matches';
@@ -19,15 +21,15 @@ export * from './Settings';
 
 export class SearchClient {
     /** The endpoint url for the autocomplete() call. */
-    public autocompleteUrl: URL;
+    public autocompleteUrl: string;
     /** The endpoint url for the allCategories() call. */
-    public allCategoriesUrl: URL;
+    public allCategoriesUrl: string;
     /** The endpoint url for the bestBets() call. */
-    public bestBetsUrl: URL;
+    public bestBetsUrl: string;
     /** The endpoint url for the categorize() call. */
-    public categorizeUrl: URL;
+    public categorizeUrl: string;
     /** The endpoint url for the find() call. */
-    public findUrl: URL;
+    public findUrl: string;
 
     private settings: Settings;
 
@@ -40,18 +42,23 @@ export class SearchClient {
      */
     //constructor(settings: Settings){
     constructor(baseUrl: string, settings?: Settings) {
-        if (isNullOrWhitespace(baseUrl)) {
+        if (!isWebUri(baseUrl)) {
             throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: '
             + 'http[s]://<domain.com>[:port][/path]. If using default relative endpoints then this should '
             + 'be just the domain.com, without additional path and without trailing slash.');
         }
+
+        // The domain-task fetch needs tis for non-browser environments.
+        let match = baseUrl.split('/');
+        rootUrl(`${match[0]}//${match[2]}/`);
+
         this.settings = new Settings(settings);
 
-        this.allCategoriesUrl = new URL(baseUrl + (this.settings.url.allCategories || '/search/allcategories'));
-        this.autocompleteUrl = new URL(baseUrl + (this.settings.url.autocomplete || '/autocomplete'));
-        this.bestBetsUrl = new URL(baseUrl + (this.settings.url.bestBets || '/manage/bestbets'));
-        this.categorizeUrl = new URL(baseUrl + (this.settings.url.categorize || '/search/categorize'));
-        this.findUrl = new URL(baseUrl + (this.settings.url.find || '/search/find'));
+        this.allCategoriesUrl = baseUrl + (this.settings.url.allCategories || '/search/allcategories');
+        this.autocompleteUrl = baseUrl + (this.settings.url.autocomplete || '/autocomplete');
+        this.bestBetsUrl = baseUrl + (this.settings.url.bestBets || '/manage/bestbets');
+        this.categorizeUrl = baseUrl + (this.settings.url.categorize || '/search/categorize');
+        this.findUrl = baseUrl + (this.settings.url.find || '/search/find');
     }
 
     public find(query: Query, callback?: (matches: Matches) => any): Promise<Matches> {

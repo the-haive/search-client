@@ -1,7 +1,6 @@
 {
 	"extends": "tslint:recommended",
 	"rules": {
-		"use-strict": true,
 		"comment-format": [
 			false
 		],
