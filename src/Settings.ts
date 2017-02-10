@@ -7,8 +7,10 @@ import { Categories } from './Categories';
  * Settings as used by the SearchClient.
  */
 export class Settings {
-    /** The JWT authentication token to use. */
-    //public authenticationToken?: string;
+    /** 
+     * The JWT authentication token to use. 
+     */
+    public authenticationToken?: string;
 
     /**
      * The default autocomplete settings to be used for autocomplete() lookups.
