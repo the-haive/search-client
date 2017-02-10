@@ -1,11 +1,12 @@
 "use strict";
 
 import 'jest';
+
 // tslint:disable-next-line:no-var-requires
 require("babel-core/register");
 require("babel-polyfill");
 
-import { SearchClient, Query } from "./SearchClient";
+import { SearchClient, Query, Matches } from "./SearchClient";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {
@@ -26,36 +27,12 @@ describe("SearchClient basics", () => {
         }).toThrow();
     });
 
-    it("Search instance should have find() and categorize() interface", () => {
+    it("Search instance should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
+        expect(typeof searchClient.autocomplete).toBe("function");
         expect(typeof searchClient.find).toBe("function");
         expect(typeof searchClient.categorize).toBe("function");
-        // TODO add additional interfaces (allCategories / bestBets)
-    });
-});
-
-describe("SearchClient find()", () => {
-    it("find('.') should return results", () => {
-        let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-        return searchClient.find(new Query("."))
-            .then((matches) => {
-                expect(typeof matches).toBe("object");
-            })
-            .catch((e) => {
-                fail(e);
-            });
-    });
-});
-
-describe("SearchClient categorize()", () => {
-    it("categorize('.') should return results", () => {
-      let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-      return searchClient.categorize(new Query("."))
-          .then((categories) => {
-              expect(typeof categories).toBe("object");
-          })
-          .catch((e) => {
-              fail(e);
-          });
+        expect(typeof searchClient.allCategories).toBe("function");
+        expect(typeof searchClient.bestBets).toBe("function");
     });
 });

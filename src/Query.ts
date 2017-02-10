@@ -1,75 +1,11 @@
 import { SearchType } from './SearchType';
-//import Filters from './Filters';
 import { OrderBy } from './OrderBy';
-
-export class QueryProps {
-    public queryText?: string;
-
-    /**
-     * The type of search to perform. Allowed values: "Keywords", "Relevance". 
-     * @default SearchType.Keywords
-     */
-    public searchType?: SearchType;
-
-    /**
-     * Use one of this query parameter to specify the filters to apply. Each filter should contain its group name 
-     * followed by category names, representing complete hierarchy of the category. The names specified here is derived from category Name 
-     * property and not its display name. When specifying multiple filters, separate them either by comma or semicolon. 
-     * For example: &f=Authors|Sam;FileTypes|docx
-     * Note the above names are case sensitive.
-     * @default Empty (no filter set)
-     */
-    public filters?: string[];
-
-    /**
-     * Used to specify the "from datetime" of a date-range filter. 
-     * Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details.
-     * @default Empty (not set, in effect meaning that items will be returned no matter how **old** they are)
-     */
-    public from?: Date;
-
-    /**
-     * Used to specify the "to datetime" of a date-range filter. 
-     * Expects an ISO 8601 datetime as a string. See https://en.wikipedia.org/wiki/ISO_8601 for details.
-     * @default Empty (not set, in effect meaning that items will be returned no matter how **new** they are)
-     */
-    public to?: Date;
-
-    /**
-     * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
-     * @default Empty
-     */
-    public clientId?: string;
-
-    /**
-     * The number of results per page to fetch. Expects a positive integer value. 
-     * @default 10
-     */
-    public pageSize?: number;
-
-    /**
-     * The actual page to fetch. The numbering is zero-based and expects a non-negative number. 
-     * @default 0 (first page)
-     */
-    public page?: number;
-
-    /**
-     * Decides whether or not to use the parent-grouping feature to group results. 
-     * @default false 
-     */
-    public useGrouping?: boolean;
-
-    /**
-     * Decides which ordering algorithm to use. Allowed values: "Date", "Relevance", 
-     * @default OrderBy.Date
-     */
-    public orderBy?: OrderBy;
-}
+import { QuerySettings } from './QuerySettings';
 
 /**
- * Defines the query parameters for the various API calls (find, categorize, bestBets, autocomplete, ...)
+ * Defines the query parameters for the find() and categorize() calls.
  */
-export class Query extends QueryProps {
+export class Query extends QuerySettings {
 
     /**
      * The constructor can either take the listed params as function arguments, or you can send in a object with each of the listed params as keys (JSON notation).
@@ -85,9 +21,9 @@ export class Query extends QueryProps {
      * @param useGrouping - Set to true to use the parent-grouping feature that groups the results by their parents.
      * @param orderBy - Used to change the ordering of the results. @see OrderBy.
      */
-    constructor(queryText?: string | QueryProps, searchType?: SearchType, filters?: string[], from?: Date, to?: Date, clientId?: string, pageSize?: number, page?: number, useGrouping?: boolean, orderBy?: OrderBy) {
+    constructor(queryText?: string | QuerySettings, searchType?: SearchType, filters?: string[], from?: Date, to?: Date, clientId?: string, pageSize?: number, page?: number, useGrouping?: boolean, orderBy?: OrderBy) {
         super();
-        let o: QueryProps = typeof queryText === "object" ? queryText : {} as QueryProps;
+        let o: QuerySettings = typeof queryText === "object" ? queryText : {} as QuerySettings;
         this.queryText = o.queryText || queryText as string || '';
         this.searchType = o.searchType || searchType || SearchType.Keywords;
         this.filters = o.filters || filters || [];
@@ -100,65 +36,71 @@ export class Query extends QueryProps {
         this.orderBy = o.orderBy || orderBy || OrderBy.Date;
     }
 
-    public toFindUrlParam() {
+    /**
+     * Returns the specific rest-path segment for the find url.
+     */
+    public toFindUrlParam(): string {
         let params = this.commonUrlParams();
 
         // These params are additional for the find call
         if (this.pageSize) {
-            params.push(`s=${this.pageSize.toString()}`);
+            params.push(`s=${encodeURIComponent(this.pageSize.toString())}`);
         }
 
         if (this.page) {
-            params.push(`p=${this.page.toString()}`);
+            params.push(`p=${encodeURIComponent(this.page.toString())}`);
         }
 
         if (this.useGrouping) {
-            params.push(`g=${this.useGrouping.toString()}`);
+            params.push(`g=${encodeURIComponent(this.useGrouping.toString())}`);
         }
 
         if (this.orderBy != null) {
-            params.push(`o=${OrderBy[this.orderBy]}`);
+            params.push(`o=${encodeURIComponent(OrderBy[this.orderBy])}`);
         }
         
-        return this.renderUrlParams(params);
+        return this.joinUrlParams(params);
     }
 
-    public toCategorizeUrlParam() {
+    /**
+     * Returns the specific rest-path segment for the categorize url.
+     */
+    public toCategorizeUrlParam(): string {
         // The categorize call takes only the common params from commonUrlParams()
-        return this.renderUrlParams(this.commonUrlParams());
+        return this.joinUrlParams(this.commonUrlParams());
     }
-    
+
     private commonUrlParams(): string[] {
         let params: string[] = [];
 
         if (this.queryText) {
-            params.push(`q=${this.queryText}`);
+            params.push(`q=${encodeURIComponent(this.queryText)}`);
         }
 
         if (this.searchType != null) {
-            params.push(`t=${SearchType[this.searchType]}`);
+            params.push(`t=${encodeURIComponent(SearchType[this.searchType])}`);
         }
 
         if (this.filters) {
-            params.push(`f=${this.filters.join(';')}`);
+            params.push(`f=${encodeURIComponent(this.filters.join(';'))}`);
         }
 
         if (this.from) {
-            params.push(`df=${this.from.toISOString()}`);
+            params.push(`df=${encodeURIComponent(this.from.toISOString())}`);
         }
 
         if (this.to) {
-            params.push(`dt=${this.to.toISOString()}`);
+            params.push(`dt=${encodeURIComponent(this.to.toISOString())}`);
         }
 
         if (this.clientId) {
-            params.push(`c=${this.clientId}`);
+            params.push(`c=${encodeURIComponent(this.clientId)}`);
         }
 
         return params;
     }
-
-    private renderUrlParams(params: string[]): string {
+    
+    private joinUrlParams(params: string[]): string {
         return (params && params.length > 0) ? `?${params.join('&')}` : '';
     }
 }
