@@ -1,6 +1,5 @@
 {
   "name": "search-client",
-  "private": true,
   "version": "0.3.0",
   "description": "Javascript library for executing searches in the IntelliSearch search-index via the SearchService REST interface.",
   "main": "dist/search-client.js",
