@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/IntelliSearch/search-client/compare/v0.3.1...v0.4.0) (2017-02-10)
+
+
+### Features
+
+* adds use of jwt authentication (will not renew or fetch tokens) ([91c9d7c](https://github.com/IntelliSearch/search-client/commit/91c9d7c))
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/IntelliSearch/search-client/compare/v0.3.0...v0.3.1) (2017-02-10)
 
