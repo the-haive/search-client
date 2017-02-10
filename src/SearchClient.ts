@@ -161,7 +161,7 @@ export class SearchClient {
             autocomplete = new Autocomplete(autocomplete);
         }
 
-        let mergedAutocomplete = merge(this.settings.autocomplete, autocomplete, true) as Autocomplete;
+        let mergedAutocomplete = new Autocomplete(merge(this.settings.autocomplete, autocomplete, true));
 
         const url = `${this.findUrl}${mergedAutocomplete.toUrlParam()}`;
 
@@ -189,7 +189,7 @@ export class SearchClient {
             query = new Query(query);
         }
 
-        let mergedQuery = merge(this.settings.query, query, true) as Query;
+        let mergedQuery = new Query(merge(this.settings.query, query, true));
 
         // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
 
@@ -219,7 +219,7 @@ export class SearchClient {
             query = new Query(query);
         }
 
-        let mergedQuery = merge(this.settings.query, query, true) as Query;
+        let mergedQuery = new Query(merge(this.settings.query, query, true));
 
         // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
 

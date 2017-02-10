@@ -12,11 +12,12 @@ export class Autocomplete extends AutocompleteSettings {
      * @param maxSuggestions - The number of suggestions to return. @default 10.
      * @param minQueryLength - The minimum length before starting to create suggestions. @default 2.
      */
-    constructor(queryText?: string, maxSuggestions?: number, minQueryLength?: number) {
+    constructor(queryText?: string | AutocompleteSettings, maxSuggestions?: number, minQueryLength?: number) {
         super();
-        this.queryText = queryText || "";
-        this.maxSuggestions = maxSuggestions || 10;
-        this.minQueryLength = minQueryLength || 2;
+        let o: AutocompleteSettings = typeof queryText === "object" ? queryText : {} as AutocompleteSettings;
+        this.queryText = o.queryText || queryText as string || '';
+        this.maxSuggestions = o.maxSuggestions || maxSuggestions || 10;
+        this.minQueryLength = o.minQueryLength || minQueryLength || 2;
     }
 
     /**
