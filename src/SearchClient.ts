@@ -134,10 +134,12 @@ export class SearchClient {
      */
     //constructor(settings: Settings){
     constructor(baseUrl: string, settings?: Settings) {
+        // Strip off any slashes at the end of the baseUrl
+        baseUrl = baseUrl.replace(/\/+$/, "");
+
+        // Verify the authenticity
         if (!isWebUri(baseUrl)) {
-            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: '
-            + 'http[s]://<domain.com>[:port][/path]. If using default relative endpoints then this should '
-            + 'be just the domain.com, without additional path and without trailing slash.');
+            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
         }
 
         // The domain-task fetch needs tis for non-browser environments.
@@ -163,21 +165,20 @@ export class SearchClient {
 
         let mergedAutocomplete = new Autocomplete(merge(this.settings.autocomplete, autocomplete, true));
 
-        const url = `${this.findUrl}${mergedAutocomplete.toUrlParam()}`;
+        const url = `${this.autocompleteUrl}${mergedAutocomplete.toUrlParam()}`;
 
         return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
                 }
                 return response.json();
             })
-            .then((response: string[]) => {
-                return response;
+            .then((suggestions: string[]) => {
+                return suggestions;
             })
             .catch(error => {
-                console.error(error);
-                return Promise.reject(new Error(`'autocomplete' failed for request url '${url}': ${error.stack}`));
+                return Promise.reject(error);
             });
     }
 
@@ -198,16 +199,15 @@ export class SearchClient {
         return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
                 }
                 return response.json();
             })
-            .then((response: Matches) => {
-                return response;
+            .then((matches: Matches) => {
+                return matches;
             })
             .catch(error => {
-                console.error(error);
-                return Promise.reject(new Error(`'find' failed for request url '${url}': ${error.stack}`));
+                return Promise.reject(error);
             });
     }
 
@@ -228,16 +228,15 @@ export class SearchClient {
         return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
                 }
                 return response.json();
             })
-            .then((response: Categories) => {
-                return response;
+            .then((categories: Categories) => {
+                return categories;
             })
             .catch(error => {
-                console.error(error);
-                return Promise.reject(new Error(`'categorize' failed for request url '${url}': ${error}`));
+                return Promise.reject(error);
             });
     }
 
@@ -248,16 +247,15 @@ export class SearchClient {
         return fetch(this.allCategoriesUrl, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText} for request url '${this.allCategoriesUrl}'`);
+                    throw Error(`${response.status} ${response.statusText} for request url '${this.allCategoriesUrl}'`);
                 }
                 return response.json();
             })
-            .then((response: Categories) => {
-                return response;
+            .then((categories: Categories) => {
+                return categories;
             })
             .catch(error => {
-                console.error(error);
-                return Promise.reject(new Error(`'categorize' failed for request url '${this.allCategoriesUrl}': ${error}`));
+                return Promise.reject(error);
             });
     }
 
@@ -268,16 +266,15 @@ export class SearchClient {
         return fetch(this.bestBetsUrl, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText} for request url '${this.bestBetsUrl}'`);
+                    throw Error(`${response.status} ${response.statusText} for request url '${this.bestBetsUrl}'`);
                 }
                 return response.json();
             })
-            .then((response: string[]) => {
-                return response;
+            .then((bestBets: string[]) => {
+                return bestBets;
             })
             .catch(error => {
-                console.error(error);
-                return Promise.reject(new Error(`'categorize' failed for request url '${this.bestBetsUrl}': ${error}`));
+                return Promise.reject(error);
             });
     }
 
