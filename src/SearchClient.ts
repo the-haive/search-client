@@ -298,8 +298,9 @@ export class SearchClient {
 
     private requestObject() {
         let requestInit = { credentials: "include"} as RequestInit;
+        requestInit.headers = new Headers();
         if (this.settings.authenticationToken) {
-            requestInit = merge(requestInit, { headers: { Authorization: `Bearer ${this.settings.authenticationToken}`}}) as RequestInit;
+            requestInit.headers.append("Authorization", `Bearer ${this.settings.authenticationToken}`);
         }
         return requestInit;
     }
