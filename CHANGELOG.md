@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/IntelliSearch/search-client/compare/v0.4.1...v0.4.2) (2017-02-15)
+
+
+### Bug Fixes
+
+* Better way of adding authorization headers ([323bf8e](https://github.com/IntelliSearch/search-client/commit/323bf8e))
+* Minor issue with what settings object to accept as param for autocomplete, find and categorize ([b49123a](https://github.com/IntelliSearch/search-client/commit/b49123a))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/IntelliSearch/search-client/compare/v0.4.0...v0.4.1) (2017-02-15)
 
