@@ -4,10 +4,12 @@ import { baseUrl as rootUrl } from 'domain-task/fetch';
 import { isWebUri } from 'valid-url';
 
 import { Autocomplete } from './Autocomplete';
+import { AutocompleteSettings } from './AutocompleteSettings';
 import { Categories } from './Categories';
 import { Matches } from './Matches';
 import { Settings } from './Settings';
 import { Query } from './Query';
+import { QuerySettings } from './QuerySettings';
 
 export * from './Autocomplete';
 export * from './AutocompleteSettings';
@@ -158,7 +160,7 @@ export class SearchClient {
     /**
      * Executes autocomplete() on the server and returns the results (string[]) as a promise.
      */
-    public autocomplete(autocomplete?: Autocomplete | string): Promise<string[]> {
+    public autocomplete(autocomplete?: AutocompleteSettings | string): Promise<string[]> {
         if (typeof autocomplete === "string") {
             autocomplete = new Autocomplete(autocomplete);
         }
@@ -185,7 +187,7 @@ export class SearchClient {
     /**
      * Executes a find() on the server and returns the results (Matches) as a promise.
      */
-    public find(query?: Query | string): Promise<Matches> {
+    public find(query?: QuerySettings | string): Promise<Matches> {
         if (typeof query === "string") {
             query = new Query(query);
         }
@@ -214,7 +216,7 @@ export class SearchClient {
     /**
      * Executes a categorize() on the server and returns the results (Categories) as a promise.
      */
-    public categorize(query?: Query | string): Promise<Categories> {
+    public categorize(query?: QuerySettings | string): Promise<Categories> {
         if (typeof query === "string") {
             query = new Query(query);
         }

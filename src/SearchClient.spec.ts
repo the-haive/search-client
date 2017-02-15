@@ -6,7 +6,13 @@ import 'jest';
 require("babel-core/register");
 require("babel-polyfill");
 
-import { SearchClient, Query, Matches, Categories, Autocomplete } from "./SearchClient";
+import {
+    AutocompleteSettings,
+    Categories,
+    Matches,
+    QuerySettings,
+    SearchClient
+} from './SearchClient';
 
 describe("SearchClient basics", () => {
 
@@ -50,7 +56,7 @@ describe("SearchClient live tests (require empty search-service to be instantiat
 
     it("Should get an Autocomplete lookup for Autocomplete options with 0 suggestions on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-        return searchClient.autocomplete({ queryText:"test" } as Autocomplete)
+        return searchClient.autocomplete({ queryText: "test" } as AutocompleteSettings)
         .then((suggestions: string[]) => {
             expect(suggestions.length).toEqual(0);
         });
@@ -66,7 +72,7 @@ describe("SearchClient live tests (require empty search-service to be instantiat
 
     it("Should get a Find result for Query options with 0 matches on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-        return searchClient.find({ queryText:"test" } as Query)
+        return searchClient.find({ queryText: "test" } as QuerySettings)
         .then((matches: Matches) => {
             expect(matches.searchMatches.length).toEqual(0);
         });
@@ -82,7 +88,7 @@ describe("SearchClient live tests (require empty search-service to be instantiat
 
     it("Should get a Categorize result for Query with 0 categories on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-        return searchClient.categorize({ queryText: "test"} as Query)
+        return searchClient.categorize({ queryText: "test"} as QuerySettings)
         .then((categories: Categories) => {
             expect(categories.matchCount).toEqual(0);
         });
