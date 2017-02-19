@@ -3,9 +3,6 @@ var webpack = require('webpack');
 var browserify = require('browserify');
 var path = require('path');
 var fs = require('fs');
-var os = require('os');
-var dts = require('dts-bundle');
-var deleteEmpty = require('delete-empty');
 
 /* helper function to get into build directory */
 var libPath = function(name) {
@@ -49,89 +46,10 @@ var percentage_handler = function handler(percentage, msg) {
 	if ( 0 === percentage ) {
 		/* Build Started */
 		outputCleanup(libPath(), true);
-		console.log("Build started... Good luck!");
+		console.log("Build started...");
 	} else if ( 1 === percentage ) {
-		// TODO: No Error detection. :(
 		create_browser_version(webpack_opts.output.filename);
-
-		// Invokes dts bundling
-		console.log("Bundling d.ts files ...");
-		dts.bundle(bundle_opts);
-
-		// Invokes lib/ cleanup
-		deleteEmpty(bundle_opts.baseDir, function(err, deleted) {
-			if ( err ) {
-				console.error("Couldn't clean up : " + err);
-				throw err;
-			} else {
-				console.log("Cleanup " + deleted);
-			}
-		});
 	}
-};
-
-var bundle_opts = {
-
-	// Required
-
-	// name of module likein package.json
-	// - used to declare module & import/require
-	name: 'search-client',
-	// path to entry-point (generated .d.ts file for main module)
-	// if you want to load all .d.ts files from a path recursively you can use "path/project/**/*.d.ts"
-	//  ^ *** Experimental, TEST NEEDED, see "All .d.ts files" section
-	// - either relative or absolute
-	main: 'src/SearchClient.d.ts',
-
-	// Optional
-
-	// base directory to be used for discovering type declarations (i.e. from this project itself)
-	// - default: dirname of main
-	baseDir: 'src',
-	// path of output file. Is relative from baseDir but you can use absolute paths.
-	// if starts with "~/" then is relative to current path. See https://github.com/TypeStrong/dts-bundle/issues/26
-	//  ^ *** Experimental, TEST NEEDED
-	// - default: "<baseDir>/<name>.d.ts"
-	out: '../dist/search-client.d.ts',
-	// include typings outside of the 'baseDir' (i.e. like node.d.ts)
-	// - default: false
-	externals: false,
-	// reference external modules as <reference path="..." /> tags *** Experimental, TEST NEEDED
-	// - default: false
-	referenceExternals: false,
-	// filter to exclude typings, either a RegExp or a callback. match path relative to opts.baseDir
-	// - RegExp: a match excludes the file
-	// - function: (file:String, external:Boolean) return true to exclude, false to allow
-	// - always use forward-slashes (even on Windows)
-	// - default: *pass*
-	exclude: /^defs\/$/,
-	// delete all source typings (i.e. "<baseDir>/**/*.d.ts")
-	// - default: false
-	removeSource: true,
-	// newline to use in output file
-	newline: os.EOL,
-	// indentation to use in output file
-	// - default 4 spaces
-	indent: '  ',
-	// prefix for rewriting module names
-	// - default ''
-	prefix: '',
-	// separator for rewriting module 'path' names
-	// - default: forward slash (like sub-modules)
-	separator: '/',
-	// enable verbose mode, prints detailed info about all references and includes/excludes
-	// - default: false
-	verbose: false,
-	// emit although included files not found. See "Files not found" section.
-	// *** Experimental, TEST NEEDED
-	// - default: false
-	emitOnIncludedFileNotFound: false,
-	// emit although no included files not found. See "Files not found" section.
-	// *** Experimental, TEST NEEDED
-	// - default: false
-	emitOnNoIncludedFileNotFound: false,
-	// output d.ts as designed for module folder. (no declare modules)
-	outputAsModuleFolder: false
 };
 
 var webpack_opts = {
@@ -142,25 +60,34 @@ var webpack_opts = {
 		libraryTarget: "commonjs2"
 	},
 	resolve: {
-		extensions: ['', '.ts', 'tsx', '.js', '.jsx'],
+		extensions: ['.ts', 'tsx', '.js', '.jsx'],
 		modules: [
 			'node_modules',
 			'src'
 		]
 	},
 	module: {
-		preLoaders: [{ test: /\.ts$/, loaders: ['tslint'] }],
-		loaders: [{ test: /\.ts$/, loaders: ['babel-loader', 'awesome-typescript-loader'] }]
+		rules: [
+			{
+				test: /\.tsx?$/,
+				enforce: 'pre',
+				loader: 'tslint-loader',
+				options:{
+					emitErrors: false,
+					failOnHint: false,
+				}
+			},
+			{
+				test: /\.tsx?$/,
+				loaders: ['awesome-typescript-loader'],
+			}
+		]
 	},
 	externals: [nodeExternals()],
 	plugins: [
-		new webpack.optimize.UglifyJsPlugin(),
+		//new webpack.optimize.UglifyJsPlugin(),
 		new webpack.ProgressPlugin(percentage_handler)
-	],
-	tslint: {
-		emitErrors: true,
-		failOnHint: true
-	}
+	]
 };
 
 var create_browser_version = function (inputJs) {
@@ -169,13 +96,15 @@ var create_browser_version = function (inputJs) {
 	console.log("Creating browser version ...");
 
 	let b = browserify(inputJs, {
-		standalone: bundle_opts.name
+		standalone: 'search-client' //bundle_opts.name
 	});
 
 	b.bundle(function(err, src) {
 		if ( err !== null ) {
 			console.error("Browserify error:");
 			console.error(err);
+		} else {
+			console.log("Browser version created.");
 		}
 	}).pipe(fs.createWriteStream(outputName));
 };

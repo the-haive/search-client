@@ -5,7 +5,7 @@ export * from './SearchType';
 export * from './OrderBy';
 
 /**
- * These are all the settigns that can affect the returned Matches for find() and Categories for categorize().
+ * These are all the settings that can affect the returned Matches for find() and Categories for categorize().
  */
 export class QuerySettings {
 

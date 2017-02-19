@@ -2,6 +2,7 @@ import { AutocompleteSettings } from './AutocompleteSettings';
 import { QuerySettings } from './QuerySettings';
 import { Matches } from './Matches';
 import { Categories } from './Categories';
+import { UrlSettings } from './UrlSettings';
 
 /**
  * Settings as used by the SearchClient.
@@ -24,35 +25,17 @@ export class Settings {
 
     /**
      * Options for overriding the url for the various search endpoints.
-     * 
-     * @type {{
-     *         // The endpoint url for the find REST API
-     *         find?: string,
-     *         // The endpoint url for the categorize REST API
-     *         categorize?: string,
-     *         // The endpoint url for the autocomplete REST API
-     *         autocomplete?: string,
-     *         // The endpoint url for the allCategories REST API
-     *         allCategories?: string,
-     *         // The endpoint url for the bestBets REST API
-     *         bestBets?: string
-     *     }}
      */
-    public url?: {
-        find?: string,
-        categorize?: string,
-        autocomplete?: string,
-        allCategories?: string,
-        bestBets?: string
-    };
+    public url?: UrlSettings;
 
     /**
      * Creates an instance of Settings.
      * 
-     * @param {Settings} [settings={ callback: {}, url: {}}]
+     * @default { authenticationToken: undefined, autocomplete: {}, query: {}, url: {} }
      */
     constructor(settings?: Settings) {
         settings = settings || {};
+        this.authenticationToken = settings.authenticationToken;
         this.autocomplete = settings.autocomplete !== undefined ? settings.autocomplete : {};
         this.query        = settings.query        !== undefined ? settings.query        : {};
         this.url          = settings.url          !== undefined ? settings.url          : {};

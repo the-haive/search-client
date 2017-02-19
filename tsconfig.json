@@ -10,7 +10,8 @@
 		"emitDecoratorMetadata": true,
 		"sourceMap": true,
 		"declaration": true,
-		"outDir": "dist",
+		"declarationDir": "src",
+		"outDir": "tmp",
 		"removeComments": false,
 		"typeRoots": [
 			"node_modules/@types"

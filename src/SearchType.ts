@@ -10,5 +10,5 @@ export enum SearchType {
     /**
      * Find results via relevance-mode (OR-search)
      */
-    Relevance
+    Relevance,
 }

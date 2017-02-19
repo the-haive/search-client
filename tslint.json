@@ -7,13 +7,11 @@
 		"quotemark": [
 			false
 		],
-		"no-unused-variable": [
-			false
-		],
 		"max-line-length": [
 			false
 		],
 		"no-trailing-whitespace": false,
+		"ordered-imports": false,
 		"interface-name": [
 			false
 		]

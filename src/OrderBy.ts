@@ -10,5 +10,5 @@ export enum OrderBy {
     /**
      * Order results by Relevance, highest first.
      */
-    Relevance
+    Relevance,
 }
