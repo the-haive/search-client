@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.4"></a>
+## [0.4.4](https://github.com/IntelliSearch/search-client/compare/v0.4.3...v0.4.4) (2017-02-20)
+
+
+### Bug Fixes
+
+* Make the search-client.d.ts be generated as module ([d05fff1](https://github.com/IntelliSearch/search-client/commit/d05fff1))
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/IntelliSearch/search-client/compare/v0.4.2...v0.4.3) (2017-02-19)
 
