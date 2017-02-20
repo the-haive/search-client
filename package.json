@@ -12,7 +12,7 @@
   },
   "scripts": {
     "prebuild": "yarn install",
-    "build": "rimraf dist & webpack & tsc -d --outdir tmp & dts-bundle --name search-client --main src/SearchClient.d.ts --out ../dist/search-client.d.ts & rimraf tmp src/*.d.ts",
+    "build": "rimraf dist & webpack & tsc -d --module commonjs --target es5 --outdir tmp & dts-bundle --name search-client --main src/SearchClient.d.ts --outputAsModuleFolder --out ../dist/search-client.d.ts & rimraf tmp src/*.d.ts",
     "test": "jest",
     "test:watch": "yarn test -- --watch",
     "coverage": "yarn test -- --coverage --no-cache",
