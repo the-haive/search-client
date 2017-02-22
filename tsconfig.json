@@ -1,17 +1,16 @@
 {
 	"compilerOptions": {
-		"experimentalDecorators": true,
-		"lib": ["es6", "dom"],
+		"moduleResolution": "node",
 		"module": "commonjs",
-		"target": "es6",
+		"target": "es5",
+		"declaration": true,
+		"sourceMap": true,
+		"outDir": "dist",
+		"lib": ["es6", "dom"], 
+		"experimentalDecorators": true,
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
-		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
-		"sourceMap": true,
-		"declaration": true,
-		"declarationDir": "src",
-		"outDir": "tmp",
 		"removeComments": false,
 		"typeRoots": [
 			"node_modules/@types"
@@ -20,7 +19,10 @@
 			"@types/node"
 		]
 	},
-	"files": [
-		"src/SearchClient.ts"
+	"include": [
+		"src"
+	],
+	"exclude": [
+		"node_modules"
 	]
 }

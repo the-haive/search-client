@@ -2,8 +2,8 @@
   "name": "search-client",
   "version": "0.4.5",
   "description": "Javascript library for executing searches in the IntelliSearch search-index via the SearchService REST interface.",
-  "main": "dist/search-client.js",
-  "typings": "dist/search-client.d.ts",
+  "main": "dist/main.js",
+  "typings": "dist/main.d.ts",
   "jam": {
     "main": "./dist/search-client.browser.js"
   },
@@ -19,6 +19,7 @@
     "coverage:watch": "yarn run coverage -- --watch",
     "doc": "rimraf doc & typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --mode file --experimentalDecorators --target ES6 --out ./doc/",
     "prerelease": "yarn run build && yarn test && yarn run doc",
+    "prepublish": "tsc",
     "release": "standard-version && yarn pack"
   },
   "repository": {
