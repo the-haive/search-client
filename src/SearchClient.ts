@@ -97,7 +97,7 @@ export class SearchClient {
 
         let mergedAutocomplete = new Autocomplete(merge(this.settings.autocomplete, autocomplete, true));
 
-        const url = `${this.autocompleteUrl}${mergedAutocomplete.toUrlParam()}`;
+        let url = `${this.autocompleteUrl}${mergedAutocomplete.toUrlParam()}`;
 
         return fetch(this.requestObject(url))
             .then((response: Response) => {
@@ -126,7 +126,7 @@ export class SearchClient {
 
         // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
 
-        const url = `${this.findUrl}${mergedQuery.toFindUrlParam()}`;
+        let url = `${this.findUrl}${mergedQuery.toFindUrlParam()}`;
 
         return fetch(this.requestObject(url))
             .then((response: Response) => {
@@ -155,7 +155,7 @@ export class SearchClient {
 
         // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
 
-        const url = `${this.categorizeUrl}${mergedQuery.toCategorizeUrlParam()}`;
+        let url = `${this.categorizeUrl}${mergedQuery.toCategorizeUrlParam()}`;
 
         return fetch(this.requestObject(url))
             .then((response: Response) => {
