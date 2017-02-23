@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.7"></a>
+## [0.4.7](https://github.com/IntelliSearch/search-client/compare/v0.4.6...v0.4.7) (2017-02-23)
+
+
+### Bug Fixes
+
+* Cannot have const url ([cd8e5c1](https://github.com/IntelliSearch/search-client/commit/cd8e5c1))
+
+
+
 <a name="0.4.6"></a>
 ## [0.4.6](https://github.com/IntelliSearch/search-client/compare/v0.4.5...v0.4.6) (2017-02-23)
 
