@@ -99,7 +99,7 @@ export class SearchClient {
 
         let url = `${this.autocompleteUrl}${mergedAutocomplete.toUrlParam()}`;
 
-        return fetch(this.requestObject(url))
+        return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -128,7 +128,7 @@ export class SearchClient {
 
         let url = `${this.findUrl}${mergedQuery.toFindUrlParam()}`;
 
-        return fetch(this.requestObject(url))
+        return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -157,7 +157,7 @@ export class SearchClient {
 
         let url = `${this.categorizeUrl}${mergedQuery.toCategorizeUrlParam()}`;
 
-        return fetch(this.requestObject(url))
+        return fetch(url, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -176,7 +176,7 @@ export class SearchClient {
      * Executes an allCategories() on the server and returns the results (Categories) as a promise.
      */
     public allCategories(): Promise<Categories> {
-        return fetch(this.requestObject(this.allCategoriesUrl))
+        return fetch(this.allCategoriesUrl, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${this.allCategoriesUrl}'`);
@@ -195,7 +195,7 @@ export class SearchClient {
      * Executes a bestBets() call on the server and returns the results (string[]) as a promise.
      */
     public bestBets(): Promise<string[]> {
-        return fetch(this.requestObject(this.bestBetsUrl))
+        return fetch(this.bestBetsUrl, this.requestObject())
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${this.bestBetsUrl}'`);
@@ -226,20 +226,21 @@ export class SearchClient {
         console.error("SearchClient.monitor(): Not implemented yet");
     }
 
-    private requestObject(url: string) {
+    private requestObject(): RequestInit {
         let headers = new Headers();
         headers.set("Content-Type", "application/json");
 
         if (this.settings.authenticationToken) {
             headers.set("Authorization", `Bearer ${this.settings.authenticationToken}`);
         }
-        let request = new Request(url, { 
+
+        let request = { 
             cache: 'default',
             credentials: "include",
             headers,
             method: 'GET',
             mode: 'cors',
-        });
+        } as RequestInit;
         return request;
     }
 }
