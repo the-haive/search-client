@@ -2,25 +2,22 @@
   "name": "search-client",
   "version": "0.4.5",
   "description": "Javascript library for executing searches in the IntelliSearch search-index via the SearchService REST interface.",
-  "main": "dist/main.js",
-  "typings": "dist/main.d.ts",
-  "jam": {
-    "main": "./dist/search-client.browser.js"
-  },
+  "main": "dist/SearchClient.js",
   "browser": {
-    "dist/search-client.js": "./dist/search-client.browser.js"
+    "./dist/SearchClient.bundle.js": "./dist/SearchClient.bundle.js",
+    "./dist/SearchClient.bundle.min.js": "./dist/SearchClient.bundle.min.js"
   },
+  "typings": "dist/SearchClient.d.ts",
   "scripts": {
-    "prebuild": "yarn install",
-    "build": "rimraf dist & webpack & tsc -d --module commonjs --target es5 --outdir tmp & dts-bundle --name search-client --main src/SearchClient.d.ts --outputAsModuleFolder --out ../dist/search-client.d.ts & rimraf tmp src/*.d.ts",
-    "test": "jest",
-    "test:watch": "yarn test -- --watch",
-    "coverage": "yarn test -- --coverage --no-cache",
-    "coverage:watch": "yarn run coverage -- --watch",
-    "doc": "rimraf doc & typedoc ./src/ --exclude node_modules --ignoreCompilerErrors --mode file --experimentalDecorators --target ES6 --out ./doc/",
-    "prerelease": "yarn run build && yarn test && yarn run doc",
-    "prepublish": "tsc",
-    "release": "standard-version && yarn pack"
+    "prelint": "yarn install",
+    "lint": "echo. && echo *** Linting... && yarn run tslint -- src/*.ts && echo Lint success.",
+    "prebuild": "yarn run lint",
+    "build": "echo. && echo *** Building... && yarn run rimraf -- dist && yarn run tsc && yarn run simplifyify -- --bundle --debug --minify --test --outfile dist/SearchClient.bundle.js dist/SearchClient.js && echo *** Build success.",
+    "pretest": "yarn run build",
+    "test": "echo. && echo *** Test not implemented yet!",
+    "doc": "echo. && echo *** Documenting... && yarn run rimraf -- doc && yarn run typedoc -- ./src/ --exclude node_modules --ignoreCompilerErrors --mode file --experimentalDecorators --target ES6 --out ./doc/ && echo *** Documentation created: doc/index.html",
+    "prepack": "yarn run test && yarn run doc && echo *** Pre-release success. && echo - If ready to release, commit changes and then 'yarn run release'. && echo - Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md",
+    "pack": "echo. && echo *** Packing... && yarn run standard-version && yarn pack && echo Pack success. && echo - Release notes created and committed. && echo - Package created. && echo - Remember to git-push commits and tags to the git-origin! && echo - Run 'npm publish' to publish the package to the npmjs repository."
   },
   "repository": {
     "type": "git",
@@ -42,42 +39,20 @@
   },
   "homepage": "https://github.com/intellisearch/search-client#readme",
   "devDependencies": {
-    "@types/deepmerge": "~1.3.0",
-    "@types/jest": "~18.1.0",
-    "@types/node": "~6.0.62",
-    "@types/valid-url": "~1.0.2",
-    "@types/whatwg-fetch": "^0.0.33",
-    "awesome-typescript-loader": "^3.0.4",
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015": "~6.22.0",
-    "browserify": "^14.1.0",
-    "deepmerge": "~1.3.0",
-    "delete-empty": "~0.1.3",
-    "domain-task": "~2.0.3",
-    "dts-bundle": "~0.7.2",
-    "jest": "~18.1.0",
-    "standard-version": "~4.0.0",
-    "ts-jest": "~18.0.3",
+    "@types/node": "^7.0.5",
+    "rimraf": "^2.6.0",
+    "simplifyify": "^3.2.1",
+    "standard-version": "^4.0.0",
     "tslint": "^4.4.2",
-    "tslint-loader": "^3.4.2",
     "typedoc": "~0.5.5",
-    "typescript": "~2.1.0",
-    "valid-url": "~1.0.9",
-    "webpack": "^2.2.1",
-    "webpack-node-externals": "~1.5.4"
+    "typescript": "~2.1.0"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest/preprocessor.js"
-    },
-    "testEnvironment": "node",
-    "testRegex": ".*\\.spec\\.ts$",
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json"
-    ]
+  "dependencies": {
+    "@types/deepmerge": "^1.3.0",
+    "@types/valid-url": "^1.0.2",
+    "@types/whatwg-fetch": "^0.0.33",
+    "deepmerge": "^1.3.2",
+    "domain-task": "^3.0.0",
+    "valid-url": "^1.0.9"
   }
 }

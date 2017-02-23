@@ -6,7 +6,7 @@
 		"declaration": true,
 		"sourceMap": true,
 		"outDir": "dist",
-		"lib": ["es6", "dom"], 
+		"lib": [ "es6", "dom" ],
 		"experimentalDecorators": true,
 		"noImplicitAny": true,
 		"suppressImplicitAnyIndexErrors": true,
@@ -14,13 +14,10 @@
 		"removeComments": false,
 		"typeRoots": [
 			"node_modules/@types"
-		],
-		"types": [
-			"@types/node"
 		]
 	},
-	"include": [
-		"src"
+	"files": [
+		"src/SearchClient.ts"
 	],
 	"exclude": [
 		"node_modules"

@@ -11,7 +11,9 @@
 			false
 		],
 		"no-trailing-whitespace": false,
-		"ordered-imports": false,
+		"ordered-imports": [
+			false
+		],
 		"interface-name": [
 			false
 		]
