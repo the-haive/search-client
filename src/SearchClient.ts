@@ -1,246 +1,316 @@
 import * as merge from 'deepmerge';
-import { fetch } from 'domain-task';
-import { baseUrl as rootUrl } from 'domain-task/fetch';
-import { isWebUri } from 'valid-url';
-
-import { Autocomplete } from './Autocomplete';
-import { AutocompleteSettings } from './AutocompleteSettings';
-import { Categories } from './Categories';
-import { Matches } from './Matches';
-import { Settings } from './Settings';
-import { Query } from './Query';
-import { QuerySettings } from './QuerySettings';
-
-import { Triggers } from './Triggers';
-import { CallbackHandlers } from './CallbackHandlers';
-
+import * as equal from 'deep-equal';
+export * from './Common';
+export * from './Data';
+export * from './Authentication';
+export * from './AllCategories';
 export * from './Autocomplete';
-export * from './AutocompleteSettings';
-export * from './Categories';
-export * from './Category';
-export * from './Group';
-export * from './Matches';
-export * from './MatchItem';
-export * from './MetaList';
-export * from './OrderBy';
-export * from './Query';
-export * from './QuerySettings';
-export * from './SearchType';
-export * from './Settings';
-export * from './UrlSettings';
+export * from './BestBets';
+export * from './Categorize';
+export * from './Find';
 
-/**
- * The SearchClient class contains methods to handle the IntelliSearch Search Service REST functionality.
- * 
- * Use the constructor to create an instance where you pass initialization values. 
- * 
- * You can use the "low-level" autocomplete(), find(), categorize(), allCategories() and bestBets() calls 
- * where the results are returned via Promises for simplicity.
- * 
- * Coming:
- * Alternatively, you can also use the monitor() call and pass DOM elements for the query-field, optionally 
- * a search-button as well as Triggers and CallbackHandlers. When any of the triggers detect a need to rerun 
- * any of the aforementioned calls the results will be called into the registered callback-handlers. You can 
- * then focus on presenting data as they appear in your callback-handlers.
- */
-export class SearchClient {
-    /** The endpoint url for the autocomplete() call. */
-    public autocompleteUrl: string;
-    /** The endpoint url for the allCategories() call. */
-    public allCategoriesUrl: string;
-    /** The endpoint url for the bestBets() call. */
-    public bestBetsUrl: string;
-    /** The endpoint url for the categorize() call. */
-    public categorizeUrl: string;
-    /** The endpoint url for the find() call. */
-    public findUrl: string;
+import { OrderBy } from './Common/OrderBy';
+import { SearchType } from './Common/SearchType';
+import { Settings } from './Common/Settings';
+import { Query } from './Common/Query';
+
+import { AuthToken } from './Authentication/AuthToken';
+import { Authentication } from './Authentication/Authentication';
+
+import { AllCategories } from './AllCategories/AllCategories';
+import { Autocomplete } from './Autocomplete/Autocomplete';
+import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
+import { AutocompleteTrigger } from './Autocomplete/AutocompleteTrigger';
+import { BestBets } from './BestBets/BestBets';
+import { Categorize } from './Categorize/Categorize';
+import { Find } from './Find/Find';
+import { DateSpecification } from './Common/Query';
+
+export class SearchClient implements AuthToken {
+    public authenticationToken: string;
+
+    public allCategories: AllCategories;
+
+    public authentication: Authentication;
+
+    public autocomplete: Autocomplete;
+
+    public bestBets: BestBets;
+
+    public categorize: Categorize;
+    
+    public find: Find;
+
+    private query: Query;
 
     private settings: Settings;
-
-    /** 
-     * The SearchClient constructor allows you to create a 'search-client' instance that allows
-     * execuing find(), categorize(), autocomplete(), bestBets() and allCategories() calls on the 
-     * search engine that it connects to.
-     * @param baseUrl - The baseUrl for the search-engine, typically 'http:<search-server.domain>/RestService/v3/'
-     * @param settings - A settings object for more control of initialization values.
-     */
-    //constructor(settings: Settings){
+    
     constructor(baseUrl: string, settings?: Settings) {
-        // Strip off any slashes at the end of the baseUrl
-        baseUrl = baseUrl.replace(/\/+$/, "");
+        this.settings = settings || new Settings();
 
-        // Verify the authenticity
-        if (!isWebUri(baseUrl)) {
-            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
+        if (this.settings.allCategories.enabled) {
+            this.allCategories = new AllCategories(baseUrl, this.settings.allCategories, this);
         }
 
-        // The domain-task fetch needs tis for non-browser environments.
-        let match = baseUrl.split('/');
-        rootUrl(`${match[0]}//${match[2]}/`);
-
-        this.settings = new Settings(settings);
-
-        this.allCategoriesUrl = baseUrl + (this.settings.url.allCategories || '/search/allcategories');
-        this.autocompleteUrl = baseUrl + (this.settings.url.autocomplete || '/autocomplete');
-        this.bestBetsUrl = baseUrl + (this.settings.url.bestBets || '/manage/bestbets');
-        this.categorizeUrl = baseUrl + (this.settings.url.categorize || '/search/categorize');
-        this.findUrl = baseUrl + (this.settings.url.find || '/search/find');
-    }
-
-    /**
-     * Executes autocomplete() on the server and returns the results (string[]) as a promise.
-     */
-    public autocomplete(autocomplete?: AutocompleteSettings | string): Promise<string[]> {
-        if (typeof autocomplete === "string") {
-            autocomplete = new Autocomplete(autocomplete);
+        if (this.settings.authentication.enabled) {
+            this.authentication = new Authentication(baseUrl, this.settings.authentication, this);
         }
 
-        let mergedAutocomplete = new Autocomplete(merge(this.settings.autocomplete, autocomplete, true));
-
-        let url = `${this.autocompleteUrl}${mergedAutocomplete.toUrlParam()}`;
-
-        return fetch(url, this.requestObject())
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((suggestions: string[]) => {
-                return suggestions;
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
-    }
-
-    /**
-     * Executes a find() on the server and returns the results (Matches) as a promise.
-     */
-    public find(query?: QuerySettings | string): Promise<Matches> {
-        if (typeof query === "string") {
-            query = new Query(query);
+        if (this.settings.autocomplete.enabled) {
+            this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this);
         }
 
-        let mergedQuery = new Query(merge(this.settings.query, query, true));
-
-        // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
-
-        let url = `${this.findUrl}${mergedQuery.toFindUrlParam()}`;
-
-        return fetch(url, this.requestObject())
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((matches: Matches) => {
-                return matches;
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
-    }
-
-    /**
-     * Executes a categorize() on the server and returns the results (Categories) as a promise.
-     */
-    public categorize(query?: QuerySettings | string): Promise<Categories> {
-        if (typeof query === "string") {
-            query = new Query(query);
+        if (this.settings.bestBets.enabled) {
+            this.bestBets = new BestBets(baseUrl, this.settings.bestBets, this);
         }
 
-        let mergedQuery = new Query(merge(this.settings.query, query, true));
-
-        // TODO: State the query, so that we can do actions, such as nextPage(), prevPage(), addFilter(), removeFilter(), setQuerytext(), setSearchType(), setOrderBy().
-
-        let url = `${this.categorizeUrl}${mergedQuery.toCategorizeUrlParam()}`;
-
-        return fetch(url, this.requestObject())
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((categories: Categories) => {
-                return categories;
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
-    }
-
-    /**
-     * Executes an allCategories() on the server and returns the results (Categories) as a promise.
-     */
-    public allCategories(): Promise<Categories> {
-        return fetch(this.allCategoriesUrl, this.requestObject())
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${this.allCategoriesUrl}'`);
-                }
-                return response.json();
-            })
-            .then((categories: Categories) => {
-                return categories;
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
-    }
-
-    /**
-     * Executes a bestBets() call on the server and returns the results (string[]) as a promise.
-     */
-    public bestBets(): Promise<string[]> {
-        return fetch(this.bestBetsUrl, this.requestObject())
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${this.bestBetsUrl}'`);
-                }
-                return response.json();
-            })
-            .then((bestBets: string[]) => {
-                return bestBets;
-            })
-            .catch((error) => {
-                return Promise.reject(error);
-            });
-    }
-
-    /**
-     * Monitors the given query input-element for changes and for clicks on the searchButton. 
-     * According to the passed Rules, execute a find() and/or categorize(). 
-     * When search-results are returned, deliver these to the passed FindHandler and/or CategorizeHandler.
-     * 
-     * @param {HTMLElement} queryField The html element to monitor for input
-     * @param {HTMLElement} searchButton The html element that acts as a search-button
-     * @param {Triggers} triggers A list of Trigger rules for each search-operation (autocomplete, find, categorize) 
-     *   that define when each of them are to be executed in regards to what state the input query-field is in.
-     * @param {Handlers} handlers A set of handlers for each search-operation (autocomplete, find, categorize), so 
-     *   that the search-client knows which callback to use for returning results.
-     */
-    public monitor(queryField: HTMLElement, searchButton: HTMLElement, triggers: Triggers, callbackHandlers: CallbackHandlers) {
-        console.error("SearchClient.monitor(): Not implemented yet");
-    }
-
-    private requestObject(): RequestInit {
-        let headers = new Headers();
-        headers.set("Content-Type", "application/json");
-
-        if (this.settings.authenticationToken) {
-            headers.set("Authorization", `Bearer ${this.settings.authenticationToken}`);
+        if (this.settings.categorize.enabled) {
+            this.categorize = new Categorize(baseUrl, this.settings.categorize, this);
         }
 
-        let request = { 
-            cache: 'default',
-            credentials: "include",
-            headers,
-            method: 'GET',
-            mode: 'cors',
-        } as RequestInit;
-        return request;
+        if (this.settings.find.enabled) {
+            this.find = new Find(baseUrl, this.settings.find, this);
+        }
+
+        this.query = this.settings.query;
+    }
+
+    // public monitor(queryElm: Element) {
+    //     throw Error("Not implemented yet!");
+    // }
+
+    get clientId(): string {
+        return this.query.clientId;
+    }
+
+    set clientId(clientId: string) {
+        if (clientId !== this.query.clientId) {
+            let oldValue = this.query.clientId; 
+            this.query.clientId = clientId;
+
+            this.autocomplete.clientIdChanged(oldValue, this.query);
+            this.categorize.clientIdChanged(oldValue, this.query);
+            this.find.clientIdChanged(oldValue, this.query);
+        }
+    }
+
+    get dateFrom(): DateSpecification {
+        return this.query.dateFrom;
+    }
+
+    set dateFrom(from: DateSpecification) {
+        if (!equal(from, this.query.dateFrom)) {
+            let oldValue = this.query.dateFrom; // clone
+            this.query.dateFrom = from;
+
+            this.autocomplete.dateFromChanged(oldValue, this.query);
+            this.categorize.dateFromChanged(oldValue, this.query);
+            this.find.dateFromChanged(oldValue, this.query);
+        }
+    }
+
+    get dateTo(): DateSpecification {
+        return this.query.dateTo;
+    }
+
+    set dateTo(dateTo: DateSpecification) {
+        if (dateTo !== this.query.dateTo) {
+            let oldValue = this.query.dateTo; // clone
+            this.query.dateTo = dateTo;
+
+            this.autocomplete.dateToChanged(oldValue, this.query);
+            this.categorize.dateToChanged(oldValue, this.query);
+            this.find.dateToChanged(oldValue, this.query);
+        }
+    }
+
+    get filters(): string[] {
+        return this.query.filters;
+    }
+
+    set filters(filters: string[]) {
+        filters = filters || [];
+        let sortedFilters = filters.sort();
+        if (sortedFilters.join('') !== this.query.filters.join('')) {
+            let oldValue = this.query.filters.slice(0); // clone
+            this.query.filters = sortedFilters;
+
+            this.autocomplete.filtersChanged(oldValue, this.query);
+            this.categorize.filtersChanged(oldValue, this.query);
+            this.find.filtersChanged(oldValue, this.query);
+        }
+    }
+
+    public filterAdd(filter: string): boolean {
+        if (this.query.filters.indexOf(filter) === -1) {
+            let oldValue = this.query.filters.slice(0);
+            this.query.filters.push(filter);
+            this.query.filters.sort();
+
+            this.autocomplete.filtersChanged(oldValue, this.query);
+            this.categorize.filtersChanged(oldValue, this.query);
+            this.find.filtersChanged(oldValue, this.query);
+            
+            return true;
+        } 
+        // Filter already set
+        return false;
+    }
+
+    public filterRemove(filter: string): boolean {
+        const pos = this.query.filters.indexOf(filter);
+        if (pos > -1) {
+            let oldValue = this.query.filters.slice(0);
+            this.query.filters.splice(pos, 1); 
+            // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
+
+            this.autocomplete.filtersChanged(oldValue, this.query);
+            this.categorize.filtersChanged(oldValue, this.query);
+            this.find.filtersChanged(oldValue, this.query);
+
+            return true;
+        } 
+        // Filter already not set
+        return false;
+    }
+
+    get matchGrouping(): boolean {
+        return this.query.matchGrouping;
+    }
+
+    set matchGrouping(useGrouping: boolean) {
+        if (useGrouping !== this.query.matchGrouping) {
+            let oldValue = this.query.matchGrouping;
+            this.query.matchGrouping = useGrouping;
+
+            this.autocomplete.matchGroupingChanged(oldValue, this.query);
+            this.categorize.matchGroupingChanged(oldValue, this.query);
+            this.find.matchGroupingChanged(oldValue, this.query);
+        }
+    }
+
+    get matchPage(): number {
+        return this.query.matchPage;
+    }
+
+    set matchPage(page: number) {
+        if (page < 0) {
+            page = 0;
+        }
+        if (page !== this.query.matchPage) {
+            let oldValue = this.query.matchPage;
+            this.query.matchPage = page;
+
+            this.autocomplete.matchPageChanged(oldValue, this.query);
+            this.categorize.matchPageChanged(oldValue, this.query);
+            this.find.matchPageChanged(oldValue, this.query);
+        }
+    }
+
+    public matchPagePrev(): boolean {
+        if (this.query.matchPage > 0) {
+            let oldValue = this.query.matchPage;
+            this.query.matchPage--;
+
+            this.autocomplete.matchPageChanged(oldValue, this.query);
+            this.categorize.matchPageChanged(oldValue, this.query);
+            this.find.matchPageChanged(oldValue, this.query);
+
+            return true;
+        }
+        // Cannot fetch page less than 0
+        return false;
+    }
+
+    public matchPageNext(): boolean {
+        let oldValue = this.query.matchPage;
+        this.query.matchPage++;
+
+        this.autocomplete.matchPageChanged(oldValue, this.query);
+        this.categorize.matchPageChanged(oldValue, this.query);
+        this.find.matchPageChanged(oldValue, this.query);
+
+        return true;
+    }
+
+    get matchPageSize(): number {
+        return this.query.matchPageSize;
+    }
+
+    set matchPageSize(pageSize: number) {
+        if (pageSize < 1) {
+            pageSize = 1;
+        }
+        if (pageSize !== this.query.matchPageSize) {
+            let oldValue = this.query.matchPageSize;
+            this.query.matchPageSize = pageSize;
+
+            this.autocomplete.matchPageSizeChanged(oldValue, this.query);
+            this.categorize.matchPageSizeChanged(oldValue, this.query);
+            this.find.matchPageSizeChanged(oldValue, this.query);
+        }
+    }
+
+    get matchOrderBy(): OrderBy {
+        return this.query.matchOrderBy;
+    }
+
+    set matchOrderBy(orderBy: OrderBy) {
+        if (orderBy !== this.query.matchOrderBy) {
+            let oldValue = this.query.matchOrderBy;
+            this.query.matchOrderBy = orderBy;
+
+            this.autocomplete.matchOrderByChanged(oldValue, this.query);
+            this.categorize.matchOrderByChanged(oldValue, this.query);
+            this.find.matchOrderByChanged(oldValue, this.query);
+        }
+    }
+
+    get maxSuggestions(): number {
+        return this.query.maxSuggestions;
+    }
+
+    set maxSuggestions(maxSuggestions: number) {
+        if (maxSuggestions < 0) {
+            maxSuggestions = 0;
+        }
+        if (maxSuggestions !== this.query.maxSuggestions) {
+            let oldValue = this.query.maxSuggestions;
+            this.query.maxSuggestions = maxSuggestions;
+
+            this.autocomplete.maxSuggestionsChanged(oldValue, this.query);
+            this.categorize.maxSuggestionsChanged(oldValue, this.query);
+            this.find.maxSuggestionsChanged(oldValue, this.query);
+        }
+    }
+
+    get queryText(): string {
+        return this.query.queryText;
+    }
+
+    set queryText(queryText: string) {
+        if (queryText !== this.query.queryText) {
+            let oldValue = this.query.queryText;
+            this.query.queryText = queryText;
+
+            this.autocomplete.queryTextChanged(oldValue, this.query);
+            this.categorize.queryTextChanged(oldValue, this.query);
+            this.find.queryTextChanged(oldValue, this.query);
+        }
+    }
+
+    get searchType(): SearchType {
+        return this.query.searchType;
+    }
+
+    set searchType(searchType: SearchType) {
+        if (searchType !== this.query.searchType) {
+            let oldValue = this.query.searchType;
+            this.query.searchType = searchType;
+
+            this.autocomplete.searchTypeChanged(oldValue, this.query);
+            this.categorize.searchTypeChanged(oldValue, this.query);
+            this.find.searchTypeChanged(oldValue, this.query);
+        }
     }
 }

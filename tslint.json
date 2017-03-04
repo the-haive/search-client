@@ -14,6 +14,9 @@
 		"ordered-imports": [
 			false
 		],
+		"no-console": [
+			false
+		],
 		"interface-name": [
 			false
 		]

@@ -12,6 +12,7 @@
 		"suppressImplicitAnyIndexErrors": true,
 		"emitDecoratorMetadata": true,
 		"removeComments": false,
+		"allowSyntheticDefaultImports": true,
 		"typeRoots": [
 			"node_modules/@types"
 		]

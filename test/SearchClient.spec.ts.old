@@ -46,19 +46,19 @@ describe("SearchClient basics", () => {
 
 describe("SearchClient live tests (require empty search-service to be instantiated)", () => {
 
-    it("Should get an Autocomplete lookup for word with 0 suggestions on empty localhost:9950, if available", () =>{
+    it("Should get an Autocomplete lookup for word with 1 suggestions on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
         return searchClient.autocomplete("test")
         .then((suggestions: string[]) => {
-            expect(suggestions.length).toEqual(0);
+            expect(suggestions.length).toEqual(1);
         });
     });
 
-    it("Should get an Autocomplete lookup for Autocomplete options with 0 suggestions on empty localhost:9950, if available", () =>{
+    it("Should get an Autocomplete lookup for Autocomplete options with 1 suggestions on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
         return searchClient.autocomplete({ queryText: "test" } as AutocompleteSettings)
         .then((suggestions: string[]) => {
-            expect(suggestions.length).toEqual(0);
+            expect(suggestions.length).toEqual(1);
         });
     });
 
@@ -94,11 +94,11 @@ describe("SearchClient live tests (require empty search-service to be instantiat
         });
     });
 
-    it("Should get a AllCategories result with 0 categories on empty localhost:9950, if available", () =>{
+    it("Should get a AllCategories result with 10 categories on empty localhost:9950, if available", () =>{
         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
         return searchClient.allCategories()
         .then((categories: Categories) => {
-            expect(categories.matchCount).toEqual(0);
+            expect(categories.matchCount).toEqual(10);
         });
     });
 

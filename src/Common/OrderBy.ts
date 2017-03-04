@@ -3,10 +3,12 @@
  * @default "Date"
  */
 export enum OrderBy {
+
     /**
      * Order results by date, newest first.
      */
     Date,
+    
     /**
      * Order results by Relevance, highest first.
      */
