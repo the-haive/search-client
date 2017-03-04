@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/IntelliSearch/search-client/compare/v0.4.8...v0.5.0) (2017-03-04)
+
+
+### Features
+
+* Improved architecture. ([6df4d51](https://github.com/IntelliSearch/search-client/commit/6df4d51))
+
+
+
 <a name="0.4.8"></a>
 ## [0.4.8](https://github.com/IntelliSearch/search-client/compare/v0.4.7...v0.4.8) (2017-02-23)
 
