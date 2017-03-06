@@ -1,3 +1,5 @@
+import * as deepmerge from 'deepmerge';
+
 import { Query } from '../Common/Query';
 import { AuthenticationSettings } from '../Authentication/AuthenticationSettings';
 import { AllCategoriesSettings } from '../AllCategories/AllCategoriesSettings'
@@ -10,7 +12,15 @@ import { FindSettings } from '../Find/FindSettings';
  * Settings as used by the SearchClient.
  */
 export class Settings {
-    
+
+    /**
+     * Creates a Settings object for you, based on Settings defaults and the overrides provided as a param.
+     * @param settings - The settings defined here will override the default Settings.
+     */
+    public static new(settings?: Settings) {
+        return deepmerge(new Settings(), settings || {}, {clone: true}) as Settings;
+    }
+
     /**
      * Settings for allCategories().
      */
@@ -45,18 +55,4 @@ export class Settings {
      * Settings for the common query (autocomplete/find/categorize)
      */
     public query: Query = new Query();
-
-    // /**
-    //  * Creates an instance of Settings.
-    //  */
-    // constructor(settings?: Settings) {
-    //     settings = settings || {} as Settings;
-    //     this.allCategories = settings.allCategories || new AllCategoriesSettings();
-    //     this.authentication = settings.authentication || new AuthenticationSettings();
-    //     this.autocomplete = settings.autocomplete || new AutocompleteSettings();
-    //     this.bestBets = settings.bestBets || new BestBetsSettings();
-    //     this.categorize = settings.categorize || new CategorizeSettings();
-    //     this.find = settings.find || new FindSettings();
-    //     this.query = settings.query || new Query();
-    // }
 }

@@ -19,7 +19,7 @@
     "coverage": "yarn test -- --coverage --no-cache",
     "coverage:watch": "yarn run coverage -- --watch",
     "doc": "echo. && echo *** Documenting... && yarn run rimraf -- doc && yarn run typedoc -- ./src/ --exclude node_modules --ignoreCompilerErrors --mode file --experimentalDecorators --target ES6 --out ./doc/ && echo *** Documentation created: doc/index.html",
-    "prepack": "yarn run test && yarn run doc && echo *** Pre-release success. && echo - If ready to release, commit changes and then 'yarn run release'. && echo - Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md",
+    "prepack": "yarn run test && yarn run doc && echo *** Prepack success. && echo - If ready to release, commit changes and then 'yarn run pack'. && echo - Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md",
     "pack": "echo. && echo *** Packing... && yarn run standard-version && yarn pack && echo Pack success. && echo - Release notes created and committed. && echo - Package created. && echo - Remember to git-push commits and tags to the git-origin! && echo - Run 'npm publish' to publish the package to the npmjs repository."
   },
   "repository": {

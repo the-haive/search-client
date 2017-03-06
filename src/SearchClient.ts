@@ -12,7 +12,7 @@ export * from './Find';
 import { OrderBy } from './Common/OrderBy';
 import { SearchType } from './Common/SearchType';
 import { Settings } from './Common/Settings';
-import { Query } from './Common/Query';
+import { DateSpecification, Query } from './Common/Query';
 
 import { AuthToken } from './Authentication/AuthToken';
 import { Authentication } from './Authentication/Authentication';
@@ -24,7 +24,6 @@ import { AutocompleteTrigger } from './Autocomplete/AutocompleteTrigger';
 import { BestBets } from './BestBets/BestBets';
 import { Categorize } from './Categorize/Categorize';
 import { Find } from './Find/Find';
-import { DateSpecification } from './Common/Query';
 
 export class SearchClient implements AuthToken {
     public authenticationToken: string;
@@ -46,7 +45,7 @@ export class SearchClient implements AuthToken {
     private settings: Settings;
     
     constructor(baseUrl: string, settings?: Settings) {
-        this.settings = settings || new Settings();
+        this.settings = Settings.new(settings);
 
         if (this.settings.allCategories.enabled) {
             this.allCategories = new AllCategories(baseUrl, this.settings.allCategories, this);

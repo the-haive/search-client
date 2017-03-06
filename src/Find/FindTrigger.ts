@@ -1,7 +1,17 @@
+import * as deepmerge from 'deepmerge';
+
 import { CategorizeTrigger } from '../Categorize/CategorizeTrigger';
 
 export class FindTrigger extends CategorizeTrigger {
     
+    /**
+     * Creates a FindTrigger object for you, based on FindTrigger defaults and the overrides provided as a param.
+     * @param findTrigger - The trigger defined here will override the default FindTrigger.
+     */
+    public static new(findTrigger?: FindTrigger) {
+        return deepmerge(new FindTrigger(), findTrigger || {}, {clone: true}) as FindTrigger;
+    }
+
     /**
      * Triggers when the useGrouping property has changed.
      */

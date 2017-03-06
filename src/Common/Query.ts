@@ -1,10 +1,28 @@
+import * as deepmerge from 'deepmerge';
 import moment from 'moment/moment';
+
 import { OrderBy } from './OrderBy';
 import { SearchType } from './SearchType';
 
+/**
+ * Represents a datespecification that can either be fixed or a delta from now.
+ * If the date is a moment DurationInputObject we calulcate the date in realtime when the fetch-call is executed. 
+ * Note that the value must be an object with properties and values. I.e. { M: -1 } // One month ago
+ * See http://momentjs.com/docs/#/durations/.
+ * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting 
+ * strings. See http://momentjs.com/docs/#/parsing/string/.
+ */
 export type DateSpecification = Date | string | number | moment.DurationInputObject;
 
 export class Query {
+
+    /**
+     * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
+     * @param query - The query defined here will override the default Query.
+     */
+    public static new(query?: Query) {
+        return deepmerge(new Query(), query, {clone: true}) as Query;
+    }
 
     /**
      * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
@@ -14,21 +32,11 @@ export class Query {
 
     /**
      * Used to specify the start date-range.
-     * If the date is a moment DurationInputObject we calulcate the date in realtime when the fetch-call is executed. 
-     * Note that the value must be an object with properties and values. I.e. { M: -1 } // One month ago
-     * See http://momentjs.com/docs/#/durations/.
-     * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting 
-     * strings. See http://momentjs.com/docs/#/parsing/string/.
      */
     public dateFrom: DateSpecification = null;
 
     /**
      * Used to specify the end date-range.
-     * If the date is a moment DurationInputObject we calulcate the date in realtime when the fetch-call is executed. 
-     * Note that the value must be an object with properties and values. I.e. { M: -1 } // One month ago
-     * See http://momentjs.com/docs/#/durations/.
-     * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting 
-     * strings. See http://momentjs.com/docs/#/parsing/string/.
      */
     public dateTo: DateSpecification = null;
 

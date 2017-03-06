@@ -1,3 +1,5 @@
+import * as deepmerge from 'deepmerge';
+
 import { Setting } from '../Common/Setting';
 
 import { AutocompleteTrigger } from './AutocompleteTrigger';
@@ -8,9 +10,17 @@ import { AutocompleteTrigger } from './AutocompleteTrigger';
 export class AutocompleteSettings extends Setting {
 
     /**
+     * Creates an AutocompleteSettings object for you, based on AutocompleteSettings defaults and the overrides provided as a param.
+     * @param autocompleteSettings - The settings defined here will override the default AutocompleteSettings.
+     */
+    public static new(autocompleteSettings?: AutocompleteSettings) {
+        return deepmerge(new AutocompleteSettings(), autocompleteSettings || {}, {clone: true}) as AutocompleteSettings;
+    }
+
+    /**
      * The method that autocomplete results are sent to.
      */
-    public callback: (suggestions: string[]) => void = null;
+    public callback: (suggestions: string[]) => void = undefined;
 
     /**
      * Suggests filters based on the categories in the search-engine.

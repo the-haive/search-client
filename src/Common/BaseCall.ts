@@ -9,10 +9,14 @@ import { SearchClient } from '../SearchClient';
 import { Query } from './Query';
 
 export abstract class BaseCall {
-    public baseUrl: string;
-    protected auth: AuthToken;
 
-    constructor(baseUrl: string, auth: AuthToken) {
+    /**
+     * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
+     * 
+     * @param baseUrl - The base url for the service to be setup.
+     * @param auth - The auth-object that controls authentication for the service.
+     */
+    constructor(public baseUrl: string, protected auth: AuthToken) {
         // Strip off any slashes at the end of the baseUrl
         baseUrl = baseUrl.replace(/\/+$/, "");
 
@@ -25,6 +29,9 @@ export abstract class BaseCall {
         this.auth = auth;
     }
 
+    /**
+     * Sets up the Request that is to be executed, with headers and auth as needed.
+     */
     public requestObject(): RequestInit {
         let headers = new Headers();
         headers.set("Content-Type", "application/json");

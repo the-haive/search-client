@@ -1,4 +1,4 @@
-export class Trigger {
+export abstract class Trigger {
     
     /**
      * Turns on or off all query-related triggers, except queryEnter.

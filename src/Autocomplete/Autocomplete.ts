@@ -14,17 +14,21 @@ export class Autocomplete extends BaseCall {
 
     private INTELLI: string = ":INTELLI";
 
-    private settings: AutocompleteSettings;
-
     private delay: NodeJS.Timer;
 
     // private allCategories: AllCategories;
 
     // private allFilters: string[];
 
-    constructor(baseUrl: string, settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
+    /**
+     * Creates an Autocomplete instance that knows how to get query-suggestions.
+     * @param baseUrl - The base url that the Autocomplete is to use for fetching suggestions.
+     * @param settings - The settings for how the Autocomplete is to operate.
+     * @param auth - The object that handles authentication.
+     */
+    constructor(baseUrl: string, private settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
         super(baseUrl, auth);
-        this.settings = settings;
+        this.settings = AutocompleteSettings.new(settings);
 
         // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
         // allCategories.fetch().then((categories) => { 
@@ -33,7 +37,16 @@ export class Autocomplete extends BaseCall {
         // });
     }
 
-    public fetch(query: Query): Promise<string[]> {
+    /**
+     * When called it will execute a rest-call to the base-url and fetch sutocomplete suggestions based on the query passed.
+     * Note: If a callback has been registered in the initial constructor then it is expected to NOT call that callback when 
+     * the fetch call is completed. The callback is intended for the "automatic mode", where it is i.e. controlled by the SearchClient interface.
+     * TODO: Add a parameter to control whether or not to call the callback when the call returns.
+     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved. 
+     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @returns a Promise that when resolved returns a string array of suggestions.
+     */
+    public fetch(query: Query, supressCallback: boolean = false): Promise<string[]> {
 
         let url = this.toUrl(query);
 
@@ -45,6 +58,9 @@ export class Autocomplete extends BaseCall {
                 return response.json();
             })
             .then((suggestions: string[]) => {
+                if (this.settings.callback && !supressCallback) {
+                    this.settings.callback(suggestions);
+                }
                 return suggestions;
             })
             .catch((error) => {
@@ -96,48 +112,41 @@ export class Autocomplete extends BaseCall {
     }
 
     private updateSuggestions(query: Query): void {
-        this.updateWordSuggestions(query);
+        //this.updateWordSuggestions(query);
         this.updatePhraseSuggestions(query);
     }
 
-    private updateWordSuggestions(query: Query) {
-        // Not implemented ywt.
-    }
+    // private updateWordSuggestions(query: Query) {
+    //     // Not implemented ywt.
+    // }
 
     private updatePhraseSuggestions(query: Query) {
-        this.fetch(query)
-        .then((suggestions) => {
-            let words = this.completeWord(query);
-            // TODO We return the special suggestions as the first suggestions, in addition to the results returned from the index. 
-            // We may in the future make these returns into different suggestions. So that the :intelli* suggestions are fast, while the index takes longer. 
-            // We can then update the suggestions when needed. We also need to think more about which types of suggestions we deliver (phrase, word, command, filters etc.)
-            this.settings.callback(words.concat(suggestions));
-        });
+        this.fetch(query);
     }
 
-    private completeWord(query: Query): string[] {
-        let words = query.queryText.split(" "); 
-        let word = words.splice(-1)[0].toUpperCase(); // <words> should now contain all words except the word that is in <word>
-        let wordSuggestions: string[] = [];
+    // private completeWord(query: Query): string[] {
+    //     let words = query.queryText.split(" "); 
+    //     let word = words.splice(-1)[0].toUpperCase(); // <words> should now contain all words except the word that is in <word>
+    //     let wordSuggestions: string[] = [];
 
-        if (this.settings.suggestQueryCommandWords) {
-            if (word.startsWith(this.INTELLI)) {
-                if (word !== this.INTELLIDEBUGQUERY) {
-                    wordSuggestions.push(this.INTELLIDEBUGQUERY);
-                }
-                if (word !== this.INTELLIALL) {
-                    wordSuggestions.push(this.INTELLIALL);
-                }
-            }
-        }
+    //     if (this.settings.suggestQueryCommandWords) {
+    //         if (word.startsWith(this.INTELLI)) {
+    //             if (word !== this.INTELLIDEBUGQUERY) {
+    //                 wordSuggestions.push(this.INTELLIDEBUGQUERY);
+    //             }
+    //             if (word !== this.INTELLIALL) {
+    //                 wordSuggestions.push(this.INTELLIALL);
+    //             }
+    //         }
+    //     }
 
-        if (this.settings.suggestIndexFilters) {
-            if (word.length > 2 && word.startsWith("#")) {
-                // TODO: Iterate categories and return list of matching category-filters (minus anyone already set in the query.
-            }
-        }
+    //     if (this.settings.suggestIndexFilters) {
+    //         if (word.length > 2 && word.startsWith("#")) {
+    //             // TODO: Iterate categories and return list of matching category-filters (minus anyone already set in the query.
+    //         }
+    //     }
 
-        // Combine the suggested words with the leading words before returning word-suggestions (since we only support one type of lookup currently)
-        return wordSuggestions.map((w) => words.concat(w).join(" "));
-    }
+    //     // Combine the suggested words with the leading words before returning word-suggestions (since we only support one type of lookup currently)
+    //     return wordSuggestions.map((w) => words.concat(w).join(" "));
+    // }
 }

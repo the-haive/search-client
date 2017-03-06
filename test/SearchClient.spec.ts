@@ -6,7 +6,7 @@ require("babel-polyfill");
 import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
-import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType } from '../src/SearchClient';
+import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches } from '../src/SearchClient';
 
 describe("SearchClient basics", () => {
 

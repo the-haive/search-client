@@ -1,3 +1,5 @@
+import * as deepmerge from 'deepmerge';
+
 import { Setting } from '../Common';
 
 import { AuthenticationTrigger } from './AuthenticationTrigger';
@@ -8,10 +10,18 @@ import { AuthenticationTrigger } from './AuthenticationTrigger';
 export class AuthenticationSettings extends Setting {
 
     /**
+     * Creates an AuthenticationSettings object for you, based on AuthenticationSettings defaults and the overrides provided as a param.
+     * @param authenticationSettings - The settings defined here will override the default AuthenticationSettings.
+     */
+    public static new(authenticationSettings?: AuthenticationSettings) {
+        return deepmerge(new AuthenticationSettings(), authenticationSettings || {}, {clone: true}) as AuthenticationSettings;
+    }
+
+    /**
      * A notifier method to call whenever the auth-token has been fetched.
      * Note: Use of this is optional and will not affect the SearchClient operations.
      */
-    public callback: (response: any) => void = null;
+    public callback: (response: any) => void = undefined;
 
     /**
      * This is the path to the value returned by the authentication-call.

@@ -7,8 +7,8 @@ import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
 import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
-
 import { Categorize } from '../Categorize/Categorize';
+
 import { FindSettings } from './FindSettings';
 
 export class Find extends BaseCall {
@@ -38,16 +38,27 @@ export class Find extends BaseCall {
         return params;
     }
 
-    private settings: FindSettings;
-
     private delay: NodeJS.Timer;
 
-    constructor(baseUrl: string, settings?: FindSettings, auth?: AuthToken) {
+    /**
+     * Creates a Find instance that handles fetching matches dependent on settings and query. 
+     * Supports registering a callback in order to receive matches when they have been received.
+     * @param baseUrl - The base url that the find call is to use.
+     * @param settings - The settings that define how the Find instance is to operate.
+     * @param auth - An auth-object that handles the authentication.
+     */
+    constructor(baseUrl: string, private settings?: FindSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = settings || new FindSettings();
+        this.settings = FindSettings.new(settings);
     }
 
-    public fetch(query: Query): Promise<Matches> {
+    /**
+     * Fetches the search-result matches from the server.
+     * @param query - The query-object that controls which results that are to be returned.
+     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @returns a promise that when resolved returns a Matches object.
+     */
+    public fetch(query: Query, supressCallback: boolean = false): Promise<Matches> {
 
         let params = Find.getUrlParams(query);
         let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
@@ -60,6 +71,9 @@ export class Find extends BaseCall {
                 return response.json();
             })
             .then((matches: Matches) => {
+                if (this.settings.callback && !supressCallback) {
+                    this.settings.callback(matches);
+                }
                 return matches;
             })
             .catch((error) => {
@@ -146,8 +160,6 @@ export class Find extends BaseCall {
         // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
         clearTimeout(this.delay);
 
-        this.fetch(query).then((matches) => {
-            this.settings.callback(matches);
-        });
+        this.fetch(query);
     }
 }

@@ -54,16 +54,27 @@ export class Categorize extends BaseCall {
         return dateString;
     }
 
-    private settings: CategorizeSettings;
-
     private delay: NodeJS.Timer;
 
-    constructor(baseUrl: string, settings?: CategorizeSettings, auth?: AuthToken) {
+    /**
+     * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
+     * Supports registering a callback in order to receive categories when they have been received.
+     * @param baseUrl - The base url that the categorize is to fetch categories from.
+     * @param settings - The settings that define how the Categorize instance is to operate.
+     * @param auth - An object that handles the authentication.
+     */
+    constructor(baseUrl: string, private settings?: CategorizeSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = settings || new CategorizeSettings();
+        this.settings = CategorizeSettings.new(settings);
     }
 
-    public fetch(query: Query): Promise<Categories> {
+    /**
+     * Fetches the search-result categories from the server.
+     * @param query - The query-object that controls which results that are to be returned.
+     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @returns a promise that when resolved returns a Categories object.
+     */
+    public fetch(query: Query, supressCallback: boolean = false): Promise<Categories> {
 
         let params = Categorize.getUrlParams(query);
         let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
@@ -76,6 +87,9 @@ export class Categorize extends BaseCall {
                 return response.json();
             })
             .then((categories: Categories) => {
+                if (this.settings.callback && !supressCallback) {
+                    this.settings.callback(categories);
+                }
                 return categories;
             })
             .catch((error) => {
@@ -138,8 +152,6 @@ export class Categorize extends BaseCall {
         // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
         clearTimeout(this.delay);
 
-        this.fetch(query).then((categories) => {
-            this.settings.callback(categories);
-        });
+        this.fetch(query);
     }
 }

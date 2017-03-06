@@ -8,13 +8,22 @@ import { AuthToken } from '../Authentication/AuthToken';
 import { BestBetsSettings } from './';
 
 export class BestBets extends BaseCall {
-    private settings: BestBetsSettings;
 
-    constructor(baseUrl: string, settings?: BestBetsSettings, auth?: AuthToken) {
+    /**
+     * 
+     * @param baseUrl - The base-url that the BestBets lookup is to use.
+     * @param settings - The settings for how the BestBets instance is to behave.
+     * @param auth - An object that controls the authentication for the lookups.
+     */
+    constructor(baseUrl: string, private settings?: BestBetsSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = settings || new BestBetsSettings();
+        this.settings = BestBetsSettings.new(settings);
     }
 
+    /**
+     * Fetches all best-bets from the backend.
+     * @returns a promise that when resolved returns an array of strings that represent the bests-bets.
+     */
     public fetch(): Promise<string[]> {
 
         let url = this.baseUrl + this.settings.url;

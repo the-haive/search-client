@@ -8,16 +8,15 @@ import { AuthToken } from './AuthToken';
 
 export class Authentication extends BaseCall {
 
-    private settings: AuthenticationSettings;
-
     /**
-     * @param baseUrl 
-     * @param settings Either a string that contains the initial authenticationToken, or a full AuthenticationSettings object.
+     * Creates an Authentication object that knows where to get the auth-token and when to refresh it.
+     * @param baseUrl - The baseUrl that the authentication is to operate from.
+     * @param settings - The settings for the authentication object.
      */
-    constructor(baseUrl: string, settings?: AuthenticationSettings, auth?: AuthToken) {
+    constructor(baseUrl: string, private settings?: AuthenticationSettings, auth?: AuthToken) {
         super(baseUrl, auth);
 
-        this.settings = settings || new AuthenticationSettings();
+        this.settings = AuthenticationSettings.new(settings);
         
         if (this.settings.token) {
             this.auth.authenticationToken = this.settings.token;
@@ -29,7 +28,12 @@ export class Authentication extends BaseCall {
         }
     }
 
-    public fetch(): Promise<string> {
+    /**
+     * Fetches the authentication-token from the server.
+     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @returns a promise that when resolved returns a jwt token.
+     */
+    public fetch(suppressCallback: boolean = false): Promise<string> {
 
         let url = this.baseUrl + this.settings.url;
 
@@ -51,6 +55,10 @@ export class Authentication extends BaseCall {
 
                 // Set up a timer for refreshing the token before/if it expires.
                 this.setupRefresh();
+
+                if (this.settings.callback && !suppressCallback) {
+                    this.settings.callback(data);
+                }
 
                 // Finally we return the promise to the caller, should they want it.
                 return data;
