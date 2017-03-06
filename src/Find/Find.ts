@@ -55,15 +55,18 @@ export class Find extends BaseCall {
     /**
      * Fetches the search-result matches from the server.
      * @param query - The query-object that controls which results that are to be returned.
-     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a Matches object.
      */
-    public fetch(query: Query, supressCallback: boolean = false): Promise<Matches> {
+    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Matches> {
 
         let params = Find.getUrlParams(query);
         let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
+        let reqInit = this.requestObject();
 
-        return fetch(url, this.requestObject())
+        this.cbBusy(suppressCallbacks, true, url, reqInit);
+
+        return fetch(url, reqInit)
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -71,66 +74,65 @@ export class Find extends BaseCall {
                 return response.json();
             })
             .then((matches: Matches) => {
-                if (this.settings.callback && !supressCallback) {
-                    this.settings.callback(matches);
-                }
+                this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                 return matches;
             })
             .catch((error) => {
+                this.cbError(suppressCallbacks, error, url, reqInit);
                 return Promise.reject(error);
             });
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.clientIdChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.clientIdChanged) {
             this.updateMatches(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.dateFromChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
             this.updateMatches(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.dateToChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
             this.updateMatches(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
-        if (this.settings.callback && this.settings.trigger.filterChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
             this.updateMatches(query);
         }
     }
 
     public matchGroupingChanged(oldValue: boolean, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.matchGroupingChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.matchGroupingChanged) {
             this.updateMatches(query);
         }
     }
 
     public matchOrderByChanged(oldValue: OrderBy, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.matchOrderByChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.matchOrderByChanged) {
             this.updateMatches(query);
         }
     }
     
     public matchPageChanged(oldValue: number, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.matchPageChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.matchPageChanged) {
             this.updateMatches(query);
         }
     }
     
     public matchPageSizeChanged(oldValue: number, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.matchPageSizeChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.matchPageSizeChanged) {
             this.updateMatches(query);
         }
     }
      
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.queryChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.queryChanged) {
             if (query.queryText.length > this.settings.trigger.queryMinLength) {
                 if (this.settings.trigger.queryChangeUndelayedRegex && this.settings.trigger.queryChangeUndelayedRegex.test(query.queryText)) {
                     this.updateMatches(query);
@@ -151,7 +153,7 @@ export class Find extends BaseCall {
     }
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
-        if (this.settings.callback && this.settings.trigger.searchTypeChanged) {
+        if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
             this.updateMatches(query);
         }
     }
@@ -162,4 +164,25 @@ export class Find extends BaseCall {
 
         this.fetch(query);
     }
+
+    private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {
+        if (this.settings.cbBusy && !suppressCallbacks) {
+            this.settings.cbBusy(true, url, reqInit);
+        }
+    }
+
+    private cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
+        this.cbBusy(suppressCallbacks, false, url, reqInit);
+        if (this.settings.cbSuccess && !suppressCallbacks) {
+            this.settings.cbError(error);
+        }
+    }
+
+    private cbSuccess(suppressCallbacks: boolean, matches: Matches, url: string, reqInit: RequestInit): void {
+        this.cbBusy(suppressCallbacks, false, url, reqInit);
+        if (this.settings.cbSuccess && !suppressCallbacks) {
+            this.settings.cbSuccess(matches);
+        }
+    }
+    
 }

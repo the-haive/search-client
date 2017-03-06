@@ -30,14 +30,17 @@ export class Authentication extends BaseCall {
 
     /**
      * Fetches the authentication-token from the server.
-     * @param suppressCallback - Set to true if you have defined a callback, but somehow don't want it to be called.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a jwt token.
      */
-    public fetch(suppressCallback: boolean = false): Promise<string> {
+    public fetch(suppressCallbacks: boolean = false): Promise<string> {
 
         let url = this.baseUrl + this.settings.url;
+        let reqInit = this.requestObject();
 
-        return fetch(url, this.requestObject())
+        this.cbBusy(suppressCallbacks, true, url, reqInit);
+
+        return fetch(url, reqInit)
             .then((response: Response) => {
                 if (!response.ok) {
                     throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -56,16 +59,33 @@ export class Authentication extends BaseCall {
                 // Set up a timer for refreshing the token before/if it expires.
                 this.setupRefresh();
 
-                if (this.settings.callback && !suppressCallback) {
-                    this.settings.callback(data);
-                }
-
-                // Finally we return the promise to the caller, should they want it.
-                return data;
+                this.cbSuccess(suppressCallbacks, this.auth.authenticationToken, url, reqInit);
+                return this.auth.authenticationToken;
             })
             .catch((error) => {
+                this.cbError(suppressCallbacks, error, url, reqInit);
                 return Promise.reject(error);
             });
+    }
+
+    private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {
+        if (this.settings.cbBusy && !suppressCallbacks) {
+            this.settings.cbBusy(true, url, reqInit);
+        }
+    }
+
+    private cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
+        this.cbBusy(suppressCallbacks, false, url, reqInit);
+        if (this.settings.cbSuccess && !suppressCallbacks) {
+            this.settings.cbError(error);
+        }
+    }
+
+    private cbSuccess(suppressCallbacks: boolean, authToken: string, url: string, reqInit: RequestInit): void {
+        this.cbBusy(suppressCallbacks, false, url, reqInit);
+        if (this.settings.cbSuccess && !suppressCallbacks) {
+            this.settings.cbSuccess(authToken);
+        }
     }
 
     private setupRefresh() {

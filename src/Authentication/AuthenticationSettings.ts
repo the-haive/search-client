@@ -18,10 +18,26 @@ export class AuthenticationSettings extends Setting {
     }
 
     /**
-     * A notifier method to call whenever the auth-token has been fetched.
-     * Note: Use of this is optional and will not affect the SearchClient operations.
+     * A notifier method that is called just before the fetch (with isBusy = true) and as soon as the fetch is done (isBusy = false). 
+     * Note: The status of the fetch (error / success) is not included in the call where isBus = false. cbSuccess and cbError will
+     * be called (if defined) and thus indicate this.
+     * @param isBusy - If true indicates that data is being fetched from the server. False means that the fetch is done.
+     * @param url - This is the url that is/was fetched. Good for debugging purposes.
+     * @param reqInit - This is the RequestInit object that was used for the fetch operation. Good for debugging purposes.
      */
-    public callback: (response: any) => void = undefined;
+    public cbBusy: (isBusy: boolean, url: string, reqInit: RequestInit) => void = undefined;
+
+    /**
+     * A notifier method to call whenever the lookup fails.
+     * @param error - An error object as given by the fetch operation.
+     */
+    public cbError: (error: any) => void = undefined;
+
+    /**
+     * A notifier method to call whenever the lookup results have been received.
+     * @param authToken - The lookup results.
+     */
+    public cbSuccess: (authToken: string) => void = undefined;
 
     /**
      * This is the path to the value returned by the authentication-call.
