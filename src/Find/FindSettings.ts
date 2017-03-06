@@ -1,5 +1,3 @@
-import * as deepmerge from 'deepmerge';
-
 import { Setting } from '../Common/Setting';
 import { Matches } from '../Data/Matches';
 
@@ -9,14 +7,6 @@ import { FindTrigger } from './FindTrigger';
  * These are all the settings that can affect the returned categories for Find() lookups.
  */
 export class FindSettings extends Setting {
-
-    /**
-     * Creates a FindSettings object for you, based on FindSettings defaults and the overrides provided as a param.
-     * @param findSettings - The settings defined here will override the default FindSettings.
-     */
-    public static new(findSettings?: FindSettings) {
-        return deepmerge(new FindSettings(), findSettings || {}, {clone: true}) as FindSettings;
-    }
 
     /**
      * A notifier method that is called just before the fetch (with isBusy = true) and as soon as the fetch is done (isBusy = false). 
@@ -49,4 +39,17 @@ export class FindSettings extends Setting {
      * The endpoint to do Find lookups for.
      */
     public url: string = '/search/find';
+
+    /**
+     * Creates a FindSettings object for you, based on FindSettings defaults and the overrides provided as a param.
+     * @param findSettings - The settings defined here will override the default FindSettings.
+     */
+    constructor(findSettings?: FindSettings) {
+        super();
+        if (findSettings) {
+            findSettings.trigger = new FindTrigger(findSettings.trigger);
+        }
+        Object.assign(this, findSettings);
+    }
+
 }

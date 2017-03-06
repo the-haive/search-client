@@ -1,26 +1,11 @@
-import * as deepmerge from 'deepmerge';
-
 import { Trigger } from '../Common/Trigger';
 
 export class CategorizeTrigger extends Trigger {
     
     /**
-     * Creates a CategorizeTrigger object for you, based on CategorizeTrigger defaults and the overrides provided as a param.
-     * @param categorizeTrigger - The trigger defined here will override the default CategorizeTrigger.
+     * Triggers when the clientId property has changed
      */
-    public static new(categorizeTrigger?: CategorizeTrigger) {
-        return deepmerge(new CategorizeTrigger(), categorizeTrigger || {}, {clone: true}) as CategorizeTrigger;
-    }
-
-    /**
-     * Triggers when the searchType property has changed.
-     */
-    public searchTypeChanged: boolean = true;
-
-    /**
-     * Triggers when the filter property has changed.
-     */
-    public filterChanged: boolean = true;
+    public clientIdChanged: boolean = true;
 
     /**
      * Triggers when the from date property has changed.
@@ -33,7 +18,22 @@ export class CategorizeTrigger extends Trigger {
     public dateToChanged: boolean = true;
 
     /**
-     * Triggers when the clientId property has changed
+     * Triggers when the filter property has changed.
      */
-    public clientIdChanged: boolean = true;
+    public filterChanged: boolean = true;
+
+    /**
+     * Triggers when the searchType property has changed.
+     */
+    public searchTypeChanged: boolean = true;
+
+    /**
+     * Creates a CategorizeTrigger object for you, based on CategorizeTrigger defaults and the overrides provided as a param.
+     * @param categorizeTrigger - The trigger defined here will override the default CategorizeTrigger.
+     */
+    constructor(categorizeTrigger?: CategorizeTrigger) {
+        super();
+        Object.assign(this, categorizeTrigger);
+    }
+
 }

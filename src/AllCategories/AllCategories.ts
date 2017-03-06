@@ -18,7 +18,7 @@ export class AllCategories extends BaseCall {
      */
     constructor(baseUrl: string, private settings?: AllCategoriesSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = AllCategoriesSettings.new(settings);
+        this.settings = new AllCategoriesSettings(settings);
     }
 
     /**

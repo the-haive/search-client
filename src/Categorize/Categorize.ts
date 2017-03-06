@@ -65,7 +65,7 @@ export class Categorize extends BaseCall {
      */
     constructor(baseUrl: string, private settings?: CategorizeSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = CategorizeSettings.new(settings);
+        this.settings = new CategorizeSettings(settings);
     }
 
     /**

@@ -1,4 +1,3 @@
-import * as merge from 'deepmerge';
 import * as equal from 'deep-equal';
 export * from './Common';
 export * from './Data';
@@ -45,7 +44,7 @@ export class SearchClient implements AuthToken {
     private settings: Settings;
     
     constructor(baseUrl: string, settings?: Settings) {
-        this.settings = Settings.new(settings);
+        this.settings = new Settings(settings);
 
         if (this.settings.allCategories.enabled) {
             this.allCategories = new AllCategories(baseUrl, this.settings.allCategories, this);
@@ -97,10 +96,10 @@ export class SearchClient implements AuthToken {
         return this.query.dateFrom;
     }
 
-    set dateFrom(from: DateSpecification) {
-        if (!equal(from, this.query.dateFrom)) {
-            let oldValue = this.query.dateFrom; // clone
-            this.query.dateFrom = from;
+    set dateFrom(dateFrom: DateSpecification) {
+        if (!equal(dateFrom, this.query.dateFrom)) {
+            let oldValue = Object.assign({}, this.query.dateFrom); // clone
+            this.query.dateFrom = dateFrom;
 
             this.autocomplete.dateFromChanged(oldValue, this.query);
             this.categorize.dateFromChanged(oldValue, this.query);
@@ -113,8 +112,8 @@ export class SearchClient implements AuthToken {
     }
 
     set dateTo(dateTo: DateSpecification) {
-        if (dateTo !== this.query.dateTo) {
-            let oldValue = this.query.dateTo; // clone
+        if (!equal(dateTo, this.query.dateTo)) {
+            let oldValue = Object.assign({}, this.query.dateTo); // clone
             this.query.dateTo = dateTo;
 
             this.autocomplete.dateToChanged(oldValue, this.query);

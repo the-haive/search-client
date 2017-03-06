@@ -49,7 +49,7 @@ export class Find extends BaseCall {
      */
     constructor(baseUrl: string, private settings?: FindSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = FindSettings.new(settings);
+        this.settings = new FindSettings(settings);
     }
 
     /**

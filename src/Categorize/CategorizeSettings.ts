@@ -1,5 +1,3 @@
-import * as deepmerge from 'deepmerge';
-
 import { Setting } from '../Common/Setting';
 import { Categories } from '../Data/Categories';
 
@@ -9,14 +7,6 @@ import { CategorizeTrigger } from './CategorizeTrigger';
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
 export class CategorizeSettings extends Setting {
-
-    /**
-     * Creates a CategorizeSettings object for you, based on CategorizeSettings defaults and the overrides provided as a param.
-     * @param categorizeSettings - The settings defined here will override the default CategorizeSettings.
-     */
-    public static new(categorizeSettings?: CategorizeSettings) {
-        return deepmerge(new CategorizeSettings(), categorizeSettings || {}, {clone: true}) as CategorizeSettings;
-    }
 
     /**
      * A notifier method that is called just before the fetch (with isBusy = true) and as soon as the fetch is done (isBusy = false). 
@@ -49,4 +39,17 @@ export class CategorizeSettings extends Setting {
      * The endpoint to do categorize lookups for.
      */
     public url: string = '/search/categorize';
+
+    /**
+     * Creates a CategorizeSettings object for you, based on CategorizeSettings defaults and the overrides provided as a param.
+     * @param categorizeSettings - The settings defined here will override the default CategorizeSettings.
+     */
+    constructor(categorizeSettings?: CategorizeSettings) {
+        super();
+        if (categorizeSettings) {
+            categorizeSettings.trigger = new CategorizeTrigger(categorizeSettings.trigger);
+        }
+        Object.assign(this, categorizeSettings);
+    }
+
 }

@@ -16,7 +16,7 @@ export class Authentication extends BaseCall {
     constructor(baseUrl: string, private settings?: AuthenticationSettings, auth?: AuthToken) {
         super(baseUrl, auth);
 
-        this.settings = AuthenticationSettings.new(settings);
+        this.settings = new AuthenticationSettings(settings);
         
         if (this.settings.token) {
             this.auth.authenticationToken = this.settings.token;

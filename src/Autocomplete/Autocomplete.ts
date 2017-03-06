@@ -28,7 +28,7 @@ export class Autocomplete extends BaseCall {
      */
     constructor(baseUrl: string, private settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
         super(baseUrl, auth);
-        this.settings = AutocompleteSettings.new(settings);
+        this.settings = new AutocompleteSettings(settings);
 
         // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
         // allCategories.fetch().then((categories) => { 

@@ -1,4 +1,3 @@
-import * as deepmerge from 'deepmerge';
 import moment from 'moment/moment';
 
 import { OrderBy } from './OrderBy';
@@ -17,18 +16,9 @@ export type DateSpecification = Date | string | number | moment.DurationInputObj
 export class Query {
 
     /**
-     * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
-     * @param query - The query defined here will override the default Query.
-     */
-    public static new(query?: Query) {
-        return deepmerge(new Query(), query, {clone: true}) as Query;
-    }
-
-    /**
      * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
      */
     public clientId: string = '';
-
 
     /**
      * Used to specify the start date-range.
@@ -83,4 +73,13 @@ export class Query {
      * The type of search to perform. 
      */
     public searchType: SearchType = SearchType.Keywords;
+
+    /**
+     * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
+     * @param query - The query defined here will override the default Query.
+     */
+    constructor(query?: Query) {
+        Object.assign(this, query);
+    }
+
 }

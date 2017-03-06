@@ -17,7 +17,7 @@ export class BestBets extends BaseCall {
      */
     constructor(baseUrl: string, private settings?: BestBetsSettings, auth?: AuthToken) {
         super(baseUrl, auth);
-        this.settings = BestBetsSettings.new(settings);
+        this.settings = new BestBetsSettings(settings);
     }
 
     /**
