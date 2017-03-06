@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/IntelliSearch/search-client/compare/v0.6.0...v0.6.1) (2017-03-06)
+
+
+### Bug Fixes
+
+* Fixed the defaults for settings and triggers - again. This time properly (famous last words...). ([d4a2259](https://github.com/IntelliSearch/search-client/commit/d4a2259))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/IntelliSearch/search-client/compare/v0.5.1...v0.6.0) (2017-03-06)
 
