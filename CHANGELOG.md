@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/IntelliSearch/search-client/compare/v0.5.0...v0.5.1) (2017-03-06)
+
+
+### Bug Fixes
+
+* Better way of setting up settings for SearchClient and operational interfaces. ([49b54ae](https://github.com/IntelliSearch/search-client/commit/49b54ae))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/IntelliSearch/search-client/compare/v0.4.8...v0.5.0) (2017-03-04)
 
