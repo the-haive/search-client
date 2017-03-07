@@ -23,10 +23,10 @@ describe("FindSettings basics", () => {
         expect (settings.trigger.matchOrderByChanged).toEqual(true);
         expect (settings.trigger.matchPageChanged).toEqual(true);
         expect (settings.trigger.matchPageSizeChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(-1);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/find");
     });
@@ -50,10 +50,10 @@ describe("FindSettings basics", () => {
                 matchOrderByChanged: false,
                 matchPageChanged: false,
                 matchPageSizeChanged: false,
-                queryChangeTriggerDelay: 100,
-                queryChangeUndelayedRegex: /\S/,
-                queryChanged: true,
-                queryMinLength: 2,
+                queryChange: true,
+                queryChangeDelay: 100,
+                queryChangeInstantRegex: /\S/,
+                queryChangeMinLength: 2,
                 searchTypeChanged: false,
             },
             url: "/test/",
@@ -75,10 +75,10 @@ describe("FindSettings basics", () => {
         expect (settings.trigger.matchOrderByChanged).toEqual(false);
         expect (settings.trigger.matchPageChanged).toEqual(false);
         expect (settings.trigger.matchPageSizeChanged).toEqual(false);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(100);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S/);
-        expect (settings.trigger.queryChanged).toEqual(true);
-        expect (settings.trigger.queryMinLength).toEqual(2);
+        expect (settings.trigger.queryChangeDelay).toEqual(100);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(false);
         expect (settings.url).toEqual("/test/");
     });
@@ -111,10 +111,10 @@ describe("FindSettings basics", () => {
         expect (settings.trigger.matchOrderByChanged).toEqual(true);
         expect (settings.trigger.matchPageChanged).toEqual(true);
         expect (settings.trigger.matchPageSizeChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(-1);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/find");
     });

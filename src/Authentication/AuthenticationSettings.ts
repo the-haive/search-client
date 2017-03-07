@@ -8,12 +8,9 @@ import { AuthenticationTrigger } from './AuthenticationTrigger';
 export class AuthenticationSettings extends Setting {
 
     /**
-     * A notifier method that is called just before the fetch (with isBusy = true) and as soon as the fetch is done (isBusy = false). 
-     * Note: The status of the fetch (error / success) is not included in the call where isBus = false. cbSuccess and cbError will
-     * be called (if defined) and thus indicate this.
-     * @param isBusy - If true indicates that data is being fetched from the server. False means that the fetch is done.
-     * @param url - This is the url that is/was fetched. Good for debugging purposes.
-     * @param reqInit - This is the RequestInit object that was used for the fetch operation. Good for debugging purposes.
+     * Called twice for each request: 
+     * 1. First when starting to fetch the authentication-token. 
+     * 2. Then when done with fetching the token (both for success and failure).
      */
     public cbBusy: (isBusy: boolean, url: string, reqInit: RequestInit) => void = undefined;
 

@@ -19,10 +19,10 @@ describe("CategorizeSettings basics", () => {
         expect (settings.trigger.dateFromChanged).toEqual(true);
         expect (settings.trigger.dateToChanged).toEqual(true);
         expect (settings.trigger.filterChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(-1);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/categorize");
     });
@@ -42,10 +42,10 @@ describe("CategorizeSettings basics", () => {
                 dateFromChanged: false,
                 dateToChanged: false,
                 filterChanged: false,
-                queryChangeTriggerDelay: 100,
-                queryChangeUndelayedRegex: /\S/,
-                queryChanged: true,
-                queryMinLength: 2,
+                queryChange: true,
+                queryChangeDelay: 100,
+                queryChangeInstantRegex: /\S/,
+                queryChangeMinLength: 2,
                 searchTypeChanged: false,
             },
             url: "/test/",
@@ -63,10 +63,10 @@ describe("CategorizeSettings basics", () => {
         expect (settings.trigger.dateFromChanged).toEqual(false);
         expect (settings.trigger.dateToChanged).toEqual(false);
         expect (settings.trigger.filterChanged).toEqual(false);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(100);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S/);
-        expect (settings.trigger.queryChanged).toEqual(true);
-        expect (settings.trigger.queryMinLength).toEqual(2);
+        expect (settings.trigger.queryChangeDelay).toEqual(100);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(false);
         expect (settings.url).toEqual("/test/");
     });
@@ -94,10 +94,10 @@ describe("CategorizeSettings basics", () => {
         expect (settings.trigger.dateFromChanged).toEqual(true);
         expect (settings.trigger.dateToChanged).toEqual(true);
         expect (settings.trigger.filterChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(-1);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.trigger.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/categorize");
     });

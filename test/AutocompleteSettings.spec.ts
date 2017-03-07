@@ -15,10 +15,10 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(200);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\s$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(3);
         expect (settings.url).toEqual("/autocomplete");
     });
 
@@ -34,10 +34,10 @@ describe("AutocompleteSettings basics", () => {
             enabled: false,
             trigger: {
                 maxSuggestionsChanged: false,
-                queryChangeTriggerDelay: 100,
-                queryChangeUndelayedRegex: /\S/,
-                queryChanged: true,
-                queryMinLength: 2,
+                queryChange: true,
+                queryChangeDelay: 100,
+                queryChangeInstantRegex: /\S/,
+                queryChangeMinLength: 2,
             },
             url: "/test/",
         } as AutocompleteSettings;
@@ -51,10 +51,10 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(false);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(100);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S/);
-        expect (settings.trigger.queryChanged).toEqual(true);
-        expect (settings.trigger.queryMinLength).toEqual(2);
+        expect (settings.trigger.queryChangeDelay).toEqual(100);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(2);
         expect (settings.url).toEqual("/test/");
     });
 
@@ -76,10 +76,10 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(true);
-        expect (settings.trigger.queryChangeTriggerDelay).toEqual(200);
-        expect (settings.trigger.queryChangeUndelayedRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChanged).toEqual(false);
-        expect (settings.trigger.queryMinLength).toEqual(3);
+        expect (settings.trigger.queryChangeDelay).toEqual(200);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\s$/);
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeMinLength).toEqual(3);
         expect (settings.url).toEqual("/autocomplete");
     });
 

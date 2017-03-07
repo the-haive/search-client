@@ -189,6 +189,9 @@ describe("SearchClient basics", () => {
         expect(client.searchType).toEqual(SearchType.Keywords);
         client.searchType = SearchType.Relevance;
         expect(client.searchType).toEqual(SearchType.Relevance);
+
+        // go
+        expect(client.go).toBeDefined();
     });
 
 });

@@ -205,6 +205,23 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    /**
+     * This method is typically called when the user clicks the search-button in the UI.
+     * For query-fields that accepts enter the default queryChangeInstantRegex catches enter (for find and categorize).
+     * When they don't take enter you will have to set up something that either catches the default enter or a user clicks
+     * on a "Search"-button or similar. The query is already updated (by other methods), so there should be no need to 
+     * pass the query along, it should already be stored.
+     * 
+     * When called it will unconditionally call the fetch() method of both Categorize and Find.
+     * 
+     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to awnt to list autocomplete 
+     * suggestions when the Search-button is clicked.
+     */
+    public go() {
+        this.categorize.fetch(this.query);
+        this.find.fetch(this.query);
+    }
+
     public matchPagePrev(): boolean {
         if (this.query.matchPage > 0) {
             let oldValue = this.query.matchPage;

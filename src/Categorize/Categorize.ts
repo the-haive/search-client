@@ -124,20 +124,18 @@ export class Categorize extends BaseCall {
     }
      
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.queryChanged) {
-            if (query.queryText.length > this.settings.trigger.queryMinLength) {
-                if (this.settings.trigger.queryChangeUndelayedRegex && this.settings.trigger.queryChangeUndelayedRegex.test(query.queryText)) {
+        if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
+            if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
+                if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
                     this.updateCategories(query);
                 } else {
-                    if (this.settings.trigger.queryChangeTriggerDelay > 0) {
+                    if (this.settings.trigger.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
                             this.updateCategories(query);
-                        }, this.settings.trigger.queryChangeTriggerDelay);
-                    } else {
-                        this.updateCategories(query);
+                        }, this.settings.trigger.queryChangeDelay);
                     }
                 }
             }
