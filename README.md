@@ -1,4 +1,4 @@
-# IntelliSearch Search Client
+# IntelliSearch SearchClient
 
 ## About
 This package that makes it easy to connecto to an IntelliSearch index from javascript/typescript. 
@@ -58,10 +58,9 @@ The <a href="./doc/classes/Settings.html">Settings</a> class holds properties as
 
 Please consult the documentation for specific details on each of them. Suffice to say that all the *Settings classes contains a boolean property called `enabled` , which by default is `true`. 
 
-### Automatic mode
+## Automatic mode
 
-#### Update the parameters that can change results
-
+### Update input
 In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type.
 
 These are **properties** on the SearchClient class and it is expected that you set and get them directly:
@@ -78,7 +77,7 @@ These are **properties** on the SearchClient class and it is expected that you s
 * `queryText`: string
 * `searchType`: <a href="./doc/enums/searchtype.html">SearchType</a>
 
-#### Operations
+### Set up triggers
 
 The `autocomplete`, `categorize` and `find` properties are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called `trigger`: 
 
@@ -106,9 +105,9 @@ These triggers have a common set of properties, inherited from the <a href="./do
   Default for Autocomplete: Trigger on first whitespace after non-whitespace.
   Default for Categorize/Find: Trigger on first ENTER after non-whitespace.
 
-This means that in the passed Settings-object you can differentiate on when the backend operations are to be executed.
+This means that in the passed Settings-object you can differentiate on when the backend operations are to be executed for each of them.
 
-#### Callbacks
+### Set up Callbacks
 
 The automatic mode operations (autocomplete, categorize and find) also allow you to specify callbacks as a part of the configuration. The callbacks can be used in the manual mode too, but they were designed to be part of the automatic mode primarily. 
 
@@ -123,7 +122,22 @@ The automatic mode operations (autocomplete, categorize and find) also allow you
 
 It is important to understand that autocomplete, categorize and find all have independent callbacks in the configuration. Because of this the success, error and busy-state for each of them can be tracked independently. This means that the query-field may have an indiactor somewhere that indicates that it is doing a lookup (if wanted). The categories section may have an indicator to tell that it is working, and finally the results area may also have an indicator telling that results are pending.
 
-#### Sample
+### Manual fetch
+
+In the automatic mode you will never normally use any of the webservice-operations directly. They will all be invoked indirectly as a result of you updating the input-values (as listed in the previous section).
+
+The web-service properties are available though (as long as you didn't pass `enabled: false` for them in the settings object). Please note that the autocomplete, categorize and find web-services will by default call any registered callbacks a a part of the fetch-process. If you don't want the callbacks to be enabled for the fetch then you can pass a second variable to the fetch()call, a boolean `suppressCallbacks` parameter, set to `true`.
+
+    // Sets suppressCallbacks to true via second param to fetch
+    client.find.fetch({ queryText: "Hello world" }, true)
+    .then((matches) => {
+        console.log("Find results:", matches);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+
+### Sample
 
     // Without authentication
     let client = new SearchClient("http://server/RestService/v3/", {
@@ -163,19 +177,36 @@ It is important to understand that autocomplete, categorize and find all have in
         }
     });
 
-    client.find.fetch({ queryText: "Hello world" })
-    .then((matches) => {
-        console.log("Find results:", matches);
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+    // Sets the queryText, which dependent on the setting triggers may or may not invoke a fetch on the various web-services.
+    // In this scenario autocomplete is not looked up since it is disabled in the settings object.
+    client.queryText = "hello world";
 
-### Manual mode
+    // The user clicks the Search-button and a find and categorize should be executed. 
+    client.go();
 
-In manual mode you control what web-service to call when yourself. The typical mode of operation is still to use the central SearchClient class, but call the "sub" web-services when you want, either allCategories, authentication, autocomplete, bestBets, categorize and find.
+    // The registered callbacks passed to the SearchClient constructor will be called automatically to track the progress and deliver results when returned. 
 
-#### Sample
+## Manual mode
+
+### Update input
+
+_N/A for the manual mode._
+
+### Set up triggers
+
+_N/A for the manual mode._
+
+### Set up callbacks
+
+While it is possible to set up callbacks to handle the results of the manual fetches, it is not the recommended practice. We suggest that you instead use the Promises returned (see sample below).
+
+### Manual fetch
+
+In manual mode you control which web-service to call when yourself. This is what the manual mode is all about. The typical mode of operation is still to instantiate the central SearchClient class, but to call the web-services via their repsective search-client instance properties: allCategories.fetch(), authentication.fetch(), autocomplete.fetch(), bestBets.fetch(), categorize.fetch() and find.fetch().
+
+Please note that the autocomplete, categorize and find web-services will by default call any registered callbacks a a part of the fetch-process. If you don't want the callbacks to be enabled for the fetch then you can pass a second variable to the fetch()call, a boolean `suppressCallbacks` parameter, set to `true`.
+
+### Sample
 
     let client = new SearchClient("http://server/RestService/v3/");
 
@@ -187,11 +218,7 @@ In manual mode you control what web-service to call when yourself. The typical m
         console.error(error);
     });
 
-
-
-
-
-you will call 
+It is recommended to use Promises as shown in the sample above when doing manual operations.
 
 ## Authentication
 
