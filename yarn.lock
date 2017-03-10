@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/deep-equal@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@types/deep-equal/-/deep-equal-0.0.30.tgz#c14df825c9201a1804980e7ebc3ef30e137bb64c"
+"@types/deep-equal@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/deep-equal/-/deep-equal-1.0.0.tgz#9ebeaa73d1fc4791f038a5f1440e0449ea968495"
 
 "@types/fs-extra@0.0.33":
   version "0.0.33"

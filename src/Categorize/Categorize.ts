@@ -7,6 +7,7 @@ import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
+import { DeferUpdates } from '../Common/DeferUpdates';
 import { Categories } from '../Data/Categories';
 import { AuthToken } from '../Authentication/AuthToken';
 
@@ -53,6 +54,11 @@ export class Categorize extends BaseCall {
         }
         return dateString;
     }
+
+    /**
+     * Sets up whether or not to deferUpdates.
+     */
+    public deferUpdates: DeferUpdates;
 
     private delay: NodeJS.Timer;
 

@@ -3,11 +3,19 @@ import { fetch } from 'domain-task';
 //import { AllCategories } from '../AllCategories';
 import { BaseCall } from '../Common/BaseCall';
 import { Query } from '../Common/Query';
+import { DeferUpdates } from '../Common/DeferUpdates';
+
 import { AuthToken } from '../Authentication/AuthToken';
 
 import { AutocompleteSettings } from './';
 
 export class Autocomplete extends BaseCall {
+    
+    /**
+     * Sets up whether or not to deferUpdates.
+     */
+    public deferUpdates: DeferUpdates;
+
     private INTELLIDEBUGQUERY: string = ":INTELLIDEBUGQUERY";
 
     private INTELLIALL: string = ":INTELLIALL";
@@ -15,6 +23,7 @@ export class Autocomplete extends BaseCall {
     private INTELLI: string = ":INTELLI";
 
     private delay: NodeJS.Timer;
+
 
     // private allCategories: AllCategories;
 

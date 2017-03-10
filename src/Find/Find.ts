@@ -5,6 +5,7 @@ import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
+import { DeferUpdates } from '../Common/DeferUpdates';
 import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
 import { Categorize } from '../Categorize/Categorize';
@@ -37,6 +38,11 @@ export class Find extends BaseCall {
 
         return params;
     }
+
+    /**
+     * Sets up whether or not to deferUpdates.
+     */
+    public deferUpdates: DeferUpdates;
 
     private delay: NodeJS.Timer;
 
