@@ -56,13 +56,6 @@ export class Categorize extends BaseCall {
     }
 
     /**
-     * Sets up whether or not to deferUpdates.
-     */
-    public deferUpdates: DeferUpdates;
-
-    private delay: NodeJS.Timer;
-
-    /**
      * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
      * Supports registering a callback in order to receive categories when they have been received.
      * @param baseUrl - The base url that the categorize is to fetch categories from.
@@ -107,25 +100,25 @@ export class Categorize extends BaseCall {
 
     public clientIdChanged(oldValue: string, query: Query) { 
         if (this.settings.trigger.clientIdChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
@@ -133,14 +126,14 @@ export class Categorize extends BaseCall {
         if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
             if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
                 if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
-                    this.updateCategories(query);
+                    this.update(query);
                 } else {
                     if (this.settings.trigger.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
-                            this.updateCategories(query);
+                            this.update(query);
                         }, this.settings.trigger.queryChangeDelay);
                     }
                 }
@@ -150,15 +143,8 @@ export class Categorize extends BaseCall {
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
-    }
-
-    private updateCategories(query: Query) {
-        // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-        clearTimeout(this.delay);
-
-        this.fetch(query);
     }
 
     private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {

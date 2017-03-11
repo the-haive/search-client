@@ -40,13 +40,6 @@ export class Find extends BaseCall {
     }
 
     /**
-     * Sets up whether or not to deferUpdates.
-     */
-    public deferUpdates: DeferUpdates;
-
-    private delay: NodeJS.Timer;
-
-    /**
      * Creates a Find instance that handles fetching matches dependent on settings and query. 
      * Supports registering a callback in order to receive matches when they have been received.
      * @param baseUrl - The base url that the find call is to use.
@@ -91,49 +84,49 @@ export class Find extends BaseCall {
 
     public clientIdChanged(oldValue: string, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.clientIdChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
 
     public matchGroupingChanged(oldValue: boolean, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.matchGroupingChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
 
     public matchOrderByChanged(oldValue: OrderBy, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.matchOrderByChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
     
     public matchPageChanged(oldValue: number, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.matchPageChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
     
     public matchPageSizeChanged(oldValue: number, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.matchPageSizeChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
     }
      
@@ -141,14 +134,14 @@ export class Find extends BaseCall {
         if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
             if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
                 if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
-                    this.updateMatches(query);
+                    this.update(query);
                 } else {
                     if (this.settings.trigger.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
-                            this.updateMatches(query);
+                            this.update(query);
                         }, this.settings.trigger.queryChangeDelay);
                     }
                 }
@@ -158,15 +151,8 @@ export class Find extends BaseCall {
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
-            this.updateMatches(query);
+            this.update(query);
         }
-    }
-
-    private updateMatches(query: Query) {
-        // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-        clearTimeout(this.delay);
-
-        this.fetch(query);
     }
 
     private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {

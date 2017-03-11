@@ -10,6 +10,12 @@ import { Query } from './Query';
 
 export abstract class BaseCall {
 
+    protected deferUpdate: boolean = false;
+
+    protected deferredQuery: Query = undefined;
+
+    protected delay: NodeJS.Timer;
+    
     /**
      * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
      * 
@@ -27,6 +33,25 @@ export abstract class BaseCall {
 
         this.baseUrl = baseUrl;
         this.auth = auth;
+    }
+
+    /**
+     * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution. 
+     * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
+     * @param state Turns on or off deferring of updates.
+     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
+     */
+    public deferUpdates(state: boolean, skipPending: boolean = false) {
+        console.log(state, skipPending);
+        this.deferUpdate = state;
+        if (!state && this.deferredQuery) {
+            let query = this.deferredQuery;
+            this.deferredQuery = undefined;
+            if (!skipPending) {
+                console.log(skipPending);
+                this.update(query);
+            }
+        }
     }
 
     /**
@@ -49,6 +74,18 @@ export abstract class BaseCall {
         } as RequestInit;
     }
 
+
+    public update(query: Query): void {
+        if (this.deferUpdate) {
+            // Save the query, so that when the deferUpdate is again false we can then execute it.
+            this.deferredQuery = query;
+        } else {
+            // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
+            clearTimeout(this.delay);
+            this.fetch(query);
+        }
+    }
+
     public clientIdChanged(oldValue: string, query: Query) { /* Default no implementation*/ };
     public dateFromChanged(oldValue: DateSpecification, query: Query) { /* Default no implementation*/ }
     public dateToChanged(oldValue: DateSpecification, query: Query) { /* Default no implementation*/ }
@@ -60,4 +97,7 @@ export abstract class BaseCall {
     public maxSuggestionsChanged(oldValue: number, query: Query) { /* Default no implementation*/ }
     public queryTextChanged(oldValue: string, query: Query) { /* Default no implementation*/ }
     public searchTypeChanged(oldValue: SearchType, query: Query) { /* Default no implementation*/ }
+
+    protected abstract fetch(query: Query, suppressCallbacks?: boolean): Promise<any> 
+
 }

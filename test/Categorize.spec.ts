@@ -7,7 +7,6 @@ import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
-import { Categories } from '../src/Data/Categories';
 import { Categorize } from '../src/Categorize';
 
 describe("Categorize basics", () => {

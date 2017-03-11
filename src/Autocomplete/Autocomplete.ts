@@ -11,19 +11,11 @@ import { AutocompleteSettings } from './';
 
 export class Autocomplete extends BaseCall {
     
-    /**
-     * Sets up whether or not to deferUpdates.
-     */
-    public deferUpdates: DeferUpdates;
+    // private INTELLIDEBUGQUERY: string = ":INTELLIDEBUGQUERY";
 
-    private INTELLIDEBUGQUERY: string = ":INTELLIDEBUGQUERY";
+    // private INTELLIALL: string = ":INTELLIALL";
 
-    private INTELLIALL: string = ":INTELLIALL";
-
-    private INTELLI: string = ":INTELLI";
-
-    private delay: NodeJS.Timer;
-
+    // private INTELLI: string = ":INTELLI";
 
     // private allCategories: AllCategories;
 
@@ -81,7 +73,7 @@ export class Autocomplete extends BaseCall {
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
         if (this.settings.cbSuccess && this.settings.trigger.maxSuggestionsChanged) {
-            this.updateSuggestions(query);
+            this.update(query);
         }
     }
 
@@ -89,14 +81,14 @@ export class Autocomplete extends BaseCall {
         if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
             if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
                 if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
-                    this.updateSuggestions(query);
+                    this.update(query);
                 } else {
                     if (this.settings.trigger.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
-                            this.updateSuggestions(query);
+                            this.update(query);
                         }, this.settings.trigger.queryChangeDelay);
                     }
                 }
@@ -140,18 +132,9 @@ export class Autocomplete extends BaseCall {
         return `${this.baseUrl + this.settings.url}?${params.join('&')}`;
     }
 
-    private updateSuggestions(query: Query): void {
-        //this.updateWordSuggestions(query);
-        this.updatePhraseSuggestions(query);
-    }
-
     // private updateWordSuggestions(query: Query) {
     //     // Not implemented ywt.
     // }
-
-    private updatePhraseSuggestions(query: Query) {
-        this.fetch(query);
-    }
 
     // private completeWord(query: Query): string[] {
     //     let words = query.queryText.split(" "); 
