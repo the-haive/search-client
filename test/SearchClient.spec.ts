@@ -6,7 +6,7 @@ require("babel-polyfill");
 import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
-import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches } from '../src/SearchClient';
+import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches, FindSettings, FindTrigger } from '../src/SearchClient';
 
 describe("SearchClient basics", () => {
 
@@ -81,7 +81,6 @@ describe("SearchClient basics", () => {
     });
 
     it("Search instance with empty settings should have expected query interfaces", () => {
-        //Date.now = jest.fn().mockReturnValue(new Date());
         let client = new SearchClient("http://localhost:9950/RestService/v3/");
 
         // authenticationToken
@@ -98,11 +97,11 @@ describe("SearchClient basics", () => {
         expect(client.dateFrom).toBeNull();
         expect(client.dateTo).toBeNull();
 
-        let from = {M: -1};
+        let from = {M: -2};
         client.dateFrom = from;
         expect(client.dateFrom).toEqual(from);
 
-        let to = {M: 0};
+        let to = {M: -1};
         client.dateTo = to;
         expect(client.dateTo).toEqual(to);
 
@@ -191,74 +190,100 @@ describe("SearchClient basics", () => {
         expect(client.searchType).toEqual(SearchType.Relevance);
 
         // go
-        expect(client.go).toBeDefined();
+        expect(client.findAndCategorize).toBeDefined();
+        // TODO: client.findAndCategorize();
+        
+        expect(client.findAndCategorize).toBeDefined();
+
+        let now = new Date();
+        let PFind = <any> Find;
+        let params = PFind.getUrlParams(client.query);
+        let dateFrom = new Date(decodeURIComponent(params[2].split("=")[1]));
+        let dateTo = new Date(decodeURIComponent(params[3].split("=")[1]));
+
+        // Expecting the from-date to be two months back in time. 
+        const fromDiff = Math.round((now.valueOf() - dateFrom.valueOf()) / (1000 * 60 * 60 * 24));
+        // Expecting the to-date to be one month back in time. 
+        const toDiff = Math.round((now.valueOf() - dateTo.valueOf()) / (1000 * 60 * 60 * 24));
+
+        expect(fromDiff).toBeGreaterThanOrEqual(59); // shortest two months = 28+31
+        expect(fromDiff).toBeLessThanOrEqual(62); // longest two months = 31+31
+        expect(toDiff).toBeGreaterThanOrEqual(28); // shortest month = 28
+        expect(toDiff).toBeLessThanOrEqual(31); // Longest month = 31
     });
 
+    it("Search instance with empty settings should have expected query interfaces", () => {
+        let settings = new Settings({
+            find: {
+                cbSuccess: <any> jest.fn(),
+                trigger: {
+                    queryChange: true,
+                    queryChangeInstantRegex: /\S $/,
+                },
+            },
+        } as Settings);
+
+        let client = new SearchClient("http://localhost:9950/RestService/v3/", settings);
+        let pClient = <any> client;
+        
+        const autocompleteFetch = jest.fn();
+        (<any> client.autocomplete).fetch = autocompleteFetch;
+
+        const categorizeFetch = jest.fn();
+        (<any> client.categorize).fetch = categorizeFetch;
+
+        const findFetch = jest.fn();
+        (<any> client.find).fetch = findFetch;
+
+
+        // With current settings none of the services should update for queryText="test"
+        client.queryText = "test";
+        expect(pClient.settings.query.queryText).toEqual("test");
+        expect(pClient.settings.find.trigger.queryChange).toEqual(true);
+        expect(pClient.find.settings.trigger.queryChange).toEqual(true);
+        expect(pClient.settings.find.trigger.queryChangeInstantRegex).toEqual(/\S $/);
+        expect(pClient.find.settings.trigger.queryChangeInstantRegex).toEqual(/\S $/);
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).not.toBeCalled(); findFetch.mockReset();
+
+
+        // But, if the query ends with a space then the find-service should update (has callback and has enabled queryChangeTrigger and set instanceRegex)
+        client.queryText = "test ";
+        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).toBeCalled(); findFetch.mockReset();
+
+        // But, if we do the same, this time while deferring updates, the update should not be called.
+        client.deferUpdatesForAll(true);
+        client.queryText = "test";
+        client.queryText = "test ";
+        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).not.toBeCalled(); findFetch.mockReset();
+
+        // At least not until we again open up the deferring
+        client.deferUpdatesForAll(false);
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).toHaveBeenCalledTimes(1); findFetch.mockReset();
+
+        // We try once more to defer updates
+        client.deferUpdatesForAll(true);
+        client.queryText = "test";
+        client.queryText = "test ";
+        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).not.toBeCalled(); findFetch.mockReset();
+
+        // But this time we open and skipPending updates when clearing the defer
+        client.deferUpdatesForAll(false, true);
+        expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
+        expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
+        expect(findFetch).not.toBeCalled(); findFetch.mockReset();
+        
+    });
 });
-
-// describe("SearchClient live tests (require empty search-service to be instantiated)", () => {
-
-//     it("Should get an Autocomplete lookup for word with 0 suggestions on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.autocomplete("test")
-//         .then((suggestions: string[]) => {
-//             expect(suggestions.length).toEqual(0);
-//         });
-//     });
-
-//     it("Should get an Autocomplete lookup for Autocomplete options with 0 suggestions on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.autocomplete({ queryText: "test" } as AutocompleteSettings)
-//         .then((suggestions: string[]) => {
-//             expect(suggestions.length).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a Find result for queryText with 0 matches on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.find("test")
-//         .then((matches: Matches) => {
-//             expect(matches.searchMatches.length).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a Find result for Query options with 0 matches on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.find({ queryText: "test" } as QuerySettings)
-//         .then((matches: Matches) => {
-//             expect(matches.searchMatches.length).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a Categorize result for queryText with 0 categories on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.categorize("test")
-//         .then((categories: Categories) => {
-//             expect(categories.matchCount).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a Categorize result for Query with 0 categories on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.categorize({ queryText: "test"} as QuerySettings)
-//         .then((categories: Categories) => {
-//             expect(categories.matchCount).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a AllCategories result with 0 categories on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.allCategories()
-//         .then((categories: Categories) => {
-//             expect(categories.matchCount).toEqual(0);
-//         });
-//     });
-
-//     it("Should get a BestBets result with 0 best-bets on empty localhost:9950, if available", () =>{
-//         let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
-//         return searchClient.bestBets()
-//         .then((bestBets: string[]) => {
-//             expect(bestBets.length).toEqual(0);
-//         });
-//     });
-// });

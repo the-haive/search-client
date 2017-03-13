@@ -11,15 +11,17 @@ describe("BestBetsSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof BestBetsSettings).toBeTruthy();
         expect (settings.enabled).toBeTruthy();
+        expect (settings.cbRequest).toBeUndefined();
+        expect (settings.cbError).toBeUndefined();
+        expect (settings.cbSuccess).toBeUndefined();
         expect (settings.url).toEqual("/manage/bestbets");
     });
 
     it("Should be poassible to pass in an BestBetsSettings object to use for values.", () => {
-        let fnBusy = (isBusy: boolean, url: string, reqInit: RequestInit) => { /* dummy */};
-        let fnError = (error: any) => { /* dummy */};
-        let fnSuccess = (token: string) => { /* dummy */};
-
         let settings = {
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn(),
             enabled: false,
             url: "/test/",
         } as BestBetsSettings;
@@ -29,12 +31,18 @@ describe("BestBetsSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof BestBetsSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
+        expect (settings.cbRequest).toBeDefined();
+        expect (settings.cbError).toBeDefined();
+        expect (settings.cbSuccess).toBeDefined();
         expect (settings.url).toEqual("/test/");
     });
 
     it("Should be poassible to pass a partial BestBetsSettings object to use for values.", () => {
 
         let settings = {
+            cbError: (error: any) => { /* dummy */},
+            cbRequest: (url: string, reqInit: RequestInit) => { /* dummy */},
+            cbSuccess: (data: string[]) => { /* dummy */},
             enabled: false,
         } as BestBetsSettings;
 
@@ -43,6 +51,9 @@ describe("BestBetsSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof BestBetsSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
+        expect (settings.cbRequest).toBeDefined();
+        expect (settings.cbError).toBeDefined();
+        expect (settings.cbSuccess).toBeDefined();
         expect (settings.url).toEqual("/manage/bestbets");
     });
 

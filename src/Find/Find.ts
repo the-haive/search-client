@@ -5,14 +5,13 @@ import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
-import { DeferUpdates } from '../Common/DeferUpdates';
 import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
 import { Categorize } from '../Categorize/Categorize';
 
 import { FindSettings } from './FindSettings';
 
-export class Find extends BaseCall {
+export class Find extends BaseCall<Matches> {
 
     /**
      * Returns the specific rest-path segment for the Find url.
@@ -41,21 +40,20 @@ export class Find extends BaseCall {
 
     /**
      * Creates a Find instance that handles fetching matches dependent on settings and query. 
-     * Supports registering a callback in order to receive matches when they have been received.
      * @param baseUrl - The base url that the find call is to use.
      * @param settings - The settings that define how the Find instance is to operate.
      * @param auth - An auth-object that handles the authentication.
      */
-    constructor(baseUrl: string, private settings?: FindSettings, auth?: AuthToken) {
-        super(baseUrl, auth);
-        this.settings = new FindSettings(settings);
+    constructor(baseUrl: string, protected settings: FindSettings = new FindSettings(), auth?: AuthToken) {
+        super(baseUrl, settings, auth);
     }
 
     /**
-     * Fetches the search-result matches from the server.
+     * Fetches the search-result matches from the server. 
+     * Note that if a request callback has been setup then if it returns false the request is skipped.
      * @param query - The query-object that controls which results that are to be returned.
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a promise that when resolved returns a Matches object.
+     * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Matches> {
 
@@ -63,23 +61,25 @@ export class Find extends BaseCall {
         let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
         let reqInit = this.requestObject();
 
-        this.cbBusy(suppressCallbacks, true, url, reqInit);
-
-        return fetch(url, reqInit)
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((matches: Matches) => {
-                this.cbSuccess(suppressCallbacks, matches, url, reqInit);
-                return matches;
-            })
-            .catch((error) => {
-                this.cbError(suppressCallbacks, error, url, reqInit);
-                return Promise.reject(error);
-            });
+        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+            return fetch(url, reqInit)
+                .then((response: Response) => {
+                    if (!response.ok) {
+                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    }
+                    return response.json();
+                })
+                .then((matches: Matches) => {
+                    this.cbSuccess(suppressCallbacks, matches, url, reqInit);
+                    return matches;
+                })
+                .catch((error) => {
+                    this.cbError(suppressCallbacks, error, url, reqInit);
+                    return Promise.reject(error);
+                });
+        } else {
+            return undefined;
+        }
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
@@ -155,24 +155,4 @@ export class Find extends BaseCall {
         }
     }
 
-    private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {
-        if (this.settings.cbBusy && !suppressCallbacks) {
-            this.settings.cbBusy(true, url, reqInit);
-        }
-    }
-
-    private cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbError(error);
-        }
-    }
-
-    private cbSuccess(suppressCallbacks: boolean, matches: Matches, url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbSuccess(matches);
-        }
-    }
-    
 }

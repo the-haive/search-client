@@ -1,9 +1,9 @@
-import { Setting } from '../Common/Setting';
+import { SearchSettings } from '../Common/SearchSettings';
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
-export class BestBetsSettings extends Setting {
+export class BestBetsSettings extends SearchSettings<string[]> {
 
     /**
      * The endpoint to do categorize lookups for.
@@ -15,7 +15,7 @@ export class BestBetsSettings extends Setting {
      * @param bestBetsSettings - The settings defined here will override the default BestBetsSettings.
      */
     constructor(bestBetsSettings?: BestBetsSettings) {
-        super();
+        super(bestBetsSettings);
         Object.assign(this, bestBetsSettings);
     }
 

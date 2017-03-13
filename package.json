@@ -18,7 +18,7 @@
     "test:watch": "yarn test -- --watch",
     "coverage": "yarn test -- --coverage --no-cache",
     "coverage:watch": "yarn run coverage -- --watch",
-    "doc": "echo. && echo *** Documenting... && yarn run rimraf -- doc && yarn run typedoc -- ./src/ --readme GETTING_STARTED.md --exclude node_modules --ignoreCompilerErrors --mode file --experimentalDecorators --target ES6 --out ./doc/ && echo *** Documentation created: doc/index.html",
+    "doc": "echo. && echo *** Documenting... && yarn run rimraf -- doc && yarn run typedoc -- ./src/ --readme GETTING_STARTED.md --exclude node_modules --ignoreCompilerErrors --excludePrivate --mode file --experimentalDecorators --target ES6 --out ./doc/ && echo *** Documentation created: doc/index.html",
     "prepack": "yarn run test && yarn run doc && echo *** Prepack success. && echo - If ready to release, commit changes and then 'yarn run pack'. && echo - Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md",
     "pack": "echo. && echo *** Packing... && yarn run standard-version && yarn pack && echo Pack success. && echo - Release notes created and committed. && echo - Package created. && echo - Remember to git-push commits and tags to the git-origin! && echo - Run 'npm publish' to publish the package to the npmjs repository."
   },
@@ -58,13 +58,13 @@
   },
   "dependencies": {
     "@types/deep-equal": "^1.0.0",
-    "@types/jsonwebtoken": "~7.2.0",
+    "@types/jwt-simple": "^0.5.32",
     "@types/moment": "^2.13.0",
     "@types/valid-url": "~1.0.2",
     "@types/whatwg-fetch": "~0.0.33",
     "deep-equal": "^1.0.1",
     "domain-task": "~3.0.0",
-    "jsonwebtoken": "~7.3.0",
+    "jwt-simple": "^0.5.1",
     "moment": "^2.17.1",
     "valid-url": "~1.0.9"
   },

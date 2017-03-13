@@ -37,26 +37,26 @@ In addition, there are two other incomplete or experimental REST-interfaces expo
 
 This section will cover only the basics. I highly recommend using the API-documentation for more details and insight.
 
-### <a href="./doc/classes/SearchClient.html">SearchClient</a>
+### <a href="./classes/SearchClient.html">SearchClient</a>
 
-The central class is the <a href="./doc/classes/SearchClient.html">SearchClient</a>. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object. 
+The central class is the <a href="./classes/SearchClient.html">SearchClient</a>. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object. 
 
    * The base-url is typically "http://myserver/RestService/v3/" for IntelliSearch SearchService. 
    * The settings object has properties that help you customize the solution to your needs.
      * If you are using the "manual" mode with promises, then you can leave this empty.
      * If you want to use the "automatic" mode, then you will have to set up some of these properties.
 
-### <a href="./doc/classes/Settings.html">Settings</a>
+### <a href="./classes/Settings.html">Settings</a>
 
-The <a href="./doc/classes/Settings.html">Settings</a> class holds properties as follows:
+The <a href="./classes/Settings.html">Settings</a> class holds properties as follows:
 
-* `allCategories`: <a href="./doc/classes/AllCategoriesSettings.html">AllCategoriesSettings</a> 
-* `authentication`: <a href="./doc/classes/AuthenticationSettings.html">AuthenticationSettings</a> 
-* `autocomplete`: <a href="./doc/classes/AutocompleteSettings.html">AutocompleteSettings</a> 
-* `bestBets`: <a href="./doc/classes/BestBetsSettings.html">BestBetsSettings</a> 
-* `categorize`: <a href="./doc/classes/CategorizeSettings.html">CategorizeSettings</a> 
-* `find`: <a href="./doc/classes/FindSettings.html">FindSettings</a> 
-* `query`: <a href="./doc/classes/Query.html">Query</a> 
+* `allCategories`: <a href="./classes/AllCategoriesSettings.html">AllCategoriesSettings</a> 
+* `authentication`: <a href="./classes/AuthenticationSettings.html">AuthenticationSettings</a> 
+* `autocomplete`: <a href="./classes/AutocompleteSettings.html">AutocompleteSettings</a> 
+* `bestBets`: <a href="./classes/BestBetsSettings.html">BestBetsSettings</a> 
+* `categorize`: <a href="./classes/CategorizeSettings.html">CategorizeSettings</a> 
+* `find`: <a href="./classes/FindSettings.html">FindSettings</a> 
+* `query`: <a href="./classes/Query.html">Query</a> 
 
 Please consult the documentation for specific details on each of them. Suffice to say that all the *Settings classes contains a boolean property called `enabled` , which by default is `true`. 
 
@@ -68,26 +68,26 @@ In order for the automatic mode to work you need to update the values in your qu
 These are **properties** on the SearchClient class and it is expected that you set and get them directly:
 
 * `clientId`: string
-* `dateFrom`: <a href="./doc/globals.html#datespecification">DateSpecification</a>
-* `dateTo`: <a href="./doc/globals.html#datespecification">DateSpecification</a>
+* `dateFrom`: <a href="./globals.html#datespecification">DateSpecification</a>
+* `dateTo`: <a href="./globals.html#datespecification">DateSpecification</a>
 * `filters`: string[]
 * `matchGrouping`: boolean
-* `matchOrderBy`: <a href="./doc/enums/orderby.html">OrderBy</a>
+* `matchOrderBy`: <a href="./enums/orderby.html">OrderBy</a>
 * `matchPage`: number
 * `matchPageSize`: number
 * `maxSuggestions`: number
 * `queryText`: string
-* `searchType`: <a href="./doc/enums/searchtype.html">SearchType</a>
+* `searchType`: <a href="./enums/searchtype.html">SearchType</a>
 
 ### Set up triggers
 
 The `autocomplete`, `categorize` and `find` properties are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called `trigger`: 
 
-* <a href="./doc/classes/AutocompleteTrigger.html">AutocompleteTrigger</a>
-* <a href="./doc/classes/CategorizeTrigger.html">CategorizeTrigger</a>
-* <a href="./doc/classes/FindTrigger.html">FindTrigger</a>
+* <a href="./classes/AutocompleteTrigger.html">AutocompleteTrigger</a>
+* <a href="./classes/CategorizeTrigger.html">CategorizeTrigger</a>
+* <a href="./classes/FindTrigger.html">FindTrigger</a>
 
-These triggers have a common set of properties, inherited from the <a href="./doc/classes/Trigger.html">Trigger</a> class:
+These triggers have a common set of properties, inherited from the <a href="./classes/Trigger.html">Trigger</a> class:
 
 * `queryChange`:\
   Trigger execution when the query changes.

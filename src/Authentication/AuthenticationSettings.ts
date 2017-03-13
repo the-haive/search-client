@@ -1,30 +1,11 @@
-import { Setting } from '../Common';
+import { SearchSettings } from '../Common/SearchSettings';
 
 import { AuthenticationTrigger } from './AuthenticationTrigger';
 
 /**
  * These are all the settings that can affect the use of jwt authentication in the search-client.
  */
-export class AuthenticationSettings extends Setting {
-
-    /**
-     * Called twice for each request: 
-     * 1. First when starting to fetch the authentication-token. 
-     * 2. Then when done with fetching the token (both for success and failure).
-     */
-    public cbBusy: (isBusy: boolean, url: string, reqInit: RequestInit) => void = undefined;
-
-    /**
-     * A notifier method to call whenever the lookup fails.
-     * @param error - An error object as given by the fetch operation.
-     */
-    public cbError: (error: any) => void = undefined;
-
-    /**
-     * A notifier method to call whenever the lookup results have been received.
-     * @param authToken - The lookup results.
-     */
-    public cbSuccess: (authToken: string) => void = undefined;
+export class AuthenticationSettings extends SearchSettings<any> {
 
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
@@ -52,7 +33,7 @@ export class AuthenticationSettings extends Setting {
      * @param authenticationSettings - The settings defined here will override the default AuthenticationSettings.
      */
     constructor(authenticationSettings?: AuthenticationSettings) {
-        super();
+        super(authenticationSettings);
         if (authenticationSettings) {
             authenticationSettings.trigger = new AuthenticationTrigger(authenticationSettings.trigger);
         }

@@ -3,13 +3,17 @@ import { fetch } from 'domain-task';
 //import { AllCategories } from '../AllCategories';
 import { BaseCall } from '../Common/BaseCall';
 import { Query } from '../Common/Query';
-import { DeferUpdates } from '../Common/DeferUpdates';
 
 import { AuthToken } from '../Authentication/AuthToken';
 
 import { AutocompleteSettings } from './';
 
-export class Autocomplete extends BaseCall {
+/**
+ * This class allows you to create a service that executes autocomplete lookupds for the IntelliSearch SearchService.
+ * 
+ * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
+ */
+export class Autocomplete extends BaseCall<string[]> {
     
     // private INTELLIDEBUGQUERY: string = ":INTELLIDEBUGQUERY";
 
@@ -27,9 +31,8 @@ export class Autocomplete extends BaseCall {
      * @param settings - The settings for how the Autocomplete is to operate.
      * @param auth - The object that handles authentication.
      */
-    constructor(baseUrl: string, private settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
-        super(baseUrl, auth);
-        this.settings = new AutocompleteSettings(settings);
+    constructor(baseUrl: string, protected settings: AutocompleteSettings = new AutocompleteSettings(), auth?: AuthToken/*, allCategories: AllCategories*/) {
+        super(baseUrl, settings, auth);
 
         // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
         // allCategories.fetch().then((categories) => { 
@@ -40,35 +43,35 @@ export class Autocomplete extends BaseCall {
 
     /**
      * When called it will execute a rest-call to the base-url and fetch sutocomplete suggestions based on the query passed.
-     * Note: If a callback has been registered in the initial constructor then it is expected to NOT call that callback when 
-     * the fetch call is completed. The callback is intended for the "automatic mode", where it is i.e. controlled by the SearchClient interface.
-     * TODO: Add a parameter to control whether or not to call the callback when the call returns.
+     * Note that if a request callback has been setup then if it returns false the request is skipped.
      * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved. 
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a Promise that when resolved returns a string array of suggestions.
+     * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<string[]> {
 
         let url = this.toUrl(query);
         let reqInit = this.requestObject();
 
-        this.cbBusy(suppressCallbacks, true, url, reqInit);
-
-        return fetch(url, reqInit)
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((suggestions: string[]) => {
-                this.cbSuccess(suppressCallbacks, suggestions, url, reqInit);
-                return suggestions;
-            })
-            .catch((error) => {
-                this.cbError(suppressCallbacks, error, url, reqInit);
-                return Promise.reject(error);
-            });
+        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+            return fetch(url, reqInit)
+                .then((response: Response) => {
+                    if (!response.ok) {
+                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    }
+                    return response.json();
+                })
+                .then((suggestions: string[]) => {
+                    this.cbSuccess(suppressCallbacks, suggestions, url, reqInit);
+                    return suggestions;
+                })
+                .catch((error) => {
+                    this.cbError(suppressCallbacks, error, url, reqInit);
+                    return Promise.reject(error);
+                });
+        } else {
+            return undefined;
+        }
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
@@ -96,26 +99,6 @@ export class Autocomplete extends BaseCall {
         }
     }
     
-    private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {
-        if (this.settings.cbBusy && !suppressCallbacks) {
-            this.settings.cbBusy(true, url, reqInit);
-        }
-    }
-
-    private cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbError(error);
-        }
-    }
-
-    private cbSuccess(suppressCallbacks: boolean, suggestions: string[], url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbSuccess(suggestions);
-        }
-    }
-
     // TODO: In the future we may differ on what autocomplete suggestions to suggest depending on the searchtype. 
     //public searchTypeChanged(oldValue: SearchType, query: CategorizeQuery) { }
 

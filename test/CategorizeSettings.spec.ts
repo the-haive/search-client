@@ -12,7 +12,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeTruthy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
         expect (settings.trigger.clientIdChanged).toEqual(true);
@@ -28,14 +28,10 @@ describe("CategorizeSettings basics", () => {
     });
 
     it("Should be poassible to pass in an CategorizeSettings object to use for values.", () => {
-        let fnBusy = (isBusy: boolean, url: string, reqInit: RequestInit) => { /* dummy */};
-        let fnError = (error: any) => { /* dummy */};
-        let fnSuccess = (categories: Categories) => { /* dummy */};
-
         let settings = {
-            cbBusy: fnBusy,
-            cbError: fnError,
-            cbSuccess: fnSuccess,
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn(),
             enabled: false,
             trigger: {
                 clientIdChanged: false,
@@ -56,7 +52,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeDefined();
+        expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.clientIdChanged).toEqual(false);
@@ -72,10 +68,8 @@ describe("CategorizeSettings basics", () => {
     });
 
     it("Should be poassible to pass a partial CategorizeSettings object to use for values.", () => {
-        let fnSuccess = (categories: Categories) => { /* dummy */};
-
         let settings = {
-            cbSuccess: fnSuccess,
+            cbSuccess: (categories: Categories) => { /* dummy */},
             enabled: false,
             trigger: {
                 clientIdChanged: false,
@@ -87,7 +81,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.clientIdChanged).toEqual(false);
@@ -101,5 +95,29 @@ describe("CategorizeSettings basics", () => {
         expect (settings.trigger.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/categorize");
     });
+
+    it("Should be poassible to pass a partial CategorizeSettings object to use for values.", () => {
+        let settings = {
+            cbSuccess: (categories: Categories) => { /* dummy */},
+            enabled: false,
+                trigger: {
+                    queryChange: true,
+                    queryChangeInstantRegex: /\S $/,
+                },
+        } as CategorizeSettings;
+
+        settings = new CategorizeSettings(settings);
+
+        expect(settings).toBeDefined();
+        expect(settings instanceof CategorizeSettings).toBeTruthy();
+        expect (settings.enabled).toBeFalsy();
+        expect (settings.cbRequest).toBeUndefined();
+        expect (settings.cbError).toBeUndefined();
+        expect (settings.cbSuccess).toBeDefined();
+        expect (settings.trigger.queryChange).toEqual(true);
+        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S $/);
+        expect (settings.url).toEqual("/search/categorize");
+    });
+
 
 });

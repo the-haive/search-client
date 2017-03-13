@@ -12,7 +12,7 @@ describe("FindSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof FindSettings).toBeTruthy();
         expect (settings.enabled).toBeTruthy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
         expect (settings.trigger.clientIdChanged).toEqual(true);
@@ -32,14 +32,10 @@ describe("FindSettings basics", () => {
     });
 
     it("Should be poassible to pass in an FindSettings object to use for values.", () => {
-        let fnBusy = (isBusy: boolean, url: string, reqInit: RequestInit) => { /* dummy */};
-        let fnError = (error: any) => { /* dummy */};
-        let fnSuccess = (matches: Matches) => { /* dummy */};
-
         let settings = {
-            cbBusy: fnBusy,
-            cbError: fnError,
-            cbSuccess: fnSuccess,
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn(),
             enabled: false,
             trigger: {
                 clientIdChanged: false,
@@ -64,7 +60,7 @@ describe("FindSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof FindSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeDefined();
+        expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.clientIdChanged).toEqual(false);
@@ -100,7 +96,7 @@ describe("FindSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof FindSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.clientIdChanged).toEqual(false);
