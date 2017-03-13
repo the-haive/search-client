@@ -5,3 +5,4 @@ export * from './Trigger';
 export * from './Query';
 export * from './BaseCall';
 export * from './Settings';
+export * from './Components';

@@ -11,7 +11,7 @@ describe("AutocompleteSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof AutocompleteSettings).toBeTruthy();
         expect (settings.enabled).toBeTruthy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(true);
@@ -23,14 +23,10 @@ describe("AutocompleteSettings basics", () => {
     });
 
     it("Should be poassible to pass in an AutocompleteSettings object to use for values.", () => {
-        let fnBusy = (isBusy: boolean, url: string, reqInit: RequestInit) => { /* dummy */};
-        let fnError = (error: any) => { /* dummy */};
-        let fnSuccess = (suggestions: string[]) => { /* dummy */};
-
         let settings = {
-            cbBusy: fnBusy,
-            cbError: fnError,
-            cbSuccess: fnSuccess,
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn(),
             enabled: false,
             trigger: {
                 maxSuggestionsChanged: false,
@@ -47,7 +43,7 @@ describe("AutocompleteSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof AutocompleteSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeDefined();
+        expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(false);
@@ -59,10 +55,9 @@ describe("AutocompleteSettings basics", () => {
     });
 
     it("Should be poassible to pass a partial AutocompleteSettings object to use for values.", () => {
-        let fnSuccess = (suggestions: string[]) => { /* dummy */};
 
         let settings = {
-            cbSuccess: fnSuccess,
+            cbSuccess: (suggestions: string[]) => { /* dummy */},
             enabled: false,
             trigger: {},
         } as AutocompleteSettings;
@@ -72,7 +67,7 @@ describe("AutocompleteSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof AutocompleteSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
-        expect (settings.cbBusy).toBeUndefined();
+        expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.trigger.maxSuggestionsChanged).toEqual(true);

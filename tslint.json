@@ -19,7 +19,7 @@
 		],
 		"interface-name": [
 			false
-		]
-
+		],
+		"no-bitwise": false
 	}
 }

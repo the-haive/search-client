@@ -20,20 +20,20 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
-        expect (settings.authentication.cbBusy).toBeUndefined();
+        expect (settings.authentication.cbRequest).toBeUndefined();
         expect (settings.authentication.cbError).toBeUndefined();
         expect (settings.authentication.cbSuccess).toBeUndefined();
-        expect (settings.autocomplete.cbBusy).toBeUndefined();
+        expect (settings.autocomplete.cbRequest).toBeUndefined();
         expect (settings.autocomplete.cbError).toBeUndefined();
         expect (settings.autocomplete.cbSuccess).toBeUndefined();
-        expect (settings.categorize.cbBusy).toBeUndefined();
+        expect (settings.categorize.cbRequest).toBeUndefined();
         expect (settings.categorize.cbError).toBeUndefined();
         expect (settings.categorize.cbSuccess).toBeUndefined();
-        expect (settings.find.cbBusy).toBeUndefined();
+        expect (settings.find.cbRequest).toBeUndefined();
         expect (settings.find.cbError).toBeUndefined();
         expect (settings.find.cbSuccess).toBeUndefined();
 
-        let fnBusy = (isBusy: boolean, url: string, reqInit: RequestInit) => { /* dummy */};
+        let fnRequest = (url: string, reqInit: RequestInit) => { /* dummy */};
         let fnError = (error: any) => { /* dummy */};
         let fnSuccessAutocomplete = (suggestions: string[]) => { /* dummy */};
         let fnSuccessCategorize = (categories: Categories) => { /* dummy */};
@@ -42,18 +42,18 @@ describe("Settings basics", () => {
         settings = {
             authentication: { enabled: false },
             autocomplete: {
-                cbBusy: fnBusy,
                 cbError: fnError,
+                cbRequest: fnRequest,
                 cbSuccess: fnSuccessAutocomplete,
             },
             categorize: {
-                cbBusy: fnBusy,
                 cbError: fnError,
+                cbRequest: fnRequest,
                 cbSuccess: fnSuccessCategorize,
             },
             find: { 
-                cbBusy: fnBusy,
                 cbError: fnError,
+                cbRequest: fnRequest,
                 cbSuccess: fnSuccessFind,
             },
         } as Settings;
@@ -69,16 +69,16 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
-        expect (settings.authentication.cbBusy).toBeUndefined();
+        expect (settings.authentication.cbRequest).toBeUndefined();
         expect (settings.authentication.cbError).toBeUndefined();
         expect (settings.authentication.cbSuccess).toBeUndefined();
-        expect (settings.autocomplete.cbBusy).toBeDefined();
+        expect (settings.autocomplete.cbRequest).toBeDefined();
         expect (settings.autocomplete.cbError).toBeDefined();
         expect (settings.autocomplete.cbSuccess).toBeDefined();
-        expect (settings.categorize.cbBusy).toBeDefined();
+        expect (settings.categorize.cbRequest).toBeDefined();
         expect (settings.categorize.cbError).toBeDefined();
         expect (settings.categorize.cbSuccess).toBeDefined();
-        expect (settings.find.cbBusy).toBeDefined();
+        expect (settings.find.cbRequest).toBeDefined();
         expect (settings.find.cbError).toBeDefined();
         expect (settings.find.cbSuccess).toBeDefined();
 
@@ -93,16 +93,16 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
-        expect (settings.authentication.cbBusy).toBeUndefined();
+        expect (settings.authentication.cbRequest).toBeUndefined();
         expect (settings.authentication.cbError).toBeUndefined();
         expect (settings.authentication.cbSuccess).toBeUndefined();
-        expect (settings.autocomplete.cbBusy).toBeDefined();
+        expect (settings.autocomplete.cbRequest).toBeDefined();
         expect (settings.autocomplete.cbError).toBeDefined();
         expect (settings.autocomplete.cbSuccess).toBeDefined();
-        expect (settings.categorize.cbBusy).toBeDefined();
+        expect (settings.categorize.cbRequest).toBeDefined();
         expect (settings.categorize.cbError).toBeDefined();
         expect (settings.categorize.cbSuccess).toBeDefined();
-        expect (settings.find.cbBusy).toBeDefined();
+        expect (settings.find.cbRequest).toBeDefined();
         expect (settings.find.cbError).toBeDefined();
         expect (settings.find.cbSuccess).toBeDefined();
     });

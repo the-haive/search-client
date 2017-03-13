@@ -1,6 +1,6 @@
 //import { DateRange } from '../Common/DateRange';
 import { fetch } from 'domain-task';
-import moment from 'moment/moment';
+import * as moment from 'moment/moment';
 
 import { DateSpecification } from '../Common/Query';
 import { BaseCall } from '../Common/BaseCall';
@@ -13,7 +13,7 @@ import { AuthToken } from '../Authentication/AuthToken';
 import { CategorizeSettings } from './CategorizeSettings';
 import { CategorizeTrigger } from './CategorizeTrigger';
 
-export class Categorize extends BaseCall {
+export class Categorize extends BaseCall<Categories> {
 
     /**
      * Returns the specific rest-path segment for the Categorize url.
@@ -28,13 +28,13 @@ export class Categorize extends BaseCall {
             params.push(`t=${encodeURIComponent(SearchType[query.searchType])}`);
         }
 
-        if (query.filters) {
+        if (query.filters.length > 0) {
             params.push(`f=${encodeURIComponent(query.filters.join(';'))}`);
         }
 
         if (query.dateFrom && query.dateTo) {
             params.push(`df=${encodeURIComponent(Categorize.createDate(query.dateFrom))}`);
-            params.push(`dt=${encodeURIComponent(Categorize.createDate(query.dateFrom))}`);
+            params.push(`dt=${encodeURIComponent(Categorize.createDate(query.dateTo))}`);
         }
 
         if (query.clientId) {
@@ -54,8 +54,6 @@ export class Categorize extends BaseCall {
         return dateString;
     }
 
-    private delay: NodeJS.Timer;
-
     /**
      * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
      * Supports registering a callback in order to receive categories when they have been received.
@@ -63,9 +61,8 @@ export class Categorize extends BaseCall {
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
-    constructor(baseUrl: string, private settings?: CategorizeSettings, auth?: AuthToken) {
-        super(baseUrl, auth);
-        this.settings = new CategorizeSettings(settings);
+    constructor(baseUrl: string, protected settings: CategorizeSettings = new CategorizeSettings(), auth?: AuthToken) {
+        super(baseUrl, settings, auth);
     }
 
     /**
@@ -80,46 +77,48 @@ export class Categorize extends BaseCall {
         let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
         let reqInit = this.requestObject();
 
-        this.cbBusy(suppressCallbacks, true, url, reqInit);
-
-        return fetch(url, reqInit)
-            .then((response: Response) => {
-                if (!response.ok) {
-                    throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
-                }
-                return response.json();
-            })
-            .then((categories: Categories) => {
-                this.cbSuccess(suppressCallbacks, categories, url, reqInit);
-                return categories;
-            })
-            .catch((error) => {
-                this.cbError(suppressCallbacks, error, url, reqInit);
-                return Promise.reject(error);
-            });
+        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+            return fetch(url, reqInit)
+                .then((response: Response) => {
+                    if (!response.ok) {
+                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                    }
+                    return response.json();
+                })
+                .then((categories: Categories) => {
+                    this.cbSuccess(suppressCallbacks, categories, url, reqInit);
+                    return categories;
+                })
+                .catch((error) => {
+                    this.cbError(suppressCallbacks, error, url, reqInit);
+                    return Promise.reject(error);
+                });
+        } else {
+            return undefined;
+        }
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
         if (this.settings.trigger.clientIdChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
      
@@ -127,14 +126,14 @@ export class Categorize extends BaseCall {
         if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
             if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
                 if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
-                    this.updateCategories(query);
+                    this.update(query);
                 } else {
                     if (this.settings.trigger.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
-                            this.updateCategories(query);
+                            this.update(query);
                         }, this.settings.trigger.queryChangeDelay);
                     }
                 }
@@ -144,35 +143,8 @@ export class Categorize extends BaseCall {
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
         if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
-            this.updateCategories(query);
+            this.update(query);
         }
     }
 
-    private updateCategories(query: Query) {
-        // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-        clearTimeout(this.delay);
-
-        this.fetch(query);
-    }
-
-    private cbBusy(suppressCallbacks: boolean, loading: boolean, url: string, reqInit: RequestInit): void {
-        if (this.settings.cbBusy && !suppressCallbacks) {
-            this.settings.cbBusy(true, url, reqInit);
-        }
-    }
-
-    private cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbError(error);
-        }
-    }
-
-    private cbSuccess(suppressCallbacks: boolean, categories: Categories, url: string, reqInit: RequestInit): void {
-        this.cbBusy(suppressCallbacks, false, url, reqInit);
-        if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbSuccess(categories);
-        }
-    }
-    
 }

@@ -1,9 +1,11 @@
-import { Setting } from '../Common/Setting';
+import { SearchSettings } from '../Common/SearchSettings';
+
+import { Categories } from '../Data/Categories';
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
-export class AllCategoriesSettings extends Setting {
+export class AllCategoriesSettings extends SearchSettings<Categories> {
 
     /**
      * The endpoint to do categorize lookups for.
@@ -15,7 +17,7 @@ export class AllCategoriesSettings extends Setting {
      * @param allCategoriesSettings - The settings defined here will override the default AllCategoriesSettings.
      */
     constructor(allCategoriesSettings?: AllCategoriesSettings) {
-        super();
+        super(allCategoriesSettings);
         Object.assign(this, allCategoriesSettings);
     }
 
