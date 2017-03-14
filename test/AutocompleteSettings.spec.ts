@@ -14,11 +14,11 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
-        expect (settings.trigger.maxSuggestionsChanged).toEqual(true);
-        expect (settings.trigger.queryChangeDelay).toEqual(200);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(3);
+        expect (settings.triggers.maxSuggestionsChanged).toEqual(true);
+        expect (settings.triggers.queryChangeDelay).toEqual(200);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(3);
         expect (settings.url).toEqual("/autocomplete");
     });
 
@@ -28,7 +28,7 @@ describe("AutocompleteSettings basics", () => {
             cbRequest: jest.fn(),
             cbSuccess: jest.fn(),
             enabled: false,
-            trigger: {
+            triggers: {
                 maxSuggestionsChanged: false,
                 queryChange: true,
                 queryChangeDelay: 100,
@@ -46,11 +46,11 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.trigger.maxSuggestionsChanged).toEqual(false);
-        expect (settings.trigger.queryChangeDelay).toEqual(100);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(2);
+        expect (settings.triggers.maxSuggestionsChanged).toEqual(false);
+        expect (settings.triggers.queryChangeDelay).toEqual(100);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.url).toEqual("/test/");
     });
 
@@ -59,7 +59,7 @@ describe("AutocompleteSettings basics", () => {
         let settings = {
             cbSuccess: (suggestions: string[]) => { /* dummy */},
             enabled: false,
-            trigger: {},
+            triggers: {},
         } as AutocompleteSettings;
 
         settings = new AutocompleteSettings(settings);
@@ -70,11 +70,11 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.trigger.maxSuggestionsChanged).toEqual(true);
-        expect (settings.trigger.queryChangeDelay).toEqual(200);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\s$/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(3);
+        expect (settings.triggers.maxSuggestionsChanged).toEqual(true);
+        expect (settings.triggers.queryChangeDelay).toEqual(200);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(3);
         expect (settings.url).toEqual("/autocomplete");
     });
 

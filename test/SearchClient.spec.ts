@@ -6,7 +6,7 @@ require("babel-polyfill");
 import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
-import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches, FindSettings, FindTrigger } from '../src/SearchClient';
+import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches, FindSettings, FindTriggers, QueryFindConverterV3 } from '../src/SearchClient';
 
 describe("SearchClient basics", () => {
 
@@ -15,22 +15,30 @@ describe("SearchClient basics", () => {
     });
 
     it("Should be able to create SearchClient instance", () => {
-        let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
+        let searchClient = new SearchClient("http://localhost:9950");
+        expect(typeof searchClient).toBe("object");
+        //expect(searchClient.baseUrl).toEqual("http://localhost:9950");
+        expect(searchClient.find.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        
+    });
+
+    it("Should be able to ", () => {
+        let searchClient = new SearchClient("http://localhost:9950");
         expect(typeof searchClient).toBe("object");
     });
 
     it("Should throw for invalid Urls", () => {
         expect(() => {
-            let searchClient = new SearchClient("file://localhost:9950/RestService/v3/");
+            let searchClient = new SearchClient("file://localhost:9950");
         }).toThrow();
 
         expect(() => {
-            let searchClient = new SearchClient("http:+//localhost:9950/RestService/v3/");
+            let searchClient = new SearchClient("http:+//localhost:9950");
         }).toThrow();
     });
 
     it("Search instance with empty settings should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
-        let searchClient = new SearchClient("http://localhost:9950/RestService/v3/");
+        let searchClient = new SearchClient("http://localhost:9950");
 
         expect(typeof searchClient.allCategories).toBe("object");
         expect(searchClient.allCategories instanceof AllCategories).toBeTruthy();
@@ -52,7 +60,7 @@ describe("SearchClient basics", () => {
     });
 
     it("Search instance with disabled 'services' should not have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
-        let searchClient = new SearchClient("http://localhost:9950/RestService/v3/", {
+        let searchClient = new SearchClient("http://localhost:9950", {
             allCategories: {enabled: false},
             authentication: {enabled: false},
             autocomplete: {enabled: false},
@@ -81,7 +89,7 @@ describe("SearchClient basics", () => {
     });
 
     it("Search instance with empty settings should have expected query interfaces", () => {
-        let client = new SearchClient("http://localhost:9950/RestService/v3/");
+        let client = new SearchClient("http://localhost:9950");
 
         // authenticationToken
         expect(client.authenticationToken).toBeUndefined();
@@ -196,10 +204,12 @@ describe("SearchClient basics", () => {
         expect(client.findAndCategorize).toBeDefined();
 
         let now = new Date();
-        let PFind = <any> Find;
-        let params = PFind.getUrlParams(client.query);
-        let dateFrom = new Date(decodeURIComponent(params[2].split("=")[1]));
-        let dateTo = new Date(decodeURIComponent(params[3].split("=")[1]));
+        let qConverter = (<any> new QueryFindConverterV3());
+        let params = qConverter.getUrlParams(client.query);
+        let df = params.find((key) => key.split("=")[0] === "df");
+        let dt = params.find((key) => key.split("=")[0] === "dt");
+        let dateFrom = new Date(decodeURIComponent(df.split("=")[1]));
+        let dateTo = new Date(decodeURIComponent(dt.split("=")[1]));
 
         // Expecting the from-date to be two months back in time. 
         const fromDiff = Math.round((now.valueOf() - dateFrom.valueOf()) / (1000 * 60 * 60 * 24));
@@ -216,14 +226,14 @@ describe("SearchClient basics", () => {
         let settings = new Settings({
             find: {
                 cbSuccess: <any> jest.fn(),
-                trigger: {
+                triggers: {
                     queryChange: true,
                     queryChangeInstantRegex: /\S $/,
                 },
             },
         } as Settings);
 
-        let client = new SearchClient("http://localhost:9950/RestService/v3/", settings);
+        let client = new SearchClient("http://localhost:9950", settings);
         let pClient = <any> client;
         
         const autocompleteFetch = jest.fn();
@@ -235,18 +245,16 @@ describe("SearchClient basics", () => {
         const findFetch = jest.fn();
         (<any> client.find).fetch = findFetch;
 
-
         // With current settings none of the services should update for queryText="test"
         client.queryText = "test";
         expect(pClient.settings.query.queryText).toEqual("test");
-        expect(pClient.settings.find.trigger.queryChange).toEqual(true);
-        expect(pClient.find.settings.trigger.queryChange).toEqual(true);
-        expect(pClient.settings.find.trigger.queryChangeInstantRegex).toEqual(/\S $/);
-        expect(pClient.find.settings.trigger.queryChangeInstantRegex).toEqual(/\S $/);
+        expect(pClient.settings.find.triggers.queryChange).toEqual(true);
+        expect(pClient.find.settings.triggers.queryChange).toEqual(true);
+        expect(pClient.settings.find.triggers.queryChangeInstantRegex).toEqual(/\S $/);
+        expect(pClient.find.settings.triggers.queryChangeInstantRegex).toEqual(/\S $/);
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
-
 
         // But, if the query ends with a space then the find-service should update (has callback and has enabled queryChangeTrigger and set instanceRegex)
         client.queryText = "test ";

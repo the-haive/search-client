@@ -1,16 +1,16 @@
-import { SearchSettings } from '../Common/SearchSettings';
+import { BaseSettings } from '../Common/BaseSettings';
 
 import { Categories } from '../Data/Categories';
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
-export class AllCategoriesSettings extends SearchSettings<Categories> {
+export class AllCategoriesSettings extends BaseSettings<Categories> {
 
     /**
      * The endpoint to do categorize lookups for.
      */
-    public url: string = '/search/allcategories';
+    public url?: string = '/search/allcategories';
 
     /**
      * Creates an AllCategoriesSettings object for you, based on AllCategoriesSettings defaults and the overrides provided as a param.

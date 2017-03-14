@@ -18,7 +18,7 @@ describe("BestBets basics", () => {
     });
 
     it("Should be able to create BestBets instance", () => {
-        let bestBets = new BestBets("http://localhost:9950/RestService/v3/");
+        let bestBets = new BestBets("http://localhost:9950");
         let pBestBets = <any> bestBets;
 
         expect(typeof bestBets).toBe("object");
@@ -32,16 +32,16 @@ describe("BestBets basics", () => {
 
     it("Should throw for invalid Urls", () => {
         expect(() => {
-            let bestBets = new BestBets("file://localhost:9950/RestService/v3/");
+            let bestBets = new BestBets("file://localhost:9950");
         }).toThrow();
 
         expect(() => {
-            let allCategories = new BestBets("http:+//localhost:9950/RestService/v3/");
+            let allCategories = new BestBets("http:+//localhost:9950");
         }).toThrow();
     });
 
     it("Should be able to create BestBets instance with default settings passed", () => {
-        let bestBets = new BestBets("http://localhost:9950/RestService/v3/", new BestBetsSettings());
+        let bestBets = new BestBets("http://localhost:9950", new BestBetsSettings());
         let pBestBets = <any> bestBets;
 
         expect(typeof bestBets).toBe("object");
@@ -60,7 +60,7 @@ describe("BestBets basics", () => {
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.url = "/test";
-        let bestBets = new BestBets("http://localhost:9950/RestService/v3/", settings);
+        let bestBets = new BestBets("http://localhost:9950", settings);
         let pBestBets = <any> bestBets;
 
         expect(pBestBets.settings.enabled).toEqual(settings.enabled);
@@ -78,7 +78,7 @@ describe("BestBets basics", () => {
             enabled: false,
             url: "/test",
         } as BestBetsSettings;
-        let bestBets = new BestBets("http://localhost:9950/RestService/v3/", settings);
+        let bestBets = new BestBets("http://localhost:9950", settings);
         let pBestBets = <any> bestBets;
 
         expect(pBestBets.settings.enabled).toEqual(settings.enabled);

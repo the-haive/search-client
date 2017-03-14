@@ -21,17 +21,17 @@ function test(TestClass: typeof BaseCall) {
     function instanceConstructor(): BaseCall<any> {
         switch (TestClass.name) {
             case AllCategories.name:
-                return new AllCategories("http://localhost:9950/RestService/v3/");
+                return new AllCategories("http://localhost:9950/");
             case Authentication.name:
-                return new Authentication("http://localhost:9950/RestService/v3/");
+                return new Authentication("http://localhost:9950");
             case Autocomplete.name:
-                return new Autocomplete("http://localhost:9950/RestService/v3/");
+                return new Autocomplete("http://localhost:9950");
             case BestBets.name:
-                return new BestBets("http://localhost:9950/RestService/v3/");
+                return new BestBets("http://localhost:9950");
             case Categorize.name:
-                return new Categorize("http://localhost:9950/RestService/v3/");
+                return new Categorize("http://localhost:9950/");
             case Find.name:
-                return new Find("http://localhost:9950/RestService/v3/");
+                return new Find("http://localhost:9950");
             default:
                 fail(`Unexpected TestClass: ${TestClass.name}`);
         }
@@ -163,7 +163,7 @@ function test(TestClass: typeof BaseCall) {
                 matchPageSize: 10, 
                 maxSuggestions: 10, 
                 queryText: "test2", 
-                searchType: 0
+                searchType: 0,
             }); 
             mockFetch.mockReset(); 
 
@@ -185,7 +185,7 @@ function test(TestClass: typeof BaseCall) {
                 matchPageSize: 10, 
                 maxSuggestions: 10, 
                 queryText: "test2", 
-                searchType: 0
+                searchType: 0,
             }); 
             mockFetch.mockReset();
 
@@ -198,7 +198,7 @@ function test(TestClass: typeof BaseCall) {
             expect(mockFetch).not.toBeCalled(); mockFetch.mockReset();
         });
 
-    })
+    });
 
 }
 

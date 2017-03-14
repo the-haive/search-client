@@ -1,6 +1,5 @@
 import { fetch } from 'domain-task';
 
-//import { AllCategories } from '../AllCategories';
 import { BaseCall } from '../Common/BaseCall';
 import { Query } from '../Common/Query';
 
@@ -32,7 +31,7 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param auth - The object that handles authentication.
      */
     constructor(baseUrl: string, protected settings: AutocompleteSettings = new AutocompleteSettings(), auth?: AuthToken/*, allCategories: AllCategories*/) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new AutocompleteSettings(settings), auth);
 
         // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
         // allCategories.fetch().then((categories) => { 
@@ -75,24 +74,24 @@ export class Autocomplete extends BaseCall<string[]> {
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
-        if (this.settings.cbSuccess && this.settings.trigger.maxSuggestionsChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.maxSuggestionsChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
-            if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
-                if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
+        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
+                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
-                    if (this.settings.trigger.queryChangeDelay > -1) {
+                    if (this.settings.triggers.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
                             this.update(query);
-                        }, this.settings.trigger.queryChangeDelay);
+                        }, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -108,9 +107,9 @@ export class Autocomplete extends BaseCall<string[]> {
     private toUrl(query: Query): string {
         let params: string[] = [];
 
+        params.push(`l=1}`); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
         params.push(`q=${encodeURIComponent(query.queryText)}`);
         params.push(`s=${encodeURIComponent(query.maxSuggestions.toString())}`);
-        params.push(`l=1}`); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
 
         return `${this.baseUrl + this.settings.url}?${params.join('&')}`;
     }

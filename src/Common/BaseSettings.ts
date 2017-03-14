@@ -1,11 +1,15 @@
-import { Setting } from './Setting';
-
+import { VersionPathSettings } from './VersionPathSettings';
 /**
  * A common settings base-class for the descending Autocomplete, Categorize and Find settings classes.
  * 
  * @param DATATYPE Defines the data-type that the descendant settings-class needs to return on lookups.
  */
-export abstract class SearchSettings<DATATYPE> extends Setting {
+export abstract class BaseSettings<DATATYPE> extends VersionPathSettings {
+
+    /** 
+     * Whether or not this setting-feature is enabled or not.
+     */
+    public enabled?: boolean = true;
     
     /**
      * A notifier method that is called just before the fetch operation is started. When the request 
@@ -18,22 +22,23 @@ export abstract class SearchSettings<DATATYPE> extends Setting {
      * @param url - This is the url that is/was fetched. Good for debugging purposes.
      * @param reqInit - This is the RequestInit object that was used for the fetch operation.
      */
-    public cbRequest: (url?: string, reqInit?: RequestInit) => boolean = undefined;
+    public cbRequest?: (url?: string, reqInit?: RequestInit) => boolean = undefined;
 
     /**
      * A notifier method to call whenever the lookup fails.
      * @param error - An error object as given by the fetch operation.
      */
-    public cbError: (error?: any) => void = undefined;
+    public cbError?: (error?: any) => void = undefined;
 
     /**
      * A notifier method to call whenever the lookup results have been received.
      * @param data - The lookup results.
      */
-    public cbSuccess: (data?: DATATYPE) => void = undefined;
+    public cbSuccess?: (data?: DATATYPE) => void = undefined;
 
-    constructor(searchSettings?: SearchSettings<DATATYPE>) {
-        super();
-        Object.assign(this, searchSettings);
+    constructor(settings?: BaseSettings<DATATYPE>) {
+        super(settings);
+        Object.assign(this, settings);
     }
+
 }

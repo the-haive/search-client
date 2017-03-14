@@ -19,7 +19,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbSuccess).toBeUndefined();
         expect (settings.tokenPath).toContain("jwtToken");
         expect (settings.token).toBeUndefined();
-        expect (settings.trigger.expiryOverlap).toEqual(60);
+        expect (settings.triggers.expiryOverlap).toEqual(60);
         expect (settings.url).toEqual("/auth/token");
     });
 
@@ -32,7 +32,7 @@ describe("AutocompleteSettings basics", () => {
             enabled: false,
             token,
             tokenPath: ["jwt"],
-            trigger: {
+            triggers: {
                 expiryOverlap: 120,
             },
             url: "/test/",
@@ -48,7 +48,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.tokenPath).toContain("jwt");
         expect (settings.token).toEqual(token);
-        expect (settings.trigger.expiryOverlap).toEqual(120);
+        expect (settings.triggers.expiryOverlap).toEqual(120);
         expect (settings.url).toEqual("/test/");
     });
 
@@ -58,7 +58,7 @@ describe("AutocompleteSettings basics", () => {
             cbError: (error: any) => { /* dummy */},
             cbSuccess: (token: string) => { /* dummy */},
             token: jwtToken,
-            trigger: {},
+            triggers: {},
         } as AuthenticationSettings;
 
         settings = new AuthenticationSettings(settings);
@@ -71,7 +71,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.token).toEqual(jwtToken);
         expect (settings.tokenPath).toContain("jwtToken");
-        expect (settings.trigger.expiryOverlap).toEqual(60);
+        expect (settings.triggers.expiryOverlap).toEqual(60);
         expect (settings.url).toEqual("/auth/token");
     });
 

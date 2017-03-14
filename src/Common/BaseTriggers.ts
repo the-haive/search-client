@@ -1,16 +1,16 @@
-export abstract class Trigger {
+export abstract class BaseTriggers {
     
     /**
      * Turns on or off all query-related triggers.
      */
-    public queryChange: boolean = true;
+    public queryChange?: boolean = true;
 
     /**
      * Min length before triggering. 
      * 
      * Note: Requires queryChanged to be true.
      */
-    public queryChangeMinLength: number = 3;
+    public queryChangeMinLength?: number = 3;
 
     /** 
      * Triggers action immediately instead of delayed when the query matches the regex.
@@ -20,7 +20,7 @@ export abstract class Trigger {
      * 
      * Default: Trigger on first whitespace after non-whitespace
      */
-    public queryChangeInstantRegex: RegExp = /\S\s$/;
+    public queryChangeInstantRegex?: RegExp = /\S\s$/;
 
     /**
      * Delay triggers until changes has not been made to the query for a certain time (milliseconds). 
@@ -32,6 +32,6 @@ export abstract class Trigger {
      * Note: Requires queryChanged to be true.
      * Note: Requires query to be longer than queryMinLength.
      */
-    public queryChangeDelay: number = 200;    
+    public queryChangeDelay?: number = 200;    
 
 }

@@ -1,58 +1,20 @@
-//import { DateRange } from '../Common/DateRange';
 import { fetch } from 'domain-task';
-import * as moment from 'moment/moment';
 
 import { DateSpecification } from '../Common/Query';
 import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
+import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3 } from '../QueryConverter';
 import { Categories } from '../Data/Categories';
 import { AuthToken } from '../Authentication/AuthToken';
 
 import { CategorizeSettings } from './CategorizeSettings';
-import { CategorizeTrigger } from './CategorizeTrigger';
+import { CategorizeTriggers } from './CategorizeTriggers';
 
 export class Categorize extends BaseCall<Categories> {
 
-    /**
-     * Returns the specific rest-path segment for the Categorize url.
-     */
-    public static getUrlParams(query: Query, params: string[] = []): string[] {
-
-        if (query.queryText) {
-            params.push(`q=${encodeURIComponent(query.queryText)}`);
-        }
-
-        if (query.searchType != null) {
-            params.push(`t=${encodeURIComponent(SearchType[query.searchType])}`);
-        }
-
-        if (query.filters.length > 0) {
-            params.push(`f=${encodeURIComponent(query.filters.join(';'))}`);
-        }
-
-        if (query.dateFrom && query.dateTo) {
-            params.push(`df=${encodeURIComponent(Categorize.createDate(query.dateFrom))}`);
-            params.push(`dt=${encodeURIComponent(Categorize.createDate(query.dateTo))}`);
-        }
-
-        if (query.clientId) {
-            params.push(`c=${encodeURIComponent(query.clientId)}`);
-        }
-
-        return params;
-    }
-
-    private static createDate(date: Date | string | number | moment.DurationInputObject): string {
-        let dateString: string;
-        if (typeof date === "object" && !(date instanceof String) && !(date instanceof Date)) {
-            dateString = moment().add(date).toISOString();
-        } else {
-            dateString = moment(date).toISOString();
-        }
-        return dateString;
-    }
+    private queryConverter: QueryConverter;
 
     /**
      * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
@@ -62,7 +24,8 @@ export class Categorize extends BaseCall<Categories> {
      * @param auth - An object that handles the authentication.
      */
     constructor(baseUrl: string, protected settings: CategorizeSettings = new CategorizeSettings(), auth?: AuthToken) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new CategorizeSettings(settings), auth);
+        this.queryConverter = this.settings.version === 2 ? new QueryCategorizeConverterV2() : new QueryCategorizeConverterV3();
     }
 
     /**
@@ -73,8 +36,7 @@ export class Categorize extends BaseCall<Categories> {
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Categories> {
 
-        let params = Categorize.getUrlParams(query);
-        let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
+        let url = this.queryConverter.getUrl(this.baseUrl + this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
@@ -99,42 +61,42 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.trigger.clientIdChanged) {
+        if (this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
             this.update(query);
         }
     }
      
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
-            if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
-                if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
+        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
+                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
-                    if (this.settings.trigger.queryChangeDelay > -1) {
+                    if (this.settings.triggers.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
                             this.update(query);
-                        }, this.settings.trigger.queryChangeDelay);
+                        }, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -142,7 +104,7 @@ export class Categorize extends BaseCall<Categories> {
     }
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }

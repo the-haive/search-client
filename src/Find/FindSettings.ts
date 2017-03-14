@@ -1,22 +1,22 @@
-import { SearchSettings } from '../Common/SearchSettings';
+import { BaseSettings } from '../Common/BaseSettings';
 import { Matches } from '../Data/Matches';
 
-import { FindTrigger } from './FindTrigger';
+import { FindTriggers } from './FindTriggers';
 
 /**
  * These are all the settings that can affect the returned categories for Find() lookups.
  */
-export class FindSettings extends SearchSettings<Matches> {
+export class FindSettings extends BaseSettings<Matches> {
 
     /**
      * The trigger-settings for when automatic match result-updates are to be triggered.
      */
-    public trigger: FindTrigger = new FindTrigger();
+    public triggers?: FindTriggers = new FindTriggers();
 
     /**
      * The endpoint to do Find lookups for.
      */
-    public url: string = '/search/find';
+    public url?: string = '/search/find';
 
     /**
      * Creates a FindSettings object for you, based on FindSettings defaults and the overrides provided as a param.
@@ -25,7 +25,7 @@ export class FindSettings extends SearchSettings<Matches> {
     constructor(findSettings?: FindSettings) {
         super(findSettings);
         if (findSettings) {
-            findSettings.trigger = new FindTrigger(findSettings.trigger);
+            findSettings.triggers = new FindTriggers(findSettings.triggers);
         }
         Object.assign(this, findSettings);
     }

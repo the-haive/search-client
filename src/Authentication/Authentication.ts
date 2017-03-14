@@ -16,7 +16,7 @@ export class Authentication extends BaseCall<any> {
      * @param auth - An object that controls the authentication for the lookups.
      */
     constructor(baseUrl: string, protected settings: AuthenticationSettings = new AuthenticationSettings(), auth?: AuthToken) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new AuthenticationSettings(settings), auth);
         if (this.settings && this.settings.token) {
             this.auth.authenticationToken = this.settings.token;
             this.settings.token = undefined;
@@ -76,7 +76,7 @@ export class Authentication extends BaseCall<any> {
                 let expiration = token.exp ? new Date(token.exp * 1000) : undefined;
                 if (expiration) {
                     let remainingSeconds = (expiration.valueOf() - new Date().valueOf()) / 1000;
-                    remainingSeconds = Math.max(remainingSeconds - this.settings.trigger.expiryOverlap, 0);
+                    remainingSeconds = Math.max(remainingSeconds - this.settings.triggers.expiryOverlap, 0);
 
                     //console.log(`Setting up auth-refresh in ${remainingSeconds} seconds, at ${expiration}.`, token);
                     setTimeout(() => {

@@ -3,9 +3,8 @@ import { isWebUri } from 'valid-url';
 import { DateSpecification } from '../Common/Query';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
-import { SearchSettings } from '../Common/SearchSettings';
+import { BaseSettings } from '../Common/BaseSettings';
 import { AuthToken } from '../Authentication/AuthToken';
-import { SearchClient } from '../SearchClient';
 
 import { Query } from './Query';
 
@@ -28,9 +27,9 @@ export abstract class BaseCall<DATATYPE> {
      * @param baseUrl - The base url for the service to be setup.
      * @param auth - The auth-object that controls authentication for the service.
      */
-    constructor(public baseUrl: string, protected settings?: SearchSettings<DATATYPE>, protected auth: AuthToken = new AuthToken()) {
+    constructor(public baseUrl: string, protected settings?: BaseSettings<DATATYPE>, protected auth: AuthToken = new AuthToken()) {
         // Strip off any slashes at the end of the baseUrl
-        baseUrl = baseUrl.replace(/\/+$/, "");
+        baseUrl = baseUrl.replace(/\/+$/, "") + "/" + settings.path + "/";
 
         // Verify the authenticity
         if (!isWebUri(baseUrl)) {

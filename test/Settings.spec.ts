@@ -20,6 +20,20 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
+        expect(settings.allCategories.version).toEqual(3);
+        expect(settings.authentication.version).toEqual(3);
+        expect(settings.autocomplete.version).toEqual(3);
+        expect(settings.bestBets.version).toEqual(3);
+        expect(settings.categorize.version).toEqual(3);
+        expect(settings.find.version).toEqual(3);
+
+        expect(settings.allCategories.path).toEqual("RestService/v3");
+        expect(settings.authentication.path).toEqual("RestService/v3");
+        expect(settings.autocomplete.path).toEqual("RestService/v3");
+        expect(settings.bestBets.path).toEqual("RestService/v3");
+        expect(settings.categorize.path).toEqual("RestService/v3");
+        expect(settings.find.path).toEqual("RestService/v3");
+
         expect (settings.authentication.cbRequest).toBeUndefined();
         expect (settings.authentication.cbError).toBeUndefined();
         expect (settings.authentication.cbSuccess).toBeUndefined();
@@ -105,6 +119,126 @@ describe("Settings basics", () => {
         expect (settings.find.cbRequest).toBeDefined();
         expect (settings.find.cbError).toBeDefined();
         expect (settings.find.cbSuccess).toBeDefined();
+    });
+
+    it("Should be possible to override version and also get the expected path", () => {
+        let settings = new Settings({version: 2} as Settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.version).toEqual(2);
+        expect(settings.path).toEqual("RestService/v2");
+        
+        expect(settings.allCategories.version).toEqual(2);
+        expect(settings.authentication.version).toEqual(2);
+        expect(settings.autocomplete.version).toEqual(2);
+        expect(settings.bestBets.version).toEqual(2);
+        expect(settings.categorize.version).toEqual(2);
+        expect(settings.find.version).toEqual(2);
+
+        expect(settings.allCategories.path).toEqual("RestService/v2");
+        expect(settings.authentication.path).toEqual("RestService/v2");
+        expect(settings.autocomplete.path).toEqual("RestService/v2");
+        expect(settings.bestBets.path).toEqual("RestService/v2");
+        expect(settings.categorize.path).toEqual("RestService/v2");
+        expect(settings.find.path).toEqual("RestService/v2");
+    });
+
+    it("Should be possible to override version to same as default and get the expected path", () => {
+        let settings = new Settings({version: 3} as Settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.version).toEqual(3);
+        expect(settings.path).toEqual("RestService/v3");
+
+        expect(settings.allCategories.version).toEqual(3);
+        expect(settings.authentication.version).toEqual(3);
+        expect(settings.autocomplete.version).toEqual(3);
+        expect(settings.bestBets.version).toEqual(3);
+        expect(settings.categorize.version).toEqual(3);
+        expect(settings.find.version).toEqual(3);
+
+        expect(settings.allCategories.path).toEqual("RestService/v3");
+        expect(settings.authentication.path).toEqual("RestService/v3");
+        expect(settings.autocomplete.path).toEqual("RestService/v3");
+        expect(settings.bestBets.path).toEqual("RestService/v3");
+        expect(settings.categorize.path).toEqual("RestService/v3");
+        expect(settings.find.path).toEqual("RestService/v3");
+    });
+
+    it("Should be possible to override the path", () => {
+        let settings = new Settings({path: "CustomRestServicePath"} as Settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.version).toEqual(3);
+        expect(settings.path).toEqual("CustomRestServicePath");
+
+        expect(settings.allCategories.version).toEqual(3);
+        expect(settings.authentication.version).toEqual(3);
+        expect(settings.autocomplete.version).toEqual(3);
+        expect(settings.bestBets.version).toEqual(3);
+        expect(settings.categorize.version).toEqual(3);
+        expect(settings.find.version).toEqual(3);
+
+        expect(settings.allCategories.path).toEqual("CustomRestServicePath");
+        expect(settings.authentication.path).toEqual("CustomRestServicePath");
+        expect(settings.autocomplete.path).toEqual("CustomRestServicePath");
+        expect(settings.bestBets.path).toEqual("CustomRestServicePath");
+        expect(settings.categorize.path).toEqual("CustomRestServicePath");
+        expect(settings.find.path).toEqual("CustomRestServicePath");
+    });
+
+    it("Should be possible to override the path (and 'override' version to default", () => {
+        let settings = new Settings({version: 3, path: "CustomRestServicePath"} as Settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.version).toEqual(3);
+        expect(settings.path).toEqual("CustomRestServicePath");
+
+        expect(settings.allCategories.version).toEqual(3);
+        expect(settings.authentication.version).toEqual(3);
+        expect(settings.autocomplete.version).toEqual(3);
+        expect(settings.bestBets.version).toEqual(3);
+        expect(settings.categorize.version).toEqual(3);
+        expect(settings.find.version).toEqual(3);
+
+        expect(settings.allCategories.path).toEqual("CustomRestServicePath");
+        expect(settings.authentication.path).toEqual("CustomRestServicePath");
+        expect(settings.autocomplete.path).toEqual("CustomRestServicePath");
+        expect(settings.bestBets.path).toEqual("CustomRestServicePath");
+        expect(settings.categorize.path).toEqual("CustomRestServicePath");
+        expect(settings.find.path).toEqual("CustomRestServicePath");
+    });
+
+    it("Should be possible to override the version and path", () => {
+        let settings = new Settings({version: 2, path: "CustomRestServicePath"} as Settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.version).toEqual(2);
+        expect(settings.path).toEqual("CustomRestServicePath");
+
+        expect(settings.allCategories.version).toEqual(2);
+        expect(settings.authentication.version).toEqual(2);
+        expect(settings.autocomplete.version).toEqual(2);
+        expect(settings.bestBets.version).toEqual(2);
+        expect(settings.categorize.version).toEqual(2);
+        expect(settings.find.version).toEqual(2);
+
+        expect(settings.allCategories.path).toEqual("CustomRestServicePath");
+        expect(settings.authentication.path).toEqual("CustomRestServicePath");
+        expect(settings.autocomplete.path).toEqual("CustomRestServicePath");
+        expect(settings.bestBets.path).toEqual("CustomRestServicePath");
+        expect(settings.categorize.path).toEqual("CustomRestServicePath");
+        expect(settings.find.path).toEqual("CustomRestServicePath");
+    });
+
+    it("Should throw on unsupported version numbers", () => {
+        expect(() => {
+            let settings = new Settings({version: 1} as Settings);
+        }).toThrow();
+
+        expect(() => {
+            let settings = new Settings({version: 4} as Settings);
+        }).toThrow();
     });
 
 });

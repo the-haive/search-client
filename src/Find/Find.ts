@@ -5,38 +5,19 @@ import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
+import { QueryConverter, QueryFindConverterV2, QueryFindConverterV3 } from '../QueryConverter';
 import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
 import { Categorize } from '../Categorize/Categorize';
 
 import { FindSettings } from './FindSettings';
 
+/**
+ * Wraps the find search-service rest-service. 
+ */
 export class Find extends BaseCall<Matches> {
 
-    /**
-     * Returns the specific rest-path segment for the Find url.
-     */
-    private static getUrlParams(query: Query, params: string[] = []): string[] {
-        params = Categorize.getUrlParams(query, params);
-
-        if (query.matchPageSize) {
-            params.push(`s=${encodeURIComponent(query.matchPageSize.toString())}`);
-        }
-
-        if (query.matchPage) {
-            params.push(`p=${encodeURIComponent(query.matchPage.toString())}`);
-        }
-
-        if (query.matchGrouping) {
-            params.push(`g=${encodeURIComponent(query.matchGrouping.toString())}`);
-        }
-
-        if (query.matchOrderBy != null) {
-            params.push(`o=${encodeURIComponent(OrderBy[query.matchOrderBy])}`);
-        }
-
-        return params;
-    }
+    private queryConverter: QueryConverter;
 
     /**
      * Creates a Find instance that handles fetching matches dependent on settings and query. 
@@ -45,7 +26,8 @@ export class Find extends BaseCall<Matches> {
      * @param auth - An auth-object that handles the authentication.
      */
     constructor(baseUrl: string, protected settings: FindSettings = new FindSettings(), auth?: AuthToken) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new FindSettings(settings), auth);
+        this.queryConverter = this.settings.version === 2 ? new QueryFindConverterV2() : new QueryFindConverterV3();
     }
 
     /**
@@ -57,8 +39,7 @@ export class Find extends BaseCall<Matches> {
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Matches> {
 
-        let params = Find.getUrlParams(query);
-        let url = `${this.baseUrl + this.settings.url}?${params.join('&')}`;
+        let url = this.queryConverter.getUrl(this.baseUrl + this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
@@ -83,66 +64,66 @@ export class Find extends BaseCall<Matches> {
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.clientIdChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.dateFromChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.dateToChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
      
     public filtersChanged(oldValue: string[], query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.filterChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
             this.update(query);
         }
     }
 
     public matchGroupingChanged(oldValue: boolean, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.matchGroupingChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.matchGroupingChanged) {
             this.update(query);
         }
     }
 
     public matchOrderByChanged(oldValue: OrderBy, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.matchOrderByChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.matchOrderByChanged) {
             this.update(query);
         }
     }
     
     public matchPageChanged(oldValue: number, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.matchPageChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.matchPageChanged) {
             this.update(query);
         }
     }
     
     public matchPageSizeChanged(oldValue: number, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.matchPageSizeChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.matchPageSizeChanged) {
             this.update(query);
         }
     }
      
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.queryChange) {
-            if (query.queryText.length > this.settings.trigger.queryChangeMinLength) {
-                if (this.settings.trigger.queryChangeInstantRegex && this.settings.trigger.queryChangeInstantRegex.test(query.queryText)) {
+        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
+                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
-                    if (this.settings.trigger.queryChangeDelay > -1) {
+                    if (this.settings.triggers.queryChangeDelay > -1) {
                         // If a delay is already pending then clear it and restart the delay
                         clearTimeout(this.delay);
                         // Set up the delay
                         this.delay = setTimeout(() => {
                             this.update(query);
-                        }, this.settings.trigger.queryChangeDelay);
+                        }, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -150,7 +131,7 @@ export class Find extends BaseCall<Matches> {
     }
      
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.trigger.searchTypeChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }

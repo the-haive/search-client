@@ -18,7 +18,7 @@ export class AllCategories extends BaseCall<Categories> {
      * @param auth - An object that controls the authentication for the lookups.
      */
     constructor(baseUrl: string, protected settings: AllCategoriesSettings = new AllCategoriesSettings(), auth?: AuthToken) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new AllCategoriesSettings(settings), auth);
     }
 
     /**

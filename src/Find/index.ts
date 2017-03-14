@@ -1,3 +1,3 @@
-export * from './FindTrigger';
+export * from './FindTriggers';
 export * from './FindSettings';
 export * from './Find';

@@ -10,7 +10,7 @@ dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against 
 
 import { Authentication } from '../src/Authentication';
 import { AuthenticationSettings } from '../src/Authentication/AuthenticationSettings';
-import { AuthenticationTrigger } from '../src/Authentication/AuthenticationTrigger';
+import { AuthenticationTriggers } from '../src/Authentication/AuthenticationTriggers';
 
 describe("Authentication basics", () => {
 
@@ -19,7 +19,7 @@ describe("Authentication basics", () => {
     });
 
     it("Should be able to create Authentication instance", () => {
-        let authentication = new Authentication("http://localhost:9950/RestService/v3/");
+        let authentication = new Authentication("http://localhost:9950/");
         let pAuthentication = <any> authentication;
 
         expect(typeof authentication).toBe("object");
@@ -30,25 +30,25 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.cbSuccess).toBeUndefined();
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.settings.tokenPath).toContain("jwtToken");
-        expect(pAuthentication.settings.trigger).toBeDefined();
-        expect(pAuthentication.settings.trigger.expiryOverlap).toEqual(60);
+        expect(pAuthentication.settings.triggers).toBeDefined();
+        expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.auth.authenticationToken).toBeUndefined();
         expect(pAuthentication.settings.url).toEqual("/auth/token");
     });
 
     it("Should throw for invalid Urls", () => {
         expect(() => {
-            let authentication = new Authentication("file://localhost:9950/RestService/v3/");
+            let authentication = new Authentication("file://localhost:9950");
         }).toThrow();
 
         expect(() => {
-            let authentication = new Authentication("http:+//localhost:9950/RestService/v3/");
+            let authentication = new Authentication("http:+//localhost:9950");
         }).toThrow();
     });
 
     it("Should be able to pass a default AuthenticationSettings instance", () => {
         const authSettings = new AuthenticationSettings();
-        let authentication = new Authentication("http://localhost:9950/RestService/v3/", authSettings);
+        let authentication = new Authentication("http://localhost:9950/", authSettings);
         let pAuthentication = <any> authentication;
 
         expect(typeof pAuthentication.auth).toBe("object");
@@ -58,8 +58,8 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.cbSuccess).toBeUndefined();
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.settings.tokenPath).toContain("jwtToken");
-        expect(pAuthentication.settings.trigger).toBeDefined();
-        expect(pAuthentication.settings.trigger.expiryOverlap).toEqual(60);
+        expect(pAuthentication.settings.triggers).toBeDefined();
+        expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.auth.authenticationToken).toBeUndefined();
         expect(pAuthentication.settings.url).toEqual("/auth/token");
     });
@@ -72,22 +72,22 @@ describe("Authentication basics", () => {
         settings.enabled = false;
         settings.token = token;
         settings.tokenPath = [];
-        settings.trigger = new AuthenticationTrigger();
+        settings.triggers = new AuthenticationTriggers();
         settings.url = "/test";
 
-        let authentication = new Authentication("http://localhost:9950/RestService/v3/", settings);
+        let authentication = new Authentication("http://localhost:9950/", settings);
         let pAuthentication = <any> authentication;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
         expect(pAuthentication.settings.enabled).toEqual(false);
         expect(pAuthentication.settings.cbError).toBeDefined();
         expect(pAuthentication.settings.cbRequest).toBeUndefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.settings.tokenPath).toHaveLength(0);
-        expect(pAuthentication.settings.trigger).toBeDefined();
-        expect(pAuthentication.settings.trigger.expiryOverlap).toEqual(60);
+        expect(pAuthentication.settings.triggers).toBeDefined();
+        expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.auth.authenticationToken).toEqual(token);
         expect(pAuthentication.settings.url).toEqual("/test");
@@ -102,23 +102,23 @@ describe("Authentication basics", () => {
             enabled: false,
             token: jwtToken,
             tokenPath: [],
-            trigger: new AuthenticationTrigger(),
+            triggers: new AuthenticationTriggers(),
             url: "/test",
         } as AuthenticationSettings;
 
-        let authentication = new Authentication("http://localhost:9950/RestService/v3/", settings);
+        let authentication = new Authentication("http://localhost:9950/", settings);
         let pAuthentication = <any> authentication;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
         expect(pAuthentication.settings.enabled).toEqual(false);
         expect(pAuthentication.settings.cbError).toBeDefined();
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.settings.tokenPath).toHaveLength(0);
-        expect(pAuthentication.settings.trigger).toBeDefined();
-        expect(pAuthentication.settings.trigger.expiryOverlap).toEqual(60);
+        expect(pAuthentication.settings.triggers).toBeDefined();
+        expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.auth.authenticationToken).toEqual(jwtToken);
         expect(pAuthentication.settings.url).toEqual("/test");
@@ -131,7 +131,7 @@ describe("Authentication basics", () => {
 
         let settings = {
             token: jwt.encode(payload, "test"),
-            trigger: {
+            triggers: {
                 expiryOverlap: 15,
             },
         } as AuthenticationSettings;
@@ -146,16 +146,14 @@ describe("Authentication basics", () => {
 
         jest.useFakeTimers();
 
-        let authentication = new Authentication("http://localhost:9950/RestService/v3/", settings);
+        let authentication = new Authentication("http://localhost:9950/", settings);
         let pAuthentication = <any> authentication;
         jest.runAllTimers();
         expect(typeof pAuthentication.auth).toBe("object");
         expect(pAuthentication.settings.cbRequest).toEqual(settings.cbRequest);
         expect(settings.cbRequest).toBeCalled();
-        expect(setTimeout.mock.calls.length).toBe(1);
-        expect(setTimeout.mock.calls[0][1]).toBeGreaterThan(850);
-
-
+        expect((<any> setTimeout).mock.calls.length).toBe(1);
+        expect((<any> setTimeout).mock.calls[0][1]).toBeGreaterThan(850);
     });
 
 });

@@ -13,7 +13,7 @@ describe("AllCategories basics", () => {
     });
 
     it("Should be able to create default AllCategories instance", () => {
-        let allCategories = new AllCategories("http://localhost:9950/RestService/v3/");
+        let allCategories = new AllCategories("http://localhost:9950/");
         let pAllCategories = <any> allCategories;
 
         expect(typeof allCategories).toBe("object");
@@ -27,16 +27,16 @@ describe("AllCategories basics", () => {
 
     it("Should throw for invalid Urls", () => {
         expect(() => {
-            let allCategories = new AllCategories("file://localhost:9950/RestService/v3/");
+            let allCategories = new AllCategories("file://localhost:9950");
         }).toThrow();
 
         expect(() => {
-            let allCategories = new AllCategories("http:+//localhost:9950/RestService/v3/");
+            let allCategories = new AllCategories("http:+//localhost:9950");
         }).toThrow();
     });
 
     it("Should be able to create AllCategories instance with default settings passed", () => {
-        let allCategories = new AllCategories("http://localhost:9950/RestService/v3/", new AllCategoriesSettings());
+        let allCategories = new AllCategories("http://localhost:9950/", new AllCategoriesSettings());
         let pAllCategories = <any> allCategories;
 
         expect(pAllCategories.settings.enabled).toEqual(true);
@@ -53,7 +53,7 @@ describe("AllCategories basics", () => {
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.url = "/test";
-        let allCategories = new AllCategories("http://localhost:9950/RestService/v3/", settings);
+        let allCategories = new AllCategories("http://localhost:9950/", settings);
         let pAllCategories = <any> allCategories;
 
         expect(pAllCategories.settings.enabled).toEqual(settings.enabled);
@@ -71,7 +71,7 @@ describe("AllCategories basics", () => {
             enabled: false,
             url: "/test",
         } as AllCategoriesSettings;
-        let allCategories = new AllCategories("http://localhost:9950/RestService/v3/", settings);
+        let allCategories = new AllCategories("http://localhost:9950/", settings);
         let pAllCategories = <any> allCategories;
 
         expect(pAllCategories.settings.enabled).toEqual(settings.enabled);

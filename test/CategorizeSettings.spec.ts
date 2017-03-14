@@ -15,15 +15,15 @@ describe("CategorizeSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
-        expect (settings.trigger.clientIdChanged).toEqual(true);
-        expect (settings.trigger.dateFromChanged).toEqual(true);
-        expect (settings.trigger.dateToChanged).toEqual(true);
-        expect (settings.trigger.filterChanged).toEqual(true);
-        expect (settings.trigger.queryChangeDelay).toEqual(-1);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(2);
-        expect (settings.trigger.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.clientIdChanged).toEqual(true);
+        expect (settings.triggers.dateFromChanged).toEqual(true);
+        expect (settings.triggers.dateToChanged).toEqual(true);
+        expect (settings.triggers.filterChanged).toEqual(true);
+        expect (settings.triggers.queryChangeDelay).toEqual(-1);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(2);
+        expect (settings.triggers.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/categorize");
     });
 
@@ -33,7 +33,7 @@ describe("CategorizeSettings basics", () => {
             cbRequest: jest.fn(),
             cbSuccess: jest.fn(),
             enabled: false,
-            trigger: {
+            triggers: {
                 clientIdChanged: false,
                 dateFromChanged: false,
                 dateToChanged: false,
@@ -55,15 +55,15 @@ describe("CategorizeSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.trigger.clientIdChanged).toEqual(false);
-        expect (settings.trigger.dateFromChanged).toEqual(false);
-        expect (settings.trigger.dateToChanged).toEqual(false);
-        expect (settings.trigger.filterChanged).toEqual(false);
-        expect (settings.trigger.queryChangeDelay).toEqual(100);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(2);
-        expect (settings.trigger.searchTypeChanged).toEqual(false);
+        expect (settings.triggers.clientIdChanged).toEqual(false);
+        expect (settings.triggers.dateFromChanged).toEqual(false);
+        expect (settings.triggers.dateToChanged).toEqual(false);
+        expect (settings.triggers.filterChanged).toEqual(false);
+        expect (settings.triggers.queryChangeDelay).toEqual(100);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(2);
+        expect (settings.triggers.searchTypeChanged).toEqual(false);
         expect (settings.url).toEqual("/test/");
     });
 
@@ -71,7 +71,7 @@ describe("CategorizeSettings basics", () => {
         let settings = {
             cbSuccess: (categories: Categories) => { /* dummy */},
             enabled: false,
-            trigger: {
+            triggers: {
                 clientIdChanged: false,
             },
         } as CategorizeSettings;
@@ -84,15 +84,15 @@ describe("CategorizeSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.trigger.clientIdChanged).toEqual(false);
-        expect (settings.trigger.dateFromChanged).toEqual(true);
-        expect (settings.trigger.dateToChanged).toEqual(true);
-        expect (settings.trigger.filterChanged).toEqual(true);
-        expect (settings.trigger.queryChangeDelay).toEqual(-1);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S\n$/);
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeMinLength).toEqual(2);
-        expect (settings.trigger.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.clientIdChanged).toEqual(false);
+        expect (settings.triggers.dateFromChanged).toEqual(true);
+        expect (settings.triggers.dateToChanged).toEqual(true);
+        expect (settings.triggers.filterChanged).toEqual(true);
+        expect (settings.triggers.queryChangeDelay).toEqual(-1);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeMinLength).toEqual(2);
+        expect (settings.triggers.searchTypeChanged).toEqual(true);
         expect (settings.url).toEqual("/search/categorize");
     });
 
@@ -100,7 +100,7 @@ describe("CategorizeSettings basics", () => {
         let settings = {
             cbSuccess: (categories: Categories) => { /* dummy */},
             enabled: false,
-                trigger: {
+                triggers: {
                     queryChange: true,
                     queryChangeInstantRegex: /\S $/,
                 },
@@ -114,10 +114,9 @@ describe("CategorizeSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.trigger.queryChange).toEqual(true);
-        expect (settings.trigger.queryChangeInstantRegex).toEqual(/\S $/);
+        expect (settings.triggers.queryChange).toEqual(true);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S $/);
         expect (settings.url).toEqual("/search/categorize");
     });
-
 
 });

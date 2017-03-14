@@ -1,50 +1,20 @@
-# IntelliSearch SearchClient
-
-## About
-This package that makes it easy to connect to to an IntelliSearch index from javascript/typescript. 
-
-The package handles all the backend operations and does not create any UI elements. It can be used in an npm like project, both for javascript and typescript projects. In addition, a browser-friendly version is available as a bundled option too, making it possible for webpages to just include it into their page as an ordinary script-tag element.
-
-The IntelliSearch index is typically exposed via the IntelliSearch SearchService, which exposes some REST interfaces:
-
-* Autocomplete - Lookups query-text and suggests words to help write the query.
-* Find - Searches the index based on the current query (query-text, filters, ...).
-* Categorize - Generates a category tree with counts based on the current query (query-text, filters, ...).
-
-In addition, there are two other incomplete or experimental REST-interfaces exposed
-* BestBets [incomplete] - Does not yet expose a full resource based interface for creating, reading, updating and deleting best-bet records. For now, only allows getting a list of all registered best-bets.
-* AllCategories [experimental] - Generates the full tree of categories (for the current user and for all words in the index). Note: This interface is disabled by default in the SearchService. In order to use this feature in the SearchClient you will need to enable this in the SearchService.exe.config on the server.
-
-## Getting started
-
-1. Navigate to your project folder.
-
-2. Run: `npm install --save search-client`
-
-   This will install the package in the ./node_modules/search-client folder, relative to the current project.
-
-3. If your implementation project is an npm-project then all you need to do is to start requiring/importing the search-client into your code.
-
-4. If your project is a classic traditional webpage with javascript src-tags then copy the `./node_modules/search-client/dist/SearchClient.bundle.*` files into a folder that your webpage can use to include javascripts.
-
-5. Implement using "Automatic solution", where you only do a minimum of wiring to make the solution work.   
-   You report changes to the query-text, filters, page navigation, result sorting or search-type to the search-client instance. You then track the operations and receive results via registered callbacks.
-
-6. Or, implement a "Manual solution", where you decide everything yourself.
-   You execute each backend rest-call when you want to. You can choose whether to receive the results via callbacks or to consume the promises returned.
+# Getting started
 
 ## Basics
 
-This section will cover only the basics. I highly recommend using the API-documentation for more details and insight.
+This section will cover only the basics. We highly recommend using the API-documentation for more details and insight.
+
+The two central classes are SearchClient and Settings:
 
 ### <a href="./classes/SearchClient.html">SearchClient</a>
 
 The central class is the <a href="./classes/SearchClient.html">SearchClient</a>. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object. 
 
-   * The base-url is typically "http://myserver/RestService/v3/" for IntelliSearch SearchService. 
-   * The settings object has properties that help you customize the solution to your needs.
-     * If you are using the "manual" mode with promises, then you can leave this empty.
-     * If you want to use the "automatic" mode, then you will have to set up some of these properties.
+* The base-url is typically `"http://myserver:9950"` for theIntelliSearch SearchService. 
+* The settings object has properties that help you customize the solution to your needs.
+  * If you are using the "manual" mode with promises, then you can leave this empty.
+  * If you want to use the "automatic" mode, then you will have to set up some of these properties.
+  * Use the settings' version parameter to override the default 3 with 2 (if you are using a v2 backend rest-interface).
 
 ### <a href="./classes/Settings.html">Settings</a>
 
@@ -60,12 +30,18 @@ The <a href="./classes/Settings.html">Settings</a> class holds properties as fol
 
 Please consult the documentation for specific details on each of them. Suffice to say that all the *Settings classes contains a boolean property called `enabled` , which by default is `true`. 
 
+**Versions:**
+By default the SearchClient services will use version 3 of the backend SearchService REST API. If you need to connect to the v2 REST interface then pass this in the Settings object.
+
 ## Automatic mode
 
-### Update input
-In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type.
+The automatic mode is the simplest way for you as a developer to use the search-client. It makes it easy for you to hook up your search-ui to the search-backend, without you having to add source code to detect when and how the various features are to be executed. Instead you can "stand on shoulders" and leverage the knowledge that is already incorporated into the implemented automated triggers. You can set things up and it should "just work". We do however suggest that you invest time into understanding the various search-features and how the the triggers work. That will help you find the best way to implement the search-backend for your search.
 
-These are **properties** on the SearchClient class and it is expected that you set and get them directly:
+### Update input
+
+In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type. This is how the search-client will know when to execute searches/lookups and not.
+
+These are **properties** on the SearchClient class. It is expected that you set and get them directly:
 
 * `clientId`: string
 * `dateFrom`: <a href="./globals.html#datespecification">DateSpecification</a>
@@ -78,6 +54,16 @@ These are **properties** on the SearchClient class and it is expected that you s
 * `maxSuggestions`: number
 * `queryText`: string
 * `searchType`: <a href="./enums/searchtype.html">SearchType</a>
+
+I.e. `searchClient.queryText = "my query";`
+The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the `queryText` property.
+
+In addition the `filters` and `matchPage` properties also have a couple of helpers:
+
+* `filterAdd(string filter)`
+* `filterRemove(string filter)`
+* `matchPageNext()`
+* `matcPagePrev()`
 
 ### Set up triggers
 
@@ -113,14 +99,14 @@ This means that in the passed Settings-object you can differentiate on when the 
 
 The automatic mode operations (autocomplete, categorize and find) also allow you to specify callbacks as a part of the configuration. The callbacks can be used in the manual mode too, but they were designed to be part of the automatic mode primarily. 
 
+1. `cbRequest`\
+  This callback is called before the request is started. Typically you will use this to control loading/waiting indicators on the page. The signature includes some optional params `(url: string, reqInit: RequestInit): bool`. **Note that if you add this callback, and explicitly return false, then the request will not be executed.** If you don't return or return false then the request runs as expected.
+
 1. `cbSuccess`\
   This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be `(data: <dataType>) => void`, where the &lt;dataType&gt; is `string[]` for the autocomplete call, `Categories` for the categorize call and `Matches` for the find call.
 
-2. `cbError`\
+1. `cbError`\
   This callback is called whenever a backend operation somehow fails to complete. The signature of the callback should be `(error: any) => void`. The error object could be anything, but should explain the cause of the problem if console.log()'ed or toString()'ed to the page.
-
-3. `cbBusy`\
-  This callback is designed to help you track when backend data is being requested. Typically you will use this to control loading/waiting indicators on the page. The signature has some more params, but these are merely for debugging purposes: `(isBusy: boolean, url: string, reqInit: RequestInit): void`. The isBusy parameter tells you whether the request is starting to load (`true`) or if it is done loading (`false`). The next two params can be practical when debugging to see which requests started and stopped when. Note: This indicator does not separate success from failure. It merely tracks whether or not something is pending or not. Every request should make two calls to this callback: One when the request starts and one when it finished (success or error).
 
 It is important to understand that autocomplete, categorize and find all have independent callbacks in the configuration. Because of this the success, error and busy-state for each of them can be tracked independently. This means that the query-field may have an indicator somewhere that indicates that it is doing a lookup (if wanted). The categories section may have an indicator to tell that it is working, and finally the results area may also have an indicator telling that results are pending.
 
@@ -139,36 +125,45 @@ The web-service properties are available though (as long as you didn't pass `ena
         console.error(error);
     });
 
-### Sample
+**Sample:**
 
     // Without authentication
-    let client = new SearchClient("http://server/RestService/v3/", {
+    let client = new SearchClient("http://server:9950/", {
+        version: 3,
         authentication: {
             enables: false,
         }, 
         find: {
-            cbBusy: (isBusy, url, reqInit) => {
-                findLoading = isBusy; 
+            cbRequest: (url, reqInit) => {
+                findError = null;
+                findResults = null;
+                findLoading = true; 
             },
             cbSuccess: (matches) => {
                 findResults = matches;
+                findLoading = false; 
             },
             cbError: (error) => {
                 findError = error.toString();
+                findLoading = false; 
             }, 
             trigger: {
                 queryChanged: true // Means that the match-results will update on queryChanges, and according to the other default trigger values. Still needs minLength and triggerdelay is also obeyed. This example allows a kind of realtime search for matches.
             }
         },
         categorize: {
-            cbBusy: (isBusy, url, reqInit) => {
-                categorizeLoading = isBusy; 
+            cbRequest: (url, reqInit) => {
+                categorizeError = null;
+                categorizeResults = null;
+                categorizeLoading = true; 
             },
             cbSuccess: (categories) => {
                 categorizeResults = categories;
+                categorizeLoading = false; 
             },
             cbError: (error) => {
                 categorizeError = error.toString();
+                categorizeLoading = false; 
             },
             trigger: {
                 // Here we don't change the triggers. queryChange is false so it will not "autosearch".
@@ -184,31 +179,19 @@ The web-service properties are available though (as long as you didn't pass `ena
     client.queryText = "hello world";
 
     // The user clicks the Search-button and a find and categorize should be executed. 
-    client.go();
+    client.findAndCategorize();
 
     // The registered callbacks passed to the SearchClient constructor will be called automatically to track the progress and deliver results when returned. 
 
 ## Manual mode
 
-### Update input
-
-_N/A for the manual mode._
-
-### Set up triggers
-
-_N/A for the manual mode._
-
-### Set up callbacks
+There is no need to update inputs or triggers. Instead the search-client will execute on your command. The results can be received in callbacks or using promises.
 
 While it is possible to set up callbacks to handle the results of the manual fetches, it is not the recommended practice. We suggest that you instead use the Promises returned (see sample below).
 
-### Manual fetch
-
 In manual mode, you control which web-service to call when yourself. This is what the manual mode is all about. The typical mode of operation is still to instantiate the central SearchClient class, but to call the web-services via their respective search-client instance properties: allCategories.fetch(), authentication.fetch(), autocomplete.fetch(), bestBets.fetch(), categorize.fetch() and find.fetch().
 
-Please note that the autocomplete, categorize and find web-services will by default call any registered callbacks as a part of the fetch-process. If you don't want the callbacks to be enabled for the fetch then you can pass a second variable to the fetch()call, a boolean `suppressCallbacks` parameter, set to `true`.
-
-### Sample
+**Sample:**
 
     let client = new SearchClient("http://server/RestService/v3/");
 
@@ -222,6 +205,14 @@ Please note that the autocomplete, categorize and find web-services will by defa
 
 It is recommended to use Promises as shown in the sample above when doing manual operations.
 
+## Deferring and suppressing registered callbacks
+
+Please note that any of the services' registered callbacks will be called as a part of the fetch-process. This regards to both automatic and manual mode fetches. If you don't want the callbacks to be enabled you have two options:
+
+1. For the SearchClient: Call `deferredUpdate*(true)`, before you do anything that would normally trigger callbacks. This will in turn call `deferUpdates(true)` for the appropriate services. When you want callbacks to again be activated, call the same `deferUpdate*(false, true|false)` method, using the second parameter to indicate whether pending updates are to be skipped or not.
+1. For a specific service: Call its `deferUpdates(true)` before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call `deferUpdates(false, true|false)` and use the second parameter to indicate whether pending updates are to be skipped or not.
+1. When using manual mode: Pass a second variable to the `fetch()`-call, a boolean `suppressCallbacks` parameter, set to `true`.
+
 ## Authentication
 
 The IntelliSearch SearchService supports using JWT (JsonWebToken) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: `authentication: { enabled: false }`.
@@ -230,24 +221,22 @@ If you however want to use authentication, then there are a couple of things tha
 
 1. The SearchService must be configured to use the CurrentPrincipal plugin.
 
-2. A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.
-   - The web-service endpoint must identify the user and create a JWT that is returned.
-   - On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchService (a random key was generated on setup and should be preconfigured).
-   - A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.
-   - It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.
+1. A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.
+   * The web-service endpoint must identify the user and create a JWT that is returned.
+   * On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchService (a random key was generated on setup and should be preconfigured).
+   * A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.
+   * It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.
 
-3. The SearchClient authentication settings object must define:
-   - The endpoint url.
-   - The path for the jwt value when returned.\
+1. The SearchClient authentication settings object must define:
+   * The endpoint url.
+   * The path for the jwt value when returned.\
      If the returned structure is `{ user: { jwt: "actualtokenhash"}}` then the tokenPath should be `["user", "jwt"]`.
-   - By default
+   * By default
 
 The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to prefetch it to have it ready asap in case a search is made). 
 
 The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its trigger: ` authentication: { trigger: { expiryOverlap: 60 }}`. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.
 
 ## Documentation / Intellisense / Types
-If you are using typescript, then the datatypes are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).
 
----
-**Please report bugs on the GitHub project: http://www.github.com/intellisearch/search-client**
+If you are using typescript, then the datatypes are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).

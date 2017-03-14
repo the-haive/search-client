@@ -17,7 +17,7 @@ export class BestBets extends BaseCall<string[]> {
      * @param auth - An object that controls the authentication for the lookups.
      */
     constructor(baseUrl: string, protected settings: BestBetsSettings = new BestBetsSettings(), auth?: AuthToken) {
-        super(baseUrl, settings, auth);
+        super(baseUrl, new BestBetsSettings(settings), auth);
     }
 
     /**

@@ -1,3 +1,3 @@
-export * from './AutocompleteTrigger';
+export * from './AutocompleteTriggers';
 export * from './AutocompleteSettings';
 export * from './Autocomplete';

@@ -1,26 +1,26 @@
 {
-	"compilerOptions": {
-		"moduleResolution": "node",
-		"module": "commonjs",
-		"target": "es5",
-		"declaration": true,
-		"sourceMap": true,
-		"outDir": "dist",
-		"lib": [ "es6", "dom" ],
-		"experimentalDecorators": true,
-		"noImplicitAny": true,
-		"suppressImplicitAnyIndexErrors": true,
-		"emitDecoratorMetadata": true,
-		"removeComments": false,
-		"allowSyntheticDefaultImports": true,
-		"typeRoots": [
-			"node_modules/@types"
-		]
-	},
-	"files": [
-		"src/SearchClient.ts"
-	],
-	"exclude": [
-		"node_modules"
-	]
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es5",
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "lib": ["es6", "dom"],
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "emitDecoratorMetadata": true,
+        "removeComments": false,
+        "allowSyntheticDefaultImports": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "files": [
+        "src/SearchClient.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

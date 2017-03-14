@@ -1,6 +1,7 @@
 # IntelliSearch SearchClient
 
 ## About
+
 The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchService. 
 
 The package handles all the backend web-services so that you can focus on the user interface instead. 
@@ -11,9 +12,18 @@ The SearchClient wraps and manages all the IntelliSearch SearchService REST web-
 * Find - Searches the index based on the current query (query-text, filters, ...).
 * Categorize - Generates a category tree with counts based on the current query (query-text, filters, ...).
 
-In addition, there are two other incomplete or experimental REST-interfaces exposed
+In addition, there are two other incomplete or experimental REST-interfaces exposed:
+
 * BestBets [incomplete] - Does not yet expose a full resource based interface for creating, reading, updating and deleting best-bet records. For now, only allows getting a list of all registered best-bets.
 * AllCategories [experimental] - Generates the full tree of categories (for the current user and for all words in the index). Note: This interface is disabled by default in the SearchService. In order to use this feature in the SearchClient you will need to enable this in the SearchService.exe.config on the server.
+
+## Project links
+
+* <a href="https://www.npmjs.com/package/search-client">Node Package Manager</a>
+* <a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a>
+* <a href="https://github.com/IntelliSearch/search-client">GitHub repository</a>
+* <a href="https://github.com/IntelliSearch/search-client/issues">Issues</a>
+* <a href="https://github.com/IntelliSearch/search-client/blob/master/CHANGELOG.md">Changelog</a>
 
 ## Use in NPM projects
 
@@ -31,12 +41,8 @@ For web-pages that needs to have a script-tag embedded you can fetch the file(s)
     
 \- where `{version}` is to be replaced with the actual version you want. 
 
-### Browser bundles
 
-We recommend using the minified version of the script: `SearchClient.bundle.min.js`
-Next to that file there is an accompanying `.map` file that browsers should be able to utilize in order to give a better debug experience.
-
-### CDN version aliases
+**CDN version aliases:**
 
 We strongly recommend that you use the full version id for production sites. For development sites we do recommend the same, but we also see that using a version alias might be handy in some cases.
 
@@ -49,10 +55,4 @@ We strongly recommend that you use the full version id for production sites. For
 * `<Major.Minor>` (i.e. `1.1`)\
   This means that it will get the latest version for the given major.minor version. Note that the same warning as for `latest` applies, although this is less risky than both of the above options.
 
-## Getting started
-
-Read more in the <a href="http://github.com/intellisearch/search-client/doc/index.html">getting started guide</a>.
-
-## Bugs
-
-Please report bugs on <a href="http://www.github.com/intellisearch/search-client">the GitHub search-client project</a>.
+**Note:** A benefit to using the npm system is the inclusion of `map`-files. Next to the browser-bundles in the project you can find accompanying `.map` files that browsers are able to utilize in order to give a better debugging experience.

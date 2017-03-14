@@ -1,22 +1,22 @@
-import { SearchSettings } from '../Common/SearchSettings';
+import { BaseSettings } from '../Common/BaseSettings';
 import { Categories } from '../Data/Categories';
 
-import { CategorizeTrigger } from './CategorizeTrigger';
+import { CategorizeTriggers } from './CategorizeTriggers';
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
-export class CategorizeSettings extends SearchSettings<Categories> {
+export class CategorizeSettings extends BaseSettings<Categories> {
 
     /**
      * The trigger-settings for when automatic category result-updates are to be triggered.
      */
-    public trigger: CategorizeTrigger = new CategorizeTrigger();
+    public triggers?: CategorizeTriggers = new CategorizeTriggers();
 
     /**
      * The endpoint to do categorize lookups for.
      */
-    public url: string = '/search/categorize';
+    public url?: string = '/search/categorize';
 
     /**
      * Creates a CategorizeSettings object for you, based on CategorizeSettings defaults and the overrides provided as a param.
@@ -25,7 +25,7 @@ export class CategorizeSettings extends SearchSettings<Categories> {
     constructor(categorizeSettings?: CategorizeSettings) {
         super(categorizeSettings);
         if (categorizeSettings) {
-            categorizeSettings.trigger = new CategorizeTrigger(categorizeSettings.trigger);
+            categorizeSettings.triggers = new CategorizeTriggers(categorizeSettings.triggers);
         }
         Object.assign(this, categorizeSettings);
     }

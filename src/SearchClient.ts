@@ -1,4 +1,5 @@
 import equal  = require('deep-equal');
+
 export * from './Common';
 export * from './Data';
 export * from './Authentication';
@@ -7,12 +8,12 @@ export * from './Autocomplete';
 export * from './BestBets';
 export * from './Categorize';
 export * from './Find';
+export * from './Settings';
+export * from './QueryConverter';
 
 import { OrderBy } from './Common/OrderBy';
 import { SearchType } from './Common/SearchType';
-import { Settings } from './Common/Settings';
 import { DateSpecification, Query } from './Common/Query';
-import { Components } from './Common/Components';
 
 import { AuthToken } from './Authentication/AuthToken';
 import { Authentication } from './Authentication/Authentication';
@@ -20,10 +21,12 @@ import { Authentication } from './Authentication/Authentication';
 import { AllCategories } from './AllCategories/AllCategories';
 import { Autocomplete } from './Autocomplete/Autocomplete';
 import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
-import { AutocompleteTrigger } from './Autocomplete/AutocompleteTrigger';
+import { AutocompleteTriggers } from './Autocomplete/AutocompleteTriggers';
 import { BestBets } from './BestBets/BestBets';
 import { Categorize } from './Categorize/Categorize';
 import { Find } from './Find/Find';
+
+import { Settings } from './Settings';
 
 export class SearchClient implements AuthToken {
 
@@ -69,7 +72,7 @@ export class SearchClient implements AuthToken {
     
     /**
      * 
-     * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/RestService/v3/
+     * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
     constructor(baseUrl: string, private settings: Settings = new Settings()) {
@@ -99,6 +102,29 @@ export class SearchClient implements AuthToken {
         }
 
         this._query = this.settings.query;
+    }
+
+    /**
+     * This method is typically called when the user clicks the search-button in the UI.
+     * For query-fields that accepts enter the default queryChangeInstantRegex catches enter (for find and categorize).
+     * When they don't take enter you will have to set up something that either catches the default enter or a user clicks
+     * on a "Search"-button or similar. You can choose to use the already current query, or you can pass it in. If you
+     * include the query then the internal updates are suppressed while changing the query-properties, to make sure that 
+     * only one update per service is made (if any of their trigger-checks returned true). 
+     * 
+     * When called it will unconditionally call the fetch() method of both Categorize and Find.
+     * 
+     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to awnt to list autocomplete 
+     * suggestions when the Search-button is clicked.
+     */
+    public findAndCategorize(query?: Query) {
+        if (query) {
+            this.deferUpdatesForAll(true);
+            this.query = query;
+            this.deferUpdatesForAll(false, true); // Skip any pending requests
+        }
+        this.categorize.fetch(this._query);
+        this.find.fetch(this._query);
     }
 
     /**
@@ -307,29 +333,6 @@ export class SearchClient implements AuthToken {
             this.categorize.matchPageChanged(oldValue, this._query);
             this.find.matchPageChanged(oldValue, this._query);
         }
-    }
-
-    /**
-     * This method is typically called when the user clicks the search-button in the UI.
-     * For query-fields that accepts enter the default queryChangeInstantRegex catches enter (for find and categorize).
-     * When they don't take enter you will have to set up something that either catches the default enter or a user clicks
-     * on a "Search"-button or similar. You can choose to use the already current query, or you can pass it in. If you
-     * include the query then the internal updates are suppressed while changing the query-properties, to make sure that 
-     * only one update per service is made (if any of their trigger-checks returned true). 
-     * 
-     * When called it will unconditionally call the fetch() method of both Categorize and Find.
-     * 
-     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to awnt to list autocomplete 
-     * suggestions when the Search-button is clicked.
-     */
-    public findAndCategorize(query?: Query) {
-        if (query) {
-            this.deferUpdatesForAll(true);
-            this.query = query;
-            this.deferUpdatesForAll(false, true); // Skip any pending requests
-        }
-        this.categorize.fetch(this._query);
-        this.find.fetch(this._query);
     }
 
     /**

@@ -1,32 +1,32 @@
-import { CategorizeTrigger } from '../Categorize/CategorizeTrigger';
+import { CategorizeTriggers } from '../Categorize/CategorizeTriggers';
 
-export class FindTrigger extends CategorizeTrigger {
+export class FindTriggers extends CategorizeTriggers {
     
     /**
      * Triggers when the useGrouping property has changed.
      */
-    public matchGroupingChanged: boolean = true;
+    public matchGroupingChanged?: boolean = true;
 
     /**
      * Triggers when the orderBy property has changed.
      */
-    public matchOrderByChanged: boolean = true;
+    public matchOrderByChanged?: boolean = true;
 
     /**
      * Triggers when the page property has changed.
      */
-    public matchPageChanged: boolean = true;
+    public matchPageChanged?: boolean = true;
 
     /**
      * Triggers when the pageSize property has changed.
      */
-    public matchPageSizeChanged: boolean = true;
+    public matchPageSizeChanged?: boolean = true;
 
     /**
      * Creates a FindTrigger object for you, based on FindTrigger defaults and the overrides provided as a param.
      * @param findTrigger - The trigger defined here will override the default FindTrigger.
      */
-    constructor(findTrigger?: FindTrigger) {
+    constructor(findTrigger?: FindTriggers) {
         super(findTrigger);
         Object.assign(this, findTrigger);
     }
