@@ -147,7 +147,7 @@ The web-service properties are available though (as long as you didn't pass `ena
                 findError = error.toString();
                 findLoading = false; 
             }, 
-            trigger: {
+            triggers: {
                 queryChanged: true // Means that the match-results will update on queryChanges, and according to the other default trigger values. Still needs minLength and triggerdelay is also obeyed. This example allows a kind of realtime search for matches.
             }
         },
@@ -165,7 +165,7 @@ The web-service properties are available though (as long as you didn't pass `ena
                 categorizeError = error.toString();
                 categorizeLoading = false; 
             },
-            trigger: {
+            triggers: {
                 // Here we don't change the triggers. queryChange is false so it will not "autosearch".
             }
         },
@@ -235,7 +235,7 @@ If you however want to use authentication, then there are a couple of things tha
 
 The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to prefetch it to have it ready asap in case a search is made). 
 
-The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its trigger: ` authentication: { trigger: { expiryOverlap: 60 }}`. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.
+The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: ` authentication: { triggers: { expiryOverlap: 60 }}`. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.
 
 ## Documentation / Intellisense / Types
 
