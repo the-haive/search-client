@@ -1,5 +1,17 @@
 # Change Log
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/IntelliSearch/search-client/compare/v0.7.0...v0.8.0) (2017-03-14)
+
+
+### Features
+
+* Simplifying interface for main use. Some refactoring of properties. Support for passing in REST version (2 and 3). ([2e009b0](https://github.com/IntelliSearch/search-client/commit/2e009b0))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/IntelliSearch/search-client/compare/v0.6.3...v0.7.0) (2017-03-13)
 
