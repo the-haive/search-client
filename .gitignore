@@ -3,6 +3,8 @@
 !src/**/*
 !test/
 !test/**/*
+!docs/
+!docs/**/*
 !*.js
 !*.json
 !*.md

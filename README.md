@@ -1,5 +1,7 @@
 # IntelliSearch SearchClient
 
+[![Build Status](https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg)](https://semaphoreci.com/spiralis/search-client)
+
 ## About
 
 The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchService. 
@@ -19,6 +21,7 @@ In addition, there are two other incomplete or experimental REST-interfaces expo
 
 ## Project links
 
+* <a href="https://intellisearch.github.io/search-client/">Documentation</a>
 * <a href="https://www.npmjs.com/package/search-client">Node Package Manager</a>
 * <a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a>
 * <a href="https://github.com/IntelliSearch/search-client">GitHub repository</a>

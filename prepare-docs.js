@@ -6,7 +6,7 @@ if (!fs.existsSync(tmp)) {
     fs.mkdirSync(tmp);
 }
 
-var dir = tmp + 'doc/';
+var dir = tmp + 'docs/';
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
