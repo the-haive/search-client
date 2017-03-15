@@ -8,8 +8,8 @@ import { Query, QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConve
 
 const query = new Query({
     clientId: "mobile", 
-    dateFrom: "2017-03-13", 
-    dateTo: "2017-03-13", 
+    dateFrom: "2017-03-13 09Z", 
+    dateTo: "2017-03-13 09Z", 
     filters: ["Authors|Bob", "FileTypes|docx"], 
     matchGrouping: true, 
     matchOrderBy: OrderBy.Date, 
