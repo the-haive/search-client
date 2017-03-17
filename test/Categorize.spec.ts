@@ -12,7 +12,63 @@ import { CategorizeSettings } from '../src/Categorize/CategorizeSettings';
 import { CategorizeTriggers } from '../src/Categorize/CategorizeTriggers';
 import { Categories, Group } from '../src/Data';
 
-let reference: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+let reference: Categories = require('./data/categories.json');
+
+function sanityCheck(categories: Categories) {
+    expect(categories.groups.length).toEqual(4);
+    expect(categories.groups[0].name).toEqual("System");
+    expect(categories.groups[0].expanded).toEqual(true);
+    expect(categories.groups[0].categories.length).toEqual(1);
+    expect(categories.groups[0].categories[0].expanded).toEqual(false);
+
+    expect(categories.groups[1].name).toEqual("Author");
+    expect(categories.groups[1].expanded).toEqual(false);
+    expect(categories.groups[1].categories.length).toEqual(27);
+    expect(categories.groups[1].categories[0].expanded).toEqual(false);
+    expect(categories.groups[1].categories[1].expanded).toEqual(false);
+    expect(categories.groups[1].categories[2].expanded).toEqual(false);
+    expect(categories.groups[1].categories[3].expanded).toEqual(false);
+    expect(categories.groups[1].categories[26].expanded).toEqual(false);
+    expect(categories.groups[1].categories[27]).toBeUndefined();
+
+    expect(categories.groups[2].name).toEqual("ModifiedDate");
+    expect(categories.groups[2].expanded).toEqual(false);
+    expect(categories.groups[2].categories.length).toEqual(3);
+    expect(categories.groups[2].categories[0].name).toEqual("2007");
+    expect(categories.groups[2].categories[0].expanded).toEqual(false);
+    expect(categories.groups[2].categories[0].children.length).toEqual(3);
+    expect(categories.groups[2].categories[0].children[0].expanded).toEqual(false);
+    expect(categories.groups[2].categories[0].children[1].expanded).toEqual(false);
+    expect(categories.groups[2].categories[0].children[2].expanded).toEqual(false);
+    expect(categories.groups[2].categories[1].name).toEqual("2014");
+    expect(categories.groups[2].categories[1].expanded).toEqual(false);
+    expect(categories.groups[2].categories[1].children.length).toEqual(3);
+    expect(categories.groups[2].categories[1].children[0].expanded).toEqual(false);
+    expect(categories.groups[2].categories[1].children[1].expanded).toEqual(false);
+    expect(categories.groups[2].categories[1].children[2].expanded).toEqual(false);
+    expect(categories.groups[2].categories[2].name).toEqual("2015");
+    expect(categories.groups[2].categories[2].expanded).toEqual(false);
+    expect(categories.groups[2].categories[2].children.length).toEqual(3);
+    expect(categories.groups[2].categories[2].children[0].expanded).toEqual(false);
+    expect(categories.groups[2].categories[2].children[1].expanded).toEqual(false);
+    expect(categories.groups[2].categories[2].children[2].expanded).toEqual(false);
+
+    expect(categories.groups[3].name).toEqual("FileType");
+    expect(categories.groups[3].expanded).toEqual(false);
+    expect(categories.groups[3].categories.length).toEqual(4);
+    expect(categories.groups[3].categories[0].name).toEqual("DOC");
+    expect(categories.groups[3].categories[0].expanded).toEqual(false);
+    expect(categories.groups[3].categories[0].children.length).toEqual(0);
+    expect(categories.groups[3].categories[1].name).toEqual("PDF");
+    expect(categories.groups[3].categories[1].expanded).toEqual(false);
+    expect(categories.groups[3].categories[1].children.length).toEqual(0);
+    expect(categories.groups[3].categories[2].name).toEqual("PPT");
+    expect(categories.groups[3].categories[2].expanded).toEqual(false);
+    expect(categories.groups[3].categories[2].children.length).toEqual(0);
+    expect(categories.groups[3].categories[3].name).toEqual("HTML");
+    expect(categories.groups[3].categories[3].expanded).toEqual(false);
+    expect(categories.groups[3].categories[3].children.length).toEqual(0);
+}
 
 describe("Categorize basics", () => {
 
@@ -105,65 +161,13 @@ describe("Categorize basics", () => {
     });
 
     it("Should be able to understand sample categories", () => {
-        let categories: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
-        expect(categories.groups.length).toEqual(4);
-        expect(categories.groups[0].name).toEqual("System");
-        expect(categories.groups[0].expanded).toEqual(true);
-        expect(categories.groups[0].categories.length).toEqual(1);
-        expect(categories.groups[0].categories[0].expanded).toEqual(false);
-
-        expect(categories.groups[1].name).toEqual("Author");
-        expect(categories.groups[1].expanded).toEqual(false);
-        expect(categories.groups[1].categories.length).toEqual(27);
-        expect(categories.groups[1].categories[0].expanded).toEqual(false);
-        expect(categories.groups[1].categories[1].expanded).toEqual(false);
-        expect(categories.groups[1].categories[2].expanded).toEqual(false);
-        expect(categories.groups[1].categories[3].expanded).toEqual(false);
-        expect(categories.groups[1].categories[26].expanded).toEqual(false);
-        expect(categories.groups[1].categories[27]).toBeUndefined();
-
-        expect(categories.groups[2].name).toEqual("ModifiedDate");
-        expect(categories.groups[2].expanded).toEqual(false);
-        expect(categories.groups[2].categories.length).toEqual(3);
-        expect(categories.groups[2].categories[0].name).toEqual("2007");
-        expect(categories.groups[2].categories[0].expanded).toEqual(false);
-        expect(categories.groups[2].categories[0].children.length).toEqual(3);
-        expect(categories.groups[2].categories[0].children[0].expanded).toEqual(false);
-        expect(categories.groups[2].categories[0].children[1].expanded).toEqual(false);
-        expect(categories.groups[2].categories[0].children[2].expanded).toEqual(false);
-        expect(categories.groups[2].categories[1].name).toEqual("2014");
-        expect(categories.groups[2].categories[1].expanded).toEqual(false);
-        expect(categories.groups[2].categories[1].children.length).toEqual(3);
-        expect(categories.groups[2].categories[1].children[0].expanded).toEqual(false);
-        expect(categories.groups[2].categories[1].children[1].expanded).toEqual(false);
-        expect(categories.groups[2].categories[1].children[2].expanded).toEqual(false);
-        expect(categories.groups[2].categories[2].name).toEqual("2015");
-        expect(categories.groups[2].categories[2].expanded).toEqual(false);
-        expect(categories.groups[2].categories[2].children.length).toEqual(3);
-        expect(categories.groups[2].categories[2].children[0].expanded).toEqual(false);
-        expect(categories.groups[2].categories[2].children[1].expanded).toEqual(false);
-        expect(categories.groups[2].categories[2].children[2].expanded).toEqual(false);
-
-        expect(categories.groups[3].name).toEqual("FileType");
-        expect(categories.groups[3].expanded).toEqual(false);
-        expect(categories.groups[3].categories.length).toEqual(4);
-        expect(categories.groups[3].categories[0].name).toEqual("DOC");
-        expect(categories.groups[3].categories[0].expanded).toEqual(false);
-        expect(categories.groups[3].categories[0].children.length).toEqual(0);
-        expect(categories.groups[3].categories[1].name).toEqual("PDF");
-        expect(categories.groups[3].categories[1].expanded).toEqual(false);
-        expect(categories.groups[3].categories[1].children.length).toEqual(0);
-        expect(categories.groups[3].categories[2].name).toEqual("PPT");
-        expect(categories.groups[3].categories[2].expanded).toEqual(false);
-        expect(categories.groups[3].categories[2].children.length).toEqual(0);
-        expect(categories.groups[3].categories[3].name).toEqual("HTML");
-        expect(categories.groups[3].categories[3].expanded).toEqual(false);
-        expect(categories.groups[3].categories[3].children.length).toEqual(0);
-
+        let categories: Categories = require('./data/categories.json');
+        sanityCheck(categories);
     });
 
     it("Should have no effect when there are no filters defined", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -171,11 +175,14 @@ describe("Categorize basics", () => {
         // Expect no change, when no filter is added and running the filtermethod
         let results: Categories = pClient.filterCategories(workCopy);
 
+        sanityCheck(workCopy);
+
         expect(results).toEqual(reference);
     });
 
     it("Should have no effect when filters are empty", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -185,11 +192,14 @@ describe("Categorize basics", () => {
 
         let results: Categories = pClient.filterCategories(workCopy);
 
+        sanityCheck(workCopy);
+
         expect(results).toEqual(reference);
     });
 
     it("Should have no effect when the filter is null", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -198,11 +208,14 @@ describe("Categorize basics", () => {
 
         let results: Categories = pClient.filterCategories(workCopy);
 
+        sanityCheck(workCopy);
+
         expect(results).toEqual(reference);
     });
 
     it("Should have no effect when the filter is undefined", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -212,11 +225,14 @@ describe("Categorize basics", () => {
 
         let results: Categories = pClient.filterCategories(workCopy);
 
+        sanityCheck(workCopy);
+
         expect(results).toEqual(reference);
     });
 
     it("Should have no effect when the filter only has null-filters", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -226,11 +242,14 @@ describe("Categorize basics", () => {
 
         let results: Categories = pClient.filterCategories(workCopy);
 
+        sanityCheck(workCopy);
+
         expect(results).toEqual(reference);
     });
 
     it("Should be able to filter using direct mock on categorize", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = <any> client;
@@ -244,6 +263,8 @@ describe("Categorize basics", () => {
         };
 
         let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[0].categories.length).toEqual(0);
@@ -259,7 +280,8 @@ describe("Categorize basics", () => {
     });
 
     it("Should be able to change the clientCategoryFilter property in SearchClient", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let catResults: Categories = null; 
 
@@ -285,6 +307,8 @@ describe("Categorize basics", () => {
             FileType: /---/,
         };
 
+        sanityCheck(workCopy);
+
         expect(cbSuccessMock).toHaveBeenCalledTimes(1);
         expect(catResults.groups.length).toEqual(4);
 
@@ -293,7 +317,6 @@ describe("Categorize basics", () => {
         expect(catResults.groups[0].expanded).toEqual(true); 
         expect(catResults.groups[0].categories.length).toEqual(0);
 
-        //console.log(catResults.groups[1]);
         expect(catResults.groups[1].name).toEqual("Author");
         expect(catResults.groups[1].expanded).toEqual(false);
         expect(catResults.groups[1].categories.length).toEqual(0);
@@ -306,6 +329,7 @@ describe("Categorize basics", () => {
         expect(c2014.name).toEqual("2014");
         expect(c2014.expanded).toEqual(true);
         expect(c2014.children.length).toEqual(3);
+        // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
         expect(c2014.children[0].expanded).toEqual(false);
         expect(c2014.children[1].expanded).toEqual(false);
         expect(c2014.children[2].expanded).toEqual(false);
@@ -314,6 +338,7 @@ describe("Categorize basics", () => {
         expect(c2015.name).toEqual("2015");
         expect(c2015.expanded).toEqual(true);
         expect(c2015.children.length).toEqual(3);
+        // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
         expect(c2015.children[0].expanded).toEqual(false);
         expect(c2015.children[1].expanded).toEqual(false);
         expect(c2015.children[2].expanded).toEqual(false);
@@ -325,7 +350,8 @@ describe("Categorize basics", () => {
     });
 
     it("Should be able to change the clientCategoryFilter property in SearchClient", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let catResults: Categories = null; 
 
@@ -350,6 +376,8 @@ describe("Categorize basics", () => {
             Author: "la",
             FileType: /DOC|PDF/,
         };
+
+        sanityCheck(workCopy);
 
         expect(cbSuccessMock).toHaveBeenCalledTimes(1);
         expect(catResults.groups.length).toEqual(4);
@@ -378,6 +406,7 @@ describe("Categorize basics", () => {
         expect(c2014.name).toEqual("2014");
         expect(c2014.expanded).toEqual(true);
         expect(c2014.children.length).toEqual(3);
+        // These nodes are included by the ModifiedDate_2014: /.*/, so should be expanded 
         expect(c2014.children[0].expanded).toEqual(true);
         expect(c2014.children[1].expanded).toEqual(true);
         expect(c2014.children[2].expanded).toEqual(true);
@@ -386,12 +415,13 @@ describe("Categorize basics", () => {
         expect(c2015.name).toEqual("2015");
         expect(c2015.expanded).toEqual(true);
         expect(c2015.children.length).toEqual(3);
+        // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
         expect(c2015.children[0].expanded).toEqual(false);
         expect(c2015.children[1].expanded).toEqual(false);
         expect(c2015.children[2].expanded).toEqual(false);
 
         expect(catResults.groups[3].name).toEqual("FileType");
-//        expect(catResults.groups[3].expanded).toEqual(true);
+        expect(catResults.groups[3].expanded).toEqual(true);
         expect(catResults.groups[3].categories.length).toEqual(2);
         expect(catResults.groups[3].categories[0].name).toEqual("DOC");
         expect(catResults.groups[3].categories[0].expanded).toEqual(true);
@@ -403,7 +433,8 @@ describe("Categorize basics", () => {
     });
 
     it("Should be possible to change the clientCategoryFilterSepChar setting in the SearchClient", () => {
-        let workCopy: Categories = JSON.parse(require('fs').readFileSync('./test/data/categories.json', 'utf8'));
+        let workCopy: Categories = require('./data/categories.json');
+        sanityCheck(workCopy);
 
         let catResults: Categories = null; 
 
@@ -430,6 +461,8 @@ describe("Categorize basics", () => {
             "FileType": /DOC|PDF/,
         };
 
+        sanityCheck(workCopy);
+
         expect(cbSuccessMock).toHaveBeenCalledTimes(1);
         expect(catResults.groups.length).toEqual(4);
 
@@ -440,7 +473,6 @@ describe("Categorize basics", () => {
         expect(catResults.groups[0].categories[0].expanded).toEqual(reference.groups[0].categories[0].expanded);
         expect(catResults.groups[0].categories[0].children.length).toEqual(reference.groups[0].categories[0].children.length);
 
-        //console.log(catResults.groups[1]);
         expect(catResults.groups[1].name).toEqual("Author");
         expect(catResults.groups[1].expanded).toEqual(true);
         expect(catResults.groups[1].categories.length).toEqual(4);

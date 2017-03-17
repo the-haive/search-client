@@ -129,8 +129,8 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     private filterCategories(categories: Categories): Categories {
-        //console.log(categories);
-        categories.groups = categories.groups.map((inGroup: Group) => {
+        let cats = {...categories};
+        let groups = cats.groups.map((inGroup: Group) => {
             let group = {...inGroup};
             if (group.categories && group.categories.length > 0) {
                 group.categories = this.mapCategories(group.categories);
@@ -138,12 +138,13 @@ export class Categorize extends BaseCall<Categories> {
             group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
             return group;
         });
-        categories.groups = categories.groups.filter((g) => { return g !== undefined; });
-        return categories;
+        cats.groups = groups.filter((g) => { return g !== undefined; });
+        return cats;
     }
 
     private mapCategories(categories: Category[]): Category[] {
-        categories = categories.map((inCategory: Category) => {
+        let cats = [...categories];
+        cats = cats.map((inCategory: Category) => {
             let category = {...inCategory};
             let result = this.inClientCategoryFilters({...category});
             if (result !== false) {
@@ -151,15 +152,15 @@ export class Categorize extends BaseCall<Categories> {
                     if (category.children && category.children.length > 0) {
                         category.children = this.mapCategories(category.children);
                     }
-                    category.expanded = true; //category.expanded || category.children.some((c) => c.expanded === true);
+                    category.expanded = true;
                 }
                 category.expanded = category.expanded || category.children.some((c) => c.expanded === true);
                 return category;
             }
         });
 
-        categories = categories.filter((c) => { return c !== undefined; });
-        return categories;
+        cats = cats.filter((c) => { return c !== undefined; });
+        return cats;
     }
 
     private inClientCategoryFilters(category: Category): boolean {
