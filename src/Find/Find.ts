@@ -14,6 +14,8 @@ import { FindSettings } from './FindSettings';
 
 /**
  * Wraps the find search-service rest-service. 
+ * 
+ * Normally used indirectly via the SearchClient.
  */
 export class Find extends BaseCall<Matches> {
 

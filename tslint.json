@@ -1,24 +1,26 @@
 {
-	"extends": "tslint:recommended",
-	"rules": {
-		"comment-format": [
-			false
-		],
-		"quotemark": [
-			false
-		],
-		"max-line-length": [
-			false
-		],
-		"no-trailing-whitespace": false,
-		"ordered-imports": [
-			false
-		],
-		"no-console": [
-			false
-		],
-		"interface-name": [
-			false
-		]
-	}
+    "extends": "tslint:recommended",
+    "rules": {
+        "comment-format": [
+            false
+        ],
+        "quotemark": [
+            false
+        ],
+        "max-line-length": [
+            false
+        ],
+        "no-trailing-whitespace": false,
+        "ordered-imports": [
+            false
+        ],
+        "no-console": [
+            false
+        ],
+        "interface-name": [
+            false
+        ],
+        "no-var-requires": false,
+        "object-literal-sort-keys": false
+    }
 }

@@ -8,6 +8,10 @@ import { AuthToken } from '../Authentication/AuthToken';
 
 import { BestBetsSettings } from './';
 
+/**
+ * **Note: This service is experimental - and offer very limited functionality at the moment.** 
+ * We may or may not extend this in the future.
+ */
 export class BestBets extends BaseCall<string[]> {
 
     /**

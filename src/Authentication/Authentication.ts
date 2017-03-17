@@ -7,6 +7,16 @@ import { Query } from '../Common/Query';
 import { AuthenticationSettings } from './AuthenticationSettings';
 import { AuthToken } from './AuthToken';
 
+/**
+ * The Authentication service is a supporting feature for the other services. 
+ * Typically used via the [[SearchClient.constructor]] and by providing [[AuthenticationSettings]] settings in 
+ * the [[Settings.authentication]] property.
+ * 
+ * The authentication system is based on JWT and needs an end-point to be configured from where it will get its
+ * authentication-token. This service will be monitoring the token-value to see if it is either missing or 
+ * expired. When that happens a new token will be fetched from the end-point. The [[AuthenticationSettings.expiryOverlap]]
+ * object controls how long before expiration the new token is to be fetched. 
+ */
 export class Authentication extends BaseCall<any> {
 
     /**

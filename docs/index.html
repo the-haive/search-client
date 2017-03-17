@@ -65,6 +65,7 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="intellisearch-searchclient">IntelliSearch SearchClient</h1>
+				<p><a href="https://semaphoreci.com/spiralis/search-client"><img src="https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg" alt="Build Status"></a></p>
 				<h2 id="about">About</h2>
 				<p>The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchService. </p>
 				<p>The package handles all the backend web-services so that you can focus on the user interface instead. </p>
@@ -113,9 +114,9 @@
 				<h1 id="getting-started">Getting started</h1>
 				<h2 id="basics">Basics</h2>
 				<p>This section will cover only the basics. We highly recommend using the API-documentation for more details and insight.</p>
-				<p>The two central classes are SearchClient and Settings:</p>
-				<h3 id="-a-href-classes-searchclient-html-searchclient-a-"><a href="./classes/SearchClient.html">SearchClient</a></h3>
-				<p>The central class is the <a href="./classes/SearchClient.html">SearchClient</a>. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object. </p>
+				<p>The two central classes are <a href="classes/searchclient.html">SearchClient</a> and <a href="classes/settings.html">Settings</a>:</p>
+				<h3 id="-a-href-classes-searchclient-html-searchclient-a-"><a href="classes/searchclient.html">SearchClient</a></h3>
+				<p>The central class is the <a href="classes/searchclient.html">SearchClient</a>. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object. </p>
 				<ul>
 					<li>The base-url is typically <code>&quot;http://myserver:9950&quot;</code> for theIntelliSearch SearchService. </li>
 					<li>The settings object has properties that help you customize the solution to your needs.<ul>
@@ -125,18 +126,18 @@
 						</ul>
 					</li>
 				</ul>
-				<h3 id="-a-href-classes-settings-html-settings-a-"><a href="./classes/Settings.html">Settings</a></h3>
-				<p>The <a href="./classes/Settings.html">Settings</a> class holds properties as follows:</p>
+				<h3 id="-a-href-classes-settings-html-settings-a-"><a href="classes/settings.html">Settings</a></h3>
+				<p>The <a href="classes/settings.html">Settings</a>Settings</a> class holds properties as follows:</p>
 				<ul>
-					<li><code>allCategories</code>: <a href="./classes/AllCategoriesSettings.html">AllCategoriesSettings</a> </li>
-					<li><code>authentication</code>: <a href="./classes/AuthenticationSettings.html">AuthenticationSettings</a> </li>
-					<li><code>autocomplete</code>: <a href="./classes/AutocompleteSettings.html">AutocompleteSettings</a> </li>
-					<li><code>bestBets</code>: <a href="./classes/BestBetsSettings.html">BestBetsSettings</a> </li>
-					<li><code>categorize</code>: <a href="./classes/CategorizeSettings.html">CategorizeSettings</a> </li>
-					<li><code>find</code>: <a href="./classes/FindSettings.html">FindSettings</a> </li>
-					<li><code>query</code>: <a href="./classes/Query.html">Query</a> </li>
+					<li><code>allCategories</code>: <a href="classes/allcategoriessettings.html">AllCategoriesSettings</a></a> </li>
+					<li><code>authentication</code>: <a href="classes/authenticationsettings.html">AuthenticationSettings</a></a> </li>
+					<li><code>autocomplete</code>: <a href="classes/autocompletesettings.html">AutocompleteSettings</a></a> </li>
+					<li><code>bestBets</code>: <a href="classes/bestbetssettings.html">BestBetsSettings</a></a> </li>
+					<li><code>categorize</code>: <a href="classes/categorizesettings.html">CategorizeSettings</a></a> </li>
+					<li><code>find</code>: <a href="classes/findsettings.html">FindSettings</a></a> </li>
+					<li><code>query</code>: <a href="classes/query.html">Query</a></a> </li>
 				</ul>
-				<p>Please consult the documentation for specific details on each of them. Suffice to say that all the *Settings classes contains a boolean property called <code>enabled</code> , which by default is <code>true</code>. </p>
+				<p>Please consult the documentation for specific details on each of them. Suffice to say that all the <code>*Settings</code> classes contains a boolean property called <code>enabled</code>, which by default is <code>true</code>. </p>
 				<p><strong>Versions:</strong>
 				By default the SearchClient services will use version 3 of the backend SearchService REST API. If you need to connect to the v2 REST interface then pass this in the Settings object.</p>
 				<h2 id="automatic-mode">Automatic mode</h2>
@@ -146,16 +147,16 @@
 				<p>These are <strong>properties</strong> on the SearchClient class. It is expected that you set and get them directly:</p>
 				<ul>
 					<li><code>clientId</code>: string</li>
-					<li><code>dateFrom</code>: <a href="./globals.html#datespecification">DateSpecification</a></li>
-					<li><code>dateTo</code>: <a href="./globals.html#datespecification">DateSpecification</a></li>
+					<li><code>dateFrom</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
+					<li><code>dateTo</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
 					<li><code>filters</code>: string[]</li>
 					<li><code>matchGrouping</code>: boolean</li>
-					<li><code>matchOrderBy</code>: <a href="./enums/orderby.html">OrderBy</a></li>
+					<li><code>matchOrderBy</code>: <a href="enums/orderby.html">OrderBy</a></a></li>
 					<li><code>matchPage</code>: number</li>
 					<li><code>matchPageSize</code>: number</li>
 					<li><code>maxSuggestions</code>: number</li>
 					<li><code>queryText</code>: string</li>
-					<li><code>searchType</code>: <a href="./enums/searchtype.html">SearchType</a></li>
+					<li><code>searchType</code>: <a href="enums/searchtype.html">SearchType</a></a></li>
 				</ul>
 				<p>I.e. <code>searchClient.queryText = &quot;my query&quot;;</code>
 				The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the <code>queryText</code> property.</p>
@@ -169,27 +170,28 @@
 				<h3 id="set-up-triggers">Set up triggers</h3>
 				<p>The <code>autocomplete</code>, <code>categorize</code> and <code>find</code> properties are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called <code>trigger</code>: </p>
 				<ul>
-					<li><a href="./classes/AutocompleteTrigger.html">AutocompleteTrigger</a></li>
-					<li><a href="./classes/CategorizeTrigger.html">CategorizeTrigger</a></li>
-					<li><a href="./classes/FindTrigger.html">FindTrigger</a></li>
+					<li><a href="classes/autocompletetriggers.html">AutocompleteTriggers</a></a></li>
+					<li><a href="classes/categorizetriggers.html">CategorizeTriggers</a></a></li>
+					<li><a href="classes/findtriggers.html">FindTriggers</a></a></li>
 				</ul>
-				<p>These triggers have a common set of properties, inherited from the <a href="./classes/Trigger.html">Trigger</a> class:</p>
+				<p>These triggers have a common set of properties, inherited from the <a href="classes/basetriggers.html">BaseTriggers</a> class:</p>
 				<ul>
-					<li><p><code>queryChange</code>:\
+					<li><p><code>queryChange</code>:
 						Trigger execution when the query changes.</p>
 					</li>
-					<li><p><code>queryChangeMinLength</code>:\
-							Minimum query-text length before triggering execution.\
-						<strong>Note: Requires queryChange to be true.</strong></p>
+					<li><p><code>queryChangeMinLength</code>:
+						Minimum query-text length before triggering execution.</p>
+						<p><strong>Note: Requires queryChange to be true.</strong></p>
 					</li>
-					<li><p><code>queryChangeDelay</code>:\
-							Delay triggers for query-text changes until no change has been made for a certain time (in milliseconds). This is to avoid executing searches constantly while the user is typing.\
-						<strong>Note: Requires queryChange to be true.</strong></p>
+					<li><p><code>queryChangeDelay</code>:
+						Delay triggers for query-text changes until no change has been made for a certain time (in milliseconds). This is to avoid executing searches constantly while the user is typing.</p>
+						<p><strong>Note: Requires queryChange to be true.</strong></p>
 					</li>
-					<li><p><code>queryChangeInstantRegex</code>:\
-							When this regex matches the query-text the change will trigger immediately instead of delaying the trigger (as defined above).\
-							<strong>Note: Requires queryChange to be true.</strong><br><strong>Note: Requires query to be longer than queryMinLength.</strong>
-							Default for Autocomplete: Trigger on first whitespace after non-whitespace.
+					<li><p><code>queryChangeInstantRegex</code>:
+						When this regex matches the query-text the change will trigger immediately instead of delaying the trigger (as defined above).</p>
+						<p><strong>Note: Requires queryChange to be true.</strong>   </p>
+						<p><strong>Note: Requires query to be longer than queryMinLength.</strong></p>
+						<p>Default for Autocomplete: Trigger on first whitespace after non-whitespace.
 						Default for Categorize/Find: Trigger on first ENTER after non-whitespace.</p>
 					</li>
 				</ul>
@@ -197,13 +199,15 @@
 				<h3 id="set-up-callbacks">Set up Callbacks</h3>
 				<p>The automatic mode operations (autocomplete, categorize and find) also allow you to specify callbacks as a part of the configuration. The callbacks can be used in the manual mode too, but they were designed to be part of the automatic mode primarily. </p>
 				<ol>
-					<li><p><code>cbRequest</code>\
-						This callback is called before the request is started. Typically you will use this to control loading/waiting indicators on the page. The signature includes some optional params <code>(url: string, reqInit: RequestInit): bool</code>. <strong>Note that if you add this callback, and explicitly return false, then the request will not be executed.</strong> If you don&#39;t return or return false then the request runs as expected.</p>
+					<li><p><code>cbRequest</code>
+						This callback is called before the request is started. Typically you will use this to control loading/waiting indicators on the page. The signature includes some optional params <code>(url: string, reqInit: RequestInit): bool</code>. </p>
+						<p><strong>Note that if you add this callback, and explicitly return false, then the request will not be executed.</strong> </p>
+						<p>If you don&#39;t return or return false then the request runs as expected.</p>
 					</li>
-					<li><p><code>cbSuccess</code>\
-						This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be <code>(data: &lt;dataType&gt;) =&gt; void</code>, where the &lt;dataType&gt; is <code>string[]</code> for the autocomplete call, <code>Categories</code> for the categorize call and <code>Matches</code> for the find call.</p>
+					<li><p><code>cbSuccess</code>
+						This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be <code>(data: &lt;TDataType&gt;) =&gt; void</code>, where the &lt;TDataType&gt; is <code>string[]</code> for the autocomplete call, <code>Categories</code> for the categorize call and <code>Matches</code> for the find call.</p>
 					</li>
-					<li><p><code>cbError</code>\
+					<li><p><code>cbError</code>
 						This callback is called whenever a backend operation somehow fails to complete. The signature of the callback should be <code>(error: any) =&gt; void</code>. The error object could be anything, but should explain the cause of the problem if console.log()&#39;ed or toString()&#39;ed to the page.</p>
 					</li>
 				</ol>
@@ -219,7 +223,7 @@ client.find.fetch({ queryText: <span class="hljs-string">"Hello world"</span> },
 .<span class="hljs-keyword">catch</span>(<span class="hljs-function"><span class="hljs-params">(error)</span> =&gt;</span> {
     <span class="hljs-built_in">console</span>.error(error);
 });
-</code></pre><p><strong>Sample:</strong></p>
+</code></pre><p><strong>Example:</strong></p>
 				<pre><code><span class="hljs-comment">// Without authentication</span>
 <span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> SearchClient(<span class="hljs-string">"http://server:9950/"</span>, {
     <span class="hljs-attr">version</span>: <span class="hljs-number">3</span>,
@@ -279,8 +283,8 @@ client.findAndCategorize();
 				<p>There is no need to update inputs or triggers. Instead the search-client will execute on your command. The results can be received in callbacks or using promises.</p>
 				<p>While it is possible to set up callbacks to handle the results of the manual fetches, it is not the recommended practice. We suggest that you instead use the Promises returned (see sample below).</p>
 				<p>In manual mode, you control which web-service to call when yourself. This is what the manual mode is all about. The typical mode of operation is still to instantiate the central SearchClient class, but to call the web-services via their respective search-client instance properties: allCategories.fetch(), authentication.fetch(), autocomplete.fetch(), bestBets.fetch(), categorize.fetch() and find.fetch().</p>
-				<p><strong>Sample:</strong></p>
-				<pre><code>let client = <span class="hljs-keyword">new</span> SearchClient(<span class="hljs-string">"http://server/RestService/v3/"</span>);
+				<p><strong>Example:</strong></p>
+				<pre><code>let client = <span class="hljs-keyword">new</span> SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
 
 client.find.fetch({ queryText: <span class="hljs-string">"Hello world"</span> })
 .<span class="hljs-keyword">then</span>(<span class="hljs-function"><span class="hljs-params">(matches)</span> =&gt;</span> {
@@ -293,12 +297,12 @@ client.find.fetch({ queryText: <span class="hljs-string">"Hello world"</span> })
 				<h2 id="deferring-and-suppressing-registered-callbacks">Deferring and suppressing registered callbacks</h2>
 				<p>Please note that any of the services&#39; registered callbacks will be called as a part of the fetch-process. This regards to both automatic and manual mode fetches. If you don&#39;t want the callbacks to be enabled you have two options:</p>
 				<ol>
-					<li>For the SearchClient: Call <code>deferredUpdate*(true)</code>, before you do anything that would normally trigger callbacks. This will in turn call <code>deferUpdates(true)</code> for the appropriate services. When you want callbacks to again be activated, call the same <code>deferUpdate*(false, true|false)</code> method, using the second parameter to indicate whether pending updates are to be skipped or not.</li>
-					<li>For a specific service: Call its <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call <code>deferUpdates(false, true|false)</code> and use the second parameter to indicate whether pending updates are to be skipped or not.</li>
+					<li>For the SearchClient: Call <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. This will in turn call <code>deferUpdates(true)</code> for all services. When you want callbacks to again be activated, call <code>deferUpdate(false)</code> method. When first param is false it optionally takes a second parameter that can be used to indicate whether pending updates are to be skipped or not.</li>
+					<li>For a specific service: Call its specific <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call <code>deferUpdates(false)</code> and use the second parameter to indicate whether pending updates are to be skipped or not.</li>
 					<li>When using manual mode: Pass a second variable to the <code>fetch()</code>-call, a boolean <code>suppressCallbacks</code> parameter, set to <code>true</code>.</li>
 				</ol>
 				<h2 id="authentication">Authentication</h2>
-				<p>The IntelliSearch SearchService supports using JWT (JsonWebToken) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: <code>authentication: { enabled: false }</code>.</p>
+				<p>The IntelliSearch SearchService supports using JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: <code>authentication: { enabled: false }</code>.</p>
 				<p>If you however want to use authentication, then there are a couple of things that is important:</p>
 				<ol>
 					<li><p>The SearchService must be configured to use the CurrentPrincipal plugin.</p>
@@ -314,16 +318,16 @@ client.find.fetch({ queryText: <span class="hljs-string">"Hello world"</span> })
 					<li><p>The SearchClient authentication settings object must define:</p>
 						<ul>
 							<li>The endpoint url.</li>
-							<li>The path for the jwt value when returned.\
-							If the returned structure is <code>{ user: { jwt: &quot;actualtokenhash&quot;}}</code> then the tokenPath should be <code>[&quot;user&quot;, &quot;jwt&quot;]</code>.</li>
+							<li>The path for the jwt value when returned.
+							If the returned structure is <code>{ user: { jwt: &quot;actualtokenhash&quot; } }</code> then the tokenPath should be <code>[ &quot;user&quot;, &quot;jwt&quot; ]</code>.</li>
 							<li>By default</li>
 						</ul>
 					</li>
 				</ol>
 				<p>The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to prefetch it to have it ready asap in case a search is made). </p>
-				<p>The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: <code>authentication: { triggers: { expiryOverlap: 60 }}</code>. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.</p>
+				<p>The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: <code>authentication: { triggers: { expiryOverlap: 60 } }</code>. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.</p>
 				<h2 id="documentation-intellisense-types">Documentation / Intellisense / Types</h2>
-				<p>If you are using typescript, then the datatypes are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).</p>
+				<p>If you are using typescript, then the datatypes are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client docs-folder (typically <code>./node_modules/search-client/docs/index.html</code>).</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

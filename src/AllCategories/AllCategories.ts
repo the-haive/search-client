@@ -9,6 +9,14 @@ import { AuthToken } from '../Authentication/AuthToken';
 
 import { AllCategoriesSettings } from './AllCategoriesSettings';
 
+/**
+ * **Note: This service is experimental.** 
+ * 
+ * It also requires the back-end server to have a config setting changed in order for it to be operational.
+ * 
+ * We may or may not extend this in the future.
+ */
+
 export class AllCategories extends BaseCall<Categories> {
 
     /**

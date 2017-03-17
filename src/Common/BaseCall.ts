@@ -11,9 +11,9 @@ import { Query } from './Query';
 /**
  * A common service base-class for the descending Autocomplete, Categorize and Find classes.
  * 
- * @param DATATYPE Defines the data-type that the descendant service-class needs to return on lookups.
+ * @param TDataType Defines the data-type that the descendant service-class needs to return on lookups.
  */
-export abstract class BaseCall<DATATYPE> {
+export abstract class BaseCall<TDataType> {
 
     protected deferUpdate: boolean = false;
 
@@ -27,7 +27,7 @@ export abstract class BaseCall<DATATYPE> {
      * @param baseUrl - The base url for the service to be setup.
      * @param auth - The auth-object that controls authentication for the service.
      */
-    constructor(public baseUrl: string, protected settings?: BaseSettings<DATATYPE>, protected auth: AuthToken = new AuthToken()) {
+    constructor(public baseUrl: string, protected settings?: BaseSettings<TDataType>, protected auth: AuthToken = new AuthToken()) {
         // Strip off any slashes at the end of the baseUrl
         baseUrl = baseUrl.replace(/\/+$/, "") + "/" + settings.path + "/";
 
@@ -89,6 +89,7 @@ export abstract class BaseCall<DATATYPE> {
         }
     }
 
+    public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void { /* Default no implementation*/ };
     public clientIdChanged(oldValue: string, query: Query): void { /* Default no implementation*/ };
     public dateFromChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
     public dateToChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
@@ -117,7 +118,7 @@ export abstract class BaseCall<DATATYPE> {
         }
     }
 
-    protected cbSuccess(suppressCallbacks: boolean, data: DATATYPE, url: string, reqInit: RequestInit): void {
+    protected cbSuccess(suppressCallbacks: boolean, data: TDataType, url: string, reqInit: RequestInit): void {
         if (this.settings.cbSuccess && !suppressCallbacks) {
             this.settings.cbSuccess(data);
         }

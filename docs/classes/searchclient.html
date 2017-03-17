@@ -66,6 +66,35 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This is the &quot;main class&quot; of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>&quot;
+						for a proper introduction.</p>
+					</div>
+					<p>The SearchClient manages a range of other services:</p>
+					<ul>
+						<li>AllCategories,</li>
+						<li>Authentication,</li>
+						<li>Autocomplete,</li>
+						<li>BestBets,</li>
+						<li>Categorize</li>
+						<li>Find</li>
+					</ul>
+					<p>Each of the above services can be used independently, but it is highly recommended to use the SearchClient instead.</p>
+					<p>The SearchClient allows you to have an advanced search with minimal effort in regards to setup and logics. instead
+					of having to write all the logics yourself the SearchClient exposes the following methods for managing your search:</p>
+					<ol>
+						<li>Configure callbacks in your settings-object that you pass to the SearchClient.</li>
+						<li>Configure triggers to define when to do server-lookups and not (if you need to deviate from the defaults)</li>
+						<li>Set query-values realtime (queryText, filters, date-ranges, etc.)</li>
+						<li>Receive autocomplete-suggestions, matches and categories in your callback handlers when the data is available.</li>
+					</ol>
+					<p>What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger
+						and a callback has been set up then the server is requested and when the data is received it is sent to the callback
+					registered in the settings-object.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -105,6 +134,7 @@
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#clientcategoryfilters" class="tsd-kind-icon">client<wbr>Category<wbr>Filters</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#datefrom" class="tsd-kind-icon">date<wbr>From</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#dateto" class="tsd-kind-icon">date<wbr>To</a></li>
@@ -122,10 +152,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#deferupdatesforall" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>All</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#deferupdatesforautocomplete" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Autocomplete</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#deferupdatesforcategorize" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Categorize</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#deferupdatesforfind" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Find</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#filteradd" class="tsd-kind-icon">filter<wbr>Add</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#filterremove" class="tsd-kind-icon">filter<wbr>Remove</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.html#findandcategorize" class="tsd-kind-icon">find<wbr>And<wbr>Categorize</a></li>
@@ -148,7 +175,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L69">SearchClient.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L97">SearchClient.ts:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -185,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">all<wbr>Categories<span class="tsd-signature-symbol">:</span> <a href="allcategories.html" class="tsd-signature-type">AllCategories</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L36">SearchClient.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L61">SearchClient.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -200,7 +227,7 @@
 					<div class="tsd-signature tsd-kind-icon">authentication<span class="tsd-signature-symbol">:</span> <a href="authentication.html" class="tsd-signature-type">Authentication</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L41">SearchClient.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L66">SearchClient.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -215,7 +242,7 @@
 					<div class="tsd-signature tsd-kind-icon">authentication<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L46">SearchClient.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L71">SearchClient.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -230,7 +257,7 @@
 					<div class="tsd-signature tsd-kind-icon">autocomplete<span class="tsd-signature-symbol">:</span> <a href="autocomplete.html" class="tsd-signature-type">Autocomplete</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L51">SearchClient.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L76">SearchClient.ts:76</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -245,7 +272,7 @@
 					<div class="tsd-signature tsd-kind-icon">best<wbr>Bets<span class="tsd-signature-symbol">:</span> <a href="bestbets.html" class="tsd-signature-type">BestBets</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L56">SearchClient.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L81">SearchClient.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -260,7 +287,7 @@
 					<div class="tsd-signature tsd-kind-icon">categorize<span class="tsd-signature-symbol">:</span> <a href="categorize.html" class="tsd-signature-type">Categorize</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L61">SearchClient.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L86">SearchClient.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -275,7 +302,7 @@
 					<div class="tsd-signature tsd-kind-icon">find<span class="tsd-signature-symbol">:</span> <a href="find.html" class="tsd-signature-type">Find</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L66">SearchClient.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L91">SearchClient.ts:91</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -288,6 +315,117 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="clientcategoryfilters" class="tsd-anchor"></a>
+					<h3>client<wbr>Category<wbr>Filters</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> clientCategoryFilters<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> clientCategoryFilters<span class="tsd-signature-symbol">(</span>clientCategoryFilters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L160">SearchClient.ts:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the currently registered regex-filters.</p>
+								</div>
+								<p>Nodes that doesn&#39;t have any filters are returned, even if filters for other nodes are defined.</p>
+								<p>Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to
+								automatically be shown, with their immediate children.</p>
+								<p>The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter
+								that node with.</p>
+								<p>It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks.</p>
+								<p><strong>Note 1:</strong> This is only used when:</p>
+								<p><strong>1. The categorize service is enabled in the <a href="searchclient.html">SearchClient</a> constructor (may be disabled via the <a href="settings.html">Settings</a>
+									object).</strong>
+									<strong>2. You have enabled a <a href="categorizesettings.html#cbsuccess">CategorizeSettings.cbSuccess</a> callback.</strong>
+								<strong>3. You have not disabled the <a href="categorizetriggers.html#clientcategoryfilterchanged">CategorizeTriggers.clientCategoryFilterChanged</a> trigger.</strong></p>
+								<p><strong>Note 2:</strong> <a href="searchclient.html#deferupdates">deferUpdates</a> will not have any effect on this functionality. Deferring only affects calls to the
+									server and does not stop categorize-callbacks from being run - as long as they are the result of changing the
+								[[clientCategoryFilter]].</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">object</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></h5>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L219">SearchClient.ts:219</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This is a handy helper to help the user navigating the category-tree. It is typically used when a given node
+										has a lot of categories. This often happens with i.e. the Author category node. With this feature you can
+										present the user with a filter-edit-box in the Author node, and allow them to start typing values which will
+									then filter the category-nodes to only match the text entered.</p>
+								</div>
+								<p>Nodes that doesn&#39;t have any filters are returned, even if filters for other nodes are defined.</p>
+								<p>Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to
+								automatically be shown, with their immediate children.</p>
+								<p>The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter
+								that node with.</p>
+								<p>It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks.</p>
+								<p><strong>Note 1:</strong> This is only used when:</p>
+								<p><strong>1. The categorize service is enabled in the <a href="searchclient.html">SearchClient</a> constructor (may be disabled via the <a href="settings.html">Settings</a>
+									object).</strong>
+									<strong>2. You have enabled a <a href="categorizesettings.html#cbsuccess">CategorizeSettings.cbSuccess</a> callback.</strong>
+								<strong>3. You have not disabled the <a href="categorizetriggers.html#clientcategoryfilterchanged">CategorizeTriggers.clientCategoryFilterChanged</a> trigger.</strong></p>
+								<p><strong>Note 2:</strong> <a href="searchclient.html#deferupdates">deferUpdates</a> will not have any effect on this functionality. Deferring only affects calls to the
+									server and does not stop categorize-callbacks from being run - as long as they are the result of changing the
+								[[clientCategoryFilter]].</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>How to set the clientCategoryFilter:</p>
+										<pre><code>let searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
+
+let searchClient.clientCategoryFilters = {
+    <span class="hljs-regexp">//</span> Show only Author-nodes with DisplayName that matches <span class="hljs-regexp">/john/</span>.
+    Author: <span class="hljs-regexp">/john/</span>,
+    <span class="hljs-regexp">//</span> Show only nodes <span class="hljs-keyword">in</span> the System<span class="hljs-regexp">/File/</span>Server node that matches <span class="hljs-regexp">/project/</span>
+    System_File_Server: <span class="hljs-regexp">/project/</span>,
+}
+</code></pre><p>As you can see from the example the key is composed by joining the categoryName with an underscore. If you
+											experience problems with this (i.e. your categories have <code>_</code> in their names already) then change the
+											<a href="categorizesettings.html#clientcategoryfilterssepchar">CategorizeSettings.clientCategoryFiltersSepChar</a>, for example to <code>|</code>. Note that if you do, then you probably
+										also need to quote the keys that have the pipe-character.</p>
+									</dd>
+									<dt>example</dt>
+									<dd><p>The above example will with <a href="categorizesettings.html#clientcategoryfilterssepchar">CategorizeSettings.clientCategoryFiltersSepChar</a> set to <code>|</code> become:</p>
+										<pre><code>let searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
+
+let searchClient.clientCategoryFilters = {
+    <span class="hljs-regexp">//</span> Show only Author-nodes with DisplayName that matches <span class="hljs-regexp">/john/</span>.
+    Author: <span class="hljs-regexp">/john/</span>,
+    <span class="hljs-regexp">//</span> Show only nodes <span class="hljs-keyword">in</span> the System<span class="hljs-regexp">/File/</span>Server node that matches <span class="hljs-regexp">/project/</span>
+    <span class="hljs-string">"System|File|Server"</span>: <span class="hljs-regexp">/project/</span>,
+}
+</code></pre></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>clientCategoryFilters: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-index-signature">
+											<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="clientid" class="tsd-anchor"></a>
 					<h3>client<wbr>Id</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -298,27 +436,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L162">SearchClient.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L234">SearchClient.ts:234</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the currently active client-id value.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L170">SearchClient.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L243">SearchClient.ts:243</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the currently active client-id.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Sets the currently active client-id.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -341,27 +480,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L184">SearchClient.ts:184</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L257">SearchClient.ts:257</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the currently active date-from value.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../globals.html#datespecification" class="tsd-signature-type">DateSpecification</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L192">SearchClient.ts:192</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L266">SearchClient.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the from-date for matches to be used.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Sets the from-date for matches to be used.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -384,27 +524,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L206">SearchClient.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L280">SearchClient.ts:280</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the currently active date-to value.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="../globals.html#datespecification" class="tsd-signature-type">DateSpecification</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L214">SearchClient.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L289">SearchClient.ts:289</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the to-date for matches to be used.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Sets the to-date for matches to be used.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -427,27 +568,28 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L228">SearchClient.ts:228</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L303">SearchClient.ts:303</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the currently active filters.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L236">SearchClient.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L312">SearchClient.ts:312</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the filters to be used.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Sets the filters to be used.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -470,28 +612,30 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L293">SearchClient.ts:293</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L371">SearchClient.ts:371</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the currently active match grouping mode.</p>
 								</div>
+								<p><strong>Note:</strong> Requires the search-service to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L302">SearchClient.ts:302</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L382">SearchClient.ts:382</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets whether the results should be grouped or not
-										Note: Requires the search-service to have the option enabled in it&#39;s configuration too.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Sets whether the results should be grouped or not.</p>
 								</div>
+								<p><strong>Note:</strong> Requires the search-service to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -514,7 +658,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L400">SearchClient.ts:400</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L480">SearchClient.ts:480</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -527,7 +671,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L408">SearchClient.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L488">SearchClient.ts:488</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -557,7 +701,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L316">SearchClient.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L396">SearchClient.ts:396</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,7 +714,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L324">SearchClient.ts:324</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L404">SearchClient.ts:404</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -600,7 +744,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L375">SearchClient.ts:375</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L455">SearchClient.ts:455</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -613,7 +757,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L383">SearchClient.ts:383</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L463">SearchClient.ts:463</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -643,7 +787,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L422">SearchClient.ts:422</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L502">SearchClient.ts:502</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -656,7 +800,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L430">SearchClient.ts:430</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L510">SearchClient.ts:510</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -686,31 +830,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L133">SearchClient.ts:133</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L527">SearchClient.ts:527</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Returns the currently active query.</p>
 								</div>
+								<p><strong>Note:</strong> Changing the <code>query</code> property will likely lead to multiple trigger-checks and potential updates.
+									This is because changing the whole value will lead to each of the query-objects&#39; properties to trigger individual
+								events.</p>
+								<p>To avoid mutliple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
+								only one update will be generated.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="query.html" class="tsd-signature-type">Query</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L145">SearchClient.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L541">SearchClient.ts:541</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets the query to use.
-										Note: It will change one property at the time of the query-properties. This means that an update for the various
-										services can be executed multiple times. To avoid this, call any of the <code>deferUpdates*(true)</code> methods before
-										changing the query and then the same method with <code>(false)</code> to get only one update per service (if any triggered.
-										If you want to suppress all changes you can then on the second call pass <code>(false, true)</code> to indicate that any
-									pending updates are to be skipped.</p>
+									<p>Sets the query to use.</p>
 								</div>
+								<p><strong>Note:</strong> Changing the <code>query</code> property will likely lead to multiple trigger-checks and potential updates.
+									This is because changing the whole value will lead to each of the query-objects&#39; properties to trigger individual
+								events.</p>
+								<p>To avoid mutliple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
+								only one update will be generated.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -733,7 +882,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L447">SearchClient.ts:447</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L558">SearchClient.ts:558</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -746,7 +895,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L455">SearchClient.ts:455</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L566">SearchClient.ts:566</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -776,7 +925,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L469">SearchClient.ts:469</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L580">SearchClient.ts:580</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -789,7 +938,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L477">SearchClient.ts:477</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L588">SearchClient.ts:588</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -812,24 +961,49 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deferupdatesforall" class="tsd-anchor"></a>
-					<h3>defer<wbr>Updates<wbr>For<wbr>All</h3>
+					<a name="deferupdates" class="tsd-anchor"></a>
+					<h3>defer<wbr>Updates</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>All<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L496">SearchClient.ts:496</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L632">SearchClient.ts:632</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
-										When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-									Note: Changes deferring of updates for <em>ALL</em> components (Autocomplete, Categorize and Find).</p>
+									<p>Decides whether an update should be executed or not. Typically used to temporarily turn
+										off update-execution. When turned back on the second param can be used to indicate whether
+									pending updates should be executed or not.</p>
 								</div>
+								<p><strong>Note:</strong> Changes deferring of updates for all components (Autocomplete, Categorize and Find).
+								Use the service properties of the SearchClient instance to control deferring for each service.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><p>Some examples:</p>
+										<pre><code>// Example <span class="hljs-number">1</span>: Defer updates <span class="hljs-keyword">to</span> avoid multiple updates:
+searchClient.deferUpdates(<span class="hljs-literal">true</span>);
+
+// Example <span class="hljs-number">2</span>: Change <span class="hljs-keyword">some</span> props that triggers may be listening <span class="hljs-keyword">for</span>
+searchClient.dateFrom = { M: -<span class="hljs-number">1</span>};
+searchClient.dateTo = { M: <span class="hljs-number">0</span>};
+// When calling deferUpdates with (<span class="hljs-literal">false</span>) the above two update-events are now executed <span class="hljs-keyword">as</span> one instead (both value-changes are accounted <span class="hljs-keyword">for</span> though)
+searchClient.deferUpdates(<span class="hljs-literal">false</span>);
+
+// Exmaple <span class="hljs-number">3</span>: Suppress updates (via deferUpdates):
+searchClient.deferUpdates(<span class="hljs-literal">true</span>);
+// Change a prop that should trigger updates
+searchClient.queryText = <span class="hljs-string">"some text"</span>;
+// Call deferUpdates with (<span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>), <span class="hljs-keyword">to</span> skip the pending <span class="hljs-keyword">update</span>.
+searchClient.deferUpdates(<span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>);
+
+// Exmaple <span class="hljs-number">4</span>: Defer <span class="hljs-keyword">update</span> <span class="hljs-keyword">only</span> <span class="hljs-keyword">for</span> one service (Categorize <span class="hljs-keyword">in</span> this sample):
+searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
+</code></pre></dd>
+								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -842,124 +1016,8 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> skipPending: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deferupdatesforautocomplete" class="tsd-anchor"></a>
-					<h3>defer<wbr>Updates<wbr>For<wbr>Autocomplete</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Autocomplete<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L510">SearchClient.ts:510</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
-										When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-									Note: Changes deferring of updates for the <em>Autocomplete</em> component.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Turns on or off deferring of updates.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> skipPending: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deferupdatesforcategorize" class="tsd-anchor"></a>
-					<h3>defer<wbr>Updates<wbr>For<wbr>Categorize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Categorize<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L522">SearchClient.ts:522</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
-										When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-									Note: Changes deferring of updates for the <em>Categorize</em> component.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Turns on or off deferring of updates.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> skipPending: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="deferupdatesforfind" class="tsd-anchor"></a>
-					<h3>defer<wbr>Updates<wbr>For<wbr>Find</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Find<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L534">SearchClient.ts:534</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
-										When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-									Note: Changes deferring of updates for the <em>Find</em> component.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Turns on or off deferring of updates.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> skipPending: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.</p>
+										<p>Used to indicate if a pending update is to be executed or skipped when deferring
+										is turned off. The param is ignored for <code>state=true</code>.</p>
 									</div>
 								</li>
 							</ul>
@@ -977,14 +1035,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L253">SearchClient.ts:253</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L330">SearchClient.ts:330</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Add the given filter, if it isn&#39;t already there.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Add the given filter, if it isn&#39;t already there.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1006,14 +1064,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L273">SearchClient.ts:273</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L351">SearchClient.ts:351</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Remove the given filter, if it is already set.
-									Will run trigger-checks and potentially update services.</p>
+									<p>Remove the given filter, if it is already set.</p>
 								</div>
+								<p>Will run trigger-checks and potentially update services.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -1035,7 +1093,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L120">SearchClient.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L147">SearchClient.ts:147</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1071,7 +1129,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L361">SearchClient.ts:361</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L441">SearchClient.ts:441</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1094,7 +1152,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/faadf2e/src/SearchClient.ts#L342">SearchClient.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/7a8346a/src/SearchClient.ts#L422">SearchClient.ts:422</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1230,6 +1288,9 @@
 								<a href="searchclient.html#find" class="tsd-kind-icon">find</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="searchclient.html#clientcategoryfilters" class="tsd-kind-icon">client<wbr>Category<wbr>Filters</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="searchclient.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
@@ -1266,16 +1327,7 @@
 								<a href="searchclient.html#searchtype" class="tsd-kind-icon">search<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchclient.html#deferupdatesforall" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>All</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchclient.html#deferupdatesforautocomplete" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Autocomplete</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchclient.html#deferupdatesforcategorize" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Categorize</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="searchclient.html#deferupdatesforfind" class="tsd-kind-icon">defer<wbr>Updates<wbr>For<wbr>Find</a>
+								<a href="searchclient.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="searchclient.html#filteradd" class="tsd-kind-icon">filter<wbr>Add</a>

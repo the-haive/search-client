@@ -19,7 +19,13 @@ export class CategorizeSettings extends BaseSettings<Categories> {
     public url?: string = '/search/categorize';
 
     /**
-     * Creates a CategorizeSettings object for you, based on CategorizeSettings defaults and the overrides provided as a param.
+     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
+     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
+     */
+    public clientCategoryFiltersSepChar?: string = "_";
+
+    /**
+     * Creates an instance of CategorizeSettings, based on CategorizeSettings defaults and the overrides provided as a param.
      * @param categorizeSettings - The settings defined here will override the default CategorizeSettings.
      */
     constructor(categorizeSettings?: CategorizeSettings) {

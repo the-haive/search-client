@@ -3,6 +3,11 @@ import { BaseTriggers } from '../Common/BaseTriggers';
 export class CategorizeTriggers extends BaseTriggers {
     
     /**
+     * Triggers when the clientCategoryFilter is changed.
+     */
+    public clientCategoryFilterChanged?: boolean = true;
+
+    /**
      * Triggers when the clientId property has changed
      */
     public clientIdChanged?: boolean = true;

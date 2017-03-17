@@ -28,6 +28,31 @@ import { Find } from './Find/Find';
 
 import { Settings } from './Settings';
 
+/**
+ * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>" 
+ * for a proper introduction.
+ * 
+ * The SearchClient manages a range of other services: 
+ *   * AllCategories, 
+ *   * Authentication, 
+ *   * Autocomplete, 
+ *   * BestBets, 
+ *   * Categorize 
+ *   * Find
+ * 
+ * Each of the above services can be used independently, but it is highly recommended to use the SearchClient instead.
+ * 
+ * The SearchClient allows you to have an advanced search with minimal effort in regards to setup and logics. instead
+ * of having to write all the logics yourself the SearchClient exposes the following methods for managing your search:
+ *   1. Configure callbacks in your settings-object that you pass to the SearchClient.
+ *   2. Configure triggers to define when to do server-lookups and not (if you need to deviate from the defaults)
+ *   3. Set query-values realtime (queryText, filters, date-ranges, etc.)
+ *   4. Receive autocomplete-suggestions, matches and categories in your callback handlers when the data is available.
+ * 
+ * What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger 
+ * and a callback has been set up then the server is requested and when the data is received it is sent to the callback 
+ * registered in the settings-object.
+ */
 export class SearchClient implements AuthToken {
 
     /**
@@ -66,16 +91,18 @@ export class SearchClient implements AuthToken {
     public find: Find;
 
     // tslint:disable-next-line:variable-name
+    private _clientCategoryFilters: { [ key: string ]: string | RegExp } = { };
+
+    // tslint:disable-next-line:variable-name
     private _query: Query;
 
-    //private settings: Settings;
-    
     /**
      * 
      * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
     constructor(baseUrl: string, private settings: Settings = new Settings()) {
+        settings = new Settings(settings);
 
         if (this.settings.allCategories.enabled) {
             this.allCategories = new AllCategories(baseUrl, this.settings.allCategories, this);
@@ -119,41 +146,86 @@ export class SearchClient implements AuthToken {
      */
     public findAndCategorize(query?: Query) {
         if (query) {
-            this.deferUpdatesForAll(true);
+            this.deferUpdates(true);
             this.query = query;
-            this.deferUpdatesForAll(false, true); // Skip any pending requests
+            this.deferUpdates(false, true); // Skip any pending requests
         }
         this.categorize.fetch(this._query);
         this.find.fetch(this._query);
     }
 
     /**
-     * Returns the currently active query.
+     * Gets the currently registered regex-filters.
      */
-    get query(): Query {
-        return this._query;
+    get clientCategoryFilters(): { [ key: string ]: string | RegExp } {
+        return this._clientCategoryFilters;
     }
 
     /**
-     * Sets the query to use. 
-     * Note: It will change one property at the time of the query-properties. This means that an update for the various 
-     * services can be executed multiple times. To avoid this, call any of the `deferUpdates*(true)` methods before 
-     * changing the query and then the same method with `(false)` to get only one update per service (if any triggered.
-     * If you want to suppress all changes you can then on the second call pass `(false, true)` to indicate that any
-     * pending updates are to be skipped.
+     * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node 
+     * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can 
+     * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will 
+     * then filter the category-nodes to only match the text entered.
+     * 
+     * Nodes that doesn't have any filters are returned, even if filters for other nodes are defined.
+     * 
+     * Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to 
+     * automatically be shown, with their immediate children.     
+     * 
+     * The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter 
+     * that node with.
+     * 
+     * It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks. 
+     * 
+     * **Note 1:** This is only used when:
+     * 
+     * **1. The categorize service is enabled in the [[SearchClient]] constructor (may be disabled via the [[Settings]] 
+     * object).** 
+     * **2. You have enabled a [[CategorizeSettings.cbSuccess]] callback.**
+     * **3. You have not disabled the [[CategorizeTriggers.clientCategoryFilterChanged]] trigger.**
+     * 
+     * **Note 2:** [[deferUpdates]] will not have any effect on this functionality. Deferring only affects calls to the 
+     * server and does not stop categorize-callbacks from being run - as long as they are the result of changing the 
+     * [[clientCategoryFilter]].
+     * 
+     * @example How to set the clientCategoryFilter:
+     * 
+     *     let searchClient = new SearchClient("http://server:9950/");
+     *     
+     *     let searchClient.clientCategoryFilters = {
+     *         // Show only Author-nodes with DisplayName that matches /john/.
+     *         Author: /john/, 
+     *         // Show only nodes in the System/File/Server node that matches /project/
+     *         System_File_Server: /project/,
+     *     }
+     * 
+     * As you can see from the example the key is composed by joining the categoryName with an underscore. If you 
+     * experience problems with this (i.e. your categories have `_` in their names already) then change the 
+     * [[CategorizeSettings.clientCategoryFiltersSepChar]], for example to `|`. Note that if you do, then you probably 
+     * also need to quote the keys that have the pipe-character.
+     * 
+     * @example The above example will with [[CategorizeSettings.clientCategoryFiltersSepChar]] set to `|` become:
+     * 
+     *     let searchClient = new SearchClient("http://server:9950/");
+     *     
+     *     let searchClient.clientCategoryFilters = {
+     *         // Show only Author-nodes with DisplayName that matches /john/.
+     *         Author: /john/, 
+     *         // Show only nodes in the System/File/Server node that matches /project/
+     *         "System|File|Server": /project/,
+     *     }
+     * 
      */
-    set query(query: Query) {
-        this.clientId = query.clientId;
-        this.dateFrom = query.dateFrom;
-        this.dateTo = query.dateTo;
-        this.filters = query.filters;
-        this.matchGrouping = query.matchGrouping;
-        this.matchOrderBy = query.matchOrderBy;
-        this.matchPage = query.matchPage;
-        this.matchPageSize = query.matchPageSize;
-        this.maxSuggestions = query.maxSuggestions;
-        this.queryText = query.queryText;
-        this.searchType = query.searchType;
+    set clientCategoryFilters(clientCategoryFilters: { [ key: string ]: string | RegExp }) {
+        if (clientCategoryFilters !== this._clientCategoryFilters) {
+            let oldValue = this._clientCategoryFilters;
+            this._clientCategoryFilters = clientCategoryFilters;
+
+            this.autocomplete.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
+            this.categorize.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
+            this.find.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
+        }
+        this._clientCategoryFilters = clientCategoryFilters;
     }
 
     /** 
@@ -165,6 +237,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets the currently active client-id. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     set clientId(clientId: string) {
@@ -187,6 +260,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets the from-date for matches to be used. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     set dateFrom(dateFrom: DateSpecification) {
@@ -209,6 +283,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets the to-date for matches to be used. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     set dateTo(dateTo: DateSpecification) {
@@ -231,6 +306,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets the filters to be used. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     set filters(filters: string[]) {
@@ -248,6 +324,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Add the given filter, if it isn't already there. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string): boolean {
@@ -268,6 +345,7 @@ export class SearchClient implements AuthToken {
 
     /**
      * Remove the given filter, if it is already set. 
+     * 
      * Will run trigger-checks and potentially update services.
      */
     public filterRemove(filter: string): boolean {
@@ -295,8 +373,10 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets whether the results should be grouped or not 
-     * Note: Requires the search-service to have the option enabled in it's configuration too.
+     * Sets whether the results should be grouped or not.
+     * 
+     * **Note:** Requires the search-service to have the option enabled in it's configuration too.
+     * 
      * Will run trigger-checks and potentially update services.
      */
     set matchGrouping(useGrouping: boolean) {
@@ -441,6 +521,37 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    /**
+     * Returns the currently active query.
+     */
+    get query(): Query {
+        return this._query;
+    }
+
+    /**
+     * Sets the query to use. 
+     * 
+     * **Note:** Changing the `query` property will likely lead to multiple trigger-checks and potential updates. 
+     * This is because changing the whole value will lead to each of the query-objects' properties to trigger individual 
+     * events. 
+     * 
+     * To avoid mutliple updates, call `deferUpdates(true)` before and deferUpdates(false) afterwards. Then at max
+     * only one update will be generated.
+     */
+    set query(query: Query) {
+        this.clientId = query.clientId;
+        this.dateFrom = query.dateFrom;
+        this.dateTo = query.dateTo;
+        this.filters = query.filters;
+        this.matchGrouping = query.matchGrouping;
+        this.matchOrderBy = query.matchOrderBy;
+        this.matchPage = query.matchPage;
+        this.matchPageSize = query.matchPageSize;
+        this.maxSuggestions = query.maxSuggestions;
+        this.queryText = query.queryText;
+        this.searchType = query.searchType;
+    }
+
     /** 
      * Gets the currently active query-object.
      */
@@ -486,52 +597,41 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution. 
-     * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-     * Note: Changes deferring of updates for *ALL* components (Autocomplete, Categorize and Find).
+     * Decides whether an update should be executed or not. Typically used to temporarily turn 
+     * off update-execution. When turned back on the second param can be used to indicate whether 
+     * pending updates should be executed or not.
+     * 
+     * **Note:** Changes deferring of updates for all components (Autocomplete, Categorize and Find).
+     * Use the service properties of the SearchClient instance to control deferring for each service.
+     * 
+     * @example Some examples:
+     *     
+     *     // Example 1: Defer updates to avoid multiple updates:
+     *     searchClient.deferUpdates(true);
+     *     
+     *     // Example 2: Change some props that triggers may be listening for
+     *     searchClient.dateFrom = { M: -1};
+     *     searchClient.dateTo = { M: 0};
+     *     // When calling deferUpdates with (false) the above two update-events are now executed as one instead (both value-changes are accounted for though)
+     *     searchClient.deferUpdates(false);
+     *     
+     *     // Exmaple 3: Suppress updates (via deferUpdates):
+     *     searchClient.deferUpdates(true);
+     *     // Change a prop that should trigger updates
+     *     searchClient.queryText = "some text";
+     *     // Call deferUpdates with (false, true), to skip the pending update.
+     *     searchClient.deferUpdates(false, true);
+     *     
+     *     // Exmaple 4: Defer update only for one service (Categorize in this sample):
+     *     searchClient.categorize.deferUpdates(true);
      * 
      * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
+     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring 
+     * is turned off. The param is ignored for `state=true`.
      */
-    public deferUpdatesForAll(state: boolean, skipPending: boolean = false) {
-        this.deferUpdatesForAutocomplete(state, skipPending);
-        this.deferUpdatesForCategorize(state, skipPending);
-        this.deferUpdatesForFind(state, skipPending);
-    }
-
-    /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution. 
-     * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-     * Note: Changes deferring of updates for the *Autocomplete* component.
-     * 
-     * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
-     */
-    public deferUpdatesForAutocomplete(state: boolean, skipPending: boolean = false) {
+    public deferUpdates(state: boolean, skipPending: boolean = false) {
         this.autocomplete.deferUpdates(state, skipPending);
-    }
-
-    /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution. 
-     * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-     * Note: Changes deferring of updates for the *Categorize* component.
-     * 
-     * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
-     */
-    public deferUpdatesForCategorize(state: boolean, skipPending: boolean = false) {
         this.categorize.deferUpdates(state, skipPending);
-    }
-
-    /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution. 
-     * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
-     * Note: Changes deferring of updates for the *Find* component.
-     * 
-     * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
-     */
-    public deferUpdatesForFind(state: boolean, skipPending: boolean = false) {
         this.find.deferUpdates(state, skipPending);
     }
 

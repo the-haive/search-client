@@ -2,9 +2,9 @@ import { VersionPathSettings } from './VersionPathSettings';
 /**
  * A common settings base-class for the descending Autocomplete, Categorize and Find settings classes.
  * 
- * @param DATATYPE Defines the data-type that the descendant settings-class needs to return on lookups.
+ * @param TDataType Defines the data-type that the descendant settings-class needs to return on lookups.
  */
-export abstract class BaseSettings<DATATYPE> extends VersionPathSettings {
+export abstract class BaseSettings<TDataType> extends VersionPathSettings {
 
     /** 
      * Whether or not this setting-feature is enabled or not.
@@ -34,9 +34,9 @@ export abstract class BaseSettings<DATATYPE> extends VersionPathSettings {
      * A notifier method to call whenever the lookup results have been received.
      * @param data - The lookup results.
      */
-    public cbSuccess?: (data?: DATATYPE) => void = undefined;
+    public cbSuccess?: (data?: TDataType) => void = undefined;
 
-    constructor(settings?: BaseSettings<DATATYPE>) {
+    constructor(settings?: BaseSettings<TDataType>) {
         super(settings);
         Object.assign(this, settings);
     }

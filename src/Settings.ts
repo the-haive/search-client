@@ -9,43 +9,45 @@ import { FindSettings } from './Find/FindSettings';
 
 /**
  * Settings as used by the SearchClient.
+ * 
+ * Please see the data-type description for each property in question.
  */
 export class Settings extends VersionPathSettings {
 
     /**
      * Settings for allCategories().
      */
-    public allCategories: AllCategoriesSettings = new AllCategoriesSettings();
+    public allCategories?: AllCategoriesSettings = new AllCategoriesSettings();
 
     /** 
      * The JWT authentication token to use. 
      */
-    public authentication: AuthenticationSettings = new AuthenticationSettings();
+    public authentication?: AuthenticationSettings = new AuthenticationSettings();
 
     /**
      * Settings for autocomplete().
      */
-    public autocomplete: AutocompleteSettings = new AutocompleteSettings();
+    public autocomplete?: AutocompleteSettings = new AutocompleteSettings();
 
     /**
      * Settings for bestBets().
      */
-    public bestBets: BestBetsSettings = new BestBetsSettings();
+    public bestBets?: BestBetsSettings = new BestBetsSettings();
 
     /**
      * Settings for categorize().
      */
-    public categorize: CategorizeSettings = new CategorizeSettings();
+    public categorize?: CategorizeSettings = new CategorizeSettings();
 
     /**
      * Settings for find().
      */
-    public find: FindSettings = new FindSettings();
+    public find?: FindSettings = new FindSettings();
 
     /**
      * Settings for the common query (autocomplete/find/categorize)
      */
-    public query: Query = new Query();
+    public query?: Query = new Query();
 
     /**
      * Creates a Settings object for you, based on Settings defaults and the overrides provided as a param.

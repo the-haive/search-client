@@ -6,13 +6,23 @@ import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
 import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3 } from '../QueryConverter';
-import { Categories } from '../Data/Categories';
+import { Categories, Category, Group } from '../Data';
 import { AuthToken } from '../Authentication/AuthToken';
 
 import { CategorizeSettings } from './CategorizeSettings';
 import { CategorizeTriggers } from './CategorizeTriggers';
 
+/**
+ * The Categorize service queries the search-engine for which categories that any 
+ * search-matches for the same query will contain.
+ * 
+ * It is normally used indirectly via the SearchClient class.
+ */
 export class Categorize extends BaseCall<Categories> {
+
+    private categories: Categories;
+
+    private clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
 
     private queryConverter: QueryConverter;
 
@@ -48,6 +58,8 @@ export class Categorize extends BaseCall<Categories> {
                     return response.json();
                 })
                 .then((categories: Categories) => {
+                    this.categories = categories;
+                    this.filterCategories(categories);
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
@@ -59,6 +71,13 @@ export class Categorize extends BaseCall<Categories> {
             return undefined;
         }
     }
+
+    public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void {
+        this.clientCategoryFilter = value;
+        if (this.settings.cbSuccess && this.settings.triggers.clientCategoryFilterChanged) {
+            this.cbSuccess(false, this.filterCategories(this.categories), null, null);
+        }
+     };
 
     public clientIdChanged(oldValue: string, query: Query) { 
         if (this.settings.triggers.clientIdChanged) {
@@ -83,7 +102,7 @@ export class Categorize extends BaseCall<Categories> {
             this.update(query);
         }
     }
-     
+    
     public queryTextChanged(oldValue: string, query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
@@ -102,11 +121,69 @@ export class Categorize extends BaseCall<Categories> {
             }
         }
     }
-     
+
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
+    private filterCategories(categories: Categories): Categories {
+        //console.log(categories);
+        categories.groups = categories.groups.map((inGroup: Group) => {
+            let group = {...inGroup};
+            if (group.categories && group.categories.length > 0) {
+                group.categories = this.mapCategories(group.categories);
+            }
+            group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
+            return group;
+        });
+        categories.groups = categories.groups.filter((g) => { return g !== undefined; });
+        return categories;
+    }
+
+    private mapCategories(categories: Category[]): Category[] {
+        categories = categories.map((inCategory: Category) => {
+            let category = {...inCategory};
+            let result = this.inClientCategoryFilters({...category});
+            if (result !== false) {
+                if (result) {
+                    if (category.children && category.children.length > 0) {
+                        category.children = this.mapCategories(category.children);
+                    }
+                    category.expanded = true; //category.expanded || category.children.some((c) => c.expanded === true);
+                }
+                category.expanded = category.expanded || category.children.some((c) => c.expanded === true);
+                return category;
+            }
+        });
+
+        categories = categories.filter((c) => { return c !== undefined; });
+        return categories;
+    }
+
+    private inClientCategoryFilters(category: Category): boolean {
+        if (!this.clientCategoryFilter) {
+            return null;
+        }
+        for (let prop in this.clientCategoryFilter) {
+            if (this.clientCategoryFilter.hasOwnProperty(prop)) {
+                let filterKey = prop.toLowerCase();
+                let cat = category.categoryName.slice(0, -1);
+                let categoryKey = cat.join(this.settings.clientCategoryFiltersSepChar).toLowerCase();
+                if (filterKey === categoryKey) {
+                    let displayExpression = this.clientCategoryFilter[prop];
+                    if (!displayExpression) {
+                        continue;
+                    }
+                    let regex = new RegExp(displayExpression as string, "i");
+                    let result = regex.test(category.displayName);
+                    return result;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return null;
+    }
 }

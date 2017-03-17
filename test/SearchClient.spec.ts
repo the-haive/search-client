@@ -264,7 +264,7 @@ describe("SearchClient basics", () => {
         expect(findFetch).toBeCalled(); findFetch.mockReset();
 
         // But, if we do the same, this time while deferring updates, the update should not be called.
-        client.deferUpdatesForAll(true);
+        client.deferUpdates(true);
         client.queryText = "test";
         client.queryText = "test ";
         expect(pClient.settings.query.queryText).toEqual("test ");
@@ -273,13 +273,13 @@ describe("SearchClient basics", () => {
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
 
         // At least not until we again open up the deferring
-        client.deferUpdatesForAll(false);
+        client.deferUpdates(false);
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).toHaveBeenCalledTimes(1); findFetch.mockReset();
 
         // We try once more to defer updates
-        client.deferUpdatesForAll(true);
+        client.deferUpdates(true);
         client.queryText = "test";
         client.queryText = "test ";
         expect(pClient.settings.query.queryText).toEqual("test ");
@@ -288,7 +288,7 @@ describe("SearchClient basics", () => {
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
 
         // But this time we open and skipPending updates when clearing the defer
-        client.deferUpdatesForAll(false, true);
+        client.deferUpdates(false, true);
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
