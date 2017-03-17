@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/IntelliSearch/search-client/compare/v0.9.0...v0.9.1) (2017-03-17)
+
+
+### Bug Fixes
+
+* Missing json data-file, and fixed mutable data-set ([8bf908c](https://github.com/IntelliSearch/search-client/commit/8bf908c))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/IntelliSearch/search-client/compare/v0.8.3...v0.9.0) (2017-03-17)
 
