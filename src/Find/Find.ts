@@ -40,8 +40,7 @@ export class Find extends BaseCall<Matches> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Matches> {
-
-        let url = this.queryConverter.getUrl(this.baseUrl + this.settings.url, query);
+        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {

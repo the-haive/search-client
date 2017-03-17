@@ -12,10 +12,11 @@ export class QueryCategorizeConverterV2 implements QueryConverter {
      * @param baseUrl is the leading part of the url that is to be generated.
      * @param queyr is the query that is to be converted into the url.
      */
-    public getUrl(baseUrl: string, query: Query): string {
+    public getUrl(baseUrl: string, servicePath: string, query: Query): string {
         let params = this.getUrlParams(query).sort();
-        let sep = baseUrl.endsWith("/") ? "" : "/";
-        return `${baseUrl}${sep}${encodeURIComponent(query.queryText)}?${params.join('&')}`;
+        baseUrl = baseUrl.replace(/\/+$/, "");
+        servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, "");
+        return `${baseUrl}/${servicePath}/${encodeURIComponent(query.queryText)}?${params.join('&')}`;
     }
 
     /**

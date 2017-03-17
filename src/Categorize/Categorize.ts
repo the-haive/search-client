@@ -46,7 +46,7 @@ export class Categorize extends BaseCall<Categories> {
      */
     public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Categories> {
 
-        let url = this.queryConverter.getUrl(this.baseUrl + this.settings.url, query);
+        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {

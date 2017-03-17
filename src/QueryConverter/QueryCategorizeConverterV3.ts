@@ -4,7 +4,6 @@ import { OrderBy, SearchType, Query } from '../Common';
 
 import { QueryConverter } from './';
 
-
 export class QueryCategorizeConverterV3 implements QueryConverter {
  
     /**
@@ -13,10 +12,11 @@ export class QueryCategorizeConverterV3 implements QueryConverter {
      * @param baseUrl is the leading part of the url that is to be generated.
      * @param queyr is the query that is to be converted into the url.
      */
-    public getUrl(baseUrl: string, query: Query): string {
+    public getUrl(baseUrl: string, servicePath: string, query: Query): string {
         let params = this.getUrlParams(query).sort();
         baseUrl = baseUrl.replace(/\/+$/, "");
-        return `${baseUrl}?${params.join('&')}`;
+        servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, "");
+        return `${baseUrl}/${servicePath}?${params.join('&')}`;
     }
 
     /**

@@ -294,4 +294,38 @@ describe("SearchClient basics", () => {
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
         
     });
+
+    it("should be able to get correct full url for lookups", () => {
+        let urlFindResult: string;
+        let mockFindRequest = jest.fn((url: string, reqInit: RequestInit) => {
+            urlFindResult = url;
+            return false;
+        });
+
+        let urlCatResult: string;
+        let mockCatRequest = jest.fn((url: string, reqInit: RequestInit) => {
+            urlCatResult = url;
+            return false;
+        });
+
+        let mockFindSuccess = jest.fn();
+        let mockCatSuccess = jest.fn();
+
+        let client = new SearchClient("http://localhost:9950/", {
+            find: {
+                cbRequest: mockFindRequest,
+                cbSuccess: mockFindSuccess,
+            },
+            categorize: {
+                cbRequest: mockCatRequest,
+                cbSuccess: mockCatSuccess,
+            },
+        });
+
+        client.queryText = "test\n";
+        expect(mockFindRequest).toHaveBeenCalledTimes(1); 
+        expect(mockCatRequest).toHaveBeenCalledTimes(1); 
+        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?o=Relevance&q=test%0A&s=10&t=Keywords");
+        expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
+    });
 });
