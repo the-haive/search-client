@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/IntelliSearch/search-client/compare/v0.8.3...v0.9.0) (2017-03-17)
+
+
+### Features
+
+* Implemented support for clientCategoryFilters ([83eae6f](https://github.com/IntelliSearch/search-client/commit/83eae6f))
+
+
+
 <a name="0.8.3"></a>
 ## [0.8.3](https://github.com/IntelliSearch/search-client/compare/v0.8.2...v0.8.3) (2017-03-15)
 
