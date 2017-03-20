@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.3"></a>
+## [0.9.3](https://github.com/IntelliSearch/search-client/compare/v0.9.2...v0.9.3) (2017-03-20)
+
+
+### Bug Fixes
+
+* FIxed an important problem with how settings were applied to parent classes. Added more tests. Some documentation improvements. ([b483bb0](https://github.com/IntelliSearch/search-client/commit/b483bb0))
+
+
+
 <a name="0.9.2"></a>
 ## [0.9.2](https://github.com/IntelliSearch/search-client/compare/v0.9.1...v0.9.2) (2017-03-17)
 
