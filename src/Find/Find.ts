@@ -27,8 +27,11 @@ export class Find extends BaseCall<Matches> {
      * @param settings - The settings that define how the Find instance is to operate.
      * @param auth - An auth-object that handles the authentication.
      */
-    constructor(baseUrl: string, protected settings: FindSettings = new FindSettings(), auth?: AuthToken) {
+    constructor(baseUrl: string, protected settings?: FindSettings, auth?: AuthToken) {
         super(baseUrl, new FindSettings(settings), auth);
+
+        this.settings = new FindSettings(settings);
+
         this.queryConverter = this.settings.version === 2 ? new QueryFindConverterV2() : new QueryFindConverterV3();
     }
 
@@ -39,7 +42,8 @@ export class Find extends BaseCall<Matches> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
-    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Matches> {
+    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<Matches> {
+        
         let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
 

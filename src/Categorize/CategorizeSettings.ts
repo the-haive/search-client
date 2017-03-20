@@ -9,6 +9,12 @@ import { CategorizeTriggers } from './CategorizeTriggers';
 export class CategorizeSettings extends BaseSettings<Categories> {
 
     /**
+     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
+     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
+     */
+    public clientCategoryFiltersSepChar?: string = "_";
+
+    /**
      * The trigger-settings for when automatic category result-updates are to be triggered.
      */
     public triggers?: CategorizeTriggers = new CategorizeTriggers();
@@ -16,24 +22,24 @@ export class CategorizeSettings extends BaseSettings<Categories> {
     /**
      * The endpoint to do categorize lookups for.
      */
-    public url?: string = '/search/categorize';
+    public url?: string = 'search/categorize';
 
-    /**
-     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
-     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
-     */
-    public clientCategoryFiltersSepChar?: string = "_";
 
     /**
      * Creates an instance of CategorizeSettings, based on CategorizeSettings defaults and the overrides provided as a param.
-     * @param categorizeSettings - The settings defined here will override the default CategorizeSettings.
+     * @param settings - The settings defined here will override the default CategorizeSettings.
      */
-    constructor(categorizeSettings?: CategorizeSettings) {
-        super(categorizeSettings);
-        if (categorizeSettings) {
-            categorizeSettings.triggers = new CategorizeTriggers(categorizeSettings.triggers);
+    constructor(settings?: CategorizeSettings) {
+        super(settings);
+        
+        if (settings) {
+            this.clientCategoryFiltersSepChar = typeof settings.clientCategoryFiltersSepChar !== "undefined" ? settings.clientCategoryFiltersSepChar : this.clientCategoryFiltersSepChar;
+            this.triggers = typeof settings.triggers !== "undefined" ? new CategorizeTriggers(settings.triggers) : this.triggers;
+            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
         }
-        Object.assign(this, categorizeSettings);
+        
+        // Remove leading and trailing slashes from the url
+        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
     }
 
 }

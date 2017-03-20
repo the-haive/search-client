@@ -20,14 +20,17 @@ export class FindSettings extends BaseSettings<Matches> {
 
     /**
      * Creates a FindSettings object for you, based on FindSettings defaults and the overrides provided as a param.
-     * @param findSettings - The settings defined here will override the default FindSettings.
+     * @param settings - The settings defined here will override the default FindSettings.
      */
-    constructor(findSettings?: FindSettings) {
-        super(findSettings);
-        if (findSettings) {
-            findSettings.triggers = new FindTriggers(findSettings.triggers);
+    constructor(settings?: FindSettings) {
+        super(settings);
+        if (settings) {
+            this.triggers = typeof settings.triggers !== "undefined" ? new FindTriggers(settings.triggers) : this.triggers;
+            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
         }
-        Object.assign(this, findSettings);
+        
+        // Remove leading and trailing slashes from the url
+        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
     }
 
 }

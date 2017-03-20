@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>This abstract class ensures that the passed version and path is parsed and set correctly.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -114,13 +121,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L13">Common/VersionPathSettings.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L17">Common/VersionPathSettings.ts:17</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves version and path to sensible values.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> settings: <a href="versionpathsettings.html" class="tsd-signature-type">VersionPathSettings</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>These are the settings related to the Version-path resolution logic.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="versionpathsettings.html" class="tsd-signature-type">VersionPathSettings</a></h4>
@@ -136,13 +153,14 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;RestService/v&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L13">Common/VersionPathSettings.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L17">Common/VersionPathSettings.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>You can use this path to override the path to the rest-service.
-							The default is &quot;RestService/v{version}&quot;.</p>
+								If not set, it will default to &quot;RestService/v&quot; and whatever <code>this.version</code> is set to.
+							If it is set it will use the set path verbatim, without appending <code>this.version</code>.</p>
 						</div>
 					</div>
 				</section>
@@ -152,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;3</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L7">Common/VersionPathSettings.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L10">Common/VersionPathSettings.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

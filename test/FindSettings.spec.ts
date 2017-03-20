@@ -28,7 +28,7 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.url).toEqual("/search/find");
+        expect (settings.url).toEqual("search/find");
     });
 
     it("Should be poassible to pass in an FindSettings object to use for values.", () => {
@@ -76,7 +76,7 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(false);
-        expect (settings.url).toEqual("/test/");
+        expect (settings.url).toEqual("test");
     });
 
     it("Should be poassible to pass a partial FindSettings object to use for values.", () => {
@@ -112,7 +112,7 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.url).toEqual("/search/find");
+        expect (settings.url).toEqual("search/find");
     });
 
 });

@@ -24,7 +24,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.url).toEqual("/search/categorize");
+        expect (settings.url).toEqual("search/categorize");
     });
 
     it("Should be poassible to pass in an CategorizeSettings object to use for values.", () => {
@@ -64,7 +64,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(false);
-        expect (settings.url).toEqual("/test/");
+        expect (settings.url).toEqual("test");
     });
 
     it("Should be poassible to pass a partial CategorizeSettings object to use for values.", () => {
@@ -93,7 +93,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.url).toEqual("/search/categorize");
+        expect (settings.url).toEqual("search/categorize");
     });
 
     it("Should be poassible to pass a partial CategorizeSettings object to use for values.", () => {
@@ -116,7 +116,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.cbSuccess).toBeDefined();
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S $/);
-        expect (settings.url).toEqual("/search/categorize");
+        expect (settings.url).toEqual("search/categorize");
     });
 
 });

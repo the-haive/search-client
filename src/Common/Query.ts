@@ -76,6 +76,7 @@ export class Query {
 
     /**
      * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
+     * 
      * @param query - The query defined here will override the default Query.
      */
     constructor(query?: Query) {

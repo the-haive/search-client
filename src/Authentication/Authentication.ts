@@ -25,8 +25,11 @@ export class Authentication extends BaseCall<any> {
      * @param settings - The settings for the authentication object.
      * @param auth - An object that controls the authentication for the lookups.
      */
-    constructor(baseUrl: string, protected settings: AuthenticationSettings = new AuthenticationSettings(), auth?: AuthToken) {
+    constructor(baseUrl: string, protected settings?: AuthenticationSettings, auth?: AuthToken) {
         super(baseUrl, new AuthenticationSettings(settings), auth);
+        
+        this.settings = new AuthenticationSettings(settings);
+
         if (this.settings && this.settings.token) {
             this.auth.authenticationToken = this.settings.token;
             this.settings.token = undefined;
@@ -43,8 +46,9 @@ export class Authentication extends BaseCall<any> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a jwt token.
      */
-    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<string> {
-        let url = this.baseUrl + this.settings.url;
+    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<string> {
+
+        let url = `${this.baseUrl}/${this.settings.url}`;
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {

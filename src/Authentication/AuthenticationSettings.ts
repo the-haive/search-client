@@ -7,6 +7,13 @@ import { AuthenticationTriggers } from './AuthenticationTriggers';
  */
 export class AuthenticationSettings extends BaseSettings<any> {
 
+    /** 
+     * Whether or not this setting-feature is enabled or not.
+     * 
+     * @override Overrides base-settings and sets the automatic authentication off by default.
+     */
+    public enabled?: boolean = false;
+    
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      */
@@ -26,18 +33,25 @@ export class AuthenticationSettings extends BaseSettings<any> {
     /**
      * The endpoint to do authentication lookups on.
      */
-    public url?: string = '/auth/token';
+    public url?: string = 'auth/token';
 
     /**
      * Creates an AuthenticationSettings object for you, based on AuthenticationSettings defaults and the overrides provided as a param.
-     * @param authenticationSettings - The settings defined here will override the default AuthenticationSettings.
+     * @param settings - The settings defined here will override the default AuthenticationSettings.
      */
-    constructor(authenticationSettings?: AuthenticationSettings) {
-        super(authenticationSettings);
-        if (authenticationSettings) {
-            authenticationSettings.triggers = new AuthenticationTriggers(authenticationSettings.triggers);
+    constructor(settings?: AuthenticationSettings) {
+        super(settings);
+        
+        if (settings) {
+            this.enabled = typeof settings.enabled !== "undefined" ? settings.enabled : this.enabled;
+            this.token = typeof settings.token !== "undefined" ? settings.token : this.token;
+            this.tokenPath = typeof settings.tokenPath !== "undefined" ? settings.tokenPath : this.tokenPath;
+            this.triggers = typeof settings.triggers !== "undefined" ? new AuthenticationTriggers(settings.triggers) : this.triggers;
+            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
         }
-        Object.assign(this, authenticationSettings);
+        
+        // Remove leading and trailing slashes from the url
+        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
     }
 
 }

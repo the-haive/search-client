@@ -102,7 +102,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="authenticationsettings.html#cberror" class="tsd-kind-icon">cb<wbr>Error</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="authenticationsettings.html#cbrequest" class="tsd-kind-icon">cb<wbr>Request</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="authenticationsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="authenticationsettings.html#enabled" class="tsd-kind-icon">enabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-external"><a href="authenticationsettings.html#enabled" class="tsd-kind-icon">enabled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="authenticationsettings.html#path" class="tsd-kind-icon">path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="authenticationsettings.html#token" class="tsd-kind-icon">token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="authenticationsettings.html#tokenpath" class="tsd-kind-icon">token<wbr>Path</a></li>
@@ -120,14 +120,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Authentication<wbr>Settings<span class="tsd-signature-symbol">(</span>authenticationSettings<span class="tsd-signature-symbol">?: </span><a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Authentication<wbr>Settings<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">?: </span><a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Authentication/AuthenticationSettings.ts#L29">Authentication/AuthenticationSettings.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L36">Authentication/AuthenticationSettings.ts:36</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -138,7 +138,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> authenticationSettings: <a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> settings: <a href="authenticationsettings.html" class="tsd-signature-type">AuthenticationSettings</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>The settings defined here will override the default AuthenticationSettings.</p>
@@ -160,7 +160,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cberror">cbError</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L31">Common/BaseSettings.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L13">Common/BaseSettings.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,7 +202,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbrequest">cbRequest</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L25">Common/BaseSettings.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L26">Common/BaseSettings.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -254,7 +254,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbsuccess">cbSuccess</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L37">Common/BaseSettings.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L32">Common/BaseSettings.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -289,20 +289,25 @@
 						</ul>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 					<a name="enabled" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> enabled</h3>
-					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#enabled">enabled</a></p>
+						<p>Overrides <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#enabled">enabled</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L12">Common/BaseSettings.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L15">Authentication/AuthenticationSettings.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Whether or not this setting-feature is enabled or not.</p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>override</dt>
+							<dd><p>Overrides base-settings and sets the automatic authentication off by default.</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
@@ -312,13 +317,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="versionpathsettings.html">VersionPathSettings</a>.<a href="versionpathsettings.html#path">path</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L13">Common/VersionPathSettings.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L17">Common/VersionPathSettings.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>You can use this path to override the path to the rest-service.
-							The default is &quot;RestService/v{version}&quot;.</p>
+								If not set, it will default to &quot;RestService/v&quot; and whatever <code>this.version</code> is set to.
+							If it is set it will use the set path verbatim, without appending <code>this.version</code>.</p>
 						</div>
 					</div>
 				</section>
@@ -328,7 +334,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Authentication/AuthenticationSettings.ts#L13">Authentication/AuthenticationSettings.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L20">Authentication/AuthenticationSettings.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -343,7 +349,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[&quot;jwtToken&quot;]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Authentication/AuthenticationSettings.ts#L19">Authentication/AuthenticationSettings.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L26">Authentication/AuthenticationSettings.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -359,7 +365,7 @@
 					<div class="tsd-signature tsd-kind-icon">triggers<span class="tsd-signature-symbol">:</span> <a href="authenticationtriggers.html" class="tsd-signature-type">AuthenticationTriggers</a><span class="tsd-signature-symbol"> =&nbsp;new AuthenticationTriggers()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Authentication/AuthenticationSettings.ts#L24">Authentication/AuthenticationSettings.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L31">Authentication/AuthenticationSettings.ts:31</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -371,10 +377,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="url" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;/auth/token&quot;</span></div>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;auth/token&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Authentication/AuthenticationSettings.ts#L29">Authentication/AuthenticationSettings.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Authentication/AuthenticationSettings.ts#L36">Authentication/AuthenticationSettings.ts:36</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -390,7 +396,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="versionpathsettings.html">VersionPathSettings</a>.<a href="versionpathsettings.html#version">version</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L7">Common/VersionPathSettings.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L10">Common/VersionPathSettings.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -447,7 +453,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
 								<a href="authenticationsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-external">
 								<a href="authenticationsettings.html#enabled" class="tsd-kind-icon">enabled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-external">

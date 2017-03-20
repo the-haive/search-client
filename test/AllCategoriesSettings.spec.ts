@@ -16,7 +16,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
-        expect (settings.url).toEqual("/search/allcategories");
+        expect (settings.url).toEqual("search/allcategories");
     });
 
     it("Should be poassible to pass in an AllCategoriesSettings object to use for values.", () => {
@@ -36,7 +36,26 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.url).toEqual("/test/");
+        expect (settings.url).toEqual("test");
+    });
+
+    it("Should be poassible to pass in an anonymous object to use for values.", () => {
+        let settings = {
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn(),
+            enabled: false,
+        };
+
+        let resSettings = new AllCategoriesSettings(settings);
+
+        expect(resSettings).toBeDefined();
+        expect(resSettings instanceof AllCategoriesSettings).toBeTruthy();
+        expect (resSettings.enabled).toBeFalsy();
+        expect (resSettings.cbRequest).toBeDefined();
+        expect (resSettings.cbError).toBeDefined();
+        expect (resSettings.cbSuccess).toBeDefined();
+        expect (resSettings.url).toEqual("search/allcategories");
     });
 
     it("Should be poassible to pass a partial AllCategoriesSettings object to use for values.", () => {
@@ -55,7 +74,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.url).toEqual("/search/allcategories");
+        expect (settings.url).toEqual("search/allcategories");
     });
 
 });

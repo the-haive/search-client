@@ -88,7 +88,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("/search/categorize");
+        expect(pCategorize.settings.url).toEqual("search/categorize");
     });
 
     it("Should throw for invalid Urls", () => {
@@ -112,7 +112,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("/search/categorize");
+        expect(pCategorize.settings.url).toEqual("search/categorize");
     });
 
     it("Should be able to pass an CategorizeSettings instance with additional settings", () => {
@@ -121,20 +121,20 @@ describe("Categorize basics", () => {
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.triggers = new CategorizeTriggers();
-        settings.url = "/test";
+        settings.url = "/test/";
 
         let categorize = new Categorize("http://localhost:9950/", settings);
         let pCategorize = <any> categorize;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("/test");
+        expect(pCategorize.settings.url).toEqual("test");
     });
 
     it("Should be able to pass a manual object settings as CategorizeSettings", () => {
@@ -150,14 +150,14 @@ describe("Categorize basics", () => {
         let pCategorize = <any> categorize;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("/test");
+        expect(pCategorize.settings.url).toEqual("test");
     });
 
     it("Should be able to understand sample categories", () => {
@@ -234,7 +234,11 @@ describe("Categorize basics", () => {
         let workCopy: Categories = require('./data/categories.json');
         sanityCheck(workCopy);
 
-        let client = new Categorize("http://localhost:9950/");
+        let settings = {
+            cbRequest: jest.fn(() => { return false; } ),
+        };
+
+        let client = new Categorize("http://localhost:9950/", settings);
         let pClient = <any> client;
         
         // Expect no change when filters are set to null
@@ -244,6 +248,7 @@ describe("Categorize basics", () => {
 
         sanityCheck(workCopy);
 
+        expect(settings.cbRequest).toHaveBeenCalledTimes(0);
         expect(results).toEqual(reference);
     });
 
@@ -355,6 +360,10 @@ describe("Categorize basics", () => {
 
         let catResults: Categories = null; 
 
+        let cbRequestMock = jest.fn((url: string, reqInit: RequestInit) => {
+            return false;
+        });
+
         let cbSuccessMock = jest.fn((categories: Categories) => {
             catResults = categories;
         });
@@ -379,6 +388,7 @@ describe("Categorize basics", () => {
 
         sanityCheck(workCopy);
 
+        expect(cbRequestMock).toHaveBeenCalledTimes(0);
         expect(cbSuccessMock).toHaveBeenCalledTimes(1);
         expect(catResults.groups.length).toEqual(4);
 
@@ -502,7 +512,7 @@ describe("Categorize basics", () => {
         expect(c2015.children[2].expanded).toEqual(false);
 
         expect(catResults.groups[3].name).toEqual("FileType");
-//        expect(catResults.groups[3].expanded).toEqual(true);
+        expect(catResults.groups[3].expanded).toEqual(true);
         expect(catResults.groups[3].categories.length).toEqual(2);
         expect(catResults.groups[3].categories[0].name).toEqual("DOC");
         expect(catResults.groups[3].categories[0].expanded).toEqual(true);

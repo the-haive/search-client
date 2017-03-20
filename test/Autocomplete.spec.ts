@@ -18,13 +18,14 @@ describe("Autocomplete basics", () => {
 
         expect(typeof autocomplete).toBe("object");
         expect(autocomplete instanceof Autocomplete).toBeTruthy();
+        expect(pAutocomplete.settings).toBeDefined();
         expect(pAutocomplete.settings.enabled).toEqual(true);
         expect(pAutocomplete.settings.cbError).toBeUndefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
         expect(pAutocomplete.settings.cbSuccess).toBeUndefined();
         expect(pAutocomplete.settings.triggers).toBeDefined();
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(true);
-        expect(pAutocomplete.settings.url).toEqual("/autocomplete");
+        expect(pAutocomplete.settings.url).toEqual("autocomplete");
     });
 
     it("Should throw for invalid Urls", () => {
@@ -48,7 +49,7 @@ describe("Autocomplete basics", () => {
         expect(pAutocomplete.settings.cbSuccess).toBeUndefined();
         expect(pAutocomplete.settings.triggers).toBeDefined();
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(true);
-        expect(pAutocomplete.settings.url).toEqual("/autocomplete");
+        expect(pAutocomplete.settings.url).toEqual("autocomplete");
     });
 
     it("Should be able to pass an AutocompleteSettings instance with additional settings", () => {
@@ -63,14 +64,14 @@ describe("Autocomplete basics", () => {
         let pAutocomplete = <any> autocomplete;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
         expect(pAutocomplete.settings.cbSuccess).toBeDefined();
         expect(pAutocomplete.settings.triggers).toBeDefined();
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(true);
-        expect(pAutocomplete.settings.url).toEqual("/test");
+        expect(pAutocomplete.settings.url).toEqual("test");
     });
 
     it("Should be able to pass a manual object settings as AutocompleteSettings", () => {
@@ -86,14 +87,14 @@ describe("Autocomplete basics", () => {
         let pAutocomplete = <any> autocomplete;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
         expect(pAutocomplete.settings.cbSuccess).toBeDefined();
         expect(pAutocomplete.settings.triggers).toBeDefined();
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(true);
-        expect(pAutocomplete.settings.url).toEqual("/test");
+        expect(pAutocomplete.settings.url).toEqual("test");
     });
 
 });

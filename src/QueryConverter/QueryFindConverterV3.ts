@@ -3,8 +3,7 @@ import { OrderBy, SearchType, Query } from '../Common';
 import { QueryCategorizeConverterV3 } from './';
 
 /**
- * Helper-class to generate params for the rest-interface url.
- * Only used by Categorize and Find. May in the future do other services too.
+ * Class to handle creating find lookups for restservice version 3.
  */
 export class QueryFindConverterV3 extends QueryCategorizeConverterV3 {
 

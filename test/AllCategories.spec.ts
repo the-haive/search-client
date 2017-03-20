@@ -2,6 +2,10 @@
 require("babel-core/register");
 require("babel-polyfill");
 
+// Need this when running in node (not in browser), to make the domain-task resolve local-url's
+import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
+dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
+
 import { Categories } from '../src/Data/Categories';
 import { AllCategories } from '../src/AllCategories';
 import { AllCategoriesSettings } from '../src/AllCategories/AllCategoriesSettings';
@@ -22,7 +26,7 @@ describe("AllCategories basics", () => {
         expect(pAllCategories.settings.cbError).toBeUndefined();
         expect(pAllCategories.settings.cbRequest).toBeUndefined();
         expect(pAllCategories.settings.cbSuccess).toBeUndefined();
-        expect(pAllCategories.settings.url).toEqual("/search/allcategories");
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
     });
 
     it("Should throw for invalid Urls", () => {
@@ -43,10 +47,26 @@ describe("AllCategories basics", () => {
         expect(pAllCategories.settings.cbError).toBeUndefined();
         expect(pAllCategories.settings.cbRequest).toBeUndefined();
         expect(pAllCategories.settings.cbSuccess).toBeUndefined();
-        expect(pAllCategories.settings.url).toEqual("/search/allcategories");
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
     });
 
     it("Should be able to create AllCategories instance with newed settings passed", () => {
+        let settings = new AllCategoriesSettings();
+        settings.cbError = jest.fn();
+        settings.cbRequest = jest.fn();
+        settings.cbSuccess = jest.fn();
+        settings.enabled = false;
+        let allCategories = new AllCategories("http://localhost:9950/", settings);
+        let pAllCategories = <any> allCategories;
+
+        expect(pAllCategories.settings.enabled).toEqual(settings.enabled);
+        expect(pAllCategories.settings.cbError).toEqual(settings.cbError);
+        expect(pAllCategories.settings.cbRequest).toEqual(settings.cbRequest);
+        expect(pAllCategories.settings.cbSuccess).toEqual(settings.cbSuccess);
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
+    });
+
+    it("Should be able to create AllCategories instance with custom url", () => {
         let settings = new AllCategoriesSettings();
         settings.cbError = jest.fn();
         settings.cbRequest = jest.fn();
@@ -60,25 +80,78 @@ describe("AllCategories basics", () => {
         expect(pAllCategories.settings.cbError).toEqual(settings.cbError);
         expect(pAllCategories.settings.cbRequest).toEqual(settings.cbRequest);
         expect(pAllCategories.settings.cbSuccess).toEqual(settings.cbSuccess);
-        expect(pAllCategories.settings.url).toEqual(settings.url);
+        expect(pAllCategories.settings.url).toEqual("test");
     });
 
-    it("Should be able to create AllCategories instance with object settings passed", () => {
+    it("Should be able to pass object settings as AllCategoriesSettings", () => {
+        let actualUrl: string;
         const settings = {
-            cbError: jest.fn(),
-            cbRequest: jest.fn(),
+            cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
+                actualUrl = url;
+            }),
             cbSuccess: jest.fn(),
-            enabled: false,
-            url: "/test",
         } as AllCategoriesSettings;
         let allCategories = new AllCategories("http://localhost:9950/", settings);
         let pAllCategories = <any> allCategories;
 
-        expect(pAllCategories.settings.enabled).toEqual(settings.enabled);
-        expect(pAllCategories.settings.cbError).toEqual(settings.cbError);
-        expect(pAllCategories.settings.cbRequest).toEqual(settings.cbRequest);
-        expect(pAllCategories.settings.cbSuccess).toEqual(settings.cbSuccess);
-        expect(pAllCategories.settings.url).toEqual(settings.url);
+        expect(pAllCategories.settings).toBeDefined();
+        expect(pAllCategories.settings.enabled).toEqual(true);
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.settings.cbRequest).toBeDefined();
+        expect(pAllCategories.settings.cbSuccess).toBeDefined();
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
+        
+        allCategories.fetch();
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
+    });
+
+    it("Should be able to pass new AllCategoriesSettings object", () => {
+        let actualUrl: string;
+        let settings = new AllCategoriesSettings({
+            cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
+                actualUrl = url;
+            }),
+            cbSuccess: jest.fn(),
+        });
+
+        let allCategories = new AllCategories("http://localhost:9950/", settings);
+        let pAllCategories = <any> allCategories;
+        
+        expect(pAllCategories.settings).toBeDefined();
+        expect(pAllCategories.settings.enabled).toEqual(true);
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.settings.cbRequest).toBeDefined();
+        expect(pAllCategories.settings.cbSuccess).toBeDefined();
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
+        
+        allCategories.fetch();
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
+    });
+
+    it("Should be able to pass anonymous object settings", () => {
+        let actualUrl: string;
+        let settings = {
+            cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
+                actualUrl = url;
+            }),
+            cbSuccess: jest.fn(),
+        };
+
+        let allCategories = new AllCategories("http://localhost:9950/", settings);
+        let pAllCategories = <any> allCategories;
+
+        expect(pAllCategories.settings).toBeDefined();
+        expect(pAllCategories.settings.enabled).toEqual(true);
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.settings.cbRequest).toBeDefined();
+        expect(pAllCategories.settings.cbSuccess).toBeDefined();
+        expect(pAllCategories.settings.url).toEqual("search/allcategories");
+        
+        allCategories.fetch();
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
     });
 
 });

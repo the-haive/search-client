@@ -29,7 +29,7 @@ export abstract class BaseCall<TDataType> {
      */
     constructor(public baseUrl: string, protected settings?: BaseSettings<TDataType>, protected auth: AuthToken = new AuthToken()) {
         // Strip off any slashes at the end of the baseUrl
-        baseUrl = baseUrl.replace(/\/+$/, "") + "/" + settings.path + "/";
+        baseUrl = `${baseUrl.replace(/\/+$/, "")}/${settings.path}`;
 
         // Verify the authenticity
         if (!isWebUri(baseUrl)) {
@@ -102,7 +102,7 @@ export abstract class BaseCall<TDataType> {
     public queryTextChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
     public searchTypeChanged(oldValue: SearchType, query: Query): void { /* Default no implementation*/ }
 
-    protected abstract fetch(query: Query, suppressCallbacks?: boolean): Promise<any> 
+    protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any> 
 
     protected cbRequest(suppressCallbacks: boolean, url: string, reqInit: RequestInit): boolean {
         if (this.settings.cbRequest && !suppressCallbacks) {

@@ -1,3 +1,6 @@
+/**
+ * This class defines the auth-token that all the services in the SearchClient instance passes along it's serverside lookups.
+ */
 export class AuthToken {
 
     /**

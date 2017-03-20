@@ -27,7 +27,7 @@ describe("BestBets basics", () => {
         expect(pBestBets.settings.cbError).toBeUndefined();
         expect(pBestBets.settings.cbRequest).toBeUndefined();
         expect(pBestBets.settings.cbSuccess).toBeUndefined();
-        expect(pBestBets.settings.url).toEqual("/manage/bestbets");
+        expect(pBestBets.settings.url).toEqual("manage/bestbets");
     });
 
     it("Should throw for invalid Urls", () => {
@@ -50,7 +50,7 @@ describe("BestBets basics", () => {
         expect(pBestBets.settings.cbError).toBeUndefined();
         expect(pBestBets.settings.cbRequest).toBeUndefined();
         expect(pBestBets.settings.cbSuccess).toBeUndefined();
-        expect(pBestBets.settings.url).toEqual("/manage/bestbets");
+        expect(pBestBets.settings.url).toEqual("manage/bestbets");
     });
 
     it("Should be able to create BestBets instance with newed settings passed", () => {
@@ -67,7 +67,7 @@ describe("BestBets basics", () => {
         expect(pBestBets.settings.cbError).toEqual(settings.cbError);
         expect(pBestBets.settings.cbRequest).toEqual(settings.cbRequest);
         expect(pBestBets.settings.cbSuccess).toEqual(settings.cbSuccess);
-        expect(pBestBets.settings.url).toEqual(settings.url);
+        expect(pBestBets.settings.url).toEqual("test");
     });
 
     it("Should be able to create BestBets instance with object settings passed", () => {
@@ -85,7 +85,7 @@ describe("BestBets basics", () => {
         expect(pBestBets.settings.cbError).toEqual(settings.cbError);
         expect(pBestBets.settings.cbRequest).toEqual(settings.cbRequest);
         expect(pBestBets.settings.cbSuccess).toEqual(settings.cbSuccess);
-        expect(pBestBets.settings.url).toEqual(settings.url);
+        expect(pBestBets.settings.url).toEqual("test");
     });
 
 });

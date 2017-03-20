@@ -30,8 +30,10 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param settings - The settings for how the Autocomplete is to operate.
      * @param auth - The object that handles authentication.
      */
-    constructor(baseUrl: string, protected settings: AutocompleteSettings = new AutocompleteSettings(), auth?: AuthToken/*, allCategories: AllCategories*/) {
+    constructor(baseUrl: string, protected settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
         super(baseUrl, new AutocompleteSettings(settings), auth);
+
+        this.settings = new AutocompleteSettings(settings);
 
         // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
         // allCategories.fetch().then((categories) => { 
@@ -47,7 +49,7 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
-    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<string[]> {
+    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<string[]> {
 
         let url = this.toUrl(query);
         let reqInit = this.requestObject();
@@ -111,7 +113,7 @@ export class Autocomplete extends BaseCall<string[]> {
         params.push(`q=${encodeURIComponent(query.queryText)}`);
         params.push(`s=${encodeURIComponent(query.maxSuggestions.toString())}`);
 
-        return `${this.baseUrl + this.settings.url}?${params.join('&')}`;
+        return `${this.baseUrl}/${this.settings.url}?${params.join('&')}`;
     }
 
     // private updateWordSuggestions(query: Query) {

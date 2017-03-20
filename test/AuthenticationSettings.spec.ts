@@ -13,23 +13,40 @@ describe("AutocompleteSettings basics", () => {
 
         expect(settings).toBeDefined();
         expect(settings instanceof AuthenticationSettings).toBeTruthy();
-        expect (settings.enabled).toBeTruthy();
-        expect (settings.cbRequest).toBeUndefined();
-        expect (settings.cbError).toBeUndefined();
-        expect (settings.cbSuccess).toBeUndefined();
-        expect (settings.tokenPath).toContain("jwtToken");
-        expect (settings.token).toBeUndefined();
-        expect (settings.triggers.expiryOverlap).toEqual(60);
-        expect (settings.url).toEqual("/auth/token");
+        expect(settings.enabled).toBeFalsy();
+        expect(settings.cbRequest).toBeUndefined();
+        expect(settings.cbError).toBeUndefined();
+        expect(settings.cbSuccess).toBeUndefined();
+        expect(settings.tokenPath).toContain("jwtToken");
+        expect(settings.token).toBeUndefined();
+        expect(settings.triggers.expiryOverlap).toEqual(60);
+        expect(settings.url).toEqual("auth/token");
+    });
+
+    it("Should be able to create a settings object from an empty object, with expected values", () => {
+        let settings = new AuthenticationSettings({});
+
+        expect(settings).toBeDefined();
+        expect(settings instanceof AuthenticationSettings).toBeTruthy();
+        expect(settings.enabled).toBeFalsy();
+        expect(settings.cbRequest).toBeUndefined();
+        expect(settings.cbError).toBeUndefined();
+        expect(settings.cbSuccess).toBeUndefined();
+        expect(settings.tokenPath).toContain("jwtToken");
+        expect(settings.token).toBeUndefined();
+        expect(settings.triggers.expiryOverlap).toEqual(60);
+        expect(settings.url).toEqual("auth/token");
     });
 
     it("Should be poassible to pass in an AuthenticationSettings object to use for values.", () => {
         const token = jwt.encode({test: "test"}, "test");
         let settings = {
             cbError: jest.fn(),
-            cbRequest: jest.fn(),
+            cbRequest: jest.fn(() => {
+                return false;
+            }),
             cbSuccess: jest.fn(),
-            enabled: false,
+            enabled: true,
             token,
             tokenPath: ["jwt"],
             triggers: {
@@ -42,14 +59,14 @@ describe("AutocompleteSettings basics", () => {
 
         expect(settings).toBeDefined();
         expect(settings instanceof AuthenticationSettings).toBeTruthy();
-        expect (settings.enabled).toBeFalsy();
-        expect (settings.cbRequest).toBeDefined();
-        expect (settings.cbError).toBeDefined();
-        expect (settings.cbSuccess).toBeDefined();
-        expect (settings.tokenPath).toContain("jwt");
-        expect (settings.token).toEqual(token);
-        expect (settings.triggers.expiryOverlap).toEqual(120);
-        expect (settings.url).toEqual("/test/");
+        expect(settings.enabled).toBeTruthy();
+        expect(settings.cbRequest).toBeDefined();
+        expect(settings.cbError).toBeDefined();
+        expect(settings.cbSuccess).toBeDefined();
+        expect(settings.tokenPath).toContain("jwt");
+        expect(settings.token).toEqual(token);
+        expect(settings.triggers.expiryOverlap).toEqual(120);
+        expect(settings.url).toEqual("test");
     });
 
     it("Should be poassible to pass a partial AuthenticationSettings object to use for values.", () => {
@@ -65,14 +82,14 @@ describe("AutocompleteSettings basics", () => {
 
         expect(settings).toBeDefined();
         expect(settings instanceof AuthenticationSettings).toBeTruthy();
-        expect (settings.enabled).toBeTruthy();
-        expect (settings.cbRequest).toBeUndefined();
-        expect (settings.cbError).toBeDefined();
-        expect (settings.cbSuccess).toBeDefined();
-        expect (settings.token).toEqual(jwtToken);
-        expect (settings.tokenPath).toContain("jwtToken");
-        expect (settings.triggers.expiryOverlap).toEqual(60);
-        expect (settings.url).toEqual("/auth/token");
+        expect(settings.enabled).toBeFalsy();
+        expect(settings.cbRequest).toBeUndefined();
+        expect(settings.cbError).toBeDefined();
+        expect(settings.cbSuccess).toBeDefined();
+        expect(settings.token).toEqual(jwtToken);
+        expect(settings.tokenPath).toContain("jwtToken");
+        expect(settings.triggers.expiryOverlap).toEqual(60);
+        expect(settings.url).toEqual("auth/token");
     });
 
 });

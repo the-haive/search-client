@@ -14,7 +14,7 @@ describe("BestBetsSettings basics", () => {
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
         expect (settings.cbSuccess).toBeUndefined();
-        expect (settings.url).toEqual("/manage/bestbets");
+        expect (settings.url).toEqual("manage/bestbets");
     });
 
     it("Should be poassible to pass in an BestBetsSettings object to use for values.", () => {
@@ -34,7 +34,7 @@ describe("BestBetsSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.url).toEqual("/test/");
+        expect (settings.url).toEqual("test");
     });
 
     it("Should be poassible to pass a partial BestBetsSettings object to use for values.", () => {
@@ -54,7 +54,7 @@ describe("BestBetsSettings basics", () => {
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
         expect (settings.cbSuccess).toBeDefined();
-        expect (settings.url).toEqual("/manage/bestbets");
+        expect (settings.url).toEqual("manage/bestbets");
     });
 
 });

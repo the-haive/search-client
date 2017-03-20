@@ -19,7 +19,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(3);
-        expect (settings.url).toEqual("/autocomplete");
+        expect (settings.url).toEqual("autocomplete");
     });
 
     it("Should be poassible to pass in an AutocompleteSettings object to use for values.", () => {
@@ -51,7 +51,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
-        expect (settings.url).toEqual("/test/");
+        expect (settings.url).toEqual("test");
     });
 
     it("Should be poassible to pass a partial AutocompleteSettings object to use for values.", () => {
@@ -75,7 +75,7 @@ describe("AutocompleteSettings basics", () => {
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(3);
-        expect (settings.url).toEqual("/autocomplete");
+        expect (settings.url).toEqual("autocomplete");
     });
 
 });

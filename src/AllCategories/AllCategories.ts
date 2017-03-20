@@ -16,7 +16,6 @@ import { AllCategoriesSettings } from './AllCategoriesSettings';
  * 
  * We may or may not extend this in the future.
  */
-
 export class AllCategories extends BaseCall<Categories> {
 
     /**
@@ -25,8 +24,10 @@ export class AllCategories extends BaseCall<Categories> {
      * @param settings - The settings for how the AllCategories instance is to behave.
      * @param auth - An object that controls the authentication for the lookups.
      */
-    constructor(baseUrl: string, protected settings: AllCategoriesSettings = new AllCategoriesSettings(), auth?: AuthToken) {
+    constructor(baseUrl: string, protected settings?: AllCategoriesSettings, auth?: AuthToken) {
         super(baseUrl, new AllCategoriesSettings(settings), auth);
+
+        this.settings = new AllCategoriesSettings(settings);
     }
 
     /**
@@ -36,9 +37,9 @@ export class AllCategories extends BaseCall<Categories> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a Categories object.
      */
-    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Categories> {
+    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<Categories> {
 
-        let url = this.baseUrl + this.settings.url;
+        let url = `${this.baseUrl}/${this.settings.url}`;
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {

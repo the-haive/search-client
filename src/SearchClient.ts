@@ -58,37 +58,37 @@ export class SearchClient implements AuthToken {
     /**
      * Holds a reference to the setup AllCategories service.
      */
-    public allCategories: AllCategories;
+    public allCategories: AllCategories = undefined;
 
     /**
      * Holds a reference to the setup Authentication service.
      */
-    public authentication: Authentication;
+    public authentication: Authentication = undefined;
 
     /**
      * Holds a reference to the currently set authentication token.
      */
-    public authenticationToken: string;
+    public authenticationToken: string = undefined;
 
     /**
      * Holds a reference to the setup Autocomplete service.
      */
-    public autocomplete: Autocomplete;
+    public autocomplete: Autocomplete = undefined;
 
     /**
      * Holds a reference to the setup BestBet service.
      */
-    public bestBets: BestBets;
+    public bestBets: BestBets = undefined;
 
     /**
      * Holds a reference to the setup Categorize service.
      */
-    public categorize: Categorize;
+    public categorize: Categorize = undefined;
     
     /**
      * Holds a reference to the setup Find service.
      */
-    public find: Find;
+    public find: Find = undefined;
 
     // tslint:disable-next-line:variable-name
     private _clientCategoryFilters: { [ key: string ]: string | RegExp } = { };

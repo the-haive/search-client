@@ -14,7 +14,7 @@ describe("Settings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof Settings).toBeTruthy();
         expect(settings.allCategories.enabled).toBeTruthy();
-        expect(settings.authentication.enabled).toBeTruthy();
+        expect(settings.authentication.enabled).toBeFalsy();
         expect(settings.autocomplete.enabled).toBeTruthy();
         expect(settings.bestBets.enabled).toBeTruthy();
         expect(settings.categorize.enabled).toBeTruthy();

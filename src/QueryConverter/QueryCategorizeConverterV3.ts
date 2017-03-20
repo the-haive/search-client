@@ -4,6 +4,9 @@ import { OrderBy, SearchType, Query } from '../Common';
 
 import { QueryConverter } from './';
 
+/**
+ * Class to handle creating categorize lookups for restservice version 3.
+ */
 export class QueryCategorizeConverterV3 implements QueryConverter {
  
     /**

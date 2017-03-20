@@ -33,8 +33,11 @@ export class Categorize extends BaseCall<Categories> {
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
-    constructor(baseUrl: string, protected settings: CategorizeSettings = new CategorizeSettings(), auth?: AuthToken) {
+    constructor(baseUrl: string, protected settings?: CategorizeSettings, auth?: AuthToken) {
         super(baseUrl, new CategorizeSettings(settings), auth);
+
+        this.settings = new CategorizeSettings(settings);
+        
         this.queryConverter = this.settings.version === 2 ? new QueryCategorizeConverterV2() : new QueryCategorizeConverterV3();
     }
 
@@ -44,7 +47,7 @@ export class Categorize extends BaseCall<Categories> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a Categories object.
      */
-    public fetch(query: Query, suppressCallbacks: boolean = false): Promise<Categories> {
+    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<Categories> {
 
         let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
@@ -80,7 +83,7 @@ export class Categorize extends BaseCall<Categories> {
      };
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.triggers.clientIdChanged) {
+        if (this.settings.cbSuccess && this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }

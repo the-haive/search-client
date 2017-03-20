@@ -17,8 +17,7 @@ describe("SearchClient basics", () => {
     it("Should be able to create SearchClient instance", () => {
         let searchClient = new SearchClient("http://localhost:9950");
         expect(typeof searchClient).toBe("object");
-        //expect(searchClient.baseUrl).toEqual("http://localhost:9950");
-        expect(searchClient.find.baseUrl).toEqual("http://localhost:9950/RestService/v3/");
+        expect(searchClient.find.baseUrl).toEqual("http://localhost:9950/RestService/v3");
         
     });
 
@@ -43,8 +42,8 @@ describe("SearchClient basics", () => {
         expect(typeof searchClient.allCategories).toBe("object");
         expect(searchClient.allCategories instanceof AllCategories).toBeTruthy();
 
-        expect(typeof searchClient.authentication).toBe("object");
-        expect(searchClient.authentication instanceof Authentication).toBeTruthy();
+        expect(typeof searchClient.authentication).not.toBe("object");
+        expect(searchClient.authentication instanceof Authentication).toBeFalsy();
 
         expect(typeof searchClient.autocomplete).toBe("object");
         expect(searchClient.autocomplete instanceof Autocomplete).toBeTruthy();
@@ -200,8 +199,6 @@ describe("SearchClient basics", () => {
         // go
         expect(client.findAndCategorize).toBeDefined();
         // TODO: client.findAndCategorize();
-        
-        expect(client.findAndCategorize).toBeDefined();
 
         let now = new Date();
         let qConverter = (<any> new QueryFindConverterV3());
@@ -225,13 +222,14 @@ describe("SearchClient basics", () => {
     it("Search instance with empty settings should have expected query interfaces", () => {
         let settings = new Settings({
             find: {
-                cbSuccess: <any> jest.fn(),
+                cbRequest: jest.fn(() => {return false; } ),
+                cbSuccess: jest.fn(),
                 triggers: {
                     queryChange: true,
                     queryChangeInstantRegex: /\S $/,
                 },
             },
-        } as Settings);
+        });
 
         let client = new SearchClient("http://localhost:9950", settings);
         let pClient = <any> client;

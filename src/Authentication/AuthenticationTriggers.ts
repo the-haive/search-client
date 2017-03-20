@@ -1,3 +1,6 @@
+/**
+ * These are the triggers that define when and when not to trigger an authentication lookup.
+ */
 export class AuthenticationTriggers {
 
     /**
@@ -7,9 +10,11 @@ export class AuthenticationTriggers {
 
     /**
      * Creates an AuthenticationTrigger object for you, based on AuthenticationTrigger defaults and the overrides provided as a param.
-     * @param authenticationTrigger - The trigger defined here will override the default AuthenticationTrigger.
+     * @param triggers - The triggers defined here will override the default AuthenticationTriggers.
      */
-    constructor(authenticationTriggers?: AuthenticationTriggers) {
-        Object.assign(this, authenticationTriggers);
+    constructor(triggers?: AuthenticationTriggers) {
+        if (triggers) {
+            this.expiryOverlap = typeof triggers.expiryOverlap !== "undefined" ? triggers.expiryOverlap : this.expiryOverlap;
+        }
     }
 }

@@ -156,13 +156,23 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="versionpathsettings.html">VersionPathSettings</a>.<a href="versionpathsettings.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L37">Common/BaseSettings.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L37">Common/BaseSettings.ts:37</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles the construction of the base-settings class with its properties.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> settings: <a href="basesettings.html" class="tsd-signature-type">BaseSettings</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TDataType</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The settings that are to be set up for the base settings class.</p>
+										</div>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="basesettings.html" class="tsd-signature-type">BaseSettings</a></h4>
@@ -178,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">cb<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L31">Common/BaseSettings.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L13">Common/BaseSettings.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +229,7 @@
 					<div class="tsd-signature tsd-kind-icon">cb<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L25">Common/BaseSettings.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L26">Common/BaseSettings.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -270,7 +280,7 @@
 					<div class="tsd-signature tsd-kind-icon">cb<wbr>Success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;undefined</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L37">Common/BaseSettings.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L32">Common/BaseSettings.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -311,7 +321,7 @@
 					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/BaseSettings.ts#L12">Common/BaseSettings.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/BaseSettings.ts#L37">Common/BaseSettings.ts:37</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -327,13 +337,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="versionpathsettings.html">VersionPathSettings</a>.<a href="versionpathsettings.html#path">path</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L13">Common/VersionPathSettings.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L17">Common/VersionPathSettings.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>You can use this path to override the path to the rest-service.
-							The default is &quot;RestService/v{version}&quot;.</p>
+								If not set, it will default to &quot;RestService/v&quot; and whatever <code>this.version</code> is set to.
+							If it is set it will use the set path verbatim, without appending <code>this.version</code>.</p>
 						</div>
 					</div>
 				</section>
@@ -344,7 +355,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="versionpathsettings.html">VersionPathSettings</a>.<a href="versionpathsettings.html#version">version</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/882c318/src/Common/VersionPathSettings.ts#L7">Common/VersionPathSettings.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/f912698/src/Common/VersionPathSettings.ts#L10">Common/VersionPathSettings.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">

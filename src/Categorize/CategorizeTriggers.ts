@@ -1,5 +1,8 @@
 import { BaseTriggers } from '../Common/BaseTriggers';
 
+/**
+ * These are the triggers that define when and when not to trigger a categorize lookup.
+ */
 export class CategorizeTriggers extends BaseTriggers {
     
     /**
@@ -28,25 +31,6 @@ export class CategorizeTriggers extends BaseTriggers {
     public filterChanged?: boolean = true;
 
     /**
-     * Min length before triggering. For Categorize (and Find) this should be ok with short queries too. 
-     * One character followed by an enter (default).
-     * 
-     * Note: Requires queryChanged to be true.
-     */
-    public queryChangeMinLength?: number = 2;
-
-    /** 
-     * Triggers action immediately instead of delayed when the query matches the regex.
-     * 
-     * Note: Requires queryChanged to be true.
-     * Note: Requires query to be longer than queryMinLength.
-     * 
-     * Default: Trigger on first ENTER after non-whitespace (i.e. user presses enter at the end of the query-field, 
-     * if it is a "multiline"" and accepts the enter").
-     */
-    public queryChangeInstantRegex?: RegExp = /\S\n$/;
-
-    /**
      * Delay triggers until changes has not been made to the query for a certain time (milliseconds). 
      * This is to avoid executing searches constantly while the user is typing.
      * The queryChangeInstantRegex has precedence. This delay is only considered when that regex doesn't match.
@@ -56,8 +40,30 @@ export class CategorizeTriggers extends BaseTriggers {
      * Note: Requires query to be longer than queryMinLength.
      * 
      * Default for Categorize is to not run delayed lookups and instead only do that for queryChangeInstantRegex matches.
+     * @override BaseTriggers
      */
     public queryChangeDelay?: number = -1;    
+
+    /** 
+     * Triggers action immediately instead of delayed when the query matches the regex.
+     * 
+     * Note: Requires queryChanged to be true.
+     * Note: Requires query to be longer than queryMinLength.
+     * 
+     * Default: Trigger on first ENTER after non-whitespace (i.e. user presses enter at the end of the query-field, 
+     * if it is a "multiline"" and accepts the enter").
+     * @override BaseTriggers
+     */
+    public queryChangeInstantRegex?: RegExp = /\S\n$/;
+
+    /**
+     * Min length before triggering. For Categorize (and Find) this should be ok with short queries too. 
+     * One character followed by an enter (default).
+     * 
+     * Note: Requires queryChanged to be true.
+     * @override BaseTriggers
+     */
+    public queryChangeMinLength?: number = 2;
 
     /**
      * Triggers when the searchType property has changed.
@@ -67,11 +73,22 @@ export class CategorizeTriggers extends BaseTriggers {
     /**
      * Creates a CategorizeTrigger object for you, based on CategorizeTrigger defaults and the overrides provided as a param.
      * 
-     * @param categorizeTrigger - The trigger defined here will override the default CategorizeTrigger.
+     * @param triggers - The triggers defined here will override the default CategorizeTrigger.
      */
-    constructor(categorizeTrigger?: CategorizeTriggers) {
-        super();
-        Object.assign(this, categorizeTrigger);
+    constructor(triggers?: CategorizeTriggers) {
+        super(triggers);
+
+        if (triggers) {
+            this.clientCategoryFilterChanged = typeof triggers.clientCategoryFilterChanged !== "undefined" ? triggers.clientCategoryFilterChanged : this.clientCategoryFilterChanged;
+            this.clientIdChanged = typeof triggers.clientIdChanged !== "undefined" ? triggers.clientIdChanged : this.clientIdChanged;
+            this.dateFromChanged = typeof triggers.dateFromChanged !== "undefined" ? triggers.dateFromChanged : this.dateFromChanged;
+            this.dateToChanged = typeof triggers.dateToChanged !== "undefined" ? triggers.dateToChanged : this.dateToChanged;
+            this.filterChanged = typeof triggers.filterChanged !== "undefined" ? triggers.filterChanged : this.filterChanged;
+            this.queryChangeDelay = typeof triggers.queryChangeDelay !== "undefined" ? triggers.queryChangeDelay : this.queryChangeDelay;
+            this.queryChangeInstantRegex = typeof triggers.queryChangeInstantRegex !== "undefined" ? triggers.queryChangeInstantRegex : this.queryChangeInstantRegex;
+            this.queryChangeMinLength = typeof triggers.queryChangeMinLength !== "undefined" ? triggers.queryChangeMinLength : this.queryChangeMinLength;
+            this.searchTypeChanged = typeof triggers.searchTypeChanged !== "undefined" ? triggers.searchTypeChanged : this.searchTypeChanged;
+        }
     }
 
 }
