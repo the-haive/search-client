@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.4"></a>
+## [0.9.4](https://github.com/IntelliSearch/search-client/compare/v0.9.3...v0.9.4) (2017-03-23)
+
+
+### Bug Fixes
+
+* Fixed defaults for OrderBy [#5](https://github.com/IntelliSearch/search-client/issues/5). dateFrom and dateTo can be set independently of each other. ([4cf2b9b](https://github.com/IntelliSearch/search-client/commit/4cf2b9b))
+
+
+
 <a name="0.9.3"></a>
 ## [0.9.3](https://github.com/IntelliSearch/search-client/compare/v0.9.2...v0.9.3) (2017-03-20)
 
