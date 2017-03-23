@@ -37,7 +37,7 @@ export class AllCategories extends BaseCall<Categories> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a Categories object.
      */
-    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<Categories> {
+    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<Categories> {
 
         let url = `${this.baseUrl}/${this.settings.url}`;
         let reqInit = this.requestObject();

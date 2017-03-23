@@ -32,7 +32,7 @@ export class BestBets extends BaseCall<string[]> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns an array of strings that represent the bests-bets.
      */
-    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<string[]> {
+    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string[]> {
 
         let url = `${this.baseUrl}/${this.settings.url}`;
         let reqInit = this.requestObject();

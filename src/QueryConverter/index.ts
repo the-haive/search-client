@@ -1,3 +1,4 @@
+export * from './QueryBaseConverter';
 export * from './QueryConverter';
 export * from './QueryCategorizeConverterV2';
 export * from './QueryCategorizeConverterV3';

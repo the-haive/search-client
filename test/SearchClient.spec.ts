@@ -323,7 +323,7 @@ describe("SearchClient basics", () => {
         client.queryText = "test\n";
         expect(mockFindRequest).toHaveBeenCalledTimes(1); 
         expect(mockCatRequest).toHaveBeenCalledTimes(1); 
-        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?o=Relevance&q=test%0A&s=10&t=Keywords");
+        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=0&q=test%0A&s=10&t=Keywords");
         expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
     });
 });

@@ -49,7 +49,7 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
-    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<string[]> {
+    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string[]> {
 
         let url = this.toUrl(query);
         let reqInit = this.requestObject();

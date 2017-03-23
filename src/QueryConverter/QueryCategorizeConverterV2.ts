@@ -2,12 +2,12 @@ import * as moment from 'moment/moment';
 
 import { OrderBy, SearchType, Query } from '../Common';
 
-import { QueryConverter } from './';
+import { QueryBaseConverter, QueryConverter } from './';
 
 /**
  * Class to handle creating categorize lookups for restservice version 2.
  */
-export class QueryCategorizeConverterV2 implements QueryConverter {
+export class QueryCategorizeConverterV2 extends QueryBaseConverter implements QueryConverter {
 
     /**
      * Returns the url for version 2 of the REST API.
@@ -27,19 +27,12 @@ export class QueryCategorizeConverterV2 implements QueryConverter {
      * fit for Categorize V2.
      */
     protected getUrlParams(query: Query): string[] {
-        let params = [];
+        let params: string[] = [];
 
-        if (query.searchType != null) {
-            params.push(`t=${encodeURIComponent(SearchType[query.searchType])}`);
-        }
-
-        if (query.filters.length > 0) {
-            params.push(`f=${encodeURIComponent(query.filters.join(';'))}`);
-        }
-
-        if (query.clientId) {
-            params.push(`c=${encodeURIComponent(query.clientId)}`);
-        }
+        // Note: Not adding queryText here, as in v2 that is added in the getUrl call above.
+        this.addParamIfSet(params, 'c', query.clientId);
+        this.addParamIfSet(params, 'f', query.filters.join(';'));
+        this.addParamIfSet(params, 't', SearchType[query.searchType]);
 
         return params;
     }

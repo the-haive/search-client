@@ -17,9 +17,9 @@
     "test:watch": "yarn test -- --watch",
     "coverage": "yarn test -- --coverage --no-cache",
     "coverage:watch": "yarn run coverage -- --watch",
-    "predocs": "node prepare-docs.js",
+    "predocs": "node docs-prepare.js",
     "docs": "echo \"*** Documenting...\" && yarn run rimraf -- docs && yarn run typedoc -- ./src/ --readme ./tmp/docs/INDEX.md --ignoreCompilerErrors --excludePrivate --mode file --experimentalDecorators --target ES6 --out ./docs/ && echo \"*** Documentation created: ./docs/index.html\"",
-    "postdocs": "yarn run rimraf -- ./tmp/docs",
+    "postdocs": "yarn run rimraf -- ./tmp/docs && node docs-finalize.js",
     "prepack": "yarn run build && yarn run test && yarn run docs && echo \"*** Prepack success.\" && echo \"- If ready to release, commit changes and then 'yarn run pack'.\" && echo \"- Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md`\"",
     "pack": "echo \"*** Packing...\" && yarn run standard-version && yarn pack && echo \"Pack success.\" && echo \"- Release notes created and committed.\" && echo \"- Package created.\" && echo \"- Remember to git-push commits and tags to the git-origin!\" && echo \"- Run 'npm publish' to publish the package to the npmjs repository.\""
   },
@@ -44,18 +44,19 @@
   "homepage": "https://github.com/intellisearch/search-client#readme",
   "devDependencies": {
     "@types/jest": "^19.2.2",
-    "@types/node": "^7.0.8",
+    "@types/node": "^7.0.10",
     "babel-core": "^6.24.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.24.0",
     "concat-files": "^0.1.1",
     "jest": "^19.0.2",
+    "replace-in-file": "^2.5.0",
     "rimraf": "~2.6.0",
     "simplifyify": "~3.2.1",
     "standard-version": "~4.0.0",
     "ts-jest": "19.0.1",
     "tslint": "^4.5.1",
-    "typedoc": "^0.5.7",
+    "typedoc": "^0.5.9",
     "typescript": "2.1.6"
   },
   "dependencies": {
@@ -67,7 +68,7 @@
     "deep-equal": "^1.0.1",
     "domain-task": "~3.0.0",
     "jwt-simple": "^0.5.1",
-    "moment": "^2.18.0",
+    "moment": "^2.18.1",
     "valid-url": "~1.0.9"
   },
   "jest": {

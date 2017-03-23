@@ -46,7 +46,7 @@ export class Authentication extends BaseCall<any> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a jwt token.
      */
-    public fetch(query?: Query, suppressCallbacks: boolean = false): Promise<string> {
+    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string> {
 
         let url = `${this.baseUrl}/${this.settings.url}`;
         let reqInit = this.requestObject();

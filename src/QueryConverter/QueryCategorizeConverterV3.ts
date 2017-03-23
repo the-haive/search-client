@@ -2,12 +2,12 @@ import * as moment from 'moment/moment';
 
 import { OrderBy, SearchType, Query } from '../Common';
 
-import { QueryConverter } from './';
+import { QueryBaseConverter, QueryConverter } from './';
 
 /**
  * Class to handle creating categorize lookups for restservice version 3.
  */
-export class QueryCategorizeConverterV3 implements QueryConverter {
+export class QueryCategorizeConverterV3 extends QueryBaseConverter implements QueryConverter {
  
     /**
      * Returns the url for version 3 of the REST API.
@@ -27,34 +27,23 @@ export class QueryCategorizeConverterV3 implements QueryConverter {
      * fit for Categorize V3.
      */
     protected getUrlParams(query: Query): string[] {
+        let params: string[] = [];
 
-        let params = [];
-
-        if (query.queryText) {
-            params.push(`q=${encodeURIComponent(query.queryText)}`);
-        }
-
-        if (query.searchType != null) {
-            params.push(`t=${encodeURIComponent(SearchType[query.searchType])}`);
-        }
-
-        if (query.filters.length > 0) {
-            params.push(`f=${encodeURIComponent(query.filters.join(';'))}`);
-        }
-
-        if (query.clientId) {
-            params.push(`c=${encodeURIComponent(query.clientId)}`);
-        }
-
-        if (query.dateFrom && query.dateTo) {
-            params.push(`df=${encodeURIComponent(this.createDate(query.dateFrom))}`);
-            params.push(`dt=${encodeURIComponent(this.createDate(query.dateTo))}`);
-        }
+        this.addParamIfSet(params, 'c', query.clientId);
+        this.addParamIfSet(params, 'df', this.createDate(query.dateFrom));
+        this.addParamIfSet(params, 'dt', this.createDate(query.dateTo));
+        this.addParamIfSet(params, 'f', query.filters.join(';'));
+        this.addParamIfSet(params, 'q', query.queryText);
+        this.addParamIfSet(params, 't', SearchType[query.searchType]);
 
         return params;
     }
 
-     private createDate(date: Date | string | number | moment.DurationInputObject): string {
+    private createDate(date: Date | string | number | moment.DurationInputObject): string {
+        if (!date) {
+            return "";
+        }
+
         let dateString: string;
         if (typeof date === "object" && !(date instanceof String) && !(date instanceof Date)) {
             dateString = moment().add(date).toISOString();

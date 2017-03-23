@@ -14,21 +14,10 @@ export class QueryFindConverterV2 extends QueryCategorizeConverterV2 {
     protected getUrlParams(query: Query): string[] {
         let params = super.getUrlParams(query);
         
-        if (query.matchPageSize) {
-            params.push(`s=${encodeURIComponent(query.matchPageSize.toString())}`);
-        }
-
-        if (query.matchPage) {
-            params.push(`p=${encodeURIComponent(query.matchPage.toString())}`);
-        }
-
-        if (query.matchGrouping) {
-            params.push(`g=${encodeURIComponent(query.matchGrouping.toString())}`);
-        }
-
-        if (query.matchOrderBy != null) {
-            params.push(`o=${encodeURIComponent(OrderBy[query.matchOrderBy])}`);
-        }
+        this.addParamIfSet(params, 'g', query.matchGrouping);
+        this.addParamIfSet(params, 'o', OrderBy[query.matchOrderBy]);
+        this.addParamIfSet(params, 'p', query.matchPage);
+        this.addParamIfSet(params, 's', query.matchPageSize);
 
         return params;
     }
