@@ -4,6 +4,7 @@ import { DateSpecification } from '../Common/Query';
 import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
+import { Filter } from '../Common/Filter';
 import { Query } from '../Common/Query';
 import { QueryConverter, QueryFindConverterV2, QueryFindConverterV3 } from '../QueryConverter';
 import { Matches } from '../Data/Matches';
@@ -86,7 +87,7 @@ export class Find extends BaseCall<Matches> {
         }
     }
      
-    public filtersChanged(oldValue: string[], query: Query) { 
+    public filtersChanged(oldValue: Filter[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
             this.update(query);
         }

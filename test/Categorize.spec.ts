@@ -12,7 +12,7 @@ import { CategorizeSettings } from '../src/Categorize/CategorizeSettings';
 import { CategorizeTriggers } from '../src/Categorize/CategorizeTriggers';
 import { Categories, Group } from '../src/Data';
 
-let reference: Categories = require('./data/categories.json');
+const reference: Categories = require('./data/categories.json');
 
 function sanityCheck(categories: Categories) {
     expect(categories.groups.length).toEqual(4);
@@ -264,7 +264,7 @@ describe("Categorize basics", () => {
             System: /---/,
             ModifiedDate: /---/,
             Author: /---/,
-            FileType: /DOC/,
+            FileType: /Word/,
         };
 
         let results: Categories = pClient.filterCategories(workCopy);
@@ -383,7 +383,7 @@ describe("Categorize basics", () => {
             ModifiedDate_2014: /.*/,
             ModifiedDate: /201\d/,
             Author: "la",
-            FileType: /DOC|PDF/,
+            FileType: /(PDF)|(Word)/,
         };
 
         sanityCheck(workCopy);
@@ -399,7 +399,6 @@ describe("Categorize basics", () => {
         expect(catResults.groups[0].categories[0].expanded).toEqual(reference.groups[0].categories[0].expanded);
         expect(catResults.groups[0].categories[0].children.length).toEqual(reference.groups[0].categories[0].children.length);
 
-        //console.log(catResults.groups[1]);
         expect(catResults.groups[1].name).toEqual("Author");
         expect(catResults.groups[1].expanded).toEqual(true);
         expect(catResults.groups[1].categories.length).toEqual(4);
@@ -439,7 +438,6 @@ describe("Categorize basics", () => {
         expect(catResults.groups[3].categories[1].name).toEqual("PDF");
         expect(catResults.groups[3].categories[1].expanded).toEqual(true);
         expect(catResults.groups[3].categories[1].children.length).toEqual(0);
-
     });
 
     it("Should be possible to change the clientCategoryFilterSepChar setting in the SearchClient", () => {
@@ -468,7 +466,7 @@ describe("Categorize basics", () => {
             "ModifiedDate|2014": /.*/,
             "ModifiedDate": /201\d/,
             "Author": "la",
-            "FileType": /DOC|PDF/,
+            "FileType": /(PDF)|(Word)/,
         };
 
         sanityCheck(workCopy);
@@ -520,6 +518,89 @@ describe("Categorize basics", () => {
         expect(catResults.groups[3].categories[1].name).toEqual("PDF");
         expect(catResults.groups[3].categories[1].expanded).toEqual(true);
         expect(catResults.groups[3].categories[1].children.length).toEqual(0);
+    });
+
+    it("Should be possible to use the createCategoryFilter method to create filters, with string[] input", () => {
+        let client = new SearchClient("http://localhost:9950");
+        client.categorize.categories = reference;
+        expect(client.filters).toHaveLength(0);
+        const filterSystemFile = client.categorize.createCategoryFilter(["System", "File", "Testdata", "Norway"]);
+        expect(filterSystemFile.displayName.length).toEqual(4);
+        expect(filterSystemFile.displayName[0]).toEqual("Kilde");
+        expect(filterSystemFile.displayName[1]).toEqual("Filer");
+        expect(filterSystemFile.displayName[2]).toEqual("Test data");
+        expect(filterSystemFile.displayName[3]).toEqual("Norge");
+        expect(filterSystemFile.category.categoryName[0]).toEqual("System");
+        expect(filterSystemFile.category.categoryName[1]).toEqual("File");
+        expect(filterSystemFile.category.categoryName[2]).toEqual("Testdata");
+        expect(filterSystemFile.category.categoryName[3]).toEqual("Norway");
+        expect(filterSystemFile.category.children.length).toEqual(0);
+        expect(filterSystemFile.category.count).toEqual(101);
+        expect(filterSystemFile.category.displayName).toEqual("Norge");
+        expect(filterSystemFile.category.expanded).toEqual(false);
+        expect(filterSystemFile.category.name).toEqual("Norway");
+        const filterAuthorLarsFrode = client.categorize.createCategoryFilter(["Author", "Lars Frode"]);
+        expect(filterAuthorLarsFrode.displayName[0]).toEqual("Forfatter");
+        expect(filterAuthorLarsFrode.displayName[1]).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.categoryName[0]).toEqual("Author");
+        expect(filterAuthorLarsFrode.category.categoryName[1]).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.children.length).toEqual(0);
+        expect(filterAuthorLarsFrode.category.count).toEqual(1);
+        expect(filterAuthorLarsFrode.category.displayName).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.expanded).toEqual(false);
+        expect(filterAuthorLarsFrode.category.name).toEqual("Lars Frode");
+        const filterFileTypeDoc = client.categorize.createCategoryFilter(["FileType", "DOC"]);
+        expect(filterFileTypeDoc.displayName[0]).toEqual("Filtype");
+        expect(filterFileTypeDoc.displayName[1]).toEqual("Word");
+        expect(filterFileTypeDoc.category.categoryName[0]).toEqual("FileType");
+        expect(filterFileTypeDoc.category.categoryName[1]).toEqual("DOC");
+        expect(filterFileTypeDoc.category.children.length).toEqual(0);
+        expect(filterFileTypeDoc.category.count).toEqual(19);
+        expect(filterFileTypeDoc.category.displayName).toEqual("Word");
+        expect(filterFileTypeDoc.category.expanded).toEqual(false);
+        expect(filterFileTypeDoc.category.name).toEqual("DOC");
+    });
+
+    it("Should be possible to use the createCategoryFilter method to create filters, with Category input", () => {
+        let client = new SearchClient("http://localhost:9950");
+        client.categorize.categories = reference;
+        expect(client.filters).toHaveLength(0);
+        const filterSystemFile = client.categorize.createCategoryFilter(reference.groups[0].categories[0].children[0].children[0]);
+        expect(filterSystemFile.displayName.length).toEqual(4);
+        expect(filterSystemFile.displayName[0]).toEqual("Kilde");
+        expect(filterSystemFile.displayName[1]).toEqual("Filer");
+        expect(filterSystemFile.displayName[2]).toEqual("Test data");
+        expect(filterSystemFile.displayName[3]).toEqual("Norge");
+        expect(filterSystemFile.category.categoryName[0]).toEqual("System");
+        expect(filterSystemFile.category.categoryName[1]).toEqual("File");
+        expect(filterSystemFile.category.categoryName[2]).toEqual("Testdata");
+        expect(filterSystemFile.category.categoryName[3]).toEqual("Norway");
+        expect(filterSystemFile.category.children.length).toEqual(0);
+        expect(filterSystemFile.category.count).toEqual(101);
+        expect(filterSystemFile.category.displayName).toEqual("Norge");
+        expect(filterSystemFile.category.expanded).toEqual(false);
+        expect(filterSystemFile.category.name).toEqual("Norway");
+        const filterAuthorLarsFrode = client.categorize.createCategoryFilter(reference.groups[1].categories[18]);
+        expect(filterAuthorLarsFrode.displayName[0]).toEqual("Forfatter");
+        expect(filterAuthorLarsFrode.displayName[1]).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.categoryName[0]).toEqual("Author");
+        expect(filterAuthorLarsFrode.category.categoryName[1]).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.children.length).toEqual(0);
+        expect(filterAuthorLarsFrode.category.count).toEqual(1);
+        expect(filterAuthorLarsFrode.category.displayName).toEqual("Lars Frode");
+        expect(filterAuthorLarsFrode.category.expanded).toEqual(false);
+        expect(filterAuthorLarsFrode.category.name).toEqual("Lars Frode");
+        const filterFileTypeDoc = client.categorize.createCategoryFilter(reference.groups[3].categories[0]);
+        expect(filterFileTypeDoc.displayName[0]).toEqual("Filtype");
+        expect(filterFileTypeDoc.displayName[1]).toEqual("Word");
+        expect(filterFileTypeDoc.category.categoryName[0]).toEqual("FileType");
+        expect(filterFileTypeDoc.category.categoryName[1]).toEqual("DOC");
+        expect(filterFileTypeDoc.category.children.length).toEqual(0);
+        expect(filterFileTypeDoc.category.count).toEqual(19);
+        expect(filterFileTypeDoc.category.displayName).toEqual("Word");
+        expect(filterFileTypeDoc.category.expanded).toEqual(false);
+        expect(filterFileTypeDoc.category.name).toEqual("DOC");
 
     });
+
 });

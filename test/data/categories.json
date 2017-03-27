@@ -22,21 +22,21 @@
 
                         ],
                         "count": 101,
-                        "displayName": "Norway",
+                        "displayName": "Norge",
                         "expanded": false,
                         "name": "Norway"
                     }],
                     "count": 101,
-                    "displayName": "Testdata",
+                    "displayName": "Test data",
                     "expanded": false,
                     "name": "Testdata"
                 }],
                 "count": 101,
-                "displayName": "Files",
+                "displayName": "Filer",
                 "expanded": false,
                 "name": "File"
             }],
-            "displayName": "System",
+            "displayName": "Kilde",
             "expanded": true,
             "name": "System"
         },
@@ -393,7 +393,7 @@
                     "name": "olsenw"
                 }
             ],
-            "displayName": "Author",
+            "displayName": "Forfatter",
             "expanded": false,
             "name": "Author"
         },
@@ -803,7 +803,7 @@
 
                     ],
                     "count": 19,
-                    "displayName": "DOC",
+                    "displayName": "Word",
                     "expanded": false,
                     "name": "DOC"
                 },
@@ -816,7 +816,7 @@
 
                     ],
                     "count": 79,
-                    "displayName": "PDF",
+                    "displayName": "Adove PDF",
                     "expanded": false,
                     "name": "PDF"
                 },
@@ -829,7 +829,7 @@
 
                     ],
                     "count": 1,
-                    "displayName": "PPT",
+                    "displayName": "Powerpoint",
                     "expanded": false,
                     "name": "PPT"
                 },
@@ -842,12 +842,12 @@
 
                     ],
                     "count": 2,
-                    "displayName": "HTML",
+                    "displayName": "Nettside",
                     "expanded": false,
                     "name": "HTML"
                 }
             ],
-            "displayName": "File type",
+            "displayName": "Filtype",
             "expanded": false,
             "name": "FileType"
         }

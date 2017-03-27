@@ -1,3 +1,5 @@
+import { Category } from '../src/Data';
+import { Filter } from '../src/Common';
 // tslint:disable-next-line:no-var-requires
 require("babel-core/register");
 require("babel-polyfill");
@@ -7,6 +9,8 @@ import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
 import { AllCategories, Authentication, Autocomplete, BestBets, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, Categories, Matches, FindSettings, FindTriggers, QueryFindConverterV3 } from '../src/SearchClient';
+
+const reference: Categories = require('./data/categories.json');
 
 describe("SearchClient basics", () => {
 
@@ -57,7 +61,9 @@ describe("SearchClient basics", () => {
         expect(typeof searchClient.find).toBe("object");
         expect(searchClient.find instanceof Find).toBeTruthy();
     });
+});
 
+describe("SearchClient settings", () => {
     it("Search instance with disabled 'services' should not have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
         let searchClient = new SearchClient("http://localhost:9950", {
             allCategories: {enabled: false},
@@ -104,44 +110,102 @@ describe("SearchClient basics", () => {
         expect(client.dateFrom).toBeNull();
         expect(client.dateTo).toBeNull();
 
-        let from = {M: -2};
-        client.dateFrom = from;
-        expect(client.dateFrom).toEqual(from);
+    });
+});
 
-        let to = {M: -1};
-        client.dateTo = to;
-        expect(client.dateTo).toEqual(to);
+describe("SearchClient filter interface", () => {
+    it("Should have working filter interfaces", () => {
+        let client = new SearchClient("http://localhost:9950");
+        client.categorize.categories = reference;
 
         // filters
         expect(client.filters).toHaveLength(0);
-        client.filters = ["test1", "test2"];
-        expect(client.filters).toContain("test1");
-        expect(client.filters).toContain("test2");
+        const filterSystemFile = client.categorize.createCategoryFilter(["System", "File", "Testdata", "Norway"]);
+        const filterAuthorLarsFrode = client.categorize.createCategoryFilter(["Author", "Lars Frode"]);
+        const filterFileTypeDoc = client.categorize.createCategoryFilter(["FileType", "DOC"]);
 
-        expect(client.filters).not.toContain("test3");
+        expect(client.filters).toHaveLength(0);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+
+        client.filterAdd(filterSystemFile);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+        expect(client.filters).toContainEqual(filterSystemFile);
+
+        client.filters = [filterSystemFile, filterAuthorLarsFrode];
         expect(client.filters).toHaveLength(2);
+        expect(client.filters).toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
         // Removing a filter that is not there should not change the list.
-        client.filterRemove("test3");
-        expect(client.filters).not.toContain("test3");
+        client.filterRemove(filterFileTypeDoc);
         expect(client.filters).toHaveLength(2);
+        expect(client.filters).toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
 
-        client.filterAdd("test3");
-        expect(client.filters).toContain("test3");
+        client.filterAdd(filterFileTypeDoc);
         expect(client.filters).toHaveLength(3);
-        // Add same filter again should not duplicate it.
-        client.filterAdd("test3");
-        expect(client.filters).toContain("test3");
-        expect(client.filters).toHaveLength(3);
-        client.filterRemove("test3");
-        expect(client.filters).not.toContain("test3");
-        client.filterRemove("test2");
-        expect(client.filters).not.toContain("test2");
-        client.filterRemove("test1");
-        expect(client.filters).not.toContain("test1");
+        expect(client.filters).toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).toContainEqual(filterFileTypeDoc);
+
+        client.filterRemove(filterFileTypeDoc);
+        expect(client.filters).toHaveLength(2);
+        expect(client.filters).toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
+        client.filterRemove(filterSystemFile);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
+        client.filterRemove(filterAuthorLarsFrode);
         expect(client.filters).toHaveLength(0);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
         // Remove same filter even when the list is empty, should not fail or change the no of items.
-        client.filterRemove("test1");
+        client.filterRemove(filterAuthorLarsFrode);
         expect(client.filters).toHaveLength(0);
+
+        // Verify filter-toggles
+        client.filterToggle(filterAuthorLarsFrode);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
+        client.filterToggle(filterFileTypeDoc);
+        expect(client.filters).toHaveLength(2);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).toContainEqual(filterFileTypeDoc);
+
+        client.filterToggle(filterAuthorLarsFrode);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).toContainEqual(filterFileTypeDoc);
+
+        // Verify that writing the filters directly works
+        client.filters = [filterAuthorLarsFrode, filterFileTypeDoc];
+        expect(client.filters).toHaveLength(2);
+        expect(client.filters).not.toContainEqual(filterSystemFile);
+        expect(client.filters).toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).toContainEqual(filterFileTypeDoc);
+    });
+
+    it("Should have working match*, queryText, searchType, findAndCategorize and date interfaces", () => {
+        let client = new SearchClient("http://localhost:9950");
+        client.categorize.categories = reference;
 
         // matchGrouping
         expect(client.matchGrouping).toBeFalsy();
@@ -198,7 +262,14 @@ describe("SearchClient basics", () => {
 
         // go
         expect(client.findAndCategorize).toBeDefined();
-        // TODO: client.findAndCategorize();
+
+        let from = {M: -2};
+        client.dateFrom = from;
+        expect(client.dateFrom).toEqual(from);
+
+        let to = {M: -1};
+        client.dateTo = to;
+        expect(client.dateTo).toEqual(to);
 
         let now = new Date();
         let qConverter = (<any> new QueryFindConverterV3());

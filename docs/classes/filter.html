@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Query | search-client</title>
+	<title>Filter | search-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,21 +56,28 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="query.html">Query</a>
+					<a href="filter.html">Filter</a>
 				</li>
 			</ul>
-			<h1>Class Query</h1>
+			<h1>Class Filter</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The Filter interface defines what information is held for a chosen category as a filter.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Query</span>
+						<span class="target">Filter</span>
 					</li>
 				</ul>
 			</section>
@@ -81,23 +88,14 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="query.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="filter.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#datefrom" class="tsd-kind-icon">date<wbr>From</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#dateto" class="tsd-kind-icon">date<wbr>To</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#filters" class="tsd-kind-icon">filters</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchorderby" class="tsd-kind-icon">match<wbr>Order<wbr>By</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchpage" class="tsd-kind-icon">match<wbr>Page</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchpagesize" class="tsd-kind-icon">match<wbr>Page<wbr>Size</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#maxsuggestions" class="tsd-kind-icon">max<wbr>Suggestions</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#querytext" class="tsd-kind-icon">query<wbr>Text</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#searchtype" class="tsd-kind-icon">search<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="filter.html#category" class="tsd-kind-icon">category</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="filter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,32 +107,40 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Query<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Filter<span class="tsd-signature-symbol">(</span>displayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, category<span class="tsd-signature-symbol">: </span><a href="../interfaces/category.html" class="tsd-signature-type">Category</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L77">Common/Query.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Filter.ts#L6">Common/Filter.ts:6</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates a Query object for you, based on Query defaults and the overrides provided as a param.</p>
+									<p>Creates a Filter instance, holding the displayName and a copy of the original Category (excluding category.children).</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="query.html" class="tsd-signature-type">Query</a></h5>
+									<h5>displayName: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The query defined here will override the default Query.</p>
+											<p>Holds an array of all displayNames for the path to this category.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>category: <a href="../interfaces/category.html" class="tsd-signature-type">Category</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>A copy/reference to the actual category selected (from what was received in the categorize call).</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="query.html" class="tsd-signature-type">Query</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="filter.html" class="tsd-signature-type">Filter</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -142,171 +148,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="clientid" class="tsd-anchor"></a>
-					<h3>client<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
+					<a name="category" class="tsd-anchor"></a>
+					<h3>category</h3>
+					<div class="tsd-signature tsd-kind-icon">category<span class="tsd-signature-symbol">:</span> <a href="../interfaces/category.html" class="tsd-signature-type">Category</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L22">Common/Query.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Filter.ts#L13">Common/Filter.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.</p>
+							<p>A copy/reference to the actual category selected (from what was received in the categorize call).</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="datefrom" class="tsd-anchor"></a>
-					<h3>date<wbr>From</h3>
-					<div class="tsd-signature tsd-kind-icon">date<wbr>From<span class="tsd-signature-symbol">:</span> <a href="../globals.html#datespecification" class="tsd-signature-type">DateSpecification</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
+					<a name="displayname" class="tsd-anchor"></a>
+					<h3>display<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L27">Common/Query.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Filter.ts#L13">Common/Filter.ts:13</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Used to specify the start date-range.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="dateto" class="tsd-anchor"></a>
-					<h3>date<wbr>To</h3>
-					<div class="tsd-signature tsd-kind-icon">date<wbr>To<span class="tsd-signature-symbol">:</span> <a href="../globals.html#datespecification" class="tsd-signature-type">DateSpecification</a><span class="tsd-signature-symbol"> =&nbsp;null</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L32">Common/Query.ts:32</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Used to specify the end date-range.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="filters" class="tsd-anchor"></a>
-					<h3>filters</h3>
-					<div class="tsd-signature tsd-kind-icon">filters<span class="tsd-signature-symbol">:</span> <a href="filter.html" class="tsd-signature-type">Filter</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L41">Common/Query.ts:41</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Use one of this query parameter to specify the filters to apply. Each filter should contain its group name
-								followed by category names, representing complete hierarchy of the category. The names specified here is derived from category Name
-								property and not its display name. When specifying multiple filters, separate them either by comma or semicolon.
-								For example: &amp;f=Authors|Sam;FileTypes|docx
-							Note the above names are case sensitive.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="matchgrouping" class="tsd-anchor"></a>
-					<h3>match<wbr>Grouping</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Grouping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L47">Common/Query.ts:47</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Decides whether or not to use the parent-grouping feature to group results.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="matchorderby" class="tsd-anchor"></a>
-					<h3>match<wbr>Order<wbr>By</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Order<wbr>By<span class="tsd-signature-symbol">:</span> <a href="../enums/orderby.html" class="tsd-signature-type">OrderBy</a><span class="tsd-signature-symbol"> =&nbsp;OrderBy.Relevance</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L52">Common/Query.ts:52</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Decides which ordering algorithm to use.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="matchpage" class="tsd-anchor"></a>
-					<h3>match<wbr>Page</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L57">Common/Query.ts:57</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The actual page to fetch. The numbering is zero-based and expects a non-negative number.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="matchpagesize" class="tsd-anchor"></a>
-					<h3>match<wbr>Page<wbr>Size</h3>
-					<div class="tsd-signature tsd-kind-icon">match<wbr>Page<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L62">Common/Query.ts:62</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The number of results per page to fetch. Expects a positive integer value.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="maxsuggestions" class="tsd-anchor"></a>
-					<h3>max<wbr>Suggestions</h3>
-					<div class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L67">Common/Query.ts:67</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The maximum number of query-suggestions to fetch.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="querytext" class="tsd-anchor"></a>
-					<h3>query<wbr>Text</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L72">Common/Query.ts:72</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The queryText that is to be used for autocomplete/find/categorize.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
-					<a name="searchtype" class="tsd-anchor"></a>
-					<h3>search<wbr>Type</h3>
-					<div class="tsd-signature tsd-kind-icon">search<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/searchtype.html" class="tsd-signature-type">SearchType</a><span class="tsd-signature-symbol"> =&nbsp;SearchType.Keywords</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L77">Common/Query.ts:77</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The type of search to perform.</p>
+							<p>Holds an array of all displayNames for the path to this category.</p>
 						</div>
 					</div>
 				</section>
@@ -379,9 +246,24 @@
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="categorizetriggers.html" class="tsd-kind-icon">Categorize<wbr>Triggers</a>
 					</li>
-					<li class=" tsd-kind-class tsd-is-external">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-is-external">
 						<a href="filter.html" class="tsd-kind-icon">Filter</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+								<a href="filter.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="filter.html#category" class="tsd-kind-icon">category</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="filter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="find.html" class="tsd-kind-icon">Find</a>
 					</li>
@@ -391,51 +273,9 @@
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="findtriggers.html" class="tsd-kind-icon">Find<wbr>Triggers</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class tsd-is-external">
+					<li class=" tsd-kind-class tsd-is-external">
 						<a href="query.html" class="tsd-kind-icon">Query</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#datefrom" class="tsd-kind-icon">date<wbr>From</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#dateto" class="tsd-kind-icon">date<wbr>To</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#filters" class="tsd-kind-icon">filters</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#matchorderby" class="tsd-kind-icon">match<wbr>Order<wbr>By</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#matchpage" class="tsd-kind-icon">match<wbr>Page</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#matchpagesize" class="tsd-kind-icon">match<wbr>Page<wbr>Size</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#maxsuggestions" class="tsd-kind-icon">max<wbr>Suggestions</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#querytext" class="tsd-kind-icon">query<wbr>Text</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
-								<a href="query.html#searchtype" class="tsd-kind-icon">search<wbr>Type</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-is-external">
 						<a href="querybaseconverter.html" class="tsd-kind-icon">Query<wbr>Base<wbr>Converter</a>
 					</li>

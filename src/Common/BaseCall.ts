@@ -6,6 +6,7 @@ import { SearchType } from '../Common/SearchType';
 import { BaseSettings } from '../Common/BaseSettings';
 import { AuthToken } from '../Authentication/AuthToken';
 
+import { Filter } from './Filter';
 import { Query } from './Query';
 
 /**
@@ -93,7 +94,7 @@ export abstract class BaseCall<TDataType> {
     public clientIdChanged(oldValue: string, query: Query): void { /* Default no implementation*/ };
     public dateFromChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
     public dateToChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
-    public filtersChanged(oldValue: string[], query: Query): void { /* Default no implementation*/ }
+    public filtersChanged(oldValue: Filter[], query: Query): void { /* Default no implementation*/ }
     public matchGroupingChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
     public matchOrderByChanged(oldValue: OrderBy, query: Query): void { /* Default no implementation*/ }
     public matchPageChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }

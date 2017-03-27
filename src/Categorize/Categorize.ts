@@ -5,6 +5,7 @@ import { BaseCall } from '../Common/BaseCall';
 import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
+import { Filter } from '../Common/Filter';
 import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3 } from '../QueryConverter';
 import { Categories, Category, Group } from '../Data';
 import { AuthToken } from '../Authentication/AuthToken';
@@ -20,7 +21,15 @@ import { CategorizeTriggers } from './CategorizeTriggers';
  */
 export class Categorize extends BaseCall<Categories> {
 
-    private categories: Categories;
+    /**
+     * This represents the last categories that was received from the backend. 
+     * 
+     * Note: Normally these are only used internally. You *can* however 
+     * populate these yourself, but if you are also executing fetches (which 
+     * the SearchClient is often doing in the automatic mode) then the contents 
+     * may be overwritten at any time. 
+     */
+    public categories: Categories;
 
     private clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
 
@@ -100,7 +109,7 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
      
-    public filtersChanged(oldValue: string[], query: Query) { 
+    public filtersChanged(oldValue: Filter[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
             this.update(query);
         }
@@ -129,6 +138,76 @@ export class Categorize extends BaseCall<Categories> {
         if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
+    }
+
+    /**
+     * Creates a Filter object based on the input id (string [] or Category). 
+     * 
+     * NB! This method does NOT apply the filter in the filters colleciton. 
+     * It is used behind the scenes by the filter* methods in SearchClient. 
+     * To apply a filter you need to use the filter* properties/methods in
+     * SearchClient.
+     * 
+     * If the category doesn't exist then the filter 
+     * will not be created.
+     * 
+     * If passing in a string[] then the value is expected to match the categoryName 
+     * property of a listed category. 
+     * 
+     * @param categoryName A string array or a Category that denotes the category to create a filter for.
+     */
+    public createCategoryFilter(categoryName: string[] | Category): Filter {
+        let catName = Array.isArray(categoryName) ? categoryName : categoryName.categoryName;
+        let result: string [] = [];
+        let path = catName.slice(0);
+        let groupId = path.splice(0, 1)[0].toLowerCase();
+
+        if (!this.categories || !this.categories.groups || this.categories.groups.length === 0) {
+            return null;
+        }
+
+        let group = this.categories.groups.find((g) => g.name.toLowerCase() === groupId);
+
+        if (!group) {
+            return null;
+        }
+
+        result.push(group.displayName);
+
+        if (group.categories.length > 0) {
+            let {displayName, ref} = this.getCategoryPathDisplayNameFromCategories(path, group.categories);
+            if (displayName && displayName.length > 0) {
+                result = result.concat(displayName);
+                return new Filter(result, ref);
+            }
+        }
+
+        return null;
+    }
+
+    private getCategoryPathDisplayNameFromCategories(categoryName: string[], categories: Category[]): {displayName: string [], ref: Category} {
+        let result: string [] = [];
+        let path = categoryName.slice(0);
+        let catId = path.splice(0, 1)[0].toLowerCase();
+
+        let category = categories.find((c) => c.name.toLowerCase() === catId);
+
+        if (!category) {
+            return null;
+        }
+
+        result.push(category.displayName);
+
+        let res: { displayName: string[], ref: Category};
+
+        if (category.children.length > 0 && path.length > 0) {
+            res = this.getCategoryPathDisplayNameFromCategories(path, category.children);
+            if (res.displayName && res.displayName.length > 0) {
+                result = result.concat(res.displayName);
+            }
+        }
+
+        return { displayName: result, ref: (res ? res.ref : category) };
     }
 
     private filterCategories(categories: Categories): Categories {

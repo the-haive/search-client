@@ -1,4 +1,5 @@
-import equal  = require('deep-equal');
+import { Category } from './Data';
+import equal = require('deep-equal');
 
 export * from './Common';
 export * from './Data';
@@ -13,6 +14,7 @@ export * from './QueryConverter';
 
 import { OrderBy } from './Common/OrderBy';
 import { SearchType } from './Common/SearchType';
+import { Filter } from './Common/Filter';
 import { DateSpecification, Query } from './Common/Query';
 
 import { AuthToken } from './Authentication/AuthToken';
@@ -165,7 +167,7 @@ export class SearchClient implements AuthToken {
      * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node 
      * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can 
      * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will 
-     * then filter the category-nodes to only match the text entered.
+     * then filter the category-nodes' displayName to only match the text entered.
      * 
      * Nodes that doesn't have any filters are returned, even if filters for other nodes are defined.
      * 
@@ -300,7 +302,7 @@ export class SearchClient implements AuthToken {
     /** 
      * Gets the currently active filters.
      */
-    get filters(): string[] {
+    get filters(): Filter[] {
         return this._query.filters;
     }
 
@@ -309,7 +311,7 @@ export class SearchClient implements AuthToken {
      * 
      * Will run trigger-checks and potentially update services.
      */
-    set filters(filters: string[]) {
+    set filters(filters: Filter[]) {
         filters = filters || [];
         let sortedFilters = filters.sort();
         if (sortedFilters.join('') !== this._query.filters.join('')) {
@@ -327,18 +329,14 @@ export class SearchClient implements AuthToken {
      * 
      * Will run trigger-checks and potentially update services.
      */
-    public filterAdd(filter: string): boolean {
-        if (this._query.filters.indexOf(filter) === -1) {
-            let oldValue = this._query.filters.slice(0);
-            this._query.filters.push(filter);
-            this._query.filters.sort();
+    public filterAdd(filter: string[] | Category | Filter): boolean {
+        let item = this.filterId(filter);
+        let foundIndex = this.filterIndex(item);
 
-            this.autocomplete.filtersChanged(oldValue, this._query);
-            this.categorize.filtersChanged(oldValue, this._query);
-            this.find.filtersChanged(oldValue, this._query);
-            
+        if (foundIndex === -1) {
+            this.doFilterAdd(item);
             return true;
-        } 
+        }
         // Filter already set
         return false;
     }
@@ -348,21 +346,37 @@ export class SearchClient implements AuthToken {
      * 
      * Will run trigger-checks and potentially update services.
      */
-    public filterRemove(filter: string): boolean {
-        const pos = this._query.filters.indexOf(filter);
-        if (pos > -1) {
-            let oldValue = this._query.filters.slice(0);
-            this._query.filters.splice(pos, 1); 
-            // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
+    public filterRemove(filter: string[] | Category | Filter): boolean {
+        let item = this.filterId(filter);
+        let foundIndex = this.filterIndex(item);
 
-            this.autocomplete.filtersChanged(oldValue, this._query);
-            this.categorize.filtersChanged(oldValue, this._query);
-            this.find.filtersChanged(oldValue, this._query);
-
+        if (foundIndex > -1) {
+            this.doFilterRemove(foundIndex);
             return true;
-        } 
-        // Filter already not set
+        }
+        // Filter already set
         return false;
+    }
+
+    /**
+     * Toggle the given filter. 
+     * 
+     * Will run trigger-checks and potentially update services.
+     * 
+     * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
+     * @return true if the filter was added, false if it was removed.
+     */
+    public filterToggle(filter: string[] | Category | Filter): boolean {
+        let item = this.filterId(filter);
+        let foundIndex = this.filterIndex(item);
+        
+        if (foundIndex > -1) {
+            this.doFilterRemove(foundIndex);
+            return false;
+        } else {
+            this.doFilterAdd(item);
+            return true;
+        }
     }
 
     /** 
@@ -633,6 +647,47 @@ export class SearchClient implements AuthToken {
         this.autocomplete.deferUpdates(state, skipPending);
         this.categorize.deferUpdates(state, skipPending);
         this.find.deferUpdates(state, skipPending);
+    }
+
+    private doFilterAdd(filter: string[]) {
+        // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
+        let newFilter = this.categorize.createCategoryFilter(filter);
+        let oldValue = this._query.filters.slice(0);
+        this._query.filters.push(newFilter);
+        this._query.filters.sort();
+        
+        this.autocomplete.filtersChanged(oldValue, this._query);
+        this.categorize.filtersChanged(oldValue, this._query);
+        this.find.filtersChanged(oldValue, this._query);
+    }
+
+    private doFilterRemove(i: number) {
+        let oldValue = this._query.filters.slice(0);
+        this._query.filters.splice(i, 1); 
+        // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
+
+        this.autocomplete.filtersChanged(oldValue, this._query);
+        this.categorize.filtersChanged(oldValue, this._query);
+        this.find.filtersChanged(oldValue, this._query);
+
+        return true;
+    }
+
+    private filterId(filter: string[] | Category | Filter): string[] {
+        let id: string[];
+        if (Array.isArray(filter)) {
+            id = filter;
+        } else if (filter instanceof Filter) {
+            id = filter.category.categoryName;
+        } else {
+            id = filter.categoryName;
+        }
+        return id;
+    }
+
+    private filterIndex(filter: string[]): number {
+        const filterString = filter.join("|");
+        return this._query.filters.findIndex((f) => f.category.categoryName.join("|") === filterString);
     }
 
 }

@@ -2,6 +2,7 @@ import moment from 'moment/moment';
 
 import { OrderBy } from './OrderBy';
 import { SearchType } from './SearchType';
+import { Filter } from './Filter';
 
 /**
  * Represents a datespecification that can either be fixed or a delta from now.
@@ -37,7 +38,8 @@ export class Query {
      * For example: &f=Authors|Sam;FileTypes|docx
      * Note the above names are case sensitive.
      */
-    public filters: string[] = [];
+    public filters: Filter[] = [];
+    //public filters: string[] = [];
 
     /**
      * Decides whether or not to use the parent-grouping feature to group results. 
