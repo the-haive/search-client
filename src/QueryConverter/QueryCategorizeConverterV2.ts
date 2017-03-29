@@ -31,7 +31,8 @@ export class QueryCategorizeConverterV2 extends QueryBaseConverter implements Qu
 
         // Note: Not adding queryText here, as in v2 that is added in the getUrl call above.
         this.addParamIfSet(params, 'c', query.clientId);
-        this.addParamIfSet(params, 'f', query.filters.join(';'));
+        let filters: string[] = query.filters.map((f) => f.category.categoryName.join('|'));
+        this.addParamIfSet(params, 'f', filters.join(';'));
         this.addParamIfSet(params, 't', SearchType[query.searchType]);
 
         return params;

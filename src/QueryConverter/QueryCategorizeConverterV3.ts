@@ -32,7 +32,8 @@ export class QueryCategorizeConverterV3 extends QueryBaseConverter implements Qu
         this.addParamIfSet(params, 'c', query.clientId);
         this.addParamIfSet(params, 'df', this.createDate(query.dateFrom));
         this.addParamIfSet(params, 'dt', this.createDate(query.dateTo));
-        this.addParamIfSet(params, 'f', query.filters.join(';'));
+        let filters: string[] = query.filters.map((f) => f.category.categoryName.join('|'));
+        this.addParamIfSet(params, 'f', filters.join(';'));
         this.addParamIfSet(params, 'q', query.queryText);
         this.addParamIfSet(params, 't', SearchType[query.searchType]);
 

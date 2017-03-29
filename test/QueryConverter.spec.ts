@@ -1,4 +1,5 @@
-import { OrderBy, SearchType } from '../src/Common';
+import { OrderBy, SearchType, Filter, Category } from '../src/SearchClient';
+
 // tslint:disable-next-line:no-var-requires
 require("babel-core/register");
 require("babel-polyfill");
@@ -9,7 +10,26 @@ const fixedQuery = new Query({
     clientId: "mobile", 
     dateFrom: "2017-03-13 09Z", 
     dateTo: "2017-03-13 09Z", 
-    filters: ["Authors|Bob", "FileTypes|docx"], 
+    filters: [ 
+        new Filter(
+            ["Forfattere", "Bob"], 
+            { 
+                categoryName: ["Authors", "Bob"],
+                displayName: "Bob", 
+                count: 1, 
+                expanded: true, 
+                name: "Bob", 
+            } as Category), 
+        new Filter(
+            ["Filtype", "Word"], 
+            { 
+                categoryName: ["FileTypes", "docx"], 
+                displayName: "Word", 
+                count: 1, 
+                expanded: true, 
+                name: "docx",
+            } as Category),
+        ], //"Authors|Bob", "FileTypes|docx"], 
     matchGrouping: true, 
     matchOrderBy: OrderBy.Date, 
     matchPage: 1, 
