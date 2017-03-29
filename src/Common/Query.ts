@@ -19,17 +19,17 @@ export class Query {
     /**
      * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
      */
-    public clientId: string = '';
+    public clientId?: string = '';
 
     /**
      * Used to specify the start date-range.
      */
-    public dateFrom: DateSpecification = null;
+    public dateFrom?: DateSpecification = null;
 
     /**
      * Used to specify the end date-range.
      */
-    public dateTo: DateSpecification = null;
+    public dateTo?: DateSpecification = null;
 
     /**
      * Use one of this query parameter to specify the filters to apply. Each filter should contain its group name 
@@ -38,43 +38,42 @@ export class Query {
      * For example: &f=Authors|Sam;FileTypes|docx
      * Note the above names are case sensitive.
      */
-    public filters: Filter[] = [];
-    //public filters: string[] = [];
+    public filters?: Filter[] = [];
 
     /**
      * Decides whether or not to use the parent-grouping feature to group results. 
      */
-    public matchGrouping: boolean = false;
+    public matchGrouping?: boolean = false;
 
     /**
      * Decides which ordering algorithm to use.
      */
-    public matchOrderBy: OrderBy = OrderBy.Relevance;
+    public matchOrderBy?: OrderBy = OrderBy.Relevance;
 
     /**
      * The actual page to fetch. The numbering is zero-based and expects a non-negative number. 
      */
-    public matchPage: number = 0;
+    public matchPage?: number = 0;
 
     /**
      * The number of results per page to fetch. Expects a positive integer value. 
      */
-    public matchPageSize: number = 10;
+    public matchPageSize?: number = 10;
 
     /**
      * The maximum number of query-suggestions to fetch.
      */
-    public maxSuggestions: number = 10;
+    public maxSuggestions?: number = 10;
 
     /**
      * The queryText that is to be used for autocomplete/find/categorize.
      */
-    public queryText: string = '';
+    public queryText?: string = '';
 
     /**
      * The type of search to perform. 
      */
-    public searchType: SearchType = SearchType.Keywords;
+    public searchType?: SearchType = SearchType.Keywords;
 
     /**
      * Creates a Query object for you, based on Query defaults and the overrides provided as a param.

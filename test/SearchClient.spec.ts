@@ -397,4 +397,54 @@ describe("SearchClient filter interface", () => {
         expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=0&q=test%0A&s=10&t=Keywords");
         expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
     });
+
+    it("Should allow using default query-values via settings", () => {
+        let urlFindResult: string;
+        let mockFindRequest = jest.fn((url: string, reqInit: RequestInit) => {
+            urlFindResult = url;
+            return false;
+        });
+
+        let urlCatResult: string;
+        let mockCatRequest = jest.fn((url: string, reqInit: RequestInit) => {
+            urlCatResult = url;
+            return false;
+        });
+
+        let mockFindSuccess = jest.fn();
+        let mockCatSuccess = jest.fn();
+
+        let client = new SearchClient("http://localhost:9950/", {
+            find: {
+                cbRequest: mockFindRequest,
+                cbSuccess: mockFindSuccess,
+            },
+            categorize: {
+                cbRequest: mockCatRequest,
+                cbSuccess: mockCatSuccess,
+            },
+            query: {
+                matchGrouping: true,
+            }
+        });
+
+        client.queryText = "test\n";
+        
+        expect(mockFindRequest).toHaveBeenCalledTimes(1); 
+        expect(mockCatRequest).toHaveBeenCalledTimes(1); 
+        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=true&o=Relevance&p=0&q=test%0A&s=10&t=Keywords");
+        expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
+
+        expect(client.matchGrouping).toBeTruthy();
+        expect(client.query.matchGrouping).toBeTruthy();
+        expect((<any> client)._query.matchGrouping).toBeTruthy();
+
+        client.findAndCategorize();
+
+        expect(client.matchGrouping).toBeTruthy();
+        expect(client.query.matchGrouping).toBeTruthy();
+        expect((<any> client)._query.matchGrouping).toBeTruthy();
+        
+    });
+
 });
