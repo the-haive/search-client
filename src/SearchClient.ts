@@ -48,7 +48,7 @@ import { Settings } from './Settings';
  * of having to write all the logics yourself the SearchClient exposes the following methods for managing your search:
  *   1. Configure callbacks in your settings-object that you pass to the SearchClient.
  *   2. Configure triggers to define when to do server-lookups and not (if you need to deviate from the defaults)
- *   3. Set query-values realtime (queryText, filters, date-ranges, etc.)
+ *   3. Set query-values real-time (queryText, filters, date-ranges, etc.)
  *   4. Receive autocomplete-suggestions, matches and categories in your callback handlers when the data is available.
  * 
  * What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger 
@@ -143,7 +143,7 @@ export class SearchClient implements AuthToken {
      * 
      * When called it will unconditionally call the fetch() method of both Categorize and Find.
      * 
-     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to awnt to list autocomplete 
+     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to want to list autocomplete 
      * suggestions when the Search-button is clicked.
      */
     public findAndCategorize(query?: Query) {
@@ -416,8 +416,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set matchPage(page: number) {
-        if (page < 0) {
-            page = 0;
+        if (page < 1) {
+            throw new Error("'matchPage' cannot be set to a value smaller than 1.");
         }
         if (page !== this._query.matchPage) {
             let oldValue = this._query.matchPage;
@@ -434,7 +434,7 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPagePrev(): boolean {
-        if (this._query.matchPage > 0) {
+        if (this._query.matchPage > 1) {
             let oldValue = this._query.matchPage;
             this._query.matchPage--;
 
@@ -476,7 +476,7 @@ export class SearchClient implements AuthToken {
      */
     set matchPageSize(pageSize: number) {
         if (pageSize < 1) {
-            pageSize = 1;
+            throw new Error("'matchPageSize' cannot be set to a value smaller than 1.");
         }
         if (pageSize !== this._query.matchPageSize) {
             let oldValue = this._query.matchPageSize;
@@ -511,7 +511,7 @@ export class SearchClient implements AuthToken {
     }
 
     /** 
-     * Gets the currently active max number of autopcomplete suggestions to get.
+     * Gets the currently active max number of autocomplete suggestions to get.
      */
     get maxSuggestions(): number {
         return this._query.maxSuggestions;
@@ -549,7 +549,7 @@ export class SearchClient implements AuthToken {
      * This is because changing the whole value will lead to each of the query-objects' properties to trigger individual 
      * events. 
      * 
-     * To avoid mutliple updates, call `deferUpdates(true)` before and deferUpdates(false) afterwards. Then at max
+     * To avoid multiple updates, call `deferUpdates(true)` before and deferUpdates(false) afterwards. Then at max
      * only one update will be generated.
      */
     set query(query: Query) {
@@ -629,14 +629,14 @@ export class SearchClient implements AuthToken {
      *     // When calling deferUpdates with (false) the above two update-events are now executed as one instead (both value-changes are accounted for though)
      *     searchClient.deferUpdates(false);
      *     
-     *     // Exmaple 3: Suppress updates (via deferUpdates):
+     *     // Example 3: Suppress updates (via deferUpdates):
      *     searchClient.deferUpdates(true);
      *     // Change a prop that should trigger updates
      *     searchClient.queryText = "some text";
      *     // Call deferUpdates with (false, true), to skip the pending update.
      *     searchClient.deferUpdates(false, true);
      *     
-     *     // Exmaple 4: Defer update only for one service (Categorize in this sample):
+     *     // Example 4: Defer update only for one service (Categorize in this sample):
      *     searchClient.categorize.deferUpdates(true);
      * 
      * @param state Turns on or off deferring of updates.

@@ -87,7 +87,7 @@
 					<ol>
 						<li>Configure callbacks in your settings-object that you pass to the SearchClient.</li>
 						<li>Configure triggers to define when to do server-lookups and not (if you need to deviate from the defaults)</li>
-						<li>Set query-values realtime (queryText, filters, date-ranges, etc.)</li>
+						<li>Set query-values real-time (queryText, filters, date-ranges, etc.)</li>
 						<li>Receive autocomplete-suggestions, matches and categories in your callback handlers when the data is available.</li>
 					</ol>
 					<p>What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger
@@ -793,7 +793,7 @@ let searchClient.clientCategoryFilters = {
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the currently active max number of autopcomplete suggestions to get.</p>
+									<p>Gets the currently active max number of autocomplete suggestions to get.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -841,7 +841,7 @@ let searchClient.clientCategoryFilters = {
 								<p><strong>Note:</strong> Changing the <code>query</code> property will likely lead to multiple trigger-checks and potential updates.
 									This is because changing the whole value will lead to each of the query-objects&#39; properties to trigger individual
 								events.</p>
-								<p>To avoid mutliple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
+								<p>To avoid multiple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
 								only one update will be generated.</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="query.html" class="tsd-signature-type">Query</a></h4>
@@ -859,7 +859,7 @@ let searchClient.clientCategoryFilters = {
 								<p><strong>Note:</strong> Changing the <code>query</code> property will likely lead to multiple trigger-checks and potential updates.
 									This is because changing the whole value will lead to each of the query-objects&#39; properties to trigger individual
 								events.</p>
-								<p>To avoid mutliple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
+								<p>To avoid multiple updates, call <code>deferUpdates(true)</code> before and deferUpdates(false) afterwards. Then at max
 								only one update will be generated.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -994,14 +994,14 @@ searchClient.dateTo = { M: <span class="hljs-number">0</span>};
 // When calling deferUpdates with (<span class="hljs-literal">false</span>) the above two update-events are now executed <span class="hljs-keyword">as</span> one instead (both value-changes are accounted <span class="hljs-keyword">for</span> though)
 searchClient.deferUpdates(<span class="hljs-literal">false</span>);
 
-// Exmaple <span class="hljs-number">3</span>: Suppress updates (via deferUpdates):
+// Example <span class="hljs-number">3</span>: Suppress updates (via deferUpdates):
 searchClient.deferUpdates(<span class="hljs-literal">true</span>);
 // Change a prop that should trigger updates
 searchClient.queryText = <span class="hljs-string">"some text"</span>;
 // Call deferUpdates with (<span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>), <span class="hljs-keyword">to</span> skip the pending <span class="hljs-keyword">update</span>.
 searchClient.deferUpdates(<span class="hljs-literal">false</span>, <span class="hljs-literal">true</span>);
 
-// Exmaple <span class="hljs-number">4</span>: Defer <span class="hljs-keyword">update</span> <span class="hljs-keyword">only</span> <span class="hljs-keyword">for</span> one service (Categorize <span class="hljs-keyword">in</span> this sample):
+// Example <span class="hljs-number">4</span>: Defer <span class="hljs-keyword">update</span> <span class="hljs-keyword">only</span> <span class="hljs-keyword">for</span> one service (Categorize <span class="hljs-keyword">in</span> this sample):
 searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 </code></pre></dd>
 								</dl>
@@ -1140,7 +1140,7 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 									only one update per service is made (if any of their trigger-checks returned true).</p>
 								</div>
 								<p>When called it will unconditionally call the fetch() method of both Categorize and Find.</p>
-								<p>Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to awnt to list autocomplete
+								<p>Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to want to list autocomplete
 								suggestions when the Search-button is clicked.</p>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>

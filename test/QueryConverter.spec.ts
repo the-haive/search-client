@@ -64,7 +64,7 @@ describe("QueryConverters", () => {
         expect(cc2.getUrl("http://localhost:9950/RestService/v2", "/search/categorize/", defaultQuery)).toEqual(expectedCatUrl);
         expect(cc2.getUrl("http://localhost:9950/RestService/v2/", "/search/categorize/", defaultQuery)).toEqual(expectedCatUrl);
 
-        const expectedFindUrl = "http://localhost:9950/RestService/v2/search/find/?g=false&o=Relevance&p=0&s=10&t=Keywords";
+        const expectedFindUrl = "http://localhost:9950/RestService/v2/search/find/?g=false&o=Relevance&p=1&s=10&t=Keywords";
         expect(cf2.getUrlParams(defaultQuery)).toHaveLength(5);
         expect(cf2.getUrl("http://localhost:9950/RestService/v2", "search/find", defaultQuery)).toEqual(expectedFindUrl);
         expect(cf2.getUrl("http://localhost:9950/RestService/v2/", "search/find", defaultQuery)).toEqual(expectedFindUrl);
@@ -110,7 +110,7 @@ describe("QueryConverters", () => {
         expect(cc3.getUrl("http://localhost:9950/RestService/v3", "/search/categorize/", defaultQuery)).toEqual(expectedCatUrl);
         expect(cc3.getUrl("http://localhost:9950/RestService/v3/", "/search/categorize/", defaultQuery)).toEqual(expectedCatUrl);
 
-        const expectedFindUrl = "http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=0&s=10&t=Keywords";
+        const expectedFindUrl = "http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=1&s=10&t=Keywords";
         expect(cf3.getUrlParams(defaultQuery)).toHaveLength(5);
         expect(cf3.getUrl("http://localhost:9950/RestService/v3", "search/find", defaultQuery)).toEqual(expectedFindUrl);
         expect(cf3.getUrl("http://localhost:9950/RestService/v3/", "search/find", defaultQuery)).toEqual(expectedFindUrl);

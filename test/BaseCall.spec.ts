@@ -2,7 +2,7 @@
 require("babel-core/register");
 require("babel-polyfill");
 
-// Need this when running in node (not in browser), to make the domain-task resolve local-url's
+// Need this when running in node (not in browser), to make the domain-task resolve local-urls.
 import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
@@ -159,7 +159,7 @@ function test(TestClass: typeof BaseCall) {
                 filters: [], 
                 matchGrouping: false, 
                 matchOrderBy: 0, 
-                matchPage: 0, 
+                matchPage: 1, 
                 matchPageSize: 10, 
                 maxSuggestions: 10, 
                 queryText: "test2", 
@@ -181,7 +181,7 @@ function test(TestClass: typeof BaseCall) {
                 filters: [], 
                 matchGrouping: false, 
                 matchOrderBy: 0, 
-                matchPage: 0, 
+                matchPage: 1, 
                 matchPageSize: 10, 
                 maxSuggestions: 10, 
                 queryText: "test2", 

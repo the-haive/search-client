@@ -4,7 +4,7 @@ import { Filter } from '../src/Common';
 require("babel-core/register");
 require("babel-polyfill");
 
-// Need this when running in node (not in browser), to make the domain-task resolve local-url's
+// Need this when running in node (not in browser), to make the domain-task resolve local-urls
 import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
 dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
 
@@ -215,14 +215,11 @@ describe("SearchClient filter interface", () => {
         expect(client.matchGrouping).toBeFalsy();
 
         // matchPage
-        expect(client.matchPage).toEqual(0);
-        client.matchPage = 1;
+        expect(() => {
+            client.matchPage = 0;
+        }).toThrow();
         expect(client.matchPage).toEqual(1);
-        client.matchPage = -1;
-        expect(client.matchPage).toEqual(0);
         client.matchPagePrev();
-        expect(client.matchPage).toEqual(0);
-        client.matchPageNext();
         expect(client.matchPage).toEqual(1);
         client.matchPageNext();
         expect(client.matchPage).toEqual(2);
@@ -230,8 +227,11 @@ describe("SearchClient filter interface", () => {
         expect(client.matchPage).toEqual(1);
 
         // matchPageSize
+        expect(() => {
+            client.matchPageSize = 0;
+        }).toThrow();
         expect(client.matchPageSize).toEqual(10);
-        client.matchPageSize = 0;
+        client.matchPageSize = 1;
         expect(client.matchPageSize).toEqual(1);
         client.matchPageSize = 10;
         expect(client.matchPageSize).toEqual(10);
@@ -394,7 +394,7 @@ describe("SearchClient filter interface", () => {
         client.queryText = "test\n";
         expect(mockFindRequest).toHaveBeenCalledTimes(1); 
         expect(mockCatRequest).toHaveBeenCalledTimes(1); 
-        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=0&q=test%0A&s=10&t=Keywords");
+        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=false&o=Relevance&p=1&q=test%0A&s=10&t=Keywords");
         expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
     });
 
@@ -425,14 +425,14 @@ describe("SearchClient filter interface", () => {
             },
             query: {
                 matchGrouping: true,
-            }
+            },
         });
 
         client.queryText = "test\n";
         
         expect(mockFindRequest).toHaveBeenCalledTimes(1); 
         expect(mockCatRequest).toHaveBeenCalledTimes(1); 
-        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=true&o=Relevance&p=0&q=test%0A&s=10&t=Keywords");
+        expect(urlFindResult).toEqual("http://localhost:9950/RestService/v3/search/find?g=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords");
         expect(urlCatResult).toEqual("http://localhost:9950/RestService/v3/search/categorize?q=test%0A&t=Keywords");
 
         expect(client.matchGrouping).toBeTruthy();

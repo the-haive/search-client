@@ -5,8 +5,8 @@ import { SearchType } from './SearchType';
 import { Filter } from './Filter';
 
 /**
- * Represents a datespecification that can either be fixed or a delta from now.
- * If the date is a moment DurationInputObject we calulcate the date in realtime when the fetch-call is executed. 
+ * Represents a date-specification that can either be fixed or a delta from now.
+ * If the date is a moment DurationInputObject we calculate the date in real-time when the fetch-call is executed. 
  * Note that the value must be an object with properties and values. I.e. { M: -1 } // One month ago
  * See http://momentjs.com/docs/#/durations/.
  * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting 
@@ -17,7 +17,7 @@ export type DateSpecification = Date | string | number | moment.DurationInputObj
 export class Query {
 
     /**
-     * Any string that you want to identify the client with. Can be used in the catgegories configuration and in the relevance tuning.
+     * Any string that you want to identify the client with. Can be used in the categories configuration and in the relevance tuning.
      */
     public clientId?: string = '';
 
@@ -51,12 +51,12 @@ export class Query {
     public matchOrderBy?: OrderBy = OrderBy.Relevance;
 
     /**
-     * The actual page to fetch. The numbering is zero-based and expects a non-negative number. 
+     * The actual page to fetch. Expects a number >= 1.
      */
-    public matchPage?: number = 0;
+    public matchPage?: number = 1;
 
     /**
-     * The number of results per page to fetch. Expects a positive integer value. 
+     * The number of results per page to fetch. Expects a number >= 1. 
      */
     public matchPageSize?: number = 10;
 

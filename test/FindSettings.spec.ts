@@ -31,7 +31,7 @@ describe("FindSettings basics", () => {
         expect (settings.url).toEqual("search/find");
     });
 
-    it("Should be poassible to pass in an FindSettings object to use for values.", () => {
+    it("Should be possible to pass in an FindSettings object to use for values.", () => {
         let settings = {
             cbError: jest.fn(),
             cbRequest: jest.fn(),
@@ -79,7 +79,7 @@ describe("FindSettings basics", () => {
         expect (settings.url).toEqual("test");
     });
 
-    it("Should be poassible to pass a partial FindSettings object to use for values.", () => {
+    it("Should be possible to pass a partial FindSettings object to use for values.", () => {
         let fnSuccess = (matches: Matches) => { /* dummy */};
 
         let settings = {
