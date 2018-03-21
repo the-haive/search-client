@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-beta.0"></a>
+# [1.0.0-beta.0](https://github.com/IntelliSearch/search-client/compare/v0.10.3...v1.0.0-beta.0) (2018-03-21)
+
+
+### Features
+
+* Support for REST interface v4 ([cd8772e](https://github.com/IntelliSearch/search-client/commit/cd8772e))
+
+
+
 <a name="0.10.3"></a>
 ## [0.10.3](https://github.com/IntelliSearch/search-client/compare/v0.10.2...v0.10.3) (2017-07-14)
 
