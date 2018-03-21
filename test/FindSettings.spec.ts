@@ -19,6 +19,8 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
+        expect (settings.triggers.matchGenerateContentChanged).toEqual(true);
+        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
         expect (settings.triggers.matchGroupingChanged).toEqual(true);
         expect (settings.triggers.matchOrderByChanged).toEqual(true);
         expect (settings.triggers.matchPageChanged).toEqual(true);
@@ -42,6 +44,7 @@ describe("FindSettings basics", () => {
                 dateFromChanged: false,
                 dateToChanged: false,
                 filterChanged: false,
+                matchGenerateContentChanged: false,
                 matchGroupingChanged: false,
                 matchOrderByChanged: false,
                 matchPageChanged: false,
@@ -67,6 +70,8 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.dateFromChanged).toEqual(false);
         expect (settings.triggers.dateToChanged).toEqual(false);
         expect (settings.triggers.filterChanged).toEqual(false);
+        expect (settings.triggers.matchGenerateContentChanged).toEqual(false);
+        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
         expect (settings.triggers.matchGroupingChanged).toEqual(false);
         expect (settings.triggers.matchOrderByChanged).toEqual(false);
         expect (settings.triggers.matchPageChanged).toEqual(false);
@@ -103,6 +108,8 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
+        expect (settings.triggers.matchGenerateContentChanged).toEqual(true);
+        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
         expect (settings.triggers.matchGroupingChanged).toEqual(false);
         expect (settings.triggers.matchOrderByChanged).toEqual(true);
         expect (settings.triggers.matchPageChanged).toEqual(true);

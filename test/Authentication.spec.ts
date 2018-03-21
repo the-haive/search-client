@@ -81,7 +81,7 @@ describe("Authentication basics", () => {
         let pAuthentication = <any> authentication;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toEqual(false);
         expect(pAuthentication.settings.cbError).toBeDefined();
@@ -113,7 +113,7 @@ describe("Authentication basics", () => {
         let pAuthentication = <any> authentication;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(authentication.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toEqual(false);
         expect(pAuthentication.settings.cbError).toBeDefined();
@@ -142,14 +142,14 @@ describe("Authentication basics", () => {
 
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual("auth/token");
         
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/auth/token");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/auth/token");
     });
 
     it("Should be able to pass new AuthenticationSettings object", () => {
@@ -167,14 +167,14 @@ describe("Authentication basics", () => {
         
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual("auth/token");
         
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/auth/token");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/auth/token");
     });
 
     it("Should be able to pass anonymous object settings", () => {
@@ -192,14 +192,14 @@ describe("Authentication basics", () => {
 
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAuthentication.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual("auth/token");
         
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/auth/token");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/auth/token");
     });
 
     it("Should call refresh for auth-token", () => {

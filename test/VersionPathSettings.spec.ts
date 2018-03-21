@@ -10,21 +10,21 @@ class VersionPathSettingsImplementation extends VersionPathSettings {
 
 describe("VersionPathSettings basics", () => {
 
-    it("Should throw for version not 2 or 3", () => {
+    it("Should throw for version not 2, 3 or 4", () => {
         expect( () => {
             let v = new VersionPathSettingsImplementation({version: 1});
         }).toThrow();
 
         expect( () => {
-            let v = new VersionPathSettingsImplementation({version: 4});
+            let v = new VersionPathSettingsImplementation({version: 5});
         }).toThrow();
     });
     
     it("Should work with default VersionPathSettings", () => {
         let v = new VersionPathSettingsImplementation();
 
-        expect(v.version).toBe(3);
-        expect(v.path).toBe("RestService/v3");
+        expect(v.version).toBe(4);
+        expect(v.path).toBe("RestService/v4");
     });
 
     it("Should work with custom v2 ", () => {
@@ -41,10 +41,17 @@ describe("VersionPathSettings basics", () => {
         expect(v.path).toBe("RestService/v3");
     });
     
+    it("Should work with custom v4 ", () => {
+        let v = new VersionPathSettingsImplementation({version: 4});
+
+        expect(v.version).toBe(4);
+        expect(v.path).toBe("RestService/v4");
+    });
+    
     it("Should work with custom path ", () => {
         let v = new VersionPathSettingsImplementation({path: "//My/Path//"});
 
-        expect(v.version).toBe(3);
+        expect(v.version).toBe(4);
         expect(v.path).toBe("My/Path");
     });
     

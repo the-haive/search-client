@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>QueryBaseConverter | search-client</title>
+	<title>QueryCategorizeConverterV4 | search-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="querybaseconverter.html">QueryBaseConverter</a>
+					<a href="querycategorizeconverterv4.html">QueryCategorizeConverterV4</a>
 				</li>
 			</ul>
-			<h1>Class QueryBaseConverter</h1>
+			<h1>Class QueryCategorizeConverterV4</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,8 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Defines the base-class for the QueryConverter class, which adds a helper to simplify param-rendering.</p>
+						<p>Class to handle creating categorize lookups for restservice version 4.
+						Note: This is just a dummy class, as v4 has no new features for the Categorize call.</p>
 					</div>
 				</div>
 			</section>
@@ -77,42 +78,53 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">QueryBaseConverter</span>
+						<a href="querycategorizeconverterv3.html" class="tsd-signature-type">QueryCategorizeConverterV3</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="querycategorizeconverterv2.html" class="tsd-signature-type">QueryCategorizeConverterV2</a>
-							</li>
-							<li>
-								<a href="querycategorizeconverterv3.html" class="tsd-signature-type">QueryCategorizeConverterV3</a>
+								<span class="target">QueryCategorizeConverterV4</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="queryfindconverterv4.html" class="tsd-signature-type">QueryFindConverterV4</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/queryconverter.html" class="tsd-signature-type">QueryConverter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-private-protected tsd-is-external">
+						<section class="tsd-index-section tsd-is-inherited tsd-is-external">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external"><a href="querybaseconverter.html#addparamifset" class="tsd-kind-icon">add<wbr>Param<wbr>IfSet</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="querycategorizeconverterv4.html#addparamifset" class="tsd-kind-icon">add<wbr>Param<wbr>IfSet</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external"><a href="querycategorizeconverterv4.html#geturl" class="tsd-kind-icon">get<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external"><a href="querycategorizeconverterv4.html#geturlparams" class="tsd-kind-icon">get<wbr>Url<wbr>Params</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected tsd-is-external">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited tsd-is-external">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 					<a name="addparamifset" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> add<wbr>Param<wbr>IfSet</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
 						<li class="tsd-signature tsd-kind-icon">add<wbr>Param<wbr>IfSet<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, param<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="querybaseconverter.html">QueryBaseConverter</a>.<a href="querybaseconverter.html#addparamifset">addParamIfSet</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/QueryConverter/QueryBaseConverter.ts#L5">QueryConverter/QueryBaseConverter.ts:5</a></li>
 								</ul>
@@ -133,6 +145,75 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+					<a name="geturl" class="tsd-anchor"></a>
+					<h3>get<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Url<span class="tsd-signature-symbol">(</span>baseUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, servicePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/queryconverter.html">QueryConverter</a>.<a href="../interfaces/queryconverter.html#geturl">getUrl</a></p>
+								<p>Inherited from <a href="querycategorizeconverterv3.html">QueryCategorizeConverterV3</a>.<a href="querycategorizeconverterv3.html#geturl">getUrl</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/QueryConverter/QueryCategorizeConverterV3.ts#L18">QueryConverter/QueryCategorizeConverterV3.ts:18</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the url for version 3 of the REST API.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>baseUrl: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>is the leading part of the url that is to be generated.</p>
+									</div>
+								</li>
+								<li>
+									<h5>servicePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="query.html" class="tsd-signature-type">Query</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+					<a name="geturlparams" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> get<wbr>Url<wbr>Params</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Url<wbr>Params<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="querycategorizeconverterv3.html">QueryCategorizeConverterV3</a>.<a href="querycategorizeconverterv3.html#geturlparams">getUrlParams</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/QueryConverter/QueryCategorizeConverterV3.ts#L29">QueryConverter/QueryCategorizeConverterV3.ts:29</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the query params to an array of key=value segments,
+									fit for Categorize V3.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>query: <a href="query.html" class="tsd-signature-type">Query</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -148,10 +229,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-is-external">
-						<a href="querybaseconverter.html" class="tsd-kind-icon">Query<wbr>Base<wbr>Converter</a>
+						<a href="querycategorizeconverterv4.html" class="tsd-kind-icon">Query<wbr>Categorize<wbr>Converter<wbr>V4</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-external">
-								<a href="querybaseconverter.html#addparamifset" class="tsd-kind-icon">add<wbr>Param<wbr>IfSet</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="querycategorizeconverterv4.html#addparamifset" class="tsd-kind-icon">add<wbr>Param<wbr>IfSet</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-external">
+								<a href="querycategorizeconverterv4.html#geturl" class="tsd-kind-icon">get<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected tsd-is-external">
+								<a href="querycategorizeconverterv4.html#geturlparams" class="tsd-kind-icon">get<wbr>Url<wbr>Params</a>
 							</li>
 						</ul>
 					</li>

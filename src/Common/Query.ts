@@ -41,6 +41,21 @@ export class Query {
     public filters?: Filter[] = [];
 
     /**
+     * Decides whether or not to request content to be generated in the response matches.
+     * 
+     * Note: Only available for v4+.
+     */
+    public matchGenerateContent?: boolean = false;
+
+    /**
+     * Decides whether or not to request highlight-tags to be included in the generated the response matches.
+     * 
+     * Note: Requires `matchGenerateContent` to be `true` to be effective.
+     * Note: Only available for v4+.
+     */
+    public matchGenerateContentHighlights?: boolean = true;
+
+    /**
      * Decides whether or not to use the parent-grouping feature to group results. 
      */
     public matchGrouping?: boolean = false;

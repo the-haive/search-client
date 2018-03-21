@@ -64,7 +64,7 @@ describe("Find basics", () => {
         let pFind = <any> find;
 
         expect(typeof pFind.auth).toBe("object");
-        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pFind.settings.enabled).toEqual(false);
         expect(pFind.settings.cbError).toBeDefined();
         expect(pFind.settings.cbRequest).toBeUndefined();
@@ -87,7 +87,7 @@ describe("Find basics", () => {
         let pFind = <any> find;
 
         expect(typeof pFind.auth).toBe("object");
-        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pFind.settings.enabled).toEqual(false);
         expect(pFind.settings.cbError).toBeDefined();
         expect(pFind.settings.cbRequest).toBeUndefined();

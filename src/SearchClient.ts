@@ -192,9 +192,9 @@ export class SearchClient implements AuthToken {
      * 
      * @example How to set the clientCategoryFilter:
      * 
-     *     let searchClient = new SearchClient("http://server:9950/");
+     *     const searchClient = new SearchClient("http://server:9950/");
      *     
-     *     let searchClient.clientCategoryFilters = {
+     *     searchClient.clientCategoryFilters = {
      *         // Show only Author-nodes with DisplayName that matches /john/.
      *         Author: /john/, 
      *         // Show only nodes in the System/File/Server node that matches /project/
@@ -208,9 +208,9 @@ export class SearchClient implements AuthToken {
      * 
      * @example The above example will with [[CategorizeSettings.clientCategoryFiltersSepChar]] set to `|` become:
      * 
-     *     let searchClient = new SearchClient("http://server:9950/");
+     *     const searchClient = new SearchClient("http://server:9950/");
      *     
-     *     let searchClient.clientCategoryFilters = {
+     *     searchClient.clientCategoryFilters = {
      *         // Show only Author-nodes with DisplayName that matches /john/.
      *         Author: /john/, 
      *         // Show only nodes in the System/File/Server node that matches /project/
@@ -220,7 +220,7 @@ export class SearchClient implements AuthToken {
      */
     set clientCategoryFilters(clientCategoryFilters: { [ key: string ]: string | RegExp }) {
         if (clientCategoryFilters !== this._clientCategoryFilters) {
-            let oldValue = this._clientCategoryFilters;
+            const oldValue = this._clientCategoryFilters;
             this._clientCategoryFilters = clientCategoryFilters;
 
             this.autocomplete.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
@@ -244,7 +244,7 @@ export class SearchClient implements AuthToken {
      */
     set clientId(clientId: string) {
         if (clientId !== this._query.clientId) {
-            let oldValue = this._query.clientId; 
+            const oldValue = this._query.clientId; 
             this._query.clientId = clientId;
 
             this.autocomplete.clientIdChanged(oldValue, this._query);
@@ -267,7 +267,7 @@ export class SearchClient implements AuthToken {
      */
     set dateFrom(dateFrom: DateSpecification) {
         if (!equal(dateFrom, this._query.dateFrom)) {
-            let oldValue = Object.assign({}, this._query.dateFrom); // clone
+            const oldValue = Object.assign({}, this._query.dateFrom); // clone
             this._query.dateFrom = dateFrom;
 
             this.autocomplete.dateFromChanged(oldValue, this._query);
@@ -290,7 +290,7 @@ export class SearchClient implements AuthToken {
      */
     set dateTo(dateTo: DateSpecification) {
         if (!equal(dateTo, this._query.dateTo)) {
-            let oldValue = Object.assign({}, this._query.dateTo); // clone
+            const oldValue = Object.assign({}, this._query.dateTo); // clone
             this._query.dateTo = dateTo;
 
             this.autocomplete.dateToChanged(oldValue, this._query);
@@ -313,9 +313,9 @@ export class SearchClient implements AuthToken {
      */
     set filters(filters: Filter[]) {
         filters = filters || [];
-        let sortedFilters = filters.sort();
+        const sortedFilters = filters.sort();
         if (sortedFilters.join('') !== this._query.filters.join('')) {
-            let oldValue = this._query.filters.slice(0); // clone
+            const oldValue = this._query.filters.slice(0); // clone
             this._query.filters = sortedFilters;
 
             this.autocomplete.filtersChanged(oldValue, this._query);
@@ -330,8 +330,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | Category | Filter): boolean {
-        let item = this.filterId(filter);
-        let foundIndex = this.filterIndex(item);
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
 
         if (foundIndex === -1) {
             this.doFilterAdd(item);
@@ -347,8 +347,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterRemove(filter: string[] | Category | Filter): boolean {
-        let item = this.filterId(filter);
-        let foundIndex = this.filterIndex(item);
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
 
         if (foundIndex > -1) {
             this.doFilterRemove(foundIndex);
@@ -367,8 +367,8 @@ export class SearchClient implements AuthToken {
      * @return true if the filter was added, false if it was removed.
      */
     public filterToggle(filter: string[] | Category | Filter): boolean {
-        let item = this.filterId(filter);
-        let foundIndex = this.filterIndex(item);
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
         
         if (foundIndex > -1) {
             this.doFilterRemove(foundIndex);
@@ -379,6 +379,60 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    /** 
+     * Gets the currently active match generateContent setting.
+     */
+    get matchGenerateContent(): boolean {
+        return this._query.matchGenerateContent;
+    }
+
+    /**
+     * Sets whether the results should generate the content or not.
+     * 
+     * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
+     * 
+     * Will run trigger-checks and potentially update services.
+     * 
+     * Note: Only effective for v4+.
+     */
+    set matchGenerateContent(generateContent: boolean) {
+        if (generateContent !== this._query.matchGenerateContent) {
+            const oldValue = this._query.matchGenerateContent;
+            this._query.matchGenerateContent = generateContent;
+
+            this.autocomplete.matchGenerateContentChanged(oldValue, this._query);
+            this.categorize.matchGenerateContentChanged(oldValue, this._query);
+            this.find.matchGenerateContentChanged(oldValue, this._query);
+        }
+    }
+    
+    /** 
+     * Gets the currently active match generateContentHighlights setting.
+     */
+    get matchGenerateContentHighlights(): boolean {
+        return this._query.matchGenerateContent;
+    }
+
+    /**
+     * Sets whether the results should generate the content-highlight tags or not.
+     * 
+     * **Note:** See the matchGenerateContent property in regards to IndexManager requirements.
+     * 
+     * Will run trigger-checks and potentially update services.
+     * 
+     * Note: Only effective for v4+.
+     */
+    set matchGenerateContentHighlights(generateContentHighlights: boolean) {
+        if (generateContentHighlights !== this._query.matchGenerateContentHighlights) {
+            const oldValue = this._query.matchGenerateContentHighlights;
+            this._query.matchGenerateContentHighlights = generateContentHighlights;
+
+            this.autocomplete.matchGenerateContentHighlightsChanged(oldValue, this._query);
+            this.categorize.matchGenerateContentHighlightsChanged(oldValue, this._query);
+            this.find.matchGenerateContentHighlightsChanged(oldValue, this._query);
+        }
+    }
+    
     /** 
      * Gets the currently active match grouping mode.
      */
@@ -395,7 +449,7 @@ export class SearchClient implements AuthToken {
      */
     set matchGrouping(useGrouping: boolean) {
         if (useGrouping !== this._query.matchGrouping) {
-            let oldValue = this._query.matchGrouping;
+            const oldValue = this._query.matchGrouping;
             this._query.matchGrouping = useGrouping;
 
             this.autocomplete.matchGroupingChanged(oldValue, this._query);
@@ -420,7 +474,7 @@ export class SearchClient implements AuthToken {
             throw new Error("'matchPage' cannot be set to a value smaller than 1.");
         }
         if (page !== this._query.matchPage) {
-            let oldValue = this._query.matchPage;
+            const oldValue = this._query.matchPage;
             this._query.matchPage = page;
 
             this.autocomplete.matchPageChanged(oldValue, this._query);
@@ -435,7 +489,7 @@ export class SearchClient implements AuthToken {
      */
     public matchPagePrev(): boolean {
         if (this._query.matchPage > 1) {
-            let oldValue = this._query.matchPage;
+            const oldValue = this._query.matchPage;
             this._query.matchPage--;
 
             this.autocomplete.matchPageChanged(oldValue, this._query);
@@ -453,7 +507,7 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPageNext(): boolean {
-        let oldValue = this._query.matchPage;
+        const oldValue = this._query.matchPage;
         this._query.matchPage++;
 
         this.autocomplete.matchPageChanged(oldValue, this._query);
@@ -479,7 +533,7 @@ export class SearchClient implements AuthToken {
             throw new Error("'matchPageSize' cannot be set to a value smaller than 1.");
         }
         if (pageSize !== this._query.matchPageSize) {
-            let oldValue = this._query.matchPageSize;
+            const oldValue = this._query.matchPageSize;
             this._query.matchPageSize = pageSize;
 
             this.autocomplete.matchPageSizeChanged(oldValue, this._query);
@@ -501,7 +555,7 @@ export class SearchClient implements AuthToken {
      */
     set matchOrderBy(orderBy: OrderBy) {
         if (orderBy !== this._query.matchOrderBy) {
-            let oldValue = this._query.matchOrderBy;
+            const oldValue = this._query.matchOrderBy;
             this._query.matchOrderBy = orderBy;
 
             this.autocomplete.matchOrderByChanged(oldValue, this._query);
@@ -526,7 +580,7 @@ export class SearchClient implements AuthToken {
             maxSuggestions = 0;
         }
         if (maxSuggestions !== this._query.maxSuggestions) {
-            let oldValue = this._query.maxSuggestions;
+            const oldValue = this._query.maxSuggestions;
             this._query.maxSuggestions = maxSuggestions;
 
             this.autocomplete.maxSuggestionsChanged(oldValue, this._query);
@@ -579,7 +633,7 @@ export class SearchClient implements AuthToken {
      */
     set queryText(queryText: string) {
         if (queryText !== this._query.queryText) {
-            let oldValue = this._query.queryText;
+            const oldValue = this._query.queryText;
             this._query.queryText = queryText;
 
             this.autocomplete.queryTextChanged(oldValue, this._query);
@@ -601,7 +655,7 @@ export class SearchClient implements AuthToken {
      */
     set searchType(searchType: SearchType) {
         if (searchType !== this._query.searchType) {
-            let oldValue = this._query.searchType;
+            const oldValue = this._query.searchType;
             this._query.searchType = searchType;
 
             this.autocomplete.searchTypeChanged(oldValue, this._query);
@@ -651,8 +705,8 @@ export class SearchClient implements AuthToken {
 
     private doFilterAdd(filter: string[]) {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
-        let newFilter = this.categorize.createCategoryFilter(filter);
-        let oldValue = this._query.filters.slice(0);
+        const newFilter = this.categorize.createCategoryFilter(filter);
+        const oldValue = this._query.filters.slice(0);
         this._query.filters.push(newFilter);
         this._query.filters.sort();
         
@@ -662,7 +716,7 @@ export class SearchClient implements AuthToken {
     }
 
     private doFilterRemove(i: number) {
-        let oldValue = this._query.filters.slice(0);
+        const oldValue = this._query.filters.slice(0);
         this._query.filters.splice(i, 1); 
         // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
 

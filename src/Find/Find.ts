@@ -6,7 +6,7 @@ import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Filter } from '../Common/Filter';
 import { Query } from '../Common/Query';
-import { QueryConverter, QueryFindConverterV2, QueryFindConverterV3 } from '../QueryConverter';
+import { QueryConverter, QueryFindConverterV2, QueryFindConverterV3, QueryFindConverterV4 } from '../QueryConverter';
 import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
 import { Categorize } from '../Categorize/Categorize';
@@ -33,7 +33,18 @@ export class Find extends BaseCall<Matches> {
 
         this.settings = new FindSettings(settings);
 
-        this.queryConverter = this.settings.version === 2 ? new QueryFindConverterV2() : new QueryFindConverterV3();
+        switch (this.settings.version) {
+            case 2: 
+                this.queryConverter = new QueryFindConverterV2(); 
+                break;
+            case 3: 
+                this.queryConverter = new QueryFindConverterV3(); 
+                break;
+            default: 
+                this.queryConverter = new QueryFindConverterV4(); 
+                break;
+        }
+        
     }
 
     /**
@@ -89,6 +100,18 @@ export class Find extends BaseCall<Matches> {
      
     public filtersChanged(oldValue: Filter[], query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
+            this.update(query);
+        }
+    }
+
+    public matchGenerateContentChanged(oldValue: boolean, query: Query) { 
+        if (this.settings.cbSuccess && this.settings.triggers.matchGenerateContentChanged) {
+            this.update(query);
+        }
+    }
+
+    public matchGenerateContentHighlightsChanged(oldValue: boolean, query: Query) { 
+        if (this.settings.cbSuccess && this.settings.triggers.matchGenerateContentChanged && this.settings.triggers.matchGenerateContentHighlightsChanged) {
             this.update(query);
         }
     }

@@ -6,6 +6,20 @@ import { CategorizeTriggers } from '../Categorize/CategorizeTriggers';
 export class FindTriggers extends CategorizeTriggers {
     
     /**
+     * Triggers when the generateContent property has changed.
+     * 
+     * Note: Only available for v4+.
+     */
+    public matchGenerateContentChanged?: boolean = true;
+
+    /**
+     * Triggers when the generateContentHighlights property has changed.
+     * 
+     * Note: Only available for v4+.
+     */
+    public matchGenerateContentHighlightsChanged?: boolean = true;
+
+    /**
      * Triggers when the useGrouping property has changed.
      */
     public matchGroupingChanged?: boolean = true;
@@ -32,6 +46,8 @@ export class FindTriggers extends CategorizeTriggers {
     constructor(triggers?: FindTriggers) {
         super(triggers);
         if (triggers) {
+            this.matchGenerateContentChanged = typeof triggers.matchGenerateContentChanged !== "undefined" ? triggers.matchGenerateContentChanged : this.matchGenerateContentChanged;
+            this.matchGenerateContentHighlightsChanged = typeof triggers.matchGenerateContentHighlightsChanged !== "undefined" ? triggers.matchGenerateContentHighlightsChanged : this.matchGenerateContentHighlightsChanged;
             this.matchGroupingChanged = typeof triggers.matchGroupingChanged !== "undefined" ? triggers.matchGroupingChanged : this.matchGroupingChanged;
             this.matchOrderByChanged = typeof triggers.matchOrderByChanged !== "undefined" ? triggers.matchOrderByChanged : this.matchOrderByChanged;
             this.matchPageChanged = typeof triggers.matchPageChanged !== "undefined" ? triggers.matchPageChanged : this.matchPageChanged;

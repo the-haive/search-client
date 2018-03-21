@@ -96,14 +96,14 @@ describe("AllCategories basics", () => {
 
         expect(pAllCategories.settings).toBeDefined();
         expect(pAllCategories.settings.enabled).toEqual(true);
-        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAllCategories.settings.cbRequest).toBeDefined();
         expect(pAllCategories.settings.cbSuccess).toBeDefined();
         expect(pAllCategories.settings.url).toEqual("search/allcategories");
         
         allCategories.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/search/allcategories");
     });
 
     it("Should be able to pass new AllCategoriesSettings object", () => {
@@ -120,14 +120,14 @@ describe("AllCategories basics", () => {
         
         expect(pAllCategories.settings).toBeDefined();
         expect(pAllCategories.settings.enabled).toEqual(true);
-        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAllCategories.settings.cbRequest).toBeDefined();
         expect(pAllCategories.settings.cbSuccess).toBeDefined();
         expect(pAllCategories.settings.url).toEqual("search/allcategories");
         
         allCategories.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/search/allcategories");
     });
 
     it("Should be able to pass anonymous object settings", () => {
@@ -144,14 +144,14 @@ describe("AllCategories basics", () => {
 
         expect(pAllCategories.settings).toBeDefined();
         expect(pAllCategories.settings.enabled).toEqual(true);
-        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(pAllCategories.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAllCategories.settings.cbRequest).toBeDefined();
         expect(pAllCategories.settings.cbSuccess).toBeDefined();
         expect(pAllCategories.settings.url).toEqual("search/allcategories");
         
         allCategories.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual("http://localhost:9950/RestService/v3/search/allcategories");
+        expect(actualUrl).toEqual("http://localhost:9950/RestService/v4/search/allcategories");
     });
 
 });

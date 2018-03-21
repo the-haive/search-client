@@ -95,6 +95,8 @@ export abstract class BaseCall<TDataType> {
     public dateFromChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
     public dateToChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
     public filtersChanged(oldValue: Filter[], query: Query): void { /* Default no implementation*/ }
+    public matchGenerateContentChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
+    public matchGenerateContentHighlightsChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
     public matchGroupingChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
     public matchOrderByChanged(oldValue: OrderBy, query: Query): void { /* Default no implementation*/ }
     public matchPageChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }

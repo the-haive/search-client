@@ -56,7 +56,7 @@ export class Settings extends VersionPathSettings {
     constructor(settings?: Settings) {
         super(settings);
         if (settings) {
-            let defaultVersionPath = { version: settings.version, path: settings.path };
+            const defaultVersionPath = { version: settings.version, path: settings.path };
             settings.allCategories = new AllCategoriesSettings(settings.allCategories || defaultVersionPath as AllCategoriesSettings);
             settings.authentication = new AuthenticationSettings(settings.authentication || defaultVersionPath as AuthenticationSettings);
             settings.autocomplete = new AutocompleteSettings(settings.autocomplete || defaultVersionPath as AutocompleteSettings);

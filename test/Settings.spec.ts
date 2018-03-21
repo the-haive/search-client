@@ -20,19 +20,19 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
-        expect(settings.allCategories.version).toEqual(3);
-        expect(settings.authentication.version).toEqual(3);
-        expect(settings.autocomplete.version).toEqual(3);
-        expect(settings.bestBets.version).toEqual(3);
-        expect(settings.categorize.version).toEqual(3);
-        expect(settings.find.version).toEqual(3);
+        expect(settings.allCategories.version).toEqual(4);
+        expect(settings.authentication.version).toEqual(4);
+        expect(settings.autocomplete.version).toEqual(4);
+        expect(settings.bestBets.version).toEqual(4);
+        expect(settings.categorize.version).toEqual(4);
+        expect(settings.find.version).toEqual(4);
 
-        expect(settings.allCategories.path).toEqual("RestService/v3");
-        expect(settings.authentication.path).toEqual("RestService/v3");
-        expect(settings.autocomplete.path).toEqual("RestService/v3");
-        expect(settings.bestBets.path).toEqual("RestService/v3");
-        expect(settings.categorize.path).toEqual("RestService/v3");
-        expect(settings.find.path).toEqual("RestService/v3");
+        expect(settings.allCategories.path).toEqual("RestService/v4");
+        expect(settings.authentication.path).toEqual("RestService/v4");
+        expect(settings.autocomplete.path).toEqual("RestService/v4");
+        expect(settings.bestBets.path).toEqual("RestService/v4");
+        expect(settings.categorize.path).toEqual("RestService/v4");
+        expect(settings.find.path).toEqual("RestService/v4");
 
         expect (settings.authentication.cbRequest).toBeUndefined();
         expect (settings.authentication.cbError).toBeUndefined();
@@ -169,15 +169,15 @@ describe("Settings basics", () => {
         let settings = new Settings({path: "CustomRestServicePath"} as Settings);
 
         expect(settings).toBeDefined();
-        expect(settings.version).toEqual(3);
+        expect(settings.version).toEqual(4);
         expect(settings.path).toEqual("CustomRestServicePath");
 
-        expect(settings.allCategories.version).toEqual(3);
-        expect(settings.authentication.version).toEqual(3);
-        expect(settings.autocomplete.version).toEqual(3);
-        expect(settings.bestBets.version).toEqual(3);
-        expect(settings.categorize.version).toEqual(3);
-        expect(settings.find.version).toEqual(3);
+        expect(settings.allCategories.version).toEqual(4);
+        expect(settings.authentication.version).toEqual(4);
+        expect(settings.autocomplete.version).toEqual(4);
+        expect(settings.bestBets.version).toEqual(4);
+        expect(settings.categorize.version).toEqual(4);
+        expect(settings.find.version).toEqual(4);
 
         expect(settings.allCategories.path).toEqual("CustomRestServicePath");
         expect(settings.authentication.path).toEqual("CustomRestServicePath");
@@ -237,7 +237,7 @@ describe("Settings basics", () => {
         }).toThrow();
 
         expect(() => {
-            let settings = new Settings({version: 4} as Settings);
+            let settings = new Settings({version: 5} as Settings);
         }).toThrow();
     });
 

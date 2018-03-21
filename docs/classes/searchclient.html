@@ -139,6 +139,8 @@
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#datefrom" class="tsd-kind-icon">date<wbr>From</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#dateto" class="tsd-kind-icon">date<wbr>To</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#filters" class="tsd-kind-icon">filters</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#matchgeneratecontent" class="tsd-kind-icon">match<wbr>Generate<wbr>Content</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#matchgeneratecontenthighlights" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#matchorderby" class="tsd-kind-icon">match<wbr>Order<wbr>By</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#matchpage" class="tsd-kind-icon">match<wbr>Page</a></li>
@@ -385,9 +387,9 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><p>How to set the clientCategoryFilter:</p>
-										<pre><code>let searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
+										<pre><code>const searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
 
-let searchClient.clientCategoryFilters = {
+searchClient.clientCategoryFilters = {
     <span class="hljs-regexp">//</span> Show only Author-nodes with DisplayName that matches <span class="hljs-regexp">/john/</span>.
     Author: <span class="hljs-regexp">/john/</span>,
     <span class="hljs-regexp">//</span> Show only nodes <span class="hljs-keyword">in</span> the System<span class="hljs-regexp">/File/</span>Server node that matches <span class="hljs-regexp">/project/</span>
@@ -400,9 +402,9 @@ let searchClient.clientCategoryFilters = {
 									</dd>
 									<dt>example</dt>
 									<dd><p>The above example will with <a href="categorizesettings.html#clientcategoryfilterssepchar">CategorizeSettings.clientCategoryFiltersSepChar</a> set to <code>|</code> become:</p>
-										<pre><code>let searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
+										<pre><code>const searchClient = new SearchClient(<span class="hljs-string">"http://server:9950/"</span>);
 
-let searchClient.clientCategoryFilters = {
+searchClient.clientCategoryFilters = {
     <span class="hljs-regexp">//</span> Show only Author-nodes with DisplayName that matches <span class="hljs-regexp">/john/</span>.
     Author: <span class="hljs-regexp">/john/</span>,
     <span class="hljs-regexp">//</span> Show only nodes <span class="hljs-keyword">in</span> the System<span class="hljs-regexp">/File/</span>Server node that matches <span class="hljs-regexp">/project/</span>
@@ -603,6 +605,102 @@ let searchClient.clientCategoryFilters = {
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="matchgeneratecontent" class="tsd-anchor"></a>
+					<h3>match<wbr>Generate<wbr>Content</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> matchGenerateContent<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> matchGenerateContent<span class="tsd-signature-symbol">(</span>generateContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L385">SearchClient.ts:385</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the currently active match generateContent setting.</p>
+								</div>
+								<p><strong>Note:</strong> Requires the backend IndexManager to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L398">SearchClient.ts:398</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets whether the results should generate the content or not.</p>
+								</div>
+								<p><strong>Note:</strong> Requires the backend IndexManager to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>generateContent: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="matchgeneratecontenthighlights" class="tsd-anchor"></a>
+					<h3>match<wbr>Generate<wbr>Content<wbr>Highlights</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> matchGenerateContentHighlights<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> matchGenerateContentHighlights<span class="tsd-signature-symbol">(</span>generateContentHighlights<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L412">SearchClient.ts:412</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the currently active match generateContentHighlights setting.</p>
+								</div>
+								<p><strong>Note:</strong> See the matchGenerateContent property in regards to IndexManager requirements.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L425">SearchClient.ts:425</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets whether the results should generate the content-highlight tags or not.</p>
+								</div>
+								<p><strong>Note:</strong> See the matchGenerateContent property in regards to IndexManager requirements.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>generateContentHighlights: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="matchgrouping" class="tsd-anchor"></a>
 					<h3>match<wbr>Grouping</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -613,7 +711,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L385">SearchClient.ts:385</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L439">SearchClient.ts:439</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -628,7 +726,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L396">SearchClient.ts:396</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L450">SearchClient.ts:450</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -659,7 +757,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L494">SearchClient.ts:494</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L548">SearchClient.ts:548</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -672,7 +770,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L502">SearchClient.ts:502</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L556">SearchClient.ts:556</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -702,7 +800,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L410">SearchClient.ts:410</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L464">SearchClient.ts:464</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -715,7 +813,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L418">SearchClient.ts:418</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L472">SearchClient.ts:472</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -745,7 +843,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L469">SearchClient.ts:469</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L523">SearchClient.ts:523</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -758,7 +856,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L477">SearchClient.ts:477</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L531">SearchClient.ts:531</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -788,7 +886,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L516">SearchClient.ts:516</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L570">SearchClient.ts:570</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -801,7 +899,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L524">SearchClient.ts:524</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L578">SearchClient.ts:578</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -831,7 +929,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L541">SearchClient.ts:541</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L595">SearchClient.ts:595</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -849,7 +947,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L555">SearchClient.ts:555</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L609">SearchClient.ts:609</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -883,7 +981,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L572">SearchClient.ts:572</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L626">SearchClient.ts:626</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -896,7 +994,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L580">SearchClient.ts:580</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L634">SearchClient.ts:634</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -926,7 +1024,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L594">SearchClient.ts:594</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L648">SearchClient.ts:648</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -939,7 +1037,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L602">SearchClient.ts:602</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L656">SearchClient.ts:656</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -971,7 +1069,7 @@ let searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L646">SearchClient.ts:646</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L700">SearchClient.ts:700</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1163,7 +1261,7 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L455">SearchClient.ts:455</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L509">SearchClient.ts:509</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1186,7 +1284,7 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L436">SearchClient.ts:436</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L490">SearchClient.ts:490</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1211,93 +1309,6 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/orderby.html" class="tsd-kind-icon">Order<wbr>By</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/searchtype.html" class="tsd-kind-icon">Search<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="allcategories.html" class="tsd-kind-icon">All<wbr>Categories</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="allcategoriessettings.html" class="tsd-kind-icon">All<wbr>Categories<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authtoken.html" class="tsd-kind-icon">Auth<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authentication.html" class="tsd-kind-icon">Authentication</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authenticationsettings.html" class="tsd-kind-icon">Authentication<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authenticationtriggers.html" class="tsd-kind-icon">Authentication<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocomplete.html" class="tsd-kind-icon">Autocomplete</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocompletesettings.html" class="tsd-kind-icon">Autocomplete<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocompletetriggers.html" class="tsd-kind-icon">Autocomplete<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="basecall.html" class="tsd-kind-icon">Base<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="basesettings.html" class="tsd-kind-icon">Base<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="basetriggers.html" class="tsd-kind-icon">Base<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="bestbets.html" class="tsd-kind-icon">Best<wbr>Bets</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="bestbetssettings.html" class="tsd-kind-icon">Best<wbr>Bets<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorize.html" class="tsd-kind-icon">Categorize</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorizesettings.html" class="tsd-kind-icon">Categorize<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorizetriggers.html" class="tsd-kind-icon">Categorize<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="filter.html" class="tsd-kind-icon">Filter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="find.html" class="tsd-kind-icon">Find</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="findsettings.html" class="tsd-kind-icon">Find<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="findtriggers.html" class="tsd-kind-icon">Find<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="query.html" class="tsd-kind-icon">Query</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querybaseconverter.html" class="tsd-kind-icon">Query<wbr>Base<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querycategorizeconverterv2.html" class="tsd-kind-icon">Query<wbr>Categorize<wbr>Converter<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querycategorizeconverterv3.html" class="tsd-kind-icon">Query<wbr>Categorize<wbr>Converter<wbr>V3</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="queryfindconverterv2.html" class="tsd-kind-icon">Query<wbr>Find<wbr>Converter<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="queryfindconverterv3.html" class="tsd-kind-icon">Query<wbr>Find<wbr>Converter<wbr>V3</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -1341,6 +1352,12 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="searchclient.html#filters" class="tsd-kind-icon">filters</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="searchclient.html#matchgeneratecontent" class="tsd-kind-icon">match<wbr>Generate<wbr>Content</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="searchclient.html#matchgeneratecontenthighlights" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="searchclient.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a>
@@ -1391,36 +1408,6 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="settings.html" class="tsd-kind-icon">Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="versionpathsettings.html" class="tsd-kind-icon">Version<wbr>Path<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/categories.html" class="tsd-kind-icon">Categories</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/category.html" class="tsd-kind-icon">Category</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/group.html" class="tsd-kind-icon">Group</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/matchitem.html" class="tsd-kind-icon">Match<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/matches.html" class="tsd-kind-icon">Matches</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/metalist.html" class="tsd-kind-icon">Meta<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/queryconverter.html" class="tsd-kind-icon">Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="../globals.html#datespecification" class="tsd-kind-icon">Date<wbr>Specification</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

@@ -16,7 +16,7 @@ describe("BaseSettings basics", () => {
         }).toThrow();
 
         expect( () => {
-            let v = new BaseSettingsImplementation({version: 4});
+            let v = new BaseSettingsImplementation({version: 5});
         }).toThrow();
     });
     
@@ -24,8 +24,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation();
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);
@@ -38,8 +38,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({});
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);
@@ -52,8 +52,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({enabled: false});
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(false);
@@ -66,8 +66,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({enabled: true});
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);
@@ -80,8 +80,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({cbError: (e) => { /*dummy*/ } });
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);
@@ -94,8 +94,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({cbRequest: (url: string, reqInit: RequestInit) => { return false; } });
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);
@@ -108,8 +108,8 @@ describe("BaseSettings basics", () => {
         let settings = new BaseSettingsImplementation({cbSuccess: (data: string) => { /* dummy*/ } });
 
         // VersionPathSettings
-        expect(settings.version).toBe(3);
-        expect(settings.path).toBe("RestService/v3");
+        expect(settings.version).toBe(4);
+        expect(settings.path).toBe("RestService/v4");
 
         // BaseSettings
         expect(settings.enabled).toBe(true);

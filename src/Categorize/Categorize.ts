@@ -6,7 +6,7 @@ import { OrderBy } from '../Common/OrderBy';
 import { SearchType } from '../Common/SearchType';
 import { Query } from '../Common/Query';
 import { Filter } from '../Common/Filter';
-import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3 } from '../QueryConverter';
+import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3, QueryCategorizeConverterV4 } from '../QueryConverter';
 import { Categories, Category, Group } from '../Data';
 import { AuthToken } from '../Authentication/AuthToken';
 
@@ -47,7 +47,17 @@ export class Categorize extends BaseCall<Categories> {
 
         this.settings = new CategorizeSettings(settings);
         
-        this.queryConverter = this.settings.version === 2 ? new QueryCategorizeConverterV2() : new QueryCategorizeConverterV3();
+        switch (this.settings.version) {
+            case 2: 
+                this.queryConverter = new QueryCategorizeConverterV2(); 
+                break;
+            case 3: 
+                this.queryConverter = new QueryCategorizeConverterV3(); 
+                break;
+            default: 
+                this.queryConverter = new QueryCategorizeConverterV4(); 
+                break;
+        }
     }
 
     /**

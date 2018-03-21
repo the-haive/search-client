@@ -31,7 +31,7 @@ The [[Settings]] class holds properties as follows:
 Please consult the documentation for specific details on each of them. Suffice to say that all the `*Settings` classes contains a boolean property called `enabled`, which by default is `true`. 
 
 **Versions:**
-By default the SearchClient services will use version 3 of the backend SearchService REST API. If you need to connect to the v2 REST interface then pass this in the Settings object.
+By default the SearchClient services will use version 4 of the backend SearchService REST API. If you need to connect to the v2 or v3 REST interface then pass this in the Settings object.
 
 ## Automatic mode
 
@@ -138,7 +138,7 @@ The web-service properties are available though (as long as you didn't pass `ena
 
     // Without authentication
     let client = new SearchClient("http://server:9950/", {
-        version: 3,
+        version: 4,
         authentication: {
             enables: false,
         }, 

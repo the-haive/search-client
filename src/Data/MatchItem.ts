@@ -9,6 +9,17 @@ export interface MatchItem {
      */
     abstract: string;
     /**
+     * A list of categories that this items is tagged with. 
+     * Note: The list returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no categories.
+     */
+    categories?: string[];
+    /**
+     * A list of content paragrahs, that represent the full item in regards to textual content. 
+     * To get the content, please set the generateContent (and potentially also the generateContentHightlights) settings in the request.
+     * Note: The paragraphs returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no paragraphs.
+     */
+    content?: string[];
+    /**
      * This is the date the item was last modified, according to the indexing solution.
      */
     date: string;

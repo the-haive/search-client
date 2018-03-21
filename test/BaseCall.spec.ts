@@ -16,7 +16,7 @@ import { BestBets } from '../src/BestBets';
 import { Categorize } from '../src/Categorize';
 import { Find } from '../src/Find';
 
-function test(TestClass: typeof BaseCall) {
+function test(TestClass: any) {
 
     function instanceConstructor(): BaseCall<any> {
         switch (TestClass.name) {
@@ -157,6 +157,8 @@ function test(TestClass: typeof BaseCall) {
                 dateFrom: null, 
                 dateTo: null, 
                 filters: [], 
+                matchGenerateContent: false, 
+                matchGenerateContentHighlights: true, 
                 matchGrouping: false, 
                 matchOrderBy: 0, 
                 matchPage: 1, 
@@ -179,6 +181,8 @@ function test(TestClass: typeof BaseCall) {
                 dateFrom: null, 
                 dateTo: null, 
                 filters: [], 
+                matchGenerateContent: false, 
+                matchGenerateContentHighlights: true,
                 matchGrouping: false, 
                 matchOrderBy: 0, 
                 matchPage: 1, 

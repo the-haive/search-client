@@ -91,6 +91,8 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#datefrom" class="tsd-kind-icon">date<wbr>From</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#dateto" class="tsd-kind-icon">date<wbr>To</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#filters" class="tsd-kind-icon">filters</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchgeneratecontent" class="tsd-kind-icon">match<wbr>Generate<wbr>Content</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchgeneratecontenthighlights" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchorderby" class="tsd-kind-icon">match<wbr>Order<wbr>By</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-external"><a href="query.html#matchpage" class="tsd-kind-icon">match<wbr>Page</a></li>
@@ -115,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L76">Common/Query.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L91">Common/Query.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,12 +208,45 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="matchgeneratecontent" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> match<wbr>Generate<wbr>Content</h3>
+					<div class="tsd-signature tsd-kind-icon">match<wbr>Generate<wbr>Content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L48">Common/Query.ts:48</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Decides whether or not to request content to be generated in the response matches.</p>
+						</div>
+						<p>Note: Only available for v4+.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
+					<a name="matchgeneratecontenthighlights" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> match<wbr>Generate<wbr>Content<wbr>Highlights</h3>
+					<div class="tsd-signature tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L56">Common/Query.ts:56</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Decides whether or not to request highlight-tags to be included in the generated the response matches.</p>
+						</div>
+						<p>Note: Requires <code>matchGenerateContent</code> to be <code>true</code> to be effective.
+						Note: Only available for v4+.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-external">
 					<a name="matchgrouping" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> match<wbr>Grouping</h3>
 					<div class="tsd-signature tsd-kind-icon">match<wbr>Grouping<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L46">Common/Query.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L61">Common/Query.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -226,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">match<wbr>Order<wbr>By<span class="tsd-signature-symbol">:</span> <a href="../enums/orderby.html" class="tsd-signature-type">OrderBy</a><span class="tsd-signature-symbol"> =&nbsp;OrderBy.Relevance</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L51">Common/Query.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L66">Common/Query.ts:66</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -241,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">match<wbr>Page<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L56">Common/Query.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L71">Common/Query.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -256,7 +291,7 @@
 					<div class="tsd-signature tsd-kind-icon">match<wbr>Page<wbr>Size<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L61">Common/Query.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L76">Common/Query.ts:76</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -271,7 +306,7 @@
 					<div class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;10</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L66">Common/Query.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L81">Common/Query.ts:81</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -286,7 +321,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L71">Common/Query.ts:71</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L86">Common/Query.ts:86</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -301,7 +336,7 @@
 					<div class="tsd-signature tsd-kind-icon">search<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/searchtype.html" class="tsd-signature-type">SearchType</a><span class="tsd-signature-symbol"> =&nbsp;SearchType.Keywords</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L76">Common/Query.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/Query.ts#L91">Common/Query.ts:91</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -322,75 +357,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/orderby.html" class="tsd-kind-icon">Order<wbr>By</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-is-external">
-						<a href="../enums/searchtype.html" class="tsd-kind-icon">Search<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="allcategories.html" class="tsd-kind-icon">All<wbr>Categories</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="allcategoriessettings.html" class="tsd-kind-icon">All<wbr>Categories<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authtoken.html" class="tsd-kind-icon">Auth<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authentication.html" class="tsd-kind-icon">Authentication</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authenticationsettings.html" class="tsd-kind-icon">Authentication<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="authenticationtriggers.html" class="tsd-kind-icon">Authentication<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocomplete.html" class="tsd-kind-icon">Autocomplete</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocompletesettings.html" class="tsd-kind-icon">Autocomplete<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="autocompletetriggers.html" class="tsd-kind-icon">Autocomplete<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="basecall.html" class="tsd-kind-icon">Base<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
-						<a href="basesettings.html" class="tsd-kind-icon">Base<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="basetriggers.html" class="tsd-kind-icon">Base<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="bestbets.html" class="tsd-kind-icon">Best<wbr>Bets</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="bestbetssettings.html" class="tsd-kind-icon">Best<wbr>Bets<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorize.html" class="tsd-kind-icon">Categorize</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorizesettings.html" class="tsd-kind-icon">Categorize<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="categorizetriggers.html" class="tsd-kind-icon">Categorize<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="filter.html" class="tsd-kind-icon">Filter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="find.html" class="tsd-kind-icon">Find</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="findsettings.html" class="tsd-kind-icon">Find<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="findtriggers.html" class="tsd-kind-icon">Find<wbr>Triggers</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-is-external">
@@ -410,6 +376,12 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="query.html#filters" class="tsd-kind-icon">filters</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="query.html#matchgeneratecontent" class="tsd-kind-icon">match<wbr>Generate<wbr>Content</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
+								<a href="query.html#matchgeneratecontenthighlights" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-external">
 								<a href="query.html#matchgrouping" class="tsd-kind-icon">match<wbr>Grouping</a>
@@ -436,54 +408,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querybaseconverter.html" class="tsd-kind-icon">Query<wbr>Base<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querycategorizeconverterv2.html" class="tsd-kind-icon">Query<wbr>Categorize<wbr>Converter<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="querycategorizeconverterv3.html" class="tsd-kind-icon">Query<wbr>Categorize<wbr>Converter<wbr>V3</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="queryfindconverterv2.html" class="tsd-kind-icon">Query<wbr>Find<wbr>Converter<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="queryfindconverterv3.html" class="tsd-kind-icon">Query<wbr>Find<wbr>Converter<wbr>V3</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="searchclient.html" class="tsd-kind-icon">Search<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="settings.html" class="tsd-kind-icon">Settings</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-external">
-						<a href="versionpathsettings.html" class="tsd-kind-icon">Version<wbr>Path<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/categories.html" class="tsd-kind-icon">Categories</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/category.html" class="tsd-kind-icon">Category</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/group.html" class="tsd-kind-icon">Group</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/matchitem.html" class="tsd-kind-icon">Match<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/matches.html" class="tsd-kind-icon">Matches</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/metalist.html" class="tsd-kind-icon">Meta<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-is-external">
-						<a href="../interfaces/queryconverter.html" class="tsd-kind-icon">Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-external">
-						<a href="../globals.html#datespecification" class="tsd-kind-icon">Date<wbr>Specification</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

@@ -5,9 +5,9 @@ export abstract class VersionPathSettings {
 
     /**
      * The version of the back-end rest-service.
-     * The currently supported versions are 2 and 3.
+     * The currently supported versions are 2, 3 and 4.
      */
-    public version?: number = 3;
+    public version?: number = 4;
 
     /**
      * You can use this path to override the path to the rest-service. 
@@ -30,8 +30,8 @@ export abstract class VersionPathSettings {
             this.path += this.version;
         }
 
-        if (!this.version || this.version < 2 || this.version > 3) {
-            throw new Error("Only supports version 2 and 3.");
+        if (!this.version || this.version < 2 || this.version > 4) {
+            throw new Error("Only supports version 2, 3 and 4.");
         }
         
         // Remove leading and trailing slashes

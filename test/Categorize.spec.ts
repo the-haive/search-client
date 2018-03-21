@@ -127,7 +127,7 @@ describe("Categorize basics", () => {
         let pCategorize = <any> categorize;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
@@ -150,7 +150,7 @@ describe("Categorize basics", () => {
         let pCategorize = <any> categorize;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(categorize.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();

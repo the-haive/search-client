@@ -64,7 +64,7 @@ describe("Autocomplete basics", () => {
         let pAutocomplete = <any> autocomplete;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
@@ -87,7 +87,7 @@ describe("Autocomplete basics", () => {
         let pAutocomplete = <any> autocomplete;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v3");
+        expect(autocomplete.baseUrl).toEqual("http://localhost:9950/RestService/v4");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
