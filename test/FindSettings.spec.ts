@@ -6,8 +6,24 @@ import { FindSettings } from '../src/Find';
 import { Matches } from '../src/Data';
 
 describe("FindSettings basics", () => {
+    
+    it("uiLanguageCodeChanged default", () => {
+        const settings = new FindSettings();
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
+    });
+
+    it("uiLanguageCodeChanged false", () => {
+        const settings = new FindSettings({triggers: {uiLanguageCodeChanged: false}});
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
+    });
+
+    it("uiLanguageCodeChanged true", () => {
+        const settings = new FindSettings({triggers: {uiLanguageCodeChanged: true}});
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+    });
+
     it("Should be able to create a default settings object with expected values", () => {
-        let settings = new FindSettings();
+        const settings = new FindSettings();
 
         expect(settings).toBeDefined();
         expect(settings instanceof FindSettings).toBeTruthy();
@@ -30,10 +46,11 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
         expect (settings.url).toEqual("search/find");
     });
 
-    it("Should be possible to pass in an FindSettings object to use for values.", () => {
+    it("Should be possible to pass in a FindSettings object to use for values.", () => {
         let settings = {
             cbError: jest.fn(),
             cbRequest: jest.fn(),
@@ -54,6 +71,7 @@ describe("FindSettings basics", () => {
                 queryChangeInstantRegex: /\S/,
                 queryChangeMinLength: 2,
                 searchTypeChanged: false,
+                uiLanguageCodeChanged: true,
             },
             url: "/test/",
         } as FindSettings;
@@ -81,6 +99,7 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(false);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
         expect (settings.url).toEqual("test");
     });
 
@@ -119,6 +138,7 @@ describe("FindSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
         expect (settings.url).toEqual("search/find");
     });
 

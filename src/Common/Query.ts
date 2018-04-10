@@ -91,6 +91,11 @@ export class Query {
     public searchType?: SearchType = SearchType.Keywords;
 
     /**
+     * The UI language of the client (translates i.e. categories to the client language).
+     */
+    public uiLanguageCode?: string = '';
+
+    /**
      * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
      * 
      * @param query - The query defined here will override the default Query.

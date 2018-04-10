@@ -166,6 +166,7 @@ function test(TestClass: any) {
                 maxSuggestions: 10, 
                 queryText: "test2", 
                 searchType: 0,
+                uiLanguageCode: "",
             }); 
             mockFetch.mockReset(); 
 
@@ -190,6 +191,7 @@ function test(TestClass: any) {
                 maxSuggestions: 10, 
                 queryText: "test2", 
                 searchType: 0,
+                uiLanguageCode: "",
             }); 
             mockFetch.mockReset();
 

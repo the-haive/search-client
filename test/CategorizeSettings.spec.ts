@@ -6,6 +6,22 @@ import { CategorizeSettings } from '../src/Categorize';
 import { Categories } from '../src/Data';
 
 describe("CategorizeSettings basics", () => {
+
+    it("uiLanguageCodeChanged default", () => {
+        let settings = new CategorizeSettings();
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+    });
+
+    it("uiLanguageCodeChanged true", () => {
+        let settings = new CategorizeSettings({triggers: {uiLanguageCodeChanged: true}});
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+    });
+
+    it("uiLanguageCodeChanged false", () => {
+        let settings = new CategorizeSettings({triggers: {uiLanguageCodeChanged: false}});
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
+    });
+    
     it("Should be able to create a default settings object with expected values", () => {
         let settings = new CategorizeSettings();
 
@@ -24,6 +40,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
         expect (settings.url).toEqual("search/categorize");
     });
 
@@ -43,6 +60,7 @@ describe("CategorizeSettings basics", () => {
                 queryChangeInstantRegex: /\S/,
                 queryChangeMinLength: 2,
                 searchTypeChanged: false,
+                uiLanguageCodeChanged: false,
             },
             url: "/test/",
         } as CategorizeSettings;
@@ -64,6 +82,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(false);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
         expect (settings.url).toEqual("test");
     });
 
@@ -93,6 +112,7 @@ describe("CategorizeSettings basics", () => {
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
         expect (settings.url).toEqual("search/categorize");
     });
 

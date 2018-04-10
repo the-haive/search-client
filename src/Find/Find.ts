@@ -139,7 +139,7 @@ export class Find extends BaseCall<Matches> {
             this.update(query);
         }
     }
-     
+
     public queryTextChanged(oldValue: string, query: Query) { 
         if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
@@ -165,4 +165,10 @@ export class Find extends BaseCall<Matches> {
         }
     }
 
+    public uiLanguagecodeChanged(oldValue: string, query: Query) { 
+        if (this.settings.cbSuccess && this.settings.triggers.uiLanguageCodeChanged) {
+            this.update(query);
+        }
+    }
+     
 }

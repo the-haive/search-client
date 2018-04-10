@@ -40,7 +40,7 @@ export class QueryCategorizeConverterV3 extends QueryBaseConverter implements Qu
         return params;
     }
 
-    private createDate(date: Date | string | number | moment.DurationInputObject): string {
+    protected createDate(date: Date | string | number | moment.DurationInputObject): string {
         if (!date) {
             return "";
         }

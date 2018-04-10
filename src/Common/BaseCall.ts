@@ -104,6 +104,7 @@ export abstract class BaseCall<TDataType> {
     public maxSuggestionsChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }
     public queryTextChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
     public searchTypeChanged(oldValue: SearchType, query: Query): void { /* Default no implementation*/ }
+    public uiLanguageCodeChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
 
     protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any> 
 

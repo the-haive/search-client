@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AutocompleteTriggers | search-client</title>
+	<title>IAutocompleteTriggers | search-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,35 +56,33 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="autocompletetriggers.html">AutocompleteTriggers</a>
+					<a href="iautocompletetriggers.html">IAutocompleteTriggers</a>
 				</li>
 			</ul>
-			<h1>Class AutocompleteTriggers</h1>
+			<h1>Interface IAutocompleteTriggers</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>These are the triggers that define when and when not to trigger an autocomplete lookup.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">AutocompleteTriggers</span>
+						<a href="ibasetriggers.html" class="tsd-signature-type">IBaseTriggers</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">IAutocompleteTriggers</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
-				<h3>Implements</h3>
+				<h3>Implemented by</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/iautocompletetriggers.html" class="tsd-signature-type">IAutocompleteTriggers</a></li>
+					<li><a href="../classes/autocompletetriggers.html" class="tsd-signature-type">AutocompleteTriggers</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -92,70 +90,27 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="autocompletetriggers.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocompletetriggers.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocompletetriggers.html#querychange" class="tsd-kind-icon">query<wbr>Change</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocompletetriggers.html#querychangedelay" class="tsd-kind-icon">query<wbr>Change<wbr>Delay</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocompletetriggers.html#querychangeinstantregex" class="tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocompletetriggers.html#querychangeminlength" class="tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iautocompletetriggers.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iautocompletetriggers.html#querychange" class="tsd-kind-icon">query<wbr>Change</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iautocompletetriggers.html#querychangedelay" class="tsd-kind-icon">query<wbr>Change<wbr>Delay</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iautocompletetriggers.html#querychangeinstantregex" class="tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iautocompletetriggers.html#querychangeminlength" class="tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Autocomplete<wbr>Triggers<span class="tsd-signature-symbol">(</span>triggers<span class="tsd-signature-symbol">?: </span><a href="autocompletetriggers.html" class="tsd-signature-type">AutocompleteTriggers</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="autocompletetriggers.html" class="tsd-signature-type">AutocompleteTriggers</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L60">Autocomplete/AutocompleteTriggers.ts:60</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Creates an AutocompleteTrigger object for you, based on AutocompleteTrigger defaults and the overrides provided as a param.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> triggers: <a href="autocompletetriggers.html" class="tsd-signature-type">AutocompleteTriggers</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>The trigger defined here will override the default AutocompleteTrigger.</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="autocompletetriggers.html" class="tsd-signature-type">AutocompleteTriggers</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="maxsuggestionschanged" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Suggestions<wbr>Changed</h3>
-					<div class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<wbr>Changed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iautocompletetriggers.html">IAutocompleteTriggers</a>.<a href="../interfaces/iautocompletetriggers.html#maxsuggestionschanged">maxSuggestionsChanged</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L60">Autocomplete/AutocompleteTriggers.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L9">Autocomplete/AutocompleteTriggers.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -165,14 +120,14 @@
 						<p>Note: Requires queryChanged to be true.</p>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="querychange" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Change</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></div>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iautocompletetriggers.html">IAutocompleteTriggers</a>.<a href="../interfaces/iautocompletetriggers.html#querychange">queryChange</a></p>
+						<p>Inherited from <a href="ibasetriggers.html">IBaseTriggers</a>.<a href="ibasetriggers.html#querychange">queryChange</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L22">Autocomplete/AutocompleteTriggers.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseTriggers.ts#L6">Common/BaseTriggers.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,14 +136,14 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="querychangedelay" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Change<wbr>Delay</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;200</span></div>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iautocompletetriggers.html">IAutocompleteTriggers</a>.<a href="../interfaces/iautocompletetriggers.html#querychangedelay">queryChangeDelay</a></p>
+						<p>Inherited from <a href="ibasetriggers.html">IBaseTriggers</a>.<a href="ibasetriggers.html#querychangedelay">queryChangeDelay</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L34">Autocomplete/AutocompleteTriggers.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseTriggers.ts#L18">Common/BaseTriggers.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,14 +157,14 @@
 						Note: Requires query to be longer than queryMinLength.</p>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="querychangeinstantregex" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Change<wbr>Instant<wbr>Regex</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/\S\s$/</span></div>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iautocompletetriggers.html">IAutocompleteTriggers</a>.<a href="../interfaces/iautocompletetriggers.html#querychangeinstantregex">queryChangeInstantRegex</a></p>
+						<p>Inherited from <a href="ibasetriggers.html">IBaseTriggers</a>.<a href="ibasetriggers.html#querychangeinstantregex">queryChangeInstantRegex</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L44">Autocomplete/AutocompleteTriggers.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseTriggers.ts#L28">Common/BaseTriggers.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -221,14 +176,14 @@
 						<p>Default: Trigger on first whitespace after non-whitespace</p>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="querychangeminlength" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Change<wbr>Min<wbr>Length</h3>
-					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;3</span></div>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/iautocompletetriggers.html">IAutocompleteTriggers</a>.<a href="../interfaces/iautocompletetriggers.html#querychangeminlength">queryChangeMinLength</a></p>
+						<p>Inherited from <a href="ibasetriggers.html">IBaseTriggers</a>.<a href="ibasetriggers.html#querychangeminlength">queryChangeMinLength</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Autocomplete/AutocompleteTriggers.ts#L51">Autocomplete/AutocompleteTriggers.ts:51</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseTriggers.ts#L35">Common/BaseTriggers.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -252,26 +207,23 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="autocompletetriggers.html" class="tsd-kind-icon">Autocomplete<wbr>Triggers</a>
+					<li class="current tsd-kind-interface">
+						<a href="iautocompletetriggers.html" class="tsd-kind-icon">IAutocomplete<wbr>Triggers</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="iautocompletetriggers.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iautocompletetriggers.html#querychange" class="tsd-kind-icon">query<wbr>Change</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#querychange" class="tsd-kind-icon">query<wbr>Change</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iautocompletetriggers.html#querychangedelay" class="tsd-kind-icon">query<wbr>Change<wbr>Delay</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#querychangedelay" class="tsd-kind-icon">query<wbr>Change<wbr>Delay</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iautocompletetriggers.html#querychangeinstantregex" class="tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#querychangeinstantregex" class="tsd-kind-icon">query<wbr>Change<wbr>Instant<wbr>Regex</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocompletetriggers.html#querychangeminlength" class="tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iautocompletetriggers.html#querychangeminlength" class="tsd-kind-icon">query<wbr>Change<wbr>Min<wbr>Length</a>
 							</li>
 						</ul>
 					</li>

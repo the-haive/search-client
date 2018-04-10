@@ -149,6 +149,7 @@
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#query" class="tsd-kind-icon">query</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#querytext" class="tsd-kind-icon">query<wbr>Text</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#searchtype" class="tsd-kind-icon">search<wbr>Type</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="searchclient.html#uilanguagecode" class="tsd-kind-icon">ui<wbr>Language<wbr>Code</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -1056,6 +1057,54 @@ searchClient.clientCategoryFilters = {
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="uilanguagecode" class="tsd-anchor"></a>
+					<h3>ui<wbr>Language<wbr>Code</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> uiLanguageCode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> uiLanguageCode<span class="tsd-signature-symbol">(</span>uiLanguageCode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L670">SearchClient.ts:670</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the currently active match generateContent setting.</p>
+								</div>
+								<p><strong>Note:</strong> Requires the backend IndexManager to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L683">SearchClient.ts:683</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets whether the results should generate the content or not.</p>
+								</div>
+								<p><strong>Note:</strong> Requires the backend IndexManager to have the option enabled in it&#39;s configuration too.</p>
+								<p>Will run trigger-checks and potentially update services.</p>
+								<p>Note: Only effective for v4+.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>uiLanguageCode: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -1069,7 +1118,7 @@ searchClient.clientCategoryFilters = {
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L700">SearchClient.ts:700</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/SearchClient.ts#L727">SearchClient.ts:727</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1382,6 +1431,9 @@ searchClient.categorize.deferUpdates(<span class="hljs-literal">true</span>);
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="searchclient.html#searchtype" class="tsd-kind-icon">search<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="searchclient.html#uilanguagecode" class="tsd-kind-icon">ui<wbr>Language<wbr>Code</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="searchclient.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>

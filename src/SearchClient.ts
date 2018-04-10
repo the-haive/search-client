@@ -664,6 +664,33 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    /** 
+     * Gets the currently active match generateContent setting.
+     */
+    get uiLanguageCode(): string {
+        return this._query.uiLanguageCode;
+    }
+
+    /**
+     * Sets whether the results should generate the content or not.
+     * 
+     * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
+     * 
+     * Will run trigger-checks and potentially update services.
+     * 
+     * Note: Only effective for v4+.
+     */
+    set uiLanguageCode(uiLanguageCode: string) {
+        if (uiLanguageCode !== this._query.uiLanguageCode) {
+            const oldValue = this._query.uiLanguageCode;
+            this._query.uiLanguageCode = uiLanguageCode;
+
+            this.autocomplete.uiLanguageCodeChanged(oldValue, this._query);
+            this.categorize.uiLanguageCodeChanged(oldValue, this._query);
+            this.find.uiLanguageCodeChanged(oldValue, this._query);
+        }
+    }
+    
     /**
      * Decides whether an update should be executed or not. Typically used to temporarily turn 
      * off update-execution. When turned back on the second param can be used to indicate whether 

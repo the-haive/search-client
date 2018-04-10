@@ -150,6 +150,12 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
 
+    public uiLanguagecodeChanged(oldValue: string, query: Query) { 
+        if (this.settings.cbSuccess && this.settings.triggers.uiLanguageCodeChanged) {
+            this.update(query);
+        }
+    }
+     
     /**
      * Creates a Filter object based on the input id (string [] or Category). 
      * 
