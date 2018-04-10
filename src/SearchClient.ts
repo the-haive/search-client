@@ -672,11 +672,10 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets whether the results should generate the content or not.
+     * Sets the language that the client uses. Affects category-names (and in the future maybe metadata too).
+     * The expected values should be according to the https://www.wikiwand.com/en/IETF_language_tag standard.
      * 
-     * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
-     * 
-     * Will run trigger-checks and potentially update services.
+     * Changes will run trigger-checks and potentially update services.
      * 
      * Note: Only effective for v4+.
      */
