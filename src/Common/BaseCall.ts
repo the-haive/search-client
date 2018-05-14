@@ -63,11 +63,12 @@ export abstract class BaseCall<TDataType> {
      * Sets up the Request that is to be executed, with headers and auth as needed.
      */
     public requestObject(): RequestInit {
-        let headers = new Headers();
-        headers.set("Content-Type", "application/json");
+        let headers: any = {
+            "Content-Type": "application/json",
+        };
 
         if (this.auth && this.auth.authenticationToken) {
-            headers.set("Authorization", `Bearer ${this.auth.authenticationToken}`);
+            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
         }
 
         return { 
