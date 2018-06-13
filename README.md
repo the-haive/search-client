@@ -1,6 +1,7 @@
 # IntelliSearch SearchClient
 
 [![Build Status](https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg)](https://semaphoreci.com/spiralis/search-client)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FIntelliSearch%2Fsearch-client.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FIntelliSearch%2Fsearch-client?ref=badge_shield)
 
 ## About
 
@@ -59,3 +60,7 @@ We strongly recommend that you use the full version id for production sites. For
   This means that it will get the latest version for the given major.minor version. Note that the same warning as for `latest` applies, although this is less risky than both of the above options.
 
 **Note:** A benefit to using the npm system is the inclusion of `map`-files. Next to the browser-bundles in the project you can find accompanying `.map` files that browsers are able to utilize in order to give a better debugging experience.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FIntelliSearch%2Fsearch-client.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FIntelliSearch%2Fsearch-client?ref=badge_large)
