@@ -18,7 +18,7 @@
     "coverage": "yarn test --coverage --no-cache",
     "coverage:watch": "yarn run coverage --watch",
     "predocs": "node docs-prepare.js",
-    "docs": "echo \"*** Documenting...\" && yarn run rimraf docs && yarn run typedoc ./src/ --readme ./tmp/docs/INDEX.md --ignoreCompilerErrors --excludePrivate --mode file --experimentalDecorators --target ES6 --out ./docs/ && echo \"*** Documentation created: ./docs/index.html\"",
+    "docs": "echo \"*** Documenting...\" && yarn run rimraf docs && yarn run typedoc ./src/ --readme ./tmp/docs/INDEX.md --excludePrivate --mode file --experimentalDecorators --target ES6 --out ./docs/ && echo \"*** Documentation created: ./docs/index.html\"",
     "postdocs": "yarn run rimraf ./tmp/docs && node docs-finalize.js",
     "verify": "yarn run build && yarn run test && yarn run docs && echo \"*** Verify success.\" && echo \"- If ready to release, commit changes and then 'yarn bump' (optionally with params https://www.npmjs.com/package/standard-version).\" && echo \"- Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md\"",
     "bump": "yarn run standard-version",

@@ -14,7 +14,7 @@ The central class is the [[SearchClient]]. To start using it you will need to cr
 * The settings object has properties that help you customize the solution to your needs.
   * If you are using the "manual" mode with promises, then you can leave this empty.
   * If you want to use the "automatic" mode, then you will have to set up some of these properties.
-  * Use the settings' version parameter to override the default 3 with 2 (if you are using a v2 backend rest-interface).
+  * Use the settings' version parameter to override the default 4 with 3 or 2 (if you are using a v2 or v3 backend rest-interface).
 
 ### [[Settings]]
 
