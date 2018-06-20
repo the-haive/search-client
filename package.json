@@ -1,86 +1,88 @@
 {
-  "name": "search-client",
-  "version": "1.0.0-beta.4",
-  "description": "Javascript library for executing searches in the IntelliSearch search-index via the SearchService REST interface.",
-  "main": "dist/SearchClient.js",
-  "browser": {
-    "./dist/SearchClient.bundle.js": "./dist/SearchClient.bundle.js",
-    "./dist/SearchClient.bundle.min.js": "./dist/SearchClient.bundle.min.js"
-  },
-  "typings": "dist/SearchClient.d.ts",
+  "name": "typescript-library-boilerplate",
+  "version": "0.1.0",
+  "description": "Boilerplate for TypeScript 2.0 libraries",
+  "author": "Max Davidson <davidsonmax@gmail.com>",
+  "license": "MIT",
+  "repository": "git+https://github.com/maxdavidson/typescript-library-boilerplate.git",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "browser": "dist/bundle.js",
+  "types": "dist/bundle.d.ts",
   "scripts": {
-    "prelint": "yarn install",
-    "lint": "echo \"*** Linting...\" && yarn run tslint src/*.ts && echo \"Lint success.\"",
-    "prebuild": "yarn run lint",
-    "build": "echo \"*** Building...\" && yarn run rimraf dist && yarn run tsc && yarn run simplifyify --bundle --debug --minify --test --outfile dist/SearchClient.bundle.js dist/SearchClient.js && echo \"*** Build success.\"",
-    "test": "jest",
-    "test:watch": "yarn test --watch",
-    "coverage": "yarn test --coverage --no-cache",
-    "coverage:watch": "yarn run coverage --watch",
-    "predocs": "node docs-prepare.js",
-    "docs": "echo \"*** Documenting...\" && yarn run rimraf docs && yarn run typedoc ./src/ --readme ./tmp/docs/INDEX.md --excludePrivate --mode file --experimentalDecorators --target ES6 --out ./docs/ && echo \"*** Documentation created: ./docs/index.html\"",
-    "postdocs": "yarn run rimraf ./tmp/docs && node docs-finalize.js",
-    "verify": "yarn run build && yarn run test && yarn run docs && echo \"*** Verify success.\" && echo \"- If ready to release, commit changes and then 'yarn bump' (optionally with params https://www.npmjs.com/package/standard-version).\" && echo \"- Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md\"",
-    "bump": "yarn run standard-version",
-    "pack": "echo \"*** Packing...\" && yarn pack && echo \"Pack success.\" && echo \"- Package created.\" && echo \"- Remember to git-push commits and tags to the git-origin!\" && echo \"- Run 'npm publish' to publish the package to the npmjs repository.\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/IntelliSearch/search-client.git"
+    "build": "yarn run build:lib & yarn run build:umd",
+    "build:lib": "tsc --outDir lib --module commonjs",
+    "build:es": "tsc --outDir es --module es2015",
+    "build:umd": "yarn run build:es && rollup --config && dts-bundle --name dist/bundle --main es --outputAsModuleFolder",
+    "clean": "rimraf dist es lib coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "tslint --project tsconfig.json --format stylish",
+    "test": "jest --env=jsdom --coverage",
+    "test:watch": "jest --env=jsdom --watch --updateSnapshot",
+    "prepublishOnly": "yarn run build",
+    "prebuild": "yarn run clean",
+    "postbuild": "rimraf {lib,es}/**/__tests__",
+    "posttest": "yarn run typecheck && yarn run lint",
+    "preversion": "yarn test",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "typescript",
-    "javascript",
+    "lib",
     "library",
-    "SearchService",
-    "client",
-    "search",
-    "IntelliSearch"
+    "boilerplate"
   ],
-  "author": "Ronny Hanssen <ronny@intellisearch.com> (http://intellisearch.com/)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/intellisearch/search-client/issues"
-  },
-  "homepage": "https://github.com/intellisearch/search-client#readme",
-  "devDependencies": {
-    "@types/jest": "19.2.4",
-    "@types/node": "7.0.57",
-    "babel-core": "6.26.0",
-    "babel-polyfill": "6.26.0",
-    "babel-preset-es2015": "6.24.1",
-    "concat-files": "0.1.1",
-    "jest": "19.0.2",
-    "replace-in-file": "2.6.4",
-    "rimraf": "2.6.2",
-    "simplifyify": "3.2.4",
-    "standard-version": "4.3.0",
-    "ts-jest": "19.0.1",
-    "tslint": "4.5.1",
-    "typedoc": "0.11.1",
-    "typescript": "2.7.2"
-  },
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ],
   "dependencies": {
-    "@types/deep-equal": "1.0.1",
-    "@types/jwt-simple": "0.5.33",
-    "@types/moment": "2.13.0",
-    "@types/valid-url": "1.0.2",
-    "deep-equal": "^1.0.1",
-    "domain-task": "3.0.0",
-    "jwt-simple": "0.5.1",
-    "moment": "2.21.0",
-    "valid-url": "1.0.9"
+    "@types/node": "^10.3.3",
+    "tslib": "^1.9.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.1.0",
+    "dts-bundle": "^0.7.3",
+    "jest": "^23.1.0",
+    "pascal-case": "^2.0.1",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.60.7",
+    "rollup-plugin-commonjs": "^9.1.3",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.2.1",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.15.0",
+    "rollup-plugin-uglify": "^4.0.0",
+    "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.2"
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "ts-jest/preprocessor.js"
+      "^.+\\.(t|j)sx?$": "ts-jest"
     },
-    "testEnvironment": "node",
-    "testRegex": ".*\\.spec\\.ts$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "<rootDir>/(node_modules|lib|es|dist)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{t,j}s?(x)",
+      "!src/**/*.d.ts"
+    ],
     "moduleFileExtensions": [
-      "ts",
       "js",
-      "json"
-    ]
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true,
+        "tsConfigFile": "tsconfig.jest.json"
+      }
+    }
   }
 }
