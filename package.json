@@ -38,8 +38,15 @@
     "dist"
   ],
   "dependencies": {
+    "@types/jwt-simple": "^0.5.33",
+    "@types/moment": "^2.13.0",
     "@types/node": "^10.3.3",
-    "tslib": "^1.9.2"
+    "@types/valid-url": "^1.0.2",
+    "cross-fetch": "^2.2.1",
+    "jwt-simple": "^0.5.1",
+    "moment": "^2.22.2",
+    "tslib": "^1.9.2",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "@types/jest": "^23.1.0",

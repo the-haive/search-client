@@ -13,8 +13,17 @@
     "sourceMap": true,
     "inlineSources": true,
     "noUnusedLocals": true,
-    "strictNullChecks": true
-  },
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": false,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+        "node_modules/@types"
+    ]
+},
   "exclude": [
     "node_modules",
     "dist",
