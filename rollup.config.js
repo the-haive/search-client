@@ -13,7 +13,7 @@ let override = { compilerOptions: { declaration: false } };
 export default {
   input: 'es/index.js',
   output: {
-    file: 'dist/bundle.js',
+    file: 'dist/SearchClient.js',
     amd: {
       id: pkg.name,
     },

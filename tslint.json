@@ -25,6 +25,7 @@
       "method": "never",
       "named": "never"
     }],
+    "trailing-comma": false,
     "variable-name": [
       true,
       "ban-keywords",
