@@ -1,5 +1,6 @@
 import moment from 'moment/moment';
 
+import { CategorizationType } from './CategorizationType';
 import { OrderBy } from './OrderBy';
 import { SearchType } from './SearchType';
 import { Filter } from './Filter';
@@ -20,6 +21,11 @@ export class Query {
      * Any string that you want to identify the client with. Can be used in the categories configuration and in the relevance tuning.
      */
     public clientId?: string = '';
+
+    /**
+     * Used to specify whether categorize calls should always return all categories or just categories that has matches. 
+     */
+    public categorizationType?: CategorizationType = CategorizationType.All;
 
     /**
      * Used to specify the start date-range.
@@ -96,12 +102,11 @@ export class Query {
     public uiLanguageCode?: string = '';
 
     /**
-     * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
+     * Instantiates a Query object, based on Query defaults and the overrides provided as a param.
      *
-     * @param query - The query defined here will override the default Query.
+     * @param query - The Query object with override values.
      */
-    constructor(query?: Query) {
+    constructor(query: Query = {} as Query) {
         Object.assign(this, query);
     }
-
 }
