@@ -46,12 +46,9 @@ export class AuthenticationSettings extends BaseSettings<any> {
             this.enabled = typeof settings.enabled !== 'undefined' ? settings.enabled : this.enabled;
             this.token = typeof settings.token !== 'undefined' ? settings.token : this.token;
             this.tokenPath = typeof settings.tokenPath !== 'undefined' ? settings.tokenPath : this.tokenPath;
-            this.triggers = typeof settings.triggers !== 'undefined' ? new AuthenticationTriggers(settings.triggers) : this.triggers;
-            this.url = typeof settings.url !== 'undefined' ? settings.url : this.url;
+            this.triggers = typeof settings.triggers !== 'undefined' ? new AuthenticationTriggers(settings.triggers.expiryOverlap) : this.triggers;
+            this.url = typeof settings.url !== 'undefined' ? settings.url.replace(/(^\/+)|(\/+$)/g, '') : this.url;
         }
-
-        // Remove leading and trailing slashes from the url
-        this.url = this.url ? this.url.replace(/(^\/+)|(\/+$)/g, '') : this.url;
     }
 
 }

@@ -25,9 +25,12 @@ export class Authentication extends BaseCall<any> {
      * @param settings - The settings for the authentication object.
      * @param auth - An object that controls the authentication for the lookups.
      */
-    constructor(baseUrl: string, protected settings?: AuthenticationSettings, auth?: AuthToken) {
-        super(baseUrl, new AuthenticationSettings(settings), auth);
-
+    constructor(baseUrl: string, 
+                protected settings?: AuthenticationSettings, 
+                auth?: AuthToken
+            ) {
+        super(baseUrl, settings, auth);
+        
         this.settings = new AuthenticationSettings(settings);
 
         if (this.settings && this.settings.token) {

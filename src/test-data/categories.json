@@ -1,0 +1,778 @@
+{
+    "$id": "1",
+    "groups": [
+      {
+        "$id": "2",
+        "categories": [
+          {
+            "$id": "3",
+            "name": "Demo-esp",
+            "categoryName": [
+              "System",
+              "Demo-esp"
+            ],
+            "count": 7,
+            "children": [
+              {
+                "$id": "4",
+                "name": "C$",
+                "categoryName": [
+                  "System",
+                  "Demo-esp",
+                  "C$"
+                ],
+                "count": 7,
+                "children": [
+                  {
+                    "$id": "5",
+                    "name": "Fileshares",
+                    "categoryName": [
+                      "System",
+                      "Demo-esp",
+                      "C$",
+                      "Fileshares"
+                    ],
+                    "count": 7,
+                    "children": [],
+                    "displayName": "Fileshares",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "C$",
+                "expanded": false
+              }
+            ],
+            "displayName": "Demo-esp",
+            "expanded": false
+          }
+        ],
+        "name": "System",
+        "displayName": "System",
+        "expanded": false
+      },
+      {
+        "$id": "6",
+        "categories": [
+          {
+            "$id": "7",
+            "name": "File",
+            "categoryName": [
+              "Type",
+              "File"
+            ],
+            "count": 7,
+            "children": [],
+            "displayName": "File",
+            "expanded": false
+          }
+        ],
+        "name": "Type",
+        "displayName": "Type",
+        "expanded": false
+      },
+      {
+        "$id": "8",
+        "categories": [
+          {
+            "$id": "9",
+            "name": "Økonomi",
+            "categoryName": [
+              "GDPR",
+              "Økonomi"
+            ],
+            "count": 2,
+            "children": [
+              {
+                "$id": "10",
+                "name": "Kontonummer",
+                "categoryName": [
+                  "GDPR",
+                  "Økonomi",
+                  "Kontonummer"
+                ],
+                "count": 1,
+                "children": [],
+                "displayName": "Kontonummer",
+                "expanded": false
+              }
+            ],
+            "displayName": "Økonomi",
+            "expanded": false
+          },
+          {
+            "$id": "11",
+            "name": "Fagforening",
+            "categoryName": [
+              "GDPR",
+              "Fagforening"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "Fagforening",
+            "expanded": false
+          },
+          {
+            "$id": "12",
+            "name": "Identitet",
+            "categoryName": [
+              "GDPR",
+              "Identitet"
+            ],
+            "count": 1,
+            "children": [
+              {
+                "$id": "13",
+                "name": "Personnummer",
+                "categoryName": [
+                  "GDPR",
+                  "Identitet",
+                  "Personnummer"
+                ],
+                "count": 1,
+                "children": [],
+                "displayName": "Personnummer",
+                "expanded": false
+              }
+            ],
+            "displayName": "Identitet",
+            "expanded": false
+          },
+          {
+            "$id": "14",
+            "name": "Politikk",
+            "categoryName": [
+              "GDPR",
+              "Politikk"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "Politikk",
+            "expanded": false
+          },
+          {
+            "$id": "15",
+            "name": "Straffesaker",
+            "categoryName": [
+              "GDPR",
+              "Straffesaker"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "Straffesaker",
+            "expanded": false
+          }
+        ],
+        "name": "GDPR",
+        "displayName": "GDPR",
+        "expanded": true
+      },
+      {
+        "$id": "16",
+        "categories": [
+          {
+            "$id": "17",
+            "name": "Word",
+            "categoryName": [
+              "Filetype",
+              "Word"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "Word",
+            "expanded": false
+          },
+          {
+            "$id": "18",
+            "name": "PDF",
+            "categoryName": [
+              "Filetype",
+              "PDF"
+            ],
+            "count": 3,
+            "children": [],
+            "displayName": "PDF",
+            "expanded": false
+          },
+          {
+            "$id": "19",
+            "name": "Other",
+            "categoryName": [
+              "Filetype",
+              "Other"
+            ],
+            "count": 3,
+            "children": [
+              {
+                "$id": "20",
+                "name": "rtf",
+                "categoryName": [
+                  "Filetype",
+                  "Other",
+                  "rtf"
+                ],
+                "count": 2,
+                "children": [],
+                "displayName": "rtf",
+                "expanded": false
+              },
+              {
+                "$id": "21",
+                "name": "txt",
+                "categoryName": [
+                  "Filetype",
+                  "Other",
+                  "txt"
+                ],
+                "count": 1,
+                "children": [],
+                "displayName": "txt",
+                "expanded": false
+              }
+            ],
+            "displayName": "Other",
+            "expanded": false
+          }
+        ],
+        "name": "Filetype",
+        "displayName": "Filetype",
+        "expanded": false
+      },
+      {
+        "$id": "22",
+        "categories": [
+          {
+            "$id": "23",
+            "name": "2018",
+            "categoryName": [
+              "ModifiedDate",
+              "2018"
+            ],
+            "count": 1,
+            "children": [
+              {
+                "$id": "24",
+                "name": "Month",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2018",
+                  "Month"
+                ],
+                "count": 1,
+                "children": [
+                  {
+                    "$id": "25",
+                    "name": "1",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2018",
+                      "Month",
+                      "1"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "1",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Month",
+                "expanded": false
+              },
+              {
+                "$id": "26",
+                "name": "Week",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2018",
+                  "Week"
+                ],
+                "count": 1,
+                "children": [
+                  {
+                    "$id": "27",
+                    "name": "3",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2018",
+                      "Week",
+                      "3"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "3",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Week",
+                "expanded": false
+              },
+              {
+                "$id": "28",
+                "name": "Quarter",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2018",
+                  "Quarter"
+                ],
+                "count": 1,
+                "children": [
+                  {
+                    "$id": "29",
+                    "name": "1",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2018",
+                      "Quarter",
+                      "1"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "1",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Quarter",
+                "expanded": false
+              }
+            ],
+            "displayName": "2018",
+            "expanded": false
+          },
+          {
+            "$id": "30",
+            "name": "2017",
+            "categoryName": [
+              "ModifiedDate",
+              "2017"
+            ],
+            "count": 2,
+            "children": [
+              {
+                "$id": "31",
+                "name": "Month",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2017",
+                  "Month"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "32",
+                    "name": "3",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Month",
+                      "3"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "3",
+                    "expanded": false
+                  },
+                  {
+                    "$id": "33",
+                    "name": "8",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Month",
+                      "8"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "8",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Month",
+                "expanded": false
+              },
+              {
+                "$id": "34",
+                "name": "Week",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2017",
+                  "Week"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "35",
+                    "name": "10",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Week",
+                      "10"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "10",
+                    "expanded": false
+                  },
+                  {
+                    "$id": "36",
+                    "name": "34",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Week",
+                      "34"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "34",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Week",
+                "expanded": false
+              },
+              {
+                "$id": "37",
+                "name": "Quarter",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2017",
+                  "Quarter"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "38",
+                    "name": "1",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Quarter",
+                      "1"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "1",
+                    "expanded": false
+                  },
+                  {
+                    "$id": "39",
+                    "name": "3",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2017",
+                      "Quarter",
+                      "3"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "3",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Quarter",
+                "expanded": false
+              }
+            ],
+            "displayName": "2017",
+            "expanded": false
+          },
+          {
+            "$id": "40",
+            "name": "2016",
+            "categoryName": [
+              "ModifiedDate",
+              "2016"
+            ],
+            "count": 2,
+            "children": [
+              {
+                "$id": "41",
+                "name": "Month",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2016",
+                  "Month"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "42",
+                    "name": "4",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2016",
+                      "Month",
+                      "4"
+                    ],
+                    "count": 2,
+                    "children": [],
+                    "displayName": "4",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Month",
+                "expanded": false
+              },
+              {
+                "$id": "43",
+                "name": "Week",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2016",
+                  "Week"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "44",
+                    "name": "14",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2016",
+                      "Week",
+                      "14"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "14",
+                    "expanded": false
+                  },
+                  {
+                    "$id": "45",
+                    "name": "16",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2016",
+                      "Week",
+                      "16"
+                    ],
+                    "count": 1,
+                    "children": [],
+                    "displayName": "16",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Week",
+                "expanded": false
+              },
+              {
+                "$id": "46",
+                "name": "Quarter",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2016",
+                  "Quarter"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "47",
+                    "name": "2",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2016",
+                      "Quarter",
+                      "2"
+                    ],
+                    "count": 2,
+                    "children": [],
+                    "displayName": "2",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Quarter",
+                "expanded": false
+              }
+            ],
+            "displayName": "2016",
+            "expanded": false
+          },
+          {
+            "$id": "48",
+            "name": "2014",
+            "categoryName": [
+              "ModifiedDate",
+              "2014"
+            ],
+            "count": 2,
+            "children": [
+              {
+                "$id": "49",
+                "name": "Month",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2014",
+                  "Month"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "50",
+                    "name": "11",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2014",
+                      "Month",
+                      "11"
+                    ],
+                    "count": 2,
+                    "children": [],
+                    "displayName": "11",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Month",
+                "expanded": false
+              },
+              {
+                "$id": "51",
+                "name": "Week",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2014",
+                  "Week"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "52",
+                    "name": "47",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2014",
+                      "Week",
+                      "47"
+                    ],
+                    "count": 2,
+                    "children": [],
+                    "displayName": "47",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Week",
+                "expanded": false
+              },
+              {
+                "$id": "53",
+                "name": "Quarter",
+                "categoryName": [
+                  "ModifiedDate",
+                  "2014",
+                  "Quarter"
+                ],
+                "count": 2,
+                "children": [
+                  {
+                    "$id": "54",
+                    "name": "3",
+                    "categoryName": [
+                      "ModifiedDate",
+                      "2014",
+                      "Quarter",
+                      "3"
+                    ],
+                    "count": 2,
+                    "children": [],
+                    "displayName": "3",
+                    "expanded": false
+                  }
+                ],
+                "displayName": "Quarter",
+                "expanded": false
+              }
+            ],
+            "displayName": "2014",
+            "expanded": false
+          }
+        ],
+        "name": "ModifiedDate",
+        "displayName": "ModifiedDate",
+        "expanded": false
+      },
+      {
+        "$id": "55",
+        "categories": [
+          {
+            "$id": "56",
+            "name": "ESP",
+            "categoryName": [
+              "Projects (JIRA)",
+              "ESP"
+            ],
+            "count": 2,
+            "children": [],
+            "displayName": "ESP",
+            "expanded": false
+          },
+          {
+            "$id": "57",
+            "name": "HOST",
+            "categoryName": [
+              "Projects (JIRA)",
+              "HOST"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "HOST",
+            "expanded": false
+          },
+          {
+            "$id": "58",
+            "name": "PA",
+            "categoryName": [
+              "Projects (JIRA)",
+              "PA"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "PA",
+            "expanded": false
+          },
+          {
+            "$id": "59",
+            "name": "QM",
+            "categoryName": [
+              "Projects (JIRA)",
+              "QM"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "QM",
+            "expanded": false
+          },
+          {
+            "$id": "60",
+            "name": "UTF",
+            "categoryName": [
+              "Projects (JIRA)",
+              "UTF"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "UTF",
+            "expanded": false
+          },
+          {
+            "$id": "61",
+            "name": "VC",
+            "categoryName": [
+              "Projects (JIRA)",
+              "VC"
+            ],
+            "count": 1,
+            "children": [],
+            "displayName": "VC",
+            "expanded": false
+          }
+        ],
+        "name": "Projects (JIRA)",
+        "displayName": "Projects (JIRA)",
+        "expanded": false
+      }
+    ],
+    "isEstimatedCount": false,
+    "matchCount": 7,
+    "extendedProperties": [],
+    "statusCode": 0,
+    "errorMessage": ""
+  }
