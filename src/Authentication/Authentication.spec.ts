@@ -24,6 +24,7 @@ describe('Authentication basics', () => {
 
         expect(typeof authentication).toBe('object');
         expect(authentication instanceof Authentication).toBeTruthy();
+        expect(authentication.baseUrl).toEqual('http://localhost:9950/RestService/v4');
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
         expect(pAuthentication.settings.cbError).toBeUndefined();
@@ -40,10 +41,12 @@ describe('Authentication basics', () => {
     it('Should throw for invalid Urls', () => {
         expect(() => {
             let authentication = new Authentication('file://localhost:9950');
+            expect(typeof authentication).toBeInstanceOf(Authentication);
         }).toThrow();
 
         expect(() => {
             let authentication = new Authentication('http:+//localhost:9950');
+            expect(typeof authentication).toBeInstanceOf(Authentication);
         }).toThrow();
     });
 
@@ -147,7 +150,7 @@ describe('Authentication basics', () => {
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
-        
+
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');
@@ -165,14 +168,14 @@ describe('Authentication basics', () => {
 
         let authentication = new Authentication('http://localhost:9950/', settings);
         let pAuthentication = authentication as any;
-        
+
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
         expect(pAuthentication.baseUrl).toEqual('http://localhost:9950/RestService/v4');
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
-        
+
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');
@@ -197,7 +200,7 @@ describe('Authentication basics', () => {
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
-        
+
         authentication.fetch();
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');

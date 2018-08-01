@@ -25,22 +25,22 @@ export class Authentication extends BaseCall<any> {
      * @param settings - The settings for the authentication object.
      * @param auth - An object that controls the authentication for the lookups.
      */
-    constructor(baseUrl: string, 
-                protected settings?: AuthenticationSettings, 
+    constructor(baseUrl: string,
+                protected settings?: AuthenticationSettings,
                 auth?: AuthToken
             ) {
-        super(baseUrl, settings, auth);
-        
-        this.settings = new AuthenticationSettings(settings);
-
-        if (this.settings && this.settings.token) {
-            this.auth.authenticationToken = this.settings.token;
-            this.settings.token = undefined;
-            this.setupRefresh();
-        } else if (this.settings.enabled) {
-            // We authenticate immediately in order to have the token in place when the first calls come in.
-            this.update(null);
-        }
+      super();
+      settings = new AuthenticationSettings(settings);
+      auth = auth || new AuthToken();
+      super.init(baseUrl, settings, auth);
+      if (this.settings.token) {
+          this.auth.authenticationToken = this.settings.token;
+          this.settings.token = undefined;
+          this.setupRefresh();
+      } else if (this.settings.enabled) {
+          // We authenticate immediately in order to have the token in place when the first calls come in.
+          this.update(null);
+      }
     }
 
     /**
