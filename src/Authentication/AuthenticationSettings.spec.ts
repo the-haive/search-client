@@ -7,7 +7,7 @@ import * as jwt from 'jwt-simple';
 import { AuthenticationSettings } from './AuthenticationSettings';
 
 describe('AutocompleteSettings basics', () => {
-    
+
     it('Should be able to create a default settings object with expected values', () => {
         let settings = new AuthenticationSettings();
 
@@ -52,7 +52,7 @@ describe('AutocompleteSettings basics', () => {
             triggers: {
                 expiryOverlap: 120,
             },
-            url: '/test/',
+            url: '/test/'
         } as AuthenticationSettings;
 
         settings = new AuthenticationSettings(settings);

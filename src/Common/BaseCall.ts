@@ -1,9 +1,9 @@
 import { isWebUri } from 'valid-url';
 
-import { DateSpecification } from '../Common/Query';
-import { OrderBy } from '../Common/OrderBy';
-import { SearchType } from '../Common/SearchType';
-import { BaseSettings } from '../Common/BaseSettings';
+import { DateSpecification } from './Query';
+import { OrderBy } from './OrderBy';
+import { SearchType } from './SearchType';
+import { BaseSettings } from './BaseSettings';
 import { AuthToken } from '../Authentication/AuthToken';
 
 import { Filter } from './Filter';
@@ -28,28 +28,6 @@ export abstract class BaseCall<TDataType> {
   protected deferredQuery: Query | null;
 
   protected delay: NodeJS.Timer;
-
-  /**
-   * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
-   *
-   * @param baseUrl - The base url for the service to be setup.
-   * @param settings - The base url for the service to be setup.
-   * @param auth - The auth-object that controls authentication for the service.
-   */
-  public init(baseUrl: string, settings?: BaseSettings<TDataType>, auth?: AuthToken) {
-      // Strip off any slashes at the end of the baseUrl
-      let path = settings && settings.path ? settings.path : '';
-      baseUrl = `${baseUrl.replace(/\/+$/, '')}/${path}`;
-
-      // Verify the authenticity
-      if (!isWebUri(baseUrl)) {
-          throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
-      }
-
-      this.baseUrl = baseUrl;
-      this.settings = settings;
-      this.auth = auth;
-  }
 
   /**
    * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
@@ -96,9 +74,9 @@ export abstract class BaseCall<TDataType> {
       } else {
           // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
           clearTimeout(this.delay);
-          if (query !== null) {
-              this.fetch(query);
-          }
+          //if (query !== null) {
+          this.fetch(query);
+          //}
       }
   }
 
@@ -119,7 +97,29 @@ export abstract class BaseCall<TDataType> {
   public searchTypeChanged(oldValue: SearchType, query: Query): void { /* Default no implementation*/ }
   public uiLanguageCodeChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
 
-  protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any>;
+  /**
+   * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
+   *
+   * @param baseUrl - The base url for the service to be setup.
+   * @param settings - The base url for the service to be setup.
+   * @param auth - The auth-object that controls authentication for the service.
+   */
+  protected init(baseUrl: string, settings?: BaseSettings<TDataType>, auth?: AuthToken) {
+    // Strip off any slashes at the end of the baseUrl
+    let path = settings && settings.path ? settings.path : '';
+    baseUrl = `${baseUrl.replace(/\/+$/, '')}/${path}`;
+
+    // Verify the authenticity
+    if (!isWebUri(baseUrl)) {
+        throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
+    }
+
+    this.baseUrl = baseUrl;
+    this.settings = settings;
+    this.auth = auth;
+}
+
+protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any>;
 
   protected cbRequest(suppressCallbacks: boolean, url: string, reqInit: RequestInit): boolean {
       if (!this.settings) {

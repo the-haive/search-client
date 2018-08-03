@@ -5,6 +5,11 @@ import { Group } from './Group';
  */
 export interface Categories {
     /**
+     * Always only 1
+     */
+     $id?: number;
+
+    /**
      * A list of top-level groups.
      */
     groups: Group[];
@@ -16,4 +21,7 @@ export interface Categories {
      * The number of matches in total for the returned categories.
      */
     matchCount: number;
-}
+    extendedProperties: any [];
+    statusCode: number;
+    errorMessage: string;
+  }

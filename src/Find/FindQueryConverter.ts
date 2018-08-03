@@ -1,0 +1,67 @@
+import * as moment from 'moment';
+
+import { OrderBy, SearchType, Query } from '../Common';
+
+/**
+ * Class to handle creating categorize lookups for restservice version 3.
+ */
+export class FindQueryConverter {
+  /**
+   * Returns the url for version 3 of the REST API.
+   *
+   * @param baseUrl is the leading part of the url that is to be generated.
+   * @param queyr is the query that is to be converted into the url.
+   */
+  public getUrl(baseUrl: string, servicePath: string, query: Query): string {
+      let params = this.getUrlParams(query).sort();
+      baseUrl = baseUrl.replace(/\/+$/, '');
+      servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, '');
+      return `${baseUrl}/${servicePath}?${params.join('&')}`;
+  }
+
+  protected addParamIfSet(params: string[], key: string, param: any) {
+    let value = param.toString();
+    if (value) {
+        params.push(`${key}=${encodeURIComponent(value)}`);
+    }
+  }
+
+  /**
+   * Converts the query params to an array of key=value segments,
+   * fit for Categorize V3.
+   */
+  protected getUrlParams(query: Query): string[] {
+      let params: string[] = [];
+
+      this.addParamIfSet(params, 'c', query.clientId);
+      this.addParamIfSet(params, 'df', this.createDate(query.dateFrom));
+      this.addParamIfSet(params, 'dt', this.createDate(query.dateTo));
+      let filters: string[] = query.filters.map((f) => f.category.categoryName.join('|'));
+      this.addParamIfSet(params, 'f', filters.join(';'));
+      this.addParamIfSet(params, 'q', query.queryText);
+      this.addParamIfSet(params, 't', SearchType[query.searchType]);
+      this.addParamIfSet(params, 'l', query.uiLanguageCode);
+      this.addParamIfSet(params, 'g', query.matchGrouping);
+      this.addParamIfSet(params, 'o', OrderBy[query.matchOrderBy]);
+      this.addParamIfSet(params, 'p', query.matchPage);
+      this.addParamIfSet(params, 's', query.matchPageSize);
+      this.addParamIfSet(params, 'gc', query.matchGenerateContent);
+      this.addParamIfSet(params, 'gch', query.matchGenerateContentHighlights);
+
+      return params;
+  }
+
+  protected createDate(date: Date | string | number | moment.DurationInputObject): string {
+      if (!date) {
+          return '';
+      }
+
+      let dateString: string;
+      if (typeof date === 'object' && !(date instanceof String) && !(date instanceof Date)) {
+          dateString = moment().add(date).toISOString();
+      } else {
+          dateString = moment(date).toISOString();
+      }
+      return dateString;
+  }
+}

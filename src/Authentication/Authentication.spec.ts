@@ -79,7 +79,6 @@ describe('Authentication basics', () => {
         settings.tokenPath = [];
         settings.triggers = new AuthenticationTriggers();
         settings.url = '/test';
-        console.log(`settings.tokenPath: ${settings.tokenPath}` );
 
         let authentication = new Authentication('http://localhost:9950/', settings);
         let pAuthentication = authentication as any;

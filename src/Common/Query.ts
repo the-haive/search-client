@@ -1,4 +1,4 @@
-import moment from 'moment/moment';
+import moment from 'moment';
 
 import { CategorizationType } from './CategorizationType';
 import { OrderBy } from './OrderBy';
@@ -23,7 +23,7 @@ export class Query {
     public clientId?: string = '';
 
     /**
-     * Used to specify whether categorize calls should always return all categories or just categories that has matches. 
+     * Used to specify whether categorize calls should always return all categories or just categories that has matches.
      */
     public categorizationType?: CategorizationType = CategorizationType.All;
 
