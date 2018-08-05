@@ -1,17 +1,7 @@
-//import { fetch } from 'domain-task';
-
-import { DateSpecification } from '../Common/Query';
-import { BaseCall } from '../Common/BaseCall';
-import { OrderBy } from '../Common/OrderBy';
-import { SearchType } from '../Common/SearchType';
-import { Filter } from '../Common/Filter';
-import { Query } from '../Common/Query';
-import { FindQueryConverter } from './FindQueryConverter';
-import { Matches } from '../Data/Matches';
 import { AuthToken } from '../Authentication/AuthToken';
-//import { Categorize } from '../Categorize/Categorize';
-
-import { FindSettings } from './FindSettings';
+import { BaseCall, DateSpecification, Filter, OrderBy, Query, SearchType } from '../Common';
+import { FindQueryConverter, FindSettings } from './';
+import { Matches } from '../Data';
 
 /**
  * Wraps the find search-service rest-service.
@@ -68,7 +58,7 @@ export class Find extends BaseCall<Matches> {
                     return Promise.reject(error);
                 });
         } else {
-            return undefined;
+            return Promise.reject('Stopped by settings cbRequest method.');
         }
     }
 

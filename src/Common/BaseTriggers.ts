@@ -75,13 +75,7 @@ export abstract class BaseTriggers {//implements IBaseTriggers {
      * @param triggers - The trigger settings defined here will override the default trigger settings.
      */
     constructor(triggers: BaseTriggers = {} as BaseTriggers) {
-        Object.assign(triggers);
-        // if (triggers) {
-        //     this.queryChange = typeof triggers.queryChange !== "undefined" ? triggers.queryChange : this.queryChange;
-        //     this.queryChangeDelay = typeof triggers.queryChangeDelay !== "undefined" ? triggers.queryChangeDelay : this.queryChangeDelay;
-        //     this.queryChangeInstantRegex = typeof triggers.queryChangeInstantRegex !== "undefined" ? triggers.queryChangeInstantRegex : this.queryChangeInstantRegex;
-        //     this.queryChangeMinLength = typeof triggers.queryChangeMinLength !== "undefined" ? triggers.queryChangeMinLength : this.queryChangeMinLength;
-        // }
+        Object.assign(this, triggers);
     }
 
 }

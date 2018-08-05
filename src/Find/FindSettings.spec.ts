@@ -1,9 +1,5 @@
-// tslint:disable-next-line:no-var-requires
-// require("babel-core/register");
-// require("babel-polyfill");
-
-import { FindSettings } from './FindSettings';
-import { Matches } from '../Data/Matches';
+import { FindSettings } from '.';
+import { Matches } from '../Data';
 
 describe('FindSettings basics', () => {
 

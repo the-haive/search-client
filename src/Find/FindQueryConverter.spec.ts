@@ -1,11 +1,5 @@
-import { Category } from './../Data';
-import { OrderBy, SearchType, Filter} from '../Common';
-
-// tslint:disable-next-line:no-var-requires
-// require("babel-core/register");
-// require("babel-polyfill");
-
-import { Query } from '../Common/';
+import { Category } from '../Data';
+import { Filter, OrderBy, Query, SearchType} from '../Common';
 import { FindQueryConverter } from './FindQueryConverter';
 
 const fixedQuery = new Query({
@@ -31,7 +25,7 @@ const fixedQuery = new Query({
                 expanded: true,
                 name: 'docx',
             } as Category),
-        ], //"Authors|Bob", "FileTypes|docx"],
+        ],
     matchGrouping: true,
     matchOrderBy: OrderBy.Date,
     matchPage: 1,

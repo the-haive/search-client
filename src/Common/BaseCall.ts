@@ -36,48 +36,48 @@ export abstract class BaseCall<TDataType> {
    * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
    */
   public deferUpdates(state: boolean, skipPending: boolean = false) {
-      this.deferUpdate = state;
-      if (!state && this.deferredQuery) {
-          const query = this.deferredQuery;
-          this.deferredQuery = null;
-          if (!skipPending) {
-              this.update(query);
-          }
+    this.deferUpdate = state;
+    if (!state && this.deferredQuery) {
+      const query = this.deferredQuery;
+      this.deferredQuery = null;
+      if (!skipPending) {
+        this.update(query);
       }
+    }
   }
 
   /**
    * Sets up the Request that is to be executed, with headers and auth as needed.
    */
   public requestObject(): RequestInit {
-      const headers: any = {
-          'Content-Type': 'application/json',
-      };
+    const headers: any = {
+      'Content-Type': 'application/json',
+    };
 
-      if (this.auth && this.auth.authenticationToken) {
-          headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
-      }
+    if (this.auth && this.auth.authenticationToken) {
+      headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
+    }
 
-      return {
-          cache: 'default',
-          credentials: 'include',
-          headers,
-          method: 'GET',
-          mode: 'cors',
-      } as RequestInit;
+    return {
+      cache: 'default',
+      credentials: 'include',
+      headers,
+      method: 'GET',
+      mode: 'cors',
+    } as RequestInit;
   }
 
   public update(query: Query | null): void {
-      if (this.deferUpdate) {
-          // Save the query, so that when the deferUpdate is again false we can then execute it.
-          this.deferredQuery = query;
-      } else {
-          // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-          clearTimeout(this.delay);
-          //if (query !== null) {
-          this.fetch(query);
-          //}
-      }
+    if (this.deferUpdate) {
+      // Save the query, so that when the deferUpdate is again false we can then execute it.
+      this.deferredQuery = query;
+    } else {
+      // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
+      clearTimeout(this.delay);
+      //if (query !== null) {
+      this.fetch(query);
+      //}
+    }
   }
 
   public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void { /* Default no implementation*/ }
@@ -111,7 +111,7 @@ export abstract class BaseCall<TDataType> {
 
     // Verify the authenticity
     if (!isWebUri(baseUrl)) {
-        throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
+      throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
     }
 
     this.baseUrl = baseUrl;
@@ -122,31 +122,31 @@ export abstract class BaseCall<TDataType> {
 protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any>;
 
   protected cbRequest(suppressCallbacks: boolean, url: string, reqInit: RequestInit): boolean {
-      if (!this.settings) {
+    if (!this.settings) {
       throw new Error('Settings cannot be empty.');
-      }
-      if (this.settings.cbRequest && !suppressCallbacks) {
-          return this.settings.cbRequest(url, reqInit);
-      }
-      // If no request-callback is set up we return true to allow the fetch to be executed
-      return true;
+    }
+    if (this.settings.cbRequest && !suppressCallbacks) {
+      return this.settings.cbRequest(url, reqInit);
+    }
+    // If no request-callback is set up we return true to allow the fetch to be executed
+    return true;
   }
 
   protected cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
-      if (!this.settings) {
+    if (!this.settings) {
       throw new Error('Settings cannot be empty.');
-      }
-      if (this.settings.cbSuccess && !suppressCallbacks) {
+    }
+    if (this.settings.cbSuccess && !suppressCallbacks) {
       this.settings.cbError(error);
-      }
+    }
   }
 
   protected cbSuccess(suppressCallbacks: boolean, data: TDataType, url: string, reqInit: RequestInit): void {
-      if (!this.settings) {
+    if (!this.settings) {
       throw new Error('Settings cannot be empty.');
-      }
-      if (this.settings.cbSuccess && !suppressCallbacks) {
+    }
+    if (this.settings.cbSuccess && !suppressCallbacks) {
       this.settings.cbSuccess(data);
-      }
+    }
   }
 }
