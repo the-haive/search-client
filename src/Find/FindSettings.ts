@@ -31,5 +31,4 @@ export class FindSettings extends BaseSettings<Matches> {
         // Remove leading and trailing slashes from the url
         this.url = this.url.replace(/(^\/+)|(\/+$)/g, '');
     }
-
 }

@@ -1,0 +1,237 @@
+
+  it('Should be able to change the clientCategoryFilter property in SearchClient', () => {
+    // tslint:disable-next-line:no-require-imports
+    let workCopy: Categories = require('../test-data/categories.json');
+    sanityCheck(workCopy);
+
+    let catResults: Categories = null;
+
+    let cbSuccessMock = jest.fn((cats: Categories) => {
+      catResults = cats;
+    });
+
+    let client = new Categorize('http://localhost:9950/', {
+        cbSuccess: cbSuccessMock,
+      });
+
+    // Faking that categories has been received in the categorize service
+    let pClient = client as any;
+    pClient.categories = workCopy;
+
+    // Expect the filter to change the categories received
+    client.clientCategoryFilter = {
+      System: /---/,
+      ModifiedDate: /201\d/,
+      Author: /---/,
+      FileType: /---/,
+    };
+
+    sanityCheck(workCopy);
+
+    expect(cbSuccessMock).toHaveBeenCalledTimes(1);
+    expect(catResults.groups.length).toEqual(4);
+
+    // Expect the System node to be unchanged.
+    expect(catResults.groups[0].name).toEqual('System');
+    expect(catResults.groups[0].expanded).toEqual(true);
+    expect(catResults.groups[0].categories.length).toEqual(0);
+
+    expect(catResults.groups[1].name).toEqual('Author');
+    expect(catResults.groups[1].expanded).toEqual(false);
+    expect(catResults.groups[1].categories.length).toEqual(0);
+
+    expect(catResults.groups[2].name).toEqual('ModifiedDate');
+    expect(catResults.groups[2].expanded).toEqual(true);
+    expect(catResults.groups[2].categories.length).toEqual(2);
+
+    let c2014 = catResults.groups[2].categories.find((c) => c.name === '2014');
+    expect(c2014.name).toEqual('2014');
+    expect(c2014.expanded).toEqual(true);
+    expect(c2014.children.length).toEqual(3);
+    // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
+    expect(c2014.children[0].expanded).toEqual(false);
+    expect(c2014.children[1].expanded).toEqual(false);
+    expect(c2014.children[2].expanded).toEqual(false);
+
+    let c2015 = catResults.groups[2].categories.find((c) => c.name === '2015');
+    expect(c2015.name).toEqual('2015');
+    expect(c2015.expanded).toEqual(true);
+    expect(c2015.children.length).toEqual(3);
+    // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
+    expect(c2015.children[0].expanded).toEqual(false);
+    expect(c2015.children[1].expanded).toEqual(false);
+    expect(c2015.children[2].expanded).toEqual(false);
+
+    expect(catResults.groups[3].name).toEqual('FileType');
+    expect(catResults.groups[3].expanded).toEqual(false);
+    expect(catResults.groups[3].categories.length).toEqual(0);
+
+  });
+
+  it('Should be able to change the clientCategoryFilter property in SearchClient', () => {
+    // tslint:disable-next-line:no-require-imports
+    let workCopy: Categories = require('../test-data/categories.json');
+    sanityCheck(workCopy);
+
+    let catResults: Categories = null;
+
+    let cbRequestMock = jest.fn((url: string, reqInit: RequestInit) => {
+      return false;
+    });
+
+    let cbSuccessMock = jest.fn((categories: Categories) => {
+      catResults = categories;
+    });
+
+    let client = new SearchClient('http://localhost:9950/', {
+      categorize: {
+        cbSuccess: cbSuccessMock,
+      },
+    });
+
+    // Faking that categories has been received in the categorize service
+    let pClient = client.categorize as any;
+    pClient.categories = workCopy;
+
+    // Expect the filter to change the categories received
+    client.clientCategoryFilters = {
+      ModifiedDate_2014: /.*/,
+      ModifiedDate: /201\d/,
+      Author: 'la',
+      FileType: /(PDF)|(Word)/,
+    };
+
+    sanityCheck(workCopy);
+
+    expect(cbRequestMock).toHaveBeenCalledTimes(0);
+    expect(cbSuccessMock).toHaveBeenCalledTimes(1);
+    expect(catResults.groups.length).toEqual(4);
+
+    // Expect the System node to be unchanged.
+    expect(catResults.groups[0].name).toEqual(reference.groups[0].name);
+    expect(catResults.groups[0].expanded).toEqual(reference.groups[0].expanded);
+    expect(catResults.groups[0].categories.length).toEqual(reference.groups[0].categories.length);
+    expect(catResults.groups[0].categories[0].expanded).toEqual(reference.groups[0].categories[0].expanded);
+    expect(catResults.groups[0].categories[0].children.length).toEqual(reference.groups[0].categories[0].children.length);
+
+    expect(catResults.groups[1].name).toEqual('Author');
+    expect(catResults.groups[1].expanded).toEqual(true);
+    expect(catResults.groups[1].categories.length).toEqual(4);
+    expect(catResults.groups[1].categories[0].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[1].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[2].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[3].expanded).toEqual(true);
+
+    expect(catResults.groups[2].name).toEqual('ModifiedDate');
+    expect(catResults.groups[2].expanded).toEqual(true);
+    expect(catResults.groups[2].categories.length).toEqual(2);
+
+    let c2014 = catResults.groups[2].categories.find((c) => c.name === '2014');
+    expect(c2014.name).toEqual('2014');
+    expect(c2014.expanded).toEqual(true);
+    expect(c2014.children.length).toEqual(3);
+    // These nodes are included by the ModifiedDate_2014: /.*/, so should be expanded 
+    expect(c2014.children[0].expanded).toEqual(true);
+    expect(c2014.children[1].expanded).toEqual(true);
+    expect(c2014.children[2].expanded).toEqual(true);
+
+    let c2015 = catResults.groups[2].categories.find((c) => c.name === '2015');
+    expect(c2015.name).toEqual('2015');
+    expect(c2015.expanded).toEqual(true);
+    expect(c2015.children.length).toEqual(3);
+    // These nodes are not included by the ModifiedDate: /201\d/, so should NOT be expanded 
+    expect(c2015.children[0].expanded).toEqual(false);
+    expect(c2015.children[1].expanded).toEqual(false);
+    expect(c2015.children[2].expanded).toEqual(false);
+
+    expect(catResults.groups[3].name).toEqual('FileType');
+    expect(catResults.groups[3].expanded).toEqual(true);
+    expect(catResults.groups[3].categories.length).toEqual(2);
+    expect(catResults.groups[3].categories[0].name).toEqual('DOC');
+    expect(catResults.groups[3].categories[0].expanded).toEqual(true);
+    expect(catResults.groups[3].categories[0].children.length).toEqual(0);
+    expect(catResults.groups[3].categories[1].name).toEqual('PDF');
+    expect(catResults.groups[3].categories[1].expanded).toEqual(true);
+    expect(catResults.groups[3].categories[1].children.length).toEqual(0);
+  });
+
+  it('Should be possible to change the clientCategoryFilterSepChar setting in the SearchClient', () => {
+    // tslint:disable-next-line:no-require-imports
+    let workCopy: Categories = require('../test-data/categories.json');
+    sanityCheck(workCopy);
+
+    let catResults: Categories = null;
+
+    let cbSuccessMock = jest.fn((categories: Categories) => {
+      catResults = categories;
+    });
+
+    let client = new SearchClient('http://localhost:9950/', {
+      categorize: {
+        cbSuccess: cbSuccessMock,
+        clientCategoryFiltersSepChar: '|',
+      },
+    });
+
+    // Faking that categories has been received in the categorize service
+    let pClient = client.categorize as any;
+    pClient.categories = workCopy;
+
+    // Expect the filter to change the categories received
+    client.clientCategoryFilters = {
+      'ModifiedDate|2014': /.*/,
+      'ModifiedDate': /201\d/,
+      'Author': 'la',
+      'FileType': /(PDF)|(Word)/,
+    };
+
+    sanityCheck(workCopy);
+
+    expect(cbSuccessMock).toHaveBeenCalledTimes(1);
+    expect(catResults.groups.length).toEqual(4);
+
+    // Expect the System node to be unchanged.
+    expect(catResults.groups[0].name).toEqual(reference.groups[0].name);
+    expect(catResults.groups[0].expanded).toEqual(reference.groups[0].expanded);
+    expect(catResults.groups[0].categories.length).toEqual(reference.groups[0].categories.length);
+    expect(catResults.groups[0].categories[0].expanded).toEqual(reference.groups[0].categories[0].expanded);
+    expect(catResults.groups[0].categories[0].children.length).toEqual(reference.groups[0].categories[0].children.length);
+
+    expect(catResults.groups[1].name).toEqual('Author');
+    expect(catResults.groups[1].expanded).toEqual(true);
+    expect(catResults.groups[1].categories.length).toEqual(4);
+    expect(catResults.groups[1].categories[0].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[1].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[2].expanded).toEqual(true);
+    expect(catResults.groups[1].categories[3].expanded).toEqual(true);
+
+    expect(catResults.groups[2].name).toEqual('ModifiedDate');
+    expect(catResults.groups[2].expanded).toEqual(true);
+    expect(catResults.groups[2].categories.length).toEqual(2);
+
+    let c2014 = catResults.groups[2].categories.find((c) => c.name === '2014');
+    expect(c2014.name).toEqual('2014');
+    expect(c2014.expanded).toEqual(true);
+    expect(c2014.children.length).toEqual(3);
+    expect(c2014.children[0].expanded).toEqual(true);
+    expect(c2014.children[1].expanded).toEqual(true);
+    expect(c2014.children[2].expanded).toEqual(true);
+
+    let c2015 = catResults.groups[2].categories.find((c) => c.name === '2015');
+    expect(c2015.name).toEqual('2015');
+    expect(c2015.expanded).toEqual(true);
+    expect(c2015.children.length).toEqual(3);
+    expect(c2015.children[0].expanded).toEqual(false);
+    expect(c2015.children[1].expanded).toEqual(false);
+    expect(c2015.children[2].expanded).toEqual(false);
+
+    expect(catResults.groups[3].name).toEqual('FileType');
+    expect(catResults.groups[3].expanded).toEqual(true);
+    expect(catResults.groups[3].categories.length).toEqual(2);
+    expect(catResults.groups[3].categories[0].name).toEqual('DOC');
+    expect(catResults.groups[3].categories[0].expanded).toEqual(true);
+    expect(catResults.groups[3].categories[0].children.length).toEqual(0);
+    expect(catResults.groups[3].categories[1].name).toEqual('PDF');
+    expect(catResults.groups[3].categories[1].expanded).toEqual(true);
+    expect(catResults.groups[3].categories[1].children.length).toEqual(0);
+  });

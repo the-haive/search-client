@@ -1,12 +1,12 @@
-import { AuthToken } from '../Authentication/AuthToken';
+import { AuthToken } from '../Authentication';
 import { BaseCall, DateSpecification, Filter, OrderBy, Query, SearchType } from '../Common';
 import { FindQueryConverter, FindSettings } from './';
 import { Matches } from '../Data';
 
 /**
- * Wraps the find search-service rest-service.
- *
- * Normally used indirectly via the SearchClient.
+ * The Find service queries the search-engine for search-matches for the given query.
+ * 
+ * It is normally used indirectly via the SearchClient class.
  */
 export class Find extends BaseCall<Matches> {
 
@@ -37,7 +37,6 @@ export class Find extends BaseCall<Matches> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<Matches> {
-
         let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
 
@@ -58,6 +57,12 @@ export class Find extends BaseCall<Matches> {
                     return Promise.reject(error);
                 });
         } else {
+            // TODO: When a fetch is stopped due to cbRequest returning false, should we:
+            // 1) Reject the promise (will then be returned as an error).
+            // or
+            // 2) Resolve the promise (will then be returned as a success).
+            // or
+            // 3) should we do something else (old code returned undefined...)
             return Promise.reject('Stopped by settings cbRequest method.');
         }
     }

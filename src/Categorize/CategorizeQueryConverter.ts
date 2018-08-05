@@ -1,12 +1,12 @@
-import { BaseQueryConverter, OrderBy, SearchType, Query } from '../Common';
+import { BaseQueryConverter, CategorizationType, SearchType, Query } from '../Common';
 
 /**
  * Class to handle creating categorize lookups for restservice version 3.
  */
-export class FindQueryConverter extends BaseQueryConverter {
+export class CategorizeQueryConverter extends BaseQueryConverter {
   /**
    * Converts the query params to an array of key=value segments,
-   * fit for Find REST v4.
+   * fit for Categorize REST v4.
    */
   protected getUrlParams(query: Query): string[] {
       let params: string[] = [];
@@ -19,12 +19,7 @@ export class FindQueryConverter extends BaseQueryConverter {
       this.addParamIfSet(params, 'q', query.queryText);
       this.addParamIfSet(params, 't', SearchType[query.searchType]);
       this.addParamIfSet(params, 'l', query.uiLanguageCode);
-      this.addParamIfSet(params, 'g', query.matchGrouping);
-      this.addParamIfSet(params, 'o', OrderBy[query.matchOrderBy]);
-      this.addParamIfSet(params, 'p', query.matchPage);
-      this.addParamIfSet(params, 's', query.matchPageSize);
-      this.addParamIfSet(params, 'gc', query.matchGenerateContent);
-      this.addParamIfSet(params, 'gch', query.matchGenerateContentHighlights);
+      this.addParamIfSet(params, 'ct', CategorizationType[query.categorizationType]);
 
       return params;
   }

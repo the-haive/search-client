@@ -1,28 +1,28 @@
-import { FindSettings } from '.';
-import { Matches } from '../Data';
+import { CategorizeSettings } from '.';
+import { Categories } from '../Data';
 
-describe('FindSettings basics', () => {
+describe('CategorizeSettings basics', () => {
 
     it('uiLanguageCodeChanged default', () => {
-        const settings = new FindSettings();
-        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
+        const settings = new CategorizeSettings();
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
     });
 
     it('uiLanguageCodeChanged false', () => {
-        const settings = new FindSettings({triggers: {uiLanguageCodeChanged: false}});
+        const settings = new CategorizeSettings({triggers: {uiLanguageCodeChanged: false}});
         expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
     });
 
     it('uiLanguageCodeChanged true', () => {
-        const settings = new FindSettings({triggers: {uiLanguageCodeChanged: true}});
+        const settings = new CategorizeSettings({triggers: {uiLanguageCodeChanged: true}});
         expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
     });
 
-    it('Should be able to create a default settings object with expected values', () => {
-        const settings = new FindSettings();
+    it('Should be able to create a default CategorizeSettings object with expected values', () => {
+        const settings = new CategorizeSettings();
 
         expect(settings).toBeDefined();
-        expect(settings instanceof FindSettings).toBeTruthy();
+        expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeTruthy();
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
@@ -31,22 +31,16 @@ describe('FindSettings basics', () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
-        expect (settings.triggers.matchGenerateContentChanged).toEqual(true);
-        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
-        expect (settings.triggers.matchGroupingChanged).toEqual(true);
-        expect (settings.triggers.matchOrderByChanged).toEqual(true);
-        expect (settings.triggers.matchPageChanged).toEqual(true);
-        expect (settings.triggers.matchPageSizeChanged).toEqual(true);
         expect (settings.triggers.queryChangeDelay).toEqual(-1);
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
-        expect (settings.url).toEqual('search/find');
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+        expect (settings.url).toEqual('search/categorize');
     });
 
-    it('Should be possible to pass in a FindSettings object to use for values.', () => {
+    it('Should be possible to pass in a CategorizeSettings object to use for values.', () => {
         let settings = {
             cbError: jest.fn(),
             cbRequest: jest.fn(),
@@ -57,25 +51,20 @@ describe('FindSettings basics', () => {
                 dateFromChanged: false,
                 dateToChanged: false,
                 filterChanged: false,
-                matchGenerateContentChanged: false,
-                matchGroupingChanged: false,
-                matchOrderByChanged: false,
-                matchPageChanged: false,
-                matchPageSizeChanged: false,
                 queryChange: true,
                 queryChangeDelay: 100,
                 queryChangeInstantRegex: /\S/,
                 queryChangeMinLength: 2,
                 searchTypeChanged: false,
-                uiLanguageCodeChanged: true,
+                uiLanguageCodeChanged: false,
             },
             url: '/test/',
-        } as FindSettings;
+        } as CategorizeSettings;
 
-        settings = new FindSettings(settings);
+        settings = new CategorizeSettings(settings);
 
         expect(settings).toBeDefined();
-        expect(settings instanceof FindSettings).toBeTruthy();
+        expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
         expect (settings.cbRequest).toBeDefined();
         expect (settings.cbError).toBeDefined();
@@ -84,23 +73,17 @@ describe('FindSettings basics', () => {
         expect (settings.triggers.dateFromChanged).toEqual(false);
         expect (settings.triggers.dateToChanged).toEqual(false);
         expect (settings.triggers.filterChanged).toEqual(false);
-        expect (settings.triggers.matchGenerateContentChanged).toEqual(false);
-        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
-        expect (settings.triggers.matchGroupingChanged).toEqual(false);
-        expect (settings.triggers.matchOrderByChanged).toEqual(false);
-        expect (settings.triggers.matchPageChanged).toEqual(false);
-        expect (settings.triggers.matchPageSizeChanged).toEqual(false);
         expect (settings.triggers.queryChangeDelay).toEqual(100);
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(false);
-        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
         expect (settings.url).toEqual('test');
     });
 
-    it('Should be possible to pass a partial FindSettings object to use for values.', () => {
-        let fnSuccess = (matches: Matches) => { /* dummy */};
+    it('Should be possible to pass a partial CategorizeSettings object to use for values.', () => {
+        let fnSuccess = (categories: Categories) => { /* dummy */};
 
         let settings = {
             cbSuccess: fnSuccess,
@@ -109,12 +92,12 @@ describe('FindSettings basics', () => {
                 clientIdChanged: false,
                 matchGroupingChanged: false,
             },
-        } as FindSettings;
+        } as CategorizeSettings;
 
-        settings = new FindSettings(settings);
+        settings = new CategorizeSettings(settings);
 
         expect(settings).toBeDefined();
-        expect(settings instanceof FindSettings).toBeTruthy();
+        expect(settings instanceof CategorizeSettings).toBeTruthy();
         expect (settings.enabled).toBeFalsy();
         expect (settings.cbRequest).toBeUndefined();
         expect (settings.cbError).toBeUndefined();
@@ -123,18 +106,12 @@ describe('FindSettings basics', () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
-        expect (settings.triggers.matchGenerateContentChanged).toEqual(true);
-        expect (settings.triggers.matchGenerateContentHighlightsChanged).toEqual(true);
-        expect (settings.triggers.matchGroupingChanged).toEqual(false);
-        expect (settings.triggers.matchOrderByChanged).toEqual(true);
-        expect (settings.triggers.matchPageChanged).toEqual(true);
-        expect (settings.triggers.matchPageSizeChanged).toEqual(true);
         expect (settings.triggers.queryChangeDelay).toEqual(-1);
         expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
-        expect (settings.triggers.uiLanguageCodeChanged).toEqual(false);
-        expect (settings.url).toEqual('search/find');
+        expect (settings.triggers.uiLanguageCodeChanged).toEqual(true);
+        expect (settings.url).toEqual('search/categorize');
     });
 });

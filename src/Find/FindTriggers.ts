@@ -1,7 +1,7 @@
 /**
  * These are the triggers that define when and when not to trigger a find lookup.
  */
-export class FindTriggers { //implements IFindTriggers {
+export class FindTriggers {
     /**
      * Triggers when the clientCategoryFilter is changed.
      */

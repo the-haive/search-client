@@ -1,4 +1,5 @@
-import * as fetch from 'jest-fetch-mock';
+//import * as fetch from 'jest-fetch-mock';
+const fetchAny = fetch as any;
 
 import { Find, FindSettings, FindTriggers } from '.';
 import { Matches } from '../Data';
@@ -6,7 +7,7 @@ import { Matches } from '../Data';
 describe('Find basics', () => {
 
   beforeEach(() => {
-    fetch.resetMocks();
+    fetchAny.resetMocks();
   });
 
   it('Should have imported Find class defined', () => {
@@ -101,14 +102,14 @@ describe('Find basics', () => {
 
   it('Should be able to Find some results', () => {
     // Not caring about the response, just to allow the fetch to complete.
-    fetch.mockResponse(JSON.stringify({ }));
+    fetchAny.mockResponse(JSON.stringify({ }));
     let settings = { 
       cbRequest: jest.fn((url, reqInit) => {
         expect(typeof url).toBe('string');
         expect(typeof reqInit).toBe('object');
         return true;
       }),
-    };
+    } as FindSettings;
 
     let find = new Find('http://localhost:9950/', settings);
     find.fetch().then(response => {
@@ -122,7 +123,7 @@ describe('Find basics', () => {
 
   it('Should be able to stop a Find using cbRequest', () => {
     // Not caring about the response, just to allow the fetch to complete.
-    fetch.mockResponse(JSON.stringify({ }));
+    fetchAny.mockResponse(JSON.stringify({ }));
     let settings = { 
       cbRequest: jest.fn((url, reqInit) => {
         expect(typeof url).toBe('string');
@@ -130,7 +131,7 @@ describe('Find basics', () => {
         // Stop the request
         return false;
       }),
-    };
+    } as FindSettings;
 
     let find = new Find('http://localhost:9950/', settings);
     find.fetch().then(response => {
