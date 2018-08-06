@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>IntelliSearch Enterprise - Plain sample</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #preview {
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      min-width: 200px;
+      width: 80vw;
+      height: 80vh;
+      background-color: rgba(0,0,0,0.5)
+    }
+    .container {
+      display: grid;
+
+      grid-template-areas:
+        "header header header"
+        "nav content side"
+        "footer footer footer";
+
+      grid-template-columns: 200px 1fr 200px;
+      grid-template-rows: auto 1fr auto;
+      grid-gap: 10px;
+
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    nav {
+      grid-area: nav;
+      margin-left: 0.5rem;
+    }
+
+    main {
+      grid-area: content;
+    }
+
+    aside {
+      grid-area: side;
+      margin-right: 0.5rem;
+    }
+
+    footer {
+      grid-area: footer;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-areas:
+          "header"
+          "nav"
+          "content"
+          "side"
+          "footer";
+
+        grid-template-columns: 1fr;
+        grid-template-rows:
+          auto /* Header */
+          minmax(75px, auto) /* Nav */
+          1fr /* Content */
+          minmax(75px, auto) /* Sidebar */
+          auto; /* Footer */
+      }
+
+      nav, aside {
+        margin: 0;
+      }
+    }
+  </style>
+  <script type="text/javascript">
+    window.onload = function(e) {
+      var ints = new SearchClient("http://searchmanager.demo.intellisearch.no");
+      ints.find.fetch({ queryText: "Hello world" }, true)
+        .then((matches) => {
+          console.log("Find results:", matches);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>IntelliSearch Enterprise</h1>
+      <div id="search-text"></div>
+      <div id="go"></div>
+      <div id="advanced"></div>
+    </header>
+
+    <nav>
+      <!-- Navigation: Categories -->
+      Categories
+    </nav>
+
+    <main>
+      <!-- Main content: Matches -->
+      Matches<br/>
+      Results-info | Pager | Ordering
+    </main>
+
+    <aside>
+      <!-- Sidebar / Ads: Metadata -->
+      Metadata
+    </aside>
+
+    <footer>
+      <!-- Footer content: Copyright -->
+      Copyright
+    </footer>
+  </div>
+  <div id="preview"></div>
+  <script src="http://cdn.jsdelivr.net/search-client/latest/SearchClient.bundle.min.js"></script>
+</body>
+</html>
