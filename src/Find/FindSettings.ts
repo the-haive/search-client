@@ -23,6 +23,7 @@ export class FindSettings extends BaseSettings<Matches> {
      */
     constructor(settings?: FindSettings) {
         super(settings);
+        
         if (settings) {
             this.triggers = typeof settings.triggers !== 'undefined' ? new FindTriggers(settings.triggers) : this.triggers;
             this.url = typeof settings.url !== 'undefined' ? settings.url : this.url;

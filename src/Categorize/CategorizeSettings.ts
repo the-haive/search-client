@@ -29,6 +29,7 @@ export class CategorizeSettings extends BaseSettings<Categories> {
      */
     constructor(settings?: CategorizeSettings) {
         super(settings);
+        
         if (settings) {
             this.clientCategoryFiltersSepChar = typeof settings.clientCategoryFiltersSepChar !== 'undefined' ? settings.clientCategoryFiltersSepChar : this.clientCategoryFiltersSepChar;
             this.triggers = typeof settings.triggers !== 'undefined' ? new CategorizeTriggers(settings.triggers) : this.triggers;
