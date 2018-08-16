@@ -1,6 +1,6 @@
 import { AuthToken } from '../Authentication';
 import { BaseCall, DateSpecification, Filter, OrderBy, Query, SearchType } from '../Common';
-import { FindQueryConverter, FindSettings } from './';
+import { FindQueryConverter, FindSettings } from '.';
 import { Matches } from '../Data';
 
 /**

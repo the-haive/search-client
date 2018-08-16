@@ -3,6 +3,31 @@
  */
 export class CategorizeTriggers {
     /**
+     * Triggers when the clientCategoryFilter is changed.
+     */
+    public clientCategoryFilterChanged?: boolean = true;
+
+    /**
+     * Triggers when the clientId property has changed
+     */
+    public clientIdChanged?: boolean = true;
+
+    /**
+     * Triggers when the from date property has changed.
+     */
+    public dateFromChanged?: boolean = true;
+
+    /**
+     * Triggers when the to date property has changed.
+     */
+    public dateToChanged?: boolean = true;
+
+    /**
+     * Triggers when the filter property has changed.
+     */
+    public filterChanged?: boolean = true;
+
+    /**
      * Turns on or off all query-related triggers.
      */
     public queryChange?: boolean = true;
@@ -41,33 +66,6 @@ export class CategorizeTriggers {
      * @override BaseTriggers
      */
     public queryChangeMinLength?: number = 2;
-
-    // ICategorizeTriggers 
-
-    /**
-     * Triggers when the clientCategoryFilter is changed.
-     */
-    public clientCategoryFilterChanged?: boolean = true;
-
-    /**
-     * Triggers when the clientId property has changed
-     */
-    public clientIdChanged?: boolean = true;
-
-    /**
-     * Triggers when the from date property has changed.
-     */
-    public dateFromChanged?: boolean = true;
-
-    /**
-     * Triggers when the to date property has changed.
-     */
-    public dateToChanged?: boolean = true;
-
-    /**
-     * Triggers when the filter property has changed.
-     */
-    public filterChanged?: boolean = true;
 
     /**
      * Triggers when the searchType property has changed.

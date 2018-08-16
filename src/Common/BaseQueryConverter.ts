@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 
-import { Query } from '../Common';
+import { Query } from '.';
 
 export abstract class BaseQueryConverter {
     /**
