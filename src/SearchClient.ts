@@ -4,13 +4,10 @@ import deepEqual from 'deep-equal';
 export * from './Common';
 export * from './Data';
 export * from './Authentication';
-export * from './AllCategories';
 export * from './Autocomplete';
-export * from './BestBets';
 export * from './Categorize';
 export * from './Find';
 export * from './Settings';
-export * from './QueryConverter';
 
 import { OrderBy } from './Common/OrderBy';
 import { SearchType } from './Common/SearchType';
@@ -20,47 +17,40 @@ import { DateSpecification, Query } from './Common/Query';
 import { AuthToken } from './Authentication/AuthToken';
 import { Authentication } from './Authentication/Authentication';
 
-import { AllCategories } from './AllCategories/AllCategories';
 import { Autocomplete } from './Autocomplete/Autocomplete';
 import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
 import { AutocompleteTriggers } from './Autocomplete/AutocompleteTriggers';
-import { BestBets } from './BestBets/BestBets';
 import { Categorize } from './Categorize/Categorize';
 import { Find } from './Find/Find';
 
 import { Settings } from './Settings';
 
 /**
- * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>" 
+ * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>"
  * for a proper introduction.
- * 
- * The SearchClient manages a range of other services: 
- *   * AllCategories, 
- *   * Authentication, 
- *   * Autocomplete, 
- *   * BestBets, 
- *   * Categorize 
+ *
+ * The SearchClient manages a range of other services:
+ *   * AllCategories,
+ *   * Authentication,
+ *   * Autocomplete,
+ *   * BestBets,
+ *   * Categorize
  *   * Find
- * 
+ *
  * Each of the above services can be used independently, but it is highly recommended to use the SearchClient instead.
- * 
+ *
  * The SearchClient allows you to have an advanced search with minimal effort in regards to setup and logics. instead
  * of having to write all the logics yourself the SearchClient exposes the following methods for managing your search:
  *   1. Configure callbacks in your settings-object that you pass to the SearchClient.
  *   2. Configure triggers to define when to do server-lookups and not (if you need to deviate from the defaults)
  *   3. Set query-values real-time (queryText, filters, date-ranges, etc.)
  *   4. Receive autocomplete-suggestions, matches and categories in your callback handlers when the data is available.
- * 
- * What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger 
- * and a callback has been set up then the server is requested and when the data is received it is sent to the callback 
+ *
+ * What happens is that any query-changes that arrive are checked in regards to trigger-settings. If they are to trigger
+ * and a callback has been set up then the server is requested and when the data is received it is sent to the callback
  * registered in the settings-object.
  */
 export class SearchClient implements AuthToken {
-
-    /**
-     * Holds a reference to the setup AllCategories service.
-     */
-    public allCategories: AllCategories = undefined;
 
     /**
      * Holds a reference to the setup Authentication service.
@@ -78,15 +68,10 @@ export class SearchClient implements AuthToken {
     public autocomplete: Autocomplete = undefined;
 
     /**
-     * Holds a reference to the setup BestBet service.
-     */
-    public bestBets: BestBets = undefined;
-
-    /**
      * Holds a reference to the setup Categorize service.
      */
     public categorize: Categorize = undefined;
-    
+
     /**
      * Holds a reference to the setup Find service.
      */
@@ -99,16 +84,12 @@ export class SearchClient implements AuthToken {
     private _query: Query;
 
     /**
-     * 
+     *
      * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
     constructor(baseUrl: string, private settings: Settings = new Settings()) {
         settings = new Settings(settings);
-
-        if (this.settings.allCategories.enabled) {
-            this.allCategories = new AllCategories(baseUrl, this.settings.allCategories, this);
-        }
 
         if (this.settings.authentication.enabled) {
             this.authentication = new Authentication(baseUrl, this.settings.authentication, this);
@@ -116,10 +97,6 @@ export class SearchClient implements AuthToken {
 
         if (this.settings.autocomplete.enabled) {
             this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this);
-        }
-
-        if (this.settings.bestBets.enabled) {
-            this.bestBets = new BestBets(baseUrl, this.settings.bestBets, this);
         }
 
         if (this.settings.categorize.enabled) {
@@ -138,12 +115,12 @@ export class SearchClient implements AuthToken {
      * For query-fields that accepts enter the default queryChangeInstantRegex catches enter (for find and categorize).
      * When they don't take enter you will have to set up something that either catches the default enter or a user clicks
      * on a "Search"-button or similar. You can choose to use the already current query, or you can pass it in. If you
-     * include the query then the internal updates are suppressed while changing the query-properties, to make sure that 
-     * only one update per service is made (if any of their trigger-checks returned true). 
-     * 
+     * include the query then the internal updates are suppressed while changing the query-properties, to make sure that
+     * only one update per service is made (if any of their trigger-checks returned true).
+     *
      * When called it will unconditionally call the fetch() method of both Categorize and Find.
-     * 
-     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to want to list autocomplete 
+     *
+     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to want to list autocomplete
      * suggestions when the Search-button is clicked.
      */
     public findAndCategorize(query?: Query) {
@@ -164,59 +141,59 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node 
-     * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can 
-     * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will 
+     * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node
+     * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can
+     * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will
      * then filter the category-nodes' displayName to only match the text entered.
-     * 
+     *
      * Nodes that doesn't have any filters are returned, even if filters for other nodes are defined.
-     * 
-     * Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to 
-     * automatically be shown, with their immediate children.     
-     * 
-     * The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter 
+     *
+     * Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to
+     * automatically be shown, with their immediate children.
+     *
+     * The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter
      * that node with.
-     * 
-     * It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks. 
-     * 
+     *
+     * It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks.
+     *
      * **Note 1:** This is only used when:
-     * 
-     * **1. The categorize service is enabled in the [[SearchClient]] constructor (may be disabled via the [[Settings]] 
-     * object).** 
+     *
+     * **1. The categorize service is enabled in the [[SearchClient]] constructor (may be disabled via the [[Settings]]
+     * object).**
      * **2. You have enabled a [[CategorizeSettings.cbSuccess]] callback.**
      * **3. You have not disabled the [[CategorizeTriggers.clientCategoryFilterChanged]] trigger.**
-     * 
-     * **Note 2:** [[deferUpdates]] will not have any effect on this functionality. Deferring only affects calls to the 
-     * server and does not stop categorize-callbacks from being run - as long as they are the result of changing the 
+     *
+     * **Note 2:** [[deferUpdates]] will not have any effect on this functionality. Deferring only affects calls to the
+     * server and does not stop categorize-callbacks from being run - as long as they are the result of changing the
      * [[clientCategoryFilter]].
-     * 
+     *
      * @example How to set the clientCategoryFilter:
-     * 
+     *
      *     const searchClient = new SearchClient("http://server:9950/");
-     *     
+     *
      *     searchClient.clientCategoryFilters = {
      *         // Show only Author-nodes with DisplayName that matches /john/.
-     *         Author: /john/, 
+     *         Author: /john/,
      *         // Show only nodes in the System/File/Server node that matches /project/
      *         System_File_Server: /project/,
      *     }
-     * 
-     * As you can see from the example the key is composed by joining the categoryName with an underscore. If you 
-     * experience problems with this (i.e. your categories have `_` in their names already) then change the 
-     * [[CategorizeSettings.clientCategoryFiltersSepChar]], for example to `|`. Note that if you do, then you probably 
+     *
+     * As you can see from the example the key is composed by joining the categoryName with an underscore. If you
+     * experience problems with this (i.e. your categories have `_` in their names already) then change the
+     * [[CategorizeSettings.clientCategoryFiltersSepChar]], for example to `|`. Note that if you do, then you probably
      * also need to quote the keys that have the pipe-character.
-     * 
+     *
      * @example The above example will with [[CategorizeSettings.clientCategoryFiltersSepChar]] set to `|` become:
-     * 
+     *
      *     const searchClient = new SearchClient("http://server:9950/");
-     *     
+     *
      *     searchClient.clientCategoryFilters = {
      *         // Show only Author-nodes with DisplayName that matches /john/.
-     *         Author: /john/, 
+     *         Author: /john/,
      *         // Show only nodes in the System/File/Server node that matches /project/
      *         "System|File|Server": /project/,
      *     }
-     * 
+     *
      */
     set clientCategoryFilters(clientCategoryFilters: { [ key: string ]: string | RegExp }) {
         if (clientCategoryFilters !== this._clientCategoryFilters) {
@@ -230,7 +207,7 @@ export class SearchClient implements AuthToken {
         this._clientCategoryFilters = clientCategoryFilters;
     }
 
-    /** 
+    /**
      * Gets the currently active client-id value.
      */
     get clientId(): string {
@@ -238,13 +215,13 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the currently active client-id. 
-     * 
+     * Sets the currently active client-id.
+     *
      * Will run trigger-checks and potentially update services.
      */
     set clientId(clientId: string) {
         if (clientId !== this._query.clientId) {
-            const oldValue = this._query.clientId; 
+            const oldValue = this._query.clientId;
             this._query.clientId = clientId;
 
             this.autocomplete.clientIdChanged(oldValue, this._query);
@@ -253,7 +230,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active date-from value.
      */
     get dateFrom(): DateSpecification {
@@ -261,8 +238,8 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the from-date for matches to be used. 
-     * 
+     * Sets the from-date for matches to be used.
+     *
      * Will run trigger-checks and potentially update services.
      */
     set dateFrom(dateFrom: DateSpecification) {
@@ -276,7 +253,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active date-to value.
      */
     get dateTo(): DateSpecification {
@@ -284,8 +261,8 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the to-date for matches to be used. 
-     * 
+     * Sets the to-date for matches to be used.
+     *
      * Will run trigger-checks and potentially update services.
      */
     set dateTo(dateTo: DateSpecification) {
@@ -299,7 +276,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active filters.
      */
     get filters(): Filter[] {
@@ -307,8 +284,8 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the filters to be used. 
-     * 
+     * Sets the filters to be used.
+     *
      * Will run trigger-checks and potentially update services.
      */
     set filters(filters: Filter[]) {
@@ -325,8 +302,8 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Add the given filter, if it isn't already there. 
-     * 
+     * Add the given filter, if it isn't already there.
+     *
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | Category | Filter): boolean {
@@ -342,8 +319,8 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Remove the given filter, if it is already set. 
-     * 
+     * Remove the given filter, if it is already set.
+     *
      * Will run trigger-checks and potentially update services.
      */
     public filterRemove(filter: string[] | Category | Filter): boolean {
@@ -359,17 +336,17 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Toggle the given filter. 
-     * 
+     * Toggle the given filter.
+     *
      * Will run trigger-checks and potentially update services.
-     * 
+     *
      * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
      * @return true if the filter was added, false if it was removed.
      */
     public filterToggle(filter: string[] | Category | Filter): boolean {
         const item = this.filterId(filter);
         const foundIndex = this.filterIndex(item);
-        
+
         if (foundIndex > -1) {
             this.doFilterRemove(foundIndex);
             return false;
@@ -379,7 +356,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active match generateContent setting.
      */
     get matchGenerateContent(): boolean {
@@ -388,11 +365,11 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets whether the results should generate the content or not.
-     * 
+     *
      * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
-     * 
+     *
      * Will run trigger-checks and potentially update services.
-     * 
+     *
      * Note: Only effective for v4+.
      */
     set matchGenerateContent(generateContent: boolean) {
@@ -405,8 +382,8 @@ export class SearchClient implements AuthToken {
             this.find.matchGenerateContentChanged(oldValue, this._query);
         }
     }
-    
-    /** 
+
+    /**
      * Gets the currently active match generateContentHighlights setting.
      */
     get matchGenerateContentHighlights(): boolean {
@@ -415,11 +392,11 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets whether the results should generate the content-highlight tags or not.
-     * 
+     *
      * **Note:** See the matchGenerateContent property in regards to IndexManager requirements.
-     * 
+     *
      * Will run trigger-checks and potentially update services.
-     * 
+     *
      * Note: Only effective for v4+.
      */
     set matchGenerateContentHighlights(generateContentHighlights: boolean) {
@@ -432,8 +409,8 @@ export class SearchClient implements AuthToken {
             this.find.matchGenerateContentHighlightsChanged(oldValue, this._query);
         }
     }
-    
-    /** 
+
+    /**
      * Gets the currently active match grouping mode.
      */
     get matchGrouping(): boolean {
@@ -442,9 +419,9 @@ export class SearchClient implements AuthToken {
 
     /**
      * Sets whether the results should be grouped or not.
-     * 
+     *
      * **Note:** Requires the search-service to have the option enabled in it's configuration too.
-     * 
+     *
      * Will run trigger-checks and potentially update services.
      */
     set matchGrouping(useGrouping: boolean) {
@@ -458,7 +435,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active match-page.
      */
     get matchPage(): number {
@@ -466,12 +443,12 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the match-page to get. 
+     * Sets the match-page to get.
      * Will run trigger-checks and potentially update services.
      */
     set matchPage(page: number) {
         if (page < 1) {
-            throw new Error("'matchPage' cannot be set to a value smaller than 1.");
+            throw new Error('"matchPage" cannot be set to a value smaller than 1.');
         }
         if (page !== this._query.matchPage) {
             const oldValue = this._query.matchPage;
@@ -484,7 +461,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Gets the previous page of match-results. 
+     * Gets the previous page of match-results.
      * Will run trigger-checks and potentially update services.
      */
     public matchPagePrev(): boolean {
@@ -503,7 +480,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Gets the next page of match-results (if any). 
+     * Gets the next page of match-results (if any).
      * Will run trigger-checks and potentially update services.
      */
     public matchPageNext(): boolean {
@@ -517,7 +494,7 @@ export class SearchClient implements AuthToken {
         return true;
     }
 
-    /** 
+    /**
      * Gets the currently active match page-size.
      */
     get matchPageSize(): number {
@@ -525,12 +502,12 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the match page-size to be used. 
+     * Sets the match page-size to be used.
      * Will run trigger-checks and potentially update services.
      */
     set matchPageSize(pageSize: number) {
         if (pageSize < 1) {
-            throw new Error("'matchPageSize' cannot be set to a value smaller than 1.");
+            throw new Error('"matchPageSize" cannot be set to a value smaller than 1.');
         }
         if (pageSize !== this._query.matchPageSize) {
             const oldValue = this._query.matchPageSize;
@@ -542,7 +519,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active match order.
      */
     get matchOrderBy(): OrderBy {
@@ -550,7 +527,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the match sorting mode to be used. 
+     * Sets the match sorting mode to be used.
      * Will run trigger-checks and potentially update services.
      */
     set matchOrderBy(orderBy: OrderBy) {
@@ -564,7 +541,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active max number of autocomplete suggestions to get.
      */
     get maxSuggestions(): number {
@@ -572,7 +549,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the max number of autocomplete suggestions to get. 
+     * Sets the max number of autocomplete suggestions to get.
      * Will run trigger-checks and potentially update services.
      */
     set maxSuggestions(maxSuggestions: number) {
@@ -597,12 +574,12 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the query to use. 
-     * 
-     * **Note:** Changing the `query` property will likely lead to multiple trigger-checks and potential updates. 
-     * This is because changing the whole value will lead to each of the query-objects' properties to trigger individual 
-     * events. 
-     * 
+     * Sets the query to use.
+     *
+     * **Note:** Changing the `query` property will likely lead to multiple trigger-checks and potential updates.
+     * This is because changing the whole value will lead to each of the query-objects' properties to trigger individual
+     * events.
+     *
      * To avoid multiple updates, call `deferUpdates(true)` before and deferUpdates(false) afterwards. Then at max
      * only one update will be generated.
      */
@@ -620,7 +597,7 @@ export class SearchClient implements AuthToken {
         this.searchType = query.searchType;
     }
 
-    /** 
+    /**
      * Gets the currently active query-object.
      */
     get queryText(): string {
@@ -628,7 +605,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the query-text to be used. 
+     * Sets the query-text to be used.
      * Will run trigger-checks and potentially update services.
      */
     set queryText(queryText: string) {
@@ -642,7 +619,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active search-type value.
      */
     get searchType(): SearchType {
@@ -650,7 +627,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the search-type to be used. 
+     * Sets the search-type to be used.
      * Will run trigger-checks and potentially update services.
      */
     set searchType(searchType: SearchType) {
@@ -664,7 +641,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /** 
+    /**
      * Gets the currently active match generateContent setting.
      */
     get uiLanguageCode(): string {
@@ -674,9 +651,9 @@ export class SearchClient implements AuthToken {
     /**
      * Sets the language that the client uses. Affects category-names (and in the future maybe metadata too).
      * The expected values should be according to the https://www.wikiwand.com/en/IETF_language_tag standard.
-     * 
+     *
      * Changes will run trigger-checks and potentially update services.
-     * 
+     *
      * Note: Only effective for v4+.
      */
     set uiLanguageCode(uiLanguageCode: string) {
@@ -689,38 +666,38 @@ export class SearchClient implements AuthToken {
             this.find.uiLanguageCodeChanged(oldValue, this._query);
         }
     }
-    
+
     /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn 
-     * off update-execution. When turned back on the second param can be used to indicate whether 
+     * Decides whether an update should be executed or not. Typically used to temporarily turn
+     * off update-execution. When turned back on the second param can be used to indicate whether
      * pending updates should be executed or not.
-     * 
+     *
      * **Note:** Changes deferring of updates for all components (Autocomplete, Categorize and Find).
      * Use the service properties of the SearchClient instance to control deferring for each service.
-     * 
+     *
      * @example Some examples:
-     *     
+     *
      *     // Example 1: Defer updates to avoid multiple updates:
      *     searchClient.deferUpdates(true);
-     *     
+     *
      *     // Example 2: Change some props that triggers may be listening for
      *     searchClient.dateFrom = { M: -1};
      *     searchClient.dateTo = { M: 0};
      *     // When calling deferUpdates with (false) the above two update-events are now executed as one instead (both value-changes are accounted for though)
      *     searchClient.deferUpdates(false);
-     *     
+     *
      *     // Example 3: Suppress updates (via deferUpdates):
      *     searchClient.deferUpdates(true);
      *     // Change a prop that should trigger updates
      *     searchClient.queryText = "some text";
      *     // Call deferUpdates with (false, true), to skip the pending update.
      *     searchClient.deferUpdates(false, true);
-     *     
+     *
      *     // Example 4: Defer update only for one service (Categorize in this sample):
      *     searchClient.categorize.deferUpdates(true);
-     * 
+     *
      * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring 
+     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring
      * is turned off. The param is ignored for `state=true`.
      */
     public deferUpdates(state: boolean, skipPending: boolean = false) {
@@ -735,7 +712,7 @@ export class SearchClient implements AuthToken {
         const oldValue = this._query.filters.slice(0);
         this._query.filters.push(newFilter);
         this._query.filters.sort();
-        
+
         this.autocomplete.filtersChanged(oldValue, this._query);
         this.categorize.filtersChanged(oldValue, this._query);
         this.find.filtersChanged(oldValue, this._query);
@@ -743,7 +720,7 @@ export class SearchClient implements AuthToken {
 
     private doFilterRemove(i: number) {
         const oldValue = this._query.filters.slice(0);
-        this._query.filters.splice(i, 1); 
+        this._query.filters.splice(i, 1);
         // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
 
         this.autocomplete.filtersChanged(oldValue, this._query);
