@@ -25,10 +25,12 @@ describe('Autocomplete basics', () => {
     it('Should throw for invalid Urls', () => {
         expect(() => {
             let autocomplete = new Autocomplete('file://localhost:9950');
+            expect(autocomplete).toBe('object');
         }).toThrow();
 
         expect(() => {
             let autocomplete = new Autocomplete('http:+//localhost:9950');
+            expect(autocomplete).toBe('object');
         }).toThrow();
     });
 

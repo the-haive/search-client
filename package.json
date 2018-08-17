@@ -95,7 +95,11 @@
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "testPathIgnorePatterns": [
-      "<rootDir>/(node_modules|lib|es|dist)"
+      "node_modules",
+      "lib",
+      "es",
+      "dist",
+      "samples"
     ],
     "collectCoverageFrom": [
       "src/**/*.{t,j}s?(x)",
