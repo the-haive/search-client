@@ -1,8 +1,8 @@
-import { Query } from './Common/Query';
-import { AuthenticationSettings } from './Authentication/AuthenticationSettings';
-import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
-import { CategorizeSettings } from './Categorize/CategorizeSettings';
-import { FindSettings } from './Find/FindSettings';
+import { AuthenticationSettings } from './Authentication';
+import { AutocompleteSettings } from './Autocomplete';
+import { CategorizeSettings } from './Categorize';
+import { Query } from './Common';
+import { FindSettings } from './Find';
 
 /**
  * Settings as used by the SearchClient.

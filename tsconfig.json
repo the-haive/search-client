@@ -20,6 +20,8 @@
     "emitDecoratorMetadata": true,
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "typeRoots": [
         "node_modules/@types"
     ]

@@ -1,28 +1,19 @@
-import { Category } from './Data';
 import deepEqual from 'deep-equal';
 
-export * from './Common';
-export * from './Data';
 export * from './Authentication';
 export * from './Autocomplete';
 export * from './Categorize';
+export * from './Common';
+export * from './Data';
 export * from './Find';
 export * from './Settings';
 
-import { OrderBy } from './Common/OrderBy';
-import { SearchType } from './Common/SearchType';
-import { Filter } from './Common/Filter';
-import { DateSpecification, Query } from './Common/Query';
-
-import { AuthToken } from './Authentication/AuthToken';
-import { Authentication } from './Authentication/Authentication';
-
-import { Autocomplete } from './Autocomplete/Autocomplete';
-import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
-import { AutocompleteTriggers } from './Autocomplete/AutocompleteTriggers';
-import { Categorize } from './Categorize/Categorize';
-import { Find } from './Find/Find';
-
+import { AuthToken, Authentication } from './Authentication';
+import { Autocomplete } from './Autocomplete';
+import { Categorize } from './Categorize';
+import { OrderBy, SearchType, Filter, DateSpecification, Query } from './Common';
+import { Category } from './Data';
+import { Find } from './Find';
 import { Settings } from './Settings';
 
 /**
@@ -30,10 +21,8 @@ import { Settings } from './Settings';
  * for a proper introduction.
  *
  * The SearchClient manages a range of other services:
- *   * AllCategories,
  *   * Authentication,
  *   * Autocomplete,
- *   * BestBets,
  *   * Categorize
  *   * Find
  *
@@ -307,15 +296,16 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | Category | Filter): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
+      console.debug(filter);
+      const item = this.filterId(filter);
+      const foundIndex = this.filterIndex(item);
 
-        if (foundIndex === -1) {
-            this.doFilterAdd(item);
-            return true;
-        }
-        // Filter already set
-        return false;
+      if (foundIndex === -1) {
+          this.doFilterAdd(item);
+          return true;
+      }
+      // Filter already set
+      return false;
     }
 
     /**
@@ -731,20 +721,19 @@ export class SearchClient implements AuthToken {
     }
 
     private filterId(filter: string[] | Category | Filter): string[] {
-        let id: string[];
-        if (Array.isArray(filter)) {
-            id = filter;
-        } else if (filter instanceof Filter) {
-            id = filter.category.categoryName;
-        } else {
-            id = filter.categoryName;
-        }
-        return id;
+      let id: string[];
+      if (Array.isArray(filter)) {
+          id = filter;
+      } else if (filter instanceof Filter) {
+          id = filter.category.categoryName;
+      } else {
+          id = filter.categoryName;
+      }
+      return id;
     }
 
     private filterIndex(filter: string[]): number {
-        const filterString = filter.join("|");
-        return this._query.filters.findIndex((f) => f.category.categoryName.join("|") === filterString);
+        const filterString = filter.join('|');
+        return this._query.filters.findIndex((f) => f.category.categoryName.join('|') === filterString);
     }
-
 }

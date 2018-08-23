@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 
 import { Query } from '.';
 
@@ -16,7 +16,7 @@ export abstract class BaseQueryConverter {
         servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, '');
         return `${baseUrl}/${servicePath}?${params.join('&')}`;
     }
-    
+
     /**
      * Converts the query params to an array of key=value segments.
      */
@@ -28,7 +28,7 @@ export abstract class BaseQueryConverter {
             params.push(`${key}=${encodeURIComponent(value)}`);
         }
     }
- 
+
     protected createDate(date: Date | string | number | moment.DurationInputObject): string {
         if (!date) {
             return '';
