@@ -197,9 +197,9 @@ describe('Categorize basics', () => {
 
     let categorize = new Categorize('http://localhost:9950/', settings);
     categorize.fetch().then(response => {
-      fail('Should not yield a response');
+      expect(response).toBeNull();
     }).catch(error => {
-      expect(error).toEqual('Stopped by settings cbRequest method.');
+      fail('Should not yield an error');
     }).then(() => {
       expect(settings.cbRequest).toHaveBeenCalled();
     });

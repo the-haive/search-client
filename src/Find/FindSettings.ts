@@ -1,5 +1,5 @@
 import { BaseSettings } from '../Common';
-import { FindTriggers } from '.';
+import { FindTriggers } from './FindTriggers';
 import { Matches } from '../Data';
 
 /**

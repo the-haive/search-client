@@ -1,6 +1,9 @@
+import fetch from 'cross-fetch';
+
 import { AuthToken } from '../Authentication';
 import { BaseCall, Query } from '../Common';
-import { AutocompleteQueryConverter, AutocompleteSettings } from './';
+import { AutocompleteQueryConverter } from './AutocompleteQueryConverter';
+import { AutocompleteSettings } from './AutocompleteSettings';
 
 /**
  * This class allows you to create a service that executes autocomplete lookupds for the IntelliSearch SearchService.
@@ -63,7 +66,7 @@ export class Autocomplete extends BaseCall<string[]> {
             // 2) Resolve the promise (will then be returned as a success).
             // or
             // 3) should we do something else (old code returned undefined...)
-            return Promise.reject('Stopped by settings cbRequest method.');
+            return Promise.resolve(null);
         }
     }
 

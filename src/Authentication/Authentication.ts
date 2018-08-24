@@ -82,7 +82,7 @@ export class Authentication extends BaseCall<any> {
                     return Promise.reject(error);
                 });
         } else {
-            return undefined;
+            return Promise.resolve(null);
         }
     }
 

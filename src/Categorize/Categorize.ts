@@ -1,7 +1,10 @@
+import fetch from 'cross-fetch';
+
 import { AuthToken } from '../Authentication';
 import { BaseCall, DateSpecification, Filter, Query, SearchType } from '../Common';
 import { Categories, Category, Group } from '../Data';
-import { CategorizeQueryConverter, CategorizeSettings } from '.';
+import { CategorizeQueryConverter } from './CategorizeQueryConverter';
+import { CategorizeSettings } from './CategorizeSettings';
 
 /**
  * The Categorize service queries the search-engine for which categories that any 
@@ -78,7 +81,7 @@ export class Categorize extends BaseCall<Categories> {
             // 2) Resolve the promise (will then be returned as a success).
             // or
             // 3) should we do something else (old code returned undefined...)
-            return Promise.reject('Stopped by settings cbRequest method.');
+            return Promise.resolve(null);
         }
     }
 

@@ -1,4 +1,4 @@
-import { isWebUri } from 'valid-url';
+import validUrl from 'valid-url';
 
 import { DateSpecification } from './Query';
 import { OrderBy } from './OrderBy';
@@ -110,7 +110,7 @@ export abstract class BaseCall<TDataType> {
     baseUrl = `${baseUrl.replace(/\/+$/, '')}/${path}`;
 
     // Verify the authenticity
-    if (!isWebUri(baseUrl)) {
+    if (!validUrl.isWebUri(baseUrl)) {
       throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
     }
 

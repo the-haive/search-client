@@ -1,4 +1,8 @@
+//import * as fetch from 'jest-fetch-mock';
+const fetchAny = fetch as any;
+
 import { Autocomplete, AutocompleteSettings, AutocompleteTriggers } from '.';
+import { Query } from '../Common';
 
 describe('Autocomplete basics', () => {
 
@@ -91,6 +95,91 @@ describe('Autocomplete basics', () => {
         expect(pAutocomplete.settings.triggers).toBeDefined();
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(true);
         expect(pAutocomplete.settings.url).toEqual('test');
+    });
+
+    it('Should be able to get some autocomplete suggestions', () => {
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchAny.mockResponse(JSON.stringify({ }));
+        let settings = { 
+          cbRequest: jest.fn((url, reqInit) => {
+            expect(typeof url).toBe('string');
+            expect(typeof reqInit).toBe('object');
+            return true;
+          }),
+        } as AutocompleteSettings;
+    
+        let autocomplete = new Autocomplete('http://localhost:9950/', settings);
+        autocomplete.fetch().then(response => {
+          expect(typeof response).toBe('object');
+        }).catch(error => {
+          fail('Should not fail');
+        }).then(() => {
+          expect(settings.cbRequest).toHaveBeenCalled();
+        });
+      });
+    
+    it('Should throw error on promise when autocomplete fails', () => {
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchAny.mockResponse('not json');
+        let settings = { 
+            cbRequest: jest.fn((url, reqInit) => {
+                expect(typeof url).toBe('string');
+                expect(typeof reqInit).toBe('object');
+                return true;
+            }),
+        } as AutocompleteSettings;
+
+        let autocomplete = new Autocomplete('http://localhost:9950/', settings);
+        autocomplete.fetch().then(response => {
+            fail('Should not success');
+        }).catch(error => {
+            expect(error.name).toBe('FetchError');
+        }).then(() => {
+            expect(settings.cbRequest).toHaveBeenCalled();
+        });
+    });
+
+    it('Should be able to stop an Autocomplete using cbRequest', () => {
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchAny.mockResponse(JSON.stringify({ }));
+        let settings = { 
+          cbRequest: jest.fn((url, reqInit) => {
+            expect(typeof url).toBe('string');
+            expect(typeof reqInit).toBe('object');
+            // Stop the request
+            return false;
+          }),
+        } as AutocompleteSettings;
+    
+        let autocomplete = new Autocomplete('http://localhost:9950/', settings);
+        autocomplete.fetch().then(response => {
+          expect(response).toBeNull();
+        }).catch(error => {
+          fail('Should not yield an error');
+        }).then(() => {
+          expect(settings.cbRequest).toHaveBeenCalled();
+        });
+    });
+
+    it('Should be able to create response when changing queryText', () => {
+        jest.useFakeTimers();
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchAny.resetMocks();
+        fetchAny.mockResponse(JSON.stringify(['queryTextForMe', 'queryTextForYou']));
+        let settings = { 
+            cbSuccess: jest.fn((suggestions) => {
+                expect(suggestions).toContain('queryTextForMe');
+                expect(suggestions).toContain('queryTextForYou');
+            }),
+          } as AutocompleteSettings;
+     
+        let autocomplete = new Autocomplete('http://localhost:9950/', settings);
+        let newQuery = new Query();
+        newQuery.queryText = 'queryText';
+        autocomplete.queryTextChanged('', newQuery);
+        expect(fetchAny).toHaveBeenCalledTimes(0);
+        jest.runAllTimers();
+        expect(fetchAny).toHaveBeenCalledTimes(1);
     });
 
 });

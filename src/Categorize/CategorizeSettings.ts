@@ -1,6 +1,6 @@
 import { BaseSettings } from '../Common';
 import { Categories } from '../Data';
-import { CategorizeTriggers } from '.';
+import { CategorizeTriggers } from './CategorizeTriggers';
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.

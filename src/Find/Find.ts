@@ -1,6 +1,9 @@
+import fetch from 'cross-fetch';
+
 import { AuthToken } from '../Authentication';
 import { BaseCall, DateSpecification, Filter, OrderBy, Query, SearchType } from '../Common';
-import { FindQueryConverter, FindSettings } from '.';
+import { FindQueryConverter } from './FindQueryConverter';
+import { FindSettings } from './FindSettings';
 import { Matches } from '../Data';
 
 /**
@@ -63,7 +66,7 @@ export class Find extends BaseCall<Matches> {
             // 2) Resolve the promise (will then be returned as a success).
             // or
             // 3) should we do something else (old code returned undefined...)
-            return Promise.reject('Stopped by settings cbRequest method.');
+            return Promise.resolve(null);
         }
     }
 

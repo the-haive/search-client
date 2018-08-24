@@ -1,5 +1,5 @@
 import { BaseSettings } from '../Common';
-import { AutocompleteTriggers } from '.';
+import { AutocompleteTriggers } from './AutocompleteTriggers';
 
 /**
  * These are all the settings that can affect the returned suggestions for autocomplete() lookups.

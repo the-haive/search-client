@@ -1,6 +1,5 @@
 export * from './BaseCall';
 export * from './BaseSettings';
-export * from './BaseTriggers';
 export * from './BaseQueryConverter';
 export * from './CategorizationType';
 export * from './Filter';

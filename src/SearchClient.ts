@@ -118,8 +118,15 @@ export class SearchClient implements AuthToken {
             this.query = query;
             this.deferUpdates(false, true); // Skip any pending requests
         }
-        this.categorize.fetch(this._query);
-        this.find.fetch(this._query);
+        this.categorize.fetch(this._query)
+        .catch(() => {
+            // Ignore the error?
+        });
+
+        this.find.fetch(this._query)
+        .catch(() => {
+            // Ignore the error?
+        });
     }
 
     /**
@@ -296,7 +303,6 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | Category | Filter): boolean {
-      console.debug(filter);
       const item = this.filterId(filter);
       const foundIndex = this.filterIndex(item);
 

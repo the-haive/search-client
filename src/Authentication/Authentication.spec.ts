@@ -150,7 +150,14 @@ describe('Authentication basics', () => {
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
 
-        authentication.fetch();
+        authentication.fetch()
+        .then(response => {
+            expect(response).toBeNull();
+        })
+        .catch((error) => {
+            fail('Did not expect to throw error');
+        });
+
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');
     });
@@ -175,7 +182,13 @@ describe('Authentication basics', () => {
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
 
-        authentication.fetch();
+        authentication.fetch()
+        .then(response => {
+            expect(response).toBeNull();
+        })
+        .catch((error) => {
+            fail('Did not expect to throw error');
+        });
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');
     });
@@ -200,7 +213,13 @@ describe('Authentication basics', () => {
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
         expect(pAuthentication.settings.url).toEqual('auth/token');
 
-        authentication.fetch();
+        authentication.fetch()
+        .then(response => {
+            expect(response).toBeNull();
+        })
+        .catch((error) => {
+            fail('Did not expect to throw error');
+        });
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual('http://localhost:9950/RestService/v4/auth/token');
     });

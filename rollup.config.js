@@ -3,7 +3,7 @@ import sourcemaps from 'rollup-plugin-sourcemaps';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import nodeGlobals from 'rollup-plugin-node-globals';
 import nodeBuiltins from 'rollup-plugin-node-builtins';
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from "rollup-plugin-terser";
 import commonjs from 'rollup-plugin-commonjs';
 import pascalCase from 'pascal-case';
 const pkg = require('./package');
@@ -11,7 +11,7 @@ const pkg = require('./package');
 let override = { compilerOptions: { declaration: false } };
 
 export default {
-  input: 'es/index.js',
+  input: 'es/SearchClient.js',
   output: {
     file: 'dist/SearchClient.js',
     amd: {
@@ -35,7 +35,9 @@ export default {
     nodeResolve(),
     nodeGlobals(),
     nodeBuiltins(),
-    commonjs(),
-    uglify()
+    commonjs({ 
+      namedExports: {'node_modules/jwt-simple/index.js': ['decode']}
+    }),
+    //terser()
   ]
 }
