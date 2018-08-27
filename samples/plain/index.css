@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+#preview {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 200px;
+    width: 80vw;
+    height: 80vh;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+}
+.container {
+    display: grid;
+
+    grid-template-areas:
+        "header header header"
+        "nav content side"
+        "footer footer footer";
+
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-rows: auto 1fr auto;
+    grid-gap: 10px;
+
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+    display: block;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+header p {
+    font-size: smaller;
+    width: 80%;
+    text-align: left;
+    margin: 0 auto;
+}
+header .query {
+    margin-top: 1em;
+}
+nav {
+    grid-area: nav;
+    margin-left: 0.5rem;
+    overflow: hidden;
+}
+
+main {
+    grid-area: content;
+    overflow-y: auto;
+}
+main .matches-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#categories,
+#matches,
+#details {
+    margin-top: 1em;
+    overflow-x: hidden;
+}
+
+#matches ul {
+    list-style: none;
+    padding: 0;
+}
+#matches li {
+    margin-bottom: 0.5em;
+}
+
+#matches li .title button {
+    margin-left: 0.2em;
+    vertical-align: text-bottom;
+}
+
+#matches li .title {
+    font-weight: bold;
+}
+
+#matches li .id {
+    font-weight: bold;
+}
+
+#matches li .id span {
+    margin-left: 1em;
+}
+
+#matches li .extracts {
+    font-style: italic;
+    padding: 0.2em 0 0.2em 0;
+    border-left: solid 0.2em silver;
+    margin-left: 0em;
+    background-color: ghostwhite;
+}
+#matches li .extract {
+    padding: 0 0 0 0.6em;
+}
+
+#matches li .abstract{
+}
+
+
+#matches li .extract + .extract {
+    border-top: solid 0.2em rgba(255,255,255,0.95);
+}
+
+aside {
+    grid-area: side;
+    margin-right: 0.5rem;
+    overflow-y: auto;
+}
+
+#details {
+    font-size: smaller;
+    white-space: nowrap;
+}
+
+#details ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-areas:
+            "header"
+            "nav"
+            "content"
+            "side"
+            "footer";
+
+        grid-template-columns: 1fr;
+        grid-template-rows:
+            auto /* Header */
+            minmax(75px, auto) /* Nav */
+            auto /* Content */
+            minmax(75px, auto) /* Sidebar */
+            auto; /* Footer */
+    }
+
+    nav, aside {
+        margin: 0;
+    }
+}

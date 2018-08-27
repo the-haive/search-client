@@ -1,176 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>IntelliSearch Enterprise - Plain sample</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
-    #preview {
-      position: absolute;
-      margin-left: auto;
-      margin-right: auto;
-      min-width: 200px;
-      width: 80vw;
-      height: 80vh;
-      background-color: rgba(0,0,0,0.5)
-    }
-    .container {
-      display: grid;
-
-      grid-template-areas:
-        "header header header"
-        "nav content side"
-        "footer footer footer";
-
-      grid-template-columns: 200px 1fr 200px;
-      grid-template-rows: auto 1fr auto;
-      grid-gap: 10px;
-
-      height: 100vh;
-    }
-
-    header {
-      grid-area: header;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
-
-    nav {
-      grid-area: nav;
-      margin-left: 0.5rem;
-    }
-
-    main {
-      grid-area: content;
-    }
-
-    aside {
-      grid-area: side;
-      margin-right: 0.5rem;
-    }
-
-    footer {
-      grid-area: footer;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        grid-template-areas:
-          "header"
-          "nav"
-          "content"
-          "side"
-          "footer";
-
-        grid-template-columns: 1fr;
-        grid-template-rows:
-          auto /* Header */
-          minmax(75px, auto) /* Nav */
-          1fr /* Content */
-          minmax(75px, auto) /* Sidebar */
-          auto; /* Footer */
-      }
-
-      nav, aside {
-        margin: 0;
-      }
-    }
-  </style>
-  <script type="text/javascript">
-    window.onload = function(e) {
-      const INTS = IntelliSearch;
-      let settings = new INTS.Settings({
-        autocomplete: {
-          enabled: false,
-          cbRequest: function(url, reqInit){
-            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
-          },
-          cbSuccess: function(suggestions){
-            console.log("cbSuccess", "Suggestions:", suggestions);
-          },
-          cbError: function(error){
-            console.error("cbError", error);
-          },
-        },
-        find: {
-          cbRequest: function(url, reqInit){
-            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
-          },
-          cbSuccess: function(matches){
-            console.log("cbSuccess", "Matches:", matches);
-          },
-          cbError: function(error){
-            console.error("cbError", error);
-          },
-        },
-        categorize: {
-          cbRequest: function(url, reqInit){
-            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
-          },
-          cbSuccess: function(categories){
-            console.log("cbSuccess", "Categories:", categories);
-          },
-          cbError: function(error){
-            console.error("cbError", error);
-          },
-        },
-      });
-      console.log(settings);
-      const client = new INTS.SearchClient("http://searchmanager.demo.intellisearch.no", settings);
-      let query = new INTS.Query({
-        queryText: "intellisearch"
-      });
-      client.findAndCategorize(query);
-      // client.find.fetch({ queryText: ":intelliall" }, true)
-      //   .then((matches) => {
-      //     console.log("Find results:", matches);
-
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
-    };
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IntelliSearch Enterprise - Plain sample</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>IntelliSearch Enterprise</h1>
-      <div id="search-text"></div>
-      <div id="go"></div>
-      <div id="advanced"></div>
-    </header>
+    <div class="container">
+        <header>
+            <h1>IntelliSearch Search-Client | Plain sample</h1>
+            <p>
+                This sample page demonstrates how to set up a connection to the IntelliSearch search-engine using the 
+                automated strategy.
+                <br/>
+                The automated strategy means that you use the settings object to tell how you want the engine to handle 
+                the various scenarios, and based on that the autocomplete suggestions, categories and match-results will
+                be sent to you via three callback methods, when there has been any activity.
+                You then set up events to forward changes to the search queryfield and other buttons (paging, search-type, etc).
+            </p>
+            <div class="query">
+                <input id="queryText" type="search" placeholder="Write text to search for...">
+                <button id="go">Search</button>
+            </div>
+            <div id="advanced"></div>
+        </header>
 
-    <nav>
-      <!-- Navigation: Categories -->
-      Categories
-    </nav>
+        <nav>
+            <!-- Navigation: Categories -->
+            <b>Categories</b><br/>
+            <div class="categories-header">
+                <span id="categories-stats">Categorize stats...</span>
+            </div>
+            <div id="categories"/>
+        </nav>
 
-    <main>
-      <!-- Main content: Matches -->
-      Matches<br/>
-      Results-info | Pager | Ordering
-    </main>
+        <main>
+            <!-- Main content: Matches -->
+            <b>Matches</b><br/>
+            <div class="matches-header">
+                <span id="stats">Match stats...</span>
+                <span id="pager">&laquo; 1 2 3 &raquo;</span>
+                <span id="order">Relevance/Date order</span>
+            </div>
+            <div id="matches"/>
+        </main>
 
-    <aside>
-      <!-- Sidebar / Ads: Metadata -->
-      Metadata
-    </aside>
+        <aside>
+            <!-- Sidebar: Details -->
+            <b>Details</b><br/>
+            <div id="details">All properties &amp; medatata will show here.</div>
+        </aside>
 
-    <footer>
-      <!-- Footer content: Copyright -->
-      Copyright
-    </footer>
-  </div>
-  <div id="preview"></div>
-  <script src="IntelliSearch.js"></script>
+        <footer>
+            <!-- Footer content: Copyright -->
+            &copy; IntelliSearch Software AS
+        </footer>
+    </div>
+    <div id="preview"></div>
+    <script src="IntelliSearch.js"></script>
 </body>
 </html>
