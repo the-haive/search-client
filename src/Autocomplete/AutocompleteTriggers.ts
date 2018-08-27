@@ -1,20 +1,13 @@
-import { IBaseTriggers } from '../Common/BaseTriggers';
-
-export interface IAutocompleteTriggers extends IBaseTriggers {
+/**
+ * These are the triggers that define when and when not to trigger an autocomplete lookup.
+ */
+export class AutocompleteTriggers {
     /**
      * Whether or not an autocomplete lookup should be done when the maxSuggestions setting is changed. 
      * 
      * Note: Requires queryChanged to be true.
      */
-    maxSuggestionsChanged?: boolean;
-}
-
-/**
- * These are the triggers that define when and when not to trigger an autocomplete lookup.
- */
-export class AutocompleteTriggers implements IAutocompleteTriggers {
-
-    // IBaseTriggers 
+    public maxSuggestionsChanged?: boolean = true;
 
     /**
      * Turns on or off all query-related triggers.
@@ -50,29 +43,12 @@ export class AutocompleteTriggers implements IAutocompleteTriggers {
      */
     public queryChangeMinLength?: number = 3;
 
-    // IAutocompleteTriggers 
-
-    /**
-     * Whether or not an autocomplete lookup should be done when the maxSuggestions setting is changed. 
-     * 
-     * Note: Requires queryChanged to be true.
-     */
-    public maxSuggestionsChanged?: boolean = true;
-
     /**
      * Creates an AutocompleteTrigger object for you, based on AutocompleteTrigger defaults and the overrides provided as a param.
      * 
      * @param triggers - The trigger defined here will override the default AutocompleteTrigger.
      */
-    constructor(triggers?: AutocompleteTriggers) {
-
-        if (triggers) {
-            this.queryChange = typeof triggers.queryChange !== "undefined" ? triggers.queryChange : this.queryChange;
-            this.queryChangeDelay = typeof triggers.queryChangeDelay !== "undefined" ? triggers.queryChangeDelay : this.queryChangeDelay;
-            this.queryChangeInstantRegex = typeof triggers.queryChangeInstantRegex !== "undefined" ? triggers.queryChangeInstantRegex : this.queryChangeInstantRegex;
-            this.queryChangeMinLength = typeof triggers.queryChangeMinLength !== "undefined" ? triggers.queryChangeMinLength : this.queryChangeMinLength;
-            
-            this.maxSuggestionsChanged = typeof triggers.maxSuggestionsChanged !== "undefined" ? triggers.maxSuggestionsChanged : this.maxSuggestionsChanged;
-        }
+    constructor(triggers: AutocompleteTriggers = {} as AutocompleteTriggers) {
+        Object.assign(this, triggers);
     }
 }

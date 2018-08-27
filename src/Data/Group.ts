@@ -1,10 +1,14 @@
 import { Category } from './Category';
 
 /**
- * The Group-node is the top-level node for each of the category "trees". 
+ * The Group-node is the top-level node for each of the category "trees".
  * It contains information about this group-node as well as a list of child-categories.
  */
 export interface Group {
+    /**
+     * Sequential running number per group
+     */
+    $id?: number;
     /**
      * The child categories for this group.
      */

@@ -1,5 +1,4 @@
-import { BaseSettings } from '../Common/BaseSettings';
-
+import { BaseSettings } from '../Common';
 import { AutocompleteTriggers } from './AutocompleteTriggers';
 
 /**
@@ -25,12 +24,12 @@ export class AutocompleteSettings extends BaseSettings<string[]> {
         super(settings);
         
         if (settings) {
-            this.triggers = typeof settings.triggers !== "undefined" ? new AutocompleteTriggers(settings.triggers) : this.triggers;
-            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
+            this.triggers = typeof settings.triggers !== 'undefined' ? new AutocompleteTriggers(settings.triggers) : this.triggers;
+            this.url = typeof settings.url !== 'undefined' ? settings.url : this.url;
         }
         
         // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
+        this.url = this.url.replace(/(^\/+)|(\/+$)/g, '');
     }
 
 }

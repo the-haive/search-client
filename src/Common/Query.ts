@@ -1,15 +1,16 @@
-import moment from 'moment/moment';
+import moment from 'moment';
 
+import { CategorizationType } from './CategorizationType';
 import { OrderBy } from './OrderBy';
 import { SearchType } from './SearchType';
 import { Filter } from './Filter';
 
 /**
  * Represents a date-specification that can either be fixed or a delta from now.
- * If the date is a moment DurationInputObject we calculate the date in real-time when the fetch-call is executed. 
+ * If the date is a moment DurationInputObject we calculate the date in real-time when the fetch-call is executed.
  * Note that the value must be an object with properties and values. I.e. { M: -1 } // One month ago
  * See http://momentjs.com/docs/#/durations/.
- * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting 
+ * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting
  * strings. See http://momentjs.com/docs/#/parsing/string/.
  */
 export type DateSpecification = Date | string | number | moment.DurationInputObject;
@@ -22,6 +23,11 @@ export class Query {
     public clientId?: string = '';
 
     /**
+     * Used to specify whether categorize calls should always return all categories or just categories that has matches.
+     */
+    public categorizationType?: CategorizationType = CategorizationType.All;
+
+    /**
      * Used to specify the start date-range.
      */
     public dateFrom?: DateSpecification = null;
@@ -32,9 +38,9 @@ export class Query {
     public dateTo?: DateSpecification = null;
 
     /**
-     * Use one of this query parameter to specify the filters to apply. Each filter should contain its group name 
-     * followed by category names, representing complete hierarchy of the category. The names specified here is derived from category Name 
-     * property and not its display name. When specifying multiple filters, separate them either by comma or semicolon. 
+     * Use one of this query parameter to specify the filters to apply. Each filter should contain its group name
+     * followed by category names, representing complete hierarchy of the category. The names specified here is derived from category Name
+     * property and not its display name. When specifying multiple filters, separate them either by comma or semicolon.
      * For example: &f=Authors|Sam;FileTypes|docx
      * Note the above names are case sensitive.
      */
@@ -42,21 +48,21 @@ export class Query {
 
     /**
      * Decides whether or not to request content to be generated in the response matches.
-     * 
+     *
      * Note: Only available for v4+.
      */
     public matchGenerateContent?: boolean = false;
 
     /**
      * Decides whether or not to request highlight-tags to be included in the generated the response matches.
-     * 
+     *
      * Note: Requires `matchGenerateContent` to be `true` to be effective.
      * Note: Only available for v4+.
      */
     public matchGenerateContentHighlights?: boolean = true;
 
     /**
-     * Decides whether or not to use the parent-grouping feature to group results. 
+     * Decides whether or not to use the parent-grouping feature to group results.
      */
     public matchGrouping?: boolean = false;
 
@@ -71,7 +77,7 @@ export class Query {
     public matchPage?: number = 1;
 
     /**
-     * The number of results per page to fetch. Expects a number >= 1. 
+     * The number of results per page to fetch. Expects a number >= 1.
      */
     public matchPageSize?: number = 10;
 
@@ -86,7 +92,7 @@ export class Query {
     public queryText?: string = '';
 
     /**
-     * The type of search to perform. 
+     * The type of search to perform.
      */
     public searchType?: SearchType = SearchType.Keywords;
 
@@ -96,12 +102,11 @@ export class Query {
     public uiLanguageCode?: string = '';
 
     /**
-     * Creates a Query object for you, based on Query defaults and the overrides provided as a param.
-     * 
-     * @param query - The query defined here will override the default Query.
+     * Instantiates a Query object, based on Query defaults and the overrides provided as a param.
+     *
+     * @param query - The Query object with override values.
      */
-    constructor(query?: Query) {
+    constructor(query: Query = {} as Query) {
         Object.assign(this, query);
     }
-
 }

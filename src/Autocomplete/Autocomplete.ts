@@ -1,11 +1,7 @@
-import { fetch } from 'domain-task';
-
-import { BaseCall } from '../Common/BaseCall';
-import { Query } from '../Common/Query';
-
-import { AuthToken } from '../Authentication/AuthToken';
-
-import { AutocompleteSettings } from './';
+import { AuthToken } from '../Authentication';
+import { BaseCall, Fetch, Query } from '../Common';
+import { AutocompleteQueryConverter } from './AutocompleteQueryConverter';
+import { AutocompleteSettings } from './AutocompleteSettings';
 
 /**
  * This class allows you to create a service that executes autocomplete lookupds for the IntelliSearch SearchService.
@@ -13,16 +9,7 @@ import { AutocompleteSettings } from './';
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
 export class Autocomplete extends BaseCall<string[]> {
-    
-    // private INTELLIDEBUGQUERY: string = ":INTELLIDEBUGQUERY";
-
-    // private INTELLIALL: string = ":INTELLIALL";
-
-    // private INTELLI: string = ":INTELLI";
-
-    // private allCategories: AllCategories;
-
-    // private allFilters: string[];
+    private queryConverter: AutocompleteQueryConverter;
 
     /**
      * Creates an Autocomplete instance that knows how to get query-suggestions.
@@ -30,16 +17,16 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param settings - The settings for how the Autocomplete is to operate.
      * @param auth - The object that handles authentication.
      */
-    constructor(baseUrl: string, protected settings?: AutocompleteSettings, auth?: AuthToken/*, allCategories: AllCategories*/) {
-        super(baseUrl, new AutocompleteSettings(settings), auth);
-
-        this.settings = new AutocompleteSettings(settings);
-
-        // TODO: In the future when the query-field allows specifying filters we should fetch all-categories from the server in order to help suggest completions.
-        // allCategories.fetch().then((categories) => { 
-        //   // TODO: Convert the hierarchical categories into a flit list of filters
-        //   this.allFilters = categories;
-        // });
+    constructor(baseUrl: string, 
+                protected settings?: AutocompleteSettings, 
+                auth?: AuthToken,
+                fetchMethod?: Fetch
+            ) {
+        super();
+        settings = new AutocompleteSettings(settings);
+        auth = auth || new AuthToken();
+        super.init(baseUrl, settings, auth, fetchMethod);
+        this.queryConverter = new AutocompleteQueryConverter();
     }
 
     /**
@@ -50,12 +37,11 @@ export class Autocomplete extends BaseCall<string[]> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string[]> {
-
-        let url = this.toUrl(query);
+        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, new Query(query));
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -71,29 +57,30 @@ export class Autocomplete extends BaseCall<string[]> {
                     return Promise.reject(error);
                 });
         } else {
-            return undefined;
+            // TODO: When a fetch is stopped due to cbRequest returning false, should we:
+            // 1) Reject the promise (will then be returned as an error).
+            // or
+            // 2) Resolve the promise (will then be returned as a success).
+            // or
+            // 3) should we do something else (old code returned undefined...)
+            return Promise.resolve(null);
         }
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
-        if (this.settings.cbSuccess && this.settings.triggers.maxSuggestionsChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.maxSuggestionsChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
                 if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        // If a delay is already pending then clear it and restart the delay
-                        clearTimeout(this.delay);
-                        // Set up the delay
-                        this.delay = setTimeout(() => {
-                            this.update(query);
-                        }, this.settings.triggers.queryChangeDelay);
+                        this.update(query, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -102,19 +89,6 @@ export class Autocomplete extends BaseCall<string[]> {
     
     // TODO: In the future we may differ on what autocomplete suggestions to suggest depending on the searchtype. 
     //public searchTypeChanged(oldValue: SearchType, query: CategorizeQuery) { }
-
-    /**
-     * Returns the specific rest-path segment for the autocomplete url.
-     */
-    private toUrl(query: Query): string {
-        let params: string[] = [];
-
-        params.push(`l=1}`); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
-        params.push(`q=${encodeURIComponent(query.queryText)}`);
-        params.push(`s=${encodeURIComponent(query.maxSuggestions.toString())}`);
-
-        return `${this.baseUrl}/${this.settings.url}?${params.join('&')}`;
-    }
 
     // private updateWordSuggestions(query: Query) {
     //     // Not implemented ywt.

@@ -1,21 +1,18 @@
-import { fetch } from 'domain-task';
 import * as jwt from 'jwt-simple';
 
-import { BaseCall } from '../Common/BaseCall';
-import { Query } from '../Common/Query';
-
+import { BaseCall, Fetch, Query } from '../Common';
 import { AuthenticationSettings } from './AuthenticationSettings';
 import { AuthToken } from './AuthToken';
 
 /**
- * The Authentication service is a supporting feature for the other services. 
- * Typically used via the [[SearchClient.constructor]] and by providing [[AuthenticationSettings]] settings in 
+ * The Authentication service is a supporting feature for the other services.
+ * Typically used via the [[SearchClient.constructor]] and by providing [[AuthenticationSettings]] settings in
  * the [[Settings.authentication]] property.
- * 
+ *
  * The authentication system is based on JWT and needs an end-point to be configured from where it will get its
- * authentication-token. This service will be monitoring the token-value to see if it is either missing or 
+ * authentication-token. This service will be monitoring the token-value to see if it is either missing or
  * expired. When that happens a new token will be fetched from the end-point. The [[AuthenticationSettings.expiryOverlap]]
- * object controls how long before expiration the new token is to be fetched. 
+ * object controls how long before expiration the new token is to be fetched.
  */
 export class Authentication extends BaseCall<any> {
 
@@ -25,34 +22,38 @@ export class Authentication extends BaseCall<any> {
      * @param settings - The settings for the authentication object.
      * @param auth - An object that controls the authentication for the lookups.
      */
-    constructor(baseUrl: string, protected settings?: AuthenticationSettings, auth?: AuthToken) {
-        super(baseUrl, new AuthenticationSettings(settings), auth);
-        
-        this.settings = new AuthenticationSettings(settings);
-
-        if (this.settings && this.settings.token) {
-            this.auth.authenticationToken = this.settings.token;
-            this.settings.token = undefined;
-            this.setupRefresh();
-        } else if (this.settings.enabled) {
-            // We authenticate immediately in order to have the token in place when the first calls come in.
-            this.update(null);
-        }
+    constructor(baseUrl: string,
+                protected settings?: AuthenticationSettings,
+                auth?: AuthToken,
+                fetchMethod?: Fetch
+            ) {
+      super();
+      settings = new AuthenticationSettings(settings);
+      auth = auth || new AuthToken();
+      super.init(baseUrl, settings, auth, fetchMethod);
+      if (this.settings.token) {
+          this.auth.authenticationToken = this.settings.token;
+          this.settings.token = undefined;
+          this.setupRefresh();
+      } else if (this.settings.enabled) {
+          // We authenticate immediately in order to have the token in place when the first calls come in.
+          this.update(null);
+      }
     }
 
     /**
      * Fetches the authentication-token from the server.
-     * @param query - For the Autentication service this parameter is ignored. 
+     * @param query - For the Authentication service this parameter is ignored.
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a jwt token.
      */
     public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string> {
 
-        let url = `${this.baseUrl}/${this.settings.url}`;
-        let reqInit = this.requestObject();
+        const url = `${this.baseUrl}/${this.settings.url}`;
+        const reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -79,7 +80,7 @@ export class Authentication extends BaseCall<any> {
                     return Promise.reject(error);
                 });
         } else {
-            return undefined;
+            return Promise.resolve(null);
         }
     }
 

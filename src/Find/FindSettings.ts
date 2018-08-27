@@ -1,7 +1,6 @@
-import { BaseSettings } from '../Common/BaseSettings';
-import { Matches } from '../Data/Matches';
-
+import { BaseSettings } from '../Common';
 import { FindTriggers } from './FindTriggers';
+import { Matches } from '../Data';
 
 /**
  * These are all the settings that can affect the returned categories for Find() lookups.
@@ -24,13 +23,13 @@ export class FindSettings extends BaseSettings<Matches> {
      */
     constructor(settings?: FindSettings) {
         super(settings);
+        
         if (settings) {
-            this.triggers = typeof settings.triggers !== "undefined" ? new FindTriggers(settings.triggers) : this.triggers;
-            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
+            this.triggers = typeof settings.triggers !== 'undefined' ? new FindTriggers(settings.triggers) : this.triggers;
+            this.url = typeof settings.url !== 'undefined' ? settings.url : this.url;
         }
         
         // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
+        this.url = this.url.replace(/(^\/+)|(\/+$)/g, '');
     }
-
 }

@@ -1,26 +1,37 @@
 {
-    "compilerOptions": {
-        "moduleResolution": "node",
-        "module": "commonjs",
-        "target": "es5",
-        "declaration": true,
-        "sourceMap": true,
-        "outDir": "dist",
-        "lib": ["es6", "dom"],
-        "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "emitDecoratorMetadata": true,
-        "removeComments": false,
-        "allowSyntheticDefaultImports": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ]
-    },
-    "files": [
-        "src/SearchClient.ts"
-    ],
-    "exclude": [
-        "node_modules"
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "rootDir": "src",
+    "outDir": "/temp",
+    "newLine": "LF",
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "declaration": true,
+    "pretty": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": false,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": false,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+        "node_modules/@types"
     ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "es",
+    "lib",
+    "src/**/*.spec.ts",
+    "src/**/*.json",
+  ]
 }

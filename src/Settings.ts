@@ -1,26 +1,18 @@
-import { VersionPathSettings } from './Common/VersionPathSettings';
-import { Query } from './Common/Query';
-import { AuthenticationSettings } from './Authentication/AuthenticationSettings';
-import { AllCategoriesSettings } from './AllCategories/AllCategoriesSettings';
-import { AutocompleteSettings } from './Autocomplete/AutocompleteSettings';
-import { BestBetsSettings } from './BestBets/BestBetsSettings';
-import { CategorizeSettings } from './Categorize/CategorizeSettings';
-import { FindSettings } from './Find/FindSettings';
+import { AuthenticationSettings } from './Authentication';
+import { AutocompleteSettings } from './Autocomplete';
+import { CategorizeSettings } from './Categorize';
+import { Query } from './Common';
+import { FindSettings } from './Find';
 
 /**
  * Settings as used by the SearchClient.
- * 
+ *
  * Please see the data-type description for each property in question.
  */
-export class Settings extends VersionPathSettings {
+export class Settings {
 
     /**
-     * Settings for allCategories().
-     */
-    public allCategories?: AllCategoriesSettings = new AllCategoriesSettings();
-
-    /** 
-     * The JWT authentication token to use. 
+     * The JWT authentication token to use.
      */
     public authentication?: AuthenticationSettings = new AuthenticationSettings();
 
@@ -28,11 +20,6 @@ export class Settings extends VersionPathSettings {
      * Settings for autocomplete().
      */
     public autocomplete?: AutocompleteSettings = new AutocompleteSettings();
-
-    /**
-     * Settings for bestBets().
-     */
-    public bestBets?: BestBetsSettings = new BestBetsSettings();
 
     /**
      * Settings for categorize().
@@ -45,6 +32,12 @@ export class Settings extends VersionPathSettings {
     public find?: FindSettings = new FindSettings();
 
     /**
+     * You can use this path to override the path to the rest-service.
+     * If not set, it will default to "RestService/v4".
+     */
+    public path?: string = 'RestService/v4';
+
+    /**
      * Settings for the common query (autocomplete/find/categorize)
      */
     public query?: Query = new Query();
@@ -54,19 +47,16 @@ export class Settings extends VersionPathSettings {
      * @param settings - The settings defined here will override the default Settings.
      */
     constructor(settings?: Settings) {
-        super(settings);
+
         if (settings) {
-            const defaultVersionPath = { version: settings.version, path: settings.path };
-            settings.allCategories = new AllCategoriesSettings(settings.allCategories || defaultVersionPath as AllCategoriesSettings);
+            const defaultVersionPath = { path: settings.path };
             settings.authentication = new AuthenticationSettings(settings.authentication || defaultVersionPath as AuthenticationSettings);
             settings.autocomplete = new AutocompleteSettings(settings.autocomplete || defaultVersionPath as AutocompleteSettings);
-            settings.bestBets = new BestBetsSettings(settings.bestBets || defaultVersionPath as BestBetsSettings);
             settings.categorize = new CategorizeSettings(settings.categorize || defaultVersionPath as CategorizeSettings);
             settings.find = new FindSettings(settings.find || defaultVersionPath as FindSettings);
             settings.query = new Query(settings.query);
-        } else {
-            this.path += this.version;
         }
+
         Object.assign(this, settings);
     }
 

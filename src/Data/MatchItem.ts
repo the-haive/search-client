@@ -1,20 +1,24 @@
-import { MetaList } from './MetaList';
+import { MetaData } from './MetaData';
 
 /**
  * Defines the interface for a match-item.
  */
 export interface MatchItem {
     /**
+     * Sequential running number per match-item
+     */
+    $id?: number;
+    /**
      * This is the abstract defined in the index for the indexed item, if any.
      */
     abstract: string;
     /**
-     * A list of categories that this items is tagged with. 
+     * A list of categories that this items is tagged with.
      * Note: The list returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no categories.
      */
     categories?: string[];
     /**
-     * A list of content paragrahs, that represent the full item in regards to textual content. 
+     * A list of content paragrahs, that represent the full item in regards to textual content.
      * To get the content, please set the generateContent (and potentially also the generateContentHightlights) settings in the request.
      * Note: The paragraphs returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no paragraphs.
      */
@@ -24,7 +28,7 @@ export interface MatchItem {
      */
     date: string;
     /**
-     * This is the list of extracts that show where some representative hits occured in the match-item. 
+     * This is the list of extracts that show where some representative hits occured in the match-item.
      */
     extracts: string[];
     /**
@@ -32,32 +36,32 @@ export interface MatchItem {
      */
     instanceId: number;
     /**
-     * The internalId represents the internal running id for this item in the index. 
+     * The internalId represents the internal running id for this item in the index.
      */
     internalId: number;
     /**
      * If the match-item is included because the search-query actually matched then this is true.
-     * When grouping is on, some hits can be inserted as a parent-context to the real hit. In these scenarios this value is false.  
+     * When grouping is on, some hits can be inserted as a parent-context to the real hit. In these scenarios this value is false.
      */
     isTrueMatch: boolean;
     /**
-     * Represents the internal unique id for the item, given it's content and state. 
+     * Represents the internal unique id for the item, given it's content and state.
      */
     itemId: string;
     /**
      * Any metadata for the item.
-     */ 
-    metaList: MetaList[];
-    /**
-     * A reference to the item's parent id, if any. 
      */
-    parentInternalId: number;
+    metaList: MetaData[];
+    /**
+     * A reference to the item's parent id, if any.
+     */
+    parentInternalId?: number;
     /**
      * A reference to how many levels of parents this item has.
      */
     parentLevel: number;
     /**
-     * The calculated relevance for the item. 
+     * The calculated relevance for the item.
      */
     relevance: number;
     /**

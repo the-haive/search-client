@@ -1,9 +1,13 @@
 import { MatchItem } from './MatchItem';
 
 /**
- * Defines interface for received search-matches.  
+ * Defines interface for received search-matches.
  */
 export interface Matches {
+    /**
+     * Always 1
+     */
+    $id?: number;
     /**
      * The list of best-bets, if any.
      */

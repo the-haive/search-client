@@ -1,17 +1,8 @@
-import { fetch } from 'domain-task';
-
-import { DateSpecification } from '../Common/Query';
-import { BaseCall } from '../Common/BaseCall';
-import { OrderBy } from '../Common/OrderBy';
-import { SearchType } from '../Common/SearchType';
-import { Query } from '../Common/Query';
-import { Filter } from '../Common/Filter';
-import { QueryConverter, QueryCategorizeConverterV2, QueryCategorizeConverterV3, QueryCategorizeConverterV4 } from '../QueryConverter';
+import { AuthToken } from '../Authentication';
+import { BaseCall, DateSpecification, Fetch, Filter, Query, SearchType } from '../Common';
 import { Categories, Category, Group } from '../Data';
-import { AuthToken } from '../Authentication/AuthToken';
-
+import { CategorizeQueryConverter } from './CategorizeQueryConverter';
 import { CategorizeSettings } from './CategorizeSettings';
-import { CategorizeTriggers } from './CategorizeTriggers';
 
 /**
  * The Categorize service queries the search-engine for which categories that any 
@@ -31,9 +22,9 @@ export class Categorize extends BaseCall<Categories> {
      */
     public categories: Categories;
 
-    private clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
+    public clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
 
-    private queryConverter: QueryConverter;
+    private queryConverter: CategorizeQueryConverter;
 
     /**
      * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
@@ -42,22 +33,16 @@ export class Categorize extends BaseCall<Categories> {
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
-    constructor(baseUrl: string, protected settings?: CategorizeSettings, auth?: AuthToken) {
-        super(baseUrl, new CategorizeSettings(settings), auth);
-
-        this.settings = new CategorizeSettings(settings);
-        
-        switch (this.settings.version) {
-            case 2: 
-                this.queryConverter = new QueryCategorizeConverterV2(); 
-                break;
-            case 3: 
-                this.queryConverter = new QueryCategorizeConverterV3(); 
-                break;
-            default: 
-                this.queryConverter = new QueryCategorizeConverterV4(); 
-                break;
-        }
+    constructor(baseUrl: string, 
+                protected settings?: CategorizeSettings, 
+                auth?: AuthToken,
+                fetchMethod?: Fetch
+            ) {
+        super();
+        settings = new CategorizeSettings(settings);
+        auth = auth || new AuthToken();
+        super.init(baseUrl, settings, auth, fetchMethod);
+        this.queryConverter = new CategorizeQueryConverter();
     }
 
     /**
@@ -67,12 +52,11 @@ export class Categorize extends BaseCall<Categories> {
      * @returns a promise that when resolved returns a Categories object.
      */
     public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<Categories> {
-
         let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -90,54 +74,55 @@ export class Categorize extends BaseCall<Categories> {
                     return Promise.reject(error);
                 });
         } else {
-            return undefined;
+            // TODO: When a fetch is stopped due to cbRequest returning false, should we:
+            // 1) Reject the promise (will then be returned as an error).
+            // or
+            // 2) Resolve the promise (will then be returned as a success).
+            // or
+            // 3) should we do something else (old code returned undefined...)
+            return Promise.resolve(null);
         }
     }
 
     public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void {
         this.clientCategoryFilter = value;
-        if (this.settings.cbSuccess && this.settings.triggers.clientCategoryFilterChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.clientCategoryFilterChanged) {
             this.cbSuccess(false, this.filterCategories(this.categories), null, null);
         }
-     };
+    }
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.clientIdChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.dateFromChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.dateToChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
      
     public filtersChanged(oldValue: Filter[], query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
             this.update(query);
         }
     }
     
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
                 if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        // If a delay is already pending then clear it and restart the delay
-                        clearTimeout(this.delay);
-                        // Set up the delay
-                        this.delay = setTimeout(() => {
-                            this.update(query);
-                        }, this.settings.triggers.queryChangeDelay);
+                        this.update(query, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -145,13 +130,13 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
     public uiLanguagecodeChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.uiLanguageCodeChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.uiLanguageCodeChanged) {
             this.update(query);
         }
     }
@@ -227,6 +212,10 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     private filterCategories(categories: Categories): Categories {
+        if (!this.clientCategoryFilter || Object.getOwnPropertyNames(this.clientCategoryFilter).length === 0) {
+            return categories;
+        }
+
         let cats = {...categories};
         let groups = cats.groups.map((inGroup: Group) => {
             let group = {...inGroup};
@@ -236,7 +225,7 @@ export class Categorize extends BaseCall<Categories> {
             group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
             return group;
         });
-        cats.groups = groups.filter((g) => { return g !== undefined; });
+        cats.groups = groups.filter(g => g !== undefined);
         return cats;
     }
 
@@ -257,7 +246,7 @@ export class Categorize extends BaseCall<Categories> {
             }
         });
 
-        cats = cats.filter((c) => { return c !== undefined; });
+        cats = cats.filter(c => c !== undefined);
         return cats;
     }
 
@@ -275,7 +264,7 @@ export class Categorize extends BaseCall<Categories> {
                     if (!displayExpression) {
                         continue;
                     }
-                    let regex = new RegExp(displayExpression as string, "i");
+                    let regex = new RegExp(displayExpression as string, 'i');
                     let result = regex.test(category.displayName);
                     return result;
                 } else {

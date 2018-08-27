@@ -4,6 +4,10 @@
  */
 export interface Category {
     /**
+     * Sequential running number per category
+     */
+    $id?: number;
+    /**
      * This is the hierarchical "full path" for this category, top-down.
      */
     categoryName: string[];

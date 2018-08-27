@@ -1,0 +1,888 @@
+{
+  "groups": [
+    {
+      "categories": [
+        {
+          "categoryName": [
+            "System",
+            "File"
+          ],
+          "children": [
+            {
+              "categoryName": [
+                "System",
+                "File",
+                "Testdata"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "System",
+                    "File",
+                    "Testdata",
+                    "Norway"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 101,
+                  "displayName": "Norge",
+                  "expanded": false,
+                  "name": "Norway"
+                }
+              ],
+              "count": 101,
+              "displayName": "Test data",
+              "expanded": false,
+              "name": "Testdata"
+            }
+          ],
+          "count": 101,
+          "displayName": "Filer",
+          "expanded": false,
+          "name": "File"
+        }
+      ],
+      "displayName": "Kilde",
+      "expanded": true,
+      "name": "System"
+    },
+    {
+      "categories": [
+        {
+          "categoryName": [
+            "Author",
+            "Bibliotek - Admin"
+          ],
+          "children": [
+            
+          ],
+          "count": 7,
+          "displayName": "Bibliotek - Admin",
+          "expanded": false,
+          "name": "Bibliotek - Admin"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Olav Hansen"
+          ],
+          "children": [
+            
+          ],
+          "count": 6,
+          "displayName": "Olav Hansen",
+          "expanded": false,
+          "name": "Olav Hansen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Gro Merethe Johnsrud"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Gro Merethe Johnsrud",
+          "expanded": false,
+          "name": "Gro Merethe Johnsrud"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "GESL"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "GESL",
+          "expanded": false,
+          "name": "GESL"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Marie Nielsen"
+          ],
+          "children": [
+            
+          ],
+          "count": 2,
+          "displayName": "Marie Nielsen",
+          "expanded": false,
+          "name": "Marie Nielsen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "P\u00e5l Mikkel Vika"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "P\u00e5l Mikkel Vika",
+          "expanded": false,
+          "name": "P\u00e5l Mikkel Vika"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "PaalK"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "PaalK",
+          "expanded": false,
+          "name": "PaalK"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Dan Charles"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Dan Charles",
+          "expanded": false,
+          "name": "Dan Charles"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Khole"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Khole",
+          "expanded": false,
+          "name": "Khole"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "jjansen"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "jjansen",
+          "expanded": false,
+          "name": "jjansen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "IDI"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "IDI",
+          "expanded": false,
+          "name": "IDI"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Susanne Koch"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Susanne Koch",
+          "expanded": false,
+          "name": "Susanne Koch"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Student_LU"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Student_LU",
+          "expanded": false,
+          "name": "Student_LU"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "kjetil.strand"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "kjetil.strand",
+          "expanded": false,
+          "name": "kjetil.strand"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Astrid \u00d8ksenv\u00e5g"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Astrid \u00d8ksenv\u00e5g",
+          "expanded": false,
+          "name": "Astrid \u00d8ksenv\u00e5g"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Allan Auke"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Allan Auke",
+          "expanded": false,
+          "name": "Allan Auke"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "lises"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "lises",
+          "expanded": false,
+          "name": "lises"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "lkg"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "lkg",
+          "expanded": false,
+          "name": "lkg"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Lars Frode"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Lars Frode",
+          "expanded": false,
+          "name": "Lars Frode"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Lars F."
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Lars F.",
+          "expanded": false,
+          "name": "Lars F."
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Lise Sagdahl"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Lise Sagdahl",
+          "expanded": false,
+          "name": "Lise Sagdahl"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Heidi \u00d8stb\u00f8 Haugen"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Heidi \u00d8stb\u00f8 Haugen",
+          "expanded": false,
+          "name": "Heidi \u00d8stb\u00f8 Haugen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Helge Kristiansen"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Helge Kristiansen",
+          "expanded": false,
+          "name": "Helge Kristiansen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "toou"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "toou",
+          "expanded": false,
+          "name": "toou"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Jorunn Miljeteig"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Jorunn Miljeteig",
+          "expanded": false,
+          "name": "Jorunn Miljeteig"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "Tore Amundsen"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Tore Amundsen",
+          "expanded": false,
+          "name": "Tore Amundsen"
+        },
+        {
+          "categoryName": [
+            "Author",
+            "olsenw"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "olsenw",
+          "expanded": false,
+          "name": "olsenw"
+        }
+      ],
+      "displayName": "Forfatter",
+      "expanded": false,
+      "name": "Author"
+    },
+    {
+      "categories": [
+        {
+          "categoryName": [
+            "ModifiedDate",
+            "2007"
+          ],
+          "children": [
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2007",
+                "Month"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Month",
+                    "9"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 71,
+                  "displayName": "September",
+                  "expanded": false,
+                  "name": "9"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Month",
+                    "10"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 27,
+                  "displayName": "October",
+                  "expanded": false,
+                  "name": "10"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Month",
+                    "12"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "December",
+                  "expanded": false,
+                  "name": "12"
+                }
+              ],
+              "count": 99,
+              "displayName": "Month",
+              "expanded": false,
+              "name": "Month"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2007",
+                "Week"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "38"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 70,
+                  "displayName": "38",
+                  "expanded": false,
+                  "name": "38"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "39"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "39",
+                  "expanded": false,
+                  "name": "39"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "41"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 7,
+                  "displayName": "41",
+                  "expanded": false,
+                  "name": "41"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "43"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 5,
+                  "displayName": "43",
+                  "expanded": false,
+                  "name": "43"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "44"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 15,
+                  "displayName": "44",
+                  "expanded": false,
+                  "name": "44"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Week",
+                    "49"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "49",
+                  "expanded": false,
+                  "name": "49"
+                }
+              ],
+              "count": 99,
+              "displayName": "Week",
+              "expanded": false,
+              "name": "Week"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2007",
+                "Quarter"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Quarter",
+                    "3"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 98,
+                  "displayName": "3",
+                  "expanded": false,
+                  "name": "3"
+                },
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2007",
+                    "Quarter",
+                    "4"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "4",
+                  "expanded": false,
+                  "name": "4"
+                }
+              ],
+              "count": 99,
+              "displayName": "Quarter",
+              "expanded": false,
+              "name": "Quarter"
+            }
+          ],
+          "count": 99,
+          "displayName": "2007",
+          "expanded": false,
+          "name": "2007"
+        },
+        {
+          "categoryName": [
+            "ModifiedDate",
+            "2014"
+          ],
+          "children": [
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2014",
+                "Month"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2014",
+                    "Month",
+                    "3"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "March",
+                  "expanded": false,
+                  "name": "3"
+                }
+              ],
+              "count": 1,
+              "displayName": "Month",
+              "expanded": false,
+              "name": "Month"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2014",
+                "Week"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2014",
+                    "Week",
+                    "11"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "11",
+                  "expanded": false,
+                  "name": "11"
+                }
+              ],
+              "count": 1,
+              "displayName": "Week",
+              "expanded": false,
+              "name": "Week"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2014",
+                "Quarter"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2014",
+                    "Quarter",
+                    "1"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "1",
+                  "expanded": false,
+                  "name": "1"
+                }
+              ],
+              "count": 1,
+              "displayName": "Quarter",
+              "expanded": false,
+              "name": "Quarter"
+            }
+          ],
+          "count": 1,
+          "displayName": "2014",
+          "expanded": false,
+          "name": "2014"
+        },
+        {
+          "categoryName": [
+            "ModifiedDate",
+            "2015"
+          ],
+          "children": [
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2015",
+                "Month"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2015",
+                    "Month",
+                    "11"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "November",
+                  "expanded": false,
+                  "name": "11"
+                }
+              ],
+              "count": 1,
+              "displayName": "Month",
+              "expanded": false,
+              "name": "Month"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2015",
+                "Week"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2015",
+                    "Week",
+                    "48"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "48",
+                  "expanded": false,
+                  "name": "48"
+                }
+              ],
+              "count": 1,
+              "displayName": "Week",
+              "expanded": false,
+              "name": "Week"
+            },
+            {
+              "categoryName": [
+                "ModifiedDate",
+                "2015",
+                "Quarter"
+              ],
+              "children": [
+                {
+                  "categoryName": [
+                    "ModifiedDate",
+                    "2015",
+                    "Quarter",
+                    "3"
+                  ],
+                  "children": [
+                    
+                  ],
+                  "count": 1,
+                  "displayName": "3",
+                  "expanded": false,
+                  "name": "3"
+                }
+              ],
+              "count": 1,
+              "displayName": "Quarter",
+              "expanded": false,
+              "name": "Quarter"
+            }
+          ],
+          "count": 1,
+          "displayName": "2015",
+          "expanded": false,
+          "name": "2015"
+        }
+      ],
+      "displayName": "Modified date",
+      "expanded": false,
+      "name": "ModifiedDate"
+    },
+    {
+      "categories": [
+        {
+          "categoryName": [
+            "FileType",
+            "DOC"
+          ],
+          "children": [
+            
+          ],
+          "count": 19,
+          "displayName": "Word",
+          "expanded": false,
+          "name": "DOC"
+        },
+        {
+          "categoryName": [
+            "FileType",
+            "PDF"
+          ],
+          "children": [
+            
+          ],
+          "count": 79,
+          "displayName": "Adove PDF",
+          "expanded": false,
+          "name": "PDF"
+        },
+        {
+          "categoryName": [
+            "FileType",
+            "PPT"
+          ],
+          "children": [
+            
+          ],
+          "count": 1,
+          "displayName": "Powerpoint",
+          "expanded": false,
+          "name": "PPT"
+        },
+        {
+          "categoryName": [
+            "FileType",
+            "HTML"
+          ],
+          "children": [
+            
+          ],
+          "count": 2,
+          "displayName": "Nettside",
+          "expanded": false,
+          "name": "HTML"
+        }
+      ],
+      "displayName": "Filtype",
+      "expanded": false,
+      "name": "FileType"
+    }
+  ],
+  "isEstimatedCount": false,
+  "matchCount": 101,
+  "extendedProperties": [],
+  "statusCode": 0,
+  "errorMessage": ""
+}

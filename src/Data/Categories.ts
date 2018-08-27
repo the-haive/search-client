@@ -4,6 +4,12 @@ import { Group } from './Group';
  * Represents categories returned from the search-engine, as delivered from the categorize() and allCategories() calls.
  */
 export interface Categories {
+
+    /**
+     * Always only 1
+     */
+    $id?: number;
+
     /**
      * A list of top-level groups.
      */
@@ -16,4 +22,7 @@ export interface Categories {
      * The number of matches in total for the returned categories.
      */
     matchCount: number;
+    extendedProperties: any [];
+    statusCode: number;
+    errorMessage: string;
 }

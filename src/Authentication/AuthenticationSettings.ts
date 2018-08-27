@@ -7,13 +7,13 @@ import { AuthenticationTriggers } from './AuthenticationTriggers';
  */
 export class AuthenticationSettings extends BaseSettings<any> {
 
-    /** 
+    /**
      * Whether or not this setting-feature is enabled or not.
-     * 
+     *
      * @override Overrides base-settings and sets the automatic authentication off by default.
      */
     public enabled?: boolean = false;
-    
+
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      */
@@ -23,7 +23,7 @@ export class AuthenticationSettings extends BaseSettings<any> {
      * This is the path to the value returned by the authentication-call.
      * Should be a name-based lookup array, pointing to where the resulting auth-token is to be found.
      */
-    public tokenPath?: string[] = ["jwtToken"];
+    public tokenPath?: string[] = ['jwtToken'];
 
     /**
      * The trigger-settings for when a new auth-token is to be reqeusted.
@@ -41,17 +41,14 @@ export class AuthenticationSettings extends BaseSettings<any> {
      */
     constructor(settings?: AuthenticationSettings) {
         super(settings);
-        
+
         if (settings) {
-            this.enabled = typeof settings.enabled !== "undefined" ? settings.enabled : this.enabled;
-            this.token = typeof settings.token !== "undefined" ? settings.token : this.token;
-            this.tokenPath = typeof settings.tokenPath !== "undefined" ? settings.tokenPath : this.tokenPath;
-            this.triggers = typeof settings.triggers !== "undefined" ? new AuthenticationTriggers(settings.triggers) : this.triggers;
-            this.url = typeof settings.url !== "undefined" ? settings.url : this.url;
+            this.enabled = typeof settings.enabled !== 'undefined' ? settings.enabled : this.enabled;
+            this.token = typeof settings.token !== 'undefined' ? settings.token : this.token;
+            this.tokenPath = typeof settings.tokenPath !== 'undefined' ? settings.tokenPath : this.tokenPath;
+            this.triggers = typeof settings.triggers !== 'undefined' ? new AuthenticationTriggers(settings.triggers.expiryOverlap) : this.triggers;
+            this.url = typeof settings.url !== 'undefined' ? settings.url.replace(/(^\/+)|(\/+$)/g, '') : this.url;
         }
-        
-        // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
     }
 
 }
