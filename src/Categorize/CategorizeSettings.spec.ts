@@ -31,8 +31,8 @@ describe('CategorizeSettings basics', () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
-        expect (settings.triggers.queryChangeDelay).toEqual(-1);
-        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChangeDelay).toEqual(2000);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
@@ -106,8 +106,8 @@ describe('CategorizeSettings basics', () => {
         expect (settings.triggers.dateFromChanged).toEqual(true);
         expect (settings.triggers.dateToChanged).toEqual(true);
         expect (settings.triggers.filterChanged).toEqual(true);
-        expect (settings.triggers.queryChangeDelay).toEqual(-1);
-        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChangeDelay).toEqual(2000);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);

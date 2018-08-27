@@ -37,8 +37,8 @@ describe('FindSettings basics', () => {
         expect (settings.triggers.matchOrderByChanged).toEqual(true);
         expect (settings.triggers.matchPageChanged).toEqual(true);
         expect (settings.triggers.matchPageSizeChanged).toEqual(true);
-        expect (settings.triggers.queryChangeDelay).toEqual(-1);
-        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChangeDelay).toEqual(2000);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);
@@ -129,8 +129,8 @@ describe('FindSettings basics', () => {
         expect (settings.triggers.matchOrderByChanged).toEqual(true);
         expect (settings.triggers.matchPageChanged).toEqual(true);
         expect (settings.triggers.matchPageSizeChanged).toEqual(true);
-        expect (settings.triggers.queryChangeDelay).toEqual(-1);
-        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\n$/);
+        expect (settings.triggers.queryChangeDelay).toEqual(2000);
+        expect (settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect (settings.triggers.queryChange).toEqual(true);
         expect (settings.triggers.queryChangeMinLength).toEqual(2);
         expect (settings.triggers.searchTypeChanged).toEqual(true);

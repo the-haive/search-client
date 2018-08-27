@@ -72,33 +72,32 @@ export class FindTriggers {
      * The queryChangeInstantRegex has precedence. This delay is only considered when that regex doesn't match.
      * Set value to less than zero to make sure we only trigger when the queryChangeInstantRegex matches.
      *
-     * Note: Requires queryChanged to be true.
+     * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default for Categorize is to not run delayed lookups and instead only do that for queryChangeInstantRegex matches.
-     * @override BaseTriggers
+     * Default for Find is to run delayed lookups after 2 seconds. The queryChangeInstantRegex matches will
+     * run immediately though.
      */
-    public queryChangeDelay?: number = -1;
+    public queryChangeDelay?: number = 2000;
 
     /**
      * Triggers action immediately instead of delayed when the query matches the regex.
      *
-     * Note: Requires queryChanged to be true.
+     * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default: Trigger on first ENTER after non-whitespace (i.e. user presses enter at the end of the query-field,
-     * if it is a "multiline"" and accepts the enter").
-     * @override BaseTriggers
+     * Default: Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
      */
-    public queryChangeInstantRegex?: RegExp = /\S\n$/;
+    public queryChangeInstantRegex?: RegExp = /\S\s$/u;
 
     /**
      * Min length before triggering. For Categorize (and Find) this should be ok with short queries too.
      * One character followed by an enter (default).
      *
-     * Note: Requires queryChanged to be true.
+     * Note: Requires queryChange to be true.
      */
     public queryChangeMinLength?: number = 2;
+
     /**
      * Triggers when the searchType property has changed.
      */
