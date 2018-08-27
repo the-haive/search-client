@@ -86,14 +86,57 @@
   </style>
   <script type="text/javascript">
     window.onload = function(e) {
-      var ints = new SearchClient("http://searchmanager.demo.intellisearch.no");
-      ints.find.fetch({ queryText: "Hello world" }, true)
-        .then((matches) => {
-          console.log("Find results:", matches);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      const INTS = IntelliSearch;
+      let settings = new INTS.Settings({
+        autocomplete: {
+          enabled: false,
+          cbRequest: function(url, reqInit){
+            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
+          },
+          cbSuccess: function(suggestions){
+            console.log("cbSuccess", "Suggestions:", suggestions);
+          },
+          cbError: function(error){
+            console.error("cbError", error);
+          },
+        },
+        find: {
+          cbRequest: function(url, reqInit){
+            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
+          },
+          cbSuccess: function(matches){
+            console.log("cbSuccess", "Matches:", matches);
+          },
+          cbError: function(error){
+            console.error("cbError", error);
+          },
+        },
+        categorize: {
+          cbRequest: function(url, reqInit){
+            console.log("cbRequest", "Url: ", url, "ReqInit:", reqInit);
+          },
+          cbSuccess: function(categories){
+            console.log("cbSuccess", "Categories:", categories);
+          },
+          cbError: function(error){
+            console.error("cbError", error);
+          },
+        },
+      });
+      console.log(settings);
+      const client = new INTS.SearchClient("http://searchmanager.demo.intellisearch.no", settings);
+      let query = new INTS.Query({
+        queryText: "intellisearch"
+      });
+      client.findAndCategorize(query);
+      // client.find.fetch({ queryText: ":intelliall" }, true)
+      //   .then((matches) => {
+      //     console.log("Find results:", matches);
+
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     };
   </script>
 </head>
@@ -128,6 +171,6 @@
     </footer>
   </div>
   <div id="preview"></div>
-  <script src="SearchClient.js"></script>
+  <script src="IntelliSearch.js"></script>
 </body>
 </html>

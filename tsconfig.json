@@ -3,7 +3,7 @@
     "target": "es5",
     "module": "es2015",
     "rootDir": "src",
-    "outDir": ".code",
+    "outDir": "/temp",
     "newLine": "LF",
     "lib": ["dom", "es2017"],
     "moduleResolution": "node",
@@ -25,11 +25,13 @@
     "typeRoots": [
         "node_modules/@types"
     ]
-},
+  },
   "exclude": [
     "node_modules",
     "dist",
     "es",
-    "lib"
+    "lib",
+    "src/**/*.spec.ts",
+    "src/**/*.json",
   ]
 }

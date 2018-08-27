@@ -11,7 +11,7 @@ export * from './Settings';
 import { AuthToken, Authentication } from './Authentication';
 import { Autocomplete } from './Autocomplete';
 import { Categorize } from './Categorize';
-import { OrderBy, SearchType, Filter, DateSpecification, Query } from './Common';
+import { DateSpecification, Fetch, Filter, OrderBy, Query, SearchType } from './Common';
 import { Category } from './Data';
 import { Find } from './Find';
 import { Settings } from './Settings';
@@ -77,25 +77,17 @@ export class SearchClient implements AuthToken {
      * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
-    constructor(baseUrl: string, private settings: Settings = new Settings()) {
+    constructor(baseUrl: string, 
+                private settings: Settings = new Settings(),
+                fetchMethod?: Fetch
+            ) {
         settings = new Settings(settings);
 
-        if (this.settings.authentication.enabled) {
-            this.authentication = new Authentication(baseUrl, this.settings.authentication, this);
-        }
-
-        if (this.settings.autocomplete.enabled) {
-            this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this);
-        }
-
-        if (this.settings.categorize.enabled) {
-            this.categorize = new Categorize(baseUrl, this.settings.categorize, this);
-        }
-
-        if (this.settings.find.enabled) {
-            this.find = new Find(baseUrl, this.settings.find, this);
-        }
-
+        this.authentication = new Authentication(baseUrl, this.settings.authentication, this, fetchMethod);
+        this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this, fetchMethod);
+        this.categorize = new Categorize(baseUrl, this.settings.categorize, this, fetchMethod);
+        this.find = new Find(baseUrl, this.settings.find, this, fetchMethod);
+        
         this._query = this.settings.query;
     }
 

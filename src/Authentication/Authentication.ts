@@ -1,9 +1,6 @@
-import fetch from 'cross-fetch';
 import * as jwt from 'jwt-simple';
 
-import { BaseCall } from '../Common/BaseCall';
-import { Query } from '../Common/Query';
-
+import { BaseCall, Fetch, Query } from '../Common';
 import { AuthenticationSettings } from './AuthenticationSettings';
 import { AuthToken } from './AuthToken';
 
@@ -27,12 +24,13 @@ export class Authentication extends BaseCall<any> {
      */
     constructor(baseUrl: string,
                 protected settings?: AuthenticationSettings,
-                auth?: AuthToken
+                auth?: AuthToken,
+                fetchMethod?: Fetch
             ) {
       super();
       settings = new AuthenticationSettings(settings);
       auth = auth || new AuthToken();
-      super.init(baseUrl, settings, auth);
+      super.init(baseUrl, settings, auth, fetchMethod);
       if (this.settings.token) {
           this.auth.authenticationToken = this.settings.token;
           this.settings.token = undefined;
@@ -55,7 +53,7 @@ export class Authentication extends BaseCall<any> {
         const reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);

@@ -1,7 +1,5 @@
-import fetch from 'cross-fetch';
-
 import { AuthToken } from '../Authentication';
-import { BaseCall, DateSpecification, Filter, Query, SearchType } from '../Common';
+import { BaseCall, DateSpecification, Fetch, Filter, Query, SearchType } from '../Common';
 import { Categories, Category, Group } from '../Data';
 import { CategorizeQueryConverter } from './CategorizeQueryConverter';
 import { CategorizeSettings } from './CategorizeSettings';
@@ -37,12 +35,13 @@ export class Categorize extends BaseCall<Categories> {
      */
     constructor(baseUrl: string, 
                 protected settings?: CategorizeSettings, 
-                auth?: AuthToken
+                auth?: AuthToken,
+                fetchMethod?: Fetch
             ) {
         super();
         settings = new CategorizeSettings(settings);
         auth = auth || new AuthToken();
-        super.init(baseUrl, new CategorizeSettings(settings), auth);
+        super.init(baseUrl, settings, auth, fetchMethod);
         this.queryConverter = new CategorizeQueryConverter();
     }
 
@@ -57,7 +56,7 @@ export class Categorize extends BaseCall<Categories> {
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -87,48 +86,43 @@ export class Categorize extends BaseCall<Categories> {
 
     public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void {
         this.clientCategoryFilter = value;
-        if (this.settings.cbSuccess && this.settings.triggers.clientCategoryFilterChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.clientCategoryFilterChanged) {
             this.cbSuccess(false, this.filterCategories(this.categories), null, null);
         }
     }
 
     public clientIdChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.clientIdChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.dateFromChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
      
     public dateToChanged(oldValue: DateSpecification, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.dateToChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
      
     public filtersChanged(oldValue: Filter[], query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.filterChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
             this.update(query);
         }
     }
     
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
                 if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        // If a delay is already pending then clear it and restart the delay
-                        clearTimeout(this.delay);
-                        // Set up the delay
-                        this.delay = setTimeout(() => {
-                            this.update(query);
-                        }, this.settings.triggers.queryChangeDelay);
+                        this.update(query, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
@@ -136,13 +130,13 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.searchTypeChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
     public uiLanguagecodeChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.uiLanguageCodeChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.uiLanguageCodeChanged) {
             this.update(query);
         }
     }

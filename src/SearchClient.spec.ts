@@ -1,6 +1,8 @@
-import { Authentication, Autocomplete, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, CategorizeQueryConverter } from './SearchClient';
+import fetch from 'jest-fetch-mock';
 
-import reference from './test-data/categories.json'; // tslint:disable-line
+import { Authentication, Autocomplete, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, CategorizeQueryConverter, Categories } from './SearchClient';
+
+import reference from './test-data/categories.json';
 
 describe('SearchClient basics', () => {
 
@@ -35,42 +37,26 @@ describe('SearchClient basics', () => {
     it('Search instance with empty settings should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface', () => {
         let searchClient = new SearchClient('http://localhost:9950');
 
-        expect(typeof searchClient.authentication).not.toBe('object');
-        expect(searchClient.authentication instanceof Authentication).toBeFalsy();
-
-        expect(typeof searchClient.autocomplete).toBe('object');
-        expect(searchClient.autocomplete instanceof Autocomplete).toBeTruthy();
-
-        expect(typeof searchClient.categorize).toBe('object');
-        expect(searchClient.categorize instanceof Categorize).toBeTruthy();
-
-        expect(typeof searchClient.find).toBe('object');
-        expect(searchClient.find instanceof Find).toBeTruthy();
+        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
+        expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
+        expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
+        expect(searchClient.find.shouldUpdate()).toBeFalsy();
     });
 });
 
 describe('SearchClient settings', () => {
-    it('Search instance with disabled \'services\' should not have autocomplete(), find(), categorize(), allCategories() and bestBets() interface', () => {
+    it('Search instance with disabled \'services\' should not have active autocomplete(), find( and categorize() instances', () => {
         let searchClient = new SearchClient('http://localhost:9950', {
-            allCategories: {enabled: false},
             authentication: {enabled: false},
             autocomplete: {enabled: false},
-            bestBets: {enabled: false},
             categorize: {enabled: false},
             find: {enabled: false},
         } as Settings);
 
-        expect(typeof searchClient.authentication).not.toBe('object');
-        expect(searchClient.authentication instanceof Authentication).toBeFalsy();
-
-        expect(typeof searchClient.autocomplete).not.toBe('object');
-        expect(searchClient.autocomplete instanceof Autocomplete).toBeFalsy();
-
-        expect(typeof searchClient.categorize).not.toBe('object');
-        expect(searchClient.categorize instanceof Categorize).toBeFalsy();
-
-        expect(typeof searchClient.find).not.toBe('object');
-        expect(searchClient.find instanceof Find).toBeFalsy();
+        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
+        expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
+        expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
+        expect(searchClient.find.shouldUpdate()).toBeFalsy();
     });
 
     it('Search instance with empty settings should have expected query interfaces', () => {
@@ -271,6 +257,8 @@ describe('SearchClient filter interface', () => {
     });
 
     it('Search instance with empty settings should have expected query interfaces', () => {
+        jest.useFakeTimers();
+
         let settings = new Settings({
             find: {
                 cbRequest: jest.fn(() => false ),
@@ -286,13 +274,13 @@ describe('SearchClient filter interface', () => {
         let pClient = client as any;
 
         const autocompleteFetch = jest.fn();
-        (client.autocomplete as any).fetch = autocompleteFetch;
+        pClient.autocomplete.fetch = autocompleteFetch;
 
         const categorizeFetch = jest.fn();
-        (client.categorize as any).fetch = categorizeFetch;
+        pClient.categorize.fetch = categorizeFetch;
 
         const findFetch = jest.fn();
-        (client.find as any).fetch = findFetch;
+        pClient.find.fetch = findFetch;
 
         // With current settings none of the services should update for queryText="test"
         client.queryText = 'test';
@@ -316,13 +304,15 @@ describe('SearchClient filter interface', () => {
         client.deferUpdates(true);
         client.queryText = 'test';
         client.queryText = 'test ';
+        jest.runAllTimers();
         expect(pClient.settings.query.queryText).toEqual('test ');
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
 
         // At least not until we again open up the deferring
-        client.deferUpdates(false);
+        client.deferUpdates(false, false);
+        jest.runAllTimers();
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).toHaveBeenCalledTimes(1); findFetch.mockReset();
@@ -341,7 +331,6 @@ describe('SearchClient filter interface', () => {
         expect(autocompleteFetch).not.toBeCalled(); autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled(); categorizeFetch.mockReset();
         expect(findFetch).not.toBeCalled(); findFetch.mockReset();
-
     });
 
     it('should be able to get correct full url for lookups', () => {

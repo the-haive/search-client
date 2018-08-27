@@ -1,7 +1,5 @@
-import fetch from 'cross-fetch';
-
 import { AuthToken } from '../Authentication';
-import { BaseCall, Query } from '../Common';
+import { BaseCall, Fetch, Query } from '../Common';
 import { AutocompleteQueryConverter } from './AutocompleteQueryConverter';
 import { AutocompleteSettings } from './AutocompleteSettings';
 
@@ -11,7 +9,6 @@ import { AutocompleteSettings } from './AutocompleteSettings';
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
 export class Autocomplete extends BaseCall<string[]> {
-    
     private queryConverter: AutocompleteQueryConverter;
 
     /**
@@ -22,13 +19,13 @@ export class Autocomplete extends BaseCall<string[]> {
      */
     constructor(baseUrl: string, 
                 protected settings?: AutocompleteSettings, 
-                auth?: AuthToken/*, allCategories: AllCategories*/
+                auth?: AuthToken,
+                fetchMethod?: Fetch
             ) {
         super();
         settings = new AutocompleteSettings(settings);
-        this.settings = new AutocompleteSettings(settings);
         auth = auth || new AuthToken();
-        super.init(baseUrl, settings, auth);
+        super.init(baseUrl, settings, auth, fetchMethod);
         this.queryConverter = new AutocompleteQueryConverter();
     }
 
@@ -40,11 +37,11 @@ export class Autocomplete extends BaseCall<string[]> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string[]> {
-        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
+        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, new Query(query));
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return fetch(url, reqInit)
+            return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
@@ -71,24 +68,19 @@ export class Autocomplete extends BaseCall<string[]> {
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
-        if (this.settings.cbSuccess && this.settings.triggers.maxSuggestionsChanged) {
+        if (this.shouldUpdate() && this.settings.triggers.maxSuggestionsChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) { 
-        if (this.settings.cbSuccess && this.settings.triggers.queryChange) {
+        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
                 if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        // If a delay is already pending then clear it and restart the delay
-                        clearTimeout(this.delay);
-                        // Set up the delay
-                        this.delay = setTimeout(() => {
-                            this.update(query);
-                        }, this.settings.triggers.queryChangeDelay);
+                        this.update(query, this.settings.triggers.queryChangeDelay);
                     }
                 }
             }
