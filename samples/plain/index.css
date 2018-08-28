@@ -2,6 +2,15 @@ body {
     margin: 0;
     padding: 0;
 }
+
+#detail-types {
+    display: none;
+}
+
+#metadata {
+    display: none;
+}
+
 #preview {
     position: absolute;
     margin-left: auto;
@@ -75,29 +84,42 @@ main .matches-header {
     margin-bottom: 0.5em;
 }
 
-#matches li .title button {
-    margin-left: 0.2em;
-    vertical-align: text-bottom;
-}
-
-#matches li .title {
+#matches li .headline {
+    display: flex;
+    justify-content: space-between;
     font-weight: bold;
 }
 
-#matches li .id {
-    font-weight: bold;
-}
-
-#matches li .id span {
+#matches li .headline * {
     margin-left: 1em;
 }
 
-#matches li .extracts {
+#matches li .headline .date {
+    font-weight: 100;
     font-style: italic;
-    padding: 0.2em 0 0.2em 0;
+}
+
+#matches li .headline .title {
+    margin-left: 0;
+}
+
+#matches li .headline .rel-date-wrapper {
+    text-align: right;
+    white-space: nowrap;
+}
+
+
+#matches li .headline button {
+    vertical-align: text-bottom;
+}
+
+#matches li .extracts {
+    font-size: smaller;
+    font-style: italic;
+    padding: 0.2em 0 0.5em 0.1em;
     border-left: solid 0.2em silver;
-    margin-left: 0em;
-    background-color: ghostwhite;
+    margin: 0 0 0 0.2em;
+    background-color: rgba(248,248,255,0.7);
 }
 #matches li .extract {
     padding: 0 0 0 0.6em;
@@ -106,9 +128,12 @@ main .matches-header {
 #matches li .abstract{
 }
 
+#matches > ul > li:hover{
+    background-color: blanchedalmond;
+}
 
 #matches li .extract + .extract {
-    border-top: solid 0.2em rgba(255,255,255,0.95);
+    border-top: solid 0.3em rgba(255,255,255,0.95);
 }
 
 aside {
@@ -120,6 +145,11 @@ aside {
 #details {
     font-size: smaller;
     white-space: nowrap;
+}
+
+#title {
+    font-size: initial;
+    background-color: ghostwhite;
 }
 
 #details ul {

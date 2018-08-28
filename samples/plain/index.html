@@ -51,7 +51,17 @@
         <aside>
             <!-- Sidebar: Details -->
             <b>Details</b><br/>
-            <div id="details">All properties &amp; medatata will show here.</div>
+            <div id="details">
+                <div id="title"></div>
+                <div id="detail-types">
+                    <input id="btnProperties" type="radio" checked="checked" name="details"/>
+                    <label for="btnProperties">Properties</label>
+                    <input id="btnMetadata" type="radio" name="details"/>
+                    <label for="btnMetadata">Metadata</label>
+                </div>
+                <div id="properties"></div>
+                <div id="metadata"></div>
+            </div>
         </aside>
 
         <footer>
