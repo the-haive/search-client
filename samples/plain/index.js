@@ -2,11 +2,11 @@ window.onload = function(e) {
 
     /**
      * 1. First create a settings object that is sent to the serch-engine.
-     * This test uses the publically exposed demo searchmanager endpoint.
+     * This test uses the publicly exposed demo searchmanager endpoint.
      */
     let settings = new IntelliSearch.Settings({
         autocomplete: {
-            enabled: false, //TODO: Enable when the backend has been updated.
+            //enabled: false, //TODO: Enable when the backend has been updated.
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
             cbError: handleAutocompleteError,
@@ -17,7 +17,6 @@ window.onload = function(e) {
             cbError: handleFindError,
         },
         categorize: {
-
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
             cbError: handleCategorizeError,
@@ -80,9 +79,7 @@ window.onload = function(e) {
     // 4. Implement callbacks
     /////////////////////////////////////////////
 
-    /////////////////////////////////////////////
-    // Autocomplete callbacks
-    /////////////////////////////////////////////
+    // Autocomplete callbacks ///////////////////
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
@@ -98,7 +95,7 @@ window.onload = function(e) {
     function handleAutocompleteSuccess(suggestions) {
         console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
     }
-             
+
     /**
      * Use this to handle errors and to stop load-spinners.
      */
@@ -106,9 +103,7 @@ window.onload = function(e) {
         console.error("handleAutocompleteError", error);
     }
 
-    /////////////////////////////////////////////
-    // Find callbacks
-    /////////////////////////////////////////////
+    // Find callbacks ///////////////////////////
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
@@ -119,19 +114,19 @@ window.onload = function(e) {
     }
 
     /**
-     * Receive and render autocomplete suggestions and to stop load-spinners.
+     * Receive and render find matches and to stop load-spinners.
      */
-    function handleFindSuccess(matches){
+    function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
 
-        findStatsElm.innerHTML = `
-            <span>Hits: ${matches.estimatedMatchCount}</span>
-        `;
+        findStatsElm.innerHTML = `<span>Hits: ${matches.estimatedMatchCount}</span>`;
 
         // Clear out old matches
         matchesElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
+            document.getElementById("didyoumean").innerHTML = `${matches.didYouMeanList.join("<br/>")}`;
+
             var li = document.createElement('li');
 
             // Build title
@@ -163,7 +158,7 @@ window.onload = function(e) {
                     <div class="rel-date-wrapper">
                         ${showContentButton}
                         ${relevance}
-                        ${modificationDate}                        
+                        ${modificationDate}
                     </div>
                 </div>
                 ${extracts}
@@ -181,7 +176,7 @@ window.onload = function(e) {
             // Build the content that is to be displayed in the details pane.
 
             // Build title
-            var title = `<b>Title: ${match.title}</b>`;
+            var detailTitle = `<span title="${match.title}">Title: ${match.title}</span>`;
 
             // Build properties
             var categories = "</br>";
@@ -206,12 +201,12 @@ window.onload = function(e) {
             var metadata = "";
             match.metaList.forEach(function(meta, metaIndex, metaArr){
                 // Iterate all metadatas to create a list
-                metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`
+                metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
             });
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function(){
-                titleElm.innerHTML = title;
+                titleElm.innerHTML = detailTitle;
                 detailsElm.style.display = "initial";
                 propElm.innerHTML = `<ul>${properties}</ul>`;
                 metaElm.innerHTML = `<ul>${metadata}</ul>`;
@@ -230,14 +225,14 @@ window.onload = function(e) {
             });
         } else {
             findStatsElm.innerHTML = "";
-            matchesElm.innerHTML = "No matches."
+            matchesElm.innerHTML = "No matches.";
             detailsElm.style.display = "none";
             titleElm.innerHTML = "";
             propElm.innerHTML = "";
             metaElm.innerHTML = "";
         }
     }
-             
+
     /**
      * Use this to handle errors and to stop load-spinners.
      */
@@ -251,9 +246,7 @@ window.onload = function(e) {
         metaElm.innerHTML = "";
     }
 
-    /////////////////////////////////////////////
-    // Categorize callbacks
-    /////////////////////////////////////////////
+    // Categorize callbacks ///////////////////////////
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
@@ -310,17 +303,17 @@ window.onload = function(e) {
             });
         } else {
             categorizeStatsElm.innerHTML = "";
-            categoriesElm.innerHTML = "No categories."
+            categoriesElm.innerHTML = "No categories.";
         }
     }
-             
+
     /**
      * Use this to handle errors and to stop load-spinners.
      */
     function handleCategorizeError(error){
         console.error("handleCategorizeError", error);
         categorizeStatsElm.innerHTML = "";
-        categoriesElm.innerHTML = "No categories."
+        categoriesElm.innerHTML = "No categories.";
     }
 
 }

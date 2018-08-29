@@ -6,17 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IntelliSearch Enterprise - Plain sample</title>
     <link rel="stylesheet" type="text/css" href="index.css">
-    <script type="text/javascript" src="index.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>IntelliSearch Search-Client | Plain sample</h1>
             <p>
-                This sample page demonstrates how to set up a connection to the IntelliSearch search-engine using the 
+                This sample page demonstrates how to set up a connection to the IntelliSearch search-engine using the
                 automated strategy.
                 <br/>
-                The automated strategy means that you use the settings object to tell how you want the engine to handle 
+                The automated strategy means that you use the settings object to tell how you want the engine to handle
                 the various scenarios, and based on that the autocomplete suggestions, categories and match-results will
                 be sent to you via three callback methods, when there has been any activity.
                 You then set up events to forward changes to the search queryfield and other buttons (paging, search-type, etc).
@@ -25,6 +24,7 @@
                 <input id="queryText" type="search" placeholder="Write text to search for...">
                 <button id="go">Search</button>
             </div>
+            <div id="didyoumean">Did You Mean placeholder</div>
             <div id="advanced"></div>
         </header>
 
@@ -70,6 +70,7 @@
         </footer>
     </div>
     <div id="preview"></div>
-    <script src="IntelliSearch.js"></script>
+    <script src="IntelliSearch.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
