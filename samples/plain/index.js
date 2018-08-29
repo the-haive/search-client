@@ -44,7 +44,7 @@ window.onload = function(e) {
     var searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", function(){
         console.log("Search-button clicked");
-        client.findAndCategorize();
+        client.update();
     });
 
     /**

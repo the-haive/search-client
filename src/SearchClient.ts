@@ -93,32 +93,73 @@ export class SearchClient implements AuthToken {
 
     /**
      * This method is typically called when the user clicks the search-button in the UI.
-     * For query-fields that accepts enter the default queryChangeInstantRegex catches enter (for find and categorize).
+     *
+     * For query-fields that accepts enter the default queryChangeInstantRegex catches enter.
      * When they don't take enter you will have to set up something that either catches the default enter or a user clicks
      * on a "Search"-button or similar. You can choose to use the already current query, or you can pass it in. If you
      * include the query then the internal updates are suppressed while changing the query-properties, to make sure that
      * only one update per service is made (if any of their trigger-checks returned true).
      *
-     * When called it will unconditionally call the fetch() method of both Categorize and Find.
-     *
-     * Note: The Autocomplete fetch() method is not called, as it is deemed very unexpected to want to list autocomplete
-     * suggestions when the Search-button is clicked.
+     * @param query If passed in then the query object will update the internal query-object and any updates will trigger
+     * (but only once). The consecutive overriding service params are ignored when this parameter has a value. If the
+     * query is empty/null/undefined then the services will force an update, but allows the bool params to override this.
+     * @param autocomplete Allows turning off updates for the Autocomplete service (if the service is enabled in the
+     * settings). Only effective when query is not set.
+     * @param categorize Allows turning off updates for the Categorize service (if the service is enabled in the settings).
+     * Only effective when query is not set.
+     * @param find Allows turning off updates for the Find service (if the service is enabled in the settings). Only
+     * effective when query is not set.
      */
-    public findAndCategorize(query?: Query) {
-        if (query) {
+    public update(query?: Query, autocomplete: boolean = true, categorize: boolean = true, find: boolean = true): void {
+        if (query != null) {
+            // Update query without triggering any updates.
             this.deferUpdates(true);
             this.query = query;
-            this.deferUpdates(false, true); // Skip any pending requests
-        }
-        this.categorize.fetch(this._query)
-        .catch(() => {
-            // Ignore the error?
-        });
+            // Turning of deferredUpdates will now execute pending updates (if any).
+            this.deferUpdates(false);
 
-        this.find.fetch(this._query)
-        .catch(() => {
-            // Ignore the error?
-        });
+            // A query was included, so the above update is all we want to do.
+            return;
+        }
+
+        // Since a query was not passed, then we update based on each service's setting, using the bool params autocomplete,
+        // categorize and find to allow overriding and turning off the individual services.
+        if (autocomplete && this.autocomplete.shouldUpdate()) {
+            this.autocomplete.update(this.query);
+        }
+        if (categorize && this.categorize.shouldUpdate()) {
+            this.categorize.update(this.query);
+        }
+        if (find && this.find.shouldUpdate()) {
+            this.find.update(this.query);
+        }
+    }
+
+    /**
+     * This method is called when you want to force an update call to be made for the services.
+     *
+     * It may force an update based on the existing this.query value or you can provide a new query object to be used.
+     * After having set the value the services will be called, unless they are disabled in their respective configs
+     * or turned off in the params to this medhod.
+     *
+     * @param query If passed in then the query object will update the internal query-object without triggering any updates,
+     * but will just after this force an update on all enabled services, that are not turned off by the consecutive params.
+     * @param autocomplete Allows turning off updates for the Autocomplete service (if the service is enabled in the
+     * settings).
+     * @param categorize Allows turning off updates for the Categorize service (if the service is enabled in the settings).
+     * @param find Allows turning off updates for the Find service (if the service is enabled in the settings).
+     */
+    public forceUpdate(query?: Query, autocomplete: boolean = true, categorize: boolean = true, find: boolean = true): void {
+        if (query != null) {
+            // Update query without triggering any updates.
+            this.deferUpdates(true);
+            this.query = query;
+            // Skip executing any potential pending updates.
+            this.deferUpdates(false, true);
+        }
+
+        // Force an update (by passing null to query param) and forwarding service overrides.
+        this.update(null, autocomplete, categorize, find);
     }
 
     /**
@@ -680,7 +721,7 @@ export class SearchClient implements AuthToken {
      *
      * @param state Turns on or off deferring of updates.
      * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring
-     * is turned off. The param is ignored for `state=true`.
+     * is turned off. The param is ignored for `state=true`. Default is false.
      */
     public deferUpdates(state: boolean, skipPending: boolean = false) {
         this.autocomplete.deferUpdates(state, skipPending);

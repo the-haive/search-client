@@ -1,6 +1,6 @@
 import fetch from 'jest-fetch-mock';
 
-import { Authentication, Autocomplete, Categorize, Find, SearchClient, Settings, OrderBy, SearchType, CategorizeQueryConverter, Categories } from './SearchClient';
+import { Authentication, Autocomplete, Categorize, Find, Query, SearchClient, Settings, OrderBy, SearchType, CategorizeQueryConverter, Categories } from './SearchClient';
 
 import reference from './test-data/categories.json';
 
@@ -227,7 +227,8 @@ describe('SearchClient filter interface', () => {
         expect(client.searchType).toEqual(SearchType.Relevance);
 
         // go
-        expect(client.findAndCategorize).toBeDefined();
+        expect(client.update).toBeDefined();
+        expect(client.forceUpdate).toBeDefined();
 
         let from = {M: -2};
         client.dateFrom = from;
@@ -408,12 +409,62 @@ describe('SearchClient filter interface', () => {
         expect(client.query.matchGrouping).toBeTruthy();
         expect((client as any)._query.matchGrouping).toBeTruthy();
 
-        client.findAndCategorize();
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.update(); // Updating according to triggers and settings
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
 
-        expect(client.matchGrouping).toBeTruthy();
-        expect(client.query.matchGrouping).toBeTruthy();
-        expect((client as any)._query.matchGrouping).toBeTruthy();
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        let q = client.query;
+        q.queryText = 'test2\n'; // Modifying the reference, so should already do the updates.
+        client.update(q); // So the update should not do work.
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
 
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        let q2 = client.query;
+        q2.queryText = 'test2\n'; // Modifying the reference, so should already do the updates.
+        client.forceUpdate(q2); // But a forced update should still work.
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.forceUpdate(); // And forcing without query object should also work.
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        q = new Query({queryText: 'test3\n'});
+        client.update(q); // Changed
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.update(q); // No change
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        client.forceUpdate(q); // No change, but forced
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.update(); // No change, but forcing an update since we are not passing a query-object (if triggers allow)
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.forceUpdate(null, false, false, false); // Forcing an update, but stopping services
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
     });
 
 });

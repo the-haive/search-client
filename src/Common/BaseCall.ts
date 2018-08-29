@@ -72,7 +72,13 @@ export abstract class BaseCall<TDataType> {
         } as RequestInit;
     }
 
-    public update(query: Query | null, delay?: number): void | number {
+    /**
+     * Call the service, but take into account deferredUpdates.
+     *
+     * @param query The query object to create the fetch for.
+     * @param delay A delay for when to execute the update, in milliseconds. Defaults to undefined.
+     */
+    public update(query: Query, delay?: number): void {
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
             this.deferredQuery = query;
