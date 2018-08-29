@@ -57,7 +57,31 @@ header .query {
 nav {
     grid-area: nav;
     margin-left: 0.5rem;
-    overflow: hidden;
+    overflow-y: auto;
+}
+
+#categories > ul {
+    list-style-type: none;
+    padding-left: 0;    
+}
+
+#categories > ul ul {
+    list-style-type: none;
+    padding-left: 0.8em;    
+}
+
+#categories > ul .title.isMatch {
+    font-weight: bold;
+}
+#categories > ul .count {
+    padding: 0 0.5em;
+    font-size: smaller;
+}
+#categories > ul .count::before {
+    content: "(";
+}
+#categories > ul .count::after {
+    content: ")";
 }
 
 main {
