@@ -4,27 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>IntelliSearch Enterprise - Plain sample</title>
+    <title>IntelliSearch SearchClient</title>
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>IntelliSearch Search-Client | Plain sample</h1>
-            <p>
-                This sample page demonstrates how to set up a connection to the IntelliSearch search-engine using the
-                automated strategy.
-                <br/>
-                The automated strategy means that you use the settings object to tell how you want the engine to handle
-                the various scenarios, and based on that the autocomplete suggestions, categories and match-results will
-                be sent to you via three callback methods, when there has been any activity.
-                You then set up events to forward changes to the search queryfield and other buttons (paging, search-type, etc).
-            </p>
+            <h1>IntelliSearch SearchClient</h1>
             <div class="query">
-                <input id="queryText" type="search" placeholder="Write text to search for...">
+                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
                 <button id="go">Search</button>
             </div>
-            <div id="didyoumean">Did You Mean placeholder</div>
+            <datalist id="suggestions"></datalist>
+            <div id="did-you-mean-container">
+                <label>Did you mean:</label>
+                <ul id="did-you-mean"></ul>
+            </div>
             <div id="advanced"></div>
         </header>
 
@@ -54,10 +49,10 @@
             <div id="details">
                 <div id="title"></div>
                 <div id="detail-types">
-                    <input id="btnProperties" type="radio" checked="checked" name="details"/>
-                    <label for="btnProperties">Properties</label>
-                    <input id="btnMetadata" type="radio" name="details"/>
-                    <label for="btnMetadata">Metadata</label>
+                    <input id="btn-properties" type="radio" checked="checked" name="details"/>
+                    <label for="btn-properties">Properties</label>
+                    <input id="btn-metadata" type="radio" name="details"/>
+                    <label for="btn-metadata">Metadata</label>
                 </div>
                 <div id="properties"></div>
                 <div id="metadata"></div>
@@ -70,7 +65,7 @@
         </footer>
     </div>
     <div id="preview"></div>
-    <script src="IntelliSearch.min.js"></script>
+    <script src="IntelliSearch.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </body>
 </html>

@@ -1,30 +1,30 @@
 window.onload = function(e) {
 
     /**
-     * 1. First create a settings object that is sent to the serch-engine.
-     * This test uses the publicly exposed demo searchmanager endpoint.
+     * 1. First create a settings object that is sent to the search-engine.
+     * This test uses the publicly exposed demo SearchManager endpoint.
      */
     let settings = new IntelliSearch.Settings({
         autocomplete: {
             //enabled: false, //TODO: Enable when the backend has been updated.
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
-            cbError: handleAutocompleteError,
+            cbError: handleAutocompleteError
         },
         find: {
             cbRequest: handleFindRequest,
             cbSuccess: handleFindSuccess,
-            cbError: handleFindError,
+            cbError: handleFindError
         },
         categorize: {
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
-            cbError: handleCategorizeError,
+            cbError: handleCategorizeError
         },
         query: {
             clientId: 'plain-sample',
             matchGenerateContent: true,
-            matchGrouping: true,
+            matchGrouping: true
         }
     });
 
@@ -35,9 +35,9 @@ window.onload = function(e) {
     /**
      * 2. Wire up the queryText field and the search-button.
      */
-    var queryTextElm = document.getElementById("queryText");
+    var queryTextElm = document.getElementById("query-text");
     queryTextElm.addEventListener("input", function(){
-        console.log("queryText changed: " + queryTextElm.value)
+        console.log("queryText changed: " + queryTextElm.value);
         client.queryText = queryTextElm.value;
     });
 
@@ -55,8 +55,11 @@ window.onload = function(e) {
      * - Match ordering
      * - ...
      */
-    var propBtn = document.getElementById("btnProperties");
-    var metaBtn = document.getElementById("btnMetadata");
+    var suggestionsElm = document.getElementById("suggestions");
+    var didYouMeanContainerElm = document.getElementById("did-you-mean-container");
+    var didYouMeanOptionsElm = document.getElementById("did-you-mean");
+    var propBtn = document.getElementById("btn-properties");
+    var metaBtn = document.getElementById("btn-metadata");
     propBtn.addEventListener("click", function(){
         propElm.style.display = "initial";
         metaElm.style.display = "none";
@@ -94,6 +97,12 @@ window.onload = function(e) {
      */
     function handleAutocompleteSuccess(suggestions) {
         console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
+        suggestionsElm.innerHTML = "";
+        suggestions.forEach((suggestion, i, a) => {
+            var option = document.createElement("option");
+            option.value = suggestion;
+            suggestionsElm.appendChild(option);
+        });
     }
 
     /**
@@ -121,12 +130,26 @@ window.onload = function(e) {
 
         findStatsElm.innerHTML = `<span>Hits: ${matches.estimatedMatchCount}</span>`;
 
+        didYouMeanContainerElm.style.display = "none";
+        didYouMeanOptionsElm.innerHTML = "";
+        if (matches.didYouMeanList.length > 0) {
+            matches.didYouMeanList.forEach((didYouMean, i, a) => {
+                var li = document.createElement("li");
+                li.innerHTML = didYouMean;
+                li.addEventListener("click", function (){
+                    queryTextElm.value = didYouMean; // Update the user interface
+                    client.queryText = didYouMean; // Update the client (since the UI does not fire an event for the previous change)
+                    queryTextElm.focus(); // Set the focus to the query-field.
+                });
+                didYouMeanOptionsElm.appendChild(li);
+            });
+            didYouMeanContainerElm.style.display = "block";
+        }
+
         // Clear out old matches
         matchesElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
-            document.getElementById("didyoumean").innerHTML = `${matches.didYouMeanList.join("<br/>")}`;
-
             var li = document.createElement('li');
 
             // Build title
@@ -182,7 +205,7 @@ window.onload = function(e) {
             var categories = "</br>";
             match.categories.forEach(function(cat, catIndex, catArr){
                 // Iterate all categories to create a list
-                categories += `&nbsp;-&nbsp;${cat}<br/>`
+                categories += `&nbsp;-&nbsp;${cat}<br/>`;
             });
 
             var properties = `
@@ -239,7 +262,7 @@ window.onload = function(e) {
     function handleFindError(error){
         console.error("handleFindError", error);
         findStatsElm.innerHTML = "";
-        matchesElm.innerHTML = "No matches."
+        matchesElm.innerHTML = "No matches.";
         detailsElm.style.display = "none";
         titleElm.innerHTML = "";
         propElm.innerHTML = "";
@@ -269,7 +292,7 @@ window.onload = function(e) {
 
         function createCategoryNode(category, index, arr) {
             var categoryLiElm = document.createElement("li");
-            var title = `<span class="title ${category.count > 0 ? 'isMatch' : ''}">${category.displayName}</span>`;
+            var title = `<span class="title ${category.count > 0 ? 'is-match' : ''}">${category.displayName}</span>`;
             var count = category.count > 0 ? `<span class="count">${category.count}</span>` : '';
             categoryLiElm.innerHTML = `<div>${title}${count}</div>`;
             if (category.children.length > 0) {

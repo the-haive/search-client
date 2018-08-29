@@ -55,6 +55,24 @@ header p {
 header .query {
     margin-top: 1em;
 }
+
+#did-you-mean-container {
+    display: none;
+    margin-top:  1em;
+}
+
+#did-you-mean {
+    margin-top: 0;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#did-you-mean li {
+    margin-left: 0;
+    text-decoration: underline;
+    font-style: italic;
+}
+
 nav {
     grid-area: nav;
     margin-left: 0.5rem;
@@ -71,7 +89,7 @@ nav {
     padding-left: 0.8em;
 }
 
-#categories > ul .title.isMatch {
+#categories > ul .title.is-match {
     font-weight: bold;
 }
 #categories > ul .count {
