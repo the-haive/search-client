@@ -5,8 +5,7 @@ import { BaseQueryConverter, OrderBy, SearchType, Query } from '../Common';
  */
 export class FindQueryConverter extends BaseQueryConverter {
     /**
-     * Converts the query params to an array of key=value segments,
-     * fit for Find REST v4.
+     * Converts the query params to an array of key=value segments.
      */
     protected getUrlParams(query: Query): string[] {
         let params: string[] = [];

@@ -1,13 +1,5 @@
 import * as jwt from 'jwt-simple';
 
-// tslint:disable-next-line:no-var-requires
-// require("babel-core/register");
-// require("babel-polyfill");
-
-// Need this when running in node (not in browser), to make the domain-task resolve local-url's
-// import { baseUrl as dummyTestBaseUrl } from 'domain-task/fetch';
-// dummyTestBaseUrl('http://localhost'); // Relative URLs will be resolved against this
-
 import { Authentication } from './Authentication';
 import { AuthenticationSettings } from './AuthenticationSettings';
 import { AuthenticationTriggers } from './AuthenticationTriggers';

@@ -183,21 +183,21 @@ describe('Categorize basics', () => {
         // Not caring about the response, just to allow the fetch to complete.
         fetch.mockResponse(JSON.stringify({}));
         let settings = {
-        cbRequest: jest.fn((url, reqInit) => {
-            expect(typeof url).toBe('string');
-            expect(typeof reqInit).toBe('object');
-            // Stop the request
-            return false;
-        }),
+            cbRequest: jest.fn((url, reqInit) => {
+                expect(typeof url).toBe('string');
+                expect(typeof reqInit).toBe('object');
+                // Stop the request
+                return false;
+            }),
         } as CategorizeSettings;
 
         let categorize = new Categorize('http://localhost:9950/', settings, null, fetch);
         categorize.fetch().then(response => {
-        expect(response).toBeNull();
+            expect(response).toBeNull();
         }).catch(error => {
-        fail('Should not yield an error');
+            fail('Should not yield an error');
         }).then(() => {
-        expect(settings.cbRequest).toHaveBeenCalled();
+            expect(settings.cbRequest).toHaveBeenCalled();
         });
     });
 
@@ -307,7 +307,7 @@ describe('Categorize basics', () => {
         let client = new Categorize('http://localhost:9950/');
         let pClient = client as any;
 
-        // Expect 
+        // Expect
         pClient.clientCategoryFilter = {
         System: /---/,
         ModifiedDate: /---/,

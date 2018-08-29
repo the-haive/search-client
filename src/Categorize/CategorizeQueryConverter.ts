@@ -5,8 +5,7 @@ import { BaseQueryConverter, CategorizationType, SearchType, Query } from '../Co
  */
 export class CategorizeQueryConverter extends BaseQueryConverter {
     /**
-     * Converts the query params to an array of key=value segments,
-     * fit for Categorize REST v4.
+     * Converts the query params to an array of key=value segments.
      */
     protected getUrlParams(query: Query): string[] {
         let params: string[] = [];

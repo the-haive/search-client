@@ -29,15 +29,11 @@ export class FindTriggers {
 
     /**
      * Triggers when the generateContent property has changed.
-     *
-     * Note: Only available for v4+.
      */
     public matchGenerateContentChanged?: boolean = true;
 
     /**
      * Triggers when the generateContentHighlights property has changed.
-     *
-     * Note: Only available for v4+.
      */
     public matchGenerateContentHighlightsChanged?: boolean = true;
 

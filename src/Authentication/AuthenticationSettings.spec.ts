@@ -1,9 +1,5 @@
 import * as jwt from 'jwt-simple';
 
-// tslint:disable-next-line:no-var-requires
-// require('babel-core/register');
-// require('babel-polyfill');
-
 import { AuthenticationSettings } from './AuthenticationSettings';
 
 describe('AutocompleteSettings basics', () => {

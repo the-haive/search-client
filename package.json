@@ -23,7 +23,6 @@
         "build:es": "tsc --outDir es --module es2015",
         "build:umd": "webpack --config webpack.config.js",
         "build:umd:watch": "webpack --config webpack.config.js --watch",
-        "//build:umd": "tsc --outFile dist/SearchClient.js --module system",
         "postbuild": "rimraf {lib,es}/**/__tests__ {lib,es}/**/*.{spec,test}.*",
         "clean": "rimraf dist/* es/* lib/* docs/* coverage/* tmp/*",
         "typecheck": "tsc --noEmit",

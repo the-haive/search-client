@@ -13,13 +13,13 @@ module.exports = function(wallaby) {
         ],
         env: {
             type: 'node',
-            runner: 'node',
+            runner: 'node'
         },
         testFramework: 'jest',
         compilers: {
             '**/*.ts': wallaby.compilers.typeScript({
-              module: 'commonjs',
+              module: 'commonjs'
             })
-          },
+        }
     };
 };

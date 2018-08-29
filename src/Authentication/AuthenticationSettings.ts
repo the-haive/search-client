@@ -26,7 +26,7 @@ export class AuthenticationSettings extends BaseSettings<any> {
     public tokenPath?: string[] = ['jwtToken'];
 
     /**
-     * The trigger-settings for when a new auth-token is to be reqeusted.
+     * The trigger-settings for when a new auth-token is to be requested.
      */
     public triggers?: AuthenticationTriggers = new AuthenticationTriggers();
 

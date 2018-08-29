@@ -77,7 +77,7 @@ export class SearchClient implements AuthToken {
      * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
-    constructor(baseUrl: string, 
+    constructor(baseUrl: string,
                 private settings: Settings = new Settings(),
                 fetchMethod?: Fetch
             ) {
@@ -87,7 +87,7 @@ export class SearchClient implements AuthToken {
         this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this, fetchMethod);
         this.categorize = new Categorize(baseUrl, this.settings.categorize, this, fetchMethod);
         this.find = new Find(baseUrl, this.settings.find, this, fetchMethod);
-        
+
         this._query = this.settings.query;
     }
 
@@ -357,8 +357,6 @@ export class SearchClient implements AuthToken {
      * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
      *
      * Will run trigger-checks and potentially update services.
-     *
-     * Note: Only effective for v4+.
      */
     set matchGenerateContent(generateContent: boolean) {
         if (generateContent !== this._query.matchGenerateContent) {
@@ -384,8 +382,6 @@ export class SearchClient implements AuthToken {
      * **Note:** See the matchGenerateContent property in regards to IndexManager requirements.
      *
      * Will run trigger-checks and potentially update services.
-     *
-     * Note: Only effective for v4+.
      */
     set matchGenerateContentHighlights(generateContentHighlights: boolean) {
         if (generateContentHighlights !== this._query.matchGenerateContentHighlights) {
@@ -641,8 +637,6 @@ export class SearchClient implements AuthToken {
      * The expected values should be according to the https://www.wikiwand.com/en/IETF_language_tag standard.
      *
      * Changes will run trigger-checks and potentially update services.
-     *
-     * Note: Only effective for v4+.
      */
     set uiLanguageCode(uiLanguageCode: string) {
         if (uiLanguageCode !== this._query.uiLanguageCode) {
