@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
     <title>IntelliSearch SearchClient</title>
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>IntelliSearch SearchClient</h1>
             <div class="query">
-                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
+                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions"
+                    autocomplete="off">
                 <button id="go">Search</button>
             </div>
             <datalist id="suggestions"></datalist>
@@ -25,33 +28,33 @@
 
         <nav>
             <!-- Navigation: Categories -->
-            <b>Categories</b><br/>
+            <b>Categories</b><br />
             <div class="categories-header">
                 <span id="categorize-stats"></span>
             </div>
-            <div id="categories"/>
+            <div id="categories" />
         </nav>
 
         <main>
             <!-- Main content: Matches -->
-            <b>Matches</b><br/>
+            <b>Matches</b><br />
             <div class="matches-header">
                 <span id="find-stats"></span>
                 <span id="pager">&laquo; 1 2 3 &raquo;</span>
                 <span id="order">Relevance/Date order</span>
             </div>
-            <div id="matches"/>
+            <div id="matches" />
         </main>
 
         <aside>
             <!-- Sidebar: Details -->
-            <b>Details</b><br/>
+            <b>Details</b><br />
             <div id="details">
                 <div id="title"></div>
                 <div id="detail-types">
-                    <input id="btn-properties" type="radio" checked="checked" name="details"/>
+                    <input id="btn-properties" type="radio" checked="checked" name="details" />
                     <label for="btn-properties">Properties</label>
-                    <input id="btn-metadata" type="radio" name="details"/>
+                    <input id="btn-metadata" type="radio" name="details" />
                     <label for="btn-metadata">Metadata</label>
                 </div>
                 <div id="properties"></div>
@@ -68,4 +71,5 @@
     <script src="IntelliSearch.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </body>
+
 </html>

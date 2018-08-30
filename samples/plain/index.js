@@ -1,4 +1,4 @@
-window.onload = function(e) {
+window.onload = function (e) {
 
     /**
      * 1. First create a settings object that is sent to the search-engine.
@@ -37,13 +37,13 @@ window.onload = function(e) {
      * 2. Wire up the queryText field and the search-button.
      */
     var queryTextElm = document.getElementById("query-text");
-    queryTextElm.addEventListener("input", function(){
+    queryTextElm.addEventListener("input", function () {
         console.log("queryText changed: " + queryTextElm.value);
         client.queryText = queryTextElm.value;
     });
 
     var searchButtonElm = document.getElementById("go");
-    searchButtonElm.addEventListener("click", function(){
+    searchButtonElm.addEventListener("click", function () {
         console.log("Search-button clicked");
         client.update();
     });
@@ -61,11 +61,11 @@ window.onload = function(e) {
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
     var propBtn = document.getElementById("btn-properties");
     var metaBtn = document.getElementById("btn-metadata");
-    propBtn.addEventListener("click", function(){
+    propBtn.addEventListener("click", function () {
         propElm.style.display = "initial";
         metaElm.style.display = "none";
     });
-    metaBtn.addEventListener("click", function(){
+    metaBtn.addEventListener("click", function () {
         propElm.style.display = "none";
         metaElm.style.display = "initial";
     });
@@ -109,7 +109,7 @@ window.onload = function(e) {
     /**
      * Use this to handle errors and to stop load-spinners.
      */
-    function handleAutocompleteError(error){
+    function handleAutocompleteError(error) {
         console.error("handleAutocompleteError", error);
     }
 
@@ -137,7 +137,7 @@ window.onload = function(e) {
             matches.didYouMeanList.forEach((didYouMean, i, a) => {
                 var li = document.createElement("li");
                 li.innerHTML = didYouMean;
-                li.addEventListener("click", function (){
+                li.addEventListener("click", function () {
                     queryTextElm.value = didYouMean; // Update the user interface
                     client.queryText = didYouMean; // Update the client (since the UI does not fire an event for the previous change)
                     queryTextElm.focus(); // Set the focus to the query-field.
@@ -192,7 +192,7 @@ window.onload = function(e) {
             // If we have content then we have button, so lets bind it up to the click event to show tehe content.
             // TODO: Show this in proper dialog (div over the others), as the alert shows a limited number of characters of the item only.
             if (match.content.length > 0) {
-                li.getElementsByTagName('button')[0].addEventListener("click", function() {
+                li.getElementsByTagName('button')[0].addEventListener("click", function () {
                     alert(match.content.join('\n'));
                 });
             }
@@ -204,7 +204,7 @@ window.onload = function(e) {
 
             // Build properties
             var categories = "</br>";
-            match.categories.forEach(function(cat, catIndex, catArr){
+            match.categories.forEach(function (cat, catIndex, catArr) {
                 // Iterate all categories to create a list
                 categories += `&nbsp;-&nbsp;${cat}<br/>`;
             });
@@ -223,13 +223,13 @@ window.onload = function(e) {
 
             // Build metadata
             var metadata = "";
-            match.metaList.forEach(function(meta, metaIndex, metaArr){
+            match.metaList.forEach(function (meta, metaIndex, metaArr) {
                 // Iterate all metadatas to create a list
                 metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
             });
 
             // Bind up hover action to write content (properties and metadata) into the details pane
-            li.addEventListener("mouseover", function(){
+            li.addEventListener("mouseover", function () {
                 titleElm.innerHTML = detailTitle;
                 detailsElm.style.display = "initial";
                 propElm.innerHTML = `<ul>${properties}</ul>`;
@@ -260,7 +260,7 @@ window.onload = function(e) {
     /**
      * Use this to handle errors and to stop load-spinners.
      */
-    function handleFindError(error){
+    function handleFindError(error) {
         console.error("handleFindError", error);
         findStatsElm.innerHTML = "";
         matchesElm.innerHTML = "No matches.";
@@ -296,8 +296,7 @@ window.onload = function(e) {
             var liClass = [];
             if (client.isFilter(category)) {
                 liClass.push("is-filter");
-            }
-            else if (client.hasChildFilter(category)) {
+            } else if (client.hasChildFilter(category)) {
                 liClass.push("has-filter");
             }
             if (category.count > 0) {
@@ -319,7 +318,7 @@ window.onload = function(e) {
 
             var titleElm = categoryLiElm.getElementsByClassName("title")[0];
             titleElm.addEventListener("click", function (e) {
-                var closestLi =e.target.closest("li");
+                var closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
                     var added = client.filterToggle(category);
                     console.log(`Filter ${category.displayName} was ${added ? "added" : "removed"}. Current filters:`, client.filters);
@@ -328,7 +327,7 @@ window.onload = function(e) {
             if (category.children.length > 0) {
                 var catUlElm = document.createElement("ul");
                 categoryLiElm.appendChild(catUlElm);
-                category.children.forEach(function (childCat, cIndex, cArr){
+                category.children.forEach(function (childCat, cIndex, cArr) {
                     var li = createCategoryNode(childCat, cIndex, cArr);
                     catUlElm.appendChild(li);
                 });
@@ -345,7 +344,7 @@ window.onload = function(e) {
                 var groupLiElm = document.createElement("li");
                 var title = `<span class="title">${group.displayName}</span>`;
                 var toggle = `<span class="toggle"></span>`;
-                groupLiElm.innerHTML=`<div class="entry">${toggle}${title}</div>`;
+                groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
                 var liClass = [];
                 liClass.push(group.expanded ? "expanded" : "collapsed");
                 liClass.push(group.categories.length > 0 ? "has-children" : "is-leaf");
@@ -356,10 +355,10 @@ window.onload = function(e) {
                     var result = client.toggleCategoryExpansion(group);
                     console.log(`Toggled expansion for group '${group.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
                 });
-                    if (group.categories.length > 0) {
+                if (group.categories.length > 0) {
                     var catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);
-                    group.categories.forEach(function (category, cIndex, cArr){
+                    group.categories.forEach(function (category, cIndex, cArr) {
                         var li = createCategoryNode(category, cIndex, cArr);
                         catUlElm.appendChild(li);
                     });
@@ -375,7 +374,7 @@ window.onload = function(e) {
     /**
      * Use this to handle errors and to stop load-spinners.
      */
-    function handleCategorizeError(error){
+    function handleCategorizeError(error) {
         console.error("handleCategorizeError", error);
         categorizeStatsElm.innerHTML = "";
         categoriesElm.innerHTML = "No categories.";
