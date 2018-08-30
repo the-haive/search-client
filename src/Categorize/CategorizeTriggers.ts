@@ -3,7 +3,12 @@
  */
 export class CategorizeTriggers {
     /**
-     * Triggers when the clientCategoryFilter is changed.
+     * Triggers when the clientCategoryExpansion has changed.
+     */
+    public clientCategoryExpansionChanged: boolean = true;
+
+    /**
+     * Triggers when the clientCategoryFilter has changed.
      */
     public clientCategoryFilterChanged?: boolean = true;
 
@@ -33,33 +38,33 @@ export class CategorizeTriggers {
     public queryChange?: boolean = true;
 
     /**
-     * Delay triggers until changes has not been made to the query for a certain time (milliseconds). 
+     * Delay triggers until changes has not been made to the query for a certain time (milliseconds).
      * This is to avoid executing searches constantly while the user is typing.
      * The queryChangeInstantRegex has precedence. This delay is only considered when that regex doesn't match.
      * Set value to less than zero to make sure we only trigger when the queryChangeInstantRegex matches.
-     * 
+     *
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
-     * 
+     *
      * Default for Categorize is to run delayed lookups after 2 seconds. The queryChangeInstantRegex matches will
      * run immediately though.
      */
-    public queryChangeDelay?: number = 2000;    
+    public queryChangeDelay?: number = 2000;
 
-    /** 
+    /**
      * Triggers action immediately instead of delayed when the query matches the regex.
-     * 
+     *
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
-     * 
+     *
      * Default: Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
      */
     public queryChangeInstantRegex?: RegExp = /\S\s$/u;
 
     /**
-     * Min length before triggering. For Categorize (and Find) this should be ok with short queries too. 
+     * Min length before triggering. For Categorize (and Find) this should be ok with short queries too.
      * One character followed by an enter (default).
-     * 
+     *
      * Note: Requires queryChange to be true.
      */
     public queryChangeMinLength?: number = 2;
@@ -77,7 +82,7 @@ export class CategorizeTriggers {
 
     /**
      * Creates a CategorizeTrigger object for you, based on CategorizeTrigger defaults and the overrides provided as a param.
-     * 
+     *
      * @param triggers - The triggers defined here will override the default CategorizeTrigger.
      */
     constructor(triggers: CategorizeTriggers = {} as CategorizeTriggers) {

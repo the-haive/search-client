@@ -1,14 +1,15 @@
 import { CategorizeTriggers } from '.';
 
-describe('FindTriggers', () => {
+describe('CategorizeTriggers', () => {
 
-    it('Should be able to create default FindTrigger', () => {
+    it('Should be able to create default CategorizeTrigger', () => {
         let ft = new CategorizeTriggers();
         expect(typeof ft).toBe('object');
     });
 
-    it('Should be able to create default FindTrigger', () => {
+    it('Should be able to create default CategorizeTrigger', () => {
         let settings = {
+            clientCategoryExpansionChanged: false,
             clientCategoryFilterChanged: false,
             clientIdChanged: false,
             dateFromChanged: false,

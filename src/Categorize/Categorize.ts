@@ -5,36 +5,38 @@ import { CategorizeQueryConverter } from './CategorizeQueryConverter';
 import { CategorizeSettings } from './CategorizeSettings';
 
 /**
- * The Categorize service queries the search-engine for which categories that any 
+ * The Categorize service queries the search-engine for which categories that any
  * search-matches for the same query will contain.
- * 
+ *
  * It is normally used indirectly via the SearchClient class.
  */
 export class Categorize extends BaseCall<Categories> {
 
     /**
-     * This represents the last categories that was received from the backend. 
-     * 
-     * Note: Normally these are only used internally. You *can* however 
-     * populate these yourself, but if you are also executing fetches (which 
-     * the SearchClient is often doing in the automatic mode) then the contents 
-     * may be overwritten at any time. 
+     * This represents the last categories that was received from the backend.
+     *
+     * Note: Normally these are only used internally. You *can* however
+     * populate these yourself, but if you are also executing fetches (which
+     * the SearchClient is often doing in the automatic mode) then the contents
+     * may be overwritten at any time.
      */
     public categories: Categories;
+
+    public clientCategoryExpansion: { [key: string]: boolean; } = { };
 
     public clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
 
     private queryConverter: CategorizeQueryConverter;
 
     /**
-     * Creates a Categorize instance that handles fetching categories dependent on settings and query. 
+     * Creates a Categorize instance that handles fetching categories dependent on settings and query.
      * Supports registering a callback in order to receive categories when they have been received.
      * @param baseUrl - The base url that the categorize is to fetch categories from.
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
-    constructor(baseUrl: string, 
-                protected settings?: CategorizeSettings, 
+    constructor(baseUrl: string,
+                protected settings?: CategorizeSettings,
                 auth?: AuthToken,
                 fetchMethod?: Fetch
             ) {
@@ -83,6 +85,12 @@ export class Categorize extends BaseCall<Categories> {
             return Promise.resolve(null);
         }
     }
+    public clientCategoryExpansionChanged(oldValue: { [ key: string ]: boolean }, value: { [ key: string ]: boolean }): void {
+        this.clientCategoryExpansion = value;
+        if (this.shouldUpdate() && this.settings.triggers.clientCategoryExpansionChanged) {
+            this.cbSuccess(false, this.filterCategories(this.categories), null, null);
+        }
+    }
 
     public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void {
         this.clientCategoryFilter = value;
@@ -91,31 +99,31 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
 
-    public clientIdChanged(oldValue: string, query: Query) { 
+    public clientIdChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
-    public dateFromChanged(oldValue: DateSpecification, query: Query) { 
+    public dateFromChanged(oldValue: DateSpecification, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
-     
-    public dateToChanged(oldValue: DateSpecification, query: Query) { 
+
+    public dateToChanged(oldValue: DateSpecification, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
-     
-    public filtersChanged(oldValue: Filter[], query: Query) { 
+
+    public filtersChanged(oldValue: Filter[], query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
             this.update(query);
         }
     }
-    
-    public queryTextChanged(oldValue: string, query: Query) { 
+
+    public queryTextChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.queryChange) {
             if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
                 if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
@@ -129,32 +137,32 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
 
-    public searchTypeChanged(oldValue: SearchType, query: Query) { 
+    public searchTypeChanged(oldValue: SearchType, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
-    public uiLanguagecodeChanged(oldValue: string, query: Query) { 
+    public uiLanguageCodeChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.uiLanguageCodeChanged) {
             this.update(query);
         }
     }
-     
+
     /**
-     * Creates a Filter object based on the input id (string [] or Category). 
-     * 
-     * NB! This method does NOT apply the filter in the filters colleciton. 
-     * It is used behind the scenes by the filter* methods in SearchClient. 
+     * Creates a Filter object based on the input id (string [] or Category).
+     *
+     * NB! This method does NOT apply the filter in the filters collection.
+     * It is used behind the scenes by the filter* methods in SearchClient.
      * To apply a filter you need to use the filter* properties/methods in
      * SearchClient.
-     * 
-     * If the category doesn't exist then the filter 
+     *
+     * If the category doesn't exist then the filter
      * will not be created.
-     * 
-     * If passing in a string[] then the value is expected to match the categoryName 
-     * property of a listed category. 
-     * 
+     *
+     * If passing in a string[] then the value is expected to match the categoryName
+     * property of a listed category.
+     *
      * @param categoryName A string array or a Category that denotes the category to create a filter for.
      */
     public createCategoryFilter(categoryName: string[] | Category): Filter {
@@ -212,7 +220,8 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     private filterCategories(categories: Categories): Categories {
-        if (!this.clientCategoryFilter || Object.getOwnPropertyNames(this.clientCategoryFilter).length === 0) {
+        if ((!this.clientCategoryFilter || Object.getOwnPropertyNames(this.clientCategoryFilter).length === 0)
+            && (!this.clientCategoryExpansion || Object.getOwnPropertyNames(this.clientCategoryExpansion).length === 0)) {
             return categories;
         }
 
@@ -222,7 +231,11 @@ export class Categorize extends BaseCall<Categories> {
             if (group.categories && group.categories.length > 0) {
                 group.categories = this.mapCategories(group.categories);
             }
-            group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
+            if (this.clientCategoryExpansion.hasOwnProperty(group.name)) {
+                group.expanded = this.clientCategoryExpansion[group.name];
+            } else {
+                group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
+            }
             return group;
         });
         cats.groups = groups.filter(g => g !== undefined);
@@ -241,7 +254,12 @@ export class Categorize extends BaseCall<Categories> {
                     }
                     category.expanded = true;
                 }
-                category.expanded = category.expanded || category.children.some((c) => c.expanded === true);
+                let catKey = category.categoryName.join('|');
+                if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
+                    category.expanded = this.clientCategoryExpansion[catKey];
+                } else {
+                    category.expanded = category.expanded || category.children.some((c) => c.expanded === true);
+                }
                 return category;
             }
         });

@@ -84,14 +84,67 @@ nav {
     padding-left: 0;
 }
 
+/* Group entry */
+#categories > ul > li > .entry {
+    display: block;
+    background-color: silver;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 0.7em;
+}
+
+#categories > ul .entry > .toggle {
+    visibility: hidden;
+    font-size: 0.7em;
+    margin-right: 0.7em;
+    display: inline-block;
+    min-width: 0.5em;
+    max-width: 0.5em;
+    white-space: pre;
+}
+
+#categories > ul .has-children > .entry > .toggle {
+    visibility: visible;
+}
+
+#categories > ul .collapsed.has-children > .entry > .toggle::before {
+    content: "▶"
+}
+#categories > ul .expanded.has-children > .entry > .toggle::before:hover,
+#categories > ul .collapsed.has-children > .entry > .toggle::before:hover {
+    background-color: silver;
+}
+
+#categories > ul .expanded.has-children > .entry > .toggle::before {
+    content: "▼"
+}
+
+
+#categories > ul .collapsed.has-children > ul {
+    display: none;
+}
+
 #categories > ul ul {
     list-style-type: none;
     padding-left: 0.8em;
 }
 
-#categories > ul .title.is-match {
+#categories > ul span.title {
+    cursor: pointer;
+}
+
+#categories > ul li.has-matches > .entry {
     font-weight: bold;
 }
+
+#categories > ul li.is-filter > .entry {
+    background-color: red;
+}
+
+#categories > ul li.has-filter > .entry {
+    background-color: orange;
+}
+
 #categories > ul .count {
     padding: 0 0.5em;
     font-size: smaller;

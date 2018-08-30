@@ -101,6 +101,7 @@ export abstract class BaseCall<TDataType> {
         return (this.settings.cbSuccess && this.settings.enabled);
     }
 
+    public clientCategoryExpansionChanged(oldValue: { [ key: string ]: boolean }, value: { [ key: string ]: boolean }): void { /* Default no implementation*/ }
     public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void { /* Default no implementation*/ }
     public clientIdChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
     public categorizationTypeChanged(oldValue: CategorizationType, query: Query): void { /* Default no implementation*/ }

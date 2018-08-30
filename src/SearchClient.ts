@@ -12,7 +12,7 @@ import { AuthToken, Authentication } from './Authentication';
 import { Autocomplete } from './Autocomplete';
 import { Categorize } from './Categorize';
 import { DateSpecification, Fetch, Filter, OrderBy, Query, SearchType } from './Common';
-import { Category } from './Data';
+import { Category, Group } from './Data';
 import { Find } from './Find';
 import { Settings } from './Settings';
 
@@ -67,6 +67,8 @@ export class SearchClient implements AuthToken {
     public find: Find = undefined;
 
     // tslint:disable-next-line:variable-name
+    private _clientCategoryExpansion: { [ key: string ]: boolean } = { };
+
     private _clientCategoryFilters: { [ key: string ]: string | RegExp } = { };
 
     // tslint:disable-next-line:variable-name
@@ -237,6 +239,28 @@ export class SearchClient implements AuthToken {
     }
 
     /**
+     * Gets the currently active category expansion overrides.
+     */
+    get clientCategoryExpansion(): { [ key: string ]: boolean } {
+        return this._clientCategoryExpansion;
+    }
+
+    /**
+     * Sets the currently active category expansion overrides.
+     */
+    set clientCategoryExpansion(clientCategoryExpansion: { [ key: string ]: boolean }) {
+        if (clientCategoryExpansion !== this._clientCategoryExpansion) {
+            const oldValue = this._clientCategoryExpansion;
+            this._clientCategoryExpansion = clientCategoryExpansion;
+
+            this.autocomplete.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
+            this.categorize.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
+            this.find.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
+        }
+        this._clientCategoryExpansion = clientCategoryExpansion;
+    }
+
+    /**
      * Gets the currently active client-id value.
      */
     get clientId(): string {
@@ -331,6 +355,30 @@ export class SearchClient implements AuthToken {
     }
 
     /**
+     * Returns true if the passed argument is a filter.
+     */
+    public isFilter(category: string[] | Category | Filter): boolean {
+        const item = this.filterId(category);
+        return this.filterIndex(item) !== -1;
+    }
+
+    public hasChildFilter(category: string[] | Category): boolean {
+        if (this.isFilter(category)) {
+            return false;
+        }
+        const categoryPath = this.filterId(category).join('|');
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.filters.length; i++) {
+            let filter = this.filters[i];
+            let filterPath = filter.category.categoryName.join('|');
+            if (filterPath.indexOf(categoryPath) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Add the given filter, if it isn't already there.
      *
      * Will run trigger-checks and potentially update services.
@@ -385,6 +433,20 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    public toggleCategoryExpansion(node: Category | Group, state?: boolean): boolean {
+        // Look up internal expansion-override list and see if we are already overriding this setting.
+        const key = node.hasOwnProperty('categoryName') ? (node as Category).categoryName.join('|') : node.name;
+        let newState = state !== undefined
+            ? state
+            : (this.clientCategoryExpansion.hasOwnProperty(key)
+                ? !this.clientCategoryExpansion[key]
+                : !node.expanded);
+
+        let newClientCategoryExpansion = {...this.clientCategoryExpansion};
+        newClientCategoryExpansion[key] = newState;
+        this.clientCategoryExpansion = newClientCategoryExpansion;
+        return newState;
+    }
     /**
      * Gets the currently active match generateContent setting.
      */

@@ -24,7 +24,8 @@ window.onload = function(e) {
         query: {
             clientId: 'plain-sample',
             matchGenerateContent: true,
-            matchGrouping: true
+            matchGrouping: true,
+            //categorizationType: IntelliSearch.CategorizationType.DocumentHitsOnly
         }
     });
 
@@ -292,9 +293,38 @@ window.onload = function(e) {
 
         function createCategoryNode(category, index, arr) {
             var categoryLiElm = document.createElement("li");
-            var title = `<span class="title ${category.count > 0 ? 'is-match' : ''}">${category.displayName}</span>`;
+            var liClass = [];
+            if (client.isFilter(category)) {
+                liClass.push("is-filter");
+            }
+            else if (client.hasChildFilter(category)) {
+                liClass.push("has-filter");
+            }
+            if (category.count > 0) {
+                liClass.push("has-matches");
+            }
+            liClass.push(category.expanded ? "expanded" : "collapsed");
+            liClass.push(category.children.length > 0 ? "has-children" : "is-leaf");
+            categoryLiElm.className = liClass.join(" ");
+            var toggle = `<span class="toggle"></span>`;
+            var title = `<span class="title">${category.displayName}</span>`;
             var count = category.count > 0 ? `<span class="count">${category.count}</span>` : '';
-            categoryLiElm.innerHTML = `<div>${title}${count}</div>`;
+            categoryLiElm.innerHTML = `<div class="entry">${toggle}${title}${count}</div>`;
+
+            var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
+            toggleElm.addEventListener("click", function (e) {
+                var result = client.toggleCategoryExpansion(category);
+                console.log(`Toggled expansion for category '${category.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
+            });
+
+            var titleElm = categoryLiElm.getElementsByClassName("title")[0];
+            titleElm.addEventListener("click", function (e) {
+                var closestLi =e.target.closest("li");
+                if (closestLi === categoryLiElm) {
+                    var added = client.filterToggle(category);
+                    console.log(`Filter ${category.displayName} was ${added ? "added" : "removed"}. Current filters:`, client.filters);
+                }
+            });
             if (category.children.length > 0) {
                 var catUlElm = document.createElement("ul");
                 categoryLiElm.appendChild(catUlElm);
@@ -313,8 +343,20 @@ window.onload = function(e) {
             categories.groups.forEach(function (group, index, arr) {
                 // Create the group-node
                 var groupLiElm = document.createElement("li");
-                groupLiElm.innerHTML=`${group.displayName}`;
-                if (group.categories.length > 0) {
+                var title = `<span class="title">${group.displayName}</span>`;
+                var toggle = `<span class="toggle"></span>`;
+                groupLiElm.innerHTML=`<div class="entry">${toggle}${title}</div>`;
+                var liClass = [];
+                liClass.push(group.expanded ? "expanded" : "collapsed");
+                liClass.push(group.categories.length > 0 ? "has-children" : "is-leaf");
+                groupLiElm.className += liClass.join(" ");
+
+                var toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
+                toggleElm.addEventListener("click", function (e) {
+                    var result = client.toggleCategoryExpansion(group);
+                    console.log(`Toggled expansion for group '${group.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
+                });
+                    if (group.categories.length > 0) {
                     var catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);
                     group.categories.forEach(function (category, cIndex, cArr){
