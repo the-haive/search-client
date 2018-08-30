@@ -1,4 +1,4 @@
-module.exports = function(wallaby) {
+module.exports = function (wallaby) {
 
     return {
         files: [
@@ -18,7 +18,7 @@ module.exports = function(wallaby) {
         testFramework: 'jest',
         compilers: {
             '**/*.ts': wallaby.compilers.typeScript({
-              module: 'commonjs'
+                module: 'commonjs'
             })
         }
     };

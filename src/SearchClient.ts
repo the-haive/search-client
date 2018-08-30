@@ -1,20 +1,27 @@
-import deepEqual from 'deep-equal';
+import deepEqual from "deep-equal";
 
-export * from './Authentication';
-export * from './Autocomplete';
-export * from './Categorize';
-export * from './Common';
-export * from './Data';
-export * from './Find';
-export * from './Settings';
+export * from "./Authentication";
+export * from "./Autocomplete";
+export * from "./Categorize";
+export * from "./Common";
+export * from "./Data";
+export * from "./Find";
+export * from "./Settings";
 
-import { AuthToken, Authentication } from './Authentication';
-import { Autocomplete } from './Autocomplete';
-import { Categorize } from './Categorize';
-import { DateSpecification, Fetch, Filter, OrderBy, Query, SearchType } from './Common';
-import { Category, Group } from './Data';
-import { Find } from './Find';
-import { Settings } from './Settings';
+import { AuthToken, Authentication } from "./Authentication";
+import { Autocomplete } from "./Autocomplete";
+import { Categorize } from "./Categorize";
+import {
+    DateSpecification,
+    Fetch,
+    Filter,
+    OrderBy,
+    Query,
+    SearchType
+} from "./Common";
+import { Category, Group } from "./Data";
+import { Find } from "./Find";
+import { Settings } from "./Settings";
 
 /**
  * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>"
@@ -40,7 +47,6 @@ import { Settings } from './Settings';
  * registered in the settings-object.
  */
 export class SearchClient implements AuthToken {
-
     /**
      * Holds a reference to the setup Authentication service.
      */
@@ -67,9 +73,9 @@ export class SearchClient implements AuthToken {
     public find: Find = undefined;
 
     // tslint:disable-next-line:variable-name
-    private _clientCategoryExpansion: { [ key: string ]: boolean } = { };
+    private _clientCategoryExpansion: { [key: string]: boolean } = {};
 
-    private _clientCategoryFilters: { [ key: string ]: string | RegExp } = { };
+    private _clientCategoryFilters: { [key: string]: string | RegExp } = {};
 
     // tslint:disable-next-line:variable-name
     private _query: Query;
@@ -79,15 +85,31 @@ export class SearchClient implements AuthToken {
      * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
-    constructor(baseUrl: string,
-                private settings: Settings = new Settings(),
-                fetchMethod?: Fetch
-            ) {
+    constructor(
+        baseUrl: string,
+        private settings: Settings = new Settings(),
+        fetchMethod?: Fetch
+    ) {
         settings = new Settings(settings);
 
-        this.authentication = new Authentication(baseUrl, this.settings.authentication, this, fetchMethod);
-        this.autocomplete = new Autocomplete(baseUrl, this.settings.autocomplete, this, fetchMethod);
-        this.categorize = new Categorize(baseUrl, this.settings.categorize, this, fetchMethod);
+        this.authentication = new Authentication(
+            baseUrl,
+            this.settings.authentication,
+            this,
+            fetchMethod
+        );
+        this.autocomplete = new Autocomplete(
+            baseUrl,
+            this.settings.autocomplete,
+            this,
+            fetchMethod
+        );
+        this.categorize = new Categorize(
+            baseUrl,
+            this.settings.categorize,
+            this,
+            fetchMethod
+        );
         this.find = new Find(baseUrl, this.settings.find, this, fetchMethod);
 
         this._query = this.settings.query;
@@ -112,7 +134,12 @@ export class SearchClient implements AuthToken {
      * @param find Allows turning off updates for the Find service (if the service is enabled in the settings). Only
      * effective when query is not set.
      */
-    public update(query?: Query, autocomplete: boolean = true, categorize: boolean = true, find: boolean = true): void {
+    public update(
+        query?: Query,
+        autocomplete: boolean = true,
+        categorize: boolean = true,
+        find: boolean = true
+    ): void {
         if (query != null) {
             // Update query without triggering any updates.
             this.deferUpdates(true);
@@ -151,7 +178,12 @@ export class SearchClient implements AuthToken {
      * @param categorize Allows turning off updates for the Categorize service (if the service is enabled in the settings).
      * @param find Allows turning off updates for the Find service (if the service is enabled in the settings).
      */
-    public forceUpdate(query?: Query, autocomplete: boolean = true, categorize: boolean = true, find: boolean = true): void {
+    public forceUpdate(
+        query?: Query,
+        autocomplete: boolean = true,
+        categorize: boolean = true,
+        find: boolean = true
+    ): void {
         if (query != null) {
             // Update query without triggering any updates.
             this.deferUpdates(true);
@@ -167,7 +199,7 @@ export class SearchClient implements AuthToken {
     /**
      * Gets the currently registered regex-filters.
      */
-    get clientCategoryFilters(): { [ key: string ]: string | RegExp } {
+    get clientCategoryFilters(): { [key: string]: string | RegExp } {
         return this._clientCategoryFilters;
     }
 
@@ -226,14 +258,25 @@ export class SearchClient implements AuthToken {
      *     }
      *
      */
-    set clientCategoryFilters(clientCategoryFilters: { [ key: string ]: string | RegExp }) {
+    set clientCategoryFilters(clientCategoryFilters: {
+        [key: string]: string | RegExp;
+    }) {
         if (clientCategoryFilters !== this._clientCategoryFilters) {
             const oldValue = this._clientCategoryFilters;
             this._clientCategoryFilters = clientCategoryFilters;
 
-            this.autocomplete.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
-            this.categorize.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
-            this.find.clientCategoryFiltersChanged(oldValue, this._clientCategoryFilters);
+            this.autocomplete.clientCategoryFiltersChanged(
+                oldValue,
+                this._clientCategoryFilters
+            );
+            this.categorize.clientCategoryFiltersChanged(
+                oldValue,
+                this._clientCategoryFilters
+            );
+            this.find.clientCategoryFiltersChanged(
+                oldValue,
+                this._clientCategoryFilters
+            );
         }
         this._clientCategoryFilters = clientCategoryFilters;
     }
@@ -241,21 +284,32 @@ export class SearchClient implements AuthToken {
     /**
      * Gets the currently active category expansion overrides.
      */
-    get clientCategoryExpansion(): { [ key: string ]: boolean } {
+    get clientCategoryExpansion(): { [key: string]: boolean } {
         return this._clientCategoryExpansion;
     }
 
     /**
      * Sets the currently active category expansion overrides.
      */
-    set clientCategoryExpansion(clientCategoryExpansion: { [ key: string ]: boolean }) {
+    set clientCategoryExpansion(clientCategoryExpansion: {
+        [key: string]: boolean;
+    }) {
         if (clientCategoryExpansion !== this._clientCategoryExpansion) {
             const oldValue = this._clientCategoryExpansion;
             this._clientCategoryExpansion = clientCategoryExpansion;
 
-            this.autocomplete.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
-            this.categorize.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
-            this.find.clientCategoryExpansionChanged(oldValue, this._clientCategoryExpansion);
+            this.autocomplete.clientCategoryExpansionChanged(
+                oldValue,
+                this._clientCategoryExpansion
+            );
+            this.categorize.clientCategoryExpansionChanged(
+                oldValue,
+                this._clientCategoryExpansion
+            );
+            this.find.clientCategoryExpansionChanged(
+                oldValue,
+                this._clientCategoryExpansion
+            );
         }
         this._clientCategoryExpansion = clientCategoryExpansion;
     }
@@ -344,7 +398,7 @@ export class SearchClient implements AuthToken {
     set filters(filters: Filter[]) {
         filters = filters || [];
         const sortedFilters = filters.sort();
-        if (sortedFilters.join('') !== this._query.filters.join('')) {
+        if (sortedFilters.join("") !== this._query.filters.join("")) {
             const oldValue = this._query.filters.slice(0); // clone
             this._query.filters = sortedFilters;
 
@@ -366,11 +420,11 @@ export class SearchClient implements AuthToken {
         if (this.isFilter(category)) {
             return false;
         }
-        const categoryPath = this.filterId(category).join('|');
+        const categoryPath = this.filterId(category).join("|");
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.filters.length; i++) {
             let filter = this.filters[i];
-            let filterPath = filter.category.categoryName.join('|');
+            let filterPath = filter.category.categoryName.join("|");
             if (filterPath.indexOf(categoryPath) === 0) {
                 return true;
             }
@@ -384,15 +438,15 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | Category | Filter): boolean {
-      const item = this.filterId(filter);
-      const foundIndex = this.filterIndex(item);
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
 
-      if (foundIndex === -1) {
-          this.doFilterAdd(item);
-          return true;
-      }
-      // Filter already set
-      return false;
+        if (foundIndex === -1) {
+            this.doFilterAdd(item);
+            return true;
+        }
+        // Filter already set
+        return false;
     }
 
     /**
@@ -433,16 +487,22 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    public toggleCategoryExpansion(node: Category | Group, state?: boolean): boolean {
+    public toggleCategoryExpansion(
+        node: Category | Group,
+        state?: boolean
+    ): boolean {
         // Look up internal expansion-override list and see if we are already overriding this setting.
-        const key = node.hasOwnProperty('categoryName') ? (node as Category).categoryName.join('|') : node.name;
-        let newState = state !== undefined
-            ? state
-            : (this.clientCategoryExpansion.hasOwnProperty(key)
-                ? !this.clientCategoryExpansion[key]
-                : !node.expanded);
+        const key = node.hasOwnProperty("categoryName")
+            ? (node as Category).categoryName.join("|")
+            : node.name;
+        let newState =
+            state !== undefined
+                ? state
+                : this.clientCategoryExpansion.hasOwnProperty(key)
+                    ? !this.clientCategoryExpansion[key]
+                    : !node.expanded;
 
-        let newClientCategoryExpansion = {...this.clientCategoryExpansion};
+        let newClientCategoryExpansion = { ...this.clientCategoryExpansion };
         newClientCategoryExpansion[key] = newState;
         this.clientCategoryExpansion = newClientCategoryExpansion;
         return newState;
@@ -466,7 +526,10 @@ export class SearchClient implements AuthToken {
             const oldValue = this._query.matchGenerateContent;
             this._query.matchGenerateContent = generateContent;
 
-            this.autocomplete.matchGenerateContentChanged(oldValue, this._query);
+            this.autocomplete.matchGenerateContentChanged(
+                oldValue,
+                this._query
+            );
             this.categorize.matchGenerateContentChanged(oldValue, this._query);
             this.find.matchGenerateContentChanged(oldValue, this._query);
         }
@@ -487,13 +550,25 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set matchGenerateContentHighlights(generateContentHighlights: boolean) {
-        if (generateContentHighlights !== this._query.matchGenerateContentHighlights) {
+        if (
+            generateContentHighlights !==
+            this._query.matchGenerateContentHighlights
+        ) {
             const oldValue = this._query.matchGenerateContentHighlights;
             this._query.matchGenerateContentHighlights = generateContentHighlights;
 
-            this.autocomplete.matchGenerateContentHighlightsChanged(oldValue, this._query);
-            this.categorize.matchGenerateContentHighlightsChanged(oldValue, this._query);
-            this.find.matchGenerateContentHighlightsChanged(oldValue, this._query);
+            this.autocomplete.matchGenerateContentHighlightsChanged(
+                oldValue,
+                this._query
+            );
+            this.categorize.matchGenerateContentHighlightsChanged(
+                oldValue,
+                this._query
+            );
+            this.find.matchGenerateContentHighlightsChanged(
+                oldValue,
+                this._query
+            );
         }
     }
 
@@ -535,7 +610,9 @@ export class SearchClient implements AuthToken {
      */
     set matchPage(page: number) {
         if (page < 1) {
-            throw new Error('"matchPage" cannot be set to a value smaller than 1.');
+            throw new Error(
+                '"matchPage" cannot be set to a value smaller than 1.'
+            );
         }
         if (page !== this._query.matchPage) {
             const oldValue = this._query.matchPage;
@@ -594,7 +671,9 @@ export class SearchClient implements AuthToken {
      */
     set matchPageSize(pageSize: number) {
         if (pageSize < 1) {
-            throw new Error('"matchPageSize" cannot be set to a value smaller than 1.');
+            throw new Error(
+                '"matchPageSize" cannot be set to a value smaller than 1.'
+            );
         }
         if (pageSize !== this._query.matchPageSize) {
             const oldValue = this._query.matchPageSize;
@@ -806,6 +885,7 @@ export class SearchClient implements AuthToken {
     private doFilterRemove(i: number) {
         const oldValue = this._query.filters.slice(0);
         this._query.filters.splice(i, 1);
+
         // Note: No need to sort the filter-list afterwards, as removing an item cannot change the order anyway.
 
         this.autocomplete.filtersChanged(oldValue, this._query);
@@ -816,19 +896,21 @@ export class SearchClient implements AuthToken {
     }
 
     private filterId(filter: string[] | Category | Filter): string[] {
-      let id: string[];
-      if (Array.isArray(filter)) {
-          id = filter;
-      } else if (filter instanceof Filter) {
-          id = filter.category.categoryName;
-      } else {
-          id = filter.categoryName;
-      }
-      return id;
+        let id: string[];
+        if (Array.isArray(filter)) {
+            id = filter;
+        } else if (filter instanceof Filter) {
+            id = filter.category.categoryName;
+        } else {
+            id = filter.categoryName;
+        }
+        return id;
     }
 
     private filterIndex(filter: string[]): number {
-        const filterString = filter.join('|');
-        return this._query.filters.findIndex((f) => f.category.categoryName.join('|') === filterString);
+        const filterString = filter.join("|");
+        return this._query.filters.findIndex(
+            f => f.category.categoryName.join("|") === filterString
+        );
     }
 }

@@ -1,8 +1,15 @@
-import { AuthToken } from '../Authentication';
-import { BaseCall, DateSpecification, Fetch, Filter, Query, SearchType } from '../Common';
-import { Categories, Category, Group } from '../Data';
-import { CategorizeQueryConverter } from './CategorizeQueryConverter';
-import { CategorizeSettings } from './CategorizeSettings';
+import { AuthToken } from "../Authentication";
+import {
+    BaseCall,
+    DateSpecification,
+    Fetch,
+    Filter,
+    Query,
+    SearchType
+} from "../Common";
+import { Categories, Category, Group } from "../Data";
+import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
+import { CategorizeSettings } from "./CategorizeSettings";
 
 /**
  * The Categorize service queries the search-engine for which categories that any
@@ -11,7 +18,6 @@ import { CategorizeSettings } from './CategorizeSettings';
  * It is normally used indirectly via the SearchClient class.
  */
 export class Categorize extends BaseCall<Categories> {
-
     /**
      * This represents the last categories that was received from the backend.
      *
@@ -22,9 +28,9 @@ export class Categorize extends BaseCall<Categories> {
      */
     public categories: Categories;
 
-    public clientCategoryExpansion: { [key: string]: boolean; } = { };
+    public clientCategoryExpansion: { [key: string]: boolean } = {};
 
-    public clientCategoryFilter: { [ key: string ]: string | RegExp } = { };
+    public clientCategoryFilter: { [key: string]: string | RegExp } = {};
 
     private queryConverter: CategorizeQueryConverter;
 
@@ -35,11 +41,12 @@ export class Categorize extends BaseCall<Categories> {
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
-    constructor(baseUrl: string,
-                protected settings?: CategorizeSettings,
-                auth?: AuthToken,
-                fetchMethod?: Fetch
-            ) {
+    constructor(
+        baseUrl: string,
+        protected settings?: CategorizeSettings,
+        auth?: AuthToken,
+        fetchMethod?: Fetch
+    ) {
         super();
         settings = new CategorizeSettings(settings);
         auth = auth || new AuthToken();
@@ -53,15 +60,26 @@ export class Categorize extends BaseCall<Categories> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a promise that when resolved returns a Categories object.
      */
-    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<Categories> {
-        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, query);
+    public fetch(
+        query: Query = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<Categories> {
+        let url = this.queryConverter.getUrl(
+            this.baseUrl,
+            this.settings.url,
+            query
+        );
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
-                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                        throw Error(
+                            `${response.status} ${
+                                response.statusText
+                            } for request url '${url}'`
+                        );
                     }
                     return response.json();
                 })
@@ -71,7 +89,7 @@ export class Categorize extends BaseCall<Categories> {
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.cbError(suppressCallbacks, error, url, reqInit);
                     return Promise.reject(error);
                 });
@@ -85,17 +103,39 @@ export class Categorize extends BaseCall<Categories> {
             return Promise.resolve(null);
         }
     }
-    public clientCategoryExpansionChanged(oldValue: { [ key: string ]: boolean }, value: { [ key: string ]: boolean }): void {
+    public clientCategoryExpansionChanged(
+        oldValue: { [key: string]: boolean },
+        value: { [key: string]: boolean }
+    ): void {
         this.clientCategoryExpansion = value;
-        if (this.shouldUpdate() && this.settings.triggers.clientCategoryExpansionChanged) {
-            this.cbSuccess(false, this.filterCategories(this.categories), null, null);
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.clientCategoryExpansionChanged
+        ) {
+            this.cbSuccess(
+                false,
+                this.filterCategories(this.categories),
+                null,
+                null
+            );
         }
     }
 
-    public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void {
+    public clientCategoryFiltersChanged(
+        oldValue: { [key: string]: string | RegExp },
+        value: { [key: string]: string | RegExp }
+    ): void {
         this.clientCategoryFilter = value;
-        if (this.shouldUpdate() && this.settings.triggers.clientCategoryFilterChanged) {
-            this.cbSuccess(false, this.filterCategories(this.categories), null, null);
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.clientCategoryFilterChanged
+        ) {
+            this.cbSuccess(
+                false,
+                this.filterCategories(this.categories),
+                null,
+                null
+            );
         }
     }
 
@@ -125,12 +165,23 @@ export class Categorize extends BaseCall<Categories> {
 
     public queryTextChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.queryChange) {
-            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
-                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
+            if (
+                query.queryText.length >
+                this.settings.triggers.queryChangeMinLength
+            ) {
+                if (
+                    this.settings.triggers.queryChangeInstantRegex &&
+                    this.settings.triggers.queryChangeInstantRegex.test(
+                        query.queryText
+                    )
+                ) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        this.update(query, this.settings.triggers.queryChangeDelay);
+                        this.update(
+                            query,
+                            this.settings.triggers.queryChangeDelay
+                        );
                     }
                 }
             }
@@ -144,7 +195,10 @@ export class Categorize extends BaseCall<Categories> {
     }
 
     public uiLanguageCodeChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.uiLanguageCodeChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.uiLanguageCodeChanged
+        ) {
             this.update(query);
         }
     }
@@ -166,16 +220,24 @@ export class Categorize extends BaseCall<Categories> {
      * @param categoryName A string array or a Category that denotes the category to create a filter for.
      */
     public createCategoryFilter(categoryName: string[] | Category): Filter {
-        let catName = Array.isArray(categoryName) ? categoryName : categoryName.categoryName;
-        let result: string [] = [];
+        let catName = Array.isArray(categoryName)
+            ? categoryName
+            : categoryName.categoryName;
+        let result: string[] = [];
         let path = catName.slice(0);
         let groupId = path.splice(0, 1)[0].toLowerCase();
 
-        if (!this.categories || !this.categories.groups || this.categories.groups.length === 0) {
+        if (
+            !this.categories ||
+            !this.categories.groups ||
+            this.categories.groups.length === 0
+        ) {
             return null;
         }
 
-        let group = this.categories.groups.find((g) => g.name.toLowerCase() === groupId);
+        let group = this.categories.groups.find(
+            g => g.name.toLowerCase() === groupId
+        );
 
         if (!group) {
             return null;
@@ -184,7 +246,13 @@ export class Categorize extends BaseCall<Categories> {
         result.push(group.displayName);
 
         if (group.categories.length > 0) {
-            let {displayName, ref} = this.getCategoryPathDisplayNameFromCategories(path, group.categories);
+            let {
+                displayName,
+                ref
+            } = this.getCategoryPathDisplayNameFromCategories(
+                path,
+                group.categories
+            );
             if (displayName && displayName.length > 0) {
                 result = result.concat(displayName);
                 return new Filter(result, ref);
@@ -194,12 +262,15 @@ export class Categorize extends BaseCall<Categories> {
         return null;
     }
 
-    private getCategoryPathDisplayNameFromCategories(categoryName: string[], categories: Category[]): {displayName: string [], ref: Category} {
-        let result: string [] = [];
+    private getCategoryPathDisplayNameFromCategories(
+        categoryName: string[],
+        categories: Category[]
+    ): { displayName: string[]; ref: Category } {
+        let result: string[] = [];
         let path = categoryName.slice(0);
         let catId = path.splice(0, 1)[0].toLowerCase();
 
-        let category = categories.find((c) => c.name.toLowerCase() === catId);
+        let category = categories.find(c => c.name.toLowerCase() === catId);
 
         if (!category) {
             return null;
@@ -207,34 +278,45 @@ export class Categorize extends BaseCall<Categories> {
 
         result.push(category.displayName);
 
-        let res: { displayName: string[], ref: Category};
+        let res: { displayName: string[]; ref: Category };
 
         if (category.children.length > 0 && path.length > 0) {
-            res = this.getCategoryPathDisplayNameFromCategories(path, category.children);
+            res = this.getCategoryPathDisplayNameFromCategories(
+                path,
+                category.children
+            );
             if (res.displayName && res.displayName.length > 0) {
                 result = result.concat(res.displayName);
             }
         }
 
-        return { displayName: result, ref: (res ? res.ref : category) };
+        return { displayName: result, ref: res ? res.ref : category };
     }
 
     private filterCategories(categories: Categories): Categories {
-        if ((!this.clientCategoryFilter || Object.getOwnPropertyNames(this.clientCategoryFilter).length === 0)
-            && (!this.clientCategoryExpansion || Object.getOwnPropertyNames(this.clientCategoryExpansion).length === 0)) {
+        if (
+            (!this.clientCategoryFilter ||
+                Object.getOwnPropertyNames(this.clientCategoryFilter).length ===
+                    0) &&
+            (!this.clientCategoryExpansion ||
+                Object.getOwnPropertyNames(this.clientCategoryExpansion)
+                    .length === 0)
+        ) {
             return categories;
         }
 
-        let cats = {...categories};
+        let cats = { ...categories };
         let groups = cats.groups.map((inGroup: Group) => {
-            let group = {...inGroup};
+            let group = { ...inGroup };
             if (group.categories && group.categories.length > 0) {
                 group.categories = this.mapCategories(group.categories);
             }
             if (this.clientCategoryExpansion.hasOwnProperty(group.name)) {
                 group.expanded = this.clientCategoryExpansion[group.name];
             } else {
-                group.expanded = group.expanded || group.categories.some((c) => c.expanded === true);
+                group.expanded =
+                    group.expanded ||
+                    group.categories.some(c => c.expanded === true);
             }
             return group;
         });
@@ -245,20 +327,24 @@ export class Categorize extends BaseCall<Categories> {
     private mapCategories(categories: Category[]): Category[] {
         let cats = [...categories];
         cats = cats.map((inCategory: Category) => {
-            let category = {...inCategory};
-            let result = this.inClientCategoryFilters({...category});
+            let category = { ...inCategory };
+            let result = this.inClientCategoryFilters({ ...category });
             if (result !== false) {
                 if (result) {
                     if (category.children && category.children.length > 0) {
-                        category.children = this.mapCategories(category.children);
+                        category.children = this.mapCategories(
+                            category.children
+                        );
                     }
                     category.expanded = true;
                 }
-                let catKey = category.categoryName.join('|');
+                let catKey = category.categoryName.join("|");
                 if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
                     category.expanded = this.clientCategoryExpansion[catKey];
                 } else {
-                    category.expanded = category.expanded || category.children.some((c) => c.expanded === true);
+                    category.expanded =
+                        category.expanded ||
+                        category.children.some(c => c.expanded === true);
                 }
                 return category;
             }
@@ -276,13 +362,15 @@ export class Categorize extends BaseCall<Categories> {
             if (this.clientCategoryFilter.hasOwnProperty(prop)) {
                 let filterKey = prop.toLowerCase();
                 let cat = category.categoryName.slice(0, -1);
-                let categoryKey = cat.join(this.settings.clientCategoryFiltersSepChar).toLowerCase();
+                let categoryKey = cat
+                    .join(this.settings.clientCategoryFiltersSepChar)
+                    .toLowerCase();
                 if (filterKey === categoryKey) {
                     let displayExpression = this.clientCategoryFilter[prop];
                     if (!displayExpression) {
                         continue;
                     }
-                    let regex = new RegExp(displayExpression as string, 'i');
+                    let regex = new RegExp(displayExpression as string, "i");
                     let result = regex.test(category.displayName);
                     return result;
                 } else {

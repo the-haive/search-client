@@ -1,9 +1,9 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { CategorizationType } from './CategorizationType';
-import { OrderBy } from './OrderBy';
-import { SearchType } from './SearchType';
-import { Filter } from './Filter';
+import { CategorizationType } from "./CategorizationType";
+import { OrderBy } from "./OrderBy";
+import { SearchType } from "./SearchType";
+import { Filter } from "./Filter";
 
 /**
  * Represents a date-specification that can either be fixed or a delta from now.
@@ -13,14 +13,17 @@ import { Filter } from './Filter';
  * Otherwise we assume that the value is a fixed value that the moment library can parse without any helping formatting
  * strings. See http://momentjs.com/docs/#/parsing/string/.
  */
-export type DateSpecification = Date | string | number | moment.DurationInputObject;
+export type DateSpecification =
+    | Date
+    | string
+    | number
+    | moment.DurationInputObject;
 
 export class Query {
-
     /**
      * Any string that you want to identify the client with. Can be used in the categories configuration and in the relevance tuning.
      */
-    public clientId?: string = '';
+    public clientId?: string = "";
 
     /**
      * Used to specify whether categorize calls should always return all categories or just categories that has matches.
@@ -86,7 +89,7 @@ export class Query {
     /**
      * The queryText that is to be used for autocomplete/find/categorize.
      */
-    public queryText?: string = '';
+    public queryText?: string = "";
 
     /**
      * The type of search to perform.
@@ -96,7 +99,7 @@ export class Query {
     /**
      * The UI language of the client (translates i.e. categories to the client language).
      */
-    public uiLanguageCode?: string = '';
+    public uiLanguageCode?: string = "";
 
     /**
      * Instantiates a Query object, based on Query defaults and the overrides provided as a param.

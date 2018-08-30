@@ -5,7 +5,7 @@ export class CategorizeTriggers {
     /**
      * Triggers when the clientCategoryExpansion has changed.
      */
-    public clientCategoryExpansionChanged: boolean = true;
+    public clientCategoryExpansionChanged?: boolean = true;
 
     /**
      * Triggers when the clientCategoryFilter has changed.

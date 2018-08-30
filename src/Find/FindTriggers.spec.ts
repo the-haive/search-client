@@ -1,13 +1,12 @@
-import { FindTriggers } from '.';
+import { FindTriggers } from ".";
 
-describe('FindTriggers', () => {
-
-    it('Should be able to create default FindTrigger', () => {
+describe("FindTriggers", () => {
+    it("Should be able to create default FindTrigger", () => {
         let ft = new FindTriggers();
-        expect(typeof ft).toBe('object');
+        expect(typeof ft).toBe("object");
     });
 
-    it('Should be able to create default FindTrigger', () => {
+    it("Should be able to create default FindTrigger", () => {
         let settings = {
             clientCategoryFilterChanged: false,
             clientIdChanged: false,
@@ -25,11 +24,11 @@ describe('FindTriggers', () => {
             queryChangeInstantRegex: /.+/,
             queryChangeMinLength: 1,
             searchTypeChanged: false,
-            uiLanguageCodeChanged: true,
+            uiLanguageCodeChanged: true
         } as FindTriggers;
 
         let ft = new FindTriggers(settings);
-        expect(typeof ft).toBe('object');
+        expect(typeof ft).toBe("object");
         for (const key in ft) {
             if (ft.hasOwnProperty(key)) {
                 expect(ft[key]).toBe(settings[key]);

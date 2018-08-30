@@ -1,11 +1,11 @@
-import { AuthToken } from '../Authentication';
-import { BaseCall, Fetch, Query } from '../Common';
-import { AutocompleteQueryConverter } from './AutocompleteQueryConverter';
-import { AutocompleteSettings } from './AutocompleteSettings';
+import { AuthToken } from "../Authentication";
+import { BaseCall, Fetch, Query } from "../Common";
+import { AutocompleteQueryConverter } from "./AutocompleteQueryConverter";
+import { AutocompleteSettings } from "./AutocompleteSettings";
 
 /**
  * This class allows you to create a service that executes autocomplete lookupds for the IntelliSearch SearchService.
- * 
+ *
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
 export class Autocomplete extends BaseCall<string[]> {
@@ -17,11 +17,12 @@ export class Autocomplete extends BaseCall<string[]> {
      * @param settings - The settings for how the Autocomplete is to operate.
      * @param auth - The object that handles authentication.
      */
-    constructor(baseUrl: string, 
-                protected settings?: AutocompleteSettings, 
-                auth?: AuthToken,
-                fetchMethod?: Fetch
-            ) {
+    constructor(
+        baseUrl: string,
+        protected settings?: AutocompleteSettings,
+        auth?: AuthToken,
+        fetchMethod?: Fetch
+    ) {
         super();
         settings = new AutocompleteSettings(settings);
         auth = auth || new AuthToken();
@@ -32,27 +33,43 @@ export class Autocomplete extends BaseCall<string[]> {
     /**
      * When called it will execute a rest-call to the base-url and fetch sutocomplete suggestions based on the query passed.
      * Note that if a request callback has been setup then if it returns false the request is skipped.
-     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved. 
+     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved.
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
-    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<string[]> {
-        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, new Query(query));
+    public fetch(
+        query: Query = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<string[]> {
+        let url = this.queryConverter.getUrl(
+            this.baseUrl,
+            this.settings.url,
+            new Query(query)
+        );
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
-                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                        throw Error(
+                            `${response.status} ${
+                                response.statusText
+                            } for request url '${url}'`
+                        );
                     }
                     return response.json();
                 })
                 .then((suggestions: string[]) => {
-                    this.cbSuccess(suppressCallbacks, suggestions, url, reqInit);
+                    this.cbSuccess(
+                        suppressCallbacks,
+                        suggestions,
+                        url,
+                        reqInit
+                    );
                     return suggestions;
                 })
-                .catch((error) => {
+                .catch(error => {
                     this.cbError(suppressCallbacks, error, url, reqInit);
                     return Promise.reject(error);
                 });
@@ -68,26 +85,40 @@ export class Autocomplete extends BaseCall<string[]> {
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.maxSuggestionsChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.maxSuggestionsChanged
+        ) {
             this.update(query);
         }
     }
 
-    public queryTextChanged(oldValue: string, query: Query) { 
+    public queryTextChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.queryChange) {
-            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
-                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
+            if (
+                query.queryText.length >
+                this.settings.triggers.queryChangeMinLength
+            ) {
+                if (
+                    this.settings.triggers.queryChangeInstantRegex &&
+                    this.settings.triggers.queryChangeInstantRegex.test(
+                        query.queryText
+                    )
+                ) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        this.update(query, this.settings.triggers.queryChangeDelay);
+                        this.update(
+                            query,
+                            this.settings.triggers.queryChangeDelay
+                        );
                     }
                 }
             }
         }
     }
-    
-    // TODO: In the future we may differ on what autocomplete suggestions to suggest depending on the searchtype. 
+
+    // TODO: In the future we may differ on what autocomplete suggestions to suggest depending on the searchtype.
     //public searchTypeChanged(oldValue: SearchType, query: CategorizeQuery) { }
 
     // private updateWordSuggestions(query: Query) {
@@ -95,7 +126,7 @@ export class Autocomplete extends BaseCall<string[]> {
     // }
 
     // private completeWord(query: Query): string[] {
-    //     let words = query.queryText.split(" "); 
+    //     let words = query.queryText.split(" ");
     //     let word = words.splice(-1)[0].toUpperCase(); // <words> should now contain all words except the word that is in <word>
     //     let wordSuggestions: string[] = [];
 

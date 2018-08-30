@@ -1,13 +1,12 @@
-import { CategorizeTriggers } from '.';
+import { CategorizeTriggers } from ".";
 
-describe('CategorizeTriggers', () => {
-
-    it('Should be able to create default CategorizeTrigger', () => {
+describe("CategorizeTriggers", () => {
+    it("Should be able to create default CategorizeTrigger", () => {
         let ft = new CategorizeTriggers();
-        expect(typeof ft).toBe('object');
+        expect(typeof ft).toBe("object");
     });
 
-    it('Should be able to create default CategorizeTrigger', () => {
+    it("Should be able to create default CategorizeTrigger", () => {
         let settings = {
             clientCategoryExpansionChanged: false,
             clientCategoryFilterChanged: false,
@@ -20,11 +19,11 @@ describe('CategorizeTriggers', () => {
             queryChangeInstantRegex: /.+/,
             queryChangeMinLength: 1,
             searchTypeChanged: false,
-            uiLanguageCodeChanged: true,
+            uiLanguageCodeChanged: true
         } as CategorizeTriggers;
 
         let ft = new CategorizeTriggers(settings);
-        expect(typeof ft).toBe('object');
+        expect(typeof ft).toBe("object");
         for (const key in ft) {
             if (ft.hasOwnProperty(key)) {
                 expect(ft[key]).toBe(settings[key]);

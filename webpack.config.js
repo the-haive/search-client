@@ -7,33 +7,36 @@ module.exports = {
     entry: {
         'IntelliSearch': './src/SearchClient.ts',
         'IntelliSearch.min': './src/SearchClient.ts'
-      },
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: '[name].js',
         libraryTarget: 'umd',
         library: 'IntelliSearch',
         umdNamedDefine: true
-      },
+    },
     resolve: {
-      // Add `.ts` and `.tsx` as a resolvable extension.
-      extensions: [".ts", ".tsx", ".js"]
+        // Add `.ts` and `.tsx` as a resolvable extension.
+        extensions: [".ts", ".tsx", ".js"]
     },
     plugins: [
         new UglifyJsPlugin({
-          sourceMap: true,
-          include: /\.min\.js$/,
+            sourceMap: true,
+            include: /\.min\.js$/,
         })
-      ],
+    ],
     module: {
-      rules: [
-        // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-        { test: /\.tsx?$/, loader: "ts-loader" }
-      ]
+        rules: [
+            // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+            {
+                test: /\.tsx?$/,
+                loader: "ts-loader"
+            }
+        ]
     },
     watch: false,
     watchOptions: {
-      aggregateTimeout: 300, // The default
-      ignored: ['dist', 'es', 'lib', 'doc', 'samples', 'node_modules'],
+        aggregateTimeout: 300, // The default
+        ignored: ['dist', 'es', 'lib', 'doc', 'samples', 'node_modules'],
     }
-  };
+};

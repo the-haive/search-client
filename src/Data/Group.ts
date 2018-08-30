@@ -1,4 +1,4 @@
-import { Category } from './Category';
+import { Category } from "./Category";
 
 /**
  * The Group-node is the top-level node for each of the category "trees".

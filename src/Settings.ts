@@ -1,8 +1,8 @@
-import { AuthenticationSettings } from './Authentication';
-import { AutocompleteSettings } from './Autocomplete';
-import { CategorizeSettings } from './Categorize';
-import { Query } from './Common';
-import { FindSettings } from './Find';
+import { AuthenticationSettings } from "./Authentication";
+import { AutocompleteSettings } from "./Autocomplete";
+import { CategorizeSettings } from "./Categorize";
+import { Query } from "./Common";
+import { FindSettings } from "./Find";
 
 /**
  * Settings as used by the SearchClient.
@@ -10,7 +10,6 @@ import { FindSettings } from './Find';
  * Please see the data-type description for each property in question.
  */
 export class Settings {
-
     /**
      * The JWT authentication token to use.
      */
@@ -35,7 +34,7 @@ export class Settings {
      * You can use this path to override the path to the rest-service.
      * If not set, it will default to "RestService/v4".
      */
-    public path?: string = 'RestService/v4';
+    public path?: string = "RestService/v4";
 
     /**
      * Settings for the common query (autocomplete/find/categorize)
@@ -47,17 +46,26 @@ export class Settings {
      * @param settings - The settings defined here will override the default Settings.
      */
     constructor(settings?: Settings) {
-
         if (settings) {
             const defaultVersionPath = { path: settings.path };
-            settings.authentication = new AuthenticationSettings(settings.authentication || defaultVersionPath as AuthenticationSettings);
-            settings.autocomplete = new AutocompleteSettings(settings.autocomplete || defaultVersionPath as AutocompleteSettings);
-            settings.categorize = new CategorizeSettings(settings.categorize || defaultVersionPath as CategorizeSettings);
-            settings.find = new FindSettings(settings.find || defaultVersionPath as FindSettings);
+            settings.authentication = new AuthenticationSettings(
+                settings.authentication ||
+                    (defaultVersionPath as AuthenticationSettings)
+            );
+            settings.autocomplete = new AutocompleteSettings(
+                settings.autocomplete ||
+                    (defaultVersionPath as AutocompleteSettings)
+            );
+            settings.categorize = new CategorizeSettings(
+                settings.categorize ||
+                    (defaultVersionPath as CategorizeSettings)
+            );
+            settings.find = new FindSettings(
+                settings.find || (defaultVersionPath as FindSettings)
+            );
             settings.query = new Query(settings.query);
         }
 
         Object.assign(this, settings);
     }
-
 }

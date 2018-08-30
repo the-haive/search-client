@@ -16,7 +16,7 @@ fs.writeFileSync(dir + 'dummy.txt', '\n');
 
 
 var concat = require('concat-files');
-concat(['./README.md', dir + 'dummy.txt', './GETTING_STARTED.md'], dir + 'INDEX.md', function(err) {
+concat(['./README.md', dir + 'dummy.txt', './GETTING_STARTED.md'], dir + 'INDEX.md', function (err) {
     if (err) throw err;
     console.log("Created INDEX.md for use in the documentation.");
 });

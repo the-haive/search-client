@@ -3,7 +3,6 @@
  * @default "Relevance"
  */
 export enum OrderBy {
-
     /**
      * Order results by Relevance, highest first.
      */
@@ -12,5 +11,5 @@ export enum OrderBy {
     /**
      * Order results by date, newest first.
      */
-    Date,
+    Date
 }

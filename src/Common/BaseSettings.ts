@@ -4,7 +4,8 @@
  *
  * @param TDataType Defines the data-type that the descendant settings-class needs to return on lookups.
  */
-export abstract class BaseSettings<TDataType> { //} extends VersionPathSettings {
+export abstract class BaseSettings<TDataType> {
+    //} extends VersionPathSettings {
 
     /**
      * A notifier method to call whenever the lookup fails.
@@ -23,7 +24,10 @@ export abstract class BaseSettings<TDataType> { //} extends VersionPathSettings 
      * @param url - This is the url that is/was fetched. Good for debugging purposes.
      * @param reqInit - This is the RequestInit object that was used for the fetch operation.
      */
-    public cbRequest?: (url?: string, reqInit?: RequestInit) => boolean = undefined;
+    public cbRequest?: (
+        url?: string,
+        reqInit?: RequestInit
+    ) => boolean = undefined;
 
     /**
      * A notifier method to call whenever the lookup results have been received.
@@ -41,7 +45,7 @@ export abstract class BaseSettings<TDataType> { //} extends VersionPathSettings 
      * If not set, it will default to "RestService/v" and whatever `this.version` is set to.
      * If it is set it will use the set path verbatim, without appending `this.version`.
      */
-    public path?: string = 'RestService/v4';
+    public path?: string = "RestService/v4";
 
     /**
      * Handles the construction of the base-settings class with its properties.
@@ -50,11 +54,26 @@ export abstract class BaseSettings<TDataType> { //} extends VersionPathSettings 
      */
     constructor(settings?: BaseSettings<TDataType>) {
         if (settings) {
-            this.enabled = typeof settings.enabled !== 'undefined' ? settings.enabled : this.enabled;
-            this.cbError = typeof settings.cbError !== 'undefined' ? settings.cbError : this.cbError;
-            this.cbRequest = typeof settings.cbRequest !== 'undefined' ? settings.cbRequest : this.cbRequest;
-            this.cbSuccess = typeof settings.cbSuccess !== 'undefined' ? settings.cbSuccess : this.cbSuccess;
-            this.path = typeof settings.path !== 'undefined' ? settings.path.replace(/(^\/+)|(\/+$)/g, '') : this.path;
+            this.enabled =
+                typeof settings.enabled !== "undefined"
+                    ? settings.enabled
+                    : this.enabled;
+            this.cbError =
+                typeof settings.cbError !== "undefined"
+                    ? settings.cbError
+                    : this.cbError;
+            this.cbRequest =
+                typeof settings.cbRequest !== "undefined"
+                    ? settings.cbRequest
+                    : this.cbRequest;
+            this.cbSuccess =
+                typeof settings.cbSuccess !== "undefined"
+                    ? settings.cbSuccess
+                    : this.cbSuccess;
+            this.path =
+                typeof settings.path !== "undefined"
+                    ? settings.path.replace(/(^\/+)|(\/+$)/g, "")
+                    : this.path;
         }
     }
 }

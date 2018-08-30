@@ -1,4 +1,4 @@
-import { MatchItem } from './MatchItem';
+import { MatchItem } from "./MatchItem";
 
 /**
  * Defines interface for received search-matches.

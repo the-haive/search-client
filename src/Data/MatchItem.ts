@@ -1,4 +1,4 @@
-import { MetaData } from './MetaData';
+import { MetaData } from "./MetaData";
 
 /**
  * Defines the interface for a match-item.

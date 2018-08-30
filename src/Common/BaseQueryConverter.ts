@@ -1,6 +1,6 @@
-import moment from 'moment';
+import moment from "moment";
 
-import { Query } from '.';
+import { Query } from ".";
 
 export abstract class BaseQueryConverter {
     /**
@@ -12,9 +12,9 @@ export abstract class BaseQueryConverter {
      */
     public getUrl(baseUrl: string, servicePath: string, query: Query): string {
         let params = this.getUrlParams(query).sort();
-        baseUrl = baseUrl.replace(/\/+$/, '');
-        servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, '');
-        return `${baseUrl}/${servicePath}?${params.join('&')}`;
+        baseUrl = baseUrl.replace(/\/+$/, "");
+        servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, "");
+        return `${baseUrl}/${servicePath}?${params.join("&")}`;
     }
 
     /**
@@ -29,14 +29,22 @@ export abstract class BaseQueryConverter {
         }
     }
 
-    protected createDate(date: Date | string | number | moment.DurationInputObject): string {
+    protected createDate(
+        date: Date | string | number | moment.DurationInputObject
+    ): string {
         if (!date) {
-            return '';
+            return "";
         }
 
         let dateString: string;
-        if (typeof date === 'object' && !(date instanceof String) && !(date instanceof Date)) {
-            dateString = moment().add(date).toISOString();
+        if (
+            typeof date === "object" &&
+            !(date instanceof String) &&
+            !(date instanceof Date)
+        ) {
+            dateString = moment()
+                .add(date)
+                .toISOString();
         } else {
             dateString = moment(date).toISOString();
         }

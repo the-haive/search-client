@@ -1,12 +1,20 @@
-import { AuthToken } from '../Authentication';
-import { Fetch, BaseCall, DateSpecification, Filter, OrderBy, Query, SearchType } from '../Common';
-import { FindQueryConverter } from './FindQueryConverter';
-import { FindSettings } from './FindSettings';
-import { Matches } from '../Data';
+import { AuthToken } from "../Authentication";
+import {
+    Fetch,
+    BaseCall,
+    DateSpecification,
+    Filter,
+    OrderBy,
+    Query,
+    SearchType
+} from "../Common";
+import { FindQueryConverter } from "./FindQueryConverter";
+import { FindSettings } from "./FindSettings";
+import { Matches } from "../Data";
 
 /**
  * The Find service queries the search-engine for search-matches for the given query.
- * 
+ *
  * It is normally used indirectly via the SearchClient class.
  */
 export class Find extends BaseCall<Matches> {
@@ -18,16 +26,17 @@ export class Find extends BaseCall<Matches> {
      * @param settings - The settings that define how the Find instance is to operate.
      * @param auth - An auth-object that handles the authentication.
      */
-    constructor(baseUrl: string,
-                protected settings?: FindSettings,
-                auth?: AuthToken,
-                fetchMethod?: Fetch
-              ) {
-      super();
-      settings = new FindSettings(settings);
-      auth = auth || new AuthToken();
-      super.init(baseUrl, settings, auth, fetchMethod);
-      this.queryConverter = new FindQueryConverter();
+    constructor(
+        baseUrl: string,
+        protected settings?: FindSettings,
+        auth?: AuthToken,
+        fetchMethod?: Fetch
+    ) {
+        super();
+        settings = new FindSettings(settings);
+        auth = auth || new AuthToken();
+        super.init(baseUrl, settings, auth, fetchMethod);
+        this.queryConverter = new FindQueryConverter();
     }
 
     /**
@@ -37,15 +46,26 @@ export class Find extends BaseCall<Matches> {
      * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
-    public fetch(query: Query = new Query(), suppressCallbacks: boolean = false): Promise<Matches> {
-        let url = this.queryConverter.getUrl(this.baseUrl, this.settings.url, new Query(query));
+    public fetch(
+        query: Query = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<Matches> {
+        let url = this.queryConverter.getUrl(
+            this.baseUrl,
+            this.settings.url,
+            new Query(query)
+        );
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
-                        throw Error(`${response.status} ${response.statusText} for request url '${url}'`);
+                        throw Error(
+                            `${response.status} ${
+                                response.statusText
+                            } for request url '${url}'`
+                        );
                     }
                     return response.json();
                 })
@@ -93,19 +113,32 @@ export class Find extends BaseCall<Matches> {
     }
 
     public matchGenerateContentChanged(oldValue: boolean, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchGenerateContentChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.matchGenerateContentChanged
+        ) {
             this.update(query);
         }
     }
 
-    public matchGenerateContentHighlightsChanged(oldValue: boolean, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchGenerateContentChanged && this.settings.triggers.matchGenerateContentHighlightsChanged) {
+    public matchGenerateContentHighlightsChanged(
+        oldValue: boolean,
+        query: Query
+    ) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.matchGenerateContentChanged &&
+            this.settings.triggers.matchGenerateContentHighlightsChanged
+        ) {
             this.update(query);
         }
     }
 
     public matchGroupingChanged(oldValue: boolean, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchGroupingChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.matchGroupingChanged
+        ) {
             this.update(query);
         }
     }
@@ -123,19 +156,33 @@ export class Find extends BaseCall<Matches> {
     }
 
     public matchPageSizeChanged(oldValue: number, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchPageSizeChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.matchPageSizeChanged
+        ) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.queryChange) {
-            if (query.queryText.length > this.settings.triggers.queryChangeMinLength) {
-                if (this.settings.triggers.queryChangeInstantRegex && this.settings.triggers.queryChangeInstantRegex.test(query.queryText)) {
+            if (
+                query.queryText.length >
+                this.settings.triggers.queryChangeMinLength
+            ) {
+                if (
+                    this.settings.triggers.queryChangeInstantRegex &&
+                    this.settings.triggers.queryChangeInstantRegex.test(
+                        query.queryText
+                    )
+                ) {
                     this.update(query);
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
-                        this.update(query, this.settings.triggers.queryChangeDelay);
+                        this.update(
+                            query,
+                            this.settings.triggers.queryChangeDelay
+                        );
                     }
                 }
             }
@@ -149,9 +196,11 @@ export class Find extends BaseCall<Matches> {
     }
 
     public uiLanguagecodeChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.uiLanguageCodeChanged) {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.uiLanguageCodeChanged
+        ) {
             this.update(query);
         }
     }
-
 }

@@ -1,4 +1,4 @@
-import { BaseQueryConverter, Query } from '../Common';
+import { BaseQueryConverter, Query } from "../Common";
 
 /**
  * Class to handle creating categorize lookups for restservice version 3.
@@ -10,9 +10,9 @@ export class AutocompleteQueryConverter extends BaseQueryConverter {
     protected getUrlParams(query: Query): string[] {
         let params: string[] = [];
 
-        this.addParamIfSet(params, 'l', 1); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
-        this.addParamIfSet(params, 'q', query.queryText);
-        this.addParamIfSet(params, 's', query.maxSuggestions);
+        this.addParamIfSet(params, "l", 1); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
+        this.addParamIfSet(params, "q", query.queryText);
+        this.addParamIfSet(params, "s", query.maxSuggestions);
 
         return params;
     }

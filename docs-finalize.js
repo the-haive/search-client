@@ -5,18 +5,17 @@ const REGEX = /<a href="https:\/\/github\.com\/IntelliSearch\/search\-client\/bl
 const replace = require('replace-in-file');
 
 const options = {
-  files: [
-    'docs/**/*.html',
-  ],
-  from: /<a href="https:\/\/github\.com\/IntelliSearch\/search\-client\/blob\/(\w+)\/src\//gi,
-  to: '<a href="https://github.com/IntelliSearch/search-client/blob/master/src/',
-  encoding: 'utf8',
+    files: [
+        'docs/**/*.html',
+    ],
+    from: /<a href="https:\/\/github\.com\/IntelliSearch\/search\-client\/blob\/(\w+)\/src\//gi,
+    to: '<a href="https://github.com/IntelliSearch/search-client/blob/master/src/',
+    encoding: 'utf8',
 };
 
 try {
-  let changedFiles = replace.sync(options);
-  console.log('Fixed docs github path:', changedFiles.join(', '));
-}
-catch (error) {
-  console.error('Error occurred:', error);
+    let changedFiles = replace.sync(options);
+    console.log('Fixed docs github path:', changedFiles.join(', '));
+} catch (error) {
+    console.error('Error occurred:', error);
 }

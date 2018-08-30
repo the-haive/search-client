@@ -1,17 +1,20 @@
-import fetch from 'cross-fetch';
-import validUrl from 'valid-url';
+import fetch from "cross-fetch";
+import validUrl from "valid-url";
 
-import { DateSpecification } from './Query';
-import { OrderBy } from './OrderBy';
-import { SearchType } from './SearchType';
-import { BaseSettings } from './BaseSettings';
-import { AuthToken } from '../Authentication/AuthToken';
+import { DateSpecification } from "./Query";
+import { OrderBy } from "./OrderBy";
+import { SearchType } from "./SearchType";
+import { BaseSettings } from "./BaseSettings";
+import { AuthToken } from "../Authentication/AuthToken";
 
-import { Filter } from './Filter';
-import { Query } from './Query';
-import { CategorizationType } from './CategorizationType';
+import { Filter } from "./Filter";
+import { Query } from "./Query";
+import { CategorizationType } from "./CategorizationType";
 
-export type Fetch = (input?: Request | string, init?: RequestInit) => Promise<Response>;
+export type Fetch = (
+    input?: Request | string,
+    init?: RequestInit
+) => Promise<Response>;
 
 /**
  * A common service base-class for the descending Autocomplete, Categorize and Find classes.
@@ -19,7 +22,6 @@ export type Fetch = (input?: Request | string, init?: RequestInit) => Promise<Re
  * @param TDataType Defines the data-type that the descendant service-class needs to return on lookups.
  */
 export abstract class BaseCall<TDataType> {
-
     public baseUrl: string;
 
     protected fetchMethod: Fetch;
@@ -56,7 +58,7 @@ export abstract class BaseCall<TDataType> {
      */
     public requestObject(): RequestInit {
         const headers: any = {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json"
         };
 
         if (this.auth && this.auth.authenticationToken) {
@@ -64,11 +66,11 @@ export abstract class BaseCall<TDataType> {
         }
 
         return {
-            cache: 'default',
-            credentials: 'include',
+            cache: "default",
+            credentials: "include",
             headers,
-            method: 'GET',
-            mode: 'cors',
+            method: "GET",
+            mode: "cors"
         } as RequestInit;
     }
 
@@ -98,26 +100,72 @@ export abstract class BaseCall<TDataType> {
     }
 
     public shouldUpdate(): boolean {
-        return (this.settings.cbSuccess && this.settings.enabled);
+        return this.settings.cbSuccess && this.settings.enabled;
     }
 
-    public clientCategoryExpansionChanged(oldValue: { [ key: string ]: boolean }, value: { [ key: string ]: boolean }): void { /* Default no implementation*/ }
-    public clientCategoryFiltersChanged(oldValue: { [ key: string ]: string | RegExp }, value: { [ key: string ]: string | RegExp }): void { /* Default no implementation*/ }
-    public clientIdChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
-    public categorizationTypeChanged(oldValue: CategorizationType, query: Query): void { /* Default no implementation*/ }
-    public dateFromChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
-    public dateToChanged(oldValue: DateSpecification, query: Query): void { /* Default no implementation*/ }
-    public filtersChanged(oldValue: Filter[], query: Query): void { /* Default no implementation*/ }
-    public matchGenerateContentChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
-    public matchGenerateContentHighlightsChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
-    public matchGroupingChanged(oldValue: boolean, query: Query): void { /* Default no implementation*/ }
-    public matchOrderByChanged(oldValue: OrderBy, query: Query): void { /* Default no implementation*/ }
-    public matchPageChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }
-    public matchPageSizeChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }
-    public maxSuggestionsChanged(oldValue: number, query: Query): void { /* Default no implementation*/ }
-    public queryTextChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
-    public searchTypeChanged(oldValue: SearchType, query: Query): void { /* Default no implementation*/ }
-    public uiLanguageCodeChanged(oldValue: string, query: Query): void { /* Default no implementation*/ }
+    public clientCategoryExpansionChanged(
+        oldValue: { [key: string]: boolean },
+        value: { [key: string]: boolean }
+    ): void {
+        /* Default no implementation*/
+    }
+    public clientCategoryFiltersChanged(
+        oldValue: { [key: string]: string | RegExp },
+        value: { [key: string]: string | RegExp }
+    ): void {
+        /* Default no implementation*/
+    }
+    public clientIdChanged(oldValue: string, query: Query): void {
+        /* Default no implementation*/
+    }
+    public categorizationTypeChanged(
+        oldValue: CategorizationType,
+        query: Query
+    ): void {
+        /* Default no implementation*/
+    }
+    public dateFromChanged(oldValue: DateSpecification, query: Query): void {
+        /* Default no implementation*/
+    }
+    public dateToChanged(oldValue: DateSpecification, query: Query): void {
+        /* Default no implementation*/
+    }
+    public filtersChanged(oldValue: Filter[], query: Query): void {
+        /* Default no implementation*/
+    }
+    public matchGenerateContentChanged(oldValue: boolean, query: Query): void {
+        /* Default no implementation*/
+    }
+    public matchGenerateContentHighlightsChanged(
+        oldValue: boolean,
+        query: Query
+    ): void {
+        /* Default no implementation*/
+    }
+    public matchGroupingChanged(oldValue: boolean, query: Query): void {
+        /* Default no implementation*/
+    }
+    public matchOrderByChanged(oldValue: OrderBy, query: Query): void {
+        /* Default no implementation*/
+    }
+    public matchPageChanged(oldValue: number, query: Query): void {
+        /* Default no implementation*/
+    }
+    public matchPageSizeChanged(oldValue: number, query: Query): void {
+        /* Default no implementation*/
+    }
+    public maxSuggestionsChanged(oldValue: number, query: Query): void {
+        /* Default no implementation*/
+    }
+    public queryTextChanged(oldValue: string, query: Query): void {
+        /* Default no implementation*/
+    }
+    public searchTypeChanged(oldValue: SearchType, query: Query): void {
+        /* Default no implementation*/
+    }
+    public uiLanguageCodeChanged(oldValue: string, query: Query): void {
+        /* Default no implementation*/
+    }
 
     /**
      * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
@@ -126,14 +174,21 @@ export abstract class BaseCall<TDataType> {
      * @param settings - The base url for the service to be setup.
      * @param auth - The auth-object that controls authentication for the service.
      */
-    protected init(baseUrl: string, settings?: BaseSettings<TDataType>, auth?: AuthToken, fetchMethod?: Fetch) {
+    protected init(
+        baseUrl: string,
+        settings?: BaseSettings<TDataType>,
+        auth?: AuthToken,
+        fetchMethod?: Fetch
+    ) {
         // Strip off any slashes at the end of the baseUrl
-        let path = settings && settings.path ? settings.path : '';
-        baseUrl = `${baseUrl.replace(/\/+$/, '')}/${path}`;
+        let path = settings && settings.path ? settings.path : "";
+        baseUrl = `${baseUrl.replace(/\/+$/, "")}/${path}`;
 
         // Verify the authenticity
         if (!validUrl.isWebUri(baseUrl)) {
-            throw new Error('Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]');
+            throw new Error(
+                "Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]"
+            );
         }
 
         this.baseUrl = baseUrl;
@@ -142,11 +197,18 @@ export abstract class BaseCall<TDataType> {
         this.fetchMethod = fetchMethod || fetch;
     }
 
-    protected abstract fetch(query?: Query, suppressCallbacks?: boolean): Promise<any>;
+    protected abstract fetch(
+        query?: Query,
+        suppressCallbacks?: boolean
+    ): Promise<any>;
 
-    protected cbRequest(suppressCallbacks: boolean, url: string, reqInit: RequestInit): boolean {
+    protected cbRequest(
+        suppressCallbacks: boolean,
+        url: string,
+        reqInit: RequestInit
+    ): boolean {
         if (!this.settings) {
-            throw new Error('Settings cannot be empty.');
+            throw new Error("Settings cannot be empty.");
         }
         if (this.settings.cbRequest && !suppressCallbacks) {
             return this.settings.cbRequest(url, reqInit) !== false;
@@ -155,18 +217,28 @@ export abstract class BaseCall<TDataType> {
         return true;
     }
 
-    protected cbError(suppressCallbacks: boolean, error: any, url: string, reqInit: RequestInit): void {
+    protected cbError(
+        suppressCallbacks: boolean,
+        error: any,
+        url: string,
+        reqInit: RequestInit
+    ): void {
         if (!this.settings) {
-            throw new Error('Settings cannot be empty.');
+            throw new Error("Settings cannot be empty.");
         }
         if (this.settings.cbSuccess && !suppressCallbacks) {
             this.settings.cbError(error);
         }
     }
 
-    protected cbSuccess(suppressCallbacks: boolean, data: TDataType, url: string, reqInit: RequestInit): void {
+    protected cbSuccess(
+        suppressCallbacks: boolean,
+        data: TDataType,
+        url: string,
+        reqInit: RequestInit
+    ): void {
         if (!this.settings) {
-            throw new Error('Settings cannot be empty.');
+            throw new Error("Settings cannot be empty.");
         }
         if (this.settings.cbSuccess && !suppressCallbacks) {
             this.settings.cbSuccess(data);
