@@ -18,13 +18,16 @@
         "ordered-imports": [false],
         "prefer-const": false,
         "quotemark": false,
-        "space-before-function-paren": [true, {
-            "anonymous": "always",
-            "asyncArrow": "always",
-            "constructor": "never",
-            "method": "never",
-            "named": "never"
-        }],
+        "space-before-function-paren": [
+            true,
+            {
+                "anonymous": "always",
+                "asyncArrow": "always",
+                "constructor": "never",
+                "method": "never",
+                "named": "never"
+            }
+        ],
         "trailing-comma": false,
         "variable-name": [
             true,

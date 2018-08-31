@@ -1,4 +1,4 @@
-window.onload = function (e) {
+window.onload = function(e) {
 
     /**
      * 1. First create a settings object that is sent to the search-engine.
@@ -29,7 +29,7 @@ window.onload = function (e) {
         }
     });
 
-    console.log(settings);
+    console.log("Settings", settings);
 
     const client = new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no", settings);
 
@@ -37,13 +37,13 @@ window.onload = function (e) {
      * 2. Wire up the queryText field and the search-button.
      */
     var queryTextElm = document.getElementById("query-text");
-    queryTextElm.addEventListener("input", function () {
+    queryTextElm.addEventListener("input", function() {
         console.log("queryText changed: " + queryTextElm.value);
         client.queryText = queryTextElm.value;
     });
 
     var searchButtonElm = document.getElementById("go");
-    searchButtonElm.addEventListener("click", function () {
+    searchButtonElm.addEventListener("click", function() {
         console.log("Search-button clicked");
         client.update();
     });
@@ -56,16 +56,28 @@ window.onload = function (e) {
      * - Match ordering
      * - ...
      */
+    var matchesHeader = document.getElementById("matches-header");
+
+    var orderByRelevance = document.getElementById("option-relevance");
+    orderByRelevance.addEventListener("click", function() {
+        client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
+    });
+
+    var orderByDate = document.getElementById("option-date");
+    orderByDate.addEventListener("click", function() {
+        client.matchOrderBy = IntelliSearch.OrderBy.Date;
+    });
+
     var suggestionsElm = document.getElementById("suggestions");
     var didYouMeanContainerElm = document.getElementById("did-you-mean-container");
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
-    var propBtn = document.getElementById("btn-properties");
-    var metaBtn = document.getElementById("btn-metadata");
-    propBtn.addEventListener("click", function () {
+    var propBtn = document.getElementById("option-properties");
+    var metaBtn = document.getElementById("option-metadata");
+    propBtn.addEventListener("click", function() {
         propElm.style.display = "initial";
         metaElm.style.display = "none";
     });
-    metaBtn.addEventListener("click", function () {
+    metaBtn.addEventListener("click", function() {
         propElm.style.display = "none";
         metaElm.style.display = "initial";
     });
@@ -79,6 +91,10 @@ window.onload = function (e) {
     var propElm = document.getElementById("properties");
     var metaElm = document.getElementById("metadata");
 
+    var loadingSuggestions = document.getElementById("loading-suggestions");
+    var loadingCategories = document.getElementById("loading-categories");
+    var loadingMatches = document.getElementById("loading-matches");
+
     /////////////////////////////////////////////
     // 4. Implement callbacks
     /////////////////////////////////////////////
@@ -91,6 +107,7 @@ window.onload = function (e) {
      */
     function handleAutocompleteRequest(url, reqInit) {
         console.log("handleAutocompleteRequest", "Url: ", url, "ReqInit:", reqInit);
+        loadingSuggestions.style.visibility = "visible";
     }
 
     /**
@@ -98,6 +115,7 @@ window.onload = function (e) {
      */
     function handleAutocompleteSuccess(suggestions) {
         console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
+        loadingSuggestions.style.visibility = "hidden";
         suggestionsElm.innerHTML = "";
         suggestions.forEach((suggestion, i, a) => {
             var option = document.createElement("option");
@@ -111,6 +129,7 @@ window.onload = function (e) {
      */
     function handleAutocompleteError(error) {
         console.error("handleAutocompleteError", error);
+        loadingSuggestions.style.visibility = "hidden";
     }
 
     // Find callbacks ///////////////////////////
@@ -121,6 +140,7 @@ window.onload = function (e) {
      */
     function handleFindRequest(url, reqInit) {
         console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
+        loadingMatches.style.visibility = "visible";
     }
 
     /**
@@ -128,6 +148,8 @@ window.onload = function (e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
+        loadingMatches.style.visibility = "hidden";
+        matchesHeader.classList.add("has-data");
 
         findStatsElm.innerHTML = `<span>Hits: ${matches.estimatedMatchCount}</span>`;
 
@@ -137,7 +159,7 @@ window.onload = function (e) {
             matches.didYouMeanList.forEach((didYouMean, i, a) => {
                 var li = document.createElement("li");
                 li.innerHTML = didYouMean;
-                li.addEventListener("click", function () {
+                li.addEventListener("click", function() {
                     queryTextElm.value = didYouMean; // Update the user interface
                     client.queryText = didYouMean; // Update the client (since the UI does not fire an event for the previous change)
                     queryTextElm.focus(); // Set the focus to the query-field.
@@ -167,7 +189,7 @@ window.onload = function (e) {
 
             // Build extracts
             var extracts = "";
-            match.extracts.forEach(function (extract, meIndex, meArr) {
+            match.extracts.forEach(function(extract, meIndex, meArr) {
                 extracts += `<div class="extract">${extract}</div>`;
             });
             extracts = extracts.length > 0 ? `<div class="extracts">${extracts}</div>` : "";
@@ -192,7 +214,7 @@ window.onload = function (e) {
             // If we have content then we have button, so lets bind it up to the click event to show tehe content.
             // TODO: Show this in proper dialog (div over the others), as the alert shows a limited number of characters of the item only.
             if (match.content.length > 0) {
-                li.getElementsByTagName('button')[0].addEventListener("click", function () {
+                li.getElementsByTagName('button')[0].addEventListener("click", function() {
                     alert(match.content.join('\n'));
                 });
             }
@@ -204,7 +226,7 @@ window.onload = function (e) {
 
             // Build properties
             var categories = "</br>";
-            match.categories.forEach(function (cat, catIndex, catArr) {
+            match.categories.forEach(function(cat, catIndex, catArr) {
                 // Iterate all categories to create a list
                 categories += `&nbsp;-&nbsp;${cat}<br/>`;
             });
@@ -223,13 +245,13 @@ window.onload = function (e) {
 
             // Build metadata
             var metadata = "";
-            match.metaList.forEach(function (meta, metaIndex, metaArr) {
+            match.metaList.forEach(function(meta, metaIndex, metaArr) {
                 // Iterate all metadatas to create a list
                 metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
             });
 
             // Bind up hover action to write content (properties and metadata) into the details pane
-            li.addEventListener("mouseover", function () {
+            li.addEventListener("mouseover", function() {
                 titleElm.innerHTML = detailTitle;
                 detailsElm.style.display = "initial";
                 propElm.innerHTML = `<ul>${properties}</ul>`;
@@ -243,7 +265,7 @@ window.onload = function (e) {
             var ul = document.createElement("ul");
             matchesElm.appendChild(ul);
 
-            matches.searchMatches.forEach(function (match, index, arr) {
+            matches.searchMatches.forEach(function(match, index, arr) {
                 var li = createMatch(match, index, arr);
                 ul.appendChild(li);
             });
@@ -262,12 +284,14 @@ window.onload = function (e) {
      */
     function handleFindError(error) {
         console.error("handleFindError", error);
+        loadingMatches.style.visibility = "hidden";
         findStatsElm.innerHTML = "";
         matchesElm.innerHTML = "No matches.";
         detailsElm.style.display = "none";
         titleElm.innerHTML = "";
         propElm.innerHTML = "";
         metaElm.innerHTML = "";
+        matchesHeader.classList.remove("has-data");
     }
 
     // Categorize callbacks ///////////////////////////
@@ -278,6 +302,7 @@ window.onload = function (e) {
      */
     function handleCategorizeRequest(url, reqInit) {
         console.log("handleCategorizeRequest", "Url: ", url, "ReqInit:", reqInit);
+        loadingCategories.style.visibility = "visible";
     }
 
     /**
@@ -285,6 +310,7 @@ window.onload = function (e) {
      */
     function handleCategorizeSuccess(categories) {
         console.log("handleCategorizeSuccess", "Categories:", categories);
+        loadingCategories.style.visibility = "hidden";
         categorizeStatsElm.innerHTML = `
             <span>Hits: ${categories.isEstimatedCount ? '~' : ''}${categories.matchCount}</span>
         `;
@@ -293,41 +319,41 @@ window.onload = function (e) {
 
         function createCategoryNode(category, index, arr) {
             var categoryLiElm = document.createElement("li");
-            var liClass = [];
             if (client.isFilter(category)) {
-                liClass.push("is-filter");
+                categoryLiElm.classList.add("is-filter");
             } else if (client.hasChildFilter(category)) {
-                liClass.push("has-filter");
+                categoryLiElm.classList.add("has-filter");
             }
             if (category.count > 0) {
-                liClass.push("has-matches");
+                categoryLiElm.classList.add("has-matches");
             }
-            liClass.push(category.expanded ? "expanded" : "collapsed");
-            liClass.push(category.children.length > 0 ? "has-children" : "is-leaf");
-            categoryLiElm.className = liClass.join(" ");
+            categoryLiElm.classList.add(category.expanded ? "expanded" : "collapsed");
+            categoryLiElm.classList.add(category.children.length > 0 ? "has-children" : "is-leaf");
+
             var toggle = `<span class="toggle"></span>`;
             var title = `<span class="title">${category.displayName}</span>`;
             var count = category.count > 0 ? `<span class="count">${category.count}</span>` : '';
             categoryLiElm.innerHTML = `<div class="entry">${toggle}${title}${count}</div>`;
 
             var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
-            toggleElm.addEventListener("click", function (e) {
+            toggleElm.addEventListener("click", function(e) {
                 var result = client.toggleCategoryExpansion(category);
                 console.log(`Toggled expansion for category '${category.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
             });
 
             var titleElm = categoryLiElm.getElementsByClassName("title")[0];
-            titleElm.addEventListener("click", function (e) {
+            titleElm.addEventListener("click", function(e) {
                 var closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
                     var added = client.filterToggle(category);
+                    closestLi.classList.toggle("is-filter");
                     console.log(`Filter ${category.displayName} was ${added ? "added" : "removed"}. Current filters:`, client.filters);
                 }
             });
             if (category.children.length > 0) {
                 var catUlElm = document.createElement("ul");
                 categoryLiElm.appendChild(catUlElm);
-                category.children.forEach(function (childCat, cIndex, cArr) {
+                category.children.forEach(function(childCat, cIndex, cArr) {
                     var li = createCategoryNode(childCat, cIndex, cArr);
                     catUlElm.appendChild(li);
                 });
@@ -339,26 +365,24 @@ window.onload = function (e) {
             var ul = document.createElement("ul");
             categoriesElm.appendChild(ul);
 
-            categories.groups.forEach(function (group, index, arr) {
+            categories.groups.forEach(function(group, index, arr) {
                 // Create the group-node
                 var groupLiElm = document.createElement("li");
                 var title = `<span class="title">${group.displayName}</span>`;
                 var toggle = `<span class="toggle"></span>`;
                 groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
-                var liClass = [];
-                liClass.push(group.expanded ? "expanded" : "collapsed");
-                liClass.push(group.categories.length > 0 ? "has-children" : "is-leaf");
-                groupLiElm.className += liClass.join(" ");
+                groupLiElm.classList.add(group.expanded ? "expanded" : "collapsed");
+                groupLiElm.classList.add(group.categories.length > 0 ? "has-children" : "is-leaf");
 
                 var toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
-                toggleElm.addEventListener("click", function (e) {
+                toggleElm.addEventListener("click", function(e) {
                     var result = client.toggleCategoryExpansion(group);
                     console.log(`Toggled expansion for group '${group.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
                 });
                 if (group.categories.length > 0) {
                     var catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);
-                    group.categories.forEach(function (category, cIndex, cArr) {
+                    group.categories.forEach(function(category, cIndex, cArr) {
                         var li = createCategoryNode(category, cIndex, cArr);
                         catUlElm.appendChild(li);
                     });
@@ -376,6 +400,7 @@ window.onload = function (e) {
      */
     function handleCategorizeError(error) {
         console.error("handleCategorizeError", error);
+        loadingCategories.style.visibility = "hidden";
         categorizeStatsElm.innerHTML = "";
         categoriesElm.innerHTML = "No categories.";
     }

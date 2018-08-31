@@ -1,4 +1,4 @@
-// We want the doc-site to have both the README and the GETTING_STARTED markdown documents as it's index page. 
+// We want the doc-site to have both the README and the GETTING_STARTED markdown documents as it's index page.
 var fs = require('fs');
 
 var tmp = './tmp/';
@@ -16,7 +16,7 @@ fs.writeFileSync(dir + 'dummy.txt', '\n');
 
 
 var concat = require('concat-files');
-concat(['./README.md', dir + 'dummy.txt', './GETTING_STARTED.md'], dir + 'INDEX.md', function (err) {
+concat(['./README.md', dir + 'dummy.txt', './GETTING_STARTED.md'], dir + 'INDEX.md', function(err) {
     if (err) throw err;
     console.log("Created INDEX.md for use in the documentation.");
 });

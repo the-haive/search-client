@@ -22,9 +22,7 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ]
+        "typeRoots": ["node_modules/@types"]
     },
     "exclude": [
         "node_modules",
@@ -32,6 +30,6 @@
         "es",
         "lib",
         "src/**/*.spec.ts",
-        "src/**/*.json",
+        "src/**/*.json"
     ]
 }

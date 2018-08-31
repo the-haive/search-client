@@ -14,8 +14,8 @@
         <header>
             <h1>IntelliSearch SearchClient</h1>
             <div class="query">
-                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions"
-                    autocomplete="off">
+                <img id="loading-suggestions" class="loading" src="https://i.gifer.com/EXfj.gif" />
+                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
                 <button id="go">Search</button>
             </div>
             <datalist id="suggestions"></datalist>
@@ -28,7 +28,7 @@
 
         <nav>
             <!-- Navigation: Categories -->
-            <b>Categories</b><br />
+            <h2>Categories <img id="loading-categories" class="loading" src="https://i.gifer.com/EXfj.gif" /></h2>
             <div class="categories-header">
                 <span id="categorize-stats"></span>
             </div>
@@ -37,25 +37,32 @@
 
         <main>
             <!-- Main content: Matches -->
-            <b>Matches</b><br />
-            <div class="matches-header">
+            <h2>Matches <img id="loading-matches" class="loading" src="https://i.gifer.com/EXfj.gif" /></h2>
+            <div id="matches-header">
                 <span id="find-stats"></span>
                 <span id="pager">&laquo; 1 2 3 &raquo;</span>
-                <span id="order">Relevance/Date order</span>
+                <div id="order">
+                    <span class="header">Order by:</span><br />
+                    <input id="option-relevance" type="radio" checked="checked" name="order-by" />
+                    <label for="option-relevance">Relevance</label><br />
+                    <input id="option-date" type="radio" name="order-by" />
+                    <label for="option-date">Date</label>
+                </div>
             </div>
-            <div id="matches" />
+            <div id="matches">
+            </div>
         </main>
 
         <aside>
             <!-- Sidebar: Details -->
-            <b>Details</b><br />
+            <h2>Details</h2>
             <div id="details">
                 <div id="title"></div>
                 <div id="detail-types">
-                    <input id="btn-properties" type="radio" checked="checked" name="details" />
-                    <label for="btn-properties">Properties</label>
-                    <input id="btn-metadata" type="radio" name="details" />
-                    <label for="btn-metadata">Metadata</label>
+                    <input id="option-properties" type="radio" checked="checked" name="details" />
+                    <label for="option-properties">Properties</label>
+                    <input id="option-metadata" type="radio" name="details" />
+                    <label for="option-metadata">Metadata</label>
                 </div>
                 <div id="properties"></div>
                 <div id="metadata"></div>

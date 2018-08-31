@@ -25,11 +25,8 @@ body {
 
 .container {
     display: grid;
-    grid-template-areas:
-        "header header header"
-        "nav content side"
-        "footer footer footer";
-    grid-template-columns: 200px 1fr 300px;
+    grid-template-areas: "header header header" "nav content side" "footer footer footer";
+    grid-template-columns: 250px 1fr 300px;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
     height: 100vh;
@@ -82,7 +79,9 @@ nav {
     padding-left: 0;
 }
 
+
 /* Group entry */
+
 #categories ul li .entry {
     display: block;
     white-space: nowrap;
@@ -165,17 +164,37 @@ nav {
 main {
     grid-area: content;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-main .matches-header {
+img.loading {
+    visibility: hidden;
+    height: 1em;
+}
+
+#matches-header.has-data {
     display: flex;
     justify-content: space-between;
+}
+
+#matches-header {
+    display: none;
+}
+
+#order {
+    font-size: smaller;
+    margin-right: 0.5em;
+}
+
+#order .header {
+    font-weight: bold;
 }
 
 #categories,
 #matches,
 #details {
-    margin-top: 1em;
+    margin: 1em 0.5em 0 0;
     overflow-x: hidden;
 }
 
@@ -268,26 +287,19 @@ footer {
 
 @media (max-width: 768px) {
     .container {
-        grid-template-areas:
-            "header"
-            "nav"
-            "content"
-            "side"
-            "footer";
+        grid-template-areas: "header" "nav" "content" "side" "footer";
         grid-template-columns: 1fr;
-        grid-template-rows:
-            /* Header */
-            auto
-            /* Nav */
-            minmax(75px, auto)
-            /* Content */
-            auto
-            /* Sidebar */
-            minmax(75px, auto)
-            /* Footer */
-            auto;
+        grid-template-rows: /* Header */
+        auto
+        /* Nav */
+        minmax(75px, auto)
+        /* Content */
+        auto
+        /* Sidebar */
+        minmax(75px, auto)
+        /* Footer */
+        auto;
     }
-
     nav,
     aside {
         margin: 0;
