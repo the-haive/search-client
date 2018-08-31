@@ -7,23 +7,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>IntelliSearch SearchClient</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="styles/custom.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <h1>IntelliSearch SearchClient</h1>
-            <div class="query">
-                <img id="loading-suggestions" class="loading" src="https://i.gifer.com/EXfj.gif" />
-                <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
-                <button id="go">Search</button>
+            <div id="top">
+                <span id="logo"></span>        
+                <h1>IntelliSearch SearchClient</h1>
+                <div class="query">
+                    <img id="loading-suggestions" class="loading" src="https://i.gifer.com/EXfj.gif" />
+                    <input id="query-text" type="search" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
+                    <button id="go">
+                        <span>
+                            <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                        </span>
+                    </button>                </div>
+                <datalist id="suggestions"></datalist>
+                <div id="advanced"></div>
             </div>
-            <datalist id="suggestions"></datalist>
-            <div id="did-you-mean-container">
-                <label>Did you mean:</label>
-                <ul id="did-you-mean"></ul>
+            <div id="tabs">
+                <div>Alle</div><div>Filserver</div><div>Mail</div>
             </div>
-            <div id="advanced"></div>
         </header>
 
         <nav>
@@ -32,7 +38,7 @@
             <div class="categories-header">
                 <span id="categorize-stats"></span>
             </div>
-            <div id="categories" />
+            <div id="categories"></div>
         </nav>
 
         <main>
@@ -40,16 +46,22 @@
             <h2>Matches <img id="loading-matches" class="loading" src="https://i.gifer.com/EXfj.gif" /></h2>
             <div id="matches-header">
                 <span id="find-stats"></span>
-                <span id="pager">&laquo; 1 2 3 &raquo;</span>
                 <div id="order">
-                    <span class="header">Order by:</span><br />
+                    <span class="header">Order by:</span>
                     <input id="option-relevance" type="radio" checked="checked" name="order-by" />
-                    <label for="option-relevance">Relevance</label><br />
+                    <label for="option-relevance">Relevance</label>
                     <input id="option-date" type="radio" name="order-by" />
                     <label for="option-date">Date</label>
                 </div>
             </div>
+            <div id="did-you-mean-container">
+                <label>Did you mean:</label>
+                <ul id="did-you-mean"></ul>
+            </div>
             <div id="matches">
+            </div>
+            <div>
+                    <span id="pager">&laquo; 1 2 3 &raquo;</span>
             </div>
         </main>
 

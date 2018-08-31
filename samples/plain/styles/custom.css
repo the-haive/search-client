@@ -1,0 +1,232 @@
+.container {
+    grid-template-columns: 270px 1fr 500px;
+}
+header {
+    background-color: #F9F9F9;
+    border-bottom: 1px solid#DEDEDE;
+    text-align: left;
+    height: 120px;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: stretch;
+}
+#top {
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
+    align-items: center;
+    height: 65px;
+    padding-top: 10px;
+}
+header #top h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-indent: -9999px;
+    line-height: 0;
+    margin: 0 20px 0 10px;
+}
+
+header #top h1::after {
+    content: "IntelliSearch";
+    text-indent: 0;
+    line-height: initial;
+    display: block;
+}
+
+#logo {
+    background: url("../images/INTS_Logo.svg") 0 0 no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+}
+
+header #top .query {
+    margin-top: 0;
+}
+
+img.loading {
+    position: absolute;
+}
+
+.query {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    vertical-align: top;
+    height: 44px;
+    width: 630px;
+    border-radius:4px;
+    padding: 0 5px;
+    display: flex;
+}
+
+.query input {
+    border: 0;
+    font-size: 16px;
+    width: 100%;
+    padding-left: 0;
+}
+
+.query input:focus,
+.query button:focus {
+    outline: none;
+}
+
+.query #go {
+    background-color: transparent;
+    border: 0;
+}
+.query svg {
+    width: 24px;
+    height: 24px;
+}
+
+#tabs {
+    display: flex;
+    margin-left: 280px;
+}
+#tabs div {
+    padding-top: 28px;
+    padding-left:16px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    font-size: 13px;
+}
+#tabs :first-child {
+    color: #1A73E8;
+    border-bottom: #1A73E8 solid 3px;
+    font-weight: 700;
+}
+/*#tabs div.selected {
+    color: #1A73E8;
+    border-bottom: #1A73E8 solid 3px;
+    font-weight: 700;
+}*/
+
+/*** CATEGORIES ***/
+nav > :first-child {
+    display: none;
+}
+
+nav > :nth-child(2) {
+    display: none;
+}
+
+nav > .categories-header {
+    display: none;
+}
+
+nav > #categories > ul {
+    margin-top: 0;
+}
+/*
+#categories .collapsed.hasChildren span::before
+{
+    content: "\25b6";
+}
+#categories .collapsed :nth-child(2) {
+    display:none;
+}
+#categories .expanded.hasChildren span::before
+{
+    content: "\25bc";
+}
+
+#categories .expanded.leafNode span::before
+{
+    content: "";
+    margin-left: 12px;
+}*/
+
+#categories > ul > li > .entry {
+    background-color: transparent;
+}
+
+/*** MAIN ***/
+main > :first-child {
+    display: none;
+}
+
+main > :nth-child(2) {
+    display: none;
+}
+
+
+/*** MATCHES ***/
+#matches li {
+    margin-bottom: 30px;
+    margin-right: 10px;
+}
+#matches li .headline {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#matches a {
+    text-decoration: none;
+}
+#matches a:link{
+    color: #1a0dab;
+}
+#matches a:visited,
+#matches a:active {
+    color: #609;
+}
+#matches a:hover {
+    text-decoration: underline;
+}
+
+#matches li .extracts {
+    font-size: smaller;
+    font-style: normal;
+    padding: 0.2em 0 0.5em 0.1em;
+    border-left: solid 0 silver;
+    margin: 0 0 0 0.2em;
+    background-color: transparent;
+}
+
+#matches li .extract {
+    padding: 0;
+}
+
+#matches>ul>li:hover {
+    background-color: rgb(250, 250, 250);
+}
+
+.rel-date-wrapper {
+    display: none;
+}
+
+/*** ASIDE ***/
+aside {
+    /*position: absolute;*/
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    left: 700px;
+    background-color: #FDFDFD;
+    padding: 15px;
+}
+
+aside > h2 {
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #dedede;
+}
+
+aside #details {
+    margin-top: 0;
+}
+
+aside  > :first-child
+{
+    /*display: none;*/
+}
+
+
+/*** FOOTER ***/
+footer {
+    background-color: #F9F9F9;
+    border-top: 1px solid#DEDEDE;
+    padding: 10px;
+    font-size: 19px;
+}

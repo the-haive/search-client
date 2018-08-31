@@ -39,7 +39,8 @@
         "//prepublishOnly": "yarn run build",
         "//preversion": "yarn test",
         "//postversion": "git push && git push --tags",
-        "samples:plain": "concurrently \"browser-sync samples/plain dist -w --port 9000\" \"yarn run build:umd:watch\" "
+        "samples:plain": "concurrently \"browser-sync samples/plain dist -w --port 9000\" \"yarn run build:umd:watch\" ",
+        "samples:plain:browser": "browser-sync samples/plain dist -w --port 9000"
     },
     "keywords": [
         "typescript",

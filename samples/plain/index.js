@@ -151,7 +151,7 @@ window.onload = function(e) {
         loadingMatches.style.visibility = "hidden";
         matchesHeader.classList.add("has-data");
 
-        findStatsElm.innerHTML = `<span>Hits: ${matches.estimatedMatchCount}</span>`;
+        findStatsElm.innerHTML = `<span>Omtrent ${matches.estimatedMatchCount} resultater</span>`;
 
         didYouMeanContainerElm.style.display = "none";
         didYouMeanOptionsElm.innerHTML = "";
@@ -190,9 +190,10 @@ window.onload = function(e) {
             // Build extracts
             var extracts = "";
             match.extracts.forEach(function(extract, meIndex, meArr) {
-                extracts += `<div class="extract">${extract}</div>`;
+                //extracts += `<div class="extract">${extract}</div>`;
+                extracts += `<span class="extract">${extract}</span><br/>`;
             });
-            extracts = extracts.length > 0 ? `<div class="extracts">${extracts}</div>` : "";
+            extracts = extracts.length > 0 ? `<div class="extracts"><span class="date">${new Date(match.date).toLocaleDateString()} - </span>${extracts}</div>` : "";
 
             // Build abstract
             var abstract = match.abstract.length > 0 ? `<div class="abstract">${match.abstract}</div>` : "";
