@@ -106,16 +106,19 @@ export class Autocomplete extends BaseCall<string[]> {
                     )
                 ) {
                     this.update(query);
+                    return;
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
                         this.update(
                             query,
                             this.settings.triggers.queryChangeDelay
                         );
+                        return;
                     }
                 }
             }
         }
+        clearTimeout(this.delay);
     }
 
     // TODO: In the future we may differ on what autocomplete suggestions to suggest depending on the searchtype.

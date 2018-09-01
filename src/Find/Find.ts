@@ -177,16 +177,19 @@ export class Find extends BaseCall<Matches> {
                     )
                 ) {
                     this.update(query);
+                    return;
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
                         this.update(
                             query,
                             this.settings.triggers.queryChangeDelay
                         );
+                        return;
                     }
                 }
             }
         }
+        clearTimeout(this.delay);
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) {

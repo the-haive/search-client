@@ -176,16 +176,19 @@ export class Categorize extends BaseCall<Categories> {
                     )
                 ) {
                     this.update(query);
+                    return;
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
                         this.update(
                             query,
                             this.settings.triggers.queryChangeDelay
                         );
+                        return;
                     }
                 }
             }
         }
+        clearTimeout(this.delay);
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) {
