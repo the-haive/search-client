@@ -1,10 +1,11 @@
 window.onload = function(e) {
 
+
     /**
      * 1. First create a settings object that is sent to the search-engine.
      * This test uses the publicly exposed demo SearchManager endpoint.
      */
-    let settings = new IntelliSearch.Settings({
+    const clientSettings = new IntelliSearch.Settings({
         autocomplete: {
             //enabled: false, //TODO: Enable when the backend has been updated.
             cbRequest: handleAutocompleteRequest,
@@ -29,9 +30,32 @@ window.onload = function(e) {
         }
     });
 
-    console.log("Settings", settings);
+    const guiSettings = {
+        content: {
+            show: clientSettings.query.matchGenerateContent,
+        },
+        metadata: {
+            show: true,
+            exclude: [
 
-    const client = new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no", settings);
+            ],
+        },
+        properties: {
+            show: true,
+            exclude: [
+
+            ],
+        },
+    }
+
+    console.log("Client-settings", clientSettings);
+    console.log("GUI-settings", guiSettings);
+
+    function setupClient() {
+        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no", clientSettings);
+    }
+
+    let client = setupClient();
 
     /**
      * 2. Wire up the queryText field and the search-button.
@@ -39,8 +63,30 @@ window.onload = function(e) {
     var queryTextElm = document.getElementById("query-text");
     queryTextElm.addEventListener("input", function() {
         console.log("queryText changed: " + queryTextElm.value);
+        if (queryTextElm.value.length > 0)
+            resetBtn.classList.remove("hidden");
+        else {
+            resetBtn.classList.add("hidden");
+        }
         client.queryText = queryTextElm.value;
     });
+
+    queryTextElm.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            console.log("queryText Enter detected: " + queryTextElm.value);
+            client.queryText = queryTextElm.value + "\n";
+        }
+    });
+
+    var resetBtn = document.getElementById("reset");
+    var containerElm = document.getElementById("container");
+    resetBtn.addEventListener("click", () => {
+        console.log("Resets the client (TODO: Reset html");
+        client = setupClient();
+        containerElm.className = "introduction";
+        queryTextElm.value = "";
+    })
+
 
     var searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", function() {
@@ -71,25 +117,40 @@ window.onload = function(e) {
     var suggestionsElm = document.getElementById("suggestions");
     var didYouMeanContainerElm = document.getElementById("did-you-mean-container");
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
-    var propBtn = document.getElementById("option-properties");
-    var metaBtn = document.getElementById("option-metadata");
-    propBtn.addEventListener("click", function() {
-        propElm.style.display = "initial";
-        metaElm.style.display = "none";
-    });
-    metaBtn.addEventListener("click", function() {
-        propElm.style.display = "none";
-        metaElm.style.display = "initial";
-    });
 
     var categoriesElm = document.getElementById("categories");
-    var categorizeStatsElm = document.getElementById("categorize-stats");
+    var categoriesStatsElm = document.getElementById("categories-stats");
+
     var matchesElm = document.getElementById("matches");
-    var findStatsElm = document.getElementById("find-stats");
-    var detailsElm = document.getElementById("detail-types");
+    var matchesStatsElm = document.getElementById("matches-stats");
+
+    // Details
     var titleElm = document.getElementById("title");
-    var propElm = document.getElementById("properties");
-    var metaElm = document.getElementById("metadata");
+    var detailsTypesElm = document.getElementById("detail-types");
+
+    var contentElm = document.getElementById("content");
+    var metadataElm = document.getElementById("metadata");
+    var propertiesElm = document.getElementById("properties");
+
+    var detailsContent = document.getElementById("option-content");
+    detailsContent.addEventListener("click", function() {
+        contentElm.style.display = "initial";
+        metadataElm.style.display = "none";
+        propertiesElm.style.display = "none";
+    });
+    var detailsMetadata = document.getElementById("option-metadata");
+    detailsMetadata.addEventListener("click", function() {
+        contentElm.style.display = "none";
+        metadataElm.style.display = "initial";
+        propertiesElm.style.display = "none";
+    });
+    var detailsProperties = document.getElementById("option-properties");
+    detailsProperties.addEventListener("click", function() {
+        contentElm.style.display = "none";
+        metadataElm.style.display = "none";
+        propertiesElm.style.display = "initial";
+    });
+
 
     var loadingSuggestions = document.getElementById("loading-suggestions");
     var loadingCategories = document.getElementById("loading-categories");
@@ -149,9 +210,8 @@ window.onload = function(e) {
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
         loadingMatches.style.visibility = "hidden";
-        matchesHeader.classList.add("has-data");
 
-        findStatsElm.innerHTML = `<span>Omtrent ${matches.estimatedMatchCount} resultater</span>`;
+        matchesStatsElm.innerHTML = `<span>Omtrent ${matches.estimatedMatchCount} resultater</span>`;
 
         didYouMeanContainerElm.style.display = "none";
         didYouMeanOptionsElm.innerHTML = "";
@@ -212,18 +272,17 @@ window.onload = function(e) {
                 ${abstract}
             `;
 
-            // If we have content then we have button, so lets bind it up to the click event to show tehe content.
-            // TODO: Show this in proper dialog (div over the others), as the alert shows a limited number of characters of the item only.
-            if (match.content.length > 0) {
-                li.getElementsByTagName('button')[0].addEventListener("click", function() {
-                    alert(match.content.join('\n'));
-                });
-            }
-
             // Build the content that is to be displayed in the details pane.
 
             // Build title
             var detailTitle = `<span title="${match.title}">Title: ${match.title}</span>`;
+
+            // Build metadata
+            var metadata = "";
+            match.metaList.forEach(function(meta, metaIndex, metaArr) {
+                // Iterate all metadatas to create a list
+                metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
+            });
 
             // Build properties
             var categories = "</br>";
@@ -244,25 +303,21 @@ window.onload = function(e) {
                 <li><b>Categories</b>: ${categories}</li>
                 `;
 
-            // Build metadata
-            var metadata = "";
-            match.metaList.forEach(function(meta, metaIndex, metaArr) {
-                // Iterate all metadatas to create a list
-                metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
-            });
-
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
                 titleElm.innerHTML = detailTitle;
-                detailsElm.style.display = "initial";
-                propElm.innerHTML = `<ul>${properties}</ul>`;
-                metaElm.innerHTML = `<ul>${metadata}</ul>`;
+                detailsTypesElm.style.display = "initial";
+                contentElm.innerHTML = `<p>${match.content.join('</p><p>')}</p>`;
+                metadataElm.innerHTML = `<ul>${metadata}</ul>`;
+                propertiesElm.innerHTML = `<ul>${properties}</ul>`;
             });
 
             return li;
         }
 
         if (matches.searchMatches.length > 0) {
+            containerElm.classList.remove("introduction");
+            matchesHeader.classList.add("has-data");
             var ul = document.createElement("ul");
             matchesElm.appendChild(ul);
 
@@ -271,12 +326,12 @@ window.onload = function(e) {
                 ul.appendChild(li);
             });
         } else {
-            findStatsElm.innerHTML = "";
+            matchesStatsElm.innerHTML = "";
             matchesElm.innerHTML = "No matches.";
-            detailsElm.style.display = "none";
+            detailsTypesElm.style.display = "none";
             titleElm.innerHTML = "";
-            propElm.innerHTML = "";
-            metaElm.innerHTML = "";
+            propertiesElm.innerHTML = "";
+            metadataElm.innerHTML = "";
         }
     }
 
@@ -286,12 +341,12 @@ window.onload = function(e) {
     function handleFindError(error) {
         console.error("handleFindError", error);
         loadingMatches.style.visibility = "hidden";
-        findStatsElm.innerHTML = "";
+        matchesStatsElm.innerHTML = "";
         matchesElm.innerHTML = "No matches.";
-        detailsElm.style.display = "none";
+        detailsTypesElm.style.display = "none";
         titleElm.innerHTML = "";
-        propElm.innerHTML = "";
-        metaElm.innerHTML = "";
+        propertiesElm.innerHTML = "";
+        metadataElm.innerHTML = "";
         matchesHeader.classList.remove("has-data");
     }
 
@@ -312,7 +367,7 @@ window.onload = function(e) {
     function handleCategorizeSuccess(categories) {
         console.log("handleCategorizeSuccess", "Categories:", categories);
         loadingCategories.style.visibility = "hidden";
-        categorizeStatsElm.innerHTML = `
+        categoriesStatsElm.innerHTML = `
             <span>Hits: ${categories.isEstimatedCount ? '~' : ''}${categories.matchCount}</span>
         `;
 
@@ -334,7 +389,7 @@ window.onload = function(e) {
             var toggle = `<span class="toggle"></span>`;
             var title = `<span class="title">${category.displayName}</span>`;
             var count = category.count > 0 ? `<span class="count">${category.count}</span>` : '';
-            categoryLiElm.innerHTML = `<div class="entry">${toggle}${title}${count}</div>`;
+            categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
             var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
@@ -342,8 +397,8 @@ window.onload = function(e) {
                 console.log(`Toggled expansion for category '${category.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
             });
 
-            var titleElm = categoryLiElm.getElementsByClassName("title")[0];
-            titleElm.addEventListener("click", function(e) {
+            var linkElm = categoryLiElm.getElementsByClassName("link")[0];
+            linkElm.addEventListener("click", function(e) {
                 var closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
                     var added = client.filterToggle(category);
@@ -391,7 +446,7 @@ window.onload = function(e) {
                 ul.appendChild(groupLiElm);
             });
         } else {
-            categorizeStatsElm.innerHTML = "";
+            categoriesStatsElm.innerHTML = "";
             categoriesElm.innerHTML = "No categories.";
         }
     }
@@ -402,7 +457,7 @@ window.onload = function(e) {
     function handleCategorizeError(error) {
         console.error("handleCategorizeError", error);
         loadingCategories.style.visibility = "hidden";
-        categorizeStatsElm.innerHTML = "";
+        categoriesStatsElm.innerHTML = "";
         categoriesElm.innerHTML = "No categories.";
     }
 

@@ -1,36 +1,100 @@
 body {
     margin: 0;
     padding: 0;
-    /*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
     font-family: Arial, sans-serif;
 }
 
-#detail-types {
-    display: none;
-}
 
-#metadata {
-    display: none;
-}
+/*
+    There are 4 different grid-layouts to accomodate the main full desktop scenarios. These are controlled by adding a
+    classname to the #container element:
+    1. "introduction" - The starting state with introductionary help-text.
+    2. "no-details"   - Search-results without details.
+    3. ""             - Search results with details.
+    4. "error"        - Shows an error on the page.
 
-#preview {
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    min-width: 200px;
-    width: 80vw;
-    height: 80vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-}
+    In addition there is a #big-dimmer element that overlays the second row. This is applied programmatically when the query
+    has changed and the already presented results are not representative for the query.
 
-.container {
+    When the matches are loading a big spinner is shown on top of the #big-dimmer. When the matches are received then the spinner
+    and "big- dimmer are hidden.
+
+    If the categories are not ready, when the matches are, then a left-dimmer is added over the categories with a spinner to
+    indicate that it is still loading.
+*/
+
+#container {
     display: grid;
     grid-template-areas: "header header header" "nav content side" "footer footer footer";
     grid-template-columns: 250px 1fr 300px;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
     height: 100vh;
+}
+
+#container.no-details {
+    grid-template-areas: "header header header" "nav content content" "footer footer footer";
+}
+
+#container.introduction {
+    grid-template-areas: "header header header" "introduction introduction introduction" "footer footer footer";
+}
+
+#container.error {
+    grid-template-areas: "header header header" "error error error" "footer footer footer";
+}
+
+#container.introduction nav,
+#container.introduction main,
+#container.introduction aside,
+#container.error nav,
+#container.error main,
+#container.error aside,
+#container.no-details nav,
+#container.no-details main,
+#container.no-details aside {
+    display: none;
+}
+
+#introduction {
+    grid-area: introduction;
+    display: none;
+    padding: 0 2em;
+    font-size: smaller;
+}
+
+#introduction dt {
+    font-weight: bold;
+}
+
+#container.introduction #introduction {
+    display: block;
+}
+
+#error {
+    grid-area: error;
+    display: none;
+}
+
+#container.error #error {
+    display: block;
+}
+
+#dimmer {
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+}
+
+#introduction,
+#error,
+#dimmer {
+    grid-row: 2/3;
+    grid-column: 1/4;
+    overflow-y: auto;
+}
+
+button#reset.hidden {
+    display: none;
 }
 
 header {
@@ -55,6 +119,16 @@ header .query {
 #did-you-mean-container {
     display: none;
     margin-top: 1em;
+}
+
+#detail-types {
+    display: none;
+}
+
+#metadata,
+#properties {
+    white-space: nowrap;
+    display: none;
 }
 
 #did-you-mean {
@@ -267,7 +341,6 @@ aside {
 
 #details {
     font-size: smaller;
-    white-space: nowrap;
 }
 
 #title {
