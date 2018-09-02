@@ -91,10 +91,16 @@ export abstract class BaseCall<TDataType> {
             if (delay > 0) {
                 // Set up the delay
                 this.delay = setTimeout(() => {
-                    this.fetch(query).catch(error => Promise.resolve(null));
+                    let fetchPromise = this.fetch(query);
+                    if (fetchPromise) {
+                        fetchPromise.catch(error => Promise.resolve(null));
+                    }
                 }, delay) as any;
             } else {
-                this.fetch(query).catch(error => Promise.resolve(null));
+                let fetchPromise = this.fetch(query);
+                if (fetchPromise) {
+                    fetchPromise.catch(error => Promise.resolve(null));
+                }
             }
         }
     }
