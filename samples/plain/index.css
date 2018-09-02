@@ -4,7 +4,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-
 /*
     There are 4 different grid-layouts to accomodate the main full desktop scenarios. These are controlled by adding a
     classname to the #container element:
@@ -17,7 +16,7 @@ body {
     has changed and the already presented results are not representative for the query.
 
     When the matches are loading a big spinner is shown on top of the #big-dimmer. When the matches are received then the spinner
-    and "big- dimmer are hidden.
+    and full-dimmer are hidden.
 
     If the categories are not ready, when the matches are, then a left-dimmer is added over the categories with a spinner to
     indicate that it is still loading.
@@ -32,18 +31,22 @@ body {
     height: 100vh;
 }
 
-#container.no-details {
-    grid-template-areas: "header header header" "nav content content" "footer footer footer";
-}
-
 #container.introduction {
     grid-template-areas: "header header header" "introduction introduction introduction" "footer footer footer";
+}
+
+#container.no-details {
+    grid-template-areas: "header header header" "nav content content" "footer footer footer";
 }
 
 #container.error {
     grid-template-areas: "header header header" "error error error" "footer footer footer";
 }
 
+#introduction,
+#error,
+#dimmer,
+#category-dimmer,
 #container.introduction nav,
 #container.introduction main,
 #container.introduction aside,
@@ -58,7 +61,6 @@ body {
 
 #introduction {
     grid-area: introduction;
-    display: none;
     padding: 0 2em;
     font-size: smaller;
 }
@@ -67,32 +69,65 @@ body {
     font-weight: bold;
 }
 
-#container.introduction #introduction {
-    display: block;
-}
-
 #error {
     grid-area: error;
-    display: none;
+    padding: 0 2em;
 }
 
+#container.introduction #introduction,
 #container.error #error {
     display: block;
 }
 
-#dimmer {
-    background-color: rgba(255, 255, 255, 0.8);
+#container.error #introduction {
     display: none;
+}
+
+#dimmer,
+#category-dimmer {
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
 }
 
 #introduction,
 #error,
-#dimmer {
+#dimmer,
+#category-dimmer {
     grid-row: 2/3;
     grid-column: 1/4;
     overflow-y: auto;
 }
+#category-dimmer {
+    grid-column: 1/2;
+}
 
+/* Show #dimmer when query has changed (but not if loading). */
+#container.query-changed:not(.matches-loading) #dimmer,
+#container.query-changed:not(.categories-loading) #dimmer {
+    background-image: none;
+    display: block;
+}
+#container.query-changed:not(.matches-loading) #dimmer .loader-wrapper,
+#container.query-changed:not(.categories-loading) #dimmer .loader-wrapper {
+    display: none;
+}
+
+/* Show #dimmer when matches are loading. */
+#container.matches-loading #dimmer,
+
+/* Show the #category-dimmer when only categories are loading. */
+#container.categories-loading:not(.matches-loading) #category-dimmer {
+    display: block;
+}
+
+/* Hide the #category-dimmer when both ar loading */
+#container.matches-loading.categories-loading #category-dimmer {
+    display: none;
+}
+
+#error span.key {
+    font-weight: bold;
+}
 button#reset.hidden {
     display: none;
 }
@@ -115,7 +150,10 @@ header p {
 header .query {
     margin-top: 1em;
 }
-
+.query button {
+    background-color: transparent;
+    border: 0;
+}
 #did-you-mean-container {
     display: none;
     margin-top: 1em;
@@ -149,11 +187,10 @@ nav {
     overflow-y: auto;
 }
 
-#categories>ul {
+#categories > ul {
     list-style-type: none;
     padding-left: 0;
 }
-
 
 /* Group entry */
 
@@ -162,7 +199,7 @@ nav {
     white-space: nowrap;
 }
 
-#categories>ul>li>.entry {
+#categories > ul > li > .entry {
     display: block;
     background-color: silver;
     font-size: 1.1em;
@@ -171,7 +208,7 @@ nav {
     white-space: nowrap;
 }
 
-#categories>ul .entry>.toggle {
+#categories > ul .entry > .toggle {
     visibility: hidden;
     font-size: 0.7em;
     margin-right: 0.7em;
@@ -181,58 +218,58 @@ nav {
     white-space: pre;
 }
 
-#categories>ul .has-children>.entry>.toggle {
+#categories > ul .has-children > .entry > .toggle {
     visibility: visible;
 }
 
-#categories>ul .collapsed.has-children>.entry>.toggle::before {
-    content: "▶"
+#categories > ul .collapsed.has-children > .entry > .toggle::before {
+    content: "▶";
 }
 
-#categories>ul .expanded.has-children>.entry>.toggle::before:hover,
-#categories>ul .collapsed.has-children>.entry>.toggle::before:hover {
+#categories > ul .expanded.has-children > .entry > .toggle::before:hover,
+#categories > ul .collapsed.has-children > .entry > .toggle::before:hover {
     background-color: silver;
 }
 
-#categories>ul .expanded.has-children>.entry>.toggle::before {
-    content: "▼"
+#categories > ul .expanded.has-children > .entry > .toggle::before {
+    content: "▼";
 }
 
-#categories>ul .collapsed.has-children>ul {
+#categories > ul .collapsed.has-children > ul {
     display: none;
 }
 
-#categories>ul ul {
+#categories > ul ul {
     list-style-type: none;
     padding-left: 0.8em;
 }
 
-#categories>ul span.title {
+#categories > ul span.title {
     cursor: pointer;
 }
 
-#categories>ul li.has-matches>.entry {
+#categories > ul li.has-matches > .entry {
     font-weight: bold;
 }
 
-#categories>ul li.is-filter>.entry {
+#categories > ul li.is-filter > .entry {
     background-color: red;
 }
 
-#categories>ul li.has-filter>.entry {
+#categories > ul li.has-filter > .entry {
     background-color: orange;
 }
 
-#categories>ul .count {
+#categories > ul .count {
     padding: 0 0.5em;
     font-size: smaller;
 }
 
-#categories>ul .count::before {
+#categories > ul .count::before {
     content: "(";
 }
 
-#categories>ul .count::after {
+#categories > ul .count::after {
     content: ")";
 }
 
@@ -241,11 +278,6 @@ main {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-}
-
-img.loading {
-    visibility: hidden;
-    height: 1em;
 }
 
 #matches-header.has-data {
@@ -323,14 +355,30 @@ img.loading {
     padding: 0 0 0 0.6em;
 }
 
-#matches li .abstract {}
+#matches li .abstract {
+}
 
-#matches>ul>li:hover {
+#matches > ul > li:hover {
     background-color: blanchedalmond;
 }
 
-#matches li .extract+.extract {
+#matches li .extract + .extract {
     border-top: solid 0.3em rgba(255, 255, 255, 0.95);
+}
+
+#matches .category {
+    border-radius: 1em;
+    border: solid 0.1em transparent;
+    padding: 0.2em 0.5em;
+    margin: 0.1em 0.5em 0 0;
+    background-color: gainsboro;
+    font-size: small;
+    display: inline-block;
+    cursor: pointer;
+}
+
+#matches .category:hover {
+    border-color: black;
 }
 
 aside {
@@ -354,25 +402,153 @@ aside {
     padding-left: 0;
 }
 
+#properties h2 {
+    font-size: 1.2em;
+    margin-bottom: 0.3em;
+}
+#properties dl {
+    margin: 0 0 0 1em;
+}
+#properties dt {
+    float: left;
+    clear: left;
+    margin-right: 1em;
+    font-weight: bold;
+}
+#properties dd {
+    margin-left: 0px;
+    white-space: normal;
+    padding-left: 2em;
+    padding-bottom: 0.25em;
+}
+#properties ul {
+    margin: 0 0 0 1em;
+}
 footer {
     grid-area: footer;
     text-align: center;
 }
+
+/* Loading indicator */
+
+.loader-wrapper {
+    /*position: fixed;*/
+    top: 5%;
+    left: 5%;
+    width: 95%;
+    height: 95%;
+    z-index: 1000;
+}
+.loader {
+    display: block;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #3498db;
+    -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+.loader:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #e74c3c;
+    -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+.loader:after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: #f9c922;
+    -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
+    animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg); /* IE 9 */
+        transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg); /* IE 9 */
+        transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(0deg); /* IE 9 */
+        transform: rotate(0deg); /* Firefox 16+, IE 10+, Opera */
+    }
+    100% {
+        -webkit-transform: rotate(360deg); /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: rotate(360deg); /* IE 9 */
+        transform: rotate(360deg); /* Firefox 16+, IE 10+, Opera */
+    }
+}
+
+/* Mini spinner for autocomplete */
+
+#spinner {
+    visibility: hidden;
+}
+
+#spinner:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin-top: 2px;
+    margin-left: -3px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #333;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive design */
 
 @media (max-width: 768px) {
     .container {
         grid-template-areas: "header" "nav" "content" "side" "footer";
         grid-template-columns: 1fr;
         grid-template-rows: /* Header */
-        auto
-        /* Nav */
-        minmax(75px, auto)
-        /* Content */
-        auto
-        /* Sidebar */
-        minmax(75px, auto)
-        /* Footer */
-        auto;
+            auto
+            /* Nav */
+            minmax(75px, auto)
+            /* Content */
+            auto
+            /* Sidebar */
+            minmax(75px, auto)
+            /* Footer */
+            auto;
     }
     nav,
     aside {

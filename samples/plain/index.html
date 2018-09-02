@@ -17,8 +17,8 @@
                 <span id="logo"></span>
                 <h1>IntelliSearch SearchClient</h1>
                 <div class="query">
-                    <img id="loading-suggestions" class="loading" src="https://i.gifer.com/EXfj.gif" />
-                    <input id="query-text" type="input" placeholder="Enter search-query..." list="suggestions" autocomplete="off">
+                    <div id="spinner"></div>
+                    <input id="query-text" type="input" placeholder="Enter search-query..." list="suggestions" autocomplete="off" autofocus>
                     <button id="reset" class="hidden">X</button>
                     <button id="go">
                         <span>
@@ -34,24 +34,32 @@
                 <div>Mail</div>
             </div>
         </header>
+
         <div id="error">
             <h2>Ops. Something went wrong.</h2>
             <p>
-                We apologize for this inconvenience. Please try again.<br/> If the problem persists then please report this issue by clicking the [Send report] button below.
+                We apologize for this inconvenience. Please try again.<br/> If the problem persists then please report this
+                issue.
             </p>
+            <button>Send report (not implemented yet)</button>
             <h3>Error details</h3>
-            <button>Send report</button>
-            <div id="error">
-                Placeholder for error details. By default collapsed.
+            <div id="matches-error">
+            </div>
+            <div id="categories-error">
             </div>
         </div>
+
         <div id="introduction">
             <h1>Welcome to the IntelliSearch</h1>
-            <p>IntelliSearch is very much like Google. If you can google something then you can also use IntelliSearch to find things. The important difference between Google and IntelliSearch is that IntelliSearch lets you find things in
-                <strong>specific sources</strong>. IntelliSearch does not help you find content anywhere on the internet, but it will help you find information anywhere in the indexed sources.
+            <p>IntelliSearch is very much like Google. If you can google something then you can also use IntelliSearch to
+                find things. The important difference between Google and IntelliSearch is that IntelliSearch lets you find
+                things in
+                <strong>specific sources</strong>. IntelliSearch does not help you find content anywhere on the internet,
+                but it will help you find information anywhere in the indexed sources.
             </p>
-            <p>Another important distinction is that IntelliSearch handle security. Google finds any content on the internet, and the items it index are all public. IntelliSearch is built from the ground up with security built-in. It is set up to authenticate
-                users and to add security for the items added to the search index.
+            <p>Another important distinction is that IntelliSearch handle security. Google finds any content on the internet,
+                and the items it index are all public. IntelliSearch is built from the ground up with security built-in.
+                It is set up to authenticate users and to add security for the items added to the search index.
             </p>
             <h2>About this IntelliSearch index</h2>
             <p>This IntelliSearch application is dedicated to content in the following sources:
@@ -60,66 +68,88 @@
                     <li class="source">Fileserver: All content on the NNN fileserver.</li>
                 </ul>
             </p>
-            <p>It is set up to handle authentication and security via Windows Integrated Security, meaning that you need to be logged in to the company domain to get any results.
+            <p>It is set up to handle authentication and security via Windows Integrated Security, meaning that you need
+                to be logged in to the company domain to get any results.
             </p>
             <h2>Tips</h2>
             <dl>
                 <dt>Categories:</dt>
                 <dd>
-                    The category tree is very handy in your quest to help identify the items you are looking for. Clicking on categories makes them filters that filter down results to match the chosen filters. The top-level catgegories are called groups. Each group has categories
-                    that can be used for filtering. If you yse multiple filters <strong>within the same group</strong> then these filters are combined with 'OR'. Filters in different groups are combined with 'AND'.<br/> The categories
-                    that have been setup by the search administrator should be descriptive for your use case. <br/>
+                    The category tree is very handy in your quest to help identify the items you are looking for. Clicking on categories makes
+                    them filters that filter down results to match the chosen filters. The top-level catgegories are called
+                    groups. Each group has categories that can be used for filtering. If you yse multiple filters <strong>within
+                        the same group</strong> then these filters are combined with 'OR'. Filters in different groups are
+                    combined with 'AND'.<br/> The categories that have been setup by the search administrator should be descriptive
+                    for your use case. <br/>
                     <i>Please contact the search administrator for questions in regards to the categories available.</i>
                 </dd>
 
                 <dt>Keywords:</dt>
                 <dd>
-                    Use words that are as special as possible for the items you are looking for. For instance, searching for the word "is" will most likely match on just about all items in the index. We instead recommend using rare words that helps IntelliSearch to identify
-                    the items you are looking for.<br/> By default IntelliSearch requires all words in the query to be present to match. After the search is performed you will be presented with an option where you can change this to
-                    instead execute a search that requires only one of the words to be present in the items to become a match. The IntelliSearch relevance algorithms will ensure that items that has a better match as listed on top.
+                    Use words that are as special as possible for the items you are looking for. For instance, searching for the word "is" will
+                    most likely match on just about all items in the index. We instead recommend using rare words that helps
+                    IntelliSearch to identify the items you are looking for.<br/> By default IntelliSearch
+                    requires all words in the query to be present to match. After the search is performed you will be presented
+                    with an option where you can change this to instead execute a search that requires only one of the words
+                    to be present in the items to become a match. The IntelliSearch relevance algorithms will ensure that
+                    items that has a better match as listed on top.
                 </dd>
 
                 <dt>Phrases:</dt>
                 <dd>
-                    If you add quotes around the search-expression then IntelliSearch will return only items where those words are used in sequence. I.e. searching for <code>"lisa went to school"</code> instead of just <code>lisa went to school</code>.
+                    If you add quotes around the search-expression then IntelliSearch will return only items where those words are used in sequence.
+                    I.e. searching for <code>"lisa went to school"</code> instead of just <code>lisa went to school</code>.
                 </dd>
 
                 <dt>Sorting:</dt>
                 <dd>
-                    By default IntelliSearch orders results by relevance, most relevant first to least relevant last. IntelliSearch calculate a match relevance per item it finds and puts the most relevant items on top. If you want you can switch the ordering from Relevance
-                    to Date, where items are ordered from newest to oldest.
-                    <i>Note that relevance can be tuned in the search-engine. Please contact the search administrator if you have input on how items should be ordered.</i>
+                    By default IntelliSearch orders results by relevance, most relevant first to least relevant last. IntelliSearch calculate
+                    a match relevance per item it finds and puts the most relevant items on top. If you want you can switch
+                    the ordering from Relevance to Date, where items are ordered from newest to oldest.
+                    <i>Note that relevance can be tuned in the search-engine. Please contact the search administrator if
+                        you have input on how items should be ordered.</i>
                 </dd>
 
                 <dt>Number-ranges:</dt>
                 <dd>
-                    IntelliSearch can also help you find specific numbers in the indexed items. If you search for i.e. <code>100-150</code> then IntelliSearch will return all items that has any number between 100 and 150 (inclusive). The order of the
-                    expression can even be switched, IntelliSearch will understand that <code>150-100</code> means the same as the previous expressions. You can also search for negative ranges, although the expressions will look a bit weirder. For instance,
+                    IntelliSearch can also help you find specific numbers in the indexed items. If you search for i.e. <code>100-150</code>                    then
+                    IntelliSearch will return all items that has any number between 100 and 150 (inclusive). The order of
+                    the expression can even be switched, IntelliSearch will understand that <code>150-100</code> means the
+                    same as the previous expressions. You can also search for negative ranges, although the expressions will
+                    look a bit weirder. For instance,
                     <code>-100--200</code> will return all items with the numbers -200 to -100 in them.<br />
                     <i>Requires the number-plugin to be enabled in the search-engine.</i>
                 </dd>
 
                 <dt>Advanced language features:</dt>
                 <dd>
-                    IntelliSearch will detect the language used in items and for Norwegian (bokmål as well as ny-norsk) we will amploy what is called 'lemmatization' techniques in order to help identify the items you are looking for. A fallback alternative is used for most
-                    other common languages, called 'stemming'. With lemmatization enabled, searching for the word <code>trær</code> for instance, will automatically also return items where the words <code>tre</code>, <code>trær</code>,
+                    IntelliSearch will detect the language used in items and for Norwegian (bokmål as well as ny-norsk) we will amploy what is
+                    called 'lemmatization' techniques in order to help identify the items you are looking for. A fallback
+                    alternative is used for most other common languages, called 'stemming'. With lemmatization enabled, searching
+                    for the word <code>trær</code> for instance, will automatically also return items
+                    where the words <code>tre</code>, <code>trær</code>,
                     <code>trærne</code>, <code>treet</code> (etc.) are used.
                     <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
                 </dd>
             </dl>
         </div>
+
         <nav>
             <!-- Navigation: Categories -->
-            <h2>Categories <img id="loading-categories" class="loading" src="https://i.gifer.com/EXfj.gif" /></h2>
             <div class="categories-header">
                 <span id="categories-stats"></span>
             </div>
             <div id="categories"></div>
         </nav>
 
+        <div id="category-dimmer">
+            <div class="loader-wrapper">
+                <div class="loader"></div>
+            </div>
+        </div>
+
         <main>
             <!-- Main content: Matches -->
-            <h2>Matches <img id="loading-matches" class="loading" src="https://i.gifer.com/EXfj.gif" /></h2>
             <div id="matches-header">
                 <span id="matches-stats"></span>
                 <div id="order">
@@ -143,19 +173,15 @@
 
         <aside>
             <!-- Sidebar: Details -->
-            <h2>Details</h2>
             <div id="details">
                 <div id="title"></div>
                 <div id="detail-types">
                     <input id="option-content" type="radio" checked="checked" name="details" />
                     <label for="option-content">Content</label>
-                    <input id="option-metadata" type="radio" name="details" />
-                    <label for="option-metadata">Metadata</label>
                     <input id="option-properties" type="radio" name="details" />
-                    <label for="option-properties">Properties</label>
+                    <label for="option-properties">Details</label>
                 </div>
                 <div id="content"></div>
-                <div id="metadata"></div>
                 <div id="properties"></div>
             </div>
         </aside>
@@ -166,10 +192,14 @@
         </footer>
 
         <div id="dimmer">
-
+            <div class="loader-wrapper">
+                <div class="loader"></div>
+            </div>
         </div>
+
     </div>
-    <script src="IntelliSearch.js"></script>
+    <script type="text/javascript" src="stacktrace.min.js"></script>
+    <script type="text/javascript" src="IntelliSearch.js"></script>
     <script type="text/javascript" src="index.js"></script>
 </body>
 

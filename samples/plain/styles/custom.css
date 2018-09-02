@@ -3,7 +3,7 @@
 }
 
 header {
-    background-color: #F9F9F9;
+    background-color: #f9f9f9;
     border-bottom: 1px solid#DEDEDE;
     text-align: left;
     height: 120px;
@@ -47,13 +47,9 @@ header #top .query {
     margin-top: 0;
 }
 
-img.loading {
-    position: absolute;
-}
-
 .query {
-    background-color: #FFFFFF;
-    border: 1px solid #DDDDDD;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
     vertical-align: top;
     height: 44px;
     width: 630px;
@@ -98,11 +94,10 @@ img.loading {
 }
 
 #tabs :first-child {
-    color: #1A73E8;
-    border-bottom: #1A73E8 solid 3px;
+    color: #1a73e8;
+    border-bottom: #1a73e8 solid 3px;
     font-weight: 700;
 }
-
 
 /*#tabs div.selected {
     color: #1A73E8;
@@ -110,25 +105,23 @@ img.loading {
     font-weight: 700;
 }*/
 
-
 /*** CATEGORIES ***/
 
-nav> :first-child {
+nav > :first-child {
     display: none;
 }
 
-nav> :nth-child(2) {
+nav > :nth-child(1) {
     display: none;
 }
 
-nav>.categories-header {
+nav > .categories-header {
     display: none;
 }
 
-nav>#categories>ul {
+nav > #categories > ul {
     margin-top: 0;
 }
-
 
 /*
 #categories .collapsed.hasChildren span::before
@@ -149,21 +142,19 @@ nav>#categories>ul {
     margin-left: 12px;
 }*/
 
-#categories>ul>li>.entry {
+#categories > ul > li > .entry {
     background-color: transparent;
 }
 
-
 /*** MAIN ***/
 
-main> :first-child {
+main > :first-child {
     display: none;
 }
 
-main> :nth-child(2) {
+main > :nth-child(2) {
     display: none;
 }
-
 
 /*** MATCHES ***/
 
@@ -210,7 +201,7 @@ main> :nth-child(2) {
     padding: 0;
 }
 
-#matches>ul>li:hover {
+#matches > ul > li:hover {
     background-color: rgb(250, 250, 250);
 }
 
@@ -218,18 +209,17 @@ main> :nth-child(2) {
     display: none;
 }
 
-
 /*** ASIDE ***/
 
 aside {
     /*position: absolute;*/
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     left: 700px;
-    background-color: #FDFDFD;
+    background-color: #fdfdfd;
     padding: 15px;
 }
 
-aside>h2 {
+aside > h2 {
     margin: 0 0 10px 0;
     border-bottom: 1px solid #dedede;
 }
@@ -238,15 +228,14 @@ aside #details {
     margin-top: 0;
 }
 
-aside> :first-child {
+aside > :first-child {
     /*display: none;*/
 }
-
 
 /*** FOOTER ***/
 
 footer {
-    background-color: #F9F9F9;
+    background-color: #f9f9f9;
     border-top: 1px solid#DEDEDE;
     padding: 10px;
     font-size: 19px;

@@ -1,10 +1,9 @@
 window.onload = function(e) {
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 1. First create a settings object that is sent to the search-engine.
+    //    This test uses the publicly exposed demo SearchManager endpoint.
+    //////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /**
-     * 1. First create a settings object that is sent to the search-engine.
-     * This test uses the publicly exposed demo SearchManager endpoint.
-     */
     const clientSettings = new IntelliSearch.Settings({
         autocomplete: {
             //enabled: false, //TODO: Enable when the backend has been updated.
@@ -23,85 +22,293 @@ window.onload = function(e) {
             cbError: handleCategorizeError
         },
         query: {
-            clientId: 'plain-sample',
+            clientId: "plain-sample",
             matchGenerateContent: true,
-            matchGrouping: true,
+            matchGrouping: true
             //categorizationType: IntelliSearch.CategorizationType.DocumentHitsOnly
         }
     });
 
-    const guiSettings = {
-        content: {
-            show: clientSettings.query.matchGenerateContent,
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 2. Set up the ui settings.
+    //    These provide a simple means to controlling the rendering.
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    const uiSettings = {
+        match: {
+            categories: {
+                show: true,
+                exclude: [
+                    /^System.*/,
+                    /^ModifiedDate.*/,
+                    /^Projects \(JIRA\)$/,
+                    /^Author$/,
+                    /^GDPR$/
+                ]
+            }
         },
-        metadata: {
-            show: true,
-            exclude: [
+        details: {
+            content: {
+                show: clientSettings.query.matchGenerateContent
+            },
+            properties: {
+                show: true,
+                exclude: [
+                    /\$id$/,
+                    /^abstract$/,
+                    /^extracts$/,
+                    /^categories$/,
+                    /^content$/,
+                    /^metaList$/,
+                    /^title$/,
+                    /^url$/,
+                    /^$/
+                ]
+            },
+            metadata: {
+                show: true,
+                exclude: [
+                    /^_?IntelliSearch\./i,
+                    /^ItemId(Hash|Uri)$/,
+                    /^CrawlerName/,
+                    /^CrawledDate/,
+                    /^System$/,
+                    /^Exists$/ // TODO: Where does this come from?
+                ]
+            },
+            categories: {
+                show: true,
+                exclude: [
+                    /^System.*/,
+                    /^ModifiedDate.*/,
+                    /^Projects \(JIRA\)$/,
+                    /^Author$/,
+                    /^GDPR$/
+                ]
+            }
+        }
+    };
 
-            ],
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 3. If needed, tune the rendering templates to adjust the output according to your wishes.
+    //    These provide a simple means to controlling the rendering.
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    // prettier-ignore
+    const render = {
+        match: {
+            // Required
+            stats: (matches) => `
+                <span>About ${matches.estimatedMatchCount} matches</span>
+            `,
+            // Required
+            item: (match) => `
+                <div class="item">
+                    <div class="headline">
+                        ${render.match.title(match.title, match.url)}
+                    </div>
+                    ${render.match.modDate(match.date)}
+                    ${render.match.abstracts(match.abstracts)}
+                    ${render.match.extracts(match.extracts)}
+                    ${render.match.categories(match.categories)}
+                </div>
+            `,
+            // The rest are optional and depends on references in the above
+            categories: (categories) => uiSettings.match.categories.show && categories && categories.length > 0
+                ? `
+                    <div class="categories" title="Categories associated with the match">
+                        ${collect(
+                            categories,
+                            (category) => {
+                                if (excluded(category, uiSettings.match.categories.exclude)) {
+                                    return "";
+                                } else {
+                                    const catName = getLocalizedCategoryName(category);
+                                    const shortCatName = truncateMiddleEllipsis(catName, 20);
+                                    return `<span class="category" title="${catName}">${shortCatName}</span>`;
+                                }
+                            })}
+                    </div>
+                    `
+                : ``
+            ,
+            abstracts: (abstracts) => abstracts && abstracts.length > 0
+                ? `
+                    <div class="abstracts" title="Match abstract, ingress or similar">
+                        ${collect(abstracts, (abstract) => `<span class="abstract">${abstract}</span>`)}
+                    </div>
+                  `
+                : ``
+            ,
+            extracts: (extracts) => extracts && extracts.length > 0
+                ? `
+                    <div class="extracts" title="Extract of where the item has matches">
+                        ${collect(extracts, (extract) => `<span class="extract">${extract}</span>`)}
+                    </div>
+                  `
+                : ``
+            ,
+            modDate: (date) => `
+                <span class="date" title="Modification date">${new Date(date).toLocaleDateString()}</span>
+            `,
+            title: (title, url) => `
+                <a class="title" href="${url}" title="${title}">${title}</a>
+            `,
         },
-        properties: {
-            show: true,
-            exclude: [
+        details: {
+            // Required
+            content: (content) => `
+                <p>${content.join("</p><p>")}</p>
+            `,
+            // Required
+            properties: (match) => `
+                ${render.details.itemProperties(match)}
+                ${render.details.itemMetadata(match.metaList)}
+                ${render.details.itemCategories(match.categories)}
+            `,
+            itemProperties: (match) => {
+                if (!uiSettings.details.properties.show) return "";
+                let items = [];
+                for (var property in match) {
+                    if (match.hasOwnProperty(property)) {
+                        if (!excluded(property, uiSettings.details.properties.exclude)) {
+                            items.push(property);
+                        }
+                    }
+                }
+                return `
+                    <h2>Properties</h2>
+                    <dl class="properties">
+                        ${collect(items, (prop) => `
+                            <dt title="${prop}">${prop}</dt>
+                            <dd title="${match[prop]}">${match[prop]}</dd>
+                        `)}
+                    </dl>
+                `;
+            },
+            itemMetadata: (metadata) => {
+                if (!uiSettings.details.metadata.show) return "";
+                let items = [];
+                for (var meta of metadata) {
+                    if (!excluded(meta.key, uiSettings.details.metadata.exclude)) {
+                        items.push(meta);
+                    }
+                }
+                return `
+                    <h2>Metadata</h2>
+                    <dl class="metadata">
+                        ${collect(items, (meta) => `
+                            <dt title="${meta.key}">${meta.key}</dt>
+                            <dd title="${meta.value}">${meta.value}</dd>
+                        `)}
+                    </dl>
+                `;
+            },
+            itemCategories: (categories) => {
+                if (!uiSettings.details.categories.show) return "";
+                let items = [];
+                for (var category of categories) {
+                    if (!excluded(category, uiSettings.details.categories.exclude)) {
+                            items.push(category);
+                    }
+                }
+                return `
+                    <h2>Categories</h2>
+                    <ul class="categories">
+                        ${collect(items, (cat) => {
+                            const catName = getLocalizedCategoryName(cat);
+                            return `
+                                <li title="${catName}">${catName}</li>
+                            `;
+                        })}
+                    </ul>
+                `;
+            },
+        }
+    };
 
-            ],
-        },
-    }
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 4. Initialize the client engine
+    //    Wrapping the creation as it is used also when the reset-button is clicked.
+    //////////////////////////////////////////////////////////////////////////////////////////
 
-    console.log("Client-settings", clientSettings);
-    console.log("GUI-settings", guiSettings);
+    // For debugging
+    console.log("Client settings", clientSettings);
+    console.log("User interface settings", uiSettings);
+    console.log("Render templates", render);
 
+    // prettier-ignore
     function setupClient() {
-        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no", clientSettings);
+        // Sets up the client that connects to the intellisearch backend using the aforementioned settings
+        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no",clientSettings);
     }
 
     let client = setupClient();
 
-    /**
-     * 2. Wire up the queryText field and the search-button.
-     */
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 5. Wire up the queryText field, reset and search-button.
+    //    Using input type="input", with separate reset and search button.
+    //    Detecting changes, enter, reset-click and search-click.
+    //////////////////////////////////////////////////////////////////////////////////////////
+
     var queryTextElm = document.getElementById("query-text");
+
+    // This reports changes in the query, but does not detect enter
     queryTextElm.addEventListener("input", function() {
         console.log("queryText changed: " + queryTextElm.value);
-        if (queryTextElm.value.length > 0)
+        if (queryTextElm.value.length > 0) {
             resetBtn.classList.remove("hidden");
-        else {
+        } else {
             resetBtn.classList.add("hidden");
         }
         client.queryText = queryTextElm.value;
+
+        // TODO: Figure out how to detect this properly.
+        // There are queries for both match and categorize to consider.
+        // if the current state has changed from any of the two, then the results are not
+        // representative anymore. So, the client-check should consider both.
+        // The client must then remember the last query that ended up yielding results (not failure).
+        // if (client.lastQuery !== client.query) {
+        //     containerElm.classList.add("query-changed");
+        // } else {
+        //     containerElm.classList.remove("query-changed");
+        // }
     });
 
+    // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keyup", function(event) {
         if (event.key === "Enter") {
             console.log("queryText Enter detected: " + queryTextElm.value);
-            client.queryText = queryTextElm.value + "\n";
+            client.update();
         }
     });
 
+    // We use input type="input", instead of type="search". This is because the reset X that appears on the latter field
+    // for type="search" is not reliably firing events across browsers. With type="input" we make our own reset button.
     var resetBtn = document.getElementById("reset");
     var containerElm = document.getElementById("container");
     resetBtn.addEventListener("click", () => {
-        console.log("Resets the client (TODO: Reset html");
+        console.log("UI reset");
         client = setupClient();
         containerElm.className = "introduction";
         queryTextElm.value = "";
-    })
+    });
 
-
+    // We also want the search button to force a
     var searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", function() {
         console.log("Search-button clicked");
         client.update();
     });
 
-    /**
-     * 3. Wire up other buttons, options and areas on the page:
-     * - Search-type
-     * - Date-range
-     * - Pager
-     * - Match ordering
-     * - ...
-     */
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 6. Wire up other buttons, options and areas on the page:
+    //    - Search-type
+    //    - Date-range
+    //    - Pager
+    //    - Match ordering
+    //    - ...
+    //////////////////////////////////////////////////////////////////////////////////////////
     var matchesHeader = document.getElementById("matches-header");
 
     var orderByRelevance = document.getElementById("option-relevance");
@@ -115,7 +322,9 @@ window.onload = function(e) {
     });
 
     var suggestionsElm = document.getElementById("suggestions");
-    var didYouMeanContainerElm = document.getElementById("did-you-mean-container");
+    var didYouMeanContainerElm = document.getElementById(
+        "did-you-mean-container"
+    );
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
     var categoriesElm = document.getElementById("categories");
@@ -129,45 +338,35 @@ window.onload = function(e) {
     var detailsTypesElm = document.getElementById("detail-types");
 
     var contentElm = document.getElementById("content");
-    var metadataElm = document.getElementById("metadata");
     var propertiesElm = document.getElementById("properties");
 
     var detailsContent = document.getElementById("option-content");
     detailsContent.addEventListener("click", function() {
         contentElm.style.display = "initial";
-        metadataElm.style.display = "none";
-        propertiesElm.style.display = "none";
-    });
-    var detailsMetadata = document.getElementById("option-metadata");
-    detailsMetadata.addEventListener("click", function() {
-        contentElm.style.display = "none";
-        metadataElm.style.display = "initial";
         propertiesElm.style.display = "none";
     });
     var detailsProperties = document.getElementById("option-properties");
     detailsProperties.addEventListener("click", function() {
         contentElm.style.display = "none";
-        metadataElm.style.display = "none";
         propertiesElm.style.display = "initial";
     });
 
+    var matchesErrorElm = document.getElementById("matches-error");
+    var categoriesErrorElm = document.getElementById("categories-error");
 
-    var loadingSuggestions = document.getElementById("loading-suggestions");
-    var loadingCategories = document.getElementById("loading-categories");
-    var loadingMatches = document.getElementById("loading-matches");
+    var loadingSuggestions = document.getElementById("spinner");
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 7. Implement callbacks, that in turn render the ui
+    //////////////////////////////////////////////////////////////////////////////////////////
 
-    /////////////////////////////////////////////
-    // 4. Implement callbacks
-    /////////////////////////////////////////////
-
-    // Autocomplete callbacks ///////////////////
+    /*** Autocomplete callbacks *************************************************************/
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
      * Return false to stop autocomplete queries from being executed.
      */
     function handleAutocompleteRequest(url, reqInit) {
-        console.log("handleAutocompleteRequest", "Url: ", url, "ReqInit:", reqInit);
+        console.log("handleAutocompleteRequest", url, reqInit);
         loadingSuggestions.style.visibility = "visible";
     }
 
@@ -189,11 +388,14 @@ window.onload = function(e) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleAutocompleteError(error) {
-        console.error("handleAutocompleteError", error);
         loadingSuggestions.style.visibility = "hidden";
+
+        stacktrace(stack => {
+            console.error("handleAutocompleteError", error.message, stack);
+        });
     }
 
-    // Find callbacks ///////////////////////////
+    /*** Find callbacks *********************************************************************/
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
@@ -201,7 +403,7 @@ window.onload = function(e) {
      */
     function handleFindRequest(url, reqInit) {
         console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
-        loadingMatches.style.visibility = "visible";
+        containerElm.classList.add("matches-loading");
     }
 
     /**
@@ -209,12 +411,15 @@ window.onload = function(e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
-        loadingMatches.style.visibility = "hidden";
-
-        matchesStatsElm.innerHTML = `<span>Omtrent ${matches.estimatedMatchCount} resultater</span>`;
-
+        containerElm.classList.remove("matches-loading", "error");
+        titleElm.innerHTML = "";
+        contentElm.innerHTML = "";
+        propertiesElm.innerHTML = "";
         didYouMeanContainerElm.style.display = "none";
         didYouMeanOptionsElm.innerHTML = "";
+
+        matchesStatsElm.innerHTML = render.match.stats(matches);
+
         if (matches.didYouMeanList.length > 0) {
             matches.didYouMeanList.forEach((didYouMean, i, a) => {
                 var li = document.createElement("li");
@@ -233,85 +438,18 @@ window.onload = function(e) {
         matchesElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
-            var li = document.createElement('li');
-
-            // Build title
-            var title = `<a class="title" href="${match.url}" title="${match.title}">${match.title}</a>`;
-
-            // Build showButton (if contents are delivered)
-            var showContentButton = match.content.length > 0 ? `<button title="Show content...">&telrec;</button>` : "";
-
-            // Build relevance
-            var relevance = `<span class="relevance" title="Relevance (${match.relevance})">${parseInt(match.relevance)}</span>`;
-
-            // Build modification date
-            var modificationDate = `<span class="date" title="Modification date">${new Date(match.date).toLocaleDateString()}</span>`;
-
-            // Build extracts
-            var extracts = "";
-            match.extracts.forEach(function(extract, meIndex, meArr) {
-                //extracts += `<div class="extract">${extract}</div>`;
-                extracts += `<span class="extract">${extract}</span><br/>`;
-            });
-            extracts = extracts.length > 0 ? `<div class="extracts"><span class="date">${new Date(match.date).toLocaleDateString()} - </span>${extracts}</div>` : "";
-
-            // Build abstract
-            var abstract = match.abstract.length > 0 ? `<div class="abstract">${match.abstract}</div>` : "";
-
-            // Build match-item
-            li.innerHTML = `
-                <div class="headline">
-                    ${title}
-                    <div class="rel-date-wrapper">
-                        ${showContentButton}
-                        ${relevance}
-                        ${modificationDate}
-                    </div>
-                </div>
-                ${extracts}
-                ${abstract}
-            `;
-
-            // Build the content that is to be displayed in the details pane.
-
-            // Build title
-            var detailTitle = `<span title="${match.title}">Title: ${match.title}</span>`;
-
-            // Build metadata
-            var metadata = "";
-            match.metaList.forEach(function(meta, metaIndex, metaArr) {
-                // Iterate all metadatas to create a list
-                metadata += `<li title="${meta.value}"><b>${meta.key}</b>: ${meta.value}</li>`;
-            });
-
-            // Build properties
-            var categories = "</br>";
-            match.categories.forEach(function(cat, catIndex, catArr) {
-                // Iterate all categories to create a list
-                categories += `&nbsp;-&nbsp;${cat}<br/>`;
-            });
-
-            var properties = `
-                <li><b>InternalId</b>: ${match.internalId}</li>
-                <li><b>ItemId</b>: ${match.itemId}</li>
-                <li><b>SourceName</b>: ${match.sourceName}</li>
-                <li><b>InstanceId</b>: ${match.instanceId}</li>
-                <li><b>ParentInternalId</b>: ${match.parentInternalId}</li>
-                <li><b>ParentLevel</b>: ${match.parentLevel}</li>
-                <li><b>IndexManagerNode</b>: ${match.indexManagerNode}</li>
-                <li><b>IsTrueMatch</b>: ${match.isTrueMatch}</li>
-                <li><b>Categories</b>: ${categories}</li>
-                `;
+            var li = document.createElement("li");
+            li.innerHTML = render.match.item(match);
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
-                titleElm.innerHTML = detailTitle;
+                titleElm.innerHTML = `<span class="title">${
+                    match.title
+                }</span>`;
                 detailsTypesElm.style.display = "initial";
-                contentElm.innerHTML = `<p>${match.content.join('</p><p>')}</p>`;
-                metadataElm.innerHTML = `<ul>${metadata}</ul>`;
-                propertiesElm.innerHTML = `<ul>${properties}</ul>`;
+                contentElm.innerHTML = render.details.content(match.content);
+                propertiesElm.innerHTML = render.details.properties(match);
             });
-
             return li;
         }
 
@@ -330,8 +468,8 @@ window.onload = function(e) {
             matchesElm.innerHTML = "No matches.";
             detailsTypesElm.style.display = "none";
             titleElm.innerHTML = "";
+            contentElm.innerHTML = "";
             propertiesElm.innerHTML = "";
-            metadataElm.innerHTML = "";
         }
     }
 
@@ -339,26 +477,50 @@ window.onload = function(e) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleFindError(error) {
-        console.error("handleFindError", error);
-        loadingMatches.style.visibility = "hidden";
+        containerElm.classList.remove("matches-loading");
+        containerElm.classList.add("error");
+
+        stacktrace(stack => {
+            console.error("handleFindError", error.message, stack);
+            matchesErrorElm.innerHTML = `
+            <h4>Find:</h4>
+            <ul>
+                <li>
+                    <span class="key">Message:</span>
+                    <span class="message">${error.message}</span>
+                </li>
+                <li>
+                    <span class="key">Stacktrace:</span><br/>
+                    <span class="stacktrace">${stack.join("<br/>")}</span>
+                </li>
+            </ul>
+            `;
+        });
+
         matchesStatsElm.innerHTML = "";
         matchesElm.innerHTML = "No matches.";
         detailsTypesElm.style.display = "none";
         titleElm.innerHTML = "";
+        contentElm.innerHTML = "";
         propertiesElm.innerHTML = "";
-        metadataElm.innerHTML = "";
         matchesHeader.classList.remove("has-data");
     }
 
-    // Categorize callbacks ///////////////////////////
+    /*** Categorize callbacks ***************************************************************/
 
     /**
      * Often used to track "loading" spinners. Stop the spinner on success or error.
      * Return false to stop autocomplete queries from being executed.
      */
     function handleCategorizeRequest(url, reqInit) {
-        console.log("handleCategorizeRequest", "Url: ", url, "ReqInit:", reqInit);
-        loadingCategories.style.visibility = "visible";
+        console.log(
+            "handleCategorizeRequest",
+            "Url: ",
+            url,
+            "ReqInit:",
+            reqInit
+        );
+        containerElm.classList.add("categories-loading");
     }
 
     /**
@@ -366,9 +528,12 @@ window.onload = function(e) {
      */
     function handleCategorizeSuccess(categories) {
         console.log("handleCategorizeSuccess", "Categories:", categories);
-        loadingCategories.style.visibility = "hidden";
+        containerElm.classList.remove("categories-loading", "error");
+
         categoriesStatsElm.innerHTML = `
-            <span>Hits: ${categories.isEstimatedCount ? '~' : ''}${categories.matchCount}</span>
+            <span>Hits: ${categories.isEstimatedCount ? "~" : ""}${
+            categories.matchCount
+        }</span>
         `;
 
         categoriesElm.innerHTML = "";
@@ -383,18 +548,30 @@ window.onload = function(e) {
             if (category.count > 0) {
                 categoryLiElm.classList.add("has-matches");
             }
-            categoryLiElm.classList.add(category.expanded ? "expanded" : "collapsed");
-            categoryLiElm.classList.add(category.children.length > 0 ? "has-children" : "is-leaf");
+            categoryLiElm.classList.add(
+                category.expanded ? "expanded" : "collapsed"
+            );
+            categoryLiElm.classList.add(
+                category.children.length > 0 ? "has-children" : "is-leaf"
+            );
 
             var toggle = `<span class="toggle"></span>`;
             var title = `<span class="title">${category.displayName}</span>`;
-            var count = category.count > 0 ? `<span class="count">${category.count}</span>` : '';
+            var count =
+                category.count > 0
+                    ? `<span class="count">${category.count}</span>`
+                    : "";
             categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
             var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
                 var result = client.toggleCategoryExpansion(category);
-                console.log(`Toggled expansion for category '${category.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
+                console.log(
+                    `Toggled expansion for category '${
+                        category.displayName
+                    }'. Expanded = ${result}`,
+                    client.clientCategoryExpansion
+                );
             });
 
             var linkElm = categoryLiElm.getElementsByClassName("link")[0];
@@ -403,7 +580,12 @@ window.onload = function(e) {
                 if (closestLi === categoryLiElm) {
                     var added = client.filterToggle(category);
                     closestLi.classList.toggle("is-filter");
-                    console.log(`Filter ${category.displayName} was ${added ? "added" : "removed"}. Current filters:`, client.filters);
+                    console.log(
+                        `Filter ${category.displayName} was ${
+                            added ? "added" : "removed"
+                        }. Current filters:`,
+                        client.filters
+                    );
                 }
             });
             if (category.children.length > 0) {
@@ -427,13 +609,22 @@ window.onload = function(e) {
                 var title = `<span class="title">${group.displayName}</span>`;
                 var toggle = `<span class="toggle"></span>`;
                 groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
-                groupLiElm.classList.add(group.expanded ? "expanded" : "collapsed");
-                groupLiElm.classList.add(group.categories.length > 0 ? "has-children" : "is-leaf");
+                groupLiElm.classList.add(
+                    group.expanded ? "expanded" : "collapsed"
+                );
+                groupLiElm.classList.add(
+                    group.categories.length > 0 ? "has-children" : "is-leaf"
+                );
 
                 var toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
                     var result = client.toggleCategoryExpansion(group);
-                    console.log(`Toggled expansion for group '${group.displayName}'. Expanded = ${result}`, client.clientCategoryExpansion);
+                    console.log(
+                        `Toggled expansion for group '${
+                            group.displayName
+                        }'. Expanded = ${result}`,
+                        client.clientCategoryExpansion
+                    );
                 });
                 if (group.categories.length > 0) {
                     var catUlElm = document.createElement("ul");
@@ -455,10 +646,85 @@ window.onload = function(e) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleCategorizeError(error) {
-        console.error("handleCategorizeError", error);
-        loadingCategories.style.visibility = "hidden";
+        containerElm.classList.remove("categories-loading");
+        containerElm.classList.add("error");
+
+        stacktrace(stack => {
+            console.error("handleCategorizeError", error.message, stack);
+            categoriesErrorElm.innerHTML = `
+            <h4>Categorize:</h4>
+            <ul>
+                <li>
+                    <span class="key">Message:</span>
+                    <span class="message">${error.message}</span>
+                </li>
+                <li>
+                    <span class="key">Stacktrace:</span><br/>
+                    <span class="stacktrace">${stack.join("<br/>")}</span>
+                </li>
+            </ul>
+            `;
+        });
+
         categoriesStatsElm.innerHTML = "";
-        categoriesElm.innerHTML = "No categories.";
+        categoriesElm.innerHTML = "";
     }
 
-}
+    // Utility template-helper to collect output from a map iterator.
+    function collect(collection, action) {
+        return collection.map(action).join("");
+    }
+
+    // Utility helper to exclude items
+    function excluded(item, regexExclusionPatterns) {
+        for (const exclude of regexExclusionPatterns) {
+            const regex = new RegExp(exclude);
+            const match = regex.test(item);
+            if (match) return true;
+        }
+        return false;
+    }
+
+    // Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.
+    function getLocalizedCategoryName(category) {
+        // TODO: Add a SearchClient method to show the full path DisplayName for a category.
+        const catId = category.split("|");
+        const cat = client.findCategory(catId);
+        let name = cat ? cat.displayName : category;
+        return name.split("|").join("/");
+    }
+
+    // Truncate the rendering of category-titles in the matches.
+    // TODO: Render first and last part in full, then just split the middle part, if longer than i.e. 5 chars.
+    function truncateMiddleEllipsis(fullStr, strLen, separator) {
+        if (fullStr.length <= strLen) return fullStr;
+
+        separator = separator || "...";
+
+        var sepLen = separator.length,
+            charsToShow = strLen - sepLen,
+            frontChars = Math.ceil(charsToShow / 2),
+            backChars = Math.floor(charsToShow / 2);
+
+        return (
+            fullStr.substr(0, frontChars) +
+            separator +
+            fullStr.substr(fullStr.length - backChars)
+        );
+    }
+
+    function stacktrace(action) {
+        StackTrace.get(error, { offline: true })
+            .then(stackframes => {
+                // Remove the topmost three frames, as they are artificial.
+                stackframes = stackframes.slice(3);
+                return stackframes.map(function(sf) {
+                    return sf.toString();
+                });
+            })
+            .then(action)
+            .catch(err =>
+                console.error("Unable to create stacktrace", err.message)
+            );
+    }
+};
