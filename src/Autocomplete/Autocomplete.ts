@@ -71,7 +71,7 @@ export class Autocomplete extends BaseCall<string[]> {
                 })
                 .catch(error => {
                     this.cbError(suppressCallbacks, error, url, reqInit);
-                    return Promise.reject(error);
+                    throw error;
                 });
         } else {
             // TODO: When a fetch is stopped due to cbRequest returning false, should we:

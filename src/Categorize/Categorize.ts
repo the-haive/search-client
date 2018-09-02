@@ -91,7 +91,7 @@ export class Categorize extends BaseCall<Categories> {
                 })
                 .catch(error => {
                     this.cbError(suppressCallbacks, error, url, reqInit);
-                    return Promise.reject(error);
+                    throw error;
                 });
         } else {
             // TODO: When a fetch is stopped due to cbRequest returning false, should we:
@@ -263,6 +263,34 @@ export class Categorize extends BaseCall<Categories> {
         }
 
         return null;
+    }
+
+    /**
+     * Find the category based on the category-name array.
+     *
+     * @param categoryName The category array that identifies the category.
+     * @returns The Category object if found or null.
+     */
+    public findCategory(categoryName: string[]): Group | Category | null {
+        if (!this.categories) {
+            return null;
+        }
+        let groupIndex = this.categories.groups.findIndex(
+            g => g.name === categoryName[0]
+        );
+        if (groupIndex < 0) {
+            return null;
+        }
+        let group = this.categories.groups[groupIndex];
+        if (categoryName.length === 1) {
+            return group;
+        }
+        let category = this.getCategoryPathDisplayNameFromCategories(
+            categoryName,
+            group.categories
+        );
+
+        return category ? category.ref : null;
     }
 
     private getCategoryPathDisplayNameFromCategories(

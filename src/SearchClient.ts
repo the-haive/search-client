@@ -870,6 +870,16 @@ export class SearchClient implements AuthToken {
         this.find.deferUpdates(state, skipPending);
     }
 
+    /**
+     * Find the category based on the category-name array.
+     *
+     * @param categoryName The category array that identifies the category.
+     * @returns The Category object if found or null.
+     */
+    public findCategory(categoryName: string[]): Group | Category | null {
+        return this.categorize.findCategory(categoryName);
+    }
+
     private doFilterAdd(filter: string[]) {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
         const newFilter = this.categorize.createCategoryFilter(filter);

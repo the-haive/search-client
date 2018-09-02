@@ -88,7 +88,7 @@ export class Authentication extends BaseCall<any> {
                 })
                 .catch(error => {
                     this.cbError(suppressCallbacks, error, url, reqInit);
-                    return Promise.reject(error);
+                    throw error;
                 });
         } else {
             return Promise.resolve(null);
