@@ -110,9 +110,7 @@ window.onload = function(e) {
             // Required
             item: (match) => `
                 <div class="item">
-                    <div class="headline">
-                        ${render.match.title(match.title, match.url)}
-                    </div>
+                    ${render.match.title(match.title, match.url)}
                     ${render.match.modDate(match.date)}
                     ${render.match.abstracts(match.abstracts)}
                     ${render.match.extracts(match.extracts)}
@@ -404,7 +402,6 @@ window.onload = function(e) {
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
     var categoriesTreeElm = document.getElementById("categories-tree");
-    var categoriesStatsElm = document.getElementById("categories-stats");
 
     var matchesListElm = document.getElementById("matches-list");
     var matchesStatsElm = document.getElementById("matches-stats");
@@ -421,16 +418,16 @@ window.onload = function(e) {
         "details-option-content"
     );
     detailsOptionContent.addEventListener("click", function() {
-        detailsContentElm.style.display = "initial";
-        detailsPropertiesElm.style.display = "none";
+        detailsElm.classList.add("content");
+        detailsElm.classList.remove("properties");
     });
     var detailsOptionProperties = document.getElementById(
         "details-option-properties"
     );
 
     detailsOptionProperties.addEventListener("click", function() {
-        detailsContentElm.style.display = "none";
-        detailsPropertiesElm.style.display = "initial";
+        detailsElm.classList.add("properties");
+        detailsElm.classList.remove("content");
     });
 
     var matchesErrorElm = document.getElementById("matches-error");
@@ -606,13 +603,6 @@ window.onload = function(e) {
     function handleCategorizeSuccess(categories) {
         console.log("handleCategorizeSuccess", "Categories:", categories);
         containerElm.classList.remove("categories-loading", "error");
-
-        categoriesStatsElm.innerHTML = `
-            <span>Hits: ${categories.isEstimatedCount ? "~" : ""}${
-            categories.matchCount
-        }</span>
-        `;
-
         categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
@@ -714,7 +704,6 @@ window.onload = function(e) {
                 ul.appendChild(groupLiElm);
             });
         } else {
-            categoriesStatsElm.innerHTML = "";
             categoriesTreeElm.innerHTML = "No categories.";
         }
     }
@@ -734,7 +723,6 @@ window.onload = function(e) {
             );
         });
 
-        categoriesStatsElm.innerHTML = "";
         categoriesTreeElm.innerHTML = "";
     }
 

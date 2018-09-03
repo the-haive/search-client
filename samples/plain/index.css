@@ -25,7 +25,7 @@ body {
 #container {
     display: grid;
     grid-template-areas: "header header header" "categories matches details" "footer footer footer";
-    grid-template-columns: 250px 1fr 300px;
+    grid-template-columns: 270px 1fr 500px;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
     height: 100vh;
@@ -144,10 +144,48 @@ button#reset.hidden {
 
 header {
     grid-area: header;
-    display: block;
-    justify-content: center;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid#DEDEDE;
+    text-align: left;
+    height: 120px;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#top {
+    display: flex;
+    justify-content: start;
+    margin-left: 10px;
     align-items: center;
-    text-align: center;
+    height: 65px;
+    padding-top: 10px;
+}
+
+header #top h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-indent: -9999px;
+    line-height: 0;
+    margin: 0 20px 0 10px;
+}
+
+header #top h1::after {
+    content: "IntelliSearch";
+    text-indent: 0;
+    line-height: initial;
+    display: block;
+}
+
+#logo {
+    background: url("../images/INTS_Logo.svg") 0 0 no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+}
+
+header #top .query {
+    margin-top: 0;
 }
 
 header p {
@@ -157,38 +195,73 @@ header p {
     margin: 0 auto;
 }
 
-header .query {
-    margin-top: 1em;
+#query-text {
+    border: none;
+    overflow: auto;
+    outline: none;
+    box-shadow: none;
+    font-size: 16px;
+    width: 100%;
+    padding-left: 0;
 }
+.query {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    vertical-align: top;
+    height: 44px;
+    width: 630px;
+    border-radius: 4px;
+    padding: 0 5px;
+    display: flex;
+}
+
+.query-text:focus,
+.query button:focus {
+    outline: none;
+}
+
 .query button {
     background-color: transparent;
     border: 0;
 }
-#did-you-mean-container {
-    margin-top: 1em;
+
+.query svg {
+    width: 24px;
+    height: 24px;
 }
 
-#detail-types {
-    display: none;
+#tabs {
+    display: flex;
+    margin-left: 280px;
 }
 
-#metadata,
-#properties {
-    white-space: nowrap;
-    display: none;
+#tabs div {
+    padding-top: 28px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    font-size: 13px;
 }
 
-#did-you-mean {
-    margin-top: 0;
-    list-style-type: none;
-    padding-left: 0;
+#tabs :first-child {
+    color: #1a73e8;
+    border-bottom: #1a73e8 solid 3px;
+    font-weight: 700;
 }
 
-#did-you-mean li {
-    margin-left: 0;
-    text-decoration: underline;
-    font-style: italic;
+/*#tabs div.selected {
+    color: #1A73E8;
+    border-bottom: #1A73E8 solid 3px;
+    font-weight: 700;
+}*/
+
+#categories,
+#matches,
+#details {
+    overflow-x: hidden;
 }
+
+/*** CATEGORIES ***/
 
 #categories {
     grid-area: categories;
@@ -282,11 +355,63 @@ header .query {
     content: ")";
 }
 
-main {
+/* #categories > :first-child {
+    display: none;
+}
+
+#categories > :nth-child(1) {
+    display: none;
+} */
+
+#categories-tree > ul {
+    margin-top: 0;
+}
+
+/*
+#categories .collapsed.hasChildren span::before
+{
+    content: "\25b6";
+}
+#categories .collapsed :nth-child(2) {
+    display:none;
+}
+#categories .expanded.hasChildren span::before
+{
+    content: "\25bc";
+}
+
+#categories .expanded.leafNode span::before
+{
+    content: "";
+    margin-left: 12px;
+}*/
+
+#categories > ul > li > .entry {
+    background-color: transparent;
+}
+
+/*** MATCHES ***/
+#matches {
     grid-area: matches;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
+}
+
+#did-you-mean-container {
+    margin-top: 1em;
+    flex-shrink: 0;
+}
+
+#did-you-mean {
+    margin-top: 0;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#did-you-mean li {
+    margin-left: 0;
+    text-decoration: underline;
+    font-style: italic;
 }
 
 #matches-header.has-data {
@@ -296,6 +421,7 @@ main {
 
 #matches-header {
     display: none;
+    flex-shrink: 0;
 }
 
 #matches-order {
@@ -307,74 +433,82 @@ main {
     font-weight: bold;
 }
 
-#categories,
-#matches,
-#details {
-    overflow-x: hidden;
+#matches-list {
+    flex-grow: 1;
+    overflow-y: auto;
 }
-
-#matches ul {
+#matches-list ul {
     list-style: none;
     padding: 0;
 }
 
-#matches li {
-    margin-bottom: 0.5em;
+#matches-list li {
+    margin-bottom: 30px;
+    margin-right: 10px;
 }
 
-#matches li .headline {
+#matches-list li .headline {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
 }
 
-#matches li .headline * {
+#matches-list li .headline * {
     margin-left: 1em;
-}
-
-#matches li .headline .date {
-    font-weight: 100;
-    font-style: italic;
-}
-
-#matches li .headline .title {
-    margin-left: 0;
-}
-
-#matches li .headline .rel-date-wrapper {
-    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 18px;
+    font-weight: normal;
 }
 
-#matches li .headline button {
-    vertical-align: text-bottom;
-}
-
-#matches li .extracts {
-    font-size: smaller;
+#matches-list li .date {
     font-style: italic;
+    display: block;
+}
+
+#matches-list li .title {
+}
+
+#matches-list a {
+    text-decoration: none;
+}
+
+#matches-list a:link {
+    color: #1a0dab;
+}
+
+#matches-list a:visited,
+#matches-list a:active {
+    color: #609;
+}
+
+#matches-list a:hover {
+    text-decoration: underline;
+}
+
+#matches-list li .extracts {
+    font-size: smaller;
+    font-style: normal;
     padding: 0.2em 0 0.5em 0.1em;
-    border-left: solid 0.2em silver;
+    border-left: solid 0 silver;
     margin: 0 0 0 0.2em;
-    background-color: rgba(248, 248, 255, 0.7);
+    background-color: transparent;
 }
 
-#matches li .extract {
-    padding: 0 0 0 0.6em;
+#matches-list li .extract {
+    display: block;
+    padding: 0 0 0.5em 0;
 }
 
-#matches li .abstract {
+#matches-list li .abstract {
 }
 
-#matches > ul > li:hover {
-    background-color: blanchedalmond;
-}
-
-#matches li .extract + .extract {
+/* #matches-list li .extract + .extract {
     border-top: solid 0.3em rgba(255, 255, 255, 0.95);
-}
+} */
 
-#matches .category {
+#matches-list .category {
     border-radius: 1em;
     border: solid 0.1em transparent;
     padding: 0.2em 0.5em;
@@ -385,25 +519,60 @@ main {
     cursor: pointer;
 }
 
-#matches .category:hover {
+#matches-list .category:hover {
     border-color: black;
 }
 
+#matches-pager {
+    flex-shrink: 0;
+}
+/*** DETAILS ***/
 #details {
     grid-area: details;
     margin-right: 0.5rem;
     overflow-y: auto;
     font-size: smaller;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    background-color: #fdfdfd;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
-#details.showhelp #details-help {
+/* Controlling showing help, properties and content based on the classname showhelp on #details. */
+#details:not(.showhelp) #details-help {
+    display: none;
+}
+#details.showhelp #details-content,
+#details.showhelp #details-properties {
+    display: none;
+}
+
+/* Controlling whether to show content or properties based on the class of #details. */
+#details.content #details-content {
+    display: block;
+}
+#details.content #details-properties {
+    display: none;
+}
+#details.properties #details-content {
+    display: none;
+}
+#details.properties #details-properties {
     display: block;
 }
 
 #details-help {
-    display: none;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+#details-header {
+    flex-shrink: 0;
+}
 #details-title {
     font-size: initial;
     background-color: ghostwhite;
@@ -412,15 +581,30 @@ main {
 
 #details-content {
     display: block;
+    flex-grow: 1;
+    overflow-y: auto;
 }
 #details ul {
     list-style: none;
     padding-left: 0;
 }
 
+#details-types {
+    margin: 0.5em 0 0 -0.4em;
+}
+
+#details > h2 {
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #dedede;
+}
+
 #details-properties {
     display: none;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
+
 #details-properties h2 {
     font-size: 1.2em;
     margin-bottom: 0.3em;
@@ -443,10 +627,17 @@ main {
 #details-properties ul {
     margin: 0 0 0 1em;
 }
+#details-properties .categories {
+    font-weight: bold;
+}
 
 footer {
     grid-area: footer;
     text-align: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid#DEDEDE;
+    padding: 10px;
+    font-size: 19px;
 }
 
 /* Loading indicator */
