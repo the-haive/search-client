@@ -85,8 +85,10 @@ body {
 
 #dimmer,
 #category-dimmer {
-    background-color: rgba(255, 255, 255, 0.8);
+    margin: -10px 0;
+    background-color: rgba(0, 0, 0, 0.2);
     z-index: 100;
+    flex-direction: column;
 }
 
 #introduction,
@@ -99,6 +101,14 @@ body {
 }
 #category-dimmer {
     grid-column: 1/2;
+}
+
+#category-dimmer .whiteout,
+#dimmer .whiteout{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 /* Show #dimmer when query has changed (but not if loading). */
@@ -117,7 +127,7 @@ body {
 
 /* Show the #category-dimmer when only categories are loading. */
 #container.categories-loading:not(.matches-loading) #category-dimmer {
-    display: block;
+    display: flex;
 }
 
 /* Hide the #category-dimmer when both ar loading */
@@ -155,7 +165,6 @@ header .query {
     border: 0;
 }
 #did-you-mean-container {
-    display: none;
     margin-top: 1em;
 }
 
@@ -236,7 +245,7 @@ nav {
 }
 
 #categories > ul .collapsed.has-children > ul {
-    display: none;
+    /* display: none; */
 }
 
 #categories > ul ul {
@@ -433,10 +442,10 @@ footer {
 
 .loader-wrapper {
     /*position: fixed;*/
-    top: 5%;
+    /* top: 5%;
     left: 5%;
     width: 95%;
-    height: 95%;
+    height: 95%; */
     z-index: 1000;
 }
 .loader {
@@ -452,6 +461,7 @@ footer {
     border-top-color: #3498db;
     -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
+    overflow:hidden;
 }
 
 .loader:before {

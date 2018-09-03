@@ -43,7 +43,11 @@ window.onload = function(e) {
                     /^ModifiedDate.*/,
                     /^Projects \(JIRA\)$/,
                     /^Author$/,
-                    /^GDPR$/
+                    /^GDPR$/,
+                    /^Tabs/,
+                    /^Type$/,
+                    /^Filetype$/i,
+
                 ]
             }
         },
@@ -83,8 +87,11 @@ window.onload = function(e) {
                     /^ModifiedDate.*/,
                     /^Projects \(JIRA\)$/,
                     /^Author$/,
-                    /^Filetype$/,
-                    /^GDPR$/
+                    /^GDPR$/,
+                    /^Tabs/,
+                    /^Type$/,
+                    /^Filetype$/i,
+
                 ]
             }
         }
