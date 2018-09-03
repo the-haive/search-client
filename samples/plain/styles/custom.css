@@ -107,19 +107,19 @@ header #top .query {
 
 /*** CATEGORIES ***/
 
-nav > :first-child {
+#categories > :first-child {
     display: none;
 }
 
-nav > :nth-child(1) {
+#categories > :nth-child(1) {
     display: none;
 }
 
-nav > .categories-header {
+#categories > .categories-header {
     display: none;
 }
 
-nav > #categories > ul {
+#categories > ul {
     margin-top: 0;
 }
 
@@ -146,17 +146,11 @@ nav > #categories > ul {
     background-color: transparent;
 }
 
-/*** MAIN ***/
+/*** MATCHES ***/
 
-main > :first-child {
+#matches > :first-child {
     display: none;
 }
-
-main > :nth-child(2) {
-    /* display: none; */
-}
-
-/*** MATCHES ***/
 
 #matches li {
     margin-bottom: 30px;
@@ -209,27 +203,23 @@ main > :nth-child(2) {
     display: none;
 }
 
-/*** ASIDE ***/
+/*** DETAILS ***/
 
-aside {
+#details {
     /*position: absolute;*/
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     left: 700px;
     background-color: #fdfdfd;
-    padding: 15px;
 }
 
-aside > h2 {
+#details > h2 {
     margin: 0 0 10px 0;
     border-bottom: 1px solid #dedede;
 }
 
-aside #details {
+#details {
     margin-top: 0;
-}
-
-aside > :first-child {
-    /*display: none;*/
+    padding: 15px;
 }
 
 /*** FOOTER ***/

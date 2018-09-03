@@ -24,7 +24,7 @@ body {
 
 #container {
     display: grid;
-    grid-template-areas: "header header header" "nav content side" "footer footer footer";
+    grid-template-areas: "header header header" "categories matches details" "footer footer footer";
     grid-template-columns: 250px 1fr 300px;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
@@ -36,7 +36,7 @@ body {
 }
 
 #container.no-details {
-    grid-template-areas: "header header header" "nav content content" "footer footer footer";
+    grid-template-areas: "header header header" "categories matches matches" "footer footer footer";
 }
 
 #container.error {
@@ -47,15 +47,15 @@ body {
 #error,
 #dimmer,
 #category-dimmer,
-#container.introduction nav,
-#container.introduction main,
-#container.introduction aside,
-#container.error nav,
-#container.error main,
-#container.error aside,
-#container.no-details nav,
-#container.no-details main,
-#container.no-details aside {
+#container.introduction #categories,
+#container.introduction #matches,
+#container.introduction #details,
+#container.error #categories,
+#container.error #matches,
+#container.error #details,
+#container.no-details #categories,
+#container.no-details #matches,
+#container.no-details #details {
     display: none;
 }
 
@@ -104,7 +104,7 @@ body {
 }
 
 #category-dimmer .whiteout,
-#dimmer .whiteout{
+#dimmer .whiteout {
     flex-grow: 1;
     display: flex;
     justify-content: center;
@@ -190,25 +190,25 @@ header .query {
     font-style: italic;
 }
 
-nav {
-    grid-area: nav;
+#categories {
+    grid-area: categories;
     margin-left: 0.5rem;
     overflow-y: auto;
 }
 
-#categories > ul {
+#categories-tree > ul {
     list-style-type: none;
     padding-left: 0;
 }
 
 /* Group entry */
 
-#categories ul li .entry {
+#categories-tree ul li .entry {
     display: block;
     white-space: nowrap;
 }
 
-#categories > ul > li > .entry {
+#categories-tree > ul > li > .entry {
     display: block;
     background-color: silver;
     font-size: 1.1em;
@@ -217,7 +217,7 @@ nav {
     white-space: nowrap;
 }
 
-#categories > ul .entry > .toggle {
+#categories-tree > ul .entry > .toggle {
     visibility: hidden;
     font-size: 0.7em;
     margin-right: 0.7em;
@@ -227,63 +227,63 @@ nav {
     white-space: pre;
 }
 
-#categories > ul .has-children > .entry > .toggle {
+#categories-tree > ul .has-children > .entry > .toggle {
     visibility: visible;
 }
 
-#categories > ul .collapsed.has-children > .entry > .toggle::before {
+#categories-tree > ul .collapsed.has-children > .entry > .toggle::before {
     content: "▶";
 }
 
-#categories > ul .expanded.has-children > .entry > .toggle::before:hover,
-#categories > ul .collapsed.has-children > .entry > .toggle::before:hover {
+#categories-tree > ul .expanded.has-children > .entry > .toggle::before:hover,
+#categories-tree > ul .collapsed.has-children > .entry > .toggle::before:hover {
     background-color: silver;
 }
 
-#categories > ul .expanded.has-children > .entry > .toggle::before {
+#categories-tree > ul .expanded.has-children > .entry > .toggle::before {
     content: "▼";
 }
 
-#categories > ul .collapsed.has-children > ul {
-    /* display: none; */
+#categories-tree > ul .collapsed.has-children > ul {
+    display: none;
 }
 
-#categories > ul ul {
+#categories-tree > ul ul {
     list-style-type: none;
     padding-left: 0.8em;
 }
 
-#categories > ul span.title {
+#categories-tree > ul span.title {
     cursor: pointer;
 }
 
-#categories > ul li.has-matches > .entry {
+#categories-tree > ul li.has-matches > .entry {
     font-weight: bold;
 }
 
-#categories > ul li.is-filter > .entry {
+#categories-tree > ul li.is-filter > .entry {
     background-color: red;
 }
 
-#categories > ul li.has-filter > .entry {
+#categories-tree > ul li.has-filter > .entry {
     background-color: orange;
 }
 
-#categories > ul .count {
+#categories-tree > ul .count {
     padding: 0 0.5em;
     font-size: smaller;
 }
 
-#categories > ul .count::before {
+#categories-tree > ul .count::before {
     content: "(";
 }
 
-#categories > ul .count::after {
+#categories-tree > ul .count::after {
     content: ")";
 }
 
 main {
-    grid-area: content;
+    grid-area: matches;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -298,19 +298,18 @@ main {
     display: none;
 }
 
-#order {
+#matches-order {
     font-size: smaller;
     margin-right: 0.5em;
 }
 
-#order .header {
+#matches-order .header {
     font-weight: bold;
 }
 
 #categories,
 #matches,
 #details {
-    margin: 1em 0.5em 0 0;
     overflow-x: hidden;
 }
 
@@ -390,17 +389,14 @@ main {
     border-color: black;
 }
 
-aside {
-    grid-area: side;
+#details {
+    grid-area: details;
     margin-right: 0.5rem;
     overflow-y: auto;
-}
-
-#details {
     font-size: smaller;
 }
 
-#title {
+#details-title {
     font-size: initial;
     background-color: ghostwhite;
     font-weight: bold;
@@ -411,28 +407,29 @@ aside {
     padding-left: 0;
 }
 
-#properties h2 {
+#details-properties h2 {
     font-size: 1.2em;
     margin-bottom: 0.3em;
 }
-#properties dl {
+#details-properties dl {
     margin: 0 0 0 1em;
 }
-#properties dt {
+#details-properties dt {
     float: left;
     clear: left;
     margin-right: 1em;
     font-weight: bold;
 }
-#properties dd {
+#details-properties dd {
     margin-left: 0px;
     white-space: normal;
     padding-left: 2em;
     padding-bottom: 0.25em;
 }
-#properties ul {
+#details-properties ul {
     margin: 0 0 0 1em;
 }
+
 footer {
     grid-area: footer;
     text-align: center;
@@ -461,7 +458,7 @@ footer {
     border-top-color: #3498db;
     -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .loader:before {
@@ -547,21 +544,21 @@ footer {
 
 @media (max-width: 768px) {
     .container {
-        grid-template-areas: "header" "nav" "content" "side" "footer";
+        grid-template-areas: "header" "categories" "matches" "side" "footer";
         grid-template-columns: 1fr;
         grid-template-rows: /* Header */
             auto
-            /* Nav */
+            /* categories */
             minmax(75px, auto)
-            /* Content */
+            /* matches */
             auto
-            /* Sidebar */
+            /* details */
             minmax(75px, auto)
             /* Footer */
             auto;
     }
-    nav,
-    aside {
+    #categories,
+    #details {
         margin: 0;
     }
 }

@@ -46,8 +46,7 @@ window.onload = function(e) {
                     /^GDPR$/,
                     /^Tabs/,
                     /^Type$/,
-                    /^Filetype$/i,
-
+                    /^Filetype$/i
                 ]
             }
         },
@@ -90,8 +89,7 @@ window.onload = function(e) {
                     /^GDPR$/,
                     /^Tabs/,
                     /^Type$/,
-                    /^Filetype$/i,
-
+                    /^Filetype$/i
                 ]
             }
         }
@@ -164,6 +162,9 @@ window.onload = function(e) {
             `,
         },
         details: {
+            title: (match) => `
+                <span class="title">${match.title}</span>
+            `,
             // Required
             content: (content) => `
                 <p>${content.join("</p><p>")}</p>
@@ -289,8 +290,12 @@ window.onload = function(e) {
     };
 
     var genericErrorElm = document.getElementById("generic-error");
-    window.onError = function (message, source, lineno, colno, error) {
-        containerElm.classList.remove("matches-loading", "categories-loading", "introduction");
+    window.onError = function(message, source, lineno, colno, error) {
+        containerElm.classList.remove(
+            "matches-loading",
+            "categories-loading",
+            "introduction"
+        );
         containerElm.classList.add("error");
 
         stacktrace(stack => {
@@ -398,28 +403,34 @@ window.onload = function(e) {
     );
     var didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
-    var categoriesElm = document.getElementById("categories");
+    var categoriesTreeElm = document.getElementById("categories-tree");
     var categoriesStatsElm = document.getElementById("categories-stats");
 
-    var matchesElm = document.getElementById("matches");
+    var matchesListElm = document.getElementById("matches-list");
     var matchesStatsElm = document.getElementById("matches-stats");
 
     // Details
-    var titleElm = document.getElementById("title");
-    var detailsTypesElm = document.getElementById("detail-types");
+    //var detailsElm = document.getElementById("details");
+    var detailsHeaderElm = document.getElementById("details-header");
+    var detailsTitleElm = document.getElementById("details-title");
+    //var detailsTypesElm = document.getElementById("details-types");
+    var detailsContentElm = document.getElementById("details-content");
+    var detailsPropertiesElm = document.getElementById("details-properties");
 
-    var contentElm = document.getElementById("content");
-    var propertiesElm = document.getElementById("properties");
-
-    var detailsContent = document.getElementById("option-content");
-    detailsContent.addEventListener("click", function() {
-        contentElm.style.display = "initial";
-        propertiesElm.style.display = "none";
+    var detailsOptionContent = document.getElementById(
+        "details-option-content"
+    );
+    detailsOptionContent.addEventListener("click", function() {
+        detailsContentElm.style.display = "initial";
+        detailsPropertiesElm.style.display = "none";
     });
-    var detailsProperties = document.getElementById("option-properties");
-    detailsProperties.addEventListener("click", function() {
-        contentElm.style.display = "none";
-        propertiesElm.style.display = "initial";
+    var detailsOptionProperties = document.getElementById(
+        "details-option-properties"
+    );
+
+    detailsOptionProperties.addEventListener("click", function() {
+        detailsContentElm.style.display = "none";
+        detailsPropertiesElm.style.display = "initial";
     });
 
     var matchesErrorElm = document.getElementById("matches-error");
@@ -482,12 +493,17 @@ window.onload = function(e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
-        containerElm.classList.remove("introduction", "matches-loading", "error");
-        titleElm.innerHTML = "";
-        contentElm.innerHTML = "";
-        propertiesElm.innerHTML = "";
+        containerElm.classList.remove(
+            "introduction",
+            "matches-loading",
+            "error"
+        );
+        detailsTitleElm.innerHTML = "";
+        detailsContentElm.innerHTML = "";
+        detailsPropertiesElm.innerHTML = "";
         didYouMeanContainerElm.style.display = "none";
         didYouMeanOptionsElm.innerHTML = "";
+        detailsHeaderElm.style.visibility = "hidden";
 
         matchesStatsElm.innerHTML = render.match.stats(matches);
 
@@ -506,7 +522,7 @@ window.onload = function(e) {
         }
 
         // Clear out old matches
-        matchesElm.innerHTML = "";
+        matchesListElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
             var li = document.createElement("li");
@@ -514,12 +530,14 @@ window.onload = function(e) {
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
-                titleElm.innerHTML = `<span class="title">${
-                    match.title
-                }</span>`;
-                detailsTypesElm.style.display = "initial";
-                contentElm.innerHTML = render.details.content(match.content);
-                propertiesElm.innerHTML = render.details.properties(match);
+                detailsTitleElm.innerHTML = render.details.title(match);
+                detailsContentElm.innerHTML = render.details.content(
+                    match.content
+                );
+                detailsPropertiesElm.innerHTML = render.details.properties(
+                    match
+                );
+                detailsHeaderElm.style.visibility = "visible";
             });
             return li;
         }
@@ -528,7 +546,7 @@ window.onload = function(e) {
             containerElm.classList.remove("introduction");
             matchesHeader.classList.add("has-data");
             var ul = document.createElement("ul");
-            matchesElm.appendChild(ul);
+            matchesListElm.appendChild(ul);
 
             matches.searchMatches.forEach(function(match, index, arr) {
                 var li = createMatch(match, index, arr);
@@ -536,11 +554,7 @@ window.onload = function(e) {
             });
         } else {
             matchesStatsElm.innerHTML = "";
-            matchesElm.innerHTML = "No matches.";
-            detailsTypesElm.style.display = "none";
-            titleElm.innerHTML = "";
-            contentElm.innerHTML = "";
-            propertiesElm.innerHTML = "";
+            matchesListElm.innerHTML = "No matches.";
         }
     }
 
@@ -550,6 +564,7 @@ window.onload = function(e) {
     function handleFindError(error) {
         containerElm.classList.remove("matches-loading");
         containerElm.classList.add("error");
+        detailsHeaderElm.style.visibility = "hidden";
 
         stacktrace(stack => {
             console.error("handleFindError", error, stack);
@@ -557,11 +572,10 @@ window.onload = function(e) {
         });
 
         matchesStatsElm.innerHTML = "";
-        matchesElm.innerHTML = "No matches.";
-        detailsTypesElm.style.display = "none";
-        titleElm.innerHTML = "";
-        contentElm.innerHTML = "";
-        propertiesElm.innerHTML = "";
+        matchesListElm.innerHTML = "No matches.";
+        detailsTitleElm.innerHTML = "";
+        detailsContentElm.innerHTML = "";
+        detailsPropertiesElm.innerHTML = "";
         matchesHeader.classList.remove("has-data");
     }
 
@@ -595,7 +609,7 @@ window.onload = function(e) {
         }</span>
         `;
 
-        categoriesElm.innerHTML = "";
+        categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
             var categoryLiElm = document.createElement("li");
@@ -660,7 +674,7 @@ window.onload = function(e) {
 
         if (categories.groups.length > 0) {
             var ul = document.createElement("ul");
-            categoriesElm.appendChild(ul);
+            categoriesTreeElm.appendChild(ul);
 
             categories.groups.forEach(function(group, index, arr) {
                 // Create the group-node
@@ -694,10 +708,10 @@ window.onload = function(e) {
                     });
                 }
                 ul.appendChild(groupLiElm);
-                });
+            });
         } else {
             categoriesStatsElm.innerHTML = "";
-            categoriesElm.innerHTML = "No categories.";
+            categoriesTreeElm.innerHTML = "No categories.";
         }
     }
 
@@ -710,11 +724,14 @@ window.onload = function(e) {
 
         stacktrace(stack => {
             console.error("handleCategorizeError", error.message, stack);
-            categoriesErrorElm.innerHTML = render.error.categorize(error, stack);
+            categoriesErrorElm.innerHTML = render.error.categorize(
+                error,
+                stack
+            );
         });
 
         categoriesStatsElm.innerHTML = "";
-        categoriesElm.innerHTML = "";
+        categoriesTreeElm.innerHTML = "";
     }
 
     // Utility template-helper to collect output from a map iterator.
