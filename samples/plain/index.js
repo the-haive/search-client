@@ -410,7 +410,7 @@ window.onload = function(e) {
     var matchesStatsElm = document.getElementById("matches-stats");
 
     // Details
-    //var detailsElm = document.getElementById("details");
+    var detailsElm = document.getElementById("details");
     var detailsHeaderElm = document.getElementById("details-header");
     var detailsTitleElm = document.getElementById("details-title");
     //var detailsTypesElm = document.getElementById("details-types");
@@ -498,12 +498,15 @@ window.onload = function(e) {
             "matches-loading",
             "error"
         );
+
+        detailsHeaderElm.style.visibility = "hidden";
         detailsTitleElm.innerHTML = "";
         detailsContentElm.innerHTML = "";
         detailsPropertiesElm.innerHTML = "";
+        detailsElm.classList.add("showhelp");
+
         didYouMeanContainerElm.style.display = "none";
         didYouMeanOptionsElm.innerHTML = "";
-        detailsHeaderElm.style.visibility = "hidden";
 
         matchesStatsElm.innerHTML = render.match.stats(matches);
 
@@ -530,6 +533,7 @@ window.onload = function(e) {
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
+                detailsElm.classList.remove("showhelp");
                 detailsTitleElm.innerHTML = render.details.title(match);
                 detailsContentElm.innerHTML = render.details.content(
                     match.content

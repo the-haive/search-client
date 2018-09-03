@@ -396,17 +396,31 @@ main {
     font-size: smaller;
 }
 
+#details.showhelp #details-help {
+    display: block;
+}
+
+#details-help {
+    display: none;
+}
+
 #details-title {
     font-size: initial;
     background-color: ghostwhite;
     font-weight: bold;
 }
 
+#details-content {
+    display: block;
+}
 #details ul {
     list-style: none;
     padding-left: 0;
 }
 
+#details-properties {
+    display: none;
+}
 #details-properties h2 {
     font-size: 1.2em;
     margin-bottom: 0.3em;
