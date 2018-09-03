@@ -284,10 +284,11 @@ header p {
 #categories-tree > ul > li > .entry {
     display: block;
     background-color: silver;
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: bold;
     margin-top: 0.7em;
     white-space: nowrap;
+    padding-bottom: 10px;
 }
 
 #categories-tree > ul .entry > .toggle {
@@ -313,12 +314,17 @@ header p {
     background-color: silver;
 }
 
-#categories-tree > ul .expanded.has-children > .entry > .toggle::before {
-    content: "▼";
+#categories > ul .expanded.has-children > .entry > .toggle::before {
+    width: 20px;
+    content: url(/images/collapse.svg); /*"▼";*/
 }
 
-#categories-tree > ul .collapsed.has-children > ul {
-    display: none;
+#categories > ul .collapsed.hasChildren {
+    border-bottom: 1px solid silver;
+}
+
+#categories > ul .collapsed.has-children > ul {
+     display: none;
 }
 
 #categories-tree > ul ul {
@@ -659,8 +665,9 @@ footer {
     height: 150px;
     margin: -75px 0 0 -75px;
     border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #3498db;
+    border: 15px solid transparent;
+    border-top-color: #000000;
+    border-bottom-color: #000000;
     -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
     overflow: hidden;
@@ -674,8 +681,9 @@ footer {
     right: 5px;
     bottom: 5px;
     border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #e74c3c;
+    border: 15px solid transparent;
+    border-top-color: #a4ca30;
+    border-bottom-color: #a4ca30;
     -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }
@@ -683,13 +691,14 @@ footer {
 .loader:after {
     content: "";
     position: absolute;
-    top: 15px;
-    left: 15px;
-    right: 15px;
-    bottom: 15px;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
     border-radius: 50%;
-    border: 3px solid transparent;
-    border-top-color: #f9c922;
+    border: 50px solid transparent;
+    border-top-color: #000000;
+    border-bottom-color: #000000;
     -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }
