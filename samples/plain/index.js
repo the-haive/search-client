@@ -83,6 +83,7 @@ window.onload = function(e) {
                     /^ModifiedDate.*/,
                     /^Projects \(JIRA\)$/,
                     /^Author$/,
+                    /^Filetype$/,
                     /^GDPR$/
                 ]
             }
@@ -224,9 +225,72 @@ window.onload = function(e) {
                     </ul>
                 `;
             },
-        }
+        },
+        error: {
+            find: (error, stack) => `
+                <h4>Find:</h4>
+                <ul>
+                    <li>
+                        <span class="key">Message:</span>
+                        <span class="message">${error.message}</span>
+                    </li>
+                    <li>
+                        <span class="key">Stacktrace:</span><br/>
+                        <span class="stacktrace">${stack}</span>
+                    </li>
+                    <li>
+                        <span class="key">Internal stacktrace:</span><br/>
+                        <span class="stacktrace">${error.stack}</span>
+                    </li>
+                </ul>
+            `,
+            categorize: (error, stack) => `
+                <h4>Categorize:</h4>
+                <ul>
+                    <li>
+                        <span class="key">Message:</span>
+                        <span class="message">${error.message}</span>
+                    </li>
+                    <li>
+                        <span class="key">Stacktrace:</span><br/>
+                        <span class="stacktrace">${stack}</span>
+                    </li>
+                    <li>
+                        <span class="key">Internal stacktrace:</span><br/>
+                        <span class="stacktrace">${error.stack}</span>
+                    </li>
+                </ul>
+            `,
+            generic: (error, stack) => `
+                <h4>Generic:</h4>
+                <ul>
+                    <li>
+                        <span class="key">Message:</span>
+                        <span class="message">${error.message}</span>
+                    </li>
+                    <li>
+                        <span class="key">Stacktrace:</span><br/>
+                        <span class="stacktrace">${stack}</span>
+                    </li>
+                    <li>
+                        <span class="key">Internal stacktrace:</span><br/>
+                        <span class="stacktrace">${error.stack}</span>
+                    </li>
+                </ul>
+            `,
+        },
     };
 
+    var genericErrorElm = document.getElementById("generic-error");
+    window.onError = function (message, source, lineno, colno, error) {
+        containerElm.classList.remove("matches-loading", "categories-loading", "introduction");
+        containerElm.classList.add("error");
+
+        stacktrace(stack => {
+            console.error("handleCategorizeError", error.message, stack);
+            genericErrorElm.innerHTML = render.error.generic(error, stack);
+        });
+    };
     //////////////////////////////////////////////////////////////////////////////////////////
     // 4. Initialize the client engine
     //    Wrapping the creation as it is used also when the reset-button is clicked.
@@ -411,7 +475,7 @@ window.onload = function(e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
-        containerElm.classList.remove("matches-loading", "error");
+        containerElm.classList.remove("introduction", "matches-loading", "error");
         titleElm.innerHTML = "";
         contentElm.innerHTML = "";
         propertiesElm.innerHTML = "";
@@ -481,20 +545,8 @@ window.onload = function(e) {
         containerElm.classList.add("error");
 
         stacktrace(stack => {
-            console.error("handleFindError", error.message, stack);
-            matchesErrorElm.innerHTML = `
-            <h4>Find:</h4>
-            <ul>
-                <li>
-                    <span class="key">Message:</span>
-                    <span class="message">${error.message}</span>
-                </li>
-                <li>
-                    <span class="key">Stacktrace:</span><br/>
-                    <span class="stacktrace">${stack.join("<br/>")}</span>
-                </li>
-            </ul>
-            `;
+            console.error("handleFindError", error, stack);
+            matchesErrorElm.innerHTML = render.error.find(error, stack);
         });
 
         matchesStatsElm.innerHTML = "";
@@ -635,7 +687,7 @@ window.onload = function(e) {
                     });
                 }
                 ul.appendChild(groupLiElm);
-            });
+                });
         } else {
             categoriesStatsElm.innerHTML = "";
             categoriesElm.innerHTML = "No categories.";
@@ -651,19 +703,7 @@ window.onload = function(e) {
 
         stacktrace(stack => {
             console.error("handleCategorizeError", error.message, stack);
-            categoriesErrorElm.innerHTML = `
-            <h4>Categorize:</h4>
-            <ul>
-                <li>
-                    <span class="key">Message:</span>
-                    <span class="message">${error.message}</span>
-                </li>
-                <li>
-                    <span class="key">Stacktrace:</span><br/>
-                    <span class="stacktrace">${stack.join("<br/>")}</span>
-                </li>
-            </ul>
-            `;
+            categoriesErrorElm.innerHTML = render.error.categorize(error, stack);
         });
 
         categoriesStatsElm.innerHTML = "";

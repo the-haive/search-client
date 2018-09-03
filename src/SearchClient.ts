@@ -413,14 +413,15 @@ export class SearchClient implements AuthToken {
      */
     public isFilter(category: string[] | Category | Filter): boolean {
         const item = this.filterId(category);
-        return this.filterIndex(item) !== -1;
+        return item ? this.filterIndex(item) !== -1 : false;
     }
 
     public hasChildFilter(category: string[] | Category): boolean {
-        if (this.isFilter(category)) {
+        const item = this.filterId(category);
+        if (!item || this.filterIndex(item) !== -1) {
             return false;
         }
-        const categoryPath = this.filterId(category).join("|");
+        const categoryPath = item.join("|");
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < this.filters.length; i++) {
             let filter = this.filters[i];
