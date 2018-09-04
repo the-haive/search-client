@@ -486,4 +486,50 @@ describe("Categorize basics", () => {
         expect(filterFileTypeDoc.category.expanded).toEqual(false);
         expect(filterFileTypeDoc.category.name).toEqual("DOC");
     });
+    it("Should be able to toggle expanded state using direct mock on categorize", () => {
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize("http://localhost:9950/");
+        let pClient = client as any;
+
+        // Expect
+        expect(workCopy.groups[0].name).toEqual("System");
+        expect(workCopy.groups[0].categories[0].name).toEqual("File");
+        expect(workCopy.groups[0].categories[0].expanded).toBeFalsy();
+        expect(workCopy.groups[0].categories[0].children[0].name).toEqual(
+            "Testdata"
+        );
+        expect(
+            workCopy.groups[0].categories[0].children[0].children[0].name
+        ).toEqual("Norway");
+        expect(
+            workCopy.groups[0].categories[0].children[0].children[0].expanded
+        ).toBeFalsy();
+
+        pClient.clientCategoryExpansion = {
+            "System|File": true,
+            "System|File|Testdata": true,
+            "System|File|Testdata|Norway": true
+        } as { [key: string]: boolean };
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        expect(results.groups[0].name).toEqual("System");
+        expect(results.groups[0].categories[0].name).toEqual("File");
+        expect(results.groups[0].categories[0].expanded).toBeTruthy();
+        expect(results.groups[0].categories[0].children[0].name).toEqual(
+            "Testdata"
+        );
+        expect(
+            results.groups[0].categories[0].children[0].expanded
+        ).toBeTruthy();
+        expect(
+            results.groups[0].categories[0].children[0].children[0].name
+        ).toEqual("Norway");
+        expect(
+            results.groups[0].categories[0].children[0].children[0].expanded
+        ).toBeTruthy();
+    });
 });

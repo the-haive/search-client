@@ -85,7 +85,7 @@ export class Categorize extends BaseCall<Categories> {
                 })
                 .then((categories: Categories) => {
                     this.categories = categories;
-                    this.filterCategories(categories);
+                    categories = this.filterCategories(categories);
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
@@ -361,22 +361,19 @@ export class Categorize extends BaseCall<Categories> {
             let category = { ...inCategory };
             let result = this.inClientCategoryFilters({ ...category });
             if (result !== false) {
+                if (category.children && category.children.length > 0) {
+                    category.children = this.mapCategories(category.children);
+                }
                 if (result) {
-                    if (category.children && category.children.length > 0) {
-                        category.children = this.mapCategories(
-                            category.children
-                        );
-                    }
                     category.expanded = true;
                 }
                 let catKey = category.categoryName.join("|");
                 if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
                     category.expanded = this.clientCategoryExpansion[catKey];
-                } else {
-                    category.expanded =
-                        category.expanded ||
-                        category.children.some(c => c.expanded === true);
                 }
+                category.expanded =
+                    category.expanded ||
+                    category.children.some(c => c.expanded === true);
                 return category;
             }
         });

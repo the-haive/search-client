@@ -90,11 +90,12 @@ describe("SearchClient filter interface", () => {
 
         // filters
         expect(client.filters).toHaveLength(0);
+        const filterSystemFileTestdataNorway = client.categorize.createCategoryFilter(
+            ["System", "File", "Testdata", "Norway"]
+        );
         const filterSystemFile = client.categorize.createCategoryFilter([
             "System",
-            "File",
-            "Testdata",
-            "Norway"
+            "File"
         ]);
         const filterAuthorLarsFrode = client.categorize.createCategoryFilter([
             "Author",
@@ -110,6 +111,20 @@ describe("SearchClient filter interface", () => {
         expect(client.filters).not.toContainEqual(filterFileTypeDoc);
         expect(client.filters).not.toContainEqual(filterSystemFile);
 
+        client.filterAdd(filterSystemFile);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+        expect(client.filters).toContainEqual(filterSystemFile);
+
+        // Adding a child should remove the parent (still only one filter)
+        client.filterAdd(filterSystemFileTestdataNorway);
+        expect(client.filters).toHaveLength(1);
+        expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+        expect(client.filters).toContainEqual(filterSystemFileTestdataNorway);
+
+        // Adding a parent should remove the child (still only one filter)
         client.filterAdd(filterSystemFile);
         expect(client.filters).toHaveLength(1);
         expect(client.filters).not.toContainEqual(filterAuthorLarsFrode);
