@@ -337,20 +337,28 @@ window.onload = function(e) {
         }
         client.queryText = queryTextElm.value;
 
-        // TODO: Figure out how to detect this properly.
-        // There are queries for both match and categorize to consider.
-        // if the current state has changed from any of the two, then the results are not
-        // representative anymore. So, the client-check should consider both.
-        // The client must then remember the last query that ended up yielding results (not failure).
-        // if (client.lastQuery !== client.query) {
-        //     containerElm.classList.add("query-changed");
-        // } else {
-        //     containerElm.classList.remove("query-changed");
-        // }
+        adjustQueryTextFontSize();
     });
 
+    var styleFontSize = window
+        .getComputedStyle(queryTextElm, null)
+        .getPropertyValue("font-size");
+    var maxFontSize = parseFloat(styleFontSize);
+    console.log(maxFontSize);
+
+    function adjustQueryTextFontSize() {
+        var maxLength = 200; // When inpt is this long...
+        var minFontSize = 8; // ...we use this percentage as the smallest font.
+
+        var increments = (maxFontSize - minFontSize) / maxLength;
+
+        var reduction =
+            Math.min(queryTextElm.value.length, maxLength) * increments;
+        queryTextElm.style.fontSize = maxFontSize - reduction + "px";
+    }
+
     // Only added to reliably detect enter across browsers
-    queryTextElm.addEventListener("keyup", function(event) {
+    queryTextElm.addEventListener("keyup", event => {
         if (event.key === "Enter") {
             console.log("queryText Enter detected: " + queryTextElm.value);
             client.update();
@@ -370,10 +378,13 @@ window.onload = function(e) {
 
     // We also want the search button to force a
     var searchButtonElm = document.getElementById("go");
-    searchButtonElm.addEventListener("click", function() {
+    searchButtonElm.addEventListener("click", () => {
         console.log("Search-button clicked");
         client.update();
     });
+
+    // Set up the autocomplete library
+    var awesomplete = new Awesomplete(queryTextElm);
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // 6. Wire up other buttons, options and areas on the page:
@@ -395,7 +406,6 @@ window.onload = function(e) {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
     });
 
-    var suggestionsElm = document.getElementById("suggestions");
     var didYouMeanContainerElm = document.getElementById(
         "did-you-mean-container"
     );
@@ -454,13 +464,8 @@ window.onload = function(e) {
      */
     function handleAutocompleteSuccess(suggestions) {
         console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
+        awesomplete.list = suggestions;
         loadingSuggestions.style.visibility = "hidden";
-        suggestionsElm.innerHTML = "";
-        suggestions.forEach((suggestion, i, a) => {
-            var option = document.createElement("option");
-            option.value = suggestion;
-            suggestionsElm.appendChild(option);
-        });
     }
 
     /**

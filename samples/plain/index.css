@@ -159,7 +159,6 @@ header {
     justify-content: start;
     margin-left: 10px;
     align-items: center;
-    height: 65px;
     padding-top: 10px;
 }
 
@@ -197,12 +196,18 @@ header p {
 
 #query-text {
     border: none;
-    overflow: auto;
+    height: 40px;
     outline: none;
     box-shadow: none;
-    font-size: 16px;
+    /*font-size: 16px;*/
     width: 100%;
     padding-left: 0;
+    resize: none;
+    /* autogrow*/
+    /*overflow-x: hidden;
+    overflow-y: auto;*/
+    max-height: 66px;
+    font-size: 32px;
 }
 .query {
     background-color: #ffffff;
@@ -215,6 +220,9 @@ header p {
     display: flex;
 }
 
+.query .awesomplete {
+    width: 100%;
+}
 .query-text:focus,
 .query button:focus {
     outline: none;
@@ -330,7 +338,7 @@ header p {
 }
 
 #categories-tree > ul .collapsed.has-children > ul {
-     display: none;
+    display: none;
 }
 
 #categories-tree > ul ul {
@@ -356,7 +364,7 @@ header p {
 }
 
 #categories-tree > ul .count {
-    padding: 0 1.0em;
+    padding: 0 1em;
     font-size: smaller;
     float: right;
 }
