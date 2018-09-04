@@ -358,10 +358,11 @@ window.onload = function(e) {
     }
 
     // Only added to reliably detect enter across browsers
-    queryTextElm.addEventListener("keyup", event => {
+    queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-            console.log("queryText Enter detected: " + queryTextElm.value);
+            console.log("queryText Enter detected", queryTextElm.value);
             client.update();
+            event.preventDefault();
         }
     });
 
@@ -379,7 +380,7 @@ window.onload = function(e) {
     // We also want the search button to force a
     var searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", () => {
-        console.log("Search-button clicked");
+        console.log("Search-button clicked", queryText.value);
         client.update();
     });
 
