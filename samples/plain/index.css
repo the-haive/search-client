@@ -717,8 +717,8 @@ footer {
     margin: -75px 0 0 -75px;
     border-radius: 50%;
     border: 15px solid transparent;
-    border-top-color: #000000;
-    border-bottom-color: #000000;
+    border-top-color: #003d4a;
+    border-bottom-color: #003d4a;
     -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
     overflow: hidden;
@@ -748,8 +748,8 @@ footer {
     bottom: 25px;
     border-radius: 50%;
     border: 50px solid transparent;
-    border-top-color: #000000;
-    border-bottom-color: #000000;
+    border-top-color: #003d4a;
+    border-bottom-color: #003d4a0;
     -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }
