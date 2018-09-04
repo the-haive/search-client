@@ -36,6 +36,15 @@ window.onload = function(e) {
 
     const uiSettings = {
         match: {
+            pager: {
+                size: 10,
+                addFirst: true,
+                addPrev: true,
+                addNext: true,
+                addLast: true,
+                prevString: "《",
+                nextString: "》"
+            },
             categories: {
                 show: true,
                 exclude: [
@@ -416,12 +425,12 @@ window.onload = function(e) {
 
     var matchesListElm = document.getElementById("matches-list");
     var matchesStatsElm = document.getElementById("matches-stats");
+    var matchesPagerItemsElm = document.getElementById("matches-pager-items");
 
     // Details
     var detailsElm = document.getElementById("details");
     var detailsHeaderElm = document.getElementById("details-header");
     var detailsTitleElm = document.getElementById("details-title");
-    //var detailsTypesElm = document.getElementById("details-types");
     var detailsContentElm = document.getElementById("details-content");
     var detailsPropertiesElm = document.getElementById("details-properties");
 
@@ -559,6 +568,124 @@ window.onload = function(e) {
                 var li = createMatch(match, index, arr);
                 ul.appendChild(li);
             });
+
+            matchesPagerItemsElm.innerHTML = "";
+
+            let pagerSize = uiSettings.match.pager.size;
+            currentPage = client.matchPage;
+            var pageMin = 1;
+            var pageMax = Math.ceil(
+                matches.estimatedMatchCount / client.matchPageSize
+            );
+            var pages = [];
+            pages.push(currentPage);
+            var offset = 1;
+            while (pages.length < pagerSize) {
+                var pageRight = currentPage + offset;
+                var pageLeft = currentPage - offset;
+                if (pageRight > pageMax && pageLeft < pageMin) break;
+                if (pages.length < pagerSize && pageRight <= pageMax)
+                    pages.push(pageRight);
+                if (pages.length < pagerSize && pageLeft >= pageMin)
+                    pages.push(pageLeft);
+                offset++;
+            }
+            pages.sort((a, b) => a - b);
+
+            if (uiSettings.match.pager.addPrev) {
+                // Add a prev-page link
+                var li = document.createElement("li");
+                li.appendChild(
+                    document.createTextNode(uiSettings.match.pager.prevString)
+                );
+                if (currentPage > pageMin) {
+                    li.addEventListener(
+                        "click",
+                        () => {
+                            client.matchPagePrev();
+                        },
+                        false
+                    );
+                } else {
+                    li.classList.add("disabled");
+                }
+                matchesPagerItemsElm.appendChild(li);
+            }
+
+            if (!pages.includes(pageMin) && uiSettings.match.pager.addFirst) {
+                // Add a first-page link
+
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(pageMin));
+                li.addEventListener(
+                    "click",
+                    () => {
+                        client.matchPage = 1;
+                    },
+                    false
+                );
+                matchesPagerItemsElm.appendChild(li);
+
+                var ellipsis = document.createElement("li");
+                ellipsis.classList.add("ellipsis");
+                ellipsis.appendChild(document.createTextNode("…"));
+                matchesPagerItemsElm.appendChild(ellipsis);
+            }
+
+            pages.forEach(pageNum => {
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(pageNum));
+                if (pageNum === currentPage) {
+                    li.classList.add("selected");
+                } else {
+                    li.addEventListener(
+                        "click",
+                        () => {
+                            client.matchPage = pageNum;
+                        },
+                        false
+                    );
+                }
+                matchesPagerItemsElm.appendChild(li);
+            });
+            if (!pages.includes(pageMax) && uiSettings.match.pager.addLast) {
+                // Add a last-page link
+
+                var ellipsis = document.createElement("li");
+                ellipsis.classList.add("ellipsis");
+                ellipsis.appendChild(document.createTextNode("…"));
+                matchesPagerItemsElm.appendChild(ellipsis);
+
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(pageMax));
+                li.addEventListener(
+                    "click",
+                    () => {
+                        client.matchPage = pageMax;
+                    },
+                    false
+                );
+                matchesPagerItemsElm.appendChild(li);
+            }
+            if (uiSettings.match.pager.addNext) {
+                // Add a prev-page link
+                var li = document.createElement("li");
+                li.appendChild(
+                    document.createTextNode(uiSettings.match.pager.nextString)
+                );
+                if (currentPage < pageMax) {
+                    li.addEventListener(
+                        "click",
+                        () => {
+                            client.matchPageNext();
+                        },
+                        false
+                    );
+                } else {
+                    li.classList.add("disabled");
+                }
+                matchesPagerItemsElm.appendChild(li);
+            }
         } else {
             matchesStatsElm.innerHTML = "";
             matchesListElm.innerHTML = "No matches.";

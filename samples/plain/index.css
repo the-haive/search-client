@@ -548,7 +548,41 @@ header p {
 
 #matches-pager {
     flex-shrink: 0;
+    font-size: 1.1em;
+    display: flex;
+    align-items: baseline;
+    margin-top: 0.5em;
 }
+#matches-pager label {
+    display: inline;
+}
+
+#matches-pager-items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 0 0.6em;
+}
+
+#matches-pager-items li {
+    display: inline;
+    padding: 0 0.4em;
+    font-weight: 100;
+}
+#matches-pager-items li.disabled,
+#matches-pager-items li.ellipsis {
+    font-weight: 100;
+    color: #dcdcdc;
+}
+
+#matches-pager-items li:not(.selected):not(.ellipsis):not(.disabled):hover {
+    cursor: pointer;
+    background-color: #dcdcdc;
+}
+
+#matches-pager-items li.selected {
+    font-weight: 900;
+}
+
 /*** DETAILS ***/
 #details {
     grid-area: details;
