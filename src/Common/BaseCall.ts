@@ -54,6 +54,13 @@ export abstract class BaseCall<TDataType> {
     }
 
     /**
+     * Can be used to check the state of deferUpdates.
+     */
+    get deferUpdateState(): boolean {
+        return this.deferUpdate;
+    }
+
+    /**
      * Sets up the Request that is to be executed, with headers and auth as needed.
      */
     public requestObject(): RequestInit {

@@ -885,6 +885,45 @@ export class SearchClient implements AuthToken {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
         const newFilter = this.categorize.createCategoryFilter(filter);
         const oldValue = this._query.filters.slice(0);
+
+        let toRemove: Filter[] = [];
+
+        // Find parent filters on the same path (to be removed)
+        let filterName = newFilter.category.categoryName[0];
+        for (let i = 1; i < newFilter.category.categoryName.length - 1; i++) {
+            filterName += `|${newFilter.category.categoryName[i]}`;
+            this._query.filters.forEach(f => {
+                let fName = f.category.categoryName.join("|");
+                if (fName === filterName) {
+                    toRemove.push(f);
+                }
+            });
+        }
+
+        filterName += `|${
+            newFilter.category.categoryName[
+                newFilter.category.categoryName.length - 1
+            ]
+        }`;
+
+        // Find child filters of the same path (to be removed)
+        this._query.filters.forEach(f => {
+            let fName = f.category.categoryName.join("|");
+            if (fName.startsWith(filterName)) {
+                toRemove.push(f);
+            }
+        });
+
+        // Ecxecute the actual removel (wihthout triggering an update).
+        toRemove.forEach(f => {
+            this._query.filters.forEach((item, index) => {
+                if (item === f) {
+                    this._query.filters.splice(index, 1);
+                }
+            });
+        });
+
+        // Add the new filter
         this._query.filters.push(newFilter);
         this._query.filters.sort();
 
