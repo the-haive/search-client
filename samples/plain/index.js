@@ -380,7 +380,7 @@ window.onload = function(e) {
     // We also want the search button to force a
     var searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", () => {
-        console.log("Search-button clicked", queryText.value);
+        console.log("Search-button clicked", queryTextElm.value);
         client.update();
     });
 
