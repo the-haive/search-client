@@ -89,6 +89,7 @@ body {
     background-color: rgba(0, 0, 0, 0.2);
     z-index: 100;
     flex-direction: column;
+    overflow: hidden;
 }
 
 #introduction,
