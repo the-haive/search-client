@@ -7,7 +7,7 @@ body {
 /*
     There are 4 different grid-layouts to accomodate the main full desktop scenarios. These are controlled by adding a
     classname to the #container element:
-    1. "introduction" - The starting state with introductionary help-text.
+    1. "welcome" - The starting state with welcome text.
     2. "no-details"   - Search-results without details.
     3. ""             - Search results with details.
     4. "error"        - Shows an error on the page.
@@ -25,14 +25,14 @@ body {
 #container {
     display: grid;
     grid-template-areas: "header header header" "categories matches details" "footer footer footer";
-    grid-template-columns: 270px 1fr 500px;
+    grid-template-columns: 270px 3fr 2fr;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
     height: 100vh;
 }
 
-#container.introduction {
-    grid-template-areas: "header header header" "introduction introduction introduction" "footer footer footer";
+#container.welcome {
+    grid-template-areas: "header header header" ". welcome ." "footer footer footer";
 }
 
 #container.no-details {
@@ -43,29 +43,31 @@ body {
     grid-template-areas: "header header header" "error error error" "footer footer footer";
 }
 
-#introduction,
+#welcome,
+#help,
+#about,
+#settings,
 #error,
 #dimmer,
 #category-dimmer,
-#container.introduction #categories,
-#container.introduction #matches,
-#container.introduction #details,
+#container.welcome #categories,
+#container.welcome #matches,
+#container.welcome #details,
 #container.error #categories,
 #container.error #matches,
 #container.error #details,
-#container.no-details #categories,
-#container.no-details #matches,
+#container.error #welcome,
 #container.no-details #details {
     display: none;
 }
 
-#introduction {
-    grid-area: introduction;
+#welcome {
+    grid-area: welcome;
     padding: 0 2em;
     font-size: smaller;
 }
 
-#introduction dt {
+#welcome dt {
     font-weight: bold;
 }
 
@@ -74,13 +76,12 @@ body {
     padding: 0 2em;
 }
 
-#container.introduction #introduction,
+#container.welcome #welcome,
+#container.about #about,
+#container.help #help,
+#container.settings #settings,
 #container.error #error {
     display: block;
-}
-
-#container.error #introduction {
-    display: none;
 }
 
 #dimmer,
@@ -92,8 +93,6 @@ body {
     overflow: hidden;
 }
 
-#introduction,
-#error,
 #dimmer,
 #category-dimmer {
     grid-row: 2/3;
@@ -110,6 +109,13 @@ body {
     display: flex;
     justify-content: center;
     background-color: rgba(255, 255, 255, 0.7);
+}
+
+#dimmer .loader {
+    left: 45%;
+}
+#category-dimmer .loader-wrapper {
+    zoom: 50%;
 }
 
 /* Show #dimmer when query has changed (but not if loading). */
@@ -131,7 +137,7 @@ body {
     display: flex;
 }
 
-/* Hide the #category-dimmer when both ar loading */
+/* Hide the #category-dimmer when both are loading */
 #container.matches-loading.categories-loading #category-dimmer {
     display: none;
 }
@@ -154,6 +160,61 @@ header {
     flex-direction: column;
     align-items: stretch;
 }
+#menu {
+    margin: 0 0.5em 0 auto;
+    align-self: flex-start;
+    position: relative;
+    display: inline-block;
+}
+#menu-button {
+    padding: 0.5em;
+    background-color: transparent;
+    color: #000;
+    border: none;
+}
+
+#menu-button:focus {
+    outline: 0;
+}
+
+#menu:hover {
+    background-color: #dfdfdf;
+}
+
+/* The container <div> - needed to position the dropdown content */
+#menu-button {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+#menu.show #menu-list {
+    display: block;
+}
+#menu-list {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+#menu-list li {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+#menu-list li:hover {
+    background-color: #dfdfdf;
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 
 #top {
     display: flex;
@@ -200,13 +261,9 @@ header p {
     height: 40px;
     outline: none;
     box-shadow: none;
-    /*font-size: 16px;*/
     width: 100%;
     padding-left: 0;
     resize: none;
-    /* autogrow*/
-    /*overflow-x: hidden;
-    overflow-y: auto;*/
     max-height: 66px;
     font-size: 32px;
 }
@@ -547,13 +604,18 @@ header p {
 }
 
 #matches-pager {
+    display: none;
     flex-shrink: 0;
     font-size: 1.1em;
     display: flex;
     align-items: baseline;
     margin-top: 0.5em;
 }
-#matches-pager label {
+#matches-pager.show {
+    display: block;
+}
+
+#matches-pager-label {
     display: inline;
 }
 
@@ -700,18 +762,14 @@ footer {
 /* Loading indicator */
 
 .loader-wrapper {
-    /*position: fixed;*/
-    /* top: 5%;
-    left: 5%;
-    width: 95%;
-    height: 95%; */
     z-index: 1000;
+    width: 100%;
 }
 .loader {
     display: block;
     position: relative;
     left: 50%;
-    top: 50%;
+    top: 40%;
     width: 150px;
     height: 150px;
     margin: -75px 0 0 -75px;
@@ -806,6 +864,9 @@ footer {
     }
 }
 
+.show {
+    display: block;
+}
 /* Responsive design */
 
 @media (max-width: 768px) {

@@ -151,7 +151,7 @@ export class Find extends BaseCall<Matches> {
 
     public matchPageChanged(oldValue: number, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.matchPageChanged) {
-            this.update(query);
+            this.update(query, null, true);
         }
     }
 

@@ -630,17 +630,11 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPagePrev(): boolean {
+        // Cannot fetch page less than 0
         if (this._query.matchPage > 1) {
-            const oldValue = this._query.matchPage;
-            this._query.matchPage--;
-
-            this.autocomplete.matchPageChanged(oldValue, this._query);
-            this.categorize.matchPageChanged(oldValue, this._query);
-            this.find.matchPageChanged(oldValue, this._query);
-
+            this.matchPage--;
             return true;
         }
-        // Cannot fetch page less than 0
         return false;
     }
 
@@ -649,13 +643,7 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPageNext(): boolean {
-        const oldValue = this._query.matchPage;
-        this._query.matchPage++;
-
-        this.autocomplete.matchPageChanged(oldValue, this._query);
-        this.categorize.matchPageChanged(oldValue, this._query);
-        this.find.matchPageChanged(oldValue, this._query);
-
+        this.matchPage++;
         return true;
     }
 

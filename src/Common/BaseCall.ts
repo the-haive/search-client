@@ -86,8 +86,12 @@ export abstract class BaseCall<TDataType> {
      *
      * @param query The query object to create the fetch for.
      * @param delay A delay for when to execute the update, in milliseconds. Defaults to undefined.
+     * @param useQueryMatchPage If true then the query matchpage number will not be reset to 1. Otherwise it is by default always 1.
      */
-    public update(query: Query, delay?: number): void {
+    public update(query: Query, delay?: number, useQueryMatchPage?: boolean): void {
+        if (!useQueryMatchPage) {
+            query.matchPage = 1;
+        }
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
             this.deferredQuery = query;

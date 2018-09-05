@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="container" class="introduction">
+    <div id="container" class="welcome">
         <header>
             <div id="top">
                 <span id="logo"></span>
@@ -19,13 +19,21 @@
                 <div class="query">
                     <div id="spinner"></div>
                     <textarea id="query-text" placeholder="Enter search-query..." autofocus></textarea>
-                    <button id="reset" class="hidden">X</button>
+                    <button tabIndex="-1" id="reset" class="hidden">X</button>
                     <button id="go">
                         <span>
-                            <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path></svg>
                         </span>
                     </button> </div>
-                <div id="advanced"></div>
+                <div id="menu">
+                    <button id="menu-button">☰</button>
+                    <div id="menu-list">
+                        <li id="menu-option-help">Help</li>
+                        <li id="menu-option-toggle-details">Toggle details</li>
+                        <li id="menu-option-settings">Settings</li>
+                        <li id="menu-option-about">About</li>
+                    </div>
+                </div>
             </div>
             <div id="tabs">
                 <div>Alle</div>
@@ -50,8 +58,8 @@
             </div>
         </div>
 
-        <div id="introduction">
-            <h1>About IntelliSearch</h1>
+        <div id="welcome">
+            <h1>Welcome</h1>
             <p>
                 IntelliSearch is very much like Google. If you can google something then you can also use IntelliSearch to find things. The
                 important difference between Google and IntelliSearch is that IntelliSearch lets you find things in
@@ -75,7 +83,9 @@
                 It is set up to handle authentication and security via Windows Integrated Security, meaning that you need to be logged in
                 to the company domain to get any results.
             </p>
-            <h2>Tips</h2>
+        </div>
+        <div id="help">
+            <h2>Effective searching</h2>
             <dl>
                 <dt>Categories:</dt>
                 <dd>
@@ -137,6 +147,11 @@
                 </dd>
             </dl>
         </div>
+        <div id="about">
+            <h1>About IntelliSearch</h1>
+            <p>
+                ... </p>
+        </div>
 
         <nav id="categories">
             <div class="categories-header">
@@ -171,7 +186,7 @@
             <div id="matches-list">
             </div>
             <div id="matches-pager">
-                <label>Goto page: </label>
+                <label id="matches-pager-label"></label>
                 <ul id="matches-pager-items"></ul>
             </div>
         </main>
@@ -179,10 +194,7 @@
         <aside id="details" class="showhelp">
             <div id="details-help">
                 <p>
-                    This sidepanel can show match content and details.
-                </p>
-                <p>
-                    Hover the mousepointer over a match to give it a try.
+                    Hover the mousepointer over a match to see match-details.
                 </p>
             </div>
             <div id="details-header">
@@ -198,10 +210,6 @@
             <div id="details-properties"></div>
         </aside>
 
-        <footer>
-            &copy; IntelliSearch Software AS
-        </footer>
-
         <div id="dimmer">
             <div class="whiteout">
                 <div class="loader-wrapper">
@@ -209,6 +217,10 @@
                 </div>
             </div>
         </div>
+
+        <footer>
+            &copy; IntelliSearch Software AS
+        </footer>
 
     </div>
     <script type="text/javascript" src="stacktrace.min.js"></script>

@@ -95,6 +95,37 @@ export class Authentication extends BaseCall<any> {
         }
     }
 
+    /**
+     * Call the service, but take into account deferredUpdates.
+     *
+     * @param query The query object to create the fetch for.
+     * @param delay A delay for when to execute the update, in milliseconds. Defaults to undefined.
+     */
+    public update(query: Query, delay?: number): void {
+        if (this.deferUpdate) {
+            // Save the query, so that when the deferUpdate is again false we can then execute it.
+            this.deferredQuery = query;
+        } else {
+            // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
+            clearTimeout(this.delay);
+
+            if (delay > 0) {
+                // Set up the delay
+                this.delay = setTimeout(() => {
+                    let fetchPromise = this.fetch(query);
+                    if (fetchPromise) {
+                        fetchPromise.catch(error => Promise.resolve(null));
+                    }
+                }, delay) as any;
+            } else {
+                let fetchPromise = this.fetch(query);
+                if (fetchPromise) {
+                    fetchPromise.catch(error => Promise.resolve(null));
+                }
+            }
+        }
+    }
+
     private setupRefresh() {
         try {
             if (this.auth && this.auth.authenticationToken) {

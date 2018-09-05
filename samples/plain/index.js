@@ -24,7 +24,9 @@ window.onload = function(e) {
         query: {
             clientId: "plain-sample",
             matchGenerateContent: true,
-            matchGrouping: true
+            matchGrouping: true,
+            matchPageSize: 10,
+            searchType: IntelliSearch.SearchType.Relevance
             //categorizationType: IntelliSearch.CategorizationType.DocumentHitsOnly
         }
     });
@@ -41,9 +43,7 @@ window.onload = function(e) {
                 addFirst: true,
                 addPrev: true,
                 addNext: true,
-                addLast: true,
-                prevString: "《",
-                nextString: "》"
+                addLast: true
             },
             categories: {
                 show: true,
@@ -60,6 +60,7 @@ window.onload = function(e) {
             }
         },
         details: {
+            show: true,
             content: {
                 show: clientSettings.query.matchGenerateContent
             },
@@ -113,9 +114,38 @@ window.onload = function(e) {
     const render = {
         match: {
             // Required
-            stats: (matches) => `
-                <span>About ${matches.estimatedMatchCount} matches</span>
-            `,
+            stats: (matches) => {
+                if (matches.estimatedMatchCount > 0) {
+                    return `
+                        <span>About ${matches.estimatedMatchCount} matches</span>
+                    `;
+                } else {
+                    return "No matches";
+                }
+            },
+            pager: {
+                label : () => `
+                    <span>Goto page:</span>
+                `,
+                prev: (i, disabled) => `
+                    <span title="${disabled ? "" : "Previous page"}">《</span>
+                `,
+                first: (i) => `
+                    <span title="First page">${i}</span>
+                `,
+                page: (i, selected) => `
+                    <span title="${selected ? "" : "Goto page ${i}"}">${i}</span>
+                `,
+                last: (i) => `
+                    <span title="Last page">${i}</span>
+                `,
+                next: (i, disabled) => `
+                    <span title="${disabled ? "" : "Next page"}">》</span>
+                `,
+                ellipsis: () => `
+                    …
+                `,
+            },
             // Required
             item: (match) => `
                 <div class="item">
@@ -185,7 +215,7 @@ window.onload = function(e) {
             itemProperties: (match) => {
                 if (!uiSettings.details.properties.show) return "";
                 let items = [];
-                for (var property in match) {
+                for (let property in match) {
                     if (match.hasOwnProperty(property)) {
                         if (!excluded(property, uiSettings.details.properties.exclude)) {
                             items.push(property);
@@ -205,7 +235,7 @@ window.onload = function(e) {
             itemMetadata: (metadata) => {
                 if (!uiSettings.details.metadata.show) return "";
                 let items = [];
-                for (var meta of metadata) {
+                for (let meta of metadata) {
                     if (!excluded(meta.key, uiSettings.details.metadata.exclude)) {
                         items.push(meta);
                     }
@@ -223,7 +253,7 @@ window.onload = function(e) {
             itemCategories: (categories) => {
                 if (!uiSettings.details.categories.show) return "";
                 let items = [];
-                for (var category of categories) {
+                for (let category of categories) {
                     if (!excluded(category, uiSettings.details.categories.exclude)) {
                             items.push(category);
                     }
@@ -296,12 +326,12 @@ window.onload = function(e) {
         },
     };
 
-    var genericErrorElm = document.getElementById("generic-error");
+    let genericErrorElm = document.getElementById("generic-error");
     window.onError = function(message, source, lineno, colno, error) {
         containerElm.classList.remove(
             "matches-loading",
             "categories-loading",
-            "introduction"
+            "welcome"
         );
         containerElm.classList.add("error");
 
@@ -334,7 +364,7 @@ window.onload = function(e) {
     //    Detecting changes, enter, reset-click and search-click.
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    var queryTextElm = document.getElementById("query-text");
+    let queryTextElm = document.getElementById("query-text");
 
     // This reports changes in the query, but does not detect enter
     queryTextElm.addEventListener("input", function() {
@@ -349,19 +379,18 @@ window.onload = function(e) {
         adjustQueryTextFontSize();
     });
 
-    var styleFontSize = window
+    let styleFontSize = window
         .getComputedStyle(queryTextElm, null)
         .getPropertyValue("font-size");
-    var maxFontSize = parseFloat(styleFontSize);
-    console.log(maxFontSize);
+    let maxFontSize = parseFloat(styleFontSize);
 
     function adjustQueryTextFontSize() {
-        var maxLength = 200; // When inpt is this long...
-        var minFontSize = 8; // ...we use this percentage as the smallest font.
+        let maxLength = 500; // When inpt is this long...
+        let minFontSize = 8; // ...we use this percentage as the smallest font.
 
-        var increments = (maxFontSize - minFontSize) / maxLength;
+        let increments = (maxFontSize - minFontSize) / maxLength;
 
-        var reduction =
+        let reduction =
             Math.min(queryTextElm.value.length, maxLength) * increments;
         queryTextElm.style.fontSize = maxFontSize - reduction + "px";
     }
@@ -377,24 +406,24 @@ window.onload = function(e) {
 
     // We use input type="input", instead of type="search". This is because the reset X that appears on the latter field
     // for type="search" is not reliably firing events across browsers. With type="input" we make our own reset button.
-    var resetBtn = document.getElementById("reset");
-    var containerElm = document.getElementById("container");
+    let resetBtn = document.getElementById("reset");
+    let containerElm = document.getElementById("container");
     resetBtn.addEventListener("click", () => {
         console.log("UI reset");
         client = setupClient();
-        containerElm.className = "introduction";
+        containerElm.className = "welcome";
         queryTextElm.value = "";
     });
 
     // We also want the search button to force a
-    var searchButtonElm = document.getElementById("go");
+    let searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", () => {
         console.log("Search-button clicked", queryTextElm.value);
         client.update();
     });
 
     // Set up the autocomplete library
-    var awesomplete = new Awesomplete(queryTextElm);
+    let awesomplete = new Awesomplete(queryTextElm);
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // 6. Wire up other buttons, options and areas on the page:
@@ -404,56 +433,106 @@ window.onload = function(e) {
     //    - Match ordering
     //    - ...
     //////////////////////////////////////////////////////////////////////////////////////////
-    var matchesHeader = document.getElementById("matches-header");
+    let matchesHeader = document.getElementById("matches-header");
 
-    var orderByRelevance = document.getElementById("option-relevance");
+    let orderByRelevance = document.getElementById("option-relevance");
     orderByRelevance.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
     });
 
-    var orderByDate = document.getElementById("option-date");
+    let orderByDate = document.getElementById("option-date");
     orderByDate.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
     });
 
-    var didYouMeanContainerElm = document.getElementById(
+    let didYouMeanContainerElm = document.getElementById(
         "did-you-mean-container"
     );
-    var didYouMeanOptionsElm = document.getElementById("did-you-mean");
+    let didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
-    var categoriesTreeElm = document.getElementById("categories-tree");
+    let categoriesTreeElm = document.getElementById("categories-tree");
 
-    var matchesListElm = document.getElementById("matches-list");
-    var matchesStatsElm = document.getElementById("matches-stats");
-    var matchesPagerItemsElm = document.getElementById("matches-pager-items");
+    let matchesListElm = document.getElementById("matches-list");
+    let matchesStatsElm = document.getElementById("matches-stats");
+
+    let matchesPagerElm = document.getElementById("matches-pager");
+    let matchesPagerItemsLabelElm = document.getElementById(
+        "matches-pager-label"
+    );
+    let matchesPagerItemsElm = document.getElementById("matches-pager-items");
 
     // Details
-    var detailsElm = document.getElementById("details");
-    var detailsHeaderElm = document.getElementById("details-header");
-    var detailsTitleElm = document.getElementById("details-title");
-    var detailsContentElm = document.getElementById("details-content");
-    var detailsPropertiesElm = document.getElementById("details-properties");
-
-    var detailsOptionContent = document.getElementById(
+    let detailsElm = document.getElementById("details");
+    let detailsHeaderElm = document.getElementById("details-header");
+    let detailsTitleElm = document.getElementById("details-title");
+    let detailsContentElm = document.getElementById("details-content");
+    let detailsPropertiesElm = document.getElementById("details-properties");
+    let detailsOptionContent = document.getElementById(
         "details-option-content"
     );
-    detailsOptionContent.addEventListener("click", function() {
-        detailsElm.classList.add("content");
-        detailsElm.classList.remove("properties");
-    });
-    var detailsOptionProperties = document.getElementById(
+    let detailsOptionProperties = document.getElementById(
         "details-option-properties"
     );
 
-    detailsOptionProperties.addEventListener("click", function() {
+    if (uiSettings.details.content.show) {
+        detailsOptionContent.addEventListener("click", function() {
+            detailsElm.classList.add("content");
+            detailsElm.classList.remove("properties");
+        });
+        detailsOptionProperties.addEventListener("click", function() {
+            detailsElm.classList.add("properties");
+            detailsElm.classList.remove("content");
+        });
+    } else {
+        detailsOptionContent.checked = false;
+        detailsOptionProperties.checked = true;
         detailsElm.classList.add("properties");
         detailsElm.classList.remove("content");
+        document.getElementById("details-types").style.display = "none";
+    }
+    if (!uiSettings.details.show) {
+        containerElm.classList.add("no-details");
+    }
+
+    let matchesErrorElm = document.getElementById("matches-error");
+    let categoriesErrorElm = document.getElementById("categories-error");
+
+    let loadingSuggestions = document.getElementById("spinner");
+
+    let menu = document.getElementById("menu");
+    let menuBtn = document.getElementById("menu-button");
+    menuBtn.addEventListener("click", () => {
+        menu.classList.toggle("show");
     });
 
-    var matchesErrorElm = document.getElementById("matches-error");
-    var categoriesErrorElm = document.getElementById("categories-error");
+    let menuOptionHelp = document.getElementById("menu-option-help");
+    menuOptionHelp.addEventListener("click", () => {
+        containerElm.classList.add("help");
+    });
 
-    var loadingSuggestions = document.getElementById("spinner");
+    let menuOptionToggleDetails = document.getElementById(
+        "menu-option-toggle-details"
+    );
+    menuOptionToggleDetails.addEventListener("click", () => {
+        containerElm.classList.toggle("no-details");
+    });
+
+    let menuOptionSettings = document.getElementById("menu-option-settings");
+    menuOptionSettings.addEventListener("click", () => {
+        containerElm.classList.add("settings");
+    });
+
+    let menuOptionAbout = document.getElementById("menu-option-about");
+    menuOptionAbout.addEventListener("click", () => {
+        containerElm.classList.add("about");
+    });
+
+    // Close the drop-down menu if the user clicks outside of it
+    window.addEventListener("click", event => {
+        if (!event.target.matches("#menu-button")) {
+            menu.classList.remove("show");
+        }
+    });
     //////////////////////////////////////////////////////////////////////////////////////////
     // 7. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -505,11 +584,7 @@ window.onload = function(e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
-        containerElm.classList.remove(
-            "introduction",
-            "matches-loading",
-            "error"
-        );
+        containerElm.classList.remove("welcome", "matches-loading", "error");
 
         detailsHeaderElm.style.visibility = "hidden";
         detailsTitleElm.innerHTML = "";
@@ -524,7 +599,7 @@ window.onload = function(e) {
 
         if (matches.didYouMeanList.length > 0) {
             matches.didYouMeanList.forEach((didYouMean, i, a) => {
-                var li = document.createElement("li");
+                let li = document.createElement("li");
                 li.innerHTML = didYouMean;
                 li.addEventListener("click", function() {
                     queryTextElm.value = didYouMean; // Update the user interface
@@ -540,7 +615,7 @@ window.onload = function(e) {
         matchesListElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
-            var li = document.createElement("li");
+            let li = document.createElement("li");
             li.innerHTML = render.match.item(match);
 
             // Bind up hover action to write content (properties and metadata) into the details pane
@@ -559,30 +634,31 @@ window.onload = function(e) {
         }
 
         if (matches.searchMatches.length > 0) {
-            containerElm.classList.remove("introduction");
+            containerElm.classList.remove("welcome");
             matchesHeader.classList.add("has-data");
-            var ul = document.createElement("ul");
+            let ul = document.createElement("ul");
             matchesListElm.appendChild(ul);
 
             matches.searchMatches.forEach(function(match, index, arr) {
-                var li = createMatch(match, index, arr);
+                let li = createMatch(match, index, arr);
                 ul.appendChild(li);
             });
 
+            matchesPagerElm.classList.add("show");
             matchesPagerItemsElm.innerHTML = "";
 
             let pagerSize = uiSettings.match.pager.size;
             currentPage = client.matchPage;
-            var pageMin = 1;
-            var pageMax = Math.ceil(
+            let pageMin = 1;
+            let pageMax = Math.ceil(
                 matches.estimatedMatchCount / client.matchPageSize
             );
-            var pages = [];
+            let pages = [];
             pages.push(currentPage);
-            var offset = 1;
+            let offset = 1;
             while (pages.length < pagerSize) {
-                var pageRight = currentPage + offset;
-                var pageLeft = currentPage - offset;
+                let pageRight = currentPage + offset;
+                let pageLeft = currentPage - offset;
                 if (pageRight > pageMax && pageLeft < pageMin) break;
                 if (pages.length < pagerSize && pageRight <= pageMax)
                     pages.push(pageRight);
@@ -592,13 +668,22 @@ window.onload = function(e) {
             }
             pages.sort((a, b) => a - b);
 
+            matchesPagerItemsLabelElm.innerHTML = render.match.pager.label(
+                matches
+            );
+
             if (uiSettings.match.pager.addPrev) {
                 // Add a prev-page link
-                var li = document.createElement("li");
-                li.appendChild(
-                    document.createTextNode(uiSettings.match.pager.prevString)
+                let li = document.createElement("li");
+                li.classList.add("prev");
+                let disabled = currentPage <= pageMin;
+                li.innerHTML = render.match.pager.prev(
+                    Math.max(pageMin, currentPage - 1),
+                    disabled
                 );
-                if (currentPage > pageMin) {
+                if (disabled) {
+                    li.classList.add("disabled");
+                } else {
                     li.addEventListener(
                         "click",
                         () => {
@@ -606,17 +691,16 @@ window.onload = function(e) {
                         },
                         false
                     );
-                } else {
-                    li.classList.add("disabled");
                 }
                 matchesPagerItemsElm.appendChild(li);
             }
 
-            if (!pages.includes(pageMin) && uiSettings.match.pager.addFirst) {
+            if (uiSettings.match.pager.addFirst && !pages.includes(pageMin)) {
                 // Add a first-page link
 
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageMin));
+                let li = document.createElement("li");
+                li.innerHTML = render.match.pager.first(pageMin);
+                li.classList.add("first");
                 li.addEventListener(
                     "click",
                     () => {
@@ -626,16 +710,18 @@ window.onload = function(e) {
                 );
                 matchesPagerItemsElm.appendChild(li);
 
-                var ellipsis = document.createElement("li");
+                let ellipsis = document.createElement("li");
                 ellipsis.classList.add("ellipsis");
                 ellipsis.appendChild(document.createTextNode("…"));
                 matchesPagerItemsElm.appendChild(ellipsis);
             }
 
             pages.forEach(pageNum => {
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageNum));
-                if (pageNum === currentPage) {
+                let li = document.createElement("li");
+                let selected = pageNum === currentPage;
+                li.innerHTML = render.match.pager.page(pageNum, selected);
+                li.classList.add("page");
+                if (selected) {
                     li.classList.add("selected");
                 } else {
                     li.addEventListener(
@@ -648,16 +734,22 @@ window.onload = function(e) {
                 }
                 matchesPagerItemsElm.appendChild(li);
             });
-            if (!pages.includes(pageMax) && uiSettings.match.pager.addLast) {
+
+            if (
+                uiSettings.match.pager.addLast &&
+                !pages.includes(pageMax) &&
+                pageMax > 0
+            ) {
                 // Add a last-page link
 
-                var ellipsis = document.createElement("li");
+                let ellipsis = document.createElement("li");
                 ellipsis.classList.add("ellipsis");
-                ellipsis.appendChild(document.createTextNode("…"));
+                ellipsis.innerHTML = render.match.pager.ellipsis();
                 matchesPagerItemsElm.appendChild(ellipsis);
 
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageMax));
+                let li = document.createElement("li");
+                li.innerHTML = render.match.pager.last(pageMax);
+                li.classList.add("last");
                 li.addEventListener(
                     "click",
                     () => {
@@ -667,13 +759,19 @@ window.onload = function(e) {
                 );
                 matchesPagerItemsElm.appendChild(li);
             }
+
             if (uiSettings.match.pager.addNext) {
                 // Add a prev-page link
-                var li = document.createElement("li");
-                li.appendChild(
-                    document.createTextNode(uiSettings.match.pager.nextString)
+                let li = document.createElement("li");
+                li.classList.add("next");
+                let disabled = currentPage >= pageMax;
+                li.innerHTML = render.match.pager.next(
+                    Math.min(pageMax, currentPage + 1),
+                    disabled
                 );
-                if (currentPage < pageMax) {
+                if (disabled) {
+                    li.classList.add("disabled");
+                } else {
                     li.addEventListener(
                         "click",
                         () => {
@@ -681,12 +779,11 @@ window.onload = function(e) {
                         },
                         false
                     );
-                } else {
-                    li.classList.add("disabled");
                 }
                 matchesPagerItemsElm.appendChild(li);
             }
         } else {
+            matchesPagerElm.classList.remove("show");
             matchesStatsElm.innerHTML = "";
             matchesListElm.innerHTML = "No matches.";
         }
@@ -739,7 +836,7 @@ window.onload = function(e) {
         categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
-            var categoryLiElm = document.createElement("li");
+            let categoryLiElm = document.createElement("li");
             if (client.isFilter(category)) {
                 categoryLiElm.classList.add("is-filter");
             } else if (client.hasChildFilter(category)) {
@@ -755,17 +852,17 @@ window.onload = function(e) {
                 category.children.length > 0 ? "has-children" : "is-leaf"
             );
 
-            var toggle = `<span class="toggle"></span>`;
-            var title = `<span class="title">${category.displayName}</span>`;
-            var count =
+            let toggle = `<span class="toggle"></span>`;
+            let title = `<span class="title">${category.displayName}</span>`;
+            let count =
                 category.count > 0
                     ? `<span class="count">${category.count}</span>`
                     : "";
             categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
-            var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
+            let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
-                var result = client.toggleCategoryExpansion(category);
+                let result = client.toggleCategoryExpansion(category);
                 console.log(
                     `Toggled expansion for category '${
                         category.displayName
@@ -774,11 +871,11 @@ window.onload = function(e) {
                 );
             });
 
-            var linkElm = categoryLiElm.getElementsByClassName("link")[0];
+            let linkElm = categoryLiElm.getElementsByClassName("link")[0];
             linkElm.addEventListener("click", function(e) {
-                var closestLi = e.target.closest("li");
+                let closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
-                    var added = client.filterToggle(category);
+                    let added = client.filterToggle(category);
                     closestLi.classList.toggle("is-filter");
                     console.log(
                         `Filter ${category.displayName} was ${
@@ -789,10 +886,10 @@ window.onload = function(e) {
                 }
             });
             if (category.children.length > 0) {
-                var catUlElm = document.createElement("ul");
+                let catUlElm = document.createElement("ul");
                 categoryLiElm.appendChild(catUlElm);
                 category.children.forEach(function(childCat, cIndex, cArr) {
-                    var li = createCategoryNode(childCat, cIndex, cArr);
+                    let li = createCategoryNode(childCat, cIndex, cArr);
                     catUlElm.appendChild(li);
                 });
             }
@@ -800,14 +897,14 @@ window.onload = function(e) {
         }
 
         if (categories.groups.length > 0) {
-            var ul = document.createElement("ul");
+            let ul = document.createElement("ul");
             categoriesTreeElm.appendChild(ul);
 
             categories.groups.forEach(function(group, index, arr) {
                 // Create the group-node
-                var groupLiElm = document.createElement("li");
-                var title = `<span class="title">${group.displayName}</span>`;
-                var toggle = `<span class="toggle"></span>`;
+                let groupLiElm = document.createElement("li");
+                let title = `<span class="title">${group.displayName}</span>`;
+                let toggle = `<span class="toggle"></span>`;
                 groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
                 groupLiElm.classList.add(
                     group.expanded ? "expanded" : "collapsed"
@@ -816,9 +913,9 @@ window.onload = function(e) {
                     group.categories.length > 0 ? "has-children" : "is-leaf"
                 );
 
-                var toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
+                let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
-                    var result = client.toggleCategoryExpansion(group);
+                    let result = client.toggleCategoryExpansion(group);
                     console.log(
                         `Toggled expansion for group '${
                             group.displayName
@@ -827,10 +924,10 @@ window.onload = function(e) {
                     );
                 });
                 if (group.categories.length > 0) {
-                    var catUlElm = document.createElement("ul");
+                    let catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);
                     group.categories.forEach(function(category, cIndex, cArr) {
-                        var li = createCategoryNode(category, cIndex, cArr);
+                        let li = createCategoryNode(category, cIndex, cArr);
                         catUlElm.appendChild(li);
                     });
                 }
@@ -890,7 +987,7 @@ window.onload = function(e) {
 
         separator = separator || "...";
 
-        var sepLen = separator.length,
+        let sepLen = separator.length,
             charsToShow = strLen - sepLen,
             frontChars = Math.ceil(charsToShow / 2),
             backChars = Math.floor(charsToShow / 2);
