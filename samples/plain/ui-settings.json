@@ -1,0 +1,79 @@
+{
+    "match": {
+        "pager": {
+            "size": 10,
+            "addFirst": true,
+            "addPrev": true,
+            "addNext": true,
+            "addLast": true
+        },
+        "categories": {
+            "show": true,
+            "exclude": [
+                "/^System.*/",
+                "/^ModifiedDate.*/",
+                "/^Projects (JIRA)$/",
+                "/^Author$/",
+                "/^GDPR$/",
+                "/^Tabs/",
+                "/^Type$/",
+                "/^Filetype$/i"
+            ]
+        }
+    },
+    "details": {
+        "show": true,
+        "properties": {
+            "show": true,
+            "exclude": [
+                "/\\$id$/",
+                "/^abstract$/",
+                "/^extracts$/",
+                "/^categories$/",
+                "/^content$/",
+                "/^metaList$/",
+                "/^title$/",
+                "/^url$/",
+                "/^$/"
+            ]
+        },
+        "metadata": {
+            "show": true,
+            "exclude": [
+                "/^_?IntelliSearch\\./i",
+                "/^ItemId(Hash|Uri)$/",
+                "/^CrawlerName/",
+                "/^CrawledDate/",
+                "/^System$/",
+                "/^Exists$/"
+            ]
+        },
+        "categories": {
+            "show": true,
+            "exclude": [
+                "/^System.*/",
+                "/^ModifiedDate.*/",
+                "/^Projects \\(JIRA\\)$/",
+                "/^Author$/",
+                "/^GDPR$/",
+                "/^Tabs/",
+                "/^Type$/",
+                "/^Filetype$/i"
+            ]
+        }
+    },
+    "settingsDialogHints": {
+        "query": {
+            "queryText": ""
+        },
+        "autocomplete": {
+            "enabled": "Enable the autocomplete service?"
+        },
+        "find": {
+            "enabled": "Enable the find service?"
+        },
+        "categorize": {
+            "enabled": "Enable the categorize service?"
+        }
+    }
+}

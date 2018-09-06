@@ -29,8 +29,8 @@ export class AutocompleteTriggers {
     /**
      * Triggers action immediately instead of delayed when the query matches the regex.
      *
-     * Note: Requires queryChanged to be true.
-     * Note: Requires query to be longer than queryMinLength.
+     * Note: Requires queryChange to be true.
+     * Note: Requires query to be longer than queryChangeMinLength.
      *
      * Default: Trigger on first whitespace after non-whitespace
      */
@@ -39,7 +39,7 @@ export class AutocompleteTriggers {
     /**
      * Min length before triggering.
      *
-     * Note: Requires queryChanged to be true.
+     * Note: Requires queryChange to be true.
      */
     public queryChangeMinLength?: number = 3;
 

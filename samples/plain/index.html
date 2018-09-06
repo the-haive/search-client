@@ -20,19 +20,17 @@
                 </header>
                 <main>
                     <p>
-                        IntelliSearch is a search-engine - not too unlike Google. If you can google something then you
-                        can also use IntelliSearch to find relevant data. The difference between Google and
-                        IntelliSearch is that while Google is your best friend in finding information online on the
-                        public internet, IntelliSearch is your best companion in finding information within <strong>
+                        IntelliSearch is a search-engine - not too unlike Google. If you can google something then you can also use IntelliSearch
+                        to find relevant data. The difference between Google and IntelliSearch is that while Google is your
+                        best friend in finding information online on the public internet, IntelliSearch is your best companion
+                        in finding information within <strong>
                             specific sources</strong> in your domain.
                     </p>
                     <p>
-                        Another important distinction is that IntelliSearch handle security. Google finds just about
-                        any information on the internet, but the results are limited to items that are publicly
-                        available.
-                        <br />
-                        IntelliSearch is crafted ground up with security built-in. This means that it is able to
-                        authenticate users and to add security for the items added to the search index, giving you
+                        Another important distinction is that IntelliSearch handle security. Google finds just about any information on the internet,
+                        but the results are limited to items that are publicly available.
+                        <br /> IntelliSearch is crafted ground up with security built-in. This means that it is able to authenticate
+                        users and to add security for the items added to the search index, giving you
                         <strong>your</strong> results, and ensuring that no-one else can see your private items.
                     </p>
                     <p>
@@ -57,75 +55,140 @@
                     <dl>
                         <dt>Categories:</dt>
                         <dd>
-                            The category tree is very handy in your quest to help identify the items you are looking
-                            for. Clicking on categories makes them filters that filter down results to match the chosen
-                            filters. The top-level categories are called groups. Each group has categories that can be
-                            used for filtering. If you yse multiple filters <strong>within the same group</strong> then
-                            these filters are combined with 'OR'. Filters in different groups are combined with 'AND'.<br />
-                            The categories that have been setup by the search administrator should be descriptive for
-                            your use case.
+                            The category tree is very handy in your quest to help identify the items you are looking for. Clicking on categories makes
+                            them filters that filter down results to match the chosen filters. The top-level categories are
+                            called groups. Each group has categories that can be used for filtering. If you yse multiple
+                            filters <strong>within the same group</strong> then these filters
+                            are combined with 'OR'. Filters in different groups are combined with 'AND'.<br /> The categories
+                            that have been setup by the search administrator should be descriptive for your use case.
                             <br />
-                            <i>Please contact the search administrator for questions in regards to the categories
-                                available.</i>
+                            <i>Please contact the search administrator for questions in regards to the categories available.
+                            </i>
                         </dd>
 
                         <dt>Keywords:</dt>
                         <dd>
-                            Use words that are as special as possible for the items you are looking for. For instance,
-                            searching for the word "is" will most likely match on just about all items in the index. We
-                            instead recommend using rare words that helps IntelliSearch to identify the items you are
-                            looking for.<br /> By default IntelliSearch requires all words in the query to be present
-                            to match. After the search is performed you will be presented with an option where you can
-                            change this to instead execute a search that requires only one of the words to be present
-                            in the items to become a match. The IntelliSearch relevance algorithms will ensure that
-                            items that has a better match as listed on top.
+                            Use words that are as special as possible for the items you are looking for. For instance, searching for the word "is" will
+                            most likely match on just about all items in the index. We instead recommend using rare words
+                            that helps IntelliSearch to identify the items you are looking for.<br
+                            /> By default IntelliSearch requires all words in the query to be present to match. After the
+                            search is performed you will be presented with an option where you can change this to instead
+                            execute a search that requires only one of the words to be present in the items to become a match.
+                            The IntelliSearch relevance algorithms will ensure that items that has a better match as listed
+                            on top.
                         </dd>
 
                         <dt>Phrases:</dt>
                         <dd>
-                            If you add quotes around the search-expression then IntelliSearch will return only items
-                            where those words are used in sequence. I.e. searching for <code>"lisa went to school"</code>
-                            instead of just <code>lisa went to school</code>.
+                            If you add quotes around the search-expression then IntelliSearch will return only items where those words are used in sequence.
+                            I.e. searching for <code>"lisa went to school"</code> instead of
+                            just <code>lisa went to school</code>.
                         </dd>
 
                         <dt>Sorting:</dt>
                         <dd>
-                            By default IntelliSearch orders results by relevance, most relevant first to least relevant
-                            last. IntelliSearch calculate a match relevance per item it finds and puts the most
-                            relevant items on top. If you want you can switch the ordering from Relevance to Date,
-                            where items are ordered from newest to oldest. <i>Note that relevance can be tuned in the
-                                search-engine. Please contact the search administrator if you have input on how items
-                                should be ordered.</i>
+                            By default IntelliSearch orders results by relevance, most relevant first to least relevant last. IntelliSearch calculate
+                            a match relevance per item it finds and puts the most relevant items on top. If you want you
+                            can switch the ordering from Relevance to Date, where items are ordered from newest to oldest.
+                            <i>Note that relevance can be tuned in the search-engine. Please contact the search administrator
+                                if you have input on how items should be ordered.</i>
                         </dd>
 
                         <dt>Number-ranges:</dt>
                         <dd>
-                            IntelliSearch can also help you find specific numbers in the indexed items. If you search
-                            for i.e. <code>100-150</code> then IntelliSearch will return all items that has any number
-                            between 100 and 150 (inclusive). The order of the expression can even be switched,
-                            IntelliSearch will understand that <code>150-100</code> means the same as the previous
-                            expressions. You can also search for negative ranges, although the expressions will look a
-                            bit weirder. For instance, <code>-100--200</code> will return all items with the numbers
-                            -200 to -100 in them.
+                            IntelliSearch can also help you find specific numbers in the indexed items. If you search for i.e. <code>100-150</code>                            then
+                            IntelliSearch will return all items that has any number between 100 and 150 (inclusive). The
+                            order of the expression can even be switched, IntelliSearch will understand that <code>150-100</code>                            means
+                            the same as the previous expressions. You can also search for negative ranges, although the expressions
+                            will look a bit weirder. For instance, <code>-100--200</code> will return all items with the
+                            numbers -200 to -100 in them.
                             <br />
                             <i>Requires the number-plugin to be enabled in the search-engine.</i>
                         </dd>
 
                         <dt>Advanced language features:</dt>
                         <dd>
-                            IntelliSearch will detect the language used in items and for Norwegian (bokmål as well as
-                            ny-norsk) we will amploy what is called 'lemmatization' techniques in order to help
-                            identify the items you are looking for. A fallback alternative is used for most other
-                            common languages, called 'stemming'. With lemmatization enabled, searching for the word
+                            IntelliSearch will detect the language used in items and for Norwegian (bokmål as well as ny-norsk) we will amploy what is
+                            called 'lemmatization' techniques in order to help identify the items you are looking for. A
+                            fallback alternative is used for most other common languages, called 'stemming'. With lemmatization
+                            enabled, searching for the word
                             <code>trær</code> for instance, will automatically also return items where the words
-                            <code>tre</code>, <code>trær</code>, <code>trærne</code>, <code>treet</code> (etc.) are
-                            used. <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
+                            <code>tre</code>, <code>trær</code>, <code>trærne</code>, <code>treet</code> (etc.) are used.
+                            <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
                         </dd>
                     </dl>
                 </main>
-                <footer>
-                    &copy; IntelliSearch Software AS
-                </footer>
+            </div>
+        </div>
+        <div id="settings">
+            <div class="dialog">
+                <header>
+                    <h1>Settings</h1>
+                    <div id="settings-close-button">X</div>
+                </header>
+                <main id="settings-main">
+                    <fieldset>
+                        <legend>Query</legend>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Autocomplete</legend>
+                        <section>
+                            <input id="enabled" type="checkbox">
+                            <label for="enabled">Enable the autocomplete service.</label>
+                            <legend></legend>
+                            <section>
+                                <input id="path" type="string">
+                                <label for="path">Path to the autocomplete service (appended to the base-url at the top)</label>
+                                <input id="queryChange" type="checkbox">
+                                <label for="queryChange">Trigger when any part of the query is changed?</label>
+                                <legend></legend>
+                                <section>
+                                    <input id="maxSuggestionsChanged" type="checkbox">
+                                    <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is
+                                        changed?
+                                    </label>
+                                    <input id="queryChangeDelay" type="number">
+                                    <label for="queryChangeDelay">How long to delay triggering the event, resetting for every
+                                        change that occurs.</label>
+                                    <input id="queryChangeInstantRegex" type="string">
+                                    <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the
+                                        query-text matches the specified regular expression (without the above delay).</label>
+                                    <input id="queryChangeMinLength" type="number">
+                                    <label for="queryChangeMinLength">Requires the query-text to have at minimum this length
+                                        before triggering.
+                                    </label>
+                                </section>
+                            </section>
+                        </section>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Find</legend>
+                        <strong>
+                            <input id="queryChange" type="checkbox">
+                            <label for="queryChange">Trigger when any part of the query is changed?</label>
+                        </strong>
+                        <section>
+                            <input id="maxSuggestionsChanged" type="checkbox">
+                            <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is changed?</label>
+                            <input id="queryChangeDelay" type="number">
+                            <label for="queryChangeDelay">How long to delay triggering the event, resetting for every change
+                                that occurs.</label>
+                            <input id="queryChangeInstantRegex" type="string">
+                            <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the query-text
+                                matches the specified regular expression (without the above delay).</label>
+                            <input id="queryChangeMinLength" type="number">
+                            <label for="queryChangeMinLength">Requires the query-text to have at minimum this length before
+                                triggering.
+                            </label>
+                        </section>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Categorize</legend>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Authentication</legend>
+                    </fieldset>
+                </main>
             </div>
         </div>
 
@@ -165,8 +228,7 @@
         <div id="error">
             <h2>Ops! Something went wrong.</h2>
             <p>
-                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report
-                this
+                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report this
                 issue.
             </p>
             <button>Send report (not implemented yet)</button>
@@ -184,8 +246,7 @@
             <p>
                 Please enter your search-query in the top query-field.
                 <br /> For more help, click <a href="javascript:showTips()" title="Tips on efficient searching">here</a>.
-                <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()"
-                    title="About IntelliSearch">here</a>.
+                <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()" title="About IntelliSearch">here</a>.
             </p>
             <h2>Status</h2>
             <div id="status">
@@ -209,10 +270,8 @@
             </dl>
             <h2>Security</h2>
             <p>
-                It is set up to handle authentication and security via Windows Integrated Security, meaning that you
-                need to be logged in
-                to the company domain to get any results. If you are accessing the system from outside the company a
-                separate
+                It is set up to handle authentication and security via Windows Integrated Security, meaning that you need to be logged in
+                to the company domain to get any results. If you are accessing the system from outside the company a separate
                 login may be required.
             </p>
         </div>
@@ -254,13 +313,10 @@
                     <li>The current query did not match any items in the search-index.</li>
                     <li>Please try to change the search-expression or remove filters (if set).</li>
                     <li>You can also try to change the type of search by changing the all words / any word setting.</li>
-                    <li>If you still cannot find what you are looking for, please verify that the source the item you
-                        are
+                    <li>If you still cannot find what you are looking for, please verify that the source the item you are
                         looking for is indexed.</li>
-                    <li>If you still cannot find the item you are looking for then please contact your administrator.
-                        It
-                        is important that you enquire on this in order for the administrator to be able to adjust and
-                        tune
+                    <li>If you still cannot find the item you are looking for then please contact your administrator. It
+                        is important that you enquire on this in order for the administrator to be able to adjust and tune
                         the search.</li>
                 </ul>
             </div>

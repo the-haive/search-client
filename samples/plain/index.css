@@ -67,7 +67,8 @@ body {
 }
 
 #about,
-#help {
+#help,
+#settings {
     position: fixed;
     display: none;
     background-color: rgba(255, 255, 255, 0.7);
@@ -78,12 +79,14 @@ body {
     height: 100%;
 }
 #about.show,
-#help.show {
+#help.show,
+#settings.show {
     display: flex;
 }
 
 #about .dialog,
-#help .dialog {
+#help .dialog,
+#settings .dialog {
     margin: auto;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     background-color: #f9f9f9;
@@ -97,8 +100,19 @@ body {
     display: flex;
     flex-direction: column;
 }
+#settings .dialog {
+    width: 100%;
+    height: unset;
+    margin: 1em;
+    min-height: unset;
+    max-height: unset;
+    min-width: unset;
+    max-width: unset;
+}
+
 #about .dialog header,
-#help .dialog header {
+#help .dialog header,
+#settings .dialog header {
     margin: 0 -0.5em 0 0;
     padding: 0;
     display: flex;
@@ -109,22 +123,52 @@ body {
     margin: 0 0 1.2em 0;
 }
 #about .dialog main,
-#help .dialog main {
+#help .dialog main,
+#settings .dialog main {
     flex-grow: 1;
     overflow-y: auto;
 }
-#about .dialog footer,
-#help .dialog footer {
+#about .dialog footer {
     text-align: center;
     border-top: solid 1px silver;
     padding: 0.5em 0 0 0;
 }
 
 #about-close-button,
-#help-close-button {
+#help-close-button,
+#settings-close-button {
     float: right;
     background-color: transparent;
     cursor: pointer;
+}
+
+#settings fieldset {
+    font-family: sans-serif;
+    border: 1px solid silver;
+    /*background: #ddd;*/
+    border-radius: 5px;
+    padding: 15px;
+    /*box-shadow: 0 0 0 5px #ddd;*/
+}
+
+#settings fieldset legend {
+    /*background: #1f497d;
+    color: #fff;*/
+    padding: 5px 10px;
+    font-size: 32px;
+    border-radius: 5px;
+    /*box-shadow: 0 0 0 5px #ddd;*/
+    margin-left: 20px;
+}
+
+#settings section {
+    margin: 1em 0 0 2em;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0.5em;
+}
+#settings section input {
+    justify-self: flex-end;
 }
 
 #status-code {

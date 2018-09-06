@@ -1,0 +1,13 @@
+{
+    "autocomplete": {
+        "enabled": false
+    },
+    "query": {
+        "clientId": "plain-sample",
+        "matchGenerateContent": true,
+        "matchGrouping": true,
+        "matchPageSize": 10,
+        "searchType": "Relevance",
+        "categorizationType": "DocumentHitsOnly"
+    }
+}

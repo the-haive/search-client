@@ -1,12 +1,50 @@
-window.onload = function(e) {
+function load(file) {
+    return fetch(file, {
+        "Content-Type": "text/json",
+        credentials: "include"
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error();
+            }
+        })
+        .then(json => json)
+        .catch(err => {
+            console.warn(
+                `Failed to find/read ${file} on the server. Using empty object as input.`
+            );
+            return {};
+        });
+}
+
+window.onload = function() {
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
-    //    This test uses the publicly exposed demo SearchManager endpoint.
+    //    We first try to load a default from the settings file on the server.
     //////////////////////////////////////////////////////////////////////////////////////////
+    let searchSettings = {};
+    let uiSettings = {};
+    Promise.all([
+        load("./search-settings.json").then(ss => {
+            searchSettings = ss;
+        }),
+        load("./ui-settings.json").then(ui => {
+            uiSettings = ui;
+        })
+    ]).then(() => {
+        setupIntelliSearch(searchSettings, uiSettings);
+    });
+};
 
-    const clientSettings = new IntelliSearch.Settings({
+function setupIntelliSearch(searchSettings, uiSettings) {
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 2. We then override this by adding any defined values here.
+    //    Note: Should only add the callback methods.
+    //////////////////////////////////////////////////////////////////////////////////////////
+    let searchOverrideSettings = {
         autocomplete: {
-            //enabled: false, //TODO: Enable when the backend has been updated.
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
             cbError: handleAutocompleteError
@@ -20,93 +58,19 @@ window.onload = function(e) {
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
             cbError: handleCategorizeError
-        },
-        query: {
-            clientId: "plain-sample",
-            matchGenerateContent: true,
-            matchGrouping: true,
-            matchPageSize: 10,
-            searchType: IntelliSearch.SearchType.Relevance
-            //categorizationType: IntelliSearch.CategorizationType.DocumentHitsOnly
-        }
-    });
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    // 2. Set up the ui settings.
-    //    These provide a simple means to controlling the rendering.
-    //////////////////////////////////////////////////////////////////////////////////////////
-
-    const uiSettings = {
-        match: {
-            pager: {
-                size: 10,
-                addFirst: true,
-                addPrev: true,
-                addNext: true,
-                addLast: true
-            },
-            categories: {
-                show: true,
-                exclude: [
-                    /^System.*/,
-                    /^ModifiedDate.*/,
-                    /^Projects \(JIRA\)$/,
-                    /^Author$/,
-                    /^GDPR$/,
-                    /^Tabs/,
-                    /^Type$/,
-                    /^Filetype$/i
-                ]
-            }
-        },
-        details: {
-            show: true,
-            content: {
-                show: clientSettings.query.matchGenerateContent
-            },
-            properties: {
-                show: true,
-                exclude: [
-                    /\$id$/,
-                    /^abstract$/,
-                    /^extracts$/,
-                    /^categories$/,
-                    /^content$/,
-                    /^metaList$/,
-                    /^title$/,
-                    /^url$/,
-                    /^$/
-                ]
-            },
-            metadata: {
-                show: true,
-                exclude: [
-                    /^_?IntelliSearch\./i,
-                    /^ItemId(Hash|Uri)$/,
-                    /^CrawlerName/,
-                    /^CrawledDate/,
-                    /^System$/,
-                    /^Exists$/ // TODO: Where does this come from?
-                ]
-            },
-            categories: {
-                show: true,
-                exclude: [
-                    /^System.*/,
-                    /^ModifiedDate.*/,
-                    /^Projects \(JIRA\)$/,
-                    /^Author$/,
-                    /^GDPR$/,
-                    /^Tabs/,
-                    /^Type$/,
-                    /^Filetype$/i
-                ]
-            }
         }
     };
 
+    let mergedSettings = mergeDeep(searchSettings, searchOverrideSettings);
+    searchSettings = new IntelliSearch.Settings(mergedSettings);
+
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 3. If needed, tune the rendering templates to adjust the output according to your wishes.
+    // 3. Set up the ui settings.
+    //    These provide a simple means to controlling the rendering.
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 4. If needed, tune the rendering templates to adjust the output according to your wishes.
     //    These provide a simple means to controlling the rendering.
     //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -341,25 +305,25 @@ window.onload = function(e) {
         });
     };
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 4. Initialize the client engine
+    // 5. Initialize the client engine
     //    Wrapping the creation as it is used also when the reset-button is clicked.
     //////////////////////////////////////////////////////////////////////////////////////////
 
     // For debugging
-    console.log("Client settings", clientSettings);
+    console.log("Client settings", searchSettings);
     console.log("User interface settings", uiSettings);
     console.log("Render templates", render);
 
     // prettier-ignore
     function setupClient() {
         // Sets up the client that connects to the intellisearch backend using the aforementioned settings
-        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no",clientSettings);
+        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no",searchSettings);
     }
 
     let client = setupClient();
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 5. Wire up the queryText field, reset and search-button.
+    // 6. Wire up the queryText field, reset and search-button.
     //    Using input type="input", with separate reset and search button.
     //    Detecting changes, enter, reset-click and search-click.
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -426,7 +390,7 @@ window.onload = function(e) {
     let awesomplete = new Awesomplete(queryTextElm);
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 6. Wire up other buttons, options and areas on the page:
+    // 7. Wire up other buttons, options and areas on the page:
     //    - Search-type
     //    - Date-range
     //    - Pager
@@ -474,7 +438,7 @@ window.onload = function(e) {
         "details-option-properties"
     );
 
-    if (uiSettings.details.content.show) {
+    if (searchSettings.query.matchGenerateContent) {
         detailsOptionContent.addEventListener("click", function() {
             detailsElm.classList.add("content");
             detailsElm.classList.remove("properties");
@@ -501,6 +465,7 @@ window.onload = function(e) {
 
     let aboutElm = document.getElementById("about");
     let helpElm = document.getElementById("help");
+    let settingsElm = document.getElementById("settings");
 
     let menu = document.getElementById("menu");
     let menuBtn = document.getElementById("menu-button");
@@ -529,7 +494,13 @@ window.onload = function(e) {
 
     let menuOptionSettings = document.getElementById("menu-option-settings");
     menuOptionSettings.addEventListener("click", () => {
-        containerElm.classList.add("settings");
+        settingsElm.classList.add("show");
+        renderSettings();
+    });
+
+    let settingsCloseElm = document.getElementById("settings-close-button");
+    settingsCloseElm.addEventListener("click", () => {
+        settingsElm.classList.remove("show");
     });
 
     window.INTS_ShowAbout = function() {
@@ -552,7 +523,7 @@ window.onload = function(e) {
     });
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 7. Implement callbacks, that in turn render the ui
+    // 8. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /*** Autocomplete callbacks *************************************************************/
@@ -993,7 +964,15 @@ window.onload = function(e) {
     // Utility helper to exclude items
     function excluded(item, regexExclusionPatterns) {
         for (const exclude of regexExclusionPatterns) {
-            const regex = new RegExp(exclude);
+            var regParts = exclude.match(/^\/(.*?)\/([gim]*)$/);
+            let regex;
+            if (regParts) {
+                // the parsed pattern had delimiters and modifiers. handle them.
+                regex = new RegExp(regParts[1], regParts[2]);
+            } else {
+                // we got pattern string without delimiters
+                regex = new RegExp(regex);
+            }
             const match = regex.test(item);
             if (match) return true;
         }
@@ -1042,4 +1021,70 @@ window.onload = function(e) {
                 console.error("Unable to create stacktrace", err.message)
             );
     }
-};
+
+    /**
+     * Simple object check.
+     * @param item
+     * @returns {boolean}
+     */
+    function isObject(item) {
+        return item && typeof item === "object" && !Array.isArray(item);
+    }
+
+    /**
+     * Deep merge two objects.
+     * @param target
+     * @param ...sources
+     */
+    function mergeDeep(target, ...sources) {
+        if (!sources.length) return target;
+        const source = sources.shift();
+
+        if (isObject(target) && isObject(source)) {
+            for (const key in source) {
+                if (isObject(source[key])) {
+                    if (!target[key]) Object.assign(target, { [key]: {} });
+                    mergeDeep(target[key], source[key]);
+                } else {
+                    Object.assign(target, { [key]: source[key] });
+                }
+            }
+        }
+
+        return mergeDeep(target, ...sources);
+    }
+
+    // Render settings dialog.
+    function renderSettings() {
+        return;
+        // settingsMainElm = document.getElementById("settings-main");
+        // settingsMainElm.innerHTML = `
+        //     <fieldset>
+        //         <legend>Common</legend>
+        //         <section>
+        //             <input id="settings-base-url"></input>
+        //             <label for="settings-base-url">Base-url</label>
+        //             <input id="settings-path"></input>
+        //             <label for="settings-path">Path</label>
+        //         </section>
+        //     </fieldset>
+        // `;
+        // for (let o of [
+        //     "autocomplete",
+        //     "find",
+        //     "categorize",
+        //     "authentication"
+        // ]) {
+        //     console.log(o);
+        //     for (let p in client.settings[o]) {
+        //         console.log(o, p, typeof client.settings[o][p]);
+        //         if (p === "triggers") {
+        //             for (let t in client.settings[o][p]) {
+        //                 console.log(o, p, t, typeof client.settings[o][p][t]);
+        //             }
+        //         }
+        //     }
+        // }
+        // debugger;
+    }
+}
