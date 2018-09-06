@@ -174,7 +174,8 @@ body {
 #status-code {
     margin-top: -1em;
     display: inline-block;
-    color: green;
+    color: #02cb22;
+    text-shadow: 0.04em 0.07em 0.05em rgba(127, 127, 127, 0.6);
     font-weight: 900;
     font-size: 2em;
 }

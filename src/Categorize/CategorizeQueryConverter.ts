@@ -1,9 +1,4 @@
-import {
-    BaseQueryConverter,
-    CategorizationType,
-    SearchType,
-    Query
-} from "../Common";
+import { BaseQueryConverter, CategorizationType, Query } from "../Common";
 
 /**
  * Class to handle creating categorize lookups for restservice version 3.
@@ -23,7 +18,7 @@ export class CategorizeQueryConverter extends BaseQueryConverter {
         );
         this.addParamIfSet(params, "f", filters.join(";"));
         this.addParamIfSet(params, "q", query.queryText);
-        this.addParamIfSet(params, "t", SearchType[query.searchType]);
+        this.addParamIfSet(params, "t", query.searchType);
         this.addParamIfSet(params, "l", query.uiLanguageCode);
         this.addParamIfSet(
             params,

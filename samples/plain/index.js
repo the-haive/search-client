@@ -609,6 +609,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
+                li.parentNode.childNodes.forEach(sli => {
+                    sli.classList.remove("current");
+                });
+                li.classList.add("current");
                 detailsElm.classList.remove("showhelp");
                 detailsTitleElm.innerHTML = render.details.title(match);
                 detailsContentElm.innerHTML = render.details.content(
