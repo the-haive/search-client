@@ -454,7 +454,7 @@ window.onload = function(e) {
 
     let matchesListElm = document.getElementById("matches-list");
     let matchesStatsElm = document.getElementById("matches-stats");
-
+    let matchesOrderElm = document.getElementById("matches-order");
     let matchesPagerElm = document.getElementById("matches-pager");
     let matchesPagerItemsLabelElm = document.getElementById(
         "matches-pager-label"
@@ -499,15 +499,25 @@ window.onload = function(e) {
 
     let loadingSuggestions = document.getElementById("spinner");
 
+    let aboutElm = document.getElementById("about");
+    let helpElm = document.getElementById("help");
+
     let menu = document.getElementById("menu");
     let menuBtn = document.getElementById("menu-button");
     menuBtn.addEventListener("click", () => {
         menu.classList.toggle("show");
     });
 
+    window.INTS_ShowHelp = function() {
+        helpElm.classList.add("show");
+    };
+
     let menuOptionHelp = document.getElementById("menu-option-help");
-    menuOptionHelp.addEventListener("click", () => {
-        containerElm.classList.add("help");
+    menuOptionHelp.addEventListener("click", window.INTS_ShowHelp);
+
+    let helpCloseElm = document.getElementById("help-close-button");
+    helpCloseElm.addEventListener("click", () => {
+        helpElm.classList.remove("show");
     });
 
     let menuOptionToggleDetails = document.getElementById(
@@ -522,9 +532,16 @@ window.onload = function(e) {
         containerElm.classList.add("settings");
     });
 
+    window.INTS_ShowAbout = function() {
+        aboutElm.classList.add("show");
+    };
+
     let menuOptionAbout = document.getElementById("menu-option-about");
-    menuOptionAbout.addEventListener("click", () => {
-        containerElm.classList.add("about");
+    menuOptionAbout.addEventListener("click", window.INTS_ShowAbout);
+
+    let aboutCloseElm = document.getElementById("about-close-button");
+    aboutCloseElm.addEventListener("click", () => {
+        aboutElm.classList.remove("show");
     });
 
     // Close the drop-down menu if the user clicks outside of it
@@ -533,6 +550,7 @@ window.onload = function(e) {
             menu.classList.remove("show");
         }
     });
+
     //////////////////////////////////////////////////////////////////////////////////////////
     // 7. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -634,8 +652,14 @@ window.onload = function(e) {
         }
 
         if (matches.searchMatches.length > 0) {
+            if (matches.searchMatches.length > 1) {
+                matchesOrderElm.classList.add("show");
+            } else {
+                matchesOrderElm.classList.remove("show");
+            }
             containerElm.classList.remove("welcome");
             matchesHeader.classList.add("has-data");
+            containerElm.classList.remove("no-matches");
             let ul = document.createElement("ul");
             matchesListElm.appendChild(ul);
 
@@ -644,7 +668,6 @@ window.onload = function(e) {
                 ul.appendChild(li);
             });
 
-            matchesPagerElm.classList.add("show");
             matchesPagerItemsElm.innerHTML = "";
 
             let pagerSize = uiSettings.match.pager.size;
@@ -667,6 +690,12 @@ window.onload = function(e) {
                 offset++;
             }
             pages.sort((a, b) => a - b);
+
+            if (pageMax > 1) {
+                matchesPagerElm.classList.add("show");
+            } else {
+                matchesPagerElm.classList.remove("show");
+            }
 
             matchesPagerItemsLabelElm.innerHTML = render.match.pager.label(
                 matches
@@ -697,7 +726,6 @@ window.onload = function(e) {
 
             if (uiSettings.match.pager.addFirst && !pages.includes(pageMin)) {
                 // Add a first-page link
-
                 let li = document.createElement("li");
                 li.innerHTML = render.match.pager.first(pageMin);
                 li.classList.add("first");
@@ -741,7 +769,6 @@ window.onload = function(e) {
                 pageMax > 0
             ) {
                 // Add a last-page link
-
                 let ellipsis = document.createElement("li");
                 ellipsis.classList.add("ellipsis");
                 ellipsis.innerHTML = render.match.pager.ellipsis();
@@ -783,8 +810,10 @@ window.onload = function(e) {
                 matchesPagerItemsElm.appendChild(li);
             }
         } else {
+            matchesOrderElm.classList.remove("show");
             matchesPagerElm.classList.remove("show");
             matchesStatsElm.innerHTML = "";
+            containerElm.classList.add("no-matches");
             matchesListElm.innerHTML = "No matches.";
         }
     }
