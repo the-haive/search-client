@@ -86,20 +86,20 @@ body {
 #help .dialog {
     margin: auto;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
-    background-color: #dedede;
+    background-color: #f9f9f9;
     min-width: 700px;
     max-width: 1000px;
     width: 50%;
     min-height: 500px;
     max-height: 900px;
     height: 50%;
-    padding: 0.5em;
+    padding: 0.5em 1em;
     display: flex;
     flex-direction: column;
 }
 #about .dialog header,
 #help .dialog header {
-    margin: 0;
+    margin: 0 -0.5em 0 0;
     padding: 0;
     display: flex;
     justify-content: space-between;
