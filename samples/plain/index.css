@@ -5,8 +5,8 @@ body {
 }
 
 /*
-    There are 4 different grid-layouts to accomodate the main full desktop scenarios. These are controlled by adding a
-    classname to the #container element:
+    There are 4 different grid-layouts to accommodate the main full desktop scenarios. These are controlled by adding a
+    class-name to the #container element:
     1. "welcome" - The starting state with welcome text.
     2. "no-details"   - Search-results without details.
     3. ""             - Search results with details.
@@ -24,27 +24,67 @@ body {
 
 #container {
     display: grid;
-    grid-template-areas: "header header header" "categories matches details" "footer footer footer";
+    grid-template-areas:
+        "header header header"
+        "categories matches details"
+        "footer footer footer";
     grid-template-columns: 270px 3fr 2fr;
     grid-template-rows: auto 1fr auto;
     grid-gap: 10px;
     height: 100vh;
 }
+#container.settings:not(.welcome) {
+    grid-template-areas:
+        "header header header"
+        "categories matches details"
+        "settings settings settings";
+    grid-template-rows: auto 2fr minmax(10%, 1fr);
+}
 
 #container.welcome {
-    grid-template-areas: "header header header" ". welcome ." "footer footer footer";
+    grid-template-areas:
+        "header header header"
+        ". welcome ."
+        "footer footer footer";
 }
 
 #container.no-matches {
-    grid-template-areas: "header header header" ". matches ." "footer footer footer";
+    grid-template-areas:
+        "header header header"
+        ". matches ."
+        "footer footer footer";
+}
+#container.no-matches.settings {
+    grid-template-areas:
+        "header header header"
+        ". matches ."
+        "settings settings settings";
 }
 
 #container.no-details {
-    grid-template-areas: "header header header" "categories matches matches" "footer footer footer";
+    grid-template-areas:
+        "header header header"
+        "categories matches matches"
+        "footer footer footer";
+}
+#container.no-details.settings {
+    grid-template-areas:
+        "header header header"
+        "categories matches matches"
+        "settings settings settings";
 }
 
 #container.error {
-    grid-template-areas: "header header header" "error error error" "footer footer footer";
+    grid-template-areas:
+        "header header header"
+        "error error error"
+        "footer footer footer";
+}
+#container.error.settings {
+    grid-template-areas:
+        "header header header"
+        "error error error"
+        "settings settings settings";
 }
 
 #welcome,
@@ -69,45 +109,37 @@ body {
 #about,
 #help,
 #settings {
-    position: fixed;
+    grid-area: settings;
     display: none;
     background-color: rgba(255, 255, 255, 0.7);
-    z-index: 1000;
-    align-content: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+    overflow-y: auto;
+    margin-bottom: -10px;
 }
 #about.show,
 #help.show,
-#settings.show {
+#container.settings:not(.welcome) #settings {
     display: flex;
+}
+
+button {
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+button:hover {
+    font-weight: bold;
 }
 
 #about .dialog,
 #help .dialog,
 #settings .dialog {
-    margin: auto;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     background-color: #f9f9f9;
-    min-width: 700px;
-    max-width: 1000px;
-    width: 50%;
-    min-height: 500px;
-    max-height: 900px;
-    height: 50%;
     padding: 0.5em 1em;
     display: flex;
     flex-direction: column;
-}
-#settings .dialog {
     width: 100%;
-    height: unset;
-    margin: 1em;
-    min-height: unset;
-    max-height: unset;
-    min-width: unset;
-    max-width: unset;
 }
 
 #about .dialog header,
@@ -119,6 +151,16 @@ body {
     justify-content: space-between;
     border-bottom: solid 1px silver;
 }
+#settings .dialog header {
+    margin-bottom: 0.5em;
+    border-bottom: none;
+}
+
+#settings .dialog header h1 {
+    margin: 0;
+    font-size: 1em;
+}
+
 #help .dialog header h1 {
     margin: 0 0 1.2em 0;
 }
@@ -135,29 +177,26 @@ body {
 }
 
 #about-close-button,
-#help-close-button,
-#settings-close-button {
+#help-close-button {
     float: right;
     background-color: transparent;
     cursor: pointer;
 }
 
+#settings-close-button {
+    margin-left: auto;
+}
+
 #settings fieldset {
     font-family: sans-serif;
     border: 1px solid silver;
-    /*background: #ddd;*/
     border-radius: 5px;
     padding: 15px;
-    /*box-shadow: 0 0 0 5px #ddd;*/
 }
 
 #settings fieldset legend {
-    /*background: #1f497d;
-    color: #fff;*/
     padding: 5px 10px;
-    font-size: 32px;
     border-radius: 5px;
-    /*box-shadow: 0 0 0 5px #ddd;*/
     margin-left: 20px;
 }
 
@@ -201,7 +240,6 @@ body {
 
 #container.welcome #welcome,
 #container.help #help,
-#container.settings #settings,
 #container.error #error {
     display: block;
 }
@@ -887,12 +925,16 @@ button#reset.hidden {
 }
 
 #footer {
+    display: none;
     grid-area: footer;
     text-align: center;
     background-color: #f9f9f9;
     border-top: 1px solid#DEDEDE;
     padding: 10px;
     font-size: 19px;
+}
+#container:not(.settings) #footer {
+    display: block;
 }
 
 /* Loading indicator */
@@ -1003,6 +1045,28 @@ button#reset.hidden {
 .show {
     display: block;
 }
+
+ul.tabs {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+ul.tabs li.tab {
+    display: inline;
+    margin-left: 0.1em;
+    padding: 0 0.3em;
+    cursor: pointer;
+    border: solid 1px silver;
+    border-bottom: none;
+}
+ul.tabs li.tab.current {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+.tab-content:not(.current) {
+    display: none;
+}
+
 /* Responsive design */
 
 @media (max-width: 768px) {

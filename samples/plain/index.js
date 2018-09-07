@@ -35,6 +35,7 @@ window.onload = function() {
         })
     ]).then(() => {
         setupIntelliSearch(searchSettings, uiSettings);
+        setupTabs();
     });
 };
 
@@ -130,7 +131,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                                 if (excluded(category, uiSettings.match.categories.exclude)) {
                                     return "";
                                 } else {
-                                    const catName = getLocalizedCategoryName(category);
+                                    const catName = getLocalizedCategoryName(client, category);
                                     const shortCatName = truncateMiddleEllipsis(catName, 20);
                                     return `<span class="category" title="${catName}">${shortCatName}</span>`;
                                 }
@@ -226,7 +227,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     <h2>Categories</h2>
                     <ul class="categories">
                         ${collect(items, (cat) => {
-                            const catName = getLocalizedCategoryName(cat);
+                            const catName = getLocalizedCategoryName(client, cat);
                             return `
                                 <li title="${catName}">${catName}</li>
                             `;
@@ -362,7 +363,22 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-            console.log("queryText Enter detected", queryTextElm.value);
+            let mod = "";
+            if (event.shiftKey) {
+                mod = "Shift-";
+                queryTextElm.value = queryTextElm.value.replace(
+                    /\:intellidebug/gi,
+                    ""
+                );
+            }
+            if (event.ctrlKey) {
+                queryTextElm.value += " :intellidebug";
+                mod = "Ctrl-";
+            }
+            console.log(`queryText ${mod}Enter detected`, queryTextElm.value);
+            client.deferUpdates(true);
+            client.queryText = queryTextElm.value;
+            client.deferUpdates(false, true);
             client.update();
             event.preventDefault();
         }
@@ -381,8 +397,23 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // We also want the search button to force a
     let searchButtonElm = document.getElementById("go");
-    searchButtonElm.addEventListener("click", () => {
-        console.log("Search-button clicked", queryTextElm.value);
+    searchButtonElm.addEventListener("click", event => {
+        let mod = "";
+        if (event.shiftKey) {
+            mod = "Shift-";
+            queryTextElm.value = queryTextElm.value.replace(
+                /\:intellidebug/gi,
+                ""
+            );
+        }
+        if (event.ctrlKey) {
+            queryTextElm.value += " :intellidebug";
+            mod = "Ctrl-";
+        }
+        console.log(`Search-button ${mod}clicked`, queryTextElm.value);
+        client.deferUpdates(true);
+        client.queryText = queryTextElm.value;
+        client.deferUpdates(false, true);
         client.update();
     });
 
@@ -494,13 +525,14 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     let menuOptionSettings = document.getElementById("menu-option-settings");
     menuOptionSettings.addEventListener("click", () => {
-        settingsElm.classList.add("show");
-        renderSettings();
+        if (containerElm.classList.toggle("settings")) {
+            renderSettings();
+        }
     });
 
     let settingsCloseElm = document.getElementById("settings-close-button");
     settingsCloseElm.addEventListener("click", () => {
-        settingsElm.classList.remove("show");
+        containerElm.classList.remove("settings");
     });
 
     window.INTS_ShowAbout = function() {
@@ -960,104 +992,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         categoriesTreeElm.innerHTML = "";
     }
 
-    // Utility template-helper to collect output from a map iterator.
-    function collect(collection, action) {
-        return collection.map(action).join("");
-    }
-
-    // Utility helper to exclude items
-    function excluded(item, regexExclusionPatterns) {
-        for (const exclude of regexExclusionPatterns) {
-            var regParts = exclude.match(/^\/(.*?)\/([gim]*)$/);
-            let regex;
-            if (regParts) {
-                // the parsed pattern had delimiters and modifiers. handle them.
-                regex = new RegExp(regParts[1], regParts[2]);
-            } else {
-                // we got pattern string without delimiters
-                regex = new RegExp(regex);
-            }
-            const match = regex.test(item);
-            if (match) return true;
-        }
-        return false;
-    }
-
-    // Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.
-    function getLocalizedCategoryName(category) {
-        // TODO: Add a SearchClient method to show the full path DisplayName for a category.
-        const catId = category.split("|");
-        const cat = client.findCategory(catId);
-        let name = cat ? cat.displayName : category;
-        return name.split("|").join("/");
-    }
-
-    // Truncate the rendering of category-titles in the matches.
-    // TODO: Render first and last part in full, then just split the middle part, if longer than i.e. 5 chars.
-    function truncateMiddleEllipsis(fullStr, strLen, separator) {
-        if (fullStr.length <= strLen) return fullStr;
-
-        separator = separator || "...";
-
-        let sepLen = separator.length,
-            charsToShow = strLen - sepLen,
-            frontChars = Math.ceil(charsToShow / 2),
-            backChars = Math.floor(charsToShow / 2);
-
-        return (
-            fullStr.substr(0, frontChars) +
-            separator +
-            fullStr.substr(fullStr.length - backChars)
-        );
-    }
-
-    function stacktrace(action) {
-        StackTrace.get(error, { offline: true })
-            .then(stackframes => {
-                // Remove the topmost three frames, as they are artificial.
-                stackframes = stackframes.slice(3);
-                return stackframes.map(function(sf) {
-                    return sf.toString();
-                });
-            })
-            .then(action)
-            .catch(err =>
-                console.error("Unable to create stacktrace", err.message)
-            );
-    }
-
-    /**
-     * Simple object check.
-     * @param item
-     * @returns {boolean}
-     */
-    function isObject(item) {
-        return item && typeof item === "object" && !Array.isArray(item);
-    }
-
-    /**
-     * Deep merge two objects.
-     * @param target
-     * @param ...sources
-     */
-    function mergeDeep(target, ...sources) {
-        if (!sources.length) return target;
-        const source = sources.shift();
-
-        if (isObject(target) && isObject(source)) {
-            for (const key in source) {
-                if (isObject(source[key])) {
-                    if (!target[key]) Object.assign(target, { [key]: {} });
-                    mergeDeep(target[key], source[key]);
-                } else {
-                    Object.assign(target, { [key]: source[key] });
-                }
-            }
-        }
-
-        return mergeDeep(target, ...sources);
-    }
-
     // Render settings dialog.
     function renderSettings() {
         return;
@@ -1091,4 +1025,134 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         // }
         // debugger;
     }
+}
+
+function setupTabs() {
+    var tabsElms = document.getElementsByClassName("tabs");
+    for (let tabsElm of tabsElms) {
+        for (let tabElm of tabsElm.children) {
+            const tabContentId = `tab-${tabElm.id}`;
+            let tabContent = document.getElementById(tabContentId);
+            if (!tabContent) {
+                console.error(
+                    `Missing tab content id='${tabContentId}' (as referenced by <${
+                        tabElm.tagName
+                    } id="${tabElm.id}">)`
+                );
+                continue;
+            }
+            tabElm.addEventListener("click", () => {
+                // Remove sibling tabContents "current"
+                for (let t of tabElm.parentElement.children) {
+                    t.classList.remove("current");
+                }
+                // Add this' related tabContent "current"
+                tabElm.classList.add("current");
+
+                // Remove sibling tab's "current"
+                for (let c of tabContent.parentElement.children) {
+                    c.classList.remove("current");
+                }
+                // Add this tab "current"
+                tabContent.classList.add("current");
+            });
+        }
+    }
+}
+// Utility template-helper to collect output from a map iterator.
+function collect(collection, action) {
+    return collection.map(action).join("");
+}
+
+// Utility helper to exclude items
+function excluded(item, regexExclusionPatterns) {
+    for (const exclude of regexExclusionPatterns) {
+        var regParts = exclude.match(/^\/(.*?)\/([gim]*)$/);
+        let regex;
+        if (regParts) {
+            // the parsed pattern had delimiters and modifiers. handle them.
+            regex = new RegExp(regParts[1], regParts[2]);
+        } else {
+            // we got pattern string without delimiters
+            regex = new RegExp(regex);
+        }
+        const match = regex.test(item);
+        if (match) return true;
+    }
+    return false;
+}
+
+// Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.
+function getLocalizedCategoryName(client, category) {
+    // TODO: Add a SearchClient method to show the full path DisplayName for a category.
+    const catId = category.split("|");
+    const cat = client.findCategory(catId);
+    let name = cat ? cat.displayName : category;
+    return name.split("|").join("/");
+}
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+function isObject(item) {
+    return item && typeof item === "object" && !Array.isArray(item);
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+function mergeDeep(target, ...sources) {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (isObject(target) && isObject(source)) {
+        for (const key in source) {
+            if (isObject(source[key])) {
+                if (!target[key]) Object.assign(target, { [key]: {} });
+                mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        }
+    }
+
+    return mergeDeep(target, ...sources);
+}
+
+// Truncate the rendering of category-titles in the matches.
+// TODO: Render first and last part in full, then just split the middle part, if longer than i.e. 5 chars.
+function truncateMiddleEllipsis(fullStr, strLen, separator) {
+    if (fullStr.length <= strLen) return fullStr;
+
+    separator = separator || "...";
+
+    let sepLen = separator.length,
+        charsToShow = strLen - sepLen,
+        frontChars = Math.ceil(charsToShow / 2),
+        backChars = Math.floor(charsToShow / 2);
+
+    return (
+        fullStr.substr(0, frontChars) +
+        separator +
+        fullStr.substr(fullStr.length - backChars)
+    );
+}
+
+function stacktrace(action) {
+    StackTrace.get(error, { offline: true })
+        .then(stackframes => {
+            // Remove the topmost three frames, as they are artificial.
+            stackframes = stackframes.slice(3);
+            return stackframes.map(function(sf) {
+                return sf.toString();
+            });
+        })
+        .then(action)
+        .catch(err =>
+            console.error("Unable to create stacktrace", err.message)
+        );
 }

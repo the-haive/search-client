@@ -120,81 +120,10 @@
                 </main>
             </div>
         </div>
-        <div id="settings">
-            <div class="dialog">
-                <header>
-                    <h1>Settings</h1>
-                    <div id="settings-close-button">X</div>
-                </header>
-                <main id="settings-main">
-                    <fieldset>
-                        <legend>Query</legend>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Autocomplete</legend>
-                        <section>
-                            <input id="enabled" type="checkbox">
-                            <label for="enabled">Enable the autocomplete service.</label>
-                            <legend></legend>
-                            <section>
-                                <input id="path" type="string">
-                                <label for="path">Path to the autocomplete service (appended to the base-url at the top)</label>
-                                <input id="queryChange" type="checkbox">
-                                <label for="queryChange">Trigger when any part of the query is changed?</label>
-                                <legend></legend>
-                                <section>
-                                    <input id="maxSuggestionsChanged" type="checkbox">
-                                    <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is
-                                        changed?
-                                    </label>
-                                    <input id="queryChangeDelay" type="number">
-                                    <label for="queryChangeDelay">How long to delay triggering the event, resetting for every
-                                        change that occurs.</label>
-                                    <input id="queryChangeInstantRegex" type="string">
-                                    <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the
-                                        query-text matches the specified regular expression (without the above delay).</label>
-                                    <input id="queryChangeMinLength" type="number">
-                                    <label for="queryChangeMinLength">Requires the query-text to have at minimum this length
-                                        before triggering.
-                                    </label>
-                                </section>
-                            </section>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Find</legend>
-                        <strong>
-                            <input id="queryChange" type="checkbox">
-                            <label for="queryChange">Trigger when any part of the query is changed?</label>
-                        </strong>
-                        <section>
-                            <input id="maxSuggestionsChanged" type="checkbox">
-                            <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is changed?</label>
-                            <input id="queryChangeDelay" type="number">
-                            <label for="queryChangeDelay">How long to delay triggering the event, resetting for every change
-                                that occurs.</label>
-                            <input id="queryChangeInstantRegex" type="string">
-                            <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the query-text
-                                matches the specified regular expression (without the above delay).</label>
-                            <input id="queryChangeMinLength" type="number">
-                            <label for="queryChangeMinLength">Requires the query-text to have at minimum this length before
-                                triggering.
-                            </label>
-                        </section>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Categorize</legend>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Authentication</legend>
-                    </fieldset>
-                </main>
-            </div>
-        </div>
 
         <header id="header">
             <div id="top">
-                <span id="logo"></span>
+                <a id="logo" href="./"></a>
                 <h1>IntelliSearch SearchClient</h1>
                 <div class="query">
                     <div id="spinner"></div>
@@ -345,6 +274,76 @@
             <div id="details-properties"></div>
         </aside>
 
+        <div id="settings">
+            <div class="dialog">
+                <header>
+                    <h1>Settings</h1>
+                    <ul class="tabs">
+                        <li id="search" class="tab current">Search</li>
+                        <li id="ui" class="tab">Interface</li>
+                    </ul>
+                    <button id="settings-close-button">X</button>
+                </header>
+                <main id="settings-main">
+                    <div id="tab-search" class="tab-content current">
+                        <ul class="tabs">
+                            <li id="search-main" class="tab current">Main</li>
+                            <li id="search-autocomplete" class="tab">Autocomplete</li>
+                            <li id="search-find" class="tab">Find</li>
+                            <li id="search-categorize" class="tab">Categorize</li>
+                            <li id="search-query" class="tab">Query</li>
+                        </ul>
+                        <div>
+                            <fieldset id="tab-search-main" class="tab-content current">
+                                <legend>Main</legend>
+                                <p>
+                                    The search-settings helps setting up the connection to the back-end search-index.
+                                </p>
+                                <p>...</p>
+                                <button id="export-search-settings">Export search-settings...</button>
+                            </fieldset>
+                            <fieldset id="tab-search-query" class="tab-content">
+                                <legend>Query</legend>
+                            </fieldset>
+                            <fieldset id="tab-search-autocomplete" class="tab-content">
+                                <legend>Autocomplete</legend>
+                            </fieldset>
+                            <fieldset id="tab-search-find" class="tab-content">
+                                <legend>Find</legend>
+                            </fieldset>
+                            <fieldset id="tab-search-categorize" class="tab-content">
+                                <legend>Categorize</legend>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div id="tab-ui" class="tab-content">
+                        <ul class="tabs">
+                            <li id="ui-main" class="tab current">Main</li>
+                            <li id="ui-categories" class="tab">Categories</li>
+                            <li id="ui-matches" class="tab">Matches</li>
+                            <li id="ui-details" class="tab">Details</li>
+                        </ul>
+                        <div>
+                            <fieldset id="tab-ui-main" class="tab-content current">
+                                <legend>Main</legend>
+                                The ui-settings helps setting up the presentation of the search-results.<br/> ...
+                                <button id="export-ui-settings">Export UI-settings...</button>
+                            </fieldset>
+                            <fieldset id="tab-ui-categories" class="tab-content">
+                                <legend>Categories</legend>
+                            </fieldset>
+                            <fieldset id="tab-ui-matches" class="tab-content">
+                                <legend>Matches</legend>
+                            </fieldset>
+                            <fieldset id="tab-ui-details" class="tab-content">
+                                <legend>Details</legend>
+                            </fieldset>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
         <div id="dimmer">
             <div class="whiteout">
                 <div class="loader-wrapper">
@@ -356,6 +355,62 @@
         <footer id="footer">
             &copy; IntelliSearch Software AS
         </footer>
+    </div>
+    <div style="display:none;">
+        <section>
+            <input id="enabled" type="checkbox">
+            <label for="enabled">Enable the autocomplete service.</label>
+            <legend></legend>
+            <section>
+                <input id="path" type="string">
+                <label for="path">Path to the autocomplete service (appended to the base-url at the top)
+                </label>
+                <input id="queryChange" type="checkbox">
+                <label for="queryChange">Trigger when any part of the query is changed?</label>
+                <legend></legend>
+                <section>
+                    <input id="maxSuggestionsChanged" type="checkbox">
+                    <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is changed?
+                    </label>
+                    <input id="queryChangeDelay" type="number">
+                    <label for="queryChangeDelay">How long to delay triggering the event, resetting for every change that
+                        occurs.
+                    </label>
+                    <input id="queryChangeInstantRegex" type="string">
+                    <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the query-text matches
+                        the specified regular expression (without the above delay).</label>
+                    <input id="queryChangeMinLength" type="number">
+                    <label for="queryChangeMinLength">Requires the query-text to have at minimum this length before triggering.
+                    </label>
+                </section>
+            </section>
+        </section>
+        <fieldset>
+            <legend>Find</legend>
+            <strong>
+                <input id="queryChange" type="checkbox">
+                <label for="queryChange">Trigger when any part of the query is changed?</label>
+            </strong>
+            <section>
+                <input id="maxSuggestionsChanged" type="checkbox">
+                <label for="maxSuggestionsChanged">Trigger when the query-setting 'maxSuggestions' is changed?
+                </label>
+                <input id="queryChangeDelay" type="number">
+                <label for="queryChangeDelay">How long to delay triggering the event, resetting for every change that occurs.</label>
+                <input id="queryChangeInstantRegex" type="string">
+                <label for="queryChangeInstantRegex">Triggers an instant fetch of suggestions when the query-text matches
+                    the specified regular expression (without the above delay).</label>
+                <input id="queryChangeMinLength" type="number">
+                <label for="queryChangeMinLength">Requires the query-text to have at minimum this length before triggering.
+                </label>
+            </section>
+        </fieldset>
+        <fieldset>
+            <legend>Categorize</legend>
+        </fieldset>
+        <fieldset>
+            <legend>Authentication</legend>
+        </fieldset>
 
     </div>
     <script type="text/javascript" src="stacktrace.min.js"></script>
