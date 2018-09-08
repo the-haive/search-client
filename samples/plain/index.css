@@ -152,7 +152,7 @@ button:hover {
     border-bottom: solid 1px silver;
 }
 #settings .dialog header {
-    margin-bottom: 0.5em;
+    /*margin-bottom: 0.5em;*/
     border-bottom: none;
 }
 
@@ -369,7 +369,7 @@ button#reset.hidden {
     background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    z-index: 1000;
     cursor: pointer;
 }
 
@@ -940,7 +940,7 @@ button#reset.hidden {
 /* Loading indicator */
 
 .loader-wrapper {
-    z-index: 1000;
+    z-index: 100;
     width: 100%;
 }
 .loader {
@@ -1046,25 +1046,32 @@ button#reset.hidden {
     display: block;
 }
 
-ul.tabs {
+ul.tab-container {
     display: flex;
     list-style: none;
     margin: 0;
     padding: 0;
 }
-ul.tabs li.tab {
+ul.tab-container li.tab {
     display: inline;
     margin-left: 0.1em;
     padding: 0 0.3em;
     cursor: pointer;
     border: solid 1px silver;
     border-bottom: none;
+    font-size: 0.9em;
+    border-top-left-radius: 0.4em;
+    border-top-right-radius: 0.4em;
 }
-ul.tabs li.tab.current {
+ul.tab-container li.tab.current {
     background-color: rgba(0, 0, 0, 0.08);
 }
 .tab-content:not(.current) {
     display: none;
+}
+
+.tab-content-container {
+    background-color: rgba(0, 0, 0, 0.08);
 }
 
 /* Responsive design */

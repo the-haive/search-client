@@ -1028,9 +1028,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 }
 
 function setupTabs() {
-    var tabsElms = document.getElementsByClassName("tabs");
-    for (let tabsElm of tabsElms) {
-        for (let tabElm of tabsElm.children) {
+    var tabContainerElms = document.getElementsByClassName("tab-container");
+    for (let tabContainerElm of tabContainerElms) {
+        for (let tabElm of tabContainerElm.children) {
             const tabContentId = `tab-${tabElm.id}`;
             let tabContent = document.getElementById(tabContentId);
             if (!tabContent) {
