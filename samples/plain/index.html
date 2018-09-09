@@ -201,13 +201,13 @@
                                 </ul>
                                 <div class="tab-content-container">
                                     <div id="tab-search-main-settings" class="tab-content key-value-grid">
-                                        <legend for="tab-search-main-settings-baseurl">BaseUrl</legend>
-                                        <input id="tab-search-main-settings-baseurl" type="text">
-                                        <legend for="tab-search-main-settings-basepath">BasePath</legend>
-                                        <input id="tab-search-main-settings-basepath" type="text">
+                                        <legend for="tab-search-main-settings-base-url">BaseUrl</legend>
+                                        <input id="tab-search-main-settings-base-url" type="text">
+                                        <legend for="tab-search-main-settings-base-path">BasePath</legend>
+                                        <input id="tab-search-main-settings-base-path" type="text">
                                     </div>
-                                    <div id="tab-search-main-help" class="tab-content current">
-                                        <p class="help">
+                                    <div id="tab-search-main-help" class="tab-content current help">
+                                        <p>
                                             The search-settings define how to connect to the SearchManager and the
                                             authentication service.
                                             It also defines triggers in regards to when services should refresh.
@@ -392,25 +392,89 @@
                     <div id="tab-ui" class="tab-content">
                         <ul class="tab-container">
                             <li id="ui-main" class="tab current">Main</li>
-                            <li id="ui-categories" class="tab">Categories</li>
-                            <li id="ui-matches" class="tab">Matches</li>
+                            <!--li id="ui-categories" class="tab">Categories</li-->
+                            <li id="ui-match-pager" class="tab">Match-pager</li>
+                            <li id="ui-match-categories" class="tab">Match-categories</li>
                             <li id="ui-details" class="tab">Details</li>
                         </ul>
                         <div class="tab-content-container">
-                            <fieldset id="tab-ui-main" class="tab-content current">
-                                <legend>Main</legend>
-                                The ui-settings helps setting up the presentation of the search-results.<br /> ...
-                                <button id="export-ui-settings">Export UI-settings...</button>
-                            </fieldset>
-                            <fieldset id="tab-ui-categories" class="tab-content">
-                                <legend>Categories</legend>
-                            </fieldset>
-                            <fieldset id="tab-ui-matches" class="tab-content">
-                                <legend>Matches</legend>
-                            </fieldset>
-                            <fieldset id="tab-ui-details" class="tab-content">
-                                <legend>Details</legend>
-                            </fieldset>
+                            <div id="tab-ui-main" class="tab-content help current">
+                                <p>
+                                    The user interface settings define how the various interface components behave.
+                                </p>
+                                <p>
+                                    Components:
+                                    <ul>
+                                        <li>Categories (todo)</li>
+                                        <li>Matches-pager</li>
+                                        <li>Matches-categories</li>
+                                        <li>Details-pane</li>
+                                    </ul>
+                                </p>
+
+                            </div>
+                            <!--div id="tab-ui-categories" class="tab-content key-value-grid">
+                                Categories: None, yet at least...
+                            </div-->
+                            <div id="tab-ui-match-pager" class="tab-content key-value-grid">
+                                <label for="tab-ui-matches-pager-size" title="Controls the number of items to show in the pager.">Pager
+                                    size</label>
+                                <input id="tab-ui-matches-pager-size" type="number">
+
+                                <label for="tab-ui-matches-pager-first" title="Controls whether or not to add a link to the first page.">Show
+                                    link to first-page</label>
+                                <input id="tab-ui-matches-pager-first" type="checkbox">
+
+                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the previous page.">Show
+                                    link to previous page</label>
+                                <input id="tab-ui-matches-pager-size" type="checkbox">
+
+                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the next page.">Show
+                                    link to next page</label>
+                                <input id="tab-ui-matches-pager-size" type="checkbox">
+
+                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the last page.">Show
+                                    link to last page</label>
+                                <input id="tab-ui-matches-pager-size" type="checkbox">
+                            </div>
+                            <div id="tab-ui-match-categories" class="tab-content key-value-grid">
+                                <label for="tab-ui-matches-categories-enabled" title="Controls whether or not to show categories with the results.">Enabled</label>
+                                <input id="tab-ui-matches-categories-enabled" type="checkbox">
+                                <label for="tab-ui-matches-categories-exclude" title="Listed categories are excluded. Each line is one regular expression.">Exclusion
+                                    list</label>
+                                <textarea id="tab-ui-matches-categories-exclude"></textarea>
+                            </div>
+                            <div id="tab-ui-details" class="tab-content">
+                                <label for="tab-ui-details-show" title="Controls whether or not to show the details pane.">Show
+                                    details pane</label>
+                                <input id="tab-ui-details-show" type="checkbox">
+                                <div class="key-value-grid">
+
+                                    <label for="tab-ui-details-properties-show" title="Controls whether or not to show properties in the details pane.">Show
+                                        properties in details</label>
+                                    <input id="tab-ui-details-properties-show" type="checkbox">
+
+                                    <label for="tab-ui-details-properties-exclude" title="Listed properties are excluded from the details. Each line is one regular expression.">Property
+                                        exclusion list</label>
+                                    <textarea id="tab-ui-details-properties-exclude"></textarea>
+
+                                    <label for="tab-ui-details-metadata-show" title="Controls whether or not to show properties in the details pane.">Show
+                                        metadata in details</label>
+                                    <input id="tab-ui-details-metadata-show" type="checkbox">
+
+                                    <label for="tab-ui-details-metadata-exclude" title="Listed metadata are excluded from the details. Each line is one regular expression.">Metadata
+                                        exclusion list</label>
+                                    <textarea id="tab-ui-details-metadata-exclude"></textarea>
+
+                                    <label for="tab-ui-details-categories-show" title="Controls whether or not to show categories in the details pane.">Show
+                                        categories in details</label>
+                                    <input id="tab-ui-details-categories-show" type="checkbox">
+
+                                    <label for="tab-ui-details-categories-exclude" title="Listed categories are excluded from the details. Each line is one regular expression.">Category
+                                        exclusion list</label>
+                                    <textarea id="tab-ui-details-categories-exclude"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </main>

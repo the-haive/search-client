@@ -156,6 +156,7 @@ button:hover {
         auto-fill,
         minmax(200px, 1fr) minmax(200px, 1fr)
     );
+    padding: 0.5em;
 }
 
 #about .dialog,
@@ -179,7 +180,7 @@ button:hover {
     overflow-x: hidden;
 }
 
-.help p {
+.help {
     display: inline-block;
     margin-left: 1em;
     margin-right: 1em;
