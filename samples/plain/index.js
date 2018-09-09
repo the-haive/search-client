@@ -318,7 +318,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // prettier-ignore
     function setupClient() {
         // Sets up the client that connects to the intellisearch backend using the aforementioned settings
-        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no",searchSettings);
+        return new IntelliSearch.SearchClient(searchSettings);
     }
 
     let client = setupClient();

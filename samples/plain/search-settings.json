@@ -1,6 +1,11 @@
 {
-    "autocomplete": {
+    "baseUrl": "http://searchmanager.demo.intellisearch.no",
+    "authentication": {
+        "baseUrl": "http://auth-server",
         "enabled": false
+    },
+    "autocomplete": {
+        "enabled": true
     },
     "query": {
         "clientId": "plain-sample",
