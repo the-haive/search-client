@@ -1,6 +1,18 @@
-import { BaseSettings } from "../Common";
+import { BaseSettings, IBaseSettings } from "../Common";
 import { Categories } from "../Data";
 import { CategorizeTriggers } from "./CategorizeTriggers";
+
+export interface ICategorizeSettings extends IBaseSettings<Categories> {
+    /**
+     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
+     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
+     */
+    clientCategoryFiltersSepChar?: string;
+    /**
+     * The trigger-settings for when automatic category-updates are to be triggered.
+     */
+    triggers?: CategorizeTriggers;
+}
 
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
@@ -10,39 +22,34 @@ export class CategorizeSettings extends BaseSettings<Categories> {
      * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
      * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
      */
-    public clientCategoryFiltersSepChar?: string = "_";
+    public clientCategoryFiltersSepChar?: string;
 
     /**
      * The trigger-settings for when automatic category result-updates are to be triggered.
      */
-    public triggers?: CategorizeTriggers = new CategorizeTriggers();
-
-    /**
-     * The endpoint to do categorize lookups for.
-     */
-    public url?: string = "search/categorize";
+    public triggers: CategorizeTriggers;
 
     /**
      * Creates an instance of CategorizeSettings, based on CategorizeSettings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default CategorizeSettings.
      */
-    constructor(settings?: CategorizeSettings) {
-        super(settings);
-
-        if (settings) {
-            this.clientCategoryFiltersSepChar =
-                typeof settings.clientCategoryFiltersSepChar !== "undefined"
-                    ? settings.clientCategoryFiltersSepChar
-                    : this.clientCategoryFiltersSepChar;
-            this.triggers =
-                typeof settings.triggers !== "undefined"
-                    ? new CategorizeTriggers(settings.triggers)
-                    : this.triggers;
-            this.url =
-                typeof settings.url !== "undefined" ? settings.url : this.url;
+    constructor(settings: ICategorizeSettings | string) {
+        super(); // dummy (using init instead)
+        // Setup settings object before calling super.init with it.
+        if (typeof settings === "string") {
+            settings = { baseUrl: settings } as ICategorizeSettings;
         }
+        settings.servicePath =
+            typeof settings.servicePath !== "undefined"
+                ? settings.servicePath
+                : "search/categorize";
+        super.init(settings);
 
-        // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
+        // Setup our own stuff (props not in the base class).
+        this.clientCategoryFiltersSepChar =
+            typeof settings.clientCategoryFiltersSepChar !== "undefined"
+                ? settings.clientCategoryFiltersSepChar
+                : "_";
+        this.triggers = new CategorizeTriggers(settings.triggers);
     }
 }

@@ -1,10 +1,9 @@
 import fetch from "cross-fetch";
-import validUrl from "valid-url";
 
 import { DateSpecification } from "./Query";
 import { OrderBy } from "./OrderBy";
 import { SearchType } from "./SearchType";
-import { BaseSettings } from "./BaseSettings";
+import { IBaseSettings } from "./BaseSettings";
 import { AuthToken } from "../Authentication/AuthToken";
 
 import { Filter } from "./Filter";
@@ -22,11 +21,9 @@ export type Fetch = (
  * @param TDataType Defines the data-type that the descendant service-class needs to return on lookups.
  */
 export abstract class BaseCall<TDataType> {
-    public baseUrl: string;
-
     protected fetchMethod: Fetch;
 
-    protected settings?: BaseSettings<TDataType>;
+    protected settings?: IBaseSettings<TDataType>;
 
     protected auth?: AuthToken;
 
@@ -88,7 +85,11 @@ export abstract class BaseCall<TDataType> {
      * @param delay A delay for when to execute the update, in milliseconds. Defaults to undefined.
      * @param useQueryMatchPage If true then the query matchpage number will not be reset to 1. Otherwise it is by default always 1.
      */
-    public update(query: Query, delay?: number, useQueryMatchPage?: boolean): void {
+    public update(
+        query: Query,
+        delay?: number,
+        useQueryMatchPage?: boolean
+    ): void {
         if (!useQueryMatchPage) {
             query.matchPage = 1;
         }
@@ -187,28 +188,14 @@ export abstract class BaseCall<TDataType> {
     /**
      * Sets up a the common base handling for services, such as checking that the url is valid and handling the authentication.
      *
-     * @param baseUrl - The base url for the service to be setup.
      * @param settings - The base url for the service to be setup.
      * @param auth - The auth-object that controls authentication for the service.
      */
     protected init(
-        baseUrl: string,
-        settings?: BaseSettings<TDataType>,
+        settings: IBaseSettings<TDataType>,
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        // Strip off any slashes at the end of the baseUrl
-        let path = settings && settings.path ? settings.path : "";
-        baseUrl = `${baseUrl.replace(/\/+$/, "")}/${path}`;
-
-        // Verify the authenticity
-        if (!validUrl.isWebUri(baseUrl)) {
-            throw new Error(
-                "Error: No baseUrl is defined. Please supply a valid baseUrl in the format: http[s]://<domain.com>[:port][/path]"
-            );
-        }
-
-        this.baseUrl = baseUrl;
         this.settings = settings;
         this.auth = auth;
         this.fetchMethod = fetchMethod || fetch;

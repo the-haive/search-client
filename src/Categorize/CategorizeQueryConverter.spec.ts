@@ -40,15 +40,13 @@ describe("QueryConverters", () => {
 
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4",
-                "search/categorize",
+                "http://localhost:9950/RestService/v4/search/categorize",
                 defaultQuery
             )
         ).toEqual(expectedFindUrl);
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4/",
-                "search/categorize",
+                "http://localhost:9950/RestService/v4/search/categorize",
                 defaultQuery
             )
         ).toEqual(expectedFindUrl);
@@ -61,15 +59,13 @@ describe("QueryConverters", () => {
 
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4",
-                "search/categorize",
+                "http://localhost:9950/RestService/v4/search/categorize",
                 fixedQuery
             )
         ).toEqual(expectedFindUrl);
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4/",
-                "search/categorize",
+                "http://localhost:9950/RestService/v4/search/categorize",
                 fixedQuery
             )
         ).toEqual(expectedFindUrl);

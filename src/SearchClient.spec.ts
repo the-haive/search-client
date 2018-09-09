@@ -8,6 +8,7 @@ import {
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
+import { ISettings } from "./Settings";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {
@@ -17,8 +18,8 @@ describe("SearchClient basics", () => {
     it("Should be able to create SearchClient instance", () => {
         let searchClient = new SearchClient("http://localhost:9950");
         expect(typeof searchClient).toBe("object");
-        expect(searchClient.find.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect((searchClient.find as any).settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
     });
 
@@ -27,16 +28,16 @@ describe("SearchClient basics", () => {
         expect(typeof searchClient).toBe("object");
     });
 
-    it("Should throw for invalid Urls", () => {
+    it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
             let searchClient = new SearchClient("file://localhost:9950");
             expect(typeof searchClient).toBe("object");
-        }).toThrow();
+        }).not.toThrow();
 
         expect(() => {
             let searchClient = new SearchClient("http:+//localhost:9950");
             expect(typeof searchClient).toBe("object");
-        }).toThrow();
+        }).not.toThrow();
     });
 
     it("Search instance with empty settings should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
@@ -51,7 +52,8 @@ describe("SearchClient basics", () => {
 
 describe("SearchClient settings", () => {
     it("Search instance with disabled 'services' should not have active autocomplete(), find( and categorize() instances", () => {
-        let searchClient = new SearchClient("http://localhost:9950", {
+        let searchClient = new SearchClient({
+            baseUrl: "http://localhost:9950",
             authentication: { enabled: false },
             autocomplete: { enabled: false },
             categorize: { enabled: false },
@@ -80,6 +82,110 @@ describe("SearchClient settings", () => {
         // dateFrom/dateTo
         expect(client.dateFrom).toBeNull();
         expect(client.dateTo).toBeNull();
+    });
+
+    it("Should be possible to just set the baseUrl and have the various services acquire sensible defaults.", () => {
+        let pClient = new SearchClient("http://dummy") as any;
+
+        expect(pClient.authentication.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.authentication.settings.basePath).toEqual(
+            "RestService/v4"
+        );
+        expect(pClient.authentication.settings.servicePath).toEqual(
+            "auth/login"
+        );
+        expect(pClient.authentication.settings.url).toEqual(
+            "http://dummy/RestService/v4/auth/login"
+        );
+
+        expect(pClient.autocomplete.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.autocomplete.settings.basePath).toEqual(
+            "RestService/v4"
+        );
+        expect(pClient.autocomplete.settings.servicePath).toEqual(
+            "autocomplete"
+        );
+        expect(pClient.autocomplete.settings.url).toEqual(
+            "http://dummy/RestService/v4/autocomplete"
+        );
+
+        expect(pClient.categorize.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.categorize.settings.basePath).toEqual("RestService/v4");
+        expect(pClient.categorize.settings.servicePath).toEqual(
+            "search/categorize"
+        );
+        expect(pClient.categorize.settings.url).toEqual(
+            "http://dummy/RestService/v4/search/categorize"
+        );
+
+        expect(pClient.find.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.find.settings.basePath).toEqual("RestService/v4");
+        expect(pClient.find.settings.servicePath).toEqual("search/find");
+        expect(pClient.find.settings.url).toEqual(
+            "http://dummy/RestService/v4/search/find"
+        );
+    });
+
+    it("Should be possible to override the basePath for services", () => {
+        let pClient = new SearchClient({
+            baseUrl: "http://dummy",
+            basePath: "test"
+        }) as any;
+
+        expect(pClient.authentication.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.authentication.settings.basePath).toEqual("test");
+        expect(pClient.authentication.settings.servicePath).toEqual(
+            "auth/login"
+        );
+        expect(pClient.authentication.settings.url).toEqual(
+            "http://dummy/test/auth/login"
+        );
+
+        expect(pClient.autocomplete.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.autocomplete.settings.basePath).toEqual("test");
+        expect(pClient.autocomplete.settings.servicePath).toEqual(
+            "autocomplete"
+        );
+        expect(pClient.autocomplete.settings.url).toEqual(
+            "http://dummy/test/autocomplete"
+        );
+
+        expect(pClient.categorize.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.categorize.settings.basePath).toEqual("test");
+        expect(pClient.categorize.settings.servicePath).toEqual(
+            "search/categorize"
+        );
+        expect(pClient.categorize.settings.url).toEqual(
+            "http://dummy/test/search/categorize"
+        );
+
+        expect(pClient.find.settings.baseUrl).toEqual("http://dummy");
+        expect(pClient.find.settings.basePath).toEqual("test");
+        expect(pClient.find.settings.servicePath).toEqual("search/find");
+        expect(pClient.find.settings.url).toEqual(
+            "http://dummy/test/search/find"
+        );
+    });
+
+    it("Should be possible to override the baseUrl and basePath for authentication service", () => {
+        let pClient = new SearchClient({
+            baseUrl: "http://dummy",
+            authentication: {
+                baseUrl: "http://auth-server",
+                basePath: ""
+            }
+        }) as any;
+
+        expect(pClient.authentication.settings.baseUrl).toEqual(
+            "http://auth-server"
+        );
+        expect(pClient.authentication.settings.basePath).toEqual("");
+        expect(pClient.authentication.settings.servicePath).toEqual(
+            "auth/login"
+        );
+        expect(pClient.authentication.settings.url).toEqual(
+            "http://auth-server/auth/login"
+        );
     });
 });
 
@@ -295,6 +401,7 @@ describe("SearchClient filter interface", () => {
         jest.useFakeTimers();
 
         let settings = new Settings({
+            baseUrl: "http://localhost:9950",
             find: {
                 cbRequest: jest.fn(() => false),
                 cbSuccess: jest.fn(),
@@ -305,7 +412,7 @@ describe("SearchClient filter interface", () => {
             }
         });
 
-        let client = new SearchClient("http://localhost:9950", settings);
+        let client = new SearchClient(settings);
         let pClient = client as any;
 
         const autocompleteFetch = jest.fn();
@@ -406,7 +513,8 @@ describe("SearchClient filter interface", () => {
         let mockFindSuccess = jest.fn();
         let mockCatSuccess = jest.fn();
 
-        let client = new SearchClient("http://localhost:9950/", {
+        let client = new SearchClient({
+            baseUrl: "http://localhost:9950/",
             find: {
                 cbRequest: mockFindRequest,
                 cbSuccess: mockFindSuccess
@@ -444,7 +552,8 @@ describe("SearchClient filter interface", () => {
         let mockFindSuccess = jest.fn();
         let mockCatSuccess = jest.fn();
 
-        let client = new SearchClient("http://localhost:9950/", {
+        let client = new SearchClient({
+            baseUrl: "http://localhost:9950/",
             find: {
                 cbRequest: mockFindRequest,
                 cbSuccess: mockFindSuccess

@@ -1,7 +1,7 @@
 import { BaseQueryConverter, Query } from "../Common";
 
 /**
- * Class to handle creating categorize lookups for restservice version 3.
+ * Class to handle creating autocomplete lookups.
  */
 export class AutocompleteQueryConverter extends BaseQueryConverter {
     /**
@@ -10,6 +10,7 @@ export class AutocompleteQueryConverter extends BaseQueryConverter {
     protected getUrlParams(query: Query): string[] {
         let params: string[] = [];
 
+        // TODO: Add clientId also for autocomplete?
         this.addParamIfSet(params, "l", 1); // Forces this to always do server-side when called. The client will skip calling when not needed instead.
         this.addParamIfSet(params, "q", query.queryText);
         this.addParamIfSet(params, "s", query.maxSuggestions);

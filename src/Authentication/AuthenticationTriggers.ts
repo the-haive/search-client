@@ -3,8 +3,18 @@
  */
 export class AuthenticationTriggers {
     /**
-     * Creates an AuthenticationTrigger object for you.
-     * @param expiryOverlap - Defines how long in seconds before expiry we should request a new auth token.
+     * Defines how long in seconds before expiry we should request a new auth token.
      */
-    constructor(public expiryOverlap: number = 60) {}
+    public expiryOverlap?: number;
+
+    /**
+     * Creates an AuthenticationTrigger object for you.
+     * @param triggers - The trigger defined here will override the default AuthenticationTrigger.
+     */
+    constructor(triggers: AuthenticationTriggers = {}) {
+        this.expiryOverlap =
+            typeof triggers.expiryOverlap !== "undefined"
+                ? triggers.expiryOverlap
+                : 60;
+    }
 }

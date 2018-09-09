@@ -1,6 +1,11 @@
 import fetch from "jest-fetch-mock";
 
-import { Autocomplete, AutocompleteSettings, AutocompleteTriggers } from ".";
+import {
+    Autocomplete,
+    AutocompleteSettings,
+    IAutocompleteSettings,
+    AutocompleteTriggers
+} from ".";
 import { Query } from "../Common";
 
 describe("Autocomplete basics", () => {
@@ -9,11 +14,7 @@ describe("Autocomplete basics", () => {
     });
 
     it("Should be able to create Autocomplete instance", () => {
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete("http://localhost:9950/");
         let pAutocomplete = autocomplete as any;
 
         expect(typeof autocomplete).toBe("object");
@@ -27,66 +28,33 @@ describe("Autocomplete basics", () => {
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(
             true
         );
-        expect(pAutocomplete.settings.url).toEqual("autocomplete");
+        expect(pAutocomplete.settings.url).toEqual(
+            "http://localhost:9950/RestService/v4/autocomplete"
+        );
     });
 
-    it("Should throw for invalid Urls", () => {
-        expect(() => {
-            let autocomplete = new Autocomplete(
-                "file://localhost:9950",
-                null,
-                fetch
-            );
-        }).toThrow();
+    it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
+        let autocomplete = new Autocomplete("file://localhost:9950");
+        expect(typeof autocomplete).toBe("object");
 
-        expect(() => {
-            let autocomplete = new Autocomplete(
-                "http:+//localhost:9950",
-                null,
-                fetch
-            );
-        }).toThrow();
-    });
-
-    it("Should be able to pass a default AutocompleteSettings instance", () => {
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            new AutocompleteSettings()
-        );
-        let pAutocomplete = autocomplete as any;
-
-        expect(typeof pAutocomplete.auth).toBe("object");
-        expect(pAutocomplete.settings.enabled).toEqual(true);
-        expect(pAutocomplete.settings.cbError).toBeUndefined();
-        expect(pAutocomplete.settings.cbRequest).toBeUndefined();
-        expect(pAutocomplete.settings.cbSuccess).toBeUndefined();
-        expect(pAutocomplete.settings.triggers).toBeDefined();
-        expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(
-            true
-        );
-        expect(pAutocomplete.settings.url).toEqual("autocomplete");
+        autocomplete = new Autocomplete("http:+//localhost:9950");
+        expect(typeof autocomplete).toBe("object");
     });
 
     it("Should be able to pass an AutocompleteSettings instance with additional settings", () => {
-        let settings = new AutocompleteSettings();
+        let settings = {} as IAutocompleteSettings;
+        settings.baseUrl = "http://localhost:9950/";
         settings.cbError = jest.fn();
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.triggers = new AutocompleteTriggers();
-        settings.url = "/test";
+        settings.basePath = "/test";
 
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete(settings);
         let pAutocomplete = autocomplete as any;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
-        );
+        expect(pAutocomplete.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
@@ -95,11 +63,14 @@ describe("Autocomplete basics", () => {
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(
             true
         );
-        expect(pAutocomplete.settings.url).toEqual("test");
+        expect(pAutocomplete.settings.url).toEqual(
+            "http://localhost:9950/test/autocomplete"
+        );
     });
 
     it("Should be able to pass a manual object settings as AutocompleteSettings", () => {
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbError: (error: any) => {
                 /* dummy */
             },
@@ -108,21 +79,14 @@ describe("Autocomplete basics", () => {
             },
             enabled: false,
             triggers: new AutocompleteTriggers(),
-            url: "/test"
-        } as AutocompleteSettings;
+            basePath: "/test"
+        } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete(settings);
         let pAutocomplete = autocomplete as any;
 
         expect(typeof pAutocomplete.auth).toBe("object");
-        expect(autocomplete.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
-        );
+        expect(pAutocomplete.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pAutocomplete.settings.enabled).toEqual(false);
         expect(pAutocomplete.settings.cbError).toBeDefined();
         expect(pAutocomplete.settings.cbRequest).toBeUndefined();
@@ -131,26 +95,28 @@ describe("Autocomplete basics", () => {
         expect(pAutocomplete.settings.triggers.maxSuggestionsChanged).toEqual(
             true
         );
-        expect(pAutocomplete.settings.url).toEqual("test");
+        expect(pAutocomplete.settings.url).toEqual(
+            "http://localhost:9950/test/autocomplete"
+        );
     });
 
     it("Should be able to get some autocomplete suggestions", () => {
+        fetch.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
         fetch.mockResponse(JSON.stringify(null));
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
-                return true;
+            }),
+            cbSuccess: jest.fn((url, reqInit) => {
+                expect(typeof url).toBe("string");
+                expect(typeof reqInit).toBe("object");
             })
-        } as AutocompleteSettings;
+        } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete(settings, null, fetch);
         autocomplete
             .fetch()
             .then(response => {
@@ -161,57 +127,26 @@ describe("Autocomplete basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
-            });
-    });
-
-    it("Should throw error on promise when autocomplete fails", () => {
-        // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse("not json");
-        let settings = {
-            cbRequest: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-                return true;
-            })
-        } as AutocompleteSettings;
-
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
-        autocomplete
-            .fetch()
-            .then(response => {
-                fail("Should not success");
-            })
-            .catch(error => {
-                expect(error.name).toBe("FetchError");
-            })
-            .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).toHaveBeenCalled();
             });
     });
 
     it("Should be able to stop an Autocomplete using cbRequest", () => {
-        // Not caring about the response, just to allow the fetch to complete.
+        fetch.resetMocks();
+        // Not caring about the response, just to stop the fetch from completing.
         fetch.mockResponse(JSON.stringify(null));
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
                 // Stop the request
                 return false;
-            })
-        } as AutocompleteSettings;
+            }),
+            cbSuccess: jest.fn()
+        } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete(settings, null, fetch);
         autocomplete
             .fetch()
             .then(response => {
@@ -222,6 +157,7 @@ describe("Autocomplete basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
     });
 
@@ -234,6 +170,7 @@ describe("Autocomplete basics", () => {
         );
 
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbSuccess: jest.fn(suggestions => {
                 expect(suggestions).toContain("queryTextForMe");
                 expect(suggestions).toContain("queryTextForYou");
@@ -241,14 +178,9 @@ describe("Autocomplete basics", () => {
             cbError: jest.fn((suppressCallbacks, error, url, reqInit) => {
                 fail("Should not have thrown an error.");
             })
-        } as AutocompleteSettings;
+        } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let autocomplete = new Autocomplete(settings, null, fetch);
         let newQuery = new Query();
         newQuery.queryText = "queryText";
         autocomplete.queryTextChanged("", newQuery);

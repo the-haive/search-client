@@ -1,7 +1,10 @@
 import * as jwt from "jwt-simple";
 
 import { Authentication } from "./Authentication";
-import { AuthenticationSettings } from "./AuthenticationSettings";
+import {
+    AuthenticationSettings,
+    IAuthenticationSettings
+} from "./AuthenticationSettings";
 import { AuthenticationTriggers } from "./AuthenticationTriggers";
 
 describe("Authentication basics", () => {
@@ -15,8 +18,8 @@ describe("Authentication basics", () => {
 
         expect(typeof authentication).toBe("object");
         expect(authentication instanceof Authentication).toBeTruthy();
-        expect(authentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect(pAuthentication.settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
@@ -28,27 +31,27 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.triggers).toBeDefined();
         expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.auth.authenticationToken).toBeUndefined();
-        expect(pAuthentication.settings.url).toEqual("auth/token");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/auth/login"
+        );
     });
 
     it("Should throw for invalid Urls", () => {
         expect(() => {
             let authentication = new Authentication("file://localhost:9950");
-            expect(typeof authentication).toBeInstanceOf(Authentication);
-        }).toThrow();
+            expect(typeof authentication).toBe("object");
+        }).not.toThrow();
 
         expect(() => {
             let authentication = new Authentication("http:+//localhost:9950");
-            expect(typeof authentication).toBeInstanceOf(Authentication);
-        }).toThrow();
+            expect(typeof authentication).toBe("object");
+        }).not.toThrow();
     });
 
     it("Should be able to pass a default AuthenticationSettings instance", () => {
-        const authSettings = new AuthenticationSettings();
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            authSettings
-        );
+        const authSettings = {} as IAuthenticationSettings;
+        authSettings.baseUrl = "http://localhost:9950/";
+        let authentication = new Authentication(authSettings);
         let pAuthentication = authentication as any;
 
         expect(typeof pAuthentication.auth).toBe("object");
@@ -62,30 +65,27 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.triggers).toBeDefined();
         expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.auth.authenticationToken).toBeUndefined();
-        expect(pAuthentication.settings.url).toEqual("auth/token");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/auth/login"
+        );
     });
 
     it("Should be able to pass an AuthenticationSettings instance with additional settings", () => {
         const token = jwt.encode({ test: "test" }, "test");
-        let settings = new AuthenticationSettings();
+        let settings = new AuthenticationSettings("http://dummy");
         settings.cbError = jest.fn();
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.token = token;
         settings.tokenPath = [];
         settings.triggers = new AuthenticationTriggers();
-        settings.url = "/test";
+        settings.basePath = "/test";
 
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
-        );
+        expect(pAuthentication.settings.baseUrl).toEqual("http://dummy");
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toEqual(false);
         expect(pAuthentication.settings.cbError).toBeDefined();
@@ -97,12 +97,15 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.auth.authenticationToken).toEqual(token);
-        expect(pAuthentication.settings.url).toEqual("test");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://dummy/test/auth/login"
+        );
     });
 
     it("Should be able to pass a manual object settings as AuthenticationSettings", () => {
         const jwtToken = jwt.encode({ test: "test" }, "test");
         let settings = {
+            baseUrl: "http://localhost:9950",
             cbError: (error: any) => {
                 /* dummy */
             },
@@ -114,18 +117,15 @@ describe("Authentication basics", () => {
             token: jwtToken,
             tokenPath: [],
             triggers: new AuthenticationTriggers(),
-            url: "/test"
+            basePath: "/test"
         } as AuthenticationSettings;
 
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(authentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect(pAuthentication.settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toEqual(false);
@@ -138,32 +138,34 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.settings.token).toBeUndefined();
         expect(pAuthentication.auth.authenticationToken).toEqual(jwtToken);
-        expect(pAuthentication.settings.url).toEqual("test");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/test/auth/login"
+        );
     });
 
     it("Should be able to pass object settings as AuthenticationSettings", () => {
         let actualUrl: string;
         const settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
                 actualUrl = url;
                 return false;
             }),
             cbSuccess: jest.fn()
-        } as AuthenticationSettings;
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        } as IAuthenticationSettings;
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
 
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect(pAuthentication.settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
-        expect(pAuthentication.settings.url).toEqual("auth/token");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/auth/login"
+        );
 
         authentication
             .fetch()
@@ -175,14 +177,13 @@ describe("Authentication basics", () => {
             });
 
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual(
-            "http://localhost:9950/RestService/v4/auth/token"
-        );
+        expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
     it("Should be able to pass new AuthenticationSettings object", () => {
         let actualUrl: string;
         let settings = new AuthenticationSettings({
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
                 actualUrl = url;
                 return false;
@@ -190,20 +191,19 @@ describe("Authentication basics", () => {
             cbSuccess: jest.fn()
         });
 
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
 
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect(pAuthentication.settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
-        expect(pAuthentication.settings.url).toEqual("auth/token");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/auth/login"
+        );
 
         authentication
             .fetch()
@@ -214,14 +214,13 @@ describe("Authentication basics", () => {
                 fail("Did not expect to throw error");
             });
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual(
-            "http://localhost:9950/RestService/v4/auth/token"
-        );
+        expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
     it("Should be able to pass anonymous object settings", () => {
         let actualUrl: string;
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url: string, reqInit: RequestInit) => {
                 actualUrl = url;
                 return false;
@@ -229,20 +228,19 @@ describe("Authentication basics", () => {
             cbSuccess: jest.fn()
         };
 
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
 
         expect(pAuthentication.settings).toBeDefined();
         expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
+        expect(pAuthentication.settings.baseUrl).toEqual(
+            "http://localhost:9950"
         );
         expect(pAuthentication.settings.cbRequest).toBeDefined();
         expect(pAuthentication.settings.cbSuccess).toBeDefined();
-        expect(pAuthentication.settings.url).toEqual("auth/token");
+        expect(pAuthentication.settings.url).toEqual(
+            "http://localhost:9950/auth/login"
+        );
 
         authentication
             .fetch()
@@ -253,9 +251,7 @@ describe("Authentication basics", () => {
                 fail("Did not expect to throw error");
             });
         expect(settings.cbRequest).toHaveBeenCalled();
-        expect(actualUrl).toEqual(
-            "http://localhost:9950/RestService/v4/auth/token"
-        );
+        expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
     it("Should call refresh for auth-token", () => {
@@ -264,6 +260,7 @@ describe("Authentication basics", () => {
         let payload = { exp };
 
         let settings = {
+            baseUrl: "http://localhost:9950/",
             token: jwt.encode(payload, "test"),
             triggers: {
                 expiryOverlap: 15
@@ -280,10 +277,7 @@ describe("Authentication basics", () => {
 
         jest.useFakeTimers();
 
-        let authentication = new Authentication(
-            "http://localhost:9950/",
-            settings
-        );
+        let authentication = new Authentication(settings);
         let pAuthentication = authentication as any;
         jest.runAllTimers();
         expect(typeof pAuthentication.auth).toBe("object");

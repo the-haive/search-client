@@ -9,7 +9,7 @@ import {
     SearchType
 } from "../Common";
 import { FindQueryConverter } from "./FindQueryConverter";
-import { FindSettings } from "./FindSettings";
+import { FindSettings, IFindSettings } from "./FindSettings";
 import { Matches } from "../Data";
 
 /**
@@ -18,24 +18,26 @@ import { Matches } from "../Data";
  * It is normally used indirectly via the SearchClient class.
  */
 export class Find extends BaseCall<Matches> {
+    protected settings: IFindSettings;
+
     private queryConverter: FindQueryConverter;
 
     /**
      * Creates a Find instance that handles fetching matches dependent on settings and query.
-     * @param baseUrl - The base url that the find call is to use.
      * @param settings - The settings that define how the Find instance is to operate.
      * @param auth - An auth-object that handles the authentication.
      */
     constructor(
-        baseUrl: string,
-        protected settings?: FindSettings,
+        settings: IFindSettings | string,
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super();
+        super(); // dummy
+        // prepare for super.init
         settings = new FindSettings(settings);
         auth = auth || new AuthToken();
-        super.init(baseUrl, settings, auth, fetchMethod);
+        super.init(settings, auth, fetchMethod);
+        // Set own this props
         this.queryConverter = new FindQueryConverter();
     }
 
@@ -51,7 +53,6 @@ export class Find extends BaseCall<Matches> {
         suppressCallbacks: boolean = false
     ): Promise<Matches> {
         let url = this.queryConverter.getUrl(
-            this.baseUrl,
             this.settings.url,
             new Query(query)
         );
@@ -198,7 +199,7 @@ export class Find extends BaseCall<Matches> {
         }
     }
 
-    public uiLanguagecodeChanged(oldValue: string, query: Query) {
+    public uiLanguageCodeChanged(oldValue: string, query: Query) {
         if (
             this.shouldUpdate() &&
             this.settings.triggers.uiLanguageCodeChanged

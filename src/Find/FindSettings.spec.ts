@@ -1,14 +1,16 @@
 import { FindSettings } from ".";
 import { Matches } from "../Data";
+import { IFindSettings } from "./FindSettings";
 
 describe("FindSettings basics", () => {
     it("uiLanguageCodeChanged default", () => {
-        const settings = new FindSettings();
+        const settings = new FindSettings({ baseUrl: "http://dummy" });
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);
     });
 
     it("uiLanguageCodeChanged false", () => {
         const settings = new FindSettings({
+            baseUrl: "http://dummy",
             triggers: { uiLanguageCodeChanged: false }
         });
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);
@@ -16,13 +18,16 @@ describe("FindSettings basics", () => {
 
     it("uiLanguageCodeChanged true", () => {
         const settings = new FindSettings({
+            baseUrl: "http://dummy",
             triggers: { uiLanguageCodeChanged: true }
         });
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(true);
     });
 
     it("Should be able to create a default settings object with expected values", () => {
-        const settings = new FindSettings();
+        const settings = new FindSettings({
+            baseUrl: "http://dummy"
+        });
 
         expect(settings).toBeDefined();
         expect(settings instanceof FindSettings).toBeTruthy();
@@ -48,11 +53,12 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);
-        expect(settings.url).toEqual("search/find");
+        expect(settings.url).toEqual("http://dummy/RestService/v4/search/find");
     });
 
     it("Should be possible to pass in a FindSettings object to use for values.", () => {
-        let settings = {
+        const settings = {
+            baseUrl: "http://dummy",
             cbError: jest.fn(),
             cbRequest: jest.fn(),
             cbSuccess: jest.fn(),
@@ -75,35 +81,39 @@ describe("FindSettings basics", () => {
                 uiLanguageCodeChanged: true
             },
             url: "/test/"
-        } as FindSettings;
+        } as IFindSettings;
 
-        settings = new FindSettings(settings);
+        let actualSettings = new FindSettings(settings);
 
-        expect(settings).toBeDefined();
-        expect(settings instanceof FindSettings).toBeTruthy();
-        expect(settings.enabled).toBeFalsy();
-        expect(settings.cbRequest).toBeDefined();
-        expect(settings.cbError).toBeDefined();
-        expect(settings.cbSuccess).toBeDefined();
-        expect(settings.triggers.clientIdChanged).toEqual(false);
-        expect(settings.triggers.dateFromChanged).toEqual(false);
-        expect(settings.triggers.dateToChanged).toEqual(false);
-        expect(settings.triggers.filterChanged).toEqual(false);
-        expect(settings.triggers.matchGenerateContentChanged).toEqual(false);
-        expect(settings.triggers.matchGenerateContentHighlightsChanged).toEqual(
-            true
+        expect(actualSettings).toBeDefined();
+        expect(actualSettings instanceof FindSettings).toBeTruthy();
+        expect(actualSettings.enabled).toBeFalsy();
+        expect(actualSettings.cbRequest).toBeDefined();
+        expect(actualSettings.cbError).toBeDefined();
+        expect(actualSettings.cbSuccess).toBeDefined();
+        expect(actualSettings.triggers.clientIdChanged).toEqual(false);
+        expect(actualSettings.triggers.dateFromChanged).toEqual(false);
+        expect(actualSettings.triggers.dateToChanged).toEqual(false);
+        expect(actualSettings.triggers.filterChanged).toEqual(false);
+        expect(actualSettings.triggers.matchGenerateContentChanged).toEqual(
+            false
         );
-        expect(settings.triggers.matchGroupingChanged).toEqual(false);
-        expect(settings.triggers.matchOrderByChanged).toEqual(false);
-        expect(settings.triggers.matchPageChanged).toEqual(false);
-        expect(settings.triggers.matchPageSizeChanged).toEqual(false);
-        expect(settings.triggers.queryChangeDelay).toEqual(100);
-        expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
-        expect(settings.triggers.queryChange).toEqual(true);
-        expect(settings.triggers.queryChangeMinLength).toEqual(2);
-        expect(settings.triggers.searchTypeChanged).toEqual(false);
-        expect(settings.triggers.uiLanguageCodeChanged).toEqual(true);
-        expect(settings.url).toEqual("test");
+        expect(
+            actualSettings.triggers.matchGenerateContentHighlightsChanged
+        ).toEqual(true);
+        expect(actualSettings.triggers.matchGroupingChanged).toEqual(false);
+        expect(actualSettings.triggers.matchOrderByChanged).toEqual(false);
+        expect(actualSettings.triggers.matchPageChanged).toEqual(false);
+        expect(actualSettings.triggers.matchPageSizeChanged).toEqual(false);
+        expect(actualSettings.triggers.queryChangeDelay).toEqual(100);
+        expect(actualSettings.triggers.queryChangeInstantRegex).toEqual(/\S/);
+        expect(actualSettings.triggers.queryChange).toEqual(true);
+        expect(actualSettings.triggers.queryChangeMinLength).toEqual(2);
+        expect(actualSettings.triggers.searchTypeChanged).toEqual(false);
+        expect(actualSettings.triggers.uiLanguageCodeChanged).toEqual(true);
+        expect(actualSettings.url).toEqual(
+            "http://dummy/RestService/v4/search/find"
+        );
     });
 
     it("Should be possible to pass a partial FindSettings object to use for values.", () => {
@@ -112,6 +122,7 @@ describe("FindSettings basics", () => {
         };
 
         let settings = {
+            baseUrl: "http://dummy",
             cbSuccess: fnSuccess,
             enabled: false,
             triggers: {
@@ -146,6 +157,6 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);
-        expect(settings.url).toEqual("search/find");
+        expect(settings.url).toEqual("http://dummy/RestService/v4/search/find");
     });
 });

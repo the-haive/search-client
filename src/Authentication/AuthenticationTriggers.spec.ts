@@ -10,7 +10,7 @@ describe("AuthenticationTrigger basics", () => {
     });
 
     it("Should be able to create a trigger object with override value", () => {
-        let settings = new AuthenticationTriggers(10);
+        let settings = new AuthenticationTriggers({ expiryOverlap: 10 });
 
         expect(settings).toBeDefined();
         expect(settings instanceof AuthenticationTriggers).toBeTruthy();

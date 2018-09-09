@@ -40,15 +40,7 @@ describe("QueryConverters", () => {
 
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4",
-                "autocomplete",
-                defaultQuery
-            )
-        ).toEqual(expectedFindUrl);
-        expect(
-            qc.getUrl(
-                "http://localhost:9950/RestService/v4/",
-                "autocomplete",
+                "http://localhost:9950/RestService/v4/autocomplete",
                 defaultQuery
             )
         ).toEqual(expectedFindUrl);
@@ -61,15 +53,13 @@ describe("QueryConverters", () => {
 
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4",
-                "autocomplete",
+                "http://localhost:9950/RestService/v4/autocomplete",
                 fixedQuery
             )
         ).toEqual(expectedFindUrl);
         expect(
             qc.getUrl(
-                "http://localhost:9950/RestService/v4/",
-                "autocomplete",
+                "http://localhost:9950/RestService/v4/autocomplete",
                 fixedQuery
             )
         ).toEqual(expectedFindUrl);

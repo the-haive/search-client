@@ -10,11 +10,9 @@ export abstract class BaseQueryConverter {
      * @param query is the query that is to be converted into the url.
      * @returns The url to use for fetching the date, represented as a string.
      */
-    public getUrl(baseUrl: string, servicePath: string, query: Query): string {
+    public getUrl(url: string, query: Query): string {
         let params = this.getUrlParams(query).sort();
-        baseUrl = baseUrl.replace(/\/+$/, "");
-        servicePath = servicePath.replace(/(^\/+)|(\/+$)/g, "");
-        return `${baseUrl}/${servicePath}?${params.join("&")}`;
+        return `${url}?${params.join("&")}`;
     }
 
     /**

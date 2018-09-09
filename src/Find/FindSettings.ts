@@ -1,6 +1,13 @@
-import { BaseSettings } from "../Common";
+import { BaseSettings, IBaseSettings } from "../Common";
 import { FindTriggers } from "./FindTriggers";
 import { Matches } from "../Data";
+
+export interface IFindSettings extends IBaseSettings<Matches> {
+    /**
+     * The trigger-settings for when automatic match result-updates are to be triggered.
+     */
+    triggers?: FindTriggers;
+}
 
 /**
  * These are all the settings that can affect the returned categories for Find() lookups.
@@ -9,30 +16,31 @@ export class FindSettings extends BaseSettings<Matches> {
     /**
      * The trigger-settings for when automatic match result-updates are to be triggered.
      */
-    public triggers?: FindTriggers = new FindTriggers();
+    public triggers: FindTriggers;
 
     /**
-     * The endpoint to do Find lookups for.
+     * The endpoint to do Find lookups for. Default: "search/find"
+     * Overrides base.
      */
-    public url?: string = "/search/find";
+    public servicePath: string;
 
     /**
      * Creates a FindSettings object for you, based on FindSettings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default FindSettings.
      */
-    constructor(settings?: FindSettings) {
-        super(settings);
-
-        if (settings) {
-            this.triggers =
-                typeof settings.triggers !== "undefined"
-                    ? new FindTriggers(settings.triggers)
-                    : this.triggers;
-            this.url =
-                typeof settings.url !== "undefined" ? settings.url : this.url;
+    constructor(settings: IFindSettings | string) {
+        super(); // dummy (using init instead)
+        // Setup settings object before calling super.init with it.
+        if (typeof settings === "string") {
+            settings = { baseUrl: settings } as IFindSettings;
         }
+        settings.servicePath =
+            typeof settings.servicePath !== "undefined"
+                ? settings.servicePath
+                : "search/find";
+        super.init(settings);
 
-        // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
+        // Setup our own stuff (props not in the base class).
+        this.triggers = new FindTriggers(settings.triggers);
     }
 }

@@ -1,6 +1,11 @@
 import fetch from "jest-fetch-mock";
 
-import { Categorize, CategorizeSettings, CategorizeTriggers } from ".";
+import {
+    Categorize,
+    CategorizeSettings,
+    ICategorizeSettings,
+    CategorizeTriggers
+} from ".";
 import { Categories } from "../Data";
 
 // tslint:disable-next-line
@@ -97,26 +102,25 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("search/categorize");
+        expect(pCategorize.settings.url).toEqual(
+            "http://localhost:9950/RestService/v4/search/categorize"
+        );
     });
 
-    it("Should throw for invalid Urls", () => {
+    it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
             let categorize = new Categorize("file://localhost:9950");
             expect(typeof categorize).toBe("object");
-        }).toThrow();
+        }).not.toThrow();
 
         expect(() => {
             let categorize = new Categorize("http:+//localhost:9950");
             expect(typeof categorize).toBe("object");
-        }).toThrow();
+        }).not.toThrow();
     });
 
     it("Should be able to pass a default CategorizeSettings instance", () => {
-        let categorize = new Categorize(
-            "http://localhost:9950/",
-            new CategorizeSettings()
-        );
+        let categorize = new Categorize("http://localhost:9950/");
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -126,35 +130,38 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("search/categorize");
+        expect(pCategorize.settings.url).toEqual(
+            "http://localhost:9950/RestService/v4/search/categorize"
+        );
     });
 
     it("Should be able to pass a CategorizeSettings instance with additional settings", () => {
-        let settings = new CategorizeSettings();
+        let settings = new CategorizeSettings("http://localhost:9950/");
         settings.cbError = jest.fn();
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.triggers = new CategorizeTriggers();
-        settings.url = "/test";
+        settings.basePath = "/test";
 
-        let categorize = new Categorize("http://localhost:9950/", settings);
+        let categorize = new Categorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
-        );
+        expect(pCategorize.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("test");
+        expect(pCategorize.settings.url).toEqual(
+            "http://localhost:9950/test/search/categorize"
+        );
     });
 
     it("Should be able to pass a manual object settings as CategorizeSettings", () => {
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbError: (error: any) => {
                 /* dummy */
             },
@@ -163,44 +170,44 @@ describe("Categorize basics", () => {
             },
             enabled: false,
             triggers: new CategorizeTriggers(),
-            url: "/test"
-        } as CategorizeSettings;
+            basePath: "/test"
+        } as ICategorizeSettings;
 
-        let categorize = new Categorize("http://localhost:9950/", settings);
+        let categorize = new Categorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
-        expect(categorize.baseUrl).toEqual(
-            "http://localhost:9950/RestService/v4"
-        );
+        expect(pCategorize.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pCategorize.settings.enabled).toEqual(false);
         expect(pCategorize.settings.cbError).toBeDefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
         expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
-        expect(pCategorize.settings.url).toEqual("test");
+        expect(pCategorize.settings.url).toEqual(
+            "http://localhost:9950/test/search/categorize"
+        );
     });
 
     it("Should be able to Categorize some results", () => {
         // tslint:disable-next-line:no-require-imports
         const categories: Categories = require("../test-data/categories.json");
+        fetch.resetMocks();
         fetch.mockResponse(JSON.stringify(categories));
 
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
-                return true;
+            }),
+            cbSuccess: jest.fn((url, reqInit) => {
+                expect(typeof url).toBe("string");
+                expect(typeof reqInit).toBe("object");
             })
-        } as CategorizeSettings;
+        } as ICategorizeSettings;
 
-        let categorize = new Categorize(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let categorize = new Categorize(settings, null, fetch);
         categorize
             .fetch()
             .then((response: Categories) => {
@@ -212,6 +219,7 @@ describe("Categorize basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).toHaveBeenCalled();
             });
     });
 
@@ -219,20 +227,17 @@ describe("Categorize basics", () => {
         // Not caring about the response, just to allow the fetch to complete.
         fetch.mockResponse(JSON.stringify({}));
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
                 // Stop the request
                 return false;
-            })
-        } as CategorizeSettings;
+            }),
+            cbSuccess: jest.fn()
+        } as ICategorizeSettings;
 
-        let categorize = new Categorize(
-            "http://localhost:9950/",
-            settings,
-            null,
-            fetch
-        );
+        let categorize = new Categorize(settings, null, fetch);
         categorize
             .fetch()
             .then(response => {
@@ -243,6 +248,7 @@ describe("Categorize basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
     });
 
@@ -327,10 +333,11 @@ describe("Categorize basics", () => {
         sanityCheck(workCopy);
 
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn(() => false)
         };
 
-        let client = new Categorize("http://localhost:9950/", settings);
+        let client = new Categorize(settings);
         let pClient = client as any;
 
         // Expect no change when filters are set to null

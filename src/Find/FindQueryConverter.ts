@@ -1,7 +1,7 @@
 import { BaseQueryConverter, Query } from "../Common";
 
 /**
- * Class to handle creating categorize lookups for restservice version 3.
+ * Class to handle creating find lookups.
  */
 export class FindQueryConverter extends BaseQueryConverter {
     /**

@@ -1,8 +1,8 @@
-import { Settings, Categories, Matches } from "../src/SearchClient";
+import { Settings, ISettings, Categories, Matches } from "../src/SearchClient";
 
 describe("Settings basics", () => {
     it("Should be able to create a default settings object with expected values", () => {
-        let settings = new Settings();
+        let settings = new Settings("http://dummy");
 
         expect(settings).toBeDefined();
         expect(settings instanceof Settings).toBeTruthy();
@@ -11,10 +11,10 @@ describe("Settings basics", () => {
         expect(settings.categorize.enabled).toBeTruthy();
         expect(settings.find.enabled).toBeTruthy();
 
-        expect(settings.authentication.path).toEqual("RestService/v4");
-        expect(settings.autocomplete.path).toEqual("RestService/v4");
-        expect(settings.categorize.path).toEqual("RestService/v4");
-        expect(settings.find.path).toEqual("RestService/v4");
+        expect(settings.authentication.basePath).toEqual("RestService/v4");
+        expect(settings.autocomplete.basePath).toEqual("RestService/v4");
+        expect(settings.categorize.basePath).toEqual("RestService/v4");
+        expect(settings.find.basePath).toEqual("RestService/v4");
 
         expect(settings.authentication.cbRequest).toBeUndefined();
         expect(settings.authentication.cbError).toBeUndefined();
@@ -45,7 +45,8 @@ describe("Settings basics", () => {
             /* dummy */
         };
 
-        settings = {
+        let settings2 = {
+            baseUrl: "http://dummy",
             authentication: { enabled: false },
             autocomplete: {
                 cbError: fnError,
@@ -62,64 +63,67 @@ describe("Settings basics", () => {
                 cbRequest: fnRequest,
                 cbSuccess: fnSuccessFind
             }
-        } as Settings;
+        } as ISettings;
 
-        settings = new Settings(settings);
+        let actualSettings = new Settings(settings2);
+
+        expect(actualSettings instanceof Settings).toBeTruthy();
+
+        expect(actualSettings.authentication.enabled).toBeFalsy();
+        expect(actualSettings.autocomplete.enabled).toBeTruthy();
+        expect(actualSettings.categorize.enabled).toBeTruthy();
+        expect(actualSettings.find.enabled).toBeTruthy();
+
+        expect(actualSettings.authentication.cbRequest).toBeUndefined();
+        expect(actualSettings.authentication.cbError).toBeUndefined();
+        expect(actualSettings.authentication.cbSuccess).toBeUndefined();
+        expect(actualSettings.autocomplete.cbRequest).toBeDefined();
+        expect(actualSettings.autocomplete.cbError).toBeDefined();
+        expect(actualSettings.autocomplete.cbSuccess).toBeDefined();
+        expect(actualSettings.categorize.cbRequest).toBeDefined();
+        expect(actualSettings.categorize.cbError).toBeDefined();
+        expect(actualSettings.categorize.cbSuccess).toBeDefined();
+        expect(actualSettings.find.cbRequest).toBeDefined();
+        expect(actualSettings.find.cbError).toBeDefined();
+        expect(actualSettings.find.cbSuccess).toBeDefined();
+
+        actualSettings = new Settings(settings2);
 
         expect(settings instanceof Settings).toBeTruthy();
 
-        expect(settings.authentication.enabled).toBeFalsy();
-        expect(settings.autocomplete.enabled).toBeTruthy();
-        expect(settings.categorize.enabled).toBeTruthy();
-        expect(settings.find.enabled).toBeTruthy();
+        expect(actualSettings.authentication.enabled).toBeFalsy();
+        expect(actualSettings.autocomplete.enabled).toBeTruthy();
+        expect(actualSettings.categorize.enabled).toBeTruthy();
+        expect(actualSettings.find.enabled).toBeTruthy();
 
-        expect(settings.authentication.cbRequest).toBeUndefined();
-        expect(settings.authentication.cbError).toBeUndefined();
-        expect(settings.authentication.cbSuccess).toBeUndefined();
-        expect(settings.autocomplete.cbRequest).toBeDefined();
-        expect(settings.autocomplete.cbError).toBeDefined();
-        expect(settings.autocomplete.cbSuccess).toBeDefined();
-        expect(settings.categorize.cbRequest).toBeDefined();
-        expect(settings.categorize.cbError).toBeDefined();
-        expect(settings.categorize.cbSuccess).toBeDefined();
-        expect(settings.find.cbRequest).toBeDefined();
-        expect(settings.find.cbError).toBeDefined();
-        expect(settings.find.cbSuccess).toBeDefined();
-
-        settings = new Settings(settings);
-
-        expect(settings instanceof Settings).toBeTruthy();
-
-        expect(settings.authentication.enabled).toBeFalsy();
-        expect(settings.autocomplete.enabled).toBeTruthy();
-        expect(settings.categorize.enabled).toBeTruthy();
-        expect(settings.find.enabled).toBeTruthy();
-
-        expect(settings.authentication.cbRequest).toBeUndefined();
-        expect(settings.authentication.cbError).toBeUndefined();
-        expect(settings.authentication.cbSuccess).toBeUndefined();
-        expect(settings.autocomplete.cbRequest).toBeDefined();
-        expect(settings.autocomplete.cbError).toBeDefined();
-        expect(settings.autocomplete.cbSuccess).toBeDefined();
-        expect(settings.categorize.cbRequest).toBeDefined();
-        expect(settings.categorize.cbError).toBeDefined();
-        expect(settings.categorize.cbSuccess).toBeDefined();
-        expect(settings.find.cbRequest).toBeDefined();
-        expect(settings.find.cbError).toBeDefined();
-        expect(settings.find.cbSuccess).toBeDefined();
+        expect(actualSettings.authentication.cbRequest).toBeUndefined();
+        expect(actualSettings.authentication.cbError).toBeUndefined();
+        expect(actualSettings.authentication.cbSuccess).toBeUndefined();
+        expect(actualSettings.autocomplete.cbRequest).toBeDefined();
+        expect(actualSettings.autocomplete.cbError).toBeDefined();
+        expect(actualSettings.autocomplete.cbSuccess).toBeDefined();
+        expect(actualSettings.categorize.cbRequest).toBeDefined();
+        expect(actualSettings.categorize.cbError).toBeDefined();
+        expect(actualSettings.categorize.cbSuccess).toBeDefined();
+        expect(actualSettings.find.cbRequest).toBeDefined();
+        expect(actualSettings.find.cbError).toBeDefined();
+        expect(actualSettings.find.cbSuccess).toBeDefined();
     });
 
     it("Should be possible to override the path", () => {
         let settings = new Settings({
-            path: "CustomRestServicePath"
-        } as Settings);
+            baseUrl: "http://dummy",
+            basePath: "CustomRestServicePath"
+        } as ISettings);
 
         expect(settings).toBeDefined();
-        expect(settings.path).toEqual("CustomRestServicePath");
+        expect(settings.basePath).toEqual("CustomRestServicePath");
 
-        expect(settings.authentication.path).toEqual("CustomRestServicePath");
-        expect(settings.autocomplete.path).toEqual("CustomRestServicePath");
-        expect(settings.categorize.path).toEqual("CustomRestServicePath");
-        expect(settings.find.path).toEqual("CustomRestServicePath");
+        expect(settings.authentication.basePath).toEqual(
+            "CustomRestServicePath"
+        );
+        expect(settings.autocomplete.basePath).toEqual("CustomRestServicePath");
+        expect(settings.categorize.basePath).toEqual("CustomRestServicePath");
+        expect(settings.find.basePath).toEqual("CustomRestServicePath");
     });
 });

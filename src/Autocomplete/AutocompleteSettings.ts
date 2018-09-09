@@ -1,6 +1,12 @@
-import { BaseSettings } from "../Common";
+import { BaseSettings, IBaseSettings } from "../Common";
 import { AutocompleteTriggers } from "./AutocompleteTriggers";
 
+export interface IAutocompleteSettings extends IBaseSettings<string[]> {
+    /**
+     * The trigger-settings for when automatic match result-updates are to be triggered.
+     */
+    triggers?: AutocompleteTriggers;
+}
 /**
  * These are all the settings that can affect the returned suggestions for autocomplete() lookups.
  */
@@ -8,30 +14,25 @@ export class AutocompleteSettings extends BaseSettings<string[]> {
     /**
      * The trigger-settings for when automatic suggestion updates are to be triggered.
      */
-    public triggers?: AutocompleteTriggers = new AutocompleteTriggers();
-
-    /**
-     * The endpoint to do autocomplete lookups for.
-     */
-    public url?: string = "autocomplete";
+    public triggers: AutocompleteTriggers;
 
     /**
      * Creates an AutocompleteSettings object for you, based on AutocompleteSettings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default AutocompleteSettings.
      */
-    constructor(settings?: AutocompleteSettings) {
-        super(settings);
-
-        if (settings) {
-            this.triggers =
-                typeof settings.triggers !== "undefined"
-                    ? new AutocompleteTriggers(settings.triggers)
-                    : this.triggers;
-            this.url =
-                typeof settings.url !== "undefined" ? settings.url : this.url;
+    constructor(settings: IAutocompleteSettings | string) {
+        super(); // dummy (using init instead)
+        // Setup settings object before calling super.init with it.
+        if (typeof settings === "string") {
+            settings = { baseUrl: settings } as IAutocompleteSettings;
         }
+        settings.servicePath =
+            typeof settings.servicePath !== "undefined"
+                ? settings.servicePath
+                : "autocomplete";
+        super.init(settings);
 
-        // Remove leading and trailing slashes from the url
-        this.url = this.url.replace(/(^\/+)|(\/+$)/g, "");
+        // Setup our own stuff (props not in the base class).
+        this.triggers = new AutocompleteTriggers(settings.triggers);
     }
 }

@@ -1,7 +1,10 @@
 import * as jwt from "jwt-simple";
 
 import { BaseCall, Fetch, Query } from "../Common";
-import { AuthenticationSettings } from "./AuthenticationSettings";
+import {
+    AuthenticationSettings,
+    IAuthenticationSettings
+} from "./AuthenticationSettings";
 import { AuthToken } from "./AuthToken";
 
 /**
@@ -15,27 +18,31 @@ import { AuthToken } from "./AuthToken";
  * object controls how long before expiration the new token is to be fetched.
  */
 export class Authentication extends BaseCall<any> {
+    protected settings: IAuthenticationSettings;
+
     /**
      * Creates an Authentication object that knows where to get the auth-token and when to refresh it.
-     * @param baseUrl - The baseUrl that the authentication is to operate from.
      * @param settings - The settings for the authentication object.
      * @param auth - An object that controls the authentication for the lookups.
      */
     constructor(
-        baseUrl: string,
-        protected settings?: AuthenticationSettings,
+        settings: IAuthenticationSettings | string,
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super();
+        super(); // dummy
+
+        // prepare for super.init
         settings = new AuthenticationSettings(settings);
         auth = auth || new AuthToken();
-        super.init(baseUrl, settings, auth, fetchMethod);
-        if (this.settings.token) {
-            this.auth.authenticationToken = this.settings.token;
-            this.settings.token = undefined;
+        super.init(settings, auth, fetchMethod);
+
+        // Set own this props
+        if (settings.token) {
+            this.auth.authenticationToken = settings.token;
+            settings.token = undefined;
             this.setupRefresh();
-        } else if (this.settings.enabled) {
+        } else if (settings.enabled) {
             // We authenticate immediately in order to have the token in place when the first calls come in.
             this.update(null);
         }
@@ -51,17 +58,15 @@ export class Authentication extends BaseCall<any> {
         query: Query = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<string> {
-        const url = `${this.baseUrl}/${this.settings.url}`;
         const reqInit = this.requestObject();
-
-        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return this.fetchMethod(url, reqInit)
+        if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {
+            return this.fetchMethod(this.settings.url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(
                             `${response.status} ${
                                 response.statusText
-                            } for request url '${url}'`
+                            } for request url '${this.settings.url}'`
                         );
                     }
                     return response.json();
@@ -81,13 +86,18 @@ export class Authentication extends BaseCall<any> {
                     this.cbSuccess(
                         suppressCallbacks,
                         this.auth.authenticationToken,
-                        url,
+                        this.settings.url,
                         reqInit
                     );
                     return this.auth.authenticationToken;
                 })
                 .catch(error => {
-                    this.cbError(suppressCallbacks, error, url, reqInit);
+                    this.cbError(
+                        suppressCallbacks,
+                        error,
+                        this.settings.url,
+                        reqInit
+                    );
                     throw error;
                 });
         } else {
