@@ -109,11 +109,29 @@ body {
 #about,
 #help,
 #settings {
-    grid-area: settings;
     display: none;
     background-color: rgba(255, 255, 255, 0.7);
     overflow-y: auto;
     margin-bottom: -10px;
+}
+
+#about,
+#help {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+#about .whiteout,
+#help .whiteout {
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 2000;
+    display: flex;
+}
+
+#settings {
+    grid-area: settings;
 }
 #about.show,
 #help.show,
@@ -131,6 +149,15 @@ button:hover {
     font-weight: bold;
 }
 
+.key-value-grid {
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(200px, 1fr) minmax(200px, 1fr)
+    );
+}
+
 #about .dialog,
 #help .dialog,
 #settings .dialog {
@@ -140,6 +167,24 @@ button:hover {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+#about .dialog,
+#help .dialog {
+    margin: auto;
+    height: 90%;
+    width: 90%;
+}
+
+#settings .dialog legend {
+    overflow-x: hidden;
+}
+
+.help p {
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-style: italic;
+    font-size: small;
 }
 
 #about .dialog header,
@@ -154,6 +199,7 @@ button:hover {
 #settings .dialog header {
     /*margin-bottom: 0.5em;*/
     border-bottom: none;
+    flex-shrink: 0;
 }
 
 #settings .dialog header h1 {
