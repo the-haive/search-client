@@ -48,8 +48,7 @@
         <div id="error">
             <h2>Ops! Something went wrong.</h2>
             <p>
-                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report
-                this
+                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report this
                 issue.
             </p>
             <button>Send report (not implemented yet)</button>
@@ -67,8 +66,7 @@
             <p>
                 Please enter your search-query in the top query-field.
                 <br /> For more help, click <a href="javascript:showTips()" title="Tips on efficient searching">here</a>.
-                <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()"
-                    title="About IntelliSearch">here</a>.
+                <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()" title="About IntelliSearch">here</a>.
             </p>
             <h2>Status</h2>
             <div id="status">
@@ -92,10 +90,8 @@
             </dl>
             <h2>Security</h2>
             <p>
-                It is set up to handle authentication and security via Windows Integrated Security, meaning that you
-                need to be logged in
-                to the company domain to get any results. If you are accessing the system from outside the company a
-                separate
+                It is set up to handle authentication and security via Windows Integrated Security, meaning that you need to be logged in
+                to the company domain to get any results. If you are accessing the system from outside the company a separate
                 login may be required.
             </p>
         </div>
@@ -137,13 +133,10 @@
                     <li>The current query did not match any items in the search-index.</li>
                     <li>Please try to change the search-expression or remove filters (if set).</li>
                     <li>You can also try to change the type of search by changing the all words / any word setting.</li>
-                    <li>If you still cannot find what you are looking for, please verify that the source the item you
-                        are
+                    <li>If you still cannot find what you are looking for, please verify that the source the item you are
                         looking for is indexed.</li>
-                    <li>If you still cannot find the item you are looking for then please contact your administrator.
-                        It
-                        is important that you enquire on this in order for the administrator to be able to adjust and
-                        tune
+                    <li>If you still cannot find the item you are looking for then please contact your administrator. It
+                        is important that you enquire on this in order for the administrator to be able to adjust and tune
                         the search.</li>
                 </ul>
             </div>
@@ -193,199 +186,103 @@
                             <li id="search-query" class="tab" title="Query service settings">Query</li>
                         </ul>
                         <div class="tab-content-container">
-                            <div id="tab-search-main" class="tab-content current">
-                                <ul class="tab-container">
-                                    <li id="search-main-settings" class="tab">Settings</li>
-                                    <li id="search-main-help" class="tab current">Help</li>
-                                    <li id="search-main-export" class="tab">Export</li>
-                                </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-main-settings" class="tab-content key-value-grid">
-                                        <legend for="tab-search-main-settings-base-url">BaseUrl</legend>
-                                        <input id="tab-search-main-settings-base-url" type="text">
-                                        <legend for="tab-search-main-settings-base-path">BasePath</legend>
-                                        <input id="tab-search-main-settings-base-path" type="text">
-                                    </div>
-                                    <div id="tab-search-main-help" class="tab-content current help">
-                                        <p>
-                                            The search-settings define how to connect to the SearchManager and the
-                                            authentication service.
-                                            It also defines triggers in regards to when services should refresh.
-                                        </p>
-                                    </div>
-                                    <div id="tab-search-main-export" class="tab-content help">
-                                        <p>
-                                            The exported search-settings json file must be copied in to the root folder
-                                            of the search-ui web-application, to be considered the new defaults.
-                                        </p>
-                                        <button>TODO: Export</button>
-                                        <p>
-                                            TODO: In the future some of these settings will be available also for
-                                            end-users.
-                                        </p>
+                            <div id="tab-search-main" class="tab-content current key-value-grid">
+                                <legend for="tab-search-main-base-url" title="Required. The common default base-url for the server (domain), including the protocol.">BaseUrl</legend>
+                                <input id="tab-search-main-base-url" type="text">
 
-                                    </div>
-                                </div>
+                                <legend for="tab-search-main-base-path" title="Optional. The common base-path for the server (defaults to 'RestService/v4').">BasePath</legend>
+                                <input id="tab-search-main-base-path" type="text">
+                                <p>
+                                    The exported search-settings json file must be copied in to the root folder of the search-ui web-application, to be considered
+                                    the new defaults.
+                                </p>
+                                <button>TODO: Export</button>
                             </div>
-                            <div id="tab-search-autocomplete" class="tab-content">
-                                <ul class="tab-container">
-                                    <li id="search-autocomplete-settings" class="tab">Settings</li>
-                                    <li id="search-autocomplete-help" class="tab current">Help</li>
+                            <div id="tab-search-autocomplete" class="tab-content key-value-grid">
+                                <legend>Autocomplete</legend>
+                                <ul>
+                                    <li>BaseUrl</li>
+                                    <li>BasePath</li>
                                 </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-autocomplete-settings" class="tab-content key-value-grid">
-                                        <legend>Autocomplete</legend>
-                                        <ul>
-                                            <li>BaseUrl</li>
-                                            <li>BasePath</li>
-                                        </ul>
-                                    </div>
-                                    <div id="tab-search-autocomplete-help" class="tab-content current help">
-                                        <p>
-                                            Todo: Describe autocomplete settings.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
-                            <div id="tab-search-find" class="tab-content">
-                                <ul class="tab-container">
-                                    <li id="search-find-settings" class="tab">Settings</li>
-                                    <li id="search-find-help" class="tab current">Help</li>
+                            <div id="tab-search-find" class="tab-content key-value-grid">
+                                <legend>Find</legend>
+                                <ul>
+                                    <li>BaseUrl</li>
+                                    <li>BasePath</li>
                                 </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-find-settings" class="tab-content key-value-grid">
-                                        <legend>Find</legend>
-                                        <ul>
-                                            <li>BaseUrl</li>
-                                            <li>BasePath</li>
-                                        </ul>
-                                    </div>
-                                    <div id="tab-search-find-help" class="tab-content current help">
-                                        <p>
-                                            Todo: Describe find settings.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
-                            <div id="tab-search-categorize" class="tab-content">
-                                <ul class="tab-container">
-                                    <li id="search-categorize-settings" class="tab">Settings</li>
-                                    <li id="search-categorize-help" class="tab current">Help</li>
+                            <div id="tab-search-categorize" class="tab-content key-value-grid">
+                                <legend>Categorize</legend>
+                                <ul>
+                                    <li>BaseUrl</li>
+                                    <li>BasePath</li>
                                 </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-categorize-settings" class="tab-content key-value-grid">
-                                        <legend>Categorize</legend>
-                                        <ul>
-                                            <li>BaseUrl</li>
-                                            <li>BasePath</li>
-                                        </ul>
-                                    </div>
-                                    <div id="tab-search-categorize-help" class="tab-content current help">
-                                        <p>
-                                            Todo: Describe categorize settings.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
-                            <div id="tab-search-authentication" class="tab-content">
-                                <ul class="tab-container">
-                                    <li id="search-authentication-settings" class="tab">Settings</li>
-                                    <li id="search-authentication-help" class="tab current">Help</li>
+                            <div id="tab-search-authentication" class="tab-content key-value-grid">
+                                <legend>Authentication</legend>
+                                <ul>
+                                    <li>BaseUrl</li>
+                                    <li>BasePath</li>
                                 </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-authentication-settings" class="tab-content key-value-grid">
-                                        <legend>Authentication</legend>
-                                        <ul>
-                                            <li>BaseUrl</li>
-                                            <li>BasePath</li>
-                                        </ul>
-                                    </div>
-                                    <div id="tab-search-authentication-help" class="tab-content current help">
-                                        <p>
-                                            Todo: Describe authentication settings.
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
-                            <div id="tab-search-query" class="tab-content">
-                                <ul class="tab-container">
-                                    <li id="search-query-settings" class="tab">Settings</li>
-                                    <li id="search-query-help" class="tab current">Help</li>
-                                </ul>
-                                <div class="tab-content-container">
-                                    <div id="tab-search-query-settings" class="tab-content key-value-grid">
-                                        <legend for="tab-search-query-settings-categorization-type" title="Controls the type of category-tree that is returned on searches.">CategorizationType</legend>
-                                        <select id="tab-search-query-settings-categorization-type">
-                                            <option title="Returns all categories, always.">All Categories</option>
-                                            <option title="Returns only categories that has matches.">DocumentHitsOnly</option>
-                                        </select>
+                            <div id="tab-search-query" class="tab-content key-value-grid">
+                                <legend for="tab-search-query-settings-categorization-type" title="Controls the type of category-tree that is returned on searches.">CategorizationType</legend>
+                                <select id="tab-search-query-settings-categorization-type">
+                                    <option title="Returns all categories, always.">All Categories</option>
+                                    <option title="Returns only categories that has matches.">DocumentHitsOnly</option>
+                                </select>
 
-                                        <legend for="tab-search-query-settings-client-id" title="These help identify the various searches in the search-engine backend statistics. Plus, you can tune the backend to i.e. deliver different category-trees depending on the client-id in use.">ClientId</legend>
-                                        <input id="tab-search-query-settings-client-id" type="text">
+                                <legend for="tab-search-query-settings-client-id" title="These help identify the various searches in the search-engine backend statistics. Plus, you can tune the backend to i.e. deliver different category-trees depending on the client-id in use.">ClientId</legend>
+                                <input id="tab-search-query-settings-client-id" type="text">
 
-                                        <legend for="tab-search-query-settings-date-from" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateFrom</legend>
-                                        <input id="tab-search-query-settings-date-from" type="date">
+                                <legend for="tab-search-query-settings-date-from" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateFrom</legend>
+                                <input id="tab-search-query-settings-date-from" type="date">
 
-                                        <legend for="tab-search-query-settings-date-to" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateTo</legend>
-                                        <input id="tab-search-query-settings-date-to" type="date">
+                                <legend for="tab-search-query-settings-date-to" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateTo</legend>
+                                <input id="tab-search-query-settings-date-to" type="date">
 
-                                        <legend for="tab-search-query-settings-filters" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">Filters</legend>
-                                        <textarea id="tab-search-query-settings-filters"></textarea>
+                                <legend for="tab-search-query-settings-filters" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">Filters</legend>
+                                <textarea id="tab-search-query-settings-filters"></textarea>
 
-                                        <legend for="tab-search-query-settings-match-generate-content" title="Usually the end-user will not have to consider this. For the search designer it is important to consider whether or not to show the match contents. Note: This setting requires the search-engine backend to allow content generation to be effective.">MatchGenerateContent</legend>
-                                        <input id="tab-search-query-settings-match-generate-content" type="checkbox">
+                                <legend for="tab-search-query-settings-match-generate-content" title="Usually the end-user will not have to consider this. For the search designer it is important to consider whether or not to show the match contents. Note: This setting requires the search-engine backend to allow content generation to be effective.">MatchGenerateContent</legend>
+                                <input id="tab-search-query-settings-match-generate-content" type="checkbox">
 
-                                        <legend for="tab-search-query-settings-match-generate-content-highlights" title="Only effective if MatchGenerateContent is checked. Enables highlighting words in the content according to the matches that was made.">MatchGenerateContentHighlights</legend>
-                                        <input id="tab-search-query-settings-match-generate-content-highlights" type="checkbox">
+                                <legend for="tab-search-query-settings-match-generate-content-highlights" title="Only effective if MatchGenerateContent is checked. Enables highlighting words in the content according to the matches that was made.">MatchGenerateContentHighlights</legend>
+                                <input id="tab-search-query-settings-match-generate-content-highlights" type="checkbox">
 
-                                        <legend for="tab-search-query-settings-match-grouping" title="Enabled grouping of results, for the sources that supports this (i.e. mail).">MatchGrouping</legend>
-                                        <input id="tab-search-query-settings-match-grouping" type="checkbox">
+                                <legend for="tab-search-query-settings-match-grouping" title="Enabled grouping of results, for the sources that supports this (i.e. mail).">MatchGrouping</legend>
+                                <input id="tab-search-query-settings-match-grouping" type="checkbox">
 
-                                        <legend for="tab-search-query-settings-match-page" title="Reflects the current result-set page. Note: Not included in the export.">MatchPage</legend>
-                                        <input id="tab-search-query-settings-match-page" type="number">
+                                <legend for="tab-search-query-settings-match-page" title="Reflects the current result-set page. Note: Not included in the export.">MatchPage</legend>
+                                <input id="tab-search-query-settings-match-page" type="number">
 
-                                        <legend for="tab-search-query-settings-match-page-size" title="Controls the number of matches per page that is to be delivered.">MatchPageSize</legend>
-                                        <input id="tab-search-query-settings-match-page-size" type="number">
+                                <legend for="tab-search-query-settings-match-page-size" title="Controls the number of matches per page that is to be delivered.">MatchPageSize</legend>
+                                <input id="tab-search-query-settings-match-page-size" type="number">
 
-                                        <legend for="tab-search-query-settings-match-order-by" title="Controls the order of the match-results.">MatchOrderBy</legend>
-                                        <select id="tab-search-query-settings-match-order-by">
-                                            <option title="Most relevant hits on top">Relevance</option>
-                                            <option title="Newest items on top, based on modification date.">Date</option>
-                                        </select>
+                                <legend for="tab-search-query-settings-match-order-by" title="Controls the order of the match-results.">MatchOrderBy</legend>
+                                <select id="tab-search-query-settings-match-order-by">
+                                    <option title="Most relevant hits on top">Relevance</option>
+                                    <option title="Newest items on top, based on modification date.">Date</option>
+                                </select>
 
-                                        <legend for="tab-search-query-settings-max-suggestions" title="Controls the number of autocomplete suggestions to receive.">MaxSuggestions</legend>
-                                        <input id="tab-search-query-settings-max-suggestions" type="number">
+                                <legend for="tab-search-query-settings-max-suggestions" title="Controls the number of autocomplete suggestions to receive.">MaxSuggestions</legend>
+                                <input id="tab-search-query-settings-max-suggestions" type="number">
 
-                                        <legend for="tab-search-query-settings-query-text" title="Reflects the current result-set query-text. Note: Not included in the export.">QueryText</legend>
-                                        <input id="tab-search-query-settings-query-text" type="text">
+                                <legend for="tab-search-query-settings-query-text" title="Reflects the current result-set query-text. Note: Not included in the export.">QueryText</legend>
+                                <input id="tab-search-query-settings-query-text" type="text">
 
-                                        <legend for="tab-search-query-settings-search-type" title="Controls what kind of search to make.">SearchType</legend>
-                                        <select id="tab-search-query-settings-search-type">
-                                            <option title="Return matches where all the words in the QueryText is used.">Match
-                                                All</option>
-                                            <option title="Return matches where at least one of the words in the QueryText is used.">Match
-                                                Any</option>
-                                        </select>
+                                <legend for="tab-search-query-settings-search-type" title="Controls what kind of search to make.">SearchType</legend>
+                                <select id="tab-search-query-settings-search-type">
+                                    <option title="Return matches where all the words in the QueryText is used.">Match All
+                                    </option>
+                                    <option title="Return matches where at least one of the words in the QueryText is used.">Match
+                                        Any
+                                    </option>
+                                </select>
 
-                                        <legend for="tab-search-query-settings-ui-language-code" title="Controls the language of some of the returned data (like category-names for instance).">UiLanguageCode</legend>
-                                        <input id="tab-search-query-settings-ui-language-code" type="text">
-                                    </div>
-                                    <div id="tab-search-query-help" class="tab-content current help">
-                                        <p>
-                                            The query settings reflect the current active values in the search-page.
-                                        </p>
-                                        <p>
-                                            Some of these already have UI-elements in the search-ui, such as the
-                                            queryText and the MatchOrderBy fields. Some other fields are normally not
-                                            displayed to the end-user, but are important in regards to building a good
-                                            user experience.
-                                        </p>
-                                        <p>
-                                            The best choice for <strong>your</strong> user interface depends on the
-                                            specific use-case.
-                                        </p>
-                                    </div>
-                                </div>
+                                <legend for="tab-search-query-settings-ui-language-code" title="Controls the language of some of the returned data (like category-names for instance).">UiLanguageCode</legend>
+                                <input id="tab-search-query-settings-ui-language-code" type="text">
                             </div>
                         </div>
                     </div>
@@ -418,7 +315,8 @@
                             </div-->
                             <div id="tab-ui-match-pager" class="tab-content key-value-grid">
                                 <label for="tab-ui-matches-pager-size" title="Controls the number of items to show in the pager.">Pager
-                                    size</label>
+                                    size
+                                </label>
                                 <input id="tab-ui-matches-pager-size" type="number">
 
                                 <label for="tab-ui-matches-pager-first" title="Controls whether or not to add a link to the first page.">Show
@@ -441,7 +339,8 @@
                                 <label for="tab-ui-matches-categories-enabled" title="Controls whether or not to show categories with the results.">Enabled</label>
                                 <input id="tab-ui-matches-categories-enabled" type="checkbox">
                                 <label for="tab-ui-matches-categories-exclude" title="Listed categories are excluded. Each line is one regular expression.">Exclusion
-                                    list</label>
+                                    list
+                                </label>
                                 <textarea id="tab-ui-matches-categories-exclude"></textarea>
                             </div>
                             <div id="tab-ui-details" class="tab-content">
@@ -501,27 +400,17 @@
                     </header>
                     <main>
                         <p>
-                            IntelliSearch is a search-engine - not too unlike Google. If you can google something then
-                            you
-                            can also use IntelliSearch
-                            to find relevant data. The difference between Google and IntelliSearch is that while Google
-                            is
-                            your
-                            best friend in finding information online on the public internet, IntelliSearch is your
-                            best
-                            companion
-                            in finding information within <strong>
+                            IntelliSearch is a search-engine - not too unlike Google. If you can google something then you can also use IntelliSearch
+                            to find relevant data. The difference between Google and IntelliSearch is that while Google is
+                            your best friend in finding information online on the public internet, IntelliSearch is your
+                            best companion in finding information within <strong>
                                 specific sources</strong> in your domain.
                         </p>
                         <p>
-                            Another important distinction is that IntelliSearch handle security. Google finds just
-                            about
-                            any information on the internet,
+                            Another important distinction is that IntelliSearch handle security. Google finds just about any information on the internet,
                             but the results are limited to items that are publicly available.
-                            <br /> IntelliSearch is crafted ground up with security built-in. This means that it is
-                            able to
-                            authenticate
-                            users and to add security for the items added to the search index, giving you
+                            <br /> IntelliSearch is crafted ground up with security built-in. This means that it is able
+                            to authenticate users and to add security for the items added to the search index, giving you
                             <strong>your</strong> results, and ensuring that no-one else can see your private items.
                         </p>
                         <p>
@@ -548,104 +437,67 @@
                         <dl>
                             <dt>Categories:</dt>
                             <dd>
-                                The category tree is very handy in your quest to help identify the items you are
-                                looking
-                                for. Clicking on categories makes
-                                them filters that filter down results to match the chosen filters. The top-level
-                                categories
-                                are
-                                called groups. Each group has categories that can be used for filtering. If you yse
-                                multiple
-                                filters <strong>within the same group</strong> then these filters
-                                are combined with 'OR'. Filters in different groups are combined with 'AND'.<br /> The
-                                categories
-                                that have been setup by the search administrator should be descriptive for your use
-                                case.
+                                The category tree is very handy in your quest to help identify the items you are looking for. Clicking on categories makes
+                                them filters that filter down results to match the chosen filters. The top-level categories
+                                are called groups. Each group has categories that can be used for filtering. If you yse multiple
+                                filters <strong>within the same group</strong> then these
+                                filters are combined with 'OR'. Filters in different groups are combined with 'AND'.<br />                                The
+                                categories that have been setup by the search administrator should be descriptive for your
+                                use case.
                                 <br />
-                                <i>Please contact the search administrator for questions in regards to the categories
-                                    available.
+                                <i>Please contact the search administrator for questions in regards to the categories available.
                                 </i>
                             </dd>
 
                             <dt>Keywords:</dt>
                             <dd>
-                                Use words that are as special as possible for the items you are looking for. For
-                                instance,
-                                searching for the word "is" will
-                                most likely match on just about all items in the index. We instead recommend using rare
-                                words
-                                that helps IntelliSearch to identify the items you are looking for.<br /> By default
-                                IntelliSearch requires all words in the query to be present to match. After the
-                                search is performed you will be presented with an option where you can change this to
-                                instead
-                                execute a search that requires only one of the words to be present in the items to
-                                become a
-                                match.
-                                The IntelliSearch relevance algorithms will ensure that items that has a better match
-                                as
-                                listed
-                                on top.
+                                Use words that are as special as possible for the items you are looking for. For instance, searching for the word "is" will
+                                most likely match on just about all items in the index. We instead recommend using rare words
+                                that helps IntelliSearch to identify the items you are looking for.<br
+                                /> By default IntelliSearch requires all words in the query to be present to match. After
+                                the search is performed you will be presented with an option where you can change this to
+                                instead execute a search that requires only one of the words to be present in the items to
+                                become a match. The IntelliSearch relevance algorithms will ensure that items that has a
+                                better match as listed on top.
                             </dd>
 
                             <dt>Phrases:</dt>
                             <dd>
-                                If you add quotes around the search-expression then IntelliSearch will return only
-                                items
-                                where those words are used in sequence.
-                                I.e. searching for <code>"lisa went to school"</code> instead of
-                                just <code>lisa went to school</code>.
+                                If you add quotes around the search-expression then IntelliSearch will return only items where those words are used in sequence.
+                                I.e. searching for <code>"lisa went to school"</code> instead
+                                of just <code>lisa went to school</code>.
                             </dd>
 
                             <dt>Sorting:</dt>
                             <dd>
-                                By default IntelliSearch orders results by relevance, most relevant first to least
-                                relevant
-                                last. IntelliSearch calculate
-                                a match relevance per item it finds and puts the most relevant items on top. If you
-                                want
-                                you
-                                can switch the ordering from Relevance to Date, where items are ordered from newest to
+                                By default IntelliSearch orders results by relevance, most relevant first to least relevant last. IntelliSearch calculate
+                                a match relevance per item it finds and puts the most relevant items on top. If you want
+                                you can switch the ordering from Relevance to Date, where items are ordered from newest to
                                 oldest.
-                                <i>Note that relevance can be tuned in the search-engine. Please contact the search
-                                    administrator
+                                <i>Note that relevance can be tuned in the search-engine. Please contact the search administrator
                                     if you have input on how items should be ordered.</i>
                             </dd>
 
                             <dt>Number-ranges:</dt>
                             <dd>
-                                IntelliSearch can also help you find specific numbers in the indexed items. If you
-                                search
-                                for i.e. <code>100-150</code> then
-                                IntelliSearch will return all items that has any number between 100 and 150
-                                (inclusive).
-                                The
-                                order of the expression can even be switched, IntelliSearch will understand that <code>150-100</code>
-                                means
-                                the same as the previous expressions. You can also search for negative ranges, although
-                                the
-                                expressions
-                                will look a bit weirder. For instance, <code>-100--200</code> will return all items
-                                with
-                                the
-                                numbers -200 to -100 in them.
+                                IntelliSearch can also help you find specific numbers in the indexed items. If you search for i.e. <code>100-150</code>                                then
+                                IntelliSearch will return all items that has any number between 100 and 150 (inclusive).
+                                The order of the expression can even be switched, IntelliSearch will understand that <code>150-100</code>                                means
+                                the same as the previous expressions. You can also search for negative ranges, although the
+                                expressions will look a bit weirder. For instance, <code>-100--200</code> will return all
+                                items with the numbers -200 to -100 in them.
                                 <br />
                                 <i>Requires the number-plugin to be enabled in the search-engine.</i>
                             </dd>
 
                             <dt>Advanced language features:</dt>
                             <dd>
-                                IntelliSearch will detect the language used in items and for Norwegian (bokmål as well
-                                as
-                                ny-norsk) we will amploy what is
-                                called 'lemmatization' techniques in order to help identify the items you are looking
-                                for.
-                                A
-                                fallback alternative is used for most other common languages, called 'stemming'. With
-                                lemmatization
+                                IntelliSearch will detect the language used in items and for Norwegian (bokmål as well as ny-norsk) we will amploy what is
+                                called 'lemmatization' techniques in order to help identify the items you are looking for.
+                                A fallback alternative is used for most other common languages, called 'stemming'. With lemmatization
                                 enabled, searching for the word
                                 <code>trær</code> for instance, will automatically also return items where the words
-                                <code>tre</code>, <code>trær</code>, <code>trærne</code>, <code>treet</code> (etc.) are
-                                used.
+                                <code>tre</code>, <code>trær</code>, <code>trærne</code>, <code>treet</code> (etc.) are used.
                                 <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
                             </dd>
                         </dl>

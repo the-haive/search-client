@@ -154,7 +154,7 @@ button:hover {
     grid-gap: 15px;
     grid-template-columns: repeat(
         auto-fill,
-        minmax(200px, 1fr) minmax(200px, 1fr)
+        minmax(200px, 1fr) minmax(200px, 2fr)
     );
     padding: 0.5em;
 }

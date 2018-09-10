@@ -1,8 +1,9 @@
 {
     "baseUrl": "http://searchmanager.demo.intellisearch.no",
     "authentication": {
-        "baseUrl": "http://auth-server",
-        "enabled": false
+        "baseUrl": "http://demo-esp.global.ints:85",
+        "basePath": "",
+        "enabled": true
     },
     "autocomplete": {
         "enabled": true
