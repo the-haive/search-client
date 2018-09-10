@@ -363,19 +363,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-            let mod = "";
-            if (event.shiftKey) {
-                mod = "Shift-";
-                queryTextElm.value = queryTextElm.value.replace(
-                    /\:intellidebug/gi,
-                    ""
-                );
-            }
-            if (event.ctrlKey) {
-                queryTextElm.value += " :intellidebug";
-                mod = "Ctrl-";
-            }
-            console.log(`queryText ${mod}Enter detected`, queryTextElm.value);
+            let mod = checkIntellidebugMod(event, queryTextElm);
+            console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
             client.deferUpdates(true);
             client.queryText = queryTextElm.value;
             client.deferUpdates(false, true);
@@ -398,19 +387,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // We also want the search button to force a
     let searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", event => {
-        let mod = "";
-        if (event.shiftKey) {
-            mod = "Shift-";
-            queryTextElm.value = queryTextElm.value.replace(
-                /\:intellidebug/gi,
-                ""
-            );
-        }
-        if (event.ctrlKey) {
-            queryTextElm.value += " :intellidebug";
-            mod = "Ctrl-";
-        }
-        console.log(`Search-button ${mod}clicked`, queryTextElm.value);
+        let mod = checkIntellidebugMod(event, queryTextElm);
+        console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
         client.deferUpdates(true);
         client.queryText = queryTextElm.value;
         client.deferUpdates(false, true);
@@ -1025,6 +1003,24 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         // }
         // debugger;
     }
+}
+
+function checkIntellidebugMod(event, queryTextElm) {
+    let mod = "";
+    if (event.shiftKey) {
+        mod = "Shift-";
+        queryTextElm.value = queryTextElm.value.replace(
+            /\s?:intellidebug/gi,
+            ""
+        );
+    }
+    if (event.ctrlKey) {
+        if (!queryTextElm.value.match(/:intellidebug/)) {
+            queryTextElm.value += " :intellidebug";
+            mod = "Ctrl-";
+        }
+    }
+    return mod;
 }
 
 function setupTabs() {
