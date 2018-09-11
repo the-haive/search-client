@@ -58,7 +58,7 @@ export class Authentication extends BaseCall<any> {
         query: Query = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<string> {
-        const reqInit = this.requestObject();
+        const reqInit = this.requestObject(false);
         if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {
             return this.fetchMethod(this.settings.url, reqInit)
                 .then((response: Response) => {
