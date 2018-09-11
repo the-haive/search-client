@@ -155,12 +155,20 @@ export class Authentication extends BaseCall<any> {
                         0
                     );
 
-                    //console.log(`Setting up auth-refresh in ${remainingSeconds} seconds, at ${expiration}.`, token);
+                    console.log(
+                        `Setting up JWT-token to refresh in ${remainingSeconds} seconds, at ${expiration}.`,
+                        "Token:",
+                        token
+                    );
                     setTimeout(() => {
                         this.update(null);
-                    }, remainingSeconds);
+                    }, remainingSeconds * 1000);
                 } else {
-                    //console.log("The received auth JWT token does not expire.", token);
+                    console.log(
+                        "The received JWT token does not expire.",
+                        "Token:",
+                        token
+                    );
                 }
             }
         } catch (e) {

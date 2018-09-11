@@ -3,7 +3,7 @@
  */
 export class AuthenticationTriggers {
     /**
-     * Defines how long in seconds before expiry we should request a new auth token.
+     * Defines how long in seconds before expiry we should request a new auth token. Defaults to 60 seconds.
      */
     public expiryOverlap?: number;
 

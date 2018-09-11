@@ -45,6 +45,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //    Note: Should only add the callback methods.
     //////////////////////////////////////////////////////////////////////////////////////////
     let searchOverrideSettings = {
+        authentication: {
+            cbRequest: handleAuthenticationRequest,
+            cbSuccess: handleAuthenticationSuccess,
+            cbError: handleAuthenticationError
+        },
         autocomplete: {
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
@@ -535,6 +540,22 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //////////////////////////////////////////////////////////////////////////////////////////
     // 8. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
+
+    /*** Authentication callbacks *************************************************************/
+
+    function handleAuthenticationRequest(url, reqInit) {
+        console.log("handleAuthenticationRequest", url, reqInit);
+    }
+
+    function handleAuthenticationSuccess(result) {
+        console.log("handleAuthenticationSuccess", "Result:", result);
+    }
+
+    function handleAuthenticationError(error) {
+        stacktrace(stack => {
+            console.error("handleAuthenticationError", error.message, stack);
+        });
+    }
 
     /*** Autocomplete callbacks *************************************************************/
 
