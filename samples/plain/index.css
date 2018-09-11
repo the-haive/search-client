@@ -44,7 +44,7 @@ body {
 #container.welcome {
     grid-template-areas:
         "header header header"
-        ". welcome ."
+        "welcome welcome welcome"
         "footer footer footer";
 }
 
@@ -269,6 +269,12 @@ button:hover {
     grid-area: welcome;
     padding: 0 2em;
     font-size: smaller;
+    overflow-y: auto;
+}
+
+#welcome .wrapper {
+    width: 50%;
+    margin: 0 auto;
 }
 
 #welcome dt {
@@ -283,6 +289,7 @@ button:hover {
 #error {
     grid-area: error;
     padding: 0 2em;
+    overflow-y: auto;
 }
 
 #container.welcome #welcome,
