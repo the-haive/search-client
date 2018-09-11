@@ -371,7 +371,7 @@ button#reset.hidden {
     background-color: #f9f9f9;
     border-bottom: 1px solid#DEDEDE;
     text-align: left;
-    height: 120px;
+    /*height: 120px;*/
     display: flex;
     justify-content: start;
     flex-direction: column;
@@ -466,6 +466,7 @@ button#reset.hidden {
 
 #header #top .query {
     margin-top: 0;
+    margin-bottom: 3px;
 }
 
 #header #top .search-type {
@@ -526,7 +527,7 @@ button#reset.hidden {
 }
 
 #tabs div {
-    padding-top: 28px;
+    padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 12px;
