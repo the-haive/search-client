@@ -432,12 +432,15 @@ export class SearchClient implements AuthToken {
      *
      * Will run trigger-checks and potentially update services.
      */
-    public filterAdd(filter: string[] | Category | Filter): boolean {
+    public filterAdd(
+        filter: string[] | Category | Filter,
+        hidden: boolean = false
+    ): boolean {
         const item = this.filterId(filter);
         const foundIndex = this.filterIndex(item);
 
         if (foundIndex === -1) {
-            this.doFilterAdd(item);
+            this.doFilterAdd(item, hidden);
             return true;
         }
         // Filter already set
@@ -469,7 +472,10 @@ export class SearchClient implements AuthToken {
      * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
      * @return true if the filter was added, false if it was removed.
      */
-    public filterToggle(filter: string[] | Category | Filter): boolean {
+    public filterToggle(
+        filter: string[] | Category | Filter,
+        hidden: boolean = false
+    ): boolean {
         const item = this.filterId(filter);
         const foundIndex = this.filterIndex(item);
 
@@ -477,7 +483,7 @@ export class SearchClient implements AuthToken {
             this.doFilterRemove(foundIndex);
             return false;
         } else {
-            this.doFilterAdd(item);
+            this.doFilterAdd(item, hidden);
             return true;
         }
     }
@@ -863,9 +869,12 @@ export class SearchClient implements AuthToken {
         return this.categorize.findCategory(categoryName);
     }
 
-    private doFilterAdd(filter: string[]) {
+    private doFilterAdd(filter: string[], hidden: boolean = false) {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
         const newFilter = this.categorize.createCategoryFilter(filter);
+        if (!newFilter) {
+            return;
+        }
         const oldValue = this._query.filters.slice(0);
 
         let toRemove: Filter[] = [];
