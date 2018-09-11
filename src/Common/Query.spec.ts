@@ -79,4 +79,49 @@ describe("Query basics", () => {
         expect(query.searchType).toBe(SearchType.Relevance);
         expect(query.uiLanguageCode).toBe("no");
     });
+
+    it("Should be able to create a query with enum overrides using strings (like from a plain json object)", () => {
+        let jsonQuery = {
+            categorizationType: "DocumentHitsOnly",
+            matchOrderBy: "Date",
+            searchType: "Relevance"
+        };
+
+        let query = new Query(jsonQuery as any);
+
+        expect(query).toBeDefined();
+        expect(query.categorizationType).toBe(
+            CategorizationType.DocumentHitsOnly
+        );
+        expect(query.matchOrderBy).toBe(OrderBy.Date);
+        expect(query.searchType).toBe(SearchType.Relevance);
+    });
+
+    it("Should not be able to create a query with illegal CategorizationType enum string value", () => {
+        let jsonQuery = {
+            categorizationType: "XXX"
+        };
+
+        expect(() => {
+            let query = new Query(jsonQuery as any);
+        }).toThrow();
+    });
+    it("Should not be able to create a query with illegal OrderType enum string value", () => {
+        let jsonQuery = {
+            matchOrderBy: "XXX"
+        };
+
+        expect(() => {
+            let query = new Query(jsonQuery as any);
+        }).toThrow();
+    });
+    it("Should not be able to create a query with illegal SearchType enum string value", () => {
+        let jsonQuery = {
+            searchType: "XXX"
+        };
+
+        expect(() => {
+            let query = new Query(jsonQuery as any);
+        }).toThrow();
+    });
 });

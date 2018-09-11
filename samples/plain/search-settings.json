@@ -1,0 +1,20 @@
+{
+    "baseUrl": "http://searchmanager.demo.intellisearch.no",
+    "authentication": {
+        "baseUrl": "http://demo-esp.global.ints:85",
+        "basePath": "",
+        "servicePath": "auth/login",
+        "enabled": true
+    },
+    "autocomplete": {
+        "enabled": true
+    },
+    "query": {
+        "clientId": "plain-sample",
+        "matchGenerateContent": true,
+        "matchGrouping": true,
+        "matchPageSize": 10,
+        "searchType": "Relevance",
+        "categorizationType": "DocumentHitsOnly"
+    }
+}

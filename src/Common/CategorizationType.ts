@@ -6,10 +6,10 @@ export enum CategorizationType {
     /**
      * Returns categories with hits only.
      */
-    All,
+    All = "All",
 
     /**
      * Returns all categories (even for categories that has no hits).
      */
-    DocumentHitsOnly
+    DocumentHitsOnly = "DocumentHitsOnly"
 }

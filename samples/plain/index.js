@@ -1,12 +1,56 @@
-window.onload = function(e) {
+function load(file) {
+    return fetch(file, {
+        "Content-Type": "text/json",
+        credentials: "include"
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error();
+            }
+        })
+        .then(json => json)
+        .catch(err => {
+            console.warn(
+                `Failed to find/read ${file} on the server. Using empty object as input.`
+            );
+            return {};
+        });
+}
+
+window.onload = function() {
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
-    //    This test uses the publicly exposed demo SearchManager endpoint.
+    //    We first try to load a default from the settings file on the server.
     //////////////////////////////////////////////////////////////////////////////////////////
+    let searchSettings = {};
+    let uiSettings = {};
+    Promise.all([
+        load("./search-settings.json").then(ss => {
+            searchSettings = ss;
+        }),
+        load("./ui-settings.json").then(ui => {
+            uiSettings = ui;
+        })
+    ]).then(() => {
+        setupIntelliSearch(searchSettings, uiSettings);
+        setupTabs();
+    });
+};
 
-    const clientSettings = new IntelliSearch.Settings({
+function setupIntelliSearch(searchSettings, uiSettings) {
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 2. We then override this by adding any defined values here.
+    //    Note: Should only add the callback methods.
+    //////////////////////////////////////////////////////////////////////////////////////////
+    let searchOverrideSettings = {
+        authentication: {
+            cbRequest: handleAuthenticationRequest,
+            cbSuccess: handleAuthenticationSuccess,
+            cbError: handleAuthenticationError
+        },
         autocomplete: {
-            //enabled: false, //TODO: Enable when the backend has been updated.
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
             cbError: handleAutocompleteError
@@ -20,92 +64,19 @@ window.onload = function(e) {
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
             cbError: handleCategorizeError
-        },
-        query: {
-            clientId: "plain-sample",
-            matchGenerateContent: true,
-            matchGrouping: true
-            //categorizationType: IntelliSearch.CategorizationType.DocumentHitsOnly
-        }
-    });
-
-    //////////////////////////////////////////////////////////////////////////////////////////
-    // 2. Set up the ui settings.
-    //    These provide a simple means to controlling the rendering.
-    //////////////////////////////////////////////////////////////////////////////////////////
-
-    const uiSettings = {
-        match: {
-            pager: {
-                size: 10,
-                addFirst: true,
-                addPrev: true,
-                addNext: true,
-                addLast: true,
-                prevString: "《",
-                nextString: "》"
-            },
-            categories: {
-                show: true,
-                exclude: [
-                    /^System.*/,
-                    /^ModifiedDate.*/,
-                    /^Projects \(JIRA\)$/,
-                    /^Author$/,
-                    /^GDPR$/,
-                    /^Tabs/,
-                    /^Type$/,
-                    /^Filetype$/i
-                ]
-            }
-        },
-        details: {
-            content: {
-                show: clientSettings.query.matchGenerateContent
-            },
-            properties: {
-                show: true,
-                exclude: [
-                    /\$id$/,
-                    /^abstract$/,
-                    /^extracts$/,
-                    /^categories$/,
-                    /^content$/,
-                    /^metaList$/,
-                    /^title$/,
-                    /^url$/,
-                    /^$/
-                ]
-            },
-            metadata: {
-                show: true,
-                exclude: [
-                    /^_?IntelliSearch\./i,
-                    /^ItemId(Hash|Uri)$/,
-                    /^CrawlerName/,
-                    /^CrawledDate/,
-                    /^System$/,
-                    /^Exists$/ // TODO: Where does this come from?
-                ]
-            },
-            categories: {
-                show: true,
-                exclude: [
-                    /^System.*/,
-                    /^ModifiedDate.*/,
-                    /^Projects \(JIRA\)$/,
-                    /^Author$/,
-                    /^GDPR$/,
-                    /^Tabs/,
-                    /^Type$/,
-                    /^Filetype$/i
-                ]
-            }
         }
     };
 
+    let mergedSettings = mergeDeep(searchSettings, searchOverrideSettings);
+    searchSettings = new IntelliSearch.Settings(mergedSettings);
+
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 3. If needed, tune the rendering templates to adjust the output according to your wishes.
+    // 3. Set up the ui settings.
+    //    These provide a simple means to controlling the rendering.
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // 4. If needed, tune the rendering templates to adjust the output according to your wishes.
     //    These provide a simple means to controlling the rendering.
     //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -113,9 +84,38 @@ window.onload = function(e) {
     const render = {
         match: {
             // Required
-            stats: (matches) => `
-                <span>About ${matches.estimatedMatchCount} matches</span>
-            `,
+            stats: (matches) => {
+                if (matches.estimatedMatchCount > 0) {
+                    return `
+                        <span>About ${matches.estimatedMatchCount} matches</span>
+                    `;
+                } else {
+                    return "No matches";
+                }
+            },
+            pager: {
+                label : () => `
+                    <span>Goto page:</span>
+                `,
+                prev: (i, disabled) => `
+                    <span title="${disabled ? "" : "Previous page"}">《</span>
+                `,
+                first: (i) => `
+                    <span title="First page">${i}</span>
+                `,
+                page: (i, selected) => `
+                    <span title="${selected ? "" : "Goto page ${i}"}">${i}</span>
+                `,
+                last: (i) => `
+                    <span title="Last page">${i}</span>
+                `,
+                next: (i, disabled) => `
+                    <span title="${disabled ? "" : "Next page"}">》</span>
+                `,
+                ellipsis: () => `
+                    …
+                `,
+            },
             // Required
             item: (match) => `
                 <div class="item">
@@ -136,7 +136,7 @@ window.onload = function(e) {
                                 if (excluded(category, uiSettings.match.categories.exclude)) {
                                     return "";
                                 } else {
-                                    const catName = getLocalizedCategoryName(category);
+                                    const catName = getLocalizedCategoryName(client, category);
                                     const shortCatName = truncateMiddleEllipsis(catName, 20);
                                     return `<span class="category" title="${catName}">${shortCatName}</span>`;
                                 }
@@ -185,7 +185,7 @@ window.onload = function(e) {
             itemProperties: (match) => {
                 if (!uiSettings.details.properties.show) return "";
                 let items = [];
-                for (var property in match) {
+                for (let property in match) {
                     if (match.hasOwnProperty(property)) {
                         if (!excluded(property, uiSettings.details.properties.exclude)) {
                             items.push(property);
@@ -205,7 +205,7 @@ window.onload = function(e) {
             itemMetadata: (metadata) => {
                 if (!uiSettings.details.metadata.show) return "";
                 let items = [];
-                for (var meta of metadata) {
+                for (let meta of metadata) {
                     if (!excluded(meta.key, uiSettings.details.metadata.exclude)) {
                         items.push(meta);
                     }
@@ -223,7 +223,7 @@ window.onload = function(e) {
             itemCategories: (categories) => {
                 if (!uiSettings.details.categories.show) return "";
                 let items = [];
-                for (var category of categories) {
+                for (let category of categories) {
                     if (!excluded(category, uiSettings.details.categories.exclude)) {
                             items.push(category);
                     }
@@ -232,7 +232,7 @@ window.onload = function(e) {
                     <h2>Categories</h2>
                     <ul class="categories">
                         ${collect(items, (cat) => {
-                            const catName = getLocalizedCategoryName(cat);
+                            const catName = getLocalizedCategoryName(client, cat);
                             return `
                                 <li title="${catName}">${catName}</li>
                             `;
@@ -296,12 +296,12 @@ window.onload = function(e) {
         },
     };
 
-    var genericErrorElm = document.getElementById("generic-error");
+    let genericErrorElm = document.getElementById("generic-error");
     window.onError = function(message, source, lineno, colno, error) {
         containerElm.classList.remove(
             "matches-loading",
             "categories-loading",
-            "introduction"
+            "welcome"
         );
         containerElm.classList.add("error");
 
@@ -311,30 +311,30 @@ window.onload = function(e) {
         });
     };
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 4. Initialize the client engine
+    // 5. Initialize the client engine
     //    Wrapping the creation as it is used also when the reset-button is clicked.
     //////////////////////////////////////////////////////////////////////////////////////////
 
     // For debugging
-    console.log("Client settings", clientSettings);
+    console.log("Client settings", searchSettings);
     console.log("User interface settings", uiSettings);
     console.log("Render templates", render);
 
     // prettier-ignore
     function setupClient() {
         // Sets up the client that connects to the intellisearch backend using the aforementioned settings
-        return new IntelliSearch.SearchClient("http://searchmanager.demo.intellisearch.no",clientSettings);
+        return new IntelliSearch.SearchClient(searchSettings);
     }
 
     let client = setupClient();
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 5. Wire up the queryText field, reset and search-button.
+    // 6. Wire up the queryText field, reset and search-button.
     //    Using input type="input", with separate reset and search button.
     //    Detecting changes, enter, reset-click and search-click.
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    var queryTextElm = document.getElementById("query-text");
+    let queryTextElm = document.getElementById("query-text");
 
     // This reports changes in the query, but does not detect enter
     queryTextElm.addEventListener("input", function() {
@@ -349,19 +349,18 @@ window.onload = function(e) {
         adjustQueryTextFontSize();
     });
 
-    var styleFontSize = window
+    let styleFontSize = window
         .getComputedStyle(queryTextElm, null)
         .getPropertyValue("font-size");
-    var maxFontSize = parseFloat(styleFontSize);
-    console.log(maxFontSize);
+    let maxFontSize = parseFloat(styleFontSize);
 
     function adjustQueryTextFontSize() {
-        var maxLength = 200; // When inpt is this long...
-        var minFontSize = 8; // ...we use this percentage as the smallest font.
+        let maxLength = 500; // When inpt is this long...
+        let minFontSize = 8; // ...we use this percentage as the smallest font.
 
-        var increments = (maxFontSize - minFontSize) / maxLength;
+        let increments = (maxFontSize - minFontSize) / maxLength;
 
-        var reduction =
+        let reduction =
             Math.min(queryTextElm.value.length, maxLength) * increments;
         queryTextElm.style.fontSize = maxFontSize - reduction + "px";
     }
@@ -369,7 +368,11 @@ window.onload = function(e) {
     // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-            console.log("queryText Enter detected", queryTextElm.value);
+            let mod = checkIntellidebugMod(event, queryTextElm);
+            console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
+            client.deferUpdates(true);
+            client.queryText = queryTextElm.value;
+            client.deferUpdates(false, true);
             client.update();
             event.preventDefault();
         }
@@ -377,86 +380,182 @@ window.onload = function(e) {
 
     // We use input type="input", instead of type="search". This is because the reset X that appears on the latter field
     // for type="search" is not reliably firing events across browsers. With type="input" we make our own reset button.
-    var resetBtn = document.getElementById("reset");
-    var containerElm = document.getElementById("container");
+    let resetBtn = document.getElementById("reset");
+    let containerElm = document.getElementById("container");
     resetBtn.addEventListener("click", () => {
         console.log("UI reset");
         client = setupClient();
-        containerElm.className = "introduction";
+        containerElm.className = "welcome";
         queryTextElm.value = "";
     });
 
     // We also want the search button to force a
-    var searchButtonElm = document.getElementById("go");
-    searchButtonElm.addEventListener("click", () => {
-        console.log("Search-button clicked", queryTextElm.value);
+    let searchButtonElm = document.getElementById("go");
+    searchButtonElm.addEventListener("click", event => {
+        let mod = checkIntellidebugMod(event, queryTextElm);
+        console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
+        client.deferUpdates(true);
+        client.queryText = queryTextElm.value;
+        client.deferUpdates(false, true);
         client.update();
     });
 
     // Set up the autocomplete library
-    var awesomplete = new Awesomplete(queryTextElm);
+    let awesomplete = new Awesomplete(queryTextElm);
 
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 6. Wire up other buttons, options and areas on the page:
+    // 7. Wire up other buttons, options and areas on the page:
     //    - Search-type
     //    - Date-range
     //    - Pager
     //    - Match ordering
     //    - ...
     //////////////////////////////////////////////////////////////////////////////////////////
-    var matchesHeader = document.getElementById("matches-header");
+    let matchesHeader = document.getElementById("matches-header");
 
-    var orderByRelevance = document.getElementById("option-relevance");
+    let orderByRelevance = document.getElementById("option-relevance");
     orderByRelevance.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
     });
 
-    var orderByDate = document.getElementById("option-date");
+    let orderByDate = document.getElementById("option-date");
     orderByDate.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
     });
 
-    var didYouMeanContainerElm = document.getElementById(
+    let didYouMeanContainerElm = document.getElementById(
         "did-you-mean-container"
     );
-    var didYouMeanOptionsElm = document.getElementById("did-you-mean");
+    let didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
-    var categoriesTreeElm = document.getElementById("categories-tree");
+    let categoriesTreeElm = document.getElementById("categories-tree");
 
-    var matchesListElm = document.getElementById("matches-list");
-    var matchesStatsElm = document.getElementById("matches-stats");
-    var matchesPagerItemsElm = document.getElementById("matches-pager-items");
+    let matchesListElm = document.getElementById("matches-list");
+    let matchesStatsElm = document.getElementById("matches-stats");
+    let matchesOrderElm = document.getElementById("matches-order");
+    let matchesPagerElm = document.getElementById("matches-pager");
+    let matchesPagerItemsLabelElm = document.getElementById(
+        "matches-pager-label"
+    );
+    let matchesPagerItemsElm = document.getElementById("matches-pager-items");
 
     // Details
-    var detailsElm = document.getElementById("details");
-    var detailsHeaderElm = document.getElementById("details-header");
-    var detailsTitleElm = document.getElementById("details-title");
-    var detailsContentElm = document.getElementById("details-content");
-    var detailsPropertiesElm = document.getElementById("details-properties");
-
-    var detailsOptionContent = document.getElementById(
+    let detailsElm = document.getElementById("details");
+    let detailsHeaderElm = document.getElementById("details-header");
+    let detailsTitleElm = document.getElementById("details-title");
+    let detailsContentElm = document.getElementById("details-content");
+    let detailsPropertiesElm = document.getElementById("details-properties");
+    let detailsOptionContent = document.getElementById(
         "details-option-content"
     );
-    detailsOptionContent.addEventListener("click", function() {
-        detailsElm.classList.add("content");
-        detailsElm.classList.remove("properties");
-    });
-    var detailsOptionProperties = document.getElementById(
+    let detailsOptionProperties = document.getElementById(
         "details-option-properties"
     );
 
-    detailsOptionProperties.addEventListener("click", function() {
+    if (searchSettings.query.matchGenerateContent) {
+        detailsOptionContent.addEventListener("click", function() {
+            detailsElm.classList.add("content");
+            detailsElm.classList.remove("properties");
+        });
+        detailsOptionProperties.addEventListener("click", function() {
+            detailsElm.classList.add("properties");
+            detailsElm.classList.remove("content");
+        });
+    } else {
+        detailsOptionContent.checked = false;
+        detailsOptionProperties.checked = true;
         detailsElm.classList.add("properties");
         detailsElm.classList.remove("content");
+        document.getElementById("details-types").style.display = "none";
+    }
+    if (!uiSettings.details.show) {
+        containerElm.classList.add("no-details");
+    }
+
+    let matchesErrorElm = document.getElementById("matches-error");
+    let categoriesErrorElm = document.getElementById("categories-error");
+
+    let loadingSuggestions = document.getElementById("spinner");
+
+    let aboutElm = document.getElementById("about");
+    let helpElm = document.getElementById("help");
+    let settingsElm = document.getElementById("settings");
+
+    let menu = document.getElementById("menu");
+    let menuBtn = document.getElementById("menu-button");
+    menuBtn.addEventListener("click", () => {
+        menu.classList.toggle("show");
     });
 
-    var matchesErrorElm = document.getElementById("matches-error");
-    var categoriesErrorElm = document.getElementById("categories-error");
+    window.INTS_ShowHelp = function() {
+        helpElm.classList.add("show");
+    };
 
-    var loadingSuggestions = document.getElementById("spinner");
+    let menuOptionHelp = document.getElementById("menu-option-help");
+    menuOptionHelp.addEventListener("click", window.INTS_ShowHelp);
+
+    let helpCloseElm = document.getElementById("help-close-button");
+    helpCloseElm.addEventListener("click", () => {
+        helpElm.classList.remove("show");
+    });
+
+    let menuOptionToggleDetails = document.getElementById(
+        "menu-option-toggle-details"
+    );
+    menuOptionToggleDetails.addEventListener("click", () => {
+        containerElm.classList.toggle("no-details");
+    });
+
+    let menuOptionSettings = document.getElementById("menu-option-settings");
+    menuOptionSettings.addEventListener("click", () => {
+        if (containerElm.classList.toggle("settings")) {
+            renderSettings();
+        }
+    });
+
+    let settingsCloseElm = document.getElementById("settings-close-button");
+    settingsCloseElm.addEventListener("click", () => {
+        containerElm.classList.remove("settings");
+    });
+
+    window.INTS_ShowAbout = function() {
+        aboutElm.classList.add("show");
+    };
+
+    let menuOptionAbout = document.getElementById("menu-option-about");
+    menuOptionAbout.addEventListener("click", window.INTS_ShowAbout);
+
+    let aboutCloseElm = document.getElementById("about-close-button");
+    aboutCloseElm.addEventListener("click", () => {
+        aboutElm.classList.remove("show");
+    });
+
+    // Close the drop-down menu if the user clicks outside of it
+    window.addEventListener("click", event => {
+        if (!event.target.matches("#menu-button")) {
+            menu.classList.remove("show");
+        }
+    });
+
     //////////////////////////////////////////////////////////////////////////////////////////
-    // 7. Implement callbacks, that in turn render the ui
+    // 8. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
+
+    /*** Authentication callbacks *************************************************************/
+
+    function handleAuthenticationRequest(url, reqInit) {
+        console.log("handleAuthenticationRequest", url, reqInit);
+    }
+
+    function handleAuthenticationSuccess(result) {
+        console.log("handleAuthenticationSuccess", "Result:", result);
+    }
+
+    function handleAuthenticationError(error) {
+        stacktrace(stack => {
+            console.error("handleAuthenticationError", error.message, stack);
+        });
+    }
 
     /*** Autocomplete callbacks *************************************************************/
 
@@ -505,11 +604,7 @@ window.onload = function(e) {
      */
     function handleFindSuccess(matches) {
         console.log("handleFindSuccess", "Matches:", matches);
-        containerElm.classList.remove(
-            "introduction",
-            "matches-loading",
-            "error"
-        );
+        containerElm.classList.remove("welcome", "matches-loading", "error");
 
         detailsHeaderElm.style.visibility = "hidden";
         detailsTitleElm.innerHTML = "";
@@ -524,7 +619,7 @@ window.onload = function(e) {
 
         if (matches.didYouMeanList.length > 0) {
             matches.didYouMeanList.forEach((didYouMean, i, a) => {
-                var li = document.createElement("li");
+                let li = document.createElement("li");
                 li.innerHTML = didYouMean;
                 li.addEventListener("click", function() {
                     queryTextElm.value = didYouMean; // Update the user interface
@@ -540,11 +635,15 @@ window.onload = function(e) {
         matchesListElm.innerHTML = "";
 
         function createMatch(match, index, arr) {
-            var li = document.createElement("li");
+            let li = document.createElement("li");
             li.innerHTML = render.match.item(match);
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseover", function() {
+                li.parentNode.childNodes.forEach(sli => {
+                    sli.classList.remove("current");
+                });
+                li.classList.add("current");
                 detailsElm.classList.remove("showhelp");
                 detailsTitleElm.innerHTML = render.details.title(match);
                 detailsContentElm.innerHTML = render.details.content(
@@ -559,13 +658,19 @@ window.onload = function(e) {
         }
 
         if (matches.searchMatches.length > 0) {
-            containerElm.classList.remove("introduction");
+            if (matches.searchMatches.length > 1) {
+                matchesOrderElm.classList.add("show");
+            } else {
+                matchesOrderElm.classList.remove("show");
+            }
+            containerElm.classList.remove("welcome");
             matchesHeader.classList.add("has-data");
-            var ul = document.createElement("ul");
+            containerElm.classList.remove("no-matches");
+            let ul = document.createElement("ul");
             matchesListElm.appendChild(ul);
 
             matches.searchMatches.forEach(function(match, index, arr) {
-                var li = createMatch(match, index, arr);
+                let li = createMatch(match, index, arr);
                 ul.appendChild(li);
             });
 
@@ -573,16 +678,16 @@ window.onload = function(e) {
 
             let pagerSize = uiSettings.match.pager.size;
             currentPage = client.matchPage;
-            var pageMin = 1;
-            var pageMax = Math.ceil(
+            let pageMin = 1;
+            let pageMax = Math.ceil(
                 matches.estimatedMatchCount / client.matchPageSize
             );
-            var pages = [];
+            let pages = [];
             pages.push(currentPage);
-            var offset = 1;
+            let offset = 1;
             while (pages.length < pagerSize) {
-                var pageRight = currentPage + offset;
-                var pageLeft = currentPage - offset;
+                let pageRight = currentPage + offset;
+                let pageLeft = currentPage - offset;
                 if (pageRight > pageMax && pageLeft < pageMin) break;
                 if (pages.length < pagerSize && pageRight <= pageMax)
                     pages.push(pageRight);
@@ -592,13 +697,28 @@ window.onload = function(e) {
             }
             pages.sort((a, b) => a - b);
 
+            if (pageMax > 1) {
+                matchesPagerElm.classList.add("show");
+            } else {
+                matchesPagerElm.classList.remove("show");
+            }
+
+            matchesPagerItemsLabelElm.innerHTML = render.match.pager.label(
+                matches
+            );
+
             if (uiSettings.match.pager.addPrev) {
                 // Add a prev-page link
-                var li = document.createElement("li");
-                li.appendChild(
-                    document.createTextNode(uiSettings.match.pager.prevString)
+                let li = document.createElement("li");
+                li.classList.add("prev");
+                let disabled = currentPage <= pageMin;
+                li.innerHTML = render.match.pager.prev(
+                    Math.max(pageMin, currentPage - 1),
+                    disabled
                 );
-                if (currentPage > pageMin) {
+                if (disabled) {
+                    li.classList.add("disabled");
+                } else {
                     li.addEventListener(
                         "click",
                         () => {
@@ -606,17 +726,15 @@ window.onload = function(e) {
                         },
                         false
                     );
-                } else {
-                    li.classList.add("disabled");
                 }
                 matchesPagerItemsElm.appendChild(li);
             }
 
-            if (!pages.includes(pageMin) && uiSettings.match.pager.addFirst) {
+            if (uiSettings.match.pager.addFirst && !pages.includes(pageMin)) {
                 // Add a first-page link
-
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageMin));
+                let li = document.createElement("li");
+                li.innerHTML = render.match.pager.first(pageMin);
+                li.classList.add("first");
                 li.addEventListener(
                     "click",
                     () => {
@@ -626,16 +744,18 @@ window.onload = function(e) {
                 );
                 matchesPagerItemsElm.appendChild(li);
 
-                var ellipsis = document.createElement("li");
+                let ellipsis = document.createElement("li");
                 ellipsis.classList.add("ellipsis");
                 ellipsis.appendChild(document.createTextNode("…"));
                 matchesPagerItemsElm.appendChild(ellipsis);
             }
 
             pages.forEach(pageNum => {
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageNum));
-                if (pageNum === currentPage) {
+                let li = document.createElement("li");
+                let selected = pageNum === currentPage;
+                li.innerHTML = render.match.pager.page(pageNum, selected);
+                li.classList.add("page");
+                if (selected) {
                     li.classList.add("selected");
                 } else {
                     li.addEventListener(
@@ -648,16 +768,21 @@ window.onload = function(e) {
                 }
                 matchesPagerItemsElm.appendChild(li);
             });
-            if (!pages.includes(pageMax) && uiSettings.match.pager.addLast) {
-                // Add a last-page link
 
-                var ellipsis = document.createElement("li");
+            if (
+                uiSettings.match.pager.addLast &&
+                !pages.includes(pageMax) &&
+                pageMax > 0
+            ) {
+                // Add a last-page link
+                let ellipsis = document.createElement("li");
                 ellipsis.classList.add("ellipsis");
-                ellipsis.appendChild(document.createTextNode("…"));
+                ellipsis.innerHTML = render.match.pager.ellipsis();
                 matchesPagerItemsElm.appendChild(ellipsis);
 
-                var li = document.createElement("li");
-                li.appendChild(document.createTextNode(pageMax));
+                let li = document.createElement("li");
+                li.innerHTML = render.match.pager.last(pageMax);
+                li.classList.add("last");
                 li.addEventListener(
                     "click",
                     () => {
@@ -667,13 +792,19 @@ window.onload = function(e) {
                 );
                 matchesPagerItemsElm.appendChild(li);
             }
+
             if (uiSettings.match.pager.addNext) {
                 // Add a prev-page link
-                var li = document.createElement("li");
-                li.appendChild(
-                    document.createTextNode(uiSettings.match.pager.nextString)
+                let li = document.createElement("li");
+                li.classList.add("next");
+                let disabled = currentPage >= pageMax;
+                li.innerHTML = render.match.pager.next(
+                    Math.min(pageMax, currentPage + 1),
+                    disabled
                 );
-                if (currentPage < pageMax) {
+                if (disabled) {
+                    li.classList.add("disabled");
+                } else {
                     li.addEventListener(
                         "click",
                         () => {
@@ -681,13 +812,14 @@ window.onload = function(e) {
                         },
                         false
                     );
-                } else {
-                    li.classList.add("disabled");
                 }
                 matchesPagerItemsElm.appendChild(li);
             }
         } else {
+            matchesOrderElm.classList.remove("show");
+            matchesPagerElm.classList.remove("show");
             matchesStatsElm.innerHTML = "";
+            containerElm.classList.add("no-matches");
             matchesListElm.innerHTML = "No matches.";
         }
     }
@@ -739,7 +871,7 @@ window.onload = function(e) {
         categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
-            var categoryLiElm = document.createElement("li");
+            let categoryLiElm = document.createElement("li");
             if (client.isFilter(category)) {
                 categoryLiElm.classList.add("is-filter");
             } else if (client.hasChildFilter(category)) {
@@ -755,17 +887,17 @@ window.onload = function(e) {
                 category.children.length > 0 ? "has-children" : "is-leaf"
             );
 
-            var toggle = `<span class="toggle"></span>`;
-            var title = `<span class="title">${category.displayName}</span>`;
-            var count =
+            let toggle = `<span class="toggle"></span>`;
+            let title = `<span class="title">${category.displayName}</span>`;
+            let count =
                 category.count > 0
                     ? `<span class="count">${category.count}</span>`
                     : "";
             categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
-            var toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
+            let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
-                var result = client.toggleCategoryExpansion(category);
+                let result = client.toggleCategoryExpansion(category);
                 console.log(
                     `Toggled expansion for category '${
                         category.displayName
@@ -774,11 +906,11 @@ window.onload = function(e) {
                 );
             });
 
-            var linkElm = categoryLiElm.getElementsByClassName("link")[0];
+            let linkElm = categoryLiElm.getElementsByClassName("link")[0];
             linkElm.addEventListener("click", function(e) {
-                var closestLi = e.target.closest("li");
+                let closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
-                    var added = client.filterToggle(category);
+                    let added = client.filterToggle(category);
                     closestLi.classList.toggle("is-filter");
                     console.log(
                         `Filter ${category.displayName} was ${
@@ -789,10 +921,10 @@ window.onload = function(e) {
                 }
             });
             if (category.children.length > 0) {
-                var catUlElm = document.createElement("ul");
+                let catUlElm = document.createElement("ul");
                 categoryLiElm.appendChild(catUlElm);
                 category.children.forEach(function(childCat, cIndex, cArr) {
-                    var li = createCategoryNode(childCat, cIndex, cArr);
+                    let li = createCategoryNode(childCat, cIndex, cArr);
                     catUlElm.appendChild(li);
                 });
             }
@@ -800,14 +932,14 @@ window.onload = function(e) {
         }
 
         if (categories.groups.length > 0) {
-            var ul = document.createElement("ul");
+            let ul = document.createElement("ul");
             categoriesTreeElm.appendChild(ul);
 
             categories.groups.forEach(function(group, index, arr) {
                 // Create the group-node
-                var groupLiElm = document.createElement("li");
-                var title = `<span class="title">${group.displayName}</span>`;
-                var toggle = `<span class="toggle"></span>`;
+                let groupLiElm = document.createElement("li");
+                let title = `<span class="title">${group.displayName}</span>`;
+                let toggle = `<span class="toggle"></span>`;
                 groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
                 groupLiElm.classList.add(
                     group.expanded ? "expanded" : "collapsed"
@@ -816,9 +948,9 @@ window.onload = function(e) {
                     group.categories.length > 0 ? "has-children" : "is-leaf"
                 );
 
-                var toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
+                let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
-                    var result = client.toggleCategoryExpansion(group);
+                    let result = client.toggleCategoryExpansion(group);
                     console.log(
                         `Toggled expansion for group '${
                             group.displayName
@@ -827,10 +959,10 @@ window.onload = function(e) {
                     );
                 });
                 if (group.categories.length > 0) {
-                    var catUlElm = document.createElement("ul");
+                    let catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);
                     group.categories.forEach(function(category, cIndex, cArr) {
-                        var li = createCategoryNode(category, cIndex, cArr);
+                        let li = createCategoryNode(category, cIndex, cArr);
                         catUlElm.appendChild(li);
                     });
                 }
@@ -859,61 +991,185 @@ window.onload = function(e) {
         categoriesTreeElm.innerHTML = "";
     }
 
-    // Utility template-helper to collect output from a map iterator.
-    function collect(collection, action) {
-        return collection.map(action).join("");
+    // Render settings dialog.
+    function renderSettings() {
+        return;
+        // settingsMainElm = document.getElementById("settings-main");
+        // settingsMainElm.innerHTML = `
+        //     <fieldset>
+        //         <legend>Common</legend>
+        //         <section>
+        //             <input id="settings-base-url"></input>
+        //             <label for="settings-base-url">Base-url</label>
+        //             <input id="settings-path"></input>
+        //             <label for="settings-path">Path</label>
+        //         </section>
+        //     </fieldset>
+        // `;
+        // for (let o of [
+        //     "autocomplete",
+        //     "find",
+        //     "categorize",
+        //     "authentication"
+        // ]) {
+        //     console.log(o);
+        //     for (let p in client.settings[o]) {
+        //         console.log(o, p, typeof client.settings[o][p]);
+        //         if (p === "triggers") {
+        //             for (let t in client.settings[o][p]) {
+        //                 console.log(o, p, t, typeof client.settings[o][p][t]);
+        //             }
+        //         }
+        //     }
+        // }
+        // debugger;
     }
+}
 
-    // Utility helper to exclude items
-    function excluded(item, regexExclusionPatterns) {
-        for (const exclude of regexExclusionPatterns) {
-            const regex = new RegExp(exclude);
-            const match = regex.test(item);
-            if (match) return true;
-        }
-        return false;
-    }
-
-    // Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.
-    function getLocalizedCategoryName(category) {
-        // TODO: Add a SearchClient method to show the full path DisplayName for a category.
-        const catId = category.split("|");
-        const cat = client.findCategory(catId);
-        let name = cat ? cat.displayName : category;
-        return name.split("|").join("/");
-    }
-
-    // Truncate the rendering of category-titles in the matches.
-    // TODO: Render first and last part in full, then just split the middle part, if longer than i.e. 5 chars.
-    function truncateMiddleEllipsis(fullStr, strLen, separator) {
-        if (fullStr.length <= strLen) return fullStr;
-
-        separator = separator || "...";
-
-        var sepLen = separator.length,
-            charsToShow = strLen - sepLen,
-            frontChars = Math.ceil(charsToShow / 2),
-            backChars = Math.floor(charsToShow / 2);
-
-        return (
-            fullStr.substr(0, frontChars) +
-            separator +
-            fullStr.substr(fullStr.length - backChars)
+function checkIntellidebugMod(event, queryTextElm) {
+    let mod = "";
+    if (event.shiftKey) {
+        mod = "Shift-";
+        queryTextElm.value = queryTextElm.value.replace(
+            /\s?:intellidebug/gi,
+            ""
         );
     }
-
-    function stacktrace(action) {
-        StackTrace.get(error, { offline: true })
-            .then(stackframes => {
-                // Remove the topmost three frames, as they are artificial.
-                stackframes = stackframes.slice(3);
-                return stackframes.map(function(sf) {
-                    return sf.toString();
-                });
-            })
-            .then(action)
-            .catch(err =>
-                console.error("Unable to create stacktrace", err.message)
-            );
+    if (event.ctrlKey) {
+        if (!queryTextElm.value.match(/:intellidebug/)) {
+            queryTextElm.value += " :intellidebug";
+            mod = "Ctrl-";
+        }
     }
-};
+    return mod;
+}
+
+function setupTabs() {
+    var tabContainerElms = document.getElementsByClassName("tab-container");
+    for (let tabContainerElm of tabContainerElms) {
+        for (let tabElm of tabContainerElm.children) {
+            const tabContentId = `tab-${tabElm.id}`;
+            let tabContent = document.getElementById(tabContentId);
+            if (!tabContent) {
+                console.error(
+                    `Missing tab content id='${tabContentId}' (as referenced by <${
+                        tabElm.tagName
+                    } id="${tabElm.id}">)`
+                );
+                continue;
+            }
+            tabElm.addEventListener("click", () => {
+                // Remove sibling tabContents "current"
+                for (let t of tabElm.parentElement.children) {
+                    t.classList.remove("current");
+                }
+                // Add this' related tabContent "current"
+                tabElm.classList.add("current");
+
+                // Remove sibling tab's "current"
+                for (let c of tabContent.parentElement.children) {
+                    c.classList.remove("current");
+                }
+                // Add this tab "current"
+                tabContent.classList.add("current");
+            });
+        }
+    }
+}
+// Utility template-helper to collect output from a map iterator.
+function collect(collection, action) {
+    return collection.map(action).join("");
+}
+
+// Utility helper to exclude items
+function excluded(item, regexExclusionPatterns) {
+    for (const exclude of regexExclusionPatterns) {
+        var regParts = exclude.match(/^\/(.*?)\/([gim]*)$/);
+        let regex;
+        if (regParts) {
+            // the parsed pattern had delimiters and modifiers. handle them.
+            regex = new RegExp(regParts[1], regParts[2]);
+        } else {
+            // we got pattern string without delimiters
+            regex = new RegExp(regex);
+        }
+        const match = regex.test(item);
+        if (match) return true;
+    }
+    return false;
+}
+
+// Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.
+function getLocalizedCategoryName(client, category) {
+    // TODO: Add a SearchClient method to show the full path DisplayName for a category.
+    const catId = category.split("|");
+    const cat = client.findCategory(catId);
+    let name = cat ? cat.displayName : category;
+    return name.split("|").join("/");
+}
+
+/**
+ * Simple object check.
+ * @param item
+ * @returns {boolean}
+ */
+function isObject(item) {
+    return item && typeof item === "object" && !Array.isArray(item);
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+function mergeDeep(target, ...sources) {
+    if (!sources.length) return target;
+    const source = sources.shift();
+
+    if (isObject(target) && isObject(source)) {
+        for (const key in source) {
+            if (isObject(source[key])) {
+                if (!target[key]) Object.assign(target, { [key]: {} });
+                mergeDeep(target[key], source[key]);
+            } else {
+                Object.assign(target, { [key]: source[key] });
+            }
+        }
+    }
+
+    return mergeDeep(target, ...sources);
+}
+
+// Truncate the rendering of category-titles in the matches.
+// TODO: Render first and last part in full, then just split the middle part, if longer than i.e. 5 chars.
+function truncateMiddleEllipsis(fullStr, strLen, separator) {
+    if (fullStr.length <= strLen) return fullStr;
+
+    separator = separator || "...";
+
+    let sepLen = separator.length,
+        charsToShow = strLen - sepLen,
+        frontChars = Math.ceil(charsToShow / 2),
+        backChars = Math.floor(charsToShow / 2);
+
+    return (
+        fullStr.substr(0, frontChars) +
+        separator +
+        fullStr.substr(fullStr.length - backChars)
+    );
+}
+
+function stacktrace(action) {
+    StackTrace.get(error, { offline: true })
+        .then(stackframes => {
+            // Remove the topmost three frames, as they are artificial.
+            stackframes = stackframes.slice(3);
+            return stackframes.map(function(sf) {
+                return sf.toString();
+            });
+        })
+        .then(action)
+        .catch(err =>
+            console.error("Unable to create stacktrace", err.message)
+        );
+}

@@ -6,10 +6,10 @@ export enum OrderBy {
     /**
      * Order results by Relevance, highest first.
      */
-    Relevance = 0,
+    Relevance = "Relevance",
 
     /**
      * Order results by date, newest first.
      */
-    Date
+    Date = "Date"
 }

@@ -1,6 +1,6 @@
 import fetch from "jest-fetch-mock";
 
-import { Find, FindSettings, FindTriggers } from ".";
+import { Find, FindSettings, IFindSettings, FindTriggers } from ".";
 import { Matches } from "../Data";
 
 describe("Find basics", () => {
@@ -20,59 +20,51 @@ describe("Find basics", () => {
         expect(pFind.settings.cbSuccess).toBeUndefined();
         expect(pFind.settings.triggers).toBeDefined();
         expect(pFind.settings.triggers.filterChanged).toEqual(true);
-        expect(pFind.settings.url).toEqual("search/find");
+        expect(pFind.settings.url).toEqual(
+            "http://localhost:9950/RestService/v4/search/find"
+        );
     });
 
-    it("Should throw for invalid Urls", () => {
+    it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
             let find = new Find("file://localhost:9950");
             expect(typeof find).toBe("object");
-        }).toThrow();
+        }).not.toThrow();
 
         expect(() => {
             let find = new Find("http:+//localhost:9950");
             expect(typeof find).toBe("object");
-        }).toThrow();
-    });
-
-    it("Should be able to pass a default FindSettings instance", () => {
-        let find = new Find("http://localhost:9950/", new FindSettings());
-        let pFind = find as any;
-
-        expect(typeof pFind.auth).toBe("object");
-        expect(pFind.settings.enabled).toEqual(true);
-        expect(pFind.settings.cbError).toBeUndefined();
-        expect(pFind.settings.cbRequest).toBeUndefined();
-        expect(pFind.settings.cbSuccess).toBeUndefined();
-        expect(pFind.settings.triggers).toBeDefined();
-        expect(pFind.settings.triggers.filterChanged).toEqual(true);
-        expect(pFind.settings.url).toEqual("search/find");
+        }).not.toThrow();
     });
 
     it("Should be able to pass an FindSettings instance with additional settings", () => {
-        let settings = new FindSettings();
+        let settings = {} as IFindSettings;
+        settings.baseUrl = "http://localhost:9950/";
         settings.cbError = jest.fn();
         settings.cbSuccess = jest.fn();
         settings.enabled = false;
         settings.triggers = new FindTriggers();
-        settings.url = "/test";
+        settings.basePath = "/test";
 
-        let find = new Find("http://localhost:9950/", settings);
+        let find = new Find(settings);
         let pFind = find as any;
 
         expect(typeof pFind.auth).toBe("object");
-        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v4");
+        expect(pFind.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pFind.settings.enabled).toEqual(false);
         expect(pFind.settings.cbError).toBeDefined();
         expect(pFind.settings.cbRequest).toBeUndefined();
         expect(pFind.settings.cbSuccess).toBeDefined();
         expect(pFind.settings.triggers).toBeDefined();
         expect(pFind.settings.triggers.filterChanged).toEqual(true);
-        expect(pFind.settings.url).toEqual("test");
+        expect(pFind.settings.url).toEqual(
+            "http://localhost:9950/test/search/find"
+        );
     });
 
     it("Should be able to pass a manual object settings as FindSettings", () => {
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbError: (error: any) => {
                 /* dummy */
             },
@@ -81,35 +73,42 @@ describe("Find basics", () => {
             },
             enabled: false,
             triggers: new FindTriggers(),
-            url: "/test"
-        } as FindSettings;
+            basePath: "/test"
+        } as IFindSettings;
 
-        let find = new Find("http://localhost:9950/", settings);
+        let find = new Find(settings);
         let pFind = find as any;
 
         expect(typeof pFind.auth).toBe("object");
-        expect(find.baseUrl).toEqual("http://localhost:9950/RestService/v4");
+        expect(pFind.settings.baseUrl).toEqual("http://localhost:9950");
         expect(pFind.settings.enabled).toEqual(false);
         expect(pFind.settings.cbError).toBeDefined();
         expect(pFind.settings.cbRequest).toBeUndefined();
         expect(pFind.settings.cbSuccess).toBeDefined();
         expect(pFind.settings.triggers).toBeDefined();
         expect(pFind.settings.triggers.filterChanged).toEqual(true);
-        expect(pFind.settings.url).toEqual("test");
+        expect(pFind.settings.url).toEqual(
+            "http://localhost:9950/test/search/find"
+        );
     });
 
     it("Should be able to Find some results", () => {
+        fetch.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
         fetch.mockResponse(JSON.stringify(null));
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
-                return true;
+            }),
+            cbSuccess: jest.fn((url, reqInit) => {
+                expect(typeof url).toBe("string");
+                expect(typeof reqInit).toBe("object");
             })
-        } as FindSettings;
+        } as IFindSettings;
 
-        let find = new Find("http://localhost:9950/", settings, null, fetch);
+        let find = new Find(settings, null, fetch);
         find.fetch()
             .then(response => {
                 expect(typeof response).toBe("object");
@@ -119,22 +118,26 @@ describe("Find basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).toHaveBeenCalled();
             });
     });
 
     it("Should be able to stop a Find using cbRequest", () => {
-        // Not caring about the response, just to allow the fetch to complete.
+        fetch.resetMocks();
+        // Not caring about the response, just to stop the fetch from completing.
         fetch.mockResponse(JSON.stringify(null));
         let settings = {
+            baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
                 expect(typeof url).toBe("string");
                 expect(typeof reqInit).toBe("object");
                 // Stop the request
                 return false;
-            })
-        } as FindSettings;
+            }),
+            cbSuccess: jest.fn()
+        } as IFindSettings;
 
-        let find = new Find("http://localhost:9950/", settings, null, fetch);
+        let find = new Find(settings, null, fetch);
         find.fetch()
             .then(response => {
                 expect(response).toBeNull();
@@ -144,6 +147,7 @@ describe("Find basics", () => {
             })
             .then(() => {
                 expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
     });
 });

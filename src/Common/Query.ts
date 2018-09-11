@@ -107,6 +107,20 @@ export class Query {
      * @param query - The Query object with override values.
      */
     constructor(query: Query = {} as Query) {
+        if (
+            query.categorizationType &&
+            CategorizationType[query.categorizationType] === undefined
+        ) {
+            throw new Error(
+                `Illegal CategorizationType value: ${query.categorizationType}`
+            );
+        }
+        if (query.matchOrderBy && OrderBy[query.matchOrderBy] === undefined) {
+            throw new Error(`Illegal OrderBy value: ${query.matchOrderBy}`);
+        }
+        if (query.searchType && SearchType[query.searchType] === undefined) {
+            throw new Error(`Illegal SearchType value: ${query.searchType}`);
+        }
         Object.assign(this, query);
     }
 }

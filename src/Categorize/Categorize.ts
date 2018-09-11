@@ -9,7 +9,7 @@ import {
 } from "../Common";
 import { Categories, Category, Group } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
-import { CategorizeSettings } from "./CategorizeSettings";
+import { CategorizeSettings, ICategorizeSettings } from "./CategorizeSettings";
 
 /**
  * The Categorize service queries the search-engine for which categories that any
@@ -28,29 +28,33 @@ export class Categorize extends BaseCall<Categories> {
      */
     public categories: Categories;
 
-    public clientCategoryExpansion: { [key: string]: boolean } = {};
+    public clientCategoryExpansion: { [key: string]: boolean };
 
-    public clientCategoryFilter: { [key: string]: string | RegExp } = {};
+    public clientCategoryFilter: { [key: string]: string | RegExp };
+
+    protected settings: ICategorizeSettings;
 
     private queryConverter: CategorizeQueryConverter;
 
     /**
      * Creates a Categorize instance that handles fetching categories dependent on settings and query.
      * Supports registering a callback in order to receive categories when they have been received.
-     * @param baseUrl - The base url that the categorize is to fetch categories from.
      * @param settings - The settings that define how the Categorize instance is to operate.
      * @param auth - An object that handles the authentication.
      */
     constructor(
-        baseUrl: string,
-        protected settings?: CategorizeSettings,
+        settings?: ICategorizeSettings | string,
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super();
+        super(); // dummy
+        // prepare for super.init
         settings = new CategorizeSettings(settings);
         auth = auth || new AuthToken();
-        super.init(baseUrl, settings, auth, fetchMethod);
+        super.init(settings, auth, fetchMethod);
+        // Set own this props
+        this.clientCategoryExpansion = {};
+        this.clientCategoryFilter = {};
         this.queryConverter = new CategorizeQueryConverter();
     }
 
@@ -64,11 +68,7 @@ export class Categorize extends BaseCall<Categories> {
         query: Query = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<Categories> {
-        let url = this.queryConverter.getUrl(
-            this.baseUrl,
-            this.settings.url,
-            query
-        );
+        let url = this.queryConverter.getUrl(this.settings.url, query);
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {

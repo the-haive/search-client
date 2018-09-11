@@ -21,7 +21,7 @@ import {
 } from "./Common";
 import { Category, Group } from "./Data";
 import { Find } from "./Find";
-import { Settings } from "./Settings";
+import { Settings, ISettings } from "./Settings";
 
 /**
  * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>"
@@ -72,6 +72,8 @@ export class SearchClient implements AuthToken {
      */
     public find: Find = undefined;
 
+    protected settings: ISettings;
+
     // tslint:disable-next-line:variable-name
     private _clientCategoryExpansion: { [key: string]: boolean } = {};
 
@@ -82,35 +84,27 @@ export class SearchClient implements AuthToken {
 
     /**
      *
-     * @param baseUrl The baseUrl for the IntelliSearch SearchService rest-service, typically http://server:9950/
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
-    constructor(
-        baseUrl: string,
-        private settings: Settings = new Settings(),
-        fetchMethod?: Fetch
-    ) {
-        settings = new Settings(settings);
+    constructor(settings: ISettings | string, fetchMethod?: Fetch) {
+        this.settings = new Settings(settings);
 
         this.authentication = new Authentication(
-            baseUrl,
             this.settings.authentication,
             this,
             fetchMethod
         );
         this.autocomplete = new Autocomplete(
-            baseUrl,
             this.settings.autocomplete,
             this,
             fetchMethod
         );
         this.categorize = new Categorize(
-            baseUrl,
             this.settings.categorize,
             this,
             fetchMethod
         );
-        this.find = new Find(baseUrl, this.settings.find, this, fetchMethod);
+        this.find = new Find(this.settings.find, this, fetchMethod);
 
         this._query = this.settings.query;
     }
@@ -630,17 +624,11 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPagePrev(): boolean {
+        // Cannot fetch page less than 0
         if (this._query.matchPage > 1) {
-            const oldValue = this._query.matchPage;
-            this._query.matchPage--;
-
-            this.autocomplete.matchPageChanged(oldValue, this._query);
-            this.categorize.matchPageChanged(oldValue, this._query);
-            this.find.matchPageChanged(oldValue, this._query);
-
+            this.matchPage--;
             return true;
         }
-        // Cannot fetch page less than 0
         return false;
     }
 
@@ -649,13 +637,7 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public matchPageNext(): boolean {
-        const oldValue = this._query.matchPage;
-        this._query.matchPage++;
-
-        this.autocomplete.matchPageChanged(oldValue, this._query);
-        this.categorize.matchPageChanged(oldValue, this._query);
-        this.find.matchPageChanged(oldValue, this._query);
-
+        this.matchPage++;
         return true;
     }
 
