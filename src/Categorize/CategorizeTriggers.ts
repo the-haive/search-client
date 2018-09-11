@@ -139,7 +139,7 @@ export class CategorizeTriggers {
         this.searchTypeChanged =
             typeof triggers.searchTypeChanged !== "undefined"
                 ? triggers.searchTypeChanged
-                : true;
+                : false;
 
         this.uiLanguageCodeChanged =
             typeof triggers.uiLanguageCodeChanged !== "undefined"

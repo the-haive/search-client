@@ -59,13 +59,21 @@ export abstract class BaseCall<TDataType> {
 
     /**
      * Sets up the Request that is to be executed, with headers and auth as needed.
+     *
+     * @param includeAuthorizationHeader Set to false to not include the auth jwt token in the request headers. Default=true
      */
-    public requestObject(): RequestInit {
+    public requestObject(
+        includeAuthorizationHeader: boolean = true
+    ): RequestInit {
         const headers: any = {
             "Content-Type": "application/json"
         };
 
-        if (this.auth && this.auth.authenticationToken) {
+        if (
+            includeAuthorizationHeader &&
+            this.auth &&
+            this.auth.authenticationToken
+        ) {
             headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
         }
 

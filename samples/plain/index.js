@@ -45,6 +45,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //    Note: Should only add the callback methods.
     //////////////////////////////////////////////////////////////////////////////////////////
     let searchOverrideSettings = {
+        authentication: {
+            cbRequest: handleAuthenticationRequest,
+            cbSuccess: handleAuthenticationSuccess,
+            cbError: handleAuthenticationError
+        },
         autocomplete: {
             cbRequest: handleAutocompleteRequest,
             cbSuccess: handleAutocompleteSuccess,
@@ -133,7 +138,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                                 } else {
                                     const catName = getLocalizedCategoryName(client, category);
                                     const shortCatName = truncateMiddleEllipsis(catName, 20);
-                                    return `<span class="category" title="${catName}">${shortCatName}</span>`;
+                                    return `<span class="category" data-categoryName="${category.categoryName.join(",")}" title="${catName}">${shortCatName}</span>`;
                                 }
                             })}
                     </div>
@@ -363,19 +368,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-            let mod = "";
-            if (event.shiftKey) {
-                mod = "Shift-";
-                queryTextElm.value = queryTextElm.value.replace(
-                    /\:intellidebug/gi,
-                    ""
-                );
-            }
-            if (event.ctrlKey) {
-                queryTextElm.value += " :intellidebug";
-                mod = "Ctrl-";
-            }
-            console.log(`queryText ${mod}Enter detected`, queryTextElm.value);
+            let mod = checkIntellidebugMod(event, queryTextElm);
+            console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
             client.deferUpdates(true);
             client.queryText = queryTextElm.value;
             client.deferUpdates(false, true);
@@ -398,19 +392,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // We also want the search button to force a
     let searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", event => {
-        let mod = "";
-        if (event.shiftKey) {
-            mod = "Shift-";
-            queryTextElm.value = queryTextElm.value.replace(
-                /\:intellidebug/gi,
-                ""
-            );
-        }
-        if (event.ctrlKey) {
-            queryTextElm.value += " :intellidebug";
-            mod = "Ctrl-";
-        }
-        console.log(`Search-button ${mod}clicked`, queryTextElm.value);
+        let mod = checkIntellidebugMod(event, queryTextElm);
+        console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
         client.deferUpdates(true);
         client.queryText = queryTextElm.value;
         client.deferUpdates(false, true);
@@ -428,15 +411,30 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //    - Match ordering
     //    - ...
     //////////////////////////////////////////////////////////////////////////////////////////
+    let searchTypeAllElm = document.getElementById("search-type-all");
+    searchTypeAllElm.addEventListener("click", function() {
+        client.searchType = IntelliSearch.SearchType.Keywords;
+    });
+
+    let searchTypeAnyElm = document.getElementById("search-type-any");
+    searchTypeAnyElm.addEventListener("click", function() {
+        client.searchType = IntelliSearch.SearchType.Relevance;
+    });
+
+    searchTypeAllElm.checked =
+        client.searchType === IntelliSearch.SearchType.Keywords;
+    searchTypeAnyElm.checked =
+        client.searchType === IntelliSearch.SearchType.Relevance;
+
     let matchesHeader = document.getElementById("matches-header");
 
-    let orderByRelevance = document.getElementById("option-relevance");
-    orderByRelevance.addEventListener("click", function() {
+    let orderByRelevanceElm = document.getElementById("option-relevance");
+    orderByRelevanceElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
     });
 
-    let orderByDate = document.getElementById("option-date");
-    orderByDate.addEventListener("click", function() {
+    let orderByDateElm = document.getElementById("option-date");
+    orderByDateElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
     });
 
@@ -558,6 +556,22 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // 8. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
 
+    /*** Authentication callbacks *************************************************************/
+
+    function handleAuthenticationRequest(url, reqInit) {
+        console.log("handleAuthenticationRequest", url, reqInit);
+    }
+
+    function handleAuthenticationSuccess(result) {
+        console.log("handleAuthenticationSuccess", "Result:", result);
+    }
+
+    function handleAuthenticationError(error) {
+        stacktrace(stack => {
+            console.error("handleAuthenticationError", error.message, stack);
+        });
+    }
+
     /*** Autocomplete callbacks *************************************************************/
 
     /**
@@ -639,8 +653,25 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             let li = document.createElement("li");
             li.innerHTML = render.match.item(match);
 
+            // Detect if categories are rendered within the matches.
+            if (uiSettings.match.categories.show) {
+                // Expects the match-categories to have the class "category", in order to link them.
+                let categoryChipElms = li.getElementsByClassName("category");
+                for (let categoryChipElm of categoryChipElms) {
+                    // Expects the category-chips to have custom `data-categoryName="namePartA,namePartB"` attributes that indicate the real categoryName.
+                    let dataCategoryName = categoryChipElm.dataset.categoryName;
+                    if (dataCategoryName.length === 0) {
+                        continue;
+                    }
+                    let categoryName = dataCategoryName.split(",");
+                    categoryChipElm.addEventListener("click", () => {
+                        client.filterToggle(categoryName);
+                    });
+                }
+            }
+
             // Bind up hover action to write content (properties and metadata) into the details pane
-            li.addEventListener("mouseover", function() {
+            li.addEventListener("mouseenter", function() {
                 li.parentNode.childNodes.forEach(sli => {
                     sli.classList.remove("current");
                 });
@@ -829,7 +860,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleFindError(error) {
-        containerElm.classList.remove("matches-loading");
+        containerElm.classList.remove(
+            "matches-loading",
+            "categories-loading",
+            "welcome"
+        );
         containerElm.classList.add("error");
         detailsHeaderElm.style.visibility = "hidden";
 
@@ -978,7 +1013,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleCategorizeError(error) {
-        containerElm.classList.remove("categories-loading");
+        containerElm.classList.remove(
+            "matches-loading",
+            "categories-loading",
+            "welcome"
+        );
         containerElm.classList.add("error");
 
         stacktrace(stack => {
@@ -1025,6 +1064,24 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         // }
         // debugger;
     }
+}
+
+function checkIntellidebugMod(event, queryTextElm) {
+    let mod = "";
+    if (event.shiftKey) {
+        mod = "Shift-";
+        queryTextElm.value = queryTextElm.value.replace(
+            /\s?:intellidebug/gi,
+            ""
+        );
+    }
+    if (event.ctrlKey) {
+        if (!queryTextElm.value.match(/:intellidebug/)) {
+            queryTextElm.value += " :intellidebug";
+            mod = "Ctrl-";
+        }
+    }
+    return mod;
 }
 
 function setupTabs() {

@@ -154,7 +154,7 @@ button:hover {
     grid-gap: 15px;
     grid-template-columns: repeat(
         auto-fill,
-        minmax(200px, 1fr) minmax(200px, 1fr)
+        minmax(200px, 1fr) minmax(200px, 2fr)
     );
     padding: 0.5em;
 }
@@ -371,7 +371,7 @@ button#reset.hidden {
     background-color: #f9f9f9;
     border-bottom: 1px solid#DEDEDE;
     text-align: left;
-    height: 120px;
+    /*height: 120px;*/
     display: flex;
     justify-content: start;
     flex-direction: column;
@@ -466,6 +466,12 @@ button#reset.hidden {
 
 #header #top .query {
     margin-top: 0;
+    margin-bottom: 3px;
+}
+
+#header #top .search-type {
+    font-size: 0.8em;
+    margin-left: 0.7em;
 }
 
 #header p {
@@ -521,7 +527,7 @@ button#reset.hidden {
 }
 
 #tabs div {
-    padding-top: 28px;
+    padding-top: 16px;
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 12px;
@@ -603,11 +609,6 @@ button#reset.hidden {
 
 #categories-tree .collapsed.has-children > .entry > .toggle::before {
     content: url(/images/collapse.svg); /*"▶";*/
-}
-
-#categories-tree > ul .expanded.has-children > .entry > .toggle::before:hover,
-#categories-tree > ul .collapsed.has-children > .entry > .toggle::before:hover {
-    /*background-color: silver;*/
 }
 
 #categories-tree > ul .expanded.has-children > .entry > .toggle::before {
@@ -748,6 +749,9 @@ button#reset.hidden {
     margin-bottom: 30px;
     margin-right: 10px;
 }
+#matches-list li.current {
+    background-color: rgba(0, 0, 0, 0.03);
+}
 
 #matches-list li .headline {
     display: flex;
@@ -767,9 +771,6 @@ button#reset.hidden {
 #matches-list li .date {
     font-style: italic;
     display: block;
-}
-
-#matches-list li .title {
 }
 
 #matches-list a {
@@ -802,13 +803,6 @@ button#reset.hidden {
     display: block;
     padding: 0 0 0.5em 0;
 }
-
-#matches-list li .abstract {
-}
-
-/* #matches-list li .extract + .extract {
-    border-top: solid 0.3em rgba(255, 255, 255, 0.95);
-} */
 
 #matches-list .category {
     border-radius: 1em;
@@ -1000,8 +994,8 @@ button#reset.hidden {
     margin: -75px 0 0 -75px;
     border-radius: 50%;
     border: 15px solid transparent;
-    border-top-color: #000000;
-    border-bottom-color: #000000;
+    border-top-color: #003d4a;
+    border-bottom-color: #003d4a;
     -webkit-animation: spin 2s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
     overflow: hidden;
@@ -1031,8 +1025,8 @@ button#reset.hidden {
     bottom: 25px;
     border-radius: 50%;
     border: 50px solid transparent;
-    border-top-color: #000000;
-    border-bottom-color: #000000;
+    border-top-color: #003d4a;
+    border-bottom-color: #003d4a;
     -webkit-animation: spin 1.5s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
     animation: spin 1.5s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
 }

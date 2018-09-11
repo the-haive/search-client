@@ -1,8 +1,10 @@
 {
     "baseUrl": "http://searchmanager.demo.intellisearch.no",
     "authentication": {
-        "baseUrl": "http://auth-server",
-        "enabled": false
+        "baseUrl": "http://demo-esp.global.ints:85",
+        "basePath": "",
+        "servicePath": "auth/login",
+        "enabled": true
     },
     "autocomplete": {
         "enabled": true
@@ -12,7 +14,7 @@
         "matchGenerateContent": true,
         "matchGrouping": true,
         "matchPageSize": 10,
-        "searchType": "Relevance",
+        "searchType": "Keywords",
         "categorizationType": "DocumentHitsOnly"
     }
 }
