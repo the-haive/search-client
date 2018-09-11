@@ -749,6 +749,9 @@ button#reset.hidden {
     margin-bottom: 30px;
     margin-right: 10px;
 }
+#matches-list li.current {
+    background-color: rgba(0, 0, 0, 0.03);
+}
 
 #matches-list li .headline {
     display: flex;
