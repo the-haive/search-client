@@ -138,7 +138,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                                 } else {
                                     const catName = getLocalizedCategoryName(client, category);
                                     const shortCatName = truncateMiddleEllipsis(catName, 20);
-                                    return `<span class="category" title="${catName}">${shortCatName}</span>`;
+                                    return `<span class="category" data-categoryName="${category.categoryName.join(",")}" title="${catName}">${shortCatName}</span>`;
                                 }
                             })}
                     </div>
@@ -652,6 +652,23 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         function createMatch(match, index, arr) {
             let li = document.createElement("li");
             li.innerHTML = render.match.item(match);
+
+            // Detect if categories are rendered within the matches.
+            if (uiSettings.match.categories.show) {
+                // Expects the match-categories to have the class "category", in order to link them.
+                let categoryChipElms = li.getElementsByClassName("category");
+                for (let categoryChipElm of categoryChipElms) {
+                    // Expects the category-chips to have custom `data-categoryName="namePartA,namePartB"` attributes that indicate the real categoryName.
+                    let dataCategoryName = categoryChipElm.dataset.categoryName;
+                    if (dataCategoryName.length === 0) {
+                        continue;
+                    }
+                    let categoryName = dataCategoryName.split(",");
+                    categoryChipElm.addEventListener("click", () => {
+                        client.filterToggle(categoryName);
+                    });
+                }
+            }
 
             // Bind up hover action to write content (properties and metadata) into the details pane
             li.addEventListener("mouseenter", function() {
