@@ -14,7 +14,7 @@
         "matchGenerateContent": true,
         "matchGrouping": true,
         "matchPageSize": 10,
-        "searchType": "Relevance",
+        "searchType": "Keywords",
         "categorizationType": "DocumentHitsOnly"
     }
 }

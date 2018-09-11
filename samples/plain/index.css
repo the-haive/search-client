@@ -468,6 +468,11 @@ button#reset.hidden {
     margin-top: 0;
 }
 
+#header #top .search-type {
+    font-size: 0.8em;
+    margin-left: 0.7em;
+}
+
 #header p {
     font-size: smaller;
     width: 80%;

@@ -411,15 +411,30 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //    - Match ordering
     //    - ...
     //////////////////////////////////////////////////////////////////////////////////////////
+    let searchTypeAllElm = document.getElementById("search-type-all");
+    searchTypeAllElm.addEventListener("click", function() {
+        client.searchType = IntelliSearch.SearchType.Keywords;
+    });
+
+    let searchTypeAnyElm = document.getElementById("search-type-any");
+    searchTypeAnyElm.addEventListener("click", function() {
+        client.searchType = IntelliSearch.SearchType.Relevance;
+    });
+
+    searchTypeAllElm.checked =
+        client.searchType === IntelliSearch.SearchType.Keywords;
+    searchTypeAnyElm.checked =
+        client.searchType === IntelliSearch.SearchType.Relevance;
+
     let matchesHeader = document.getElementById("matches-header");
 
-    let orderByRelevance = document.getElementById("option-relevance");
-    orderByRelevance.addEventListener("click", function() {
+    let orderByRelevanceElm = document.getElementById("option-relevance");
+    orderByRelevanceElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
     });
 
-    let orderByDate = document.getElementById("option-date");
-    orderByDate.addEventListener("click", function() {
+    let orderByDateElm = document.getElementById("option-date");
+    orderByDateElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
     });
 
@@ -828,7 +843,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleFindError(error) {
-        containerElm.classList.remove("matches-loading");
+        containerElm.classList.remove(
+            "matches-loading",
+            "categories-loading",
+            "welcome"
+        );
         containerElm.classList.add("error");
         detailsHeaderElm.style.visibility = "hidden";
 
@@ -977,7 +996,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleCategorizeError(error) {
-        containerElm.classList.remove("categories-loading");
+        containerElm.classList.remove(
+            "matches-loading",
+            "categories-loading",
+            "welcome"
+        );
         containerElm.classList.add("error");
 
         stacktrace(stack => {

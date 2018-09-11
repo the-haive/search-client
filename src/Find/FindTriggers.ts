@@ -1,109 +1,3 @@
-// export interface IFindTriggers {
-//     /**
-//      * Triggers when the clientCategoryFilter is changed.
-//      */
-//     clientCategoryFilterChanged?: boolean;
-
-//     /**
-//      * Triggers when the clientId property has changed
-//      */
-//     clientIdChanged?: boolean;
-
-//     /**
-//      * Triggers when the from date property has changed.
-//      */
-//     dateFromChanged?: boolean;
-
-//     /**
-//      * Triggers when the to date property has changed.
-//      */
-//     dateToChanged?: boolean;
-
-//     /**
-//      * Triggers when the filter property has changed.
-//      */
-//     filterChanged?: boolean;
-
-//     /**
-//      * Triggers when the generateContent property has changed.
-//      */
-//     matchGenerateContentChanged?: boolean;
-
-//     /**
-//      * Triggers when the generateContentHighlights property has changed.
-//      */
-//     matchGenerateContentHighlightsChanged?: boolean;
-
-//     /**
-//      * Triggers when the useGrouping property has changed.
-//      */
-//     matchGroupingChanged?: boolean;
-
-//     /**
-//      * Triggers when the orderBy property has changed.
-//      */
-//     matchOrderByChanged?: boolean;
-
-//     /**
-//      * Triggers when the page property has changed.
-//      */
-//     matchPageChanged?: boolean;
-
-//     /**
-//      * Triggers when the pageSize property has changed.
-//      */
-//     matchPageSizeChanged?: boolean;
-
-//     /**
-//      * Turns on or off all query-related triggers.
-//      */
-//     queryChange?: boolean;
-
-//     /**
-//      * Delay triggers until changes has not been made to the query for a certain time (milliseconds).
-//      * This is to avoid executing searches constantly while the user is typing.
-//      * The queryChangeInstantRegex has precedence. This delay is only considered when that regex doesn't match.
-//      * Set value to less than zero to make sure we only trigger when the queryChangeInstantRegex matches.
-//      *
-//      * Note: Requires queryChange to be true.
-//      * Note: Requires query to be longer than queryMinLength.
-//      *
-//      * Default for Find is to run delayed lookups after 2 seconds. The queryChangeInstantRegex matches will
-//      * run immediately though.
-//      */
-//     queryChangeDelay?: number;
-
-//     /**
-//      * Triggers action immediately instead of delayed when the query matches the regex.
-//      *
-//      * Note: Requires queryChange to be true.
-//      * Note: Requires query to be longer than queryMinLength.
-//      *
-//      * Default: Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
-//      */
-//     queryChangeInstantRegex?: RegExp;
-
-//     /**
-//      * Min length before triggering. For Categorize (and Find) this should be ok with short queries too.
-//      * One character followed by an enter (default).
-//      *
-//      * Note: Requires queryChange to be true.
-//      */
-//     queryChangeMinLength?: number;
-
-//     /**
-//      * Triggers when the searchType property has changed.
-//      */
-//     searchTypeChanged?: boolean;
-
-//     /**
-//      * Triggers when the uiLanguageCode property has changed.
-//      * Note: Overrides the default set in CategorizeTriggers.
-//      * Default: Do not refetch on change - as there are no language-dependent data in the find-response.
-//      */
-//     uiLanguageCodeChanged?: boolean;
-// }
-
 /**
  * These are the triggers that define when and when not to trigger a find lookup.
  */
@@ -282,7 +176,7 @@ export class FindTriggers {
         this.searchTypeChanged =
             typeof triggers.searchTypeChanged !== "undefined"
                 ? triggers.searchTypeChanged
-                : true;
+                : false;
         this.uiLanguageCodeChanged =
             typeof triggers.uiLanguageCodeChanged !== "undefined"
                 ? triggers.uiLanguageCodeChanged
