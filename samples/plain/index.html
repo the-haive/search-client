@@ -72,41 +72,45 @@
         </div>
 
         <div id="welcome">
-            <h1>Welcome</h1>
-            <p>
-                Please enter your search-query in the top query-field.
-                <br /> For more help, click <a href="javascript:showTips()" title="Tips on efficient searching">here</a>.
-                <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()"
-                    title="About IntelliSearch">here</a>.
-            </p>
-            <h2>Status</h2>
-            <div id="status">
-                <span id="status-code">✓</span>
-                <span id="message">All systems nominal.</span>
+            <div class="wrapper">
+                <h1>Welcome</h1>
+                <p>
+                    Please enter your search-query in the top query-field.
+                    <br /> For more help, click <a href="javascript:window.INTS_ShowHelp()" title="Tips on efficient searching">here</a>.
+                    <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()"
+                        title="About IntelliSearch">here</a>.
+                </p>
+                <h2>Status</h2>
+                <div id="status">
+                    <span id="status-code">✓</span>
+                    <span id="message">All systems nominal.</span>
+                </div>
+                <h2>Sources</h2>
+                <dl>
+                    <dt>Exchange e-mail</dt>
+                    <dd>All individual mailboxes, plus shared mailboxes (support, info)</dd>
+                    <dt>Dropbox shares</dt>
+                    <dd>Management, common</dd>
+                    <dt>Slack</dt>
+                    <dd>All channels, except private.</dd>
+                    <dt>Jira</dt>
+                    <dd>All projects, as well as the help-desk extension.</dd>
+                    <dt>Confluence</dt>
+                    <dd>The new online Confluence instance, plus the old local installation.</dd>
+                    <dt>RSS: Search-engine news</dt>
+                    <dd>...</dd>
+                </dl>
+                <h2>Security</h2>
+                <p>
+                    It is set up to handle authentication and security via Windows Integrated Security, meaning that
+                    you
+                    need to be logged in
+                    to the company domain to get any results. If you are accessing the system from outside the company
+                    a
+                    separate
+                    login may be required.
+                </p>
             </div>
-            <h2>Sources</h2>
-            <dl>
-                <dt>Exchange e-mail</dt>
-                <dd>All individual mailboxes, plus shared mailboxes (support, info)</dd>
-                <dt>Dropbox shares</dt>
-                <dd>Management, common</dd>
-                <dt>Slack</dt>
-                <dd>All channels, except private.</dd>
-                <dt>Jira</dt>
-                <dd>All projects, as well as the help-desk extension.</dd>
-                <dt>Confluence</dt>
-                <dd>The new online Confluence instance, plus the old local installation.</dd>
-                <dt>RSS: Search-engine news</dt>
-                <dd>...</dd>
-            </dl>
-            <h2>Security</h2>
-            <p>
-                It is set up to handle authentication and security via Windows Integrated Security, meaning that you
-                need to be logged in
-                to the company domain to get any results. If you are accessing the system from outside the company a
-                separate
-                login may be required.
-            </p>
         </div>
 
         <nav id="categories">

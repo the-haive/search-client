@@ -44,7 +44,7 @@ body {
 #container.welcome {
     grid-template-areas:
         "header header header"
-        ". welcome ."
+        "welcome welcome welcome"
         "footer footer footer";
 }
 
@@ -269,6 +269,12 @@ button:hover {
     grid-area: welcome;
     padding: 0 2em;
     font-size: smaller;
+    overflow-y: auto;
+}
+
+#welcome .wrapper {
+    width: 50%;
+    margin: 0 auto;
 }
 
 #welcome dt {
@@ -283,6 +289,7 @@ button:hover {
 #error {
     grid-area: error;
     padding: 0 2em;
+    overflow-y: auto;
 }
 
 #container.welcome #welcome,
@@ -574,17 +581,27 @@ button#reset.hidden {
 
 #categories-tree > ul > li > .entry {
     display: block;
-    /*background-color: silver;*/
     font-size: 0.9em;
     font-weight: bold;
     margin-top: 0.7em;
     white-space: nowrap;
-    /*padding-bottom: 10px;*/
 }
 
 #categories-tree > ul li > .entry {
     border-bottom: 0px solid #dedede;
-    padding-top: 10px;
+    padding-top: 0.1em;
+    display: flex;
+    justify-content: stretch;
+}
+
+#categories-tree > ul li > .entry > .link {
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+#categories-tree > ul li > .entry > .link > .title {
+    flex-grow: 1;
 }
 
 #categories-tree > ul .collapsed.has-children > .entry {
@@ -625,26 +642,30 @@ button#reset.hidden {
     padding-top: 5px;
 }
 
-#categories-tree > ul span.title {
+#categories-tree .entry > .link {
+    padding: 0.2em 0 0 0.2em;
+    margin: 0 0 0 -0.2em;
+    cursor: pointer;
+    border: solid 0.05em transparent;
+    border-radius: 1em;
+}
+
+#categories-tree > ul li.is-filter > .entry > .link {
+    background-color: rgba(159, 197, 88, 0.3);
     cursor: pointer;
 }
 
-#categories-tree > ul li.has-matches > .entry {
-    font-weight: bold;
+#categories-tree > ul li > .entry > .link:hover {
+    border-color: rgba(0, 0, 0, 0.3);
 }
 
-#categories-tree > ul li.is-filter > .entry {
-    background-color: red;
-}
-
-#categories-tree > ul li.has-filter > .entry {
-    background-color: orange;
+#categories-tree > ul li.has-filter > .entry > .link {
+    background-color: rgba(159, 197, 88, 0.15);
 }
 
 #categories-tree > ul .count {
     padding: 0 1em;
     font-size: smaller;
-    float: right;
 }
 
 #categories-tree > ul .count::before {
@@ -814,9 +835,12 @@ button#reset.hidden {
     display: inline-block;
     cursor: pointer;
 }
+#matches-list .category.is-filter {
+    background-color: rgba(159, 197, 88, 0.3);
+}
 
 #matches-list .category:hover {
-    border-color: black;
+    border-color: rgba(0, 0, 0, 0.3);
 }
 
 #matches-pager {
