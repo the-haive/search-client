@@ -335,9 +335,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //////////////////////////////////////////////////////////////////////////////////////////
 
     // For debugging
-    console.log("Client settings", searchSettings);
-    console.log("User interface settings", uiSettings);
-    console.log("Render templates", render);
+    // console.log("Client settings", searchSettings);
+    // console.log("User interface settings", uiSettings);
+    // console.log("Render templates", render);
 
     // prettier-ignore
     function setupClient() {
@@ -361,7 +361,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // This reports changes in the query, but does not detect enter
     queryTextElm.addEventListener("input", function() {
-        console.log("queryText changed: " + queryTextElm.value);
+        //console.log("queryText changed: " + queryTextElm.value);
         if (queryTextElm.value.length > 0) {
             resetBtn.classList.remove("hidden");
         } else {
@@ -392,7 +392,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
             let mod = checkIntellidebugMod(event, queryTextElm);
-            console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
+            //console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
             client.deferUpdates(true);
             client.queryText = queryTextElm.value;
             client.deferUpdates(false, true);
@@ -406,7 +406,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let resetBtn = document.getElementById("reset");
     let containerElm = document.getElementById("container");
     resetBtn.addEventListener("click", () => {
-        console.log("UI reset");
+        //console.log("UI reset");
         client = setupClient();
         containerElm.className = "welcome";
         queryTextElm.value = "";
@@ -416,7 +416,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let searchButtonElm = document.getElementById("go");
     searchButtonElm.addEventListener("click", event => {
         let mod = checkIntellidebugMod(event, queryTextElm);
-        console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
+        //console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
         client.deferUpdates(true);
         client.queryText = queryTextElm.value;
         client.deferUpdates(false, true);
@@ -585,12 +585,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     /*** Authentication callbacks *************************************************************/
 
     function handleAuthenticationRequest(url, reqInit) {
-        console.log("handleAuthenticationRequest", url, reqInit);
+        //console.log("handleAuthenticationRequest", url, reqInit);
     }
 
     function handleAuthenticationSuccess(result) {
         containerElm.classList.remove("auth-pending");
-        console.log("handleAuthenticationSuccess", "Result:", result);
+        //console.log("handleAuthenticationSuccess", "Result:", result);
     }
 
     function handleAuthenticationError(error) {
@@ -617,7 +617,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Receive and render autocomplete suggestions and to stop load-spinners.
      */
     function handleAutocompleteSuccess(suggestions) {
-        console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
+        // console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
         awesomplete.list = suggestions;
         loadingSuggestions.style.visibility = "hidden";
     }
@@ -648,7 +648,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Receive and render find matches and to stop load-spinners.
      */
     function handleFindSuccess(matches) {
-        console.log("handleFindSuccess", "Matches:", matches);
+        // console.log("handleFindSuccess", "Matches:", matches);
         containerElm.classList.remove("welcome", "matches-loading", "error");
 
         detailsHeaderElm.style.visibility = "hidden";
@@ -928,7 +928,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Receive and render autocomplete suggestions and to stop load-spinners.
      */
     function handleCategorizeSuccess(categories) {
-        console.log("handleCategorizeSuccess", "Categories:", categories);
+        // console.log("handleCategorizeSuccess", "Categories:", categories);
         containerElm.classList.remove("categories-loading", "error");
         categoriesTreeElm.innerHTML = "";
 
@@ -960,12 +960,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
                 let result = client.toggleCategoryExpansion(category);
-                console.log(
-                    `Toggled expansion for category '${
-                        category.displayName
-                    }'. Expanded = ${result}`,
-                    client.clientCategoryExpansion
-                );
+                // console.log(
+                //     `Toggled expansion for category '${
+                //         category.displayName
+                //     }'. Expanded = ${result}`,
+                //     client.clientCategoryExpansion
+                // );
             });
 
             let linkElm = categoryLiElm.getElementsByClassName("link")[0];
@@ -974,12 +974,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 if (closestLi === categoryLiElm) {
                     let added = client.filterToggle(category);
                     closestLi.classList.toggle("is-filter");
-                    console.log(
-                        `Filter ${category.displayName} was ${
-                            added ? "added" : "removed"
-                        }. Current filters:`,
-                        client.filters
-                    );
+                    // console.log(
+                    //     `Filter ${category.displayName} was ${
+                    //         added ? "added" : "removed"
+                    //     }. Current filters:`,
+                    //     client.filters
+                    // );
                 }
             });
             if (category.children.length > 0) {
@@ -1013,12 +1013,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
                     let result = client.toggleCategoryExpansion(group);
-                    console.log(
-                        `Toggled expansion for group '${
-                            group.displayName
-                        }'. Expanded = ${result}`,
-                        client.clientCategoryExpansion
-                    );
+                    // console.log(
+                    //     `Toggled expansion for group '${
+                    //         group.displayName
+                    //     }'. Expanded = ${result}`,
+                    //     client.clientCategoryExpansion
+                    // );
                 });
                 if (group.categories.length > 0) {
                     let catUlElm = document.createElement("ul");
@@ -1059,36 +1059,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // Render settings dialog.
     function renderSettings() {
+        // TODO
         return;
-        // settingsMainElm = document.getElementById("settings-main");
-        // settingsMainElm.innerHTML = `
-        //     <fieldset>
-        //         <legend>Common</legend>
-        //         <section>
-        //             <input id="settings-base-url"></input>
-        //             <label for="settings-base-url">Base-url</label>
-        //             <input id="settings-path"></input>
-        //             <label for="settings-path">Path</label>
-        //         </section>
-        //     </fieldset>
-        // `;
-        // for (let o of [
-        //     "autocomplete",
-        //     "find",
-        //     "categorize",
-        //     "authentication"
-        // ]) {
-        //     console.log(o);
-        //     for (let p in client.settings[o]) {
-        //         console.log(o, p, typeof client.settings[o][p]);
-        //         if (p === "triggers") {
-        //             for (let t in client.settings[o][p]) {
-        //                 console.log(o, p, t, typeof client.settings[o][p][t]);
-        //             }
-        //         }
-        //     }
-        // }
-        // debugger;
     }
 }
 
