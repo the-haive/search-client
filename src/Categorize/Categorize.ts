@@ -359,17 +359,52 @@ export class Categorize extends BaseCall<Categories> {
         let cats = [...categories];
         cats = cats.map((inCategory: Category) => {
             let category = { ...inCategory };
-            if (category.children && category.children.length > 0) {
-                category.children = this.mapCategories(category.children);
+            // Apply categoryFilters
+            let result = this.inClientCategoryFilters({ ...category });
+            if (result !== false) {
+                if (category.children && category.children.length > 0) {
+                    category.children = this.mapCategories(category.children);
+                }
+                if (result === true) {
+                    // The results are filtered
+                    category.expanded = true;
+                }
+                let catKey = category.categoryName.join("|");
+                if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
+                    category.expanded = this.clientCategoryExpansion[catKey];
+                }
+                return category;
             }
-            let catKey = category.categoryName.join("|");
-            if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
-                category.expanded = this.clientCategoryExpansion[catKey];
-            }
-            return category;
         });
 
         cats = cats.filter(c => c !== undefined);
         return cats;
+    }
+
+    private inClientCategoryFilters(category: Category): boolean {
+        if (!this.clientCategoryFilter) {
+            return null;
+        }
+        for (let prop in this.clientCategoryFilter) {
+            if (this.clientCategoryFilter.hasOwnProperty(prop)) {
+                let filterKey = prop.toLowerCase();
+                let cat = category.categoryName.slice(0, -1);
+                let categoryKey = cat
+                    .join(this.settings.clientCategoryFiltersSepChar)
+                    .toLowerCase();
+                if (filterKey === categoryKey) {
+                    let displayExpression = this.clientCategoryFilter[prop];
+                    if (!displayExpression) {
+                        continue;
+                    }
+                    let regex = new RegExp(displayExpression as string, "i");
+                    let result = regex.test(category.displayName);
+                    return result;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return null;
     }
 }
