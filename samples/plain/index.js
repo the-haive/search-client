@@ -39,7 +39,6 @@ function load(file) {
 
 window.onload = function() {
     moment.locale(window.navigator.language);
-    console.log("moment.locale:", moment.locale());
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
     //    We first try to load a default from the settings file on the server.
@@ -391,11 +390,19 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         queryTextElm.style.fontSize = maxFontSize - reduction + "px";
     }
 
+    let awesompleteItemSelected = false;
     // Only added to reliably detect enter across browsers
     queryTextElm.addEventListener("keydown", event => {
         if (event.key === "Enter") {
+            if (awesompleteItemSelected) {
+                // Suppress the enter keypress if the focus is on the autocomplete dialog
+                event.preventDefault();
+                return;
+            }
             let mod = checkIntellidebugMod(event, queryTextElm);
             //console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
+            // Force an update, by silently updating the query before then finally calling update()
+            // This is to avoid the case where the queryText has not changed, but enter should trigger a new search anyway.
             client.deferUpdates(true);
             client.queryText = queryTextElm.value;
             client.deferUpdates(false, true);
@@ -420,6 +427,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     searchButtonElm.addEventListener("click", event => {
         let mod = checkIntellidebugMod(event, queryTextElm);
         //console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
+        // Force an update, by silently updating the query before then finally calling update()
+        // This is to avoid the case where the queryText has not changed, but enter should trigger a new search anyway.
         client.deferUpdates(true);
         client.queryText = queryTextElm.value;
         client.deferUpdates(false, true);
@@ -428,6 +437,16 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // Set up the autocomplete library
     let awesomplete = new Awesomplete(queryTextElm);
+
+    queryTextElm.addEventListener("awesomplete-highlight", event => {
+        awesompleteItemSelected = true;
+    });
+    queryTextElm.addEventListener("awesomplete-selectcomplete", event => {
+        awesompleteItemSelected = false;
+    });
+    queryTextElm.addEventListener("awesomplete-close", event => {
+        awesompleteItemSelected = false;
+    });
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // 7. Wire up other buttons, options and areas on the page:
