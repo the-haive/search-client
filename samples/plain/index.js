@@ -658,7 +658,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             if (uiSettings.match.categories.show) {
                 // Expects the match-categories to have the class "category", in order to link them.
                 let categoryChipElms = li.getElementsByClassName("category");
-                for (let categoryChipElm of categoryChipElms) {
+                for (var i = 0; i < categoryChipElms.length; i++) {
+                    let categoryChipElm = categoryChipElms[i];
                     // Expects the category-chips to have custom `data-categoryName="namePartA,namePartB"` attributes that indicate the real categoryName.
                     if (!categoryChipElm.dataset.category) {
                         continue;
