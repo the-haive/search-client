@@ -640,6 +640,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleAutocompleteSuccess(suggestions) {
         // console.log("handleAutocompleteSuccess", "Suggestions:", suggestions);
+        suggestions = suggestions.filter(s => s !== `${queryTextElm.value} `);
         awesomplete.list = suggestions;
         loadingSuggestions.style.visibility = "hidden";
     }
