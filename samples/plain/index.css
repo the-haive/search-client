@@ -673,7 +673,7 @@ button#reset.hidden {
     margin: 0 0 0 -0.2em;
     cursor: pointer;
     border: solid 0.05em transparent;
-    border-radius: 1em;
+    border-radius: 0.3em;
 }
 
 #categories-tree > ul li.is-filter > .entry > .link {
@@ -825,12 +825,12 @@ button#reset.hidden {
 }
 
 #matches-list .category {
-    border-radius: 1em;
+    border-radius: 0.9em;
     border: solid 0.1em transparent;
     padding: 0.2em 0.5em;
     margin: 0.1em 0.5em 0 0;
     background-color: gainsboro;
-    font-size: small;
+    font-size: 0.75em;
     display: inline-block;
     cursor: pointer;
 }

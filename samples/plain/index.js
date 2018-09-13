@@ -1179,7 +1179,7 @@ function getLocalizedCategoryName(client, category) {
     const catId = category.split("|");
     const cat = client.findCategory(catId);
     let name = cat ? cat.displayName : category;
-    return name.split("|").join("/");
+    return name.split("|").join(" / ");
 }
 
 /**
