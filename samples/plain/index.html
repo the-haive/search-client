@@ -18,7 +18,7 @@
                 <h1>IntelliSearch SearchClient</h1>
                 <div>
                     <div class="query">
-                        <div id="spinner"></div>
+                        <div id="spinner" class="spinner"></div>
                         <textarea id="query-text" placeholder="Enter search-query..." autofocus></textarea>
                         <button tabIndex="-1" id="reset" class="hidden">X</button>
                         <button id="go">
@@ -76,8 +76,8 @@
                 <h1>Welcome</h1>
                 <p>
                     Please enter your search-query in the top query-field.
-                    <br /> For more help, click <a href="javascript:window.INTS_ShowHelp()" title="Tips on efficient searching">here</a>.
-                    <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_ShowAbout()"
+                    <br /> For more help, click <a href="javascript:window.INTS_OpenDialog('help')" title="Help on efficient searching">here</a>.
+                    <br /> For more information about IntelliSearch, click <a href="javascript:window.INTS_OpenDialog('about')"
                         title="About IntelliSearch">here</a>.
                 </p>
                 <h2>Status</h2>
@@ -186,7 +186,7 @@
         </aside>
 
         <div id="settings">
-            <div class="dialog">
+            <div class="dialog-content">
                 <header>
                     <h1>Settings</h1>
                     <ul class="tab-container">
@@ -413,9 +413,43 @@
         <footer id="footer">
             &copy; IntelliSearch Software AS
         </footer>
-        <div id="about">
+
+        <div id="auth-pending" class="dialog">
             <div class="whiteout">
-                <div class="dialog">
+                <div class="dialog-content">
+                    <header>
+                        <h1>Authenticating user</h1>
+                    </header>
+                    <main>
+                        <span class="spinner"></span>
+                    </main>
+                </div>
+            </div>
+        </div>
+        <div id="auth-error" class="dialog">>
+            <div class="whiteout">
+                <div class="dialog-content">
+                    <header>
+                        <h1>Authentication error!</h1>
+                    </header>
+                    <main>
+                        <p>
+                            There was a problem authenticating your access to the solution.
+                        </p>
+                        <p>
+                            If you are not logged on to the domain then please try to logon and try again.
+                        </p>
+                        <p>
+                            The solution will attempt to login once every minute (TODO) until this is resolved.
+                            If you don't want to wait then click <a href="./">here</a> to try again now.
+                        </p>
+                    </main>
+                </div>
+            </div>
+        </div>
+        <div id="about" class="dialog">
+            <div class="whiteout">
+                <div class="dialog-content">
                     <header>
                         <h1>About IntelliSearch</h1>
                         <div id="about-close-button">X</div>
@@ -454,9 +488,9 @@
                 </div>
             </div>
         </div>
-        <div id="help">
+        <div id="help" class="dialog">
             <div class="whiteout">
-                <div class="dialog">
+                <div class="dialog-content">
                     <header>
                         <h1>Help</h1>
                         <div id="help-close-button">X</div>
@@ -555,6 +589,9 @@
                             </dd>
                         </dl>
                     </main>
+                    <footer>
+                        &copy; IntelliSearch Software AS
+                    </footer>
                 </div>
             </div>
         </div>

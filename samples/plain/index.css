@@ -33,10 +33,19 @@ body {
     grid-gap: 10px;
     height: 100vh;
 }
+
 #container.settings:not(.welcome) {
     grid-template-areas:
         "header header header"
         "categories matches details"
+        "settings settings settings";
+    grid-template-rows: auto 2fr minmax(10%, 1fr);
+}
+
+#container.settings.welcome {
+    grid-template-areas:
+        "header header header"
+        "welcome welcome welcome"
         "settings settings settings";
     grid-template-rows: auto 2fr minmax(10%, 1fr);
 }
@@ -61,7 +70,7 @@ body {
         "settings settings settings";
 }
 
-#container.no-details {
+#container.no-details:not(.welcome) {
     grid-template-areas:
         "header header header"
         "categories matches matches"
@@ -87,8 +96,6 @@ body {
         "settings settings settings";
 }
 
-#welcome,
-#help,
 #settings,
 #error,
 #dimmer,
@@ -106,36 +113,64 @@ body {
     display: none;
 }
 
-#about,
-#help,
-#settings {
+.dialog {
     display: none;
     background-color: rgba(255, 255, 255, 0.7);
     overflow-y: auto;
-    margin-bottom: -10px;
-}
-
-#about,
-#help {
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     position: absolute;
 }
-#about .whiteout,
-#help .whiteout {
+
+.whiteout {
     background-color: rgba(255, 255, 255, 0.7);
     z-index: 2000;
     display: flex;
+    width: 100%;
+}
+
+.dialog-content {
+    margin: auto;
+    width: 90%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    background-color: #f9f9f9;
+    padding: 0.5em 1em;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+#auth-pending .dialog-content,
+#auth-error .dialog-content {
+    height: unset;
+    width: unset;
+    padding-bottom: 1em;
+    text-align: center;
+    font-size: 80%;
+}
+
+#auth-pending .spinner {
+    zoom: 200%;
+    display: block;
+    padding-bottom: 1em;
 }
 
 #settings {
     grid-area: settings;
 }
+
+#container.about #about,
+#container.help #help,
+#container.auth-pending #auth-pending,
+#container.auth-error #auth-error {
+    display: flex;
+}
+
 #about.show,
 #help.show,
-#container.settings:not(.welcome) #settings {
+#container.settings #settings {
     display: flex;
 }
 
@@ -159,24 +194,14 @@ button:hover {
     padding: 0.5em;
 }
 
-#about .dialog,
-#help .dialog,
-#settings .dialog {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
-    background-color: #f9f9f9;
-    padding: 0.5em 1em;
-    display: flex;
-    flex-direction: column;
+#settings .dialog-content {
+    margin: unset;
+    height: unset;
     width: 100%;
-}
-#about .dialog,
-#help .dialog {
-    margin: auto;
-    height: 90%;
-    width: 90%;
+    padding: 0.3em;
 }
 
-#settings .dialog legend {
+#settings .dialog-content legend {
     overflow-x: hidden;
 }
 
@@ -188,39 +213,44 @@ button:hover {
     font-size: small;
 }
 
-#about .dialog header,
-#help .dialog header,
-#settings .dialog header {
-    margin: 0 -0.5em 0 0;
+#about .dialog-content header,
+#help .dialog-content header,
+#settings .dialog-content header {
     padding: 0;
     display: flex;
     justify-content: space-between;
     border-bottom: solid 1px silver;
 }
-#settings .dialog header {
-    /*margin-bottom: 0.5em;*/
+#settings .dialog-content header {
     border-bottom: none;
     flex-shrink: 0;
 }
 
-#settings .dialog header h1 {
+#settings .dialog-content header h1 {
     margin: 0;
     font-size: 1em;
 }
 
-#help .dialog header h1 {
+#help .dialog-content header h1 {
     margin: 0 0 1.2em 0;
 }
-#about .dialog main,
-#help .dialog main,
-#settings .dialog main {
+#about .dialog-content main,
+#help .dialog-content main,
+#settings .dialog-content main {
     flex-grow: 1;
     overflow-y: auto;
 }
-#about .dialog footer {
+
+#settings .dialog-content main {
+    padding: 0.5em 0.5em 0 0.5em;
+}
+
+.dialog-content footer {
     text-align: center;
     border-top: solid 1px silver;
     padding: 0.5em 0 0 0;
+    font-size: initial;
+    font-style: initial;
 }
 
 #about-close-button,
@@ -266,6 +296,7 @@ button:hover {
     font-size: 2em;
 }
 #welcome {
+    display: none;
     grid-area: welcome;
     padding: 0 2em;
     font-size: smaller;
@@ -293,7 +324,6 @@ button:hover {
 }
 
 #container.welcome #welcome,
-#container.help #help,
 #container.error #error {
     display: block;
 }
@@ -322,7 +352,6 @@ button:hover {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.7);
 }
 
 #dimmer .loader {
@@ -332,7 +361,6 @@ button:hover {
     zoom: 50%;
 }
 
-/* Show #dimmer when query has changed (but not if loading). */
 #container.query-changed:not(.matches-loading) #dimmer,
 #container.query-changed:not(.categories-loading) #dimmer {
     background-image: none;
@@ -343,15 +371,11 @@ button:hover {
     display: none;
 }
 
-/* Show #dimmer when matches are loading. */
 #container.matches-loading #dimmer,
-
-/* Show the #category-dimmer when only categories are loading. */
 #container.categories-loading:not(.matches-loading) #category-dimmer {
     display: flex;
 }
 
-/* Hide the #category-dimmer when both are loading */
 #container.matches-loading.categories-loading #category-dimmer {
     display: none;
 }
@@ -439,8 +463,6 @@ button#reset.hidden {
 #menu-list li:hover {
     background-color: #dfdfdf;
 }
-
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 
 #top {
     display: flex;
@@ -589,7 +611,6 @@ button#reset.hidden {
 
 #categories-tree > ul li > .entry {
     border-bottom: 0px solid #dedede;
-    padding-top: 0.1em;
     display: flex;
     justify-content: stretch;
 }
@@ -606,7 +627,6 @@ button#reset.hidden {
 
 #categories-tree > ul .collapsed.has-children > .entry {
     border-bottom: 1px solid #dedede;
-    padding-top: 10px;
 }
 
 #categories-tree > ul .entry > .toggle {
@@ -618,6 +638,10 @@ button#reset.hidden {
     max-width: 1.5em;
     white-space: pre;
     vertical-align: middle;
+}
+
+#categories-tree > ul > li > .entry > .toggle {
+    margin-top: -0.3em;
 }
 
 #categories-tree > ul .has-children > .entry > .toggle {
@@ -676,36 +700,9 @@ button#reset.hidden {
     content: "";
 }
 
-/* #categories > :first-child {
-    display: none;
-}
-
-#categories > :nth-child(1) {
-    display: none;
-} */
-
 #categories-tree > ul {
     margin-top: 0;
 }
-
-/*
-#categories .collapsed.hasChildren span::before
-{
-    content: "\25b6";
-}
-#categories .collapsed :nth-child(2) {
-    display:none;
-}
-#categories .expanded.hasChildren span::before
-{
-    content: "\25bc";
-}
-
-#categories .expanded.leafNode span::before
-{
-    content: "";
-    margin-left: 12px;
-}*/
 
 #categories > ul > li > .entry {
     background-color: transparent;
@@ -1080,14 +1077,17 @@ button#reset.hidden {
     }
 }
 
-/* Mini spinner for autocomplete */
+/* Mini spinner for autocomplete and authentication */
 
-#spinner {
-    visibility: hidden;
+.spinner {
     z-index: 100;
 }
 
-#spinner:before {
+#spinner {
+    visibility: hidden;
+}
+
+.spinner:before {
     content: "";
     box-sizing: border-box;
     position: absolute;

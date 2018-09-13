@@ -1,3 +1,21 @@
+/**
+ * TODO: Search-client categories/filters
+ * I am thinking we can create a dictionary, based on the joined array-names as the key,
+ * and the value is a tuple that contains the actual category and the parent.
+ * That solution would make it fast to identify filters/categories, while at the same
+ * time allow iterating up from the leaf to find the displayNames of each category.
+ *
+ * TODO: UI errors
+ * Tune showing errors:
+ * https://intellisearch.slack.com/archives/D3TMK937F/p1536833917000100 -->
+ * - Ved feil i forbindelse med autocomplete så viser vi en varseltrekant istedetfor spinner ved query-feltet.
+ * - Ved feil i forbindelse med henting av søketreff så viser vi en feilmelding i match-listen (liten
+ *   varseltrekant pluss tekst, med tilleggsknapp for å se detaljer/rapportere problemet.
+ * - Ved feil i forbindelse med henting av kategorier så viser vi en trekant med feilbeskrivelse i kategori-
+ *   feltet, med tilleggsknapp for å se detaljer/rapportere problemet.
+ * - Men, ved feil i både kategori og matches så viser vi en felles feil-melding.
+ */
+
 function load(file) {
     return fetch(file, {
         "Content-Type": "text/json",
@@ -324,7 +342,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // prettier-ignore
     function setupClient() {
         // Sets up the client that connects to the intellisearch backend using the aforementioned settings
-        return new IntelliSearch.SearchClient(searchSettings);
+        let c = new IntelliSearch.SearchClient(searchSettings);
+        if (searchSettings.authentication.enabled && !c.authenticationToken) {
+            document.getElementById("container").classList.add("auth-pending");
+        }
+        return c;
     }
 
     let client = setupClient();
@@ -503,17 +525,22 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         menu.classList.toggle("show");
     });
 
-    window.INTS_ShowHelp = function() {
-        helpElm.classList.add("show");
+    window.INTS_OpenDialog = function(dialog) {
+        containerElm.classList.add(dialog);
+    };
+    window.INTS_CloseDialog = function(dialog) {
+        containerElm.classList.remove(dialog);
     };
 
     let menuOptionHelp = document.getElementById("menu-option-help");
-    menuOptionHelp.addEventListener("click", window.INTS_ShowHelp);
+    menuOptionHelp.addEventListener("click", () =>
+        window.INTS_OpenDialog("help")
+    );
 
     let helpCloseElm = document.getElementById("help-close-button");
-    helpCloseElm.addEventListener("click", () => {
-        helpElm.classList.remove("show");
-    });
+    helpCloseElm.addEventListener("click", () =>
+        window.INTS_CloseDialog("help")
+    );
 
     let menuOptionToggleDetails = document.getElementById(
         "menu-option-toggle-details"
@@ -534,17 +561,15 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove("settings");
     });
 
-    window.INTS_ShowAbout = function() {
-        aboutElm.classList.add("show");
-    };
-
     let menuOptionAbout = document.getElementById("menu-option-about");
-    menuOptionAbout.addEventListener("click", window.INTS_ShowAbout);
+    menuOptionAbout.addEventListener("click", () =>
+        window.INTS_OpenDialog("about")
+    );
 
     let aboutCloseElm = document.getElementById("about-close-button");
-    aboutCloseElm.addEventListener("click", () => {
-        aboutElm.classList.remove("show");
-    });
+    aboutCloseElm.addEventListener("click", () =>
+        window.INTS_CloseDialog("about")
+    );
 
     // Close the drop-down menu if the user clicks outside of it
     window.addEventListener("click", event => {
@@ -564,6 +589,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function handleAuthenticationSuccess(result) {
+        containerElm.classList.remove("auth-pending");
         console.log("handleAuthenticationSuccess", "Result:", result);
     }
 
@@ -571,6 +597,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         stacktrace(stack => {
             console.error("handleAuthenticationError", error.message, stack);
         });
+        containerElm.classList.remove("auth-pending");
+        containerElm.classList.add("auth-error");
+        // TODO: Write details on error to dialog?
     }
 
     /*** Autocomplete callbacks *************************************************************/
@@ -580,7 +609,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Return false to stop autocomplete queries from being executed.
      */
     function handleAutocompleteRequest(url, reqInit) {
-        console.log("handleAutocompleteRequest", url, reqInit);
+        //console.log("handleAutocompleteRequest", url, reqInit);
         loadingSuggestions.style.visibility = "visible";
     }
 
@@ -611,7 +640,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Return false to stop autocomplete queries from being executed.
      */
     function handleFindRequest(url, reqInit) {
-        console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
+        //console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
         containerElm.classList.add("matches-loading");
     }
 
@@ -891,13 +920,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Return false to stop autocomplete queries from being executed.
      */
     function handleCategorizeRequest(url, reqInit) {
-        console.log(
-            "handleCategorizeRequest",
-            "Url: ",
-            url,
-            "ReqInit:",
-            reqInit
-        );
+        // console.log("handleCategorizeRequest", "Url: ", url, "ReqInit:", reqInit);
         containerElm.classList.add("categories-loading");
     }
 
