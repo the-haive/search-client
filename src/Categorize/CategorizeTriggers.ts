@@ -70,7 +70,7 @@ export class CategorizeTriggers {
     public queryChangeMinLength?: number;
 
     /**
-     * Triggers when the searchType property has changed.
+     * Triggers when the searchType property has changed. Default: true
      */
     public searchTypeChanged?: boolean;
 
@@ -139,7 +139,7 @@ export class CategorizeTriggers {
         this.searchTypeChanged =
             typeof triggers.searchTypeChanged !== "undefined"
                 ? triggers.searchTypeChanged
-                : false;
+                : true;
 
         this.uiLanguageCodeChanged =
             typeof triggers.uiLanguageCodeChanged !== "undefined"

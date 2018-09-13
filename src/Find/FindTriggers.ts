@@ -95,7 +95,7 @@ export class FindTriggers {
     public queryChangeMinLength?: number;
 
     /**
-     * Triggers when the searchType property has changed.
+     * Triggers when the searchType property has changed. Default: true
      */
     public searchTypeChanged?: boolean;
 
@@ -176,7 +176,7 @@ export class FindTriggers {
         this.searchTypeChanged =
             typeof triggers.searchTypeChanged !== "undefined"
                 ? triggers.searchTypeChanged
-                : false;
+                : true;
         this.uiLanguageCodeChanged =
             typeof triggers.uiLanguageCodeChanged !== "undefined"
                 ? triggers.uiLanguageCodeChanged
