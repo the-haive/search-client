@@ -789,8 +789,9 @@ button#reset.hidden {
 }
 
 #matches-list li .date {
-    font-style: italic;
     display: block;
+    font-size: 0.75em;
+    margin: 0.2em 0;
 }
 
 #matches-list a {

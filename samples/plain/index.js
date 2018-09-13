@@ -38,6 +38,8 @@ function load(file) {
 }
 
 window.onload = function() {
+    moment.locale(window.navigator.language);
+    console.log("moment.locale:", moment.locale());
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
     //    We first try to load a default from the settings file on the server.
@@ -180,9 +182,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                   `
                 : ``
             ,
-            modDate: (date) => `
-                <span class="date" title="Modification date">${new Date(date).toLocaleDateString()}</span>
-            `,
+            modDate: (dateString) => {
+                let date = moment(new Date(dateString));
+                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">[~ ${date.fromNow()}]</span>`;
+            },
             title: (title, url) => `
                 <a class="title" href="${url}" title="${title}">${title}</a>
             `,
