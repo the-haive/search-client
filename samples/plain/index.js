@@ -1089,8 +1089,10 @@ function checkIntellidebugMod(event, queryTextElm) {
 
 function setupTabs() {
     var tabContainerElms = document.getElementsByClassName("tab-container");
-    for (let tabContainerElm of tabContainerElms) {
-        for (let tabElm of tabContainerElm.children) {
+    for (let i = 0; i < tabContainerElms.length; i++) {
+        let tabContainerElm = tabContainerElms[i];
+        for (let j = 0; j < tabContainerElm.children.length; j++) {
+            let tabElm = tabContainerElm.children[j];
             const tabContentId = `tab-${tabElm.id}`;
             let tabContent = document.getElementById(tabContentId);
             if (!tabContent) {
@@ -1103,14 +1105,20 @@ function setupTabs() {
             }
             tabElm.addEventListener("click", () => {
                 // Remove sibling tabContents "current"
-                for (let t of tabElm.parentElement.children) {
+                for (let k = 0; k < tabElm.parentElement.children.length; k++) {
+                    let t = tabElm.parentElement.children[k];
                     t.classList.remove("current");
                 }
                 // Add this' related tabContent "current"
                 tabElm.classList.add("current");
 
                 // Remove sibling tab's "current"
-                for (let c of tabContent.parentElement.children) {
+                for (
+                    let k = 0;
+                    k < tabContent.parentElement.children.length;
+                    k++
+                ) {
+                    let c = tabContent.parentElement.children[k];
                     c.classList.remove("current");
                 }
                 // Add this tab "current"
