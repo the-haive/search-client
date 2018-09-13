@@ -470,6 +470,7 @@ button#reset.hidden {
     margin-left: 10px;
     align-items: center;
     padding-top: 10px;
+    min-height: 5em; /* When not tabs are enabled, the #top otherwise becomes a wee bit small...*/
 }
 
 #header #top h1 {
@@ -551,7 +552,8 @@ button#reset.hidden {
 }
 
 #tabs {
-    display: flex;
+    display: none;
+    /*display: flex;*/
     margin-left: 280px;
 }
 
