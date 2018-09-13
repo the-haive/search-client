@@ -556,7 +556,27 @@ button#reset.hidden {
     background-color: transparent;
     border: 0;
 }
-
+.search.icon {
+    color: #000;
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 3px;
+    width: 12px;
+    height: 12px;
+    border: solid 1px currentColor;
+    border-radius: 100%;
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+  .search.icon:before {
+    content: '';
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    height: 6px;
+    width: 1px;
+    background-color: currentColor;
+  }
 .query svg {
     width: 24px;
     height: 24px;
@@ -576,9 +596,9 @@ button#reset.hidden {
     font-size: 13px;
 }
 
-#tabs :first-child {
+#tabs .selected {
     color: #1a73e8;
-    border-bottom: #1a73e8 solid 3px;
+    border-bottom: #1a73e8 solid 5px;
     font-weight: 700;
 }
 
@@ -670,15 +690,57 @@ button#reset.hidden {
 #categories-tree > ul .has-children > .entry > .toggle {
     visibility: visible;
 }
-
+/*
 #categories-tree .collapsed.has-children > .entry > .toggle::before {
-    content: url(/images/collapse.svg); /*"▶";*/
+    content: url(/images/expand.svg);
 }
-
+*/
+#categories-tree > ul .expanded.has-children > .entry > .toggle::before:hover,
+#categories-tree > ul .collapsed.has-children > .entry > .toggle::before:hover {
+    /*background-color: silver;*/
+}
+/*
 #categories-tree > ul .expanded.has-children > .entry > .toggle::before {
-    content: url(/images/expand.svg); /*"▼";*/
+    content: url(/images/collapse.svg); 
 }
+*/
 
+#categories-tree > ul .collapsed.has-children > .entry > .toggle,
+#categories-tree > ul .expanded.has-children > .entry > .toggle {
+    color: #000;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 0;
+    width: 0px;
+    height: 16px;
+    background-color: transparent;/* currentColor;*/
+  }
+  
+  #categories-tree > ul .expanded.has-children > .entry > .toggle:before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 5px;
+    width: 8px;
+    height: 8px;
+    border-top: solid 2px currentColor;
+    border-right: solid 2px currentColor;
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+
+  #categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0px;
+    width: 8px;
+    height: 8px;
+    border-top: solid 2px currentColor;
+    border-right: solid 2px currentColor;
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
 #categories-tree > ul .collapsed.has-children > ul {
     display: none;
 }
