@@ -234,14 +234,14 @@ button:hover {
 #help .dialog-content header h1 {
     margin: 0 0 1.2em 0;
 }
-#about .dialog-content main,
-#help .dialog-content main,
-#settings .dialog-content main {
+#about .dialog-content .dialog-content-main,
+#help .dialog-content .dialog-content-main,
+#settings .dialog-content .dialog-content-main {
     flex-grow: 1;
     overflow-y: auto;
 }
 
-#settings .dialog-content main {
+#settings .dialog-content .dialog-content-main {
     padding: 0.5em 0.5em 0 0.5em;
 }
 
@@ -483,20 +483,15 @@ button#reset.hidden {
 }
 
 #header #top h1 {
+    align-self: start;
+    margin-top: 0.25em;
     font-family: Arial, Helvetica, sans-serif;
-    text-indent: -9999px;
-    line-height: 0;
     margin: 0 20px 0 10px;
-}
-
-#header #top h1::after {
-    content: "IntelliSearch";
-    text-indent: 0;
-    line-height: initial;
     display: block;
 }
 
 #logo {
+    align-self: start;
     background: url("../images/INTS_Logo.svg") 0 0 no-repeat;
     background-size: contain;
     width: 50px;
@@ -521,6 +516,7 @@ button#reset.hidden {
 }
 
 #query-text {
+    font-family: Arial, sans-serif;
     border: none;
     height: 40px;
     outline: none;

@@ -15,7 +15,7 @@
         <header id="header">
             <div id="top">
                 <a id="logo" href="./"></a>
-                <h1>IntelliSearch SearchClient</h1>
+                <h1>IntelliSearch</h1>
                 <div>
                     <div class="query">
                         <div id="spinner" class="spinner"></div>
@@ -39,12 +39,12 @@
                 </div>
                 <div id="menu">
                     <button id="menu-button">☰</button>
-                    <div id="menu-list">
+                    <ul id="menu-list">
                         <li id="menu-option-help">Help</li>
                         <li id="menu-option-toggle-details"></li>
                         <li id="menu-option-settings">Settings</li>
                         <li id="menu-option-about">About</li>
-                    </div>
+                    </ul>
                 </div>
             </div>
             <div id="tabs">
@@ -194,7 +194,7 @@
                     </ul>
                     <button id="settings-close-button">X</button>
                 </header>
-                <main id="settings-main" class="tab-content-container">
+                <div id="settings-main" class="dialog-content-main tab-content-container">
                     <div id="tab-search" class="tab-content current">
                         <ul class="tab-container">
                             <li id="search-main" class="tab current" title="Common settings">Main</li>
@@ -206,10 +206,10 @@
                         </ul>
                         <div class="tab-content-container">
                             <div id="tab-search-main" class="tab-content current key-value-grid">
-                                <legend for="tab-search-main-base-url" title="Required. The common default base-url for the server (domain), including the protocol.">BaseUrl</legend>
+                                <label for="tab-search-main-base-url" title="Required. The common default base-url for the server (domain), including the protocol.">BaseUrl</label>
                                 <input id="tab-search-main-base-url" type="text">
 
-                                <legend for="tab-search-main-base-path" title="Optional. The common base-path for the server (defaults to 'RestService/v4').">BasePath</legend>
+                                <label for="tab-search-main-base-path" title="Optional. The common base-path for the server (defaults to 'RestService/v4').">BasePath</label>
                                 <input id="tab-search-main-base-path" type="text">
                                 <p>
                                     The exported search-settings json file must be copied in to the root folder of the
@@ -219,80 +219,80 @@
                                 <button>TODO: Export</button>
                             </div>
                             <div id="tab-search-autocomplete" class="tab-content key-value-grid">
-                                <legend>Autocomplete</legend>
+                                <label>Autocomplete</label>
                                 <ul>
                                     <li>BaseUrl</li>
                                     <li>BasePath</li>
                                 </ul>
                             </div>
                             <div id="tab-search-find" class="tab-content key-value-grid">
-                                <legend>Find</legend>
+                                <label>Find</label>
                                 <ul>
                                     <li>BaseUrl</li>
                                     <li>BasePath</li>
                                 </ul>
                             </div>
                             <div id="tab-search-categorize" class="tab-content key-value-grid">
-                                <legend>Categorize</legend>
+                                <label>Categorize</label>
                                 <ul>
                                     <li>BaseUrl</li>
                                     <li>BasePath</li>
                                 </ul>
                             </div>
                             <div id="tab-search-authentication" class="tab-content key-value-grid">
-                                <legend>Authentication</legend>
+                                <label>Authentication</label>
                                 <ul>
                                     <li>BaseUrl</li>
                                     <li>BasePath</li>
                                 </ul>
                             </div>
                             <div id="tab-search-query" class="tab-content key-value-grid">
-                                <legend for="tab-search-query-settings-categorization-type" title="Controls the type of category-tree that is returned on searches.">CategorizationType</legend>
+                                <label for="tab-search-query-settings-categorization-type" title="Controls the type of category-tree that is returned on searches.">CategorizationType</label>
                                 <select id="tab-search-query-settings-categorization-type">
                                     <option title="Returns all categories, always.">All Categories</option>
                                     <option title="Returns only categories that has matches.">DocumentHitsOnly</option>
                                 </select>
 
-                                <legend for="tab-search-query-settings-client-id" title="These help identify the various searches in the search-engine backend statistics. Plus, you can tune the backend to i.e. deliver different category-trees depending on the client-id in use.">ClientId</legend>
+                                <label for="tab-search-query-settings-client-id" title="These help identify the various searches in the search-engine backend statistics. Plus, you can tune the backend to i.e. deliver different category-trees depending on the client-id in use.">ClientId</label>
                                 <input id="tab-search-query-settings-client-id" type="text">
 
-                                <legend for="tab-search-query-settings-date-from" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateFrom</legend>
+                                <label for="tab-search-query-settings-date-from" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateFrom</label>
                                 <input id="tab-search-query-settings-date-from" type="date">
 
-                                <legend for="tab-search-query-settings-date-to" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateTo</legend>
+                                <label for="tab-search-query-settings-date-to" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">DateTo</label>
                                 <input id="tab-search-query-settings-date-to" type="date">
 
-                                <legend for="tab-search-query-settings-filters" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">Filters</legend>
+                                <label for="tab-search-query-settings-filters" title="Usually used in the UI directly, as opposed to as a preset value. For specific cases though it might be a valid choice to make this a hard preset.">Filters</label>
                                 <textarea id="tab-search-query-settings-filters"></textarea>
 
-                                <legend for="tab-search-query-settings-match-generate-content" title="Usually the end-user will not have to consider this. For the search designer it is important to consider whether or not to show the match contents. Note: This setting requires the search-engine backend to allow content generation to be effective.">MatchGenerateContent</legend>
+                                <label for="tab-search-query-settings-match-generate-content" title="Usually the end-user will not have to consider this. For the search designer it is important to consider whether or not to show the match contents. Note: This setting requires the search-engine backend to allow content generation to be effective.">MatchGenerateContent</label>
                                 <input id="tab-search-query-settings-match-generate-content" type="checkbox">
 
-                                <legend for="tab-search-query-settings-match-generate-content-highlights" title="Only effective if MatchGenerateContent is checked. Enables highlighting words in the content according to the matches that was made.">MatchGenerateContentHighlights</legend>
+                                <label for="tab-search-query-settings-match-generate-content-highlights" title="Only effective if MatchGenerateContent is checked. Enables highlighting words in the content according to the matches that was made.">MatchGenerateContentHighlights</label>
                                 <input id="tab-search-query-settings-match-generate-content-highlights" type="checkbox">
 
-                                <legend for="tab-search-query-settings-match-grouping" title="Enabled grouping of results, for the sources that supports this (i.e. mail).">MatchGrouping</legend>
+                                <label for="tab-search-query-settings-match-grouping" title="Enabled grouping of results, for the sources that supports this (i.e. mail).">MatchGrouping</label>
                                 <input id="tab-search-query-settings-match-grouping" type="checkbox">
 
-                                <legend for="tab-search-query-settings-match-page" title="Reflects the current result-set page. Note: Not included in the export.">MatchPage</legend>
+                                <label for="tab-search-query-settings-match-page" title="Reflects the current result-set page. Note: Not included in the export.">MatchPage</label>
                                 <input id="tab-search-query-settings-match-page" type="number">
 
-                                <legend for="tab-search-query-settings-match-page-size" title="Controls the number of matches per page that is to be delivered.">MatchPageSize</legend>
+                                <label for="tab-search-query-settings-match-page-size" title="Controls the number of matches per page that is to be delivered.">MatchPageSize</label>
                                 <input id="tab-search-query-settings-match-page-size" type="number">
 
-                                <legend for="tab-search-query-settings-match-order-by" title="Controls the order of the match-results.">MatchOrderBy</legend>
+                                <label for="tab-search-query-settings-match-order-by" title="Controls the order of the match-results.">MatchOrderBy</label>
                                 <select id="tab-search-query-settings-match-order-by">
                                     <option title="Most relevant hits on top">Relevance</option>
                                     <option title="Newest items on top, based on modification date.">Date</option>
                                 </select>
 
-                                <legend for="tab-search-query-settings-max-suggestions" title="Controls the number of autocomplete suggestions to receive.">MaxSuggestions</legend>
+                                <label for="tab-search-query-settings-max-suggestions" title="Controls the number of autocomplete suggestions to receive.">MaxSuggestions</label>
                                 <input id="tab-search-query-settings-max-suggestions" type="number">
 
-                                <legend for="tab-search-query-settings-query-text" title="Reflects the current result-set query-text. Note: Not included in the export.">QueryText</legend>
+                                <label for="tab-search-query-settings-query-text" title="Reflects the current result-set query-text. Note: Not included in the export.">QueryText</label>
                                 <input id="tab-search-query-settings-query-text" type="text">
 
-                                <legend for="tab-search-query-settings-search-type" title="Controls what kind of search to make.">SearchType</legend>
+                                <label for="tab-search-query-settings-search-type" title="Controls what kind of search to make.">SearchType</label>
                                 <select id="tab-search-query-settings-search-type">
                                     <option title="Return matches where all the words in the QueryText is used.">Match
                                         All
@@ -302,7 +302,7 @@
                                     </option>
                                 </select>
 
-                                <legend for="tab-search-query-settings-ui-language-code" title="Controls the language of some of the returned data (like category-names for instance).">UiLanguageCode</legend>
+                                <label for="tab-search-query-settings-ui-language-code" title="Controls the language of some of the returned data (like category-names for instance).">UiLanguageCode</label>
                                 <input id="tab-search-query-settings-ui-language-code" type="text">
                             </div>
                         </div>
@@ -322,39 +322,38 @@
                                 </p>
                                 <p>
                                     Components:
-                                    <ul>
-                                        <li>Categories (todo)</li>
-                                        <li>Matches-pager</li>
-                                        <li>Matches-categories</li>
-                                        <li>Details-pane</li>
-                                    </ul>
                                 </p>
-
+                                <ul>
+                                    <li>Categories (todo)</li>
+                                    <li>Matches-pager</li>
+                                    <li>Matches-categories</li>
+                                    <li>Details-pane</li>
+                                </ul>
                             </div>
                             <!--div id="tab-ui-categories" class="tab-content key-value-grid">
                                 Categories: None, yet at least...
                             </div-->
                             <div id="tab-ui-match-pager" class="tab-content key-value-grid">
-                                <label for="tab-ui-matches-pager-size" title="Controls the number of items to show in the pager.">Pager
+                                <label for="tab-ui-match-pager-size" title="Controls the number of items to show in the pager.">Pager
                                     size
                                 </label>
-                                <input id="tab-ui-matches-pager-size" type="number">
+                                <input id="tab-ui-match-pager-size" type="number">
 
-                                <label for="tab-ui-matches-pager-first" title="Controls whether or not to add a link to the first page.">Show
+                                <label for="tab-ui-match-pager-first" title="Controls whether or not to add a link to the first page.">Show
                                     link to first-page</label>
-                                <input id="tab-ui-matches-pager-first" type="checkbox">
+                                <input id="tab-ui-match-pager-first" type="checkbox">
 
-                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the previous page.">Show
+                                <label for="tab-ui-match-pager-prev" title="Controls whether or not to add a link to the previous page.">Show
                                     link to previous page</label>
-                                <input id="tab-ui-matches-pager-size" type="checkbox">
+                                <input id="tab-ui-match-pager-prev" type="checkbox">
 
-                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the next page.">Show
+                                <label for="tab-ui-match-pager-next" title="Controls whether or not to add a link to the next page.">Show
                                     link to next page</label>
-                                <input id="tab-ui-matches-pager-size" type="checkbox">
+                                <input id="tab-ui-match-pager-next" type="checkbox">
 
-                                <label for="tab-ui-matches-pager-size" title="Controls whether or not to add a link to the last page.">Show
+                                <label for="tab-ui-match-pager-last" title="Controls whether or not to add a link to the last page.">Show
                                     link to last page</label>
-                                <input id="tab-ui-matches-pager-size" type="checkbox">
+                                <input id="tab-ui-match-pager-last" type="checkbox">
                             </div>
                             <div id="tab-ui-match-categories" class="tab-content key-value-grid">
                                 <label for="tab-ui-matches-categories-enabled" title="Controls whether or not to show categories with the results.">Enabled</label>
@@ -397,7 +396,7 @@
                             </div>
                         </div>
                     </div>
-                </main>
+                </div>
             </div>
         </div>
 
@@ -419,9 +418,9 @@
                     <header>
                         <h1>Authenticating user</h1>
                     </header>
-                    <main>
+                    <div class="dialog-content-main">
                         <span class="spinner"></span>
-                    </main>
+                    </div>
                 </div>
             </div>
         </div>
@@ -431,7 +430,7 @@
                     <header>
                         <h1>Authentication error!</h1>
                     </header>
-                    <main>
+                    <div class="dialog-content-main">
                         <p>
                             There was a problem authenticating your access to the solution.
                         </p>
@@ -439,10 +438,9 @@
                             If you are not logged on to the domain then please try to logon and try again.
                         </p>
                         <p>
-                            The solution will attempt to login once every minute (TODO) until this is resolved.
-                            If you don't want to wait then click <a href="./">here</a> to try again now.
+                            <a href="./" class="try-again">Try again</a>
                         </p>
-                    </main>
+                    </div>
                 </div>
             </div>
         </div>
@@ -453,7 +451,7 @@
                         <h1>About IntelliSearch</h1>
                         <div id="about-close-button">X</div>
                     </header>
-                    <main>
+                    <div class="dialog-content-main">
                         <p>
                             IntelliSearch is a search-engine - not too unlike Google. If you can google something then
                             you can also use IntelliSearch
@@ -480,7 +478,7 @@
                         <p>
                             <strong>IntelliSearch - your internal Google!</strong>
                         </p>
-                    </main>
+                    </div>
                     <footer>
                         &copy; IntelliSearch Software AS
                     </footer>
@@ -494,7 +492,7 @@
                         <h1>Help</h1>
                         <div id="help-close-button">X</div>
                     </header>
-                    <main>
+                    <div class="dialog-content-main">
                         <dl>
                             <dt>Categories:</dt>
                             <dd>
@@ -587,7 +585,7 @@
                                 <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
                             </dd>
                         </dl>
-                    </main>
+                    </div>
                     <footer>
                         &copy; IntelliSearch Software AS
                     </footer>
@@ -595,11 +593,11 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="stacktrace.min.js" async></script>
-    <script type="text/javascript" src="awesomplete.js" async></script>
-    <script type="text/javascript" src="moment.min.js" async></script>
-    <script type="text/javascript" src="IntelliSearch.js" async></script>
-    <script type="text/javascript" src="index.js" async></script>
+    <script src="stacktrace.min.js" async></script>
+    <script src="awesomplete.js" async></script>
+    <script src="moment.min.js" async></script>
+    <script src="IntelliSearch.js" async></script>
+    <script src="index.js" async></script>
 </body>
 
 </html>
