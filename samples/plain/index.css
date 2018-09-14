@@ -592,6 +592,13 @@ button#reset.hidden {
     overflow-x: hidden;
 }
 
+#details > .close {
+    position: absolute;
+    right: 0;
+    margin: -0.7em 1.1em;
+    cursor: pointer;
+}
+
 /*** CATEGORIES ***/
 
 #categories {

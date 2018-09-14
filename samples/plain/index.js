@@ -503,6 +503,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // Details
     let detailsElm = document.getElementById("details");
+    let detailsCloseElm = detailsElm.getElementsByClassName("close")[0];
+    detailsCloseElm.addEventListener("click", () => {
+        containerElm.classList.toggle("no-details");
+    });
     let detailsHeaderElm = document.getElementById("details-header");
     let detailsTitleElm = document.getElementById("details-title");
     let detailsContentElm = document.getElementById("details-content");
