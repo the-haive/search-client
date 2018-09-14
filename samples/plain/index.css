@@ -1174,3 +1174,17 @@ ul.tab-container li.tab.current {
         margin: 0;
     }
 }
+
+/* Awesomplete overrides */
+.awesomplete mark {
+    background: unset;
+    font-weight: 100;
+}
+
+.awesomplete li:hover mark {
+    background: unset;
+}
+
+.awesomplete li {
+    font-weight: 700;
+}
