@@ -60,7 +60,7 @@ body {
 #container.no-matches {
     grid-template-areas:
         "header header header"
-        ". matches ."
+        "categories matches ."
         "footer footer footer";
 }
 #container.no-matches.settings {
@@ -103,7 +103,6 @@ body {
 #container.welcome #categories,
 #container.welcome #matches,
 #container.welcome #details,
-#container.no-matches #categories,
 #container.no-matches #details,
 #container.error #categories,
 #container.error #matches,
@@ -825,6 +824,7 @@ button#reset.hidden {
     padding: 0 0 0.5em 0;
 }
 
+#categories-filters .filter,
 #matches-list .category {
     border-radius: 0.9em;
     border: solid 0.1em transparent;

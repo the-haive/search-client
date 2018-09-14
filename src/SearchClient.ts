@@ -190,6 +190,15 @@ export class SearchClient implements AuthToken {
         this.update(null, autocomplete, categorize, find);
     }
 
+    public reset(): void {
+        this.deferUpdates(true);
+        this._clientCategoryExpansion = {};
+        this._clientCategoryFilters = {};
+        this.filters = [];
+        this.queryText = "";
+        this.deferUpdates(false, true);
+    }
+
     /**
      * Gets the currently registered regex-filters.
      */

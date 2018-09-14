@@ -101,6 +101,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // prettier-ignore
     const render = {
+        categories: {
+            filter: (filter) => `
+                <span>${filter.displayName.join(" / ")}</span>
+            `
+        },
         match: {
             // Required
             stats: (matches) => {
@@ -342,16 +347,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // console.log("Render templates", render);
 
     // prettier-ignore
-    function setupClient() {
-        // Sets up the client that connects to the intellisearch backend using the aforementioned settings
-        let c = new IntelliSearch.SearchClient(searchSettings);
-        if (searchSettings.authentication.enabled && !c.authenticationToken) {
-            document.getElementById("container").classList.add("auth-pending");
-        }
-        return c;
+    // Sets up the client that connects to the IntelliSearch backend using the aforementioned settings
+    let client = new IntelliSearch.SearchClient(searchSettings);
+    if (searchSettings.authentication.enabled && !client.authenticationToken) {
+        document.getElementById("container").classList.add("auth-pending");
     }
-
-    let client = setupClient();
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // 6. Wire up the queryText field, reset and search-button.
@@ -417,7 +417,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let containerElm = document.getElementById("container");
     resetBtn.addEventListener("click", () => {
         //console.log("UI reset");
-        client = setupClient();
+        client.reset();
         containerElm.className = "welcome";
         queryTextElm.value = "";
     });
@@ -443,6 +443,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     });
     queryTextElm.addEventListener("awesomplete-selectcomplete", event => {
         awesompleteItemSelected = false;
+        client.queryText = event.text.value;
     });
     queryTextElm.addEventListener("awesomplete-close", event => {
         awesompleteItemSelected = false;
@@ -488,6 +489,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     );
     let didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
+    let categoriesFiltersElm = document.getElementById("categories-filters");
     let categoriesTreeElm = document.getElementById("categories-tree");
 
     let matchesListElm = document.getElementById("matches-list");
@@ -1016,6 +1018,18 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             return categoryLiElm;
         }
 
+        // Render filter-chips:
+        categoriesFiltersElm.innerHTML = "";
+        for (let f of client.filters) {
+            let ulElm = document.createElement("ul");
+            categoriesFiltersElm.appendChild(ulElm);
+            let liElm = document.createElement("li");
+            ulElm.appendChild(liElm);
+            liElm.innerHTML = render.categories.filter(f);
+            liElm.addEventListener("click", () => client.filterToggle(f));
+            liElm.classList.add("filter");
+        }
+
         if (categories.groups.length > 0) {
             let ul = document.createElement("ul");
             categoriesTreeElm.appendChild(ul);
@@ -1053,8 +1067,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 }
                 ul.appendChild(groupLiElm);
             });
-        } else {
-            categoriesTreeElm.innerHTML = "No categories.";
+            // } else {
+            //     categoriesTreeElm.innerHTML = "No categories.";
         }
     }
 
