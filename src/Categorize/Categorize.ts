@@ -289,74 +289,6 @@ export class Categorize extends BaseCall<Categories> {
         return category ? category.ref : null;
     }
 
-    private getCategoryPathDisplayNameFromCategories(
-        categoryName: string[],
-        categories: Category[]
-    ): { displayName: string[]; ref: Category } {
-        let result: string[] = [];
-        let path = categoryName.slice(0);
-        let catId = path.splice(0, 1)[0].toLowerCase();
-
-        let category = categories.find(c => c.name.toLowerCase() === catId);
-
-        if (!category) {
-            return null;
-        }
-
-        result.push(category.displayName);
-
-        let res: { displayName: string[]; ref: Category };
-        if (path.length > 0 && category.children.length === 0) {
-            return null;
-        }
-
-        if (category.children.length > 0 && path.length > 0) {
-            res = this.getCategoryPathDisplayNameFromCategories(
-                path,
-                category.children
-            );
-            if (res.displayName && res.displayName.length > 0) {
-                result = result.concat(res.displayName);
-            }
-        }
-
-        return { displayName: result, ref: res ? res.ref : category };
-    }
-
-    private filterCategories(categories: Categories, query: Query): Categories {
-        if (
-            !query ||
-            ((!query.clientCategoryFilter ||
-                Object.getOwnPropertyNames(query.clientCategoryFilter)
-                    .length === 0) &&
-                (!query.clientCategoryExpansion ||
-                    Object.getOwnPropertyNames(query.clientCategoryExpansion)
-                        .length === 0) &&
-                query.filters.length === 0)
-        ) {
-            return categories;
-        }
-
-        let cats = { ...categories };
-        let groups = cats.groups.map((inGroup: Group) => {
-            let group = { ...inGroup };
-            if (group.categories && group.categories.length > 0) {
-                group.categories = this.mapCategories(group.categories, query);
-            }
-            if (query.clientCategoryExpansion.hasOwnProperty(group.name)) {
-                group.expanded = query.clientCategoryExpansion[group.name];
-            } else {
-                group.expanded =
-                    group.expanded ||
-                    group.categories.some(c => c.expanded === true);
-            }
-            return group;
-        });
-        cats.groups = groups.filter(g => g !== undefined);
-        this.addFiltersIfMissing(query.filters, cats);
-        return cats;
-    }
-
     /**
      * Adds missing filters as category-tree-nodes.
      */
@@ -422,33 +354,72 @@ export class Categorize extends BaseCall<Categories> {
         });
     }
 
-    private mapCategories(categories: Category[], query: Query): Category[] {
-        let cats = [...categories];
-        cats = cats.map((inCategory: Category) => {
-            let category = { ...inCategory };
-            // Apply categoryFilters
-            let result = this.inClientCategoryFilter({ ...category }, query);
-            if (result !== false) {
-                if (category.children && category.children.length > 0) {
-                    category.children = this.mapCategories(
-                        category.children,
-                        query
-                    );
-                }
-                if (result === true) {
-                    // The results are filtered
-                    category.expanded = true;
-                }
-                let catKey = category.categoryName.join("|");
-                if (query.clientCategoryExpansion.hasOwnProperty(catKey)) {
-                    category.expanded = query.clientCategoryExpansion[catKey];
-                }
-                return category;
-            }
-        });
+    private filterCategories(categories: Categories, query: Query): Categories {
+        if (
+            !query ||
+            ((!query.clientCategoryFilter ||
+                Object.getOwnPropertyNames(query.clientCategoryFilter)
+                    .length === 0) &&
+                (!query.clientCategoryExpansion ||
+                    Object.getOwnPropertyNames(query.clientCategoryExpansion)
+                        .length === 0) &&
+                query.filters.length === 0)
+        ) {
+            return categories;
+        }
 
-        cats = cats.filter(c => c !== undefined);
+        let cats = { ...categories };
+        let groups = cats.groups.map((inGroup: Group) => {
+            let group = { ...inGroup };
+            if (group.categories && group.categories.length > 0) {
+                group.categories = this.mapCategories(group.categories, query);
+            }
+            if (query.clientCategoryExpansion.hasOwnProperty(group.name)) {
+                group.expanded = query.clientCategoryExpansion[group.name];
+            } else {
+                group.expanded =
+                    group.expanded ||
+                    group.categories.some(c => c.expanded === true);
+            }
+            return group;
+        });
+        cats.groups = groups.filter(g => g !== undefined);
+        this.addFiltersIfMissing(query.filters, cats);
         return cats;
+    }
+
+    private getCategoryPathDisplayNameFromCategories(
+        categoryName: string[],
+        categories: Category[]
+    ): { displayName: string[]; ref: Category } {
+        let result: string[] = [];
+        let path = categoryName.slice(0);
+        let catId = path.splice(0, 1)[0].toLowerCase();
+
+        let category = categories.find(c => c.name.toLowerCase() === catId);
+
+        if (!category) {
+            return null;
+        }
+
+        result.push(category.displayName);
+
+        let res: { displayName: string[]; ref: Category };
+        if (path.length > 0 && category.children.length === 0) {
+            return null;
+        }
+
+        if (category.children.length > 0 && path.length > 0) {
+            res = this.getCategoryPathDisplayNameFromCategories(
+                path,
+                category.children
+            );
+            if (res.displayName && res.displayName.length > 0) {
+                result = result.concat(res.displayName);
+            }
+        }
+
+        return { displayName: result, ref: res ? res.ref : category };
     }
 
     private inClientCategoryFilter(category: Category, query: Query): boolean {
@@ -476,5 +447,34 @@ export class Categorize extends BaseCall<Categories> {
             }
         }
         return null;
+    }
+
+    private mapCategories(categories: Category[], query: Query): Category[] {
+        let cats = [...categories];
+        cats = cats.map((inCategory: Category) => {
+            let category = { ...inCategory };
+            // Apply categoryFilters
+            let result = this.inClientCategoryFilter({ ...category }, query);
+            if (result !== false) {
+                if (category.children && category.children.length > 0) {
+                    category.children = this.mapCategories(
+                        category.children,
+                        query
+                    );
+                }
+                if (result === true) {
+                    // The results are filtered
+                    category.expanded = true;
+                }
+                let catKey = category.categoryName.join("|");
+                if (query.clientCategoryExpansion.hasOwnProperty(catKey)) {
+                    category.expanded = query.clientCategoryExpansion[catKey];
+                }
+                return category;
+            }
+        });
+
+        cats = cats.filter(c => c !== undefined);
+        return cats;
     }
 }
