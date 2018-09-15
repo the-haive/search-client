@@ -725,6 +725,19 @@ button#reset.hidden {
     background-color: transparent;
 }
 
+#categories-tree .no-matches-with-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#categories-tree .no-matches-with-filters button {
+    background-color: #f9f9f9;
+    border-style: outset;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
 /*** MATCHES ***/
 #matches {
     grid-area: matches;

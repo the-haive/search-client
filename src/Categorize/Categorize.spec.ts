@@ -6,8 +6,8 @@ import {
     ICategorizeSettings,
     CategorizeTriggers
 } from ".";
-import { Categories } from "../Data";
-import { Query } from "../Common";
+import { Category, Categories } from "../Data";
+import { Filter, Query } from "../Common";
 
 // tslint:disable-next-line
 const reference: Categories = require("../test-data/categories.json");
@@ -543,5 +543,170 @@ describe("Categorize basics", () => {
         expect(
             results.groups[0].categories[0].children[0].children[0].expanded
         ).toBeTruthy();
+    });
+
+    it("Should be able to finc category-nodes", () => {
+        // tslint:disable-next-line:no-require-imports
+        let categories: Categories = require("../test-data/categories.json");
+        sanityCheck(categories);
+
+        let client = new Categorize("http://localhost:9950/");
+        let pClient = client as any;
+
+        expect(typeof pClient.findCategory).toBe("function");
+        let match = client.findCategory(["System", "File"], categories);
+        expect(match).not.toBeNull();
+        match = client.findCategory(["System", "File"], categories);
+        expect(match).not.toBeNull();
+    });
+
+    it("Should be able to add missing filters as category-tree nodes", () => {
+        // tslint:disable-next-line:no-require-imports
+        let categories: Categories = require("../test-data/categories.json");
+        sanityCheck(categories);
+
+        let client = new Categorize("http://localhost:9950/");
+        let pClient = client as any;
+        //client.categories = workCopy;
+
+        expect(typeof pClient.addFiltersIfMissing).toBe("function");
+
+        let category = {
+            categoryName: ["group", "child"],
+            children: [],
+            displayName: "Child",
+            name: "child"
+        } as Category;
+
+        let filter = new Filter(["Group", "Child"], category);
+        expect(filter.category).toEqual(category);
+
+        pClient.addFiltersIfMissing([filter], categories);
+        expect(categories.groups.length).toEqual(5);
+        expect(categories.groups[4].displayName).toEqual("Group");
+        expect(categories.groups[4].expanded).toEqual(true);
+        expect(categories.groups[4].name).toEqual("group");
+        expect(categories.groups[4].categories.length).toEqual(1);
+        expect(categories.groups[4].categories[0].categoryName).toEqual([
+            "group",
+            "child"
+        ]);
+        expect(categories.groups[4].categories[0].count).toEqual(0);
+        expect(categories.groups[4].categories[0].displayName).toEqual("Child");
+        expect(categories.groups[4].categories[0].expanded).toEqual(false);
+        expect(categories.groups[4].categories[0].name).toEqual("child");
+        expect(categories.groups[4].categories[0].children.length).toEqual(0);
+
+        // Add the same category again, should not add anything
+        pClient.addFiltersIfMissing([filter], categories);
+        expect(categories.groups.length).toEqual(5);
+        expect(categories.groups[4].displayName).toEqual("Group");
+        expect(categories.groups[4].expanded).toEqual(true);
+        expect(categories.groups[4].name).toEqual("group");
+        expect(categories.groups[4].categories.length).toEqual(1);
+        expect(categories.groups[4].categories[0].categoryName).toEqual([
+            "group",
+            "child"
+        ]);
+        expect(categories.groups[4].categories[0].count).toEqual(0);
+        expect(categories.groups[4].categories[0].displayName).toEqual("Child");
+        expect(categories.groups[4].categories[0].expanded).toEqual(false);
+        expect(categories.groups[4].categories[0].name).toEqual("child");
+        expect(categories.groups[4].categories[0].children.length).toEqual(0);
+
+        // Add deeper node
+        category = {
+            categoryName: ["group", "child", "leaf"],
+            children: [],
+            displayName: "Leaf",
+            name: "leaf"
+        } as Category;
+
+        filter = new Filter(["Group", "Child", "Leaf"], category);
+        pClient.addFiltersIfMissing([filter], categories);
+        expect(categories.groups.length).toEqual(5);
+        expect(categories.groups[4].displayName).toEqual("Group");
+        expect(categories.groups[4].expanded).toEqual(true);
+        expect(categories.groups[4].name).toEqual("group");
+
+        expect(categories.groups[4].categories.length).toEqual(1);
+        expect(categories.groups[4].categories[0].categoryName).toEqual([
+            "group",
+            "child"
+        ]);
+        expect(categories.groups[4].categories[0].count).toEqual(0);
+        expect(categories.groups[4].categories[0].displayName).toEqual("Child");
+        expect(categories.groups[4].categories[0].expanded).toEqual(true);
+        expect(categories.groups[4].categories[0].name).toEqual("child");
+
+        expect(categories.groups[4].categories[0].children.length).toEqual(1);
+        expect(
+            categories.groups[4].categories[0].children[0].categoryName
+        ).toEqual(["group", "child", "leaf"]);
+        expect(categories.groups[4].categories[0].children[0].count).toEqual(0);
+        expect(
+            categories.groups[4].categories[0].children[0].displayName
+        ).toEqual("Leaf");
+        expect(categories.groups[4].categories[0].children[0].expanded).toEqual(
+            false
+        );
+        expect(categories.groups[4].categories[0].children[0].name).toEqual(
+            "leaf"
+        );
+
+        expect(
+            categories.groups[4].categories[0].children[0].children.length
+        ).toEqual(0);
+
+        // Add missing on empty categories result
+        let emptyCategories = {
+            errorMessage: null,
+            extendedProperties: null,
+            groups: [],
+            isEstimatedCount: false,
+            matchCount: 0,
+            statusCode: 0
+        } as Categories;
+
+        pClient.addFiltersIfMissing([filter], emptyCategories);
+        expect(emptyCategories.groups.length).toEqual(1);
+        expect(emptyCategories.groups[0].displayName).toEqual("Group");
+        expect(emptyCategories.groups[0].expanded).toEqual(true);
+        expect(emptyCategories.groups[0].name).toEqual("group");
+
+        expect(emptyCategories.groups[0].categories.length).toEqual(1);
+        expect(emptyCategories.groups[0].categories[0].categoryName).toEqual([
+            "group",
+            "child"
+        ]);
+        expect(emptyCategories.groups[0].categories[0].count).toEqual(0);
+        expect(emptyCategories.groups[0].categories[0].displayName).toEqual(
+            "Child"
+        );
+        expect(emptyCategories.groups[0].categories[0].expanded).toEqual(true);
+        expect(emptyCategories.groups[0].categories[0].name).toEqual("child");
+
+        expect(emptyCategories.groups[0].categories[0].children.length).toEqual(
+            1
+        );
+        expect(
+            emptyCategories.groups[0].categories[0].children[0].categoryName
+        ).toEqual(["group", "child", "leaf"]);
+        expect(
+            emptyCategories.groups[0].categories[0].children[0].count
+        ).toEqual(0);
+        expect(
+            emptyCategories.groups[0].categories[0].children[0].displayName
+        ).toEqual("Leaf");
+        expect(
+            emptyCategories.groups[0].categories[0].children[0].expanded
+        ).toEqual(false);
+        expect(
+            emptyCategories.groups[0].categories[0].children[0].name
+        ).toEqual("leaf");
+
+        expect(
+            categories.groups[4].categories[0].children[0].children.length
+        ).toEqual(0);
     });
 });

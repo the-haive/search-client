@@ -263,22 +263,26 @@ export class Categorize extends BaseCall<Categories> {
      * @param categoryName The category array that identifies the category.
      * @returns The Category object if found or null.
      */
-    public findCategory(categoryName: string[]): Group | Category | null {
-        if (!this.categories) {
+    public findCategory(
+        categoryName: string[],
+        categories?: Categories
+    ): Group | Category | null {
+        categories = categories || this.categories;
+        if (!categories) {
             return null;
         }
-        let groupIndex = this.categories.groups.findIndex(
+        let groupIndex = categories.groups.findIndex(
             g => g.name === categoryName[0]
         );
         if (groupIndex < 0) {
             return null;
         }
-        let group = this.categories.groups[groupIndex];
+        let group = categories.groups[groupIndex];
         if (categoryName.length === 1) {
             return group;
         }
         let category = this.getCategoryPathDisplayNameFromCategories(
-            categoryName,
+            categoryName.slice(1),
             group.categories
         );
 
@@ -302,6 +306,9 @@ export class Categorize extends BaseCall<Categories> {
         result.push(category.displayName);
 
         let res: { displayName: string[]; ref: Category };
+        if (path.length > 0 && category.children.length === 0) {
+            return null;
+        }
 
         if (category.children.length > 0 && path.length > 0) {
             res = this.getCategoryPathDisplayNameFromCategories(
@@ -346,8 +353,73 @@ export class Categorize extends BaseCall<Categories> {
             return group;
         });
         cats.groups = groups.filter(g => g !== undefined);
-        // TODO: Add filter-categories, no matter what the above results are
+        this.addFiltersIfMissing(query.filters, cats);
         return cats;
+    }
+
+    /**
+     * Adds missing filters as category-tree-nodes.
+     */
+    private addFiltersIfMissing(filters: Filter[], cats: Categories) {
+        filters.forEach(f => {
+            const depth = f.displayName.length;
+            for (let i = 0; i < depth; i++) {
+                let categoryNames = f.category.categoryName.slice(0, i + 1);
+                if (!this.findCategory(categoryNames, cats)) {
+                    let displayName = f.displayName[i];
+                    let parentCategoryNames = categoryNames.slice(0, -1);
+                    if (i === 0) {
+                        // Need to add group
+                        let group = {
+                            displayName,
+                            categories: [],
+                            expanded: false,
+                            name: categoryNames[0]
+                        } as Group;
+                        cats.groups.push(group);
+                    } else {
+                        // Need to add child category
+                        let parent = this.findCategory(
+                            parentCategoryNames,
+                            cats
+                        );
+                        if (!parent) {
+                            throw Error(
+                                "Since we are iterating from groups and outwards this should not happen."
+                            );
+                        }
+                        let category =
+                            i === depth - 1
+                                ? // Since we are on the last element we can add the category within the filter directly
+                                  {
+                                      ...f.category,
+                                      ...{ count: 0, expanded: false }
+                                  }
+                                : // Not at the leaf-node yet.
+                                  ({
+                                      categoryName: categoryNames,
+                                      children: [],
+                                      count: 0,
+                                      expanded: false,
+                                      displayName,
+                                      name: categoryNames[i]
+                                  } as Category);
+
+                        // Since the parent has a child, set the node to be expanded.
+                        parent.expanded = true;
+
+                        // Add the child-category to the parent-node
+                        if (i === 1) {
+                            // Parent is a group
+                            (parent as Group).categories.push(category);
+                        } else {
+                            // Parent is a category
+                            (parent as Category).children.push(category);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private mapCategories(categories: Category[], query: Query): Category[] {

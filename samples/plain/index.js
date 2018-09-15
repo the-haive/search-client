@@ -101,11 +101,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // prettier-ignore
     const render = {
-        categories: {
-            filter: (filter) => `
-                <span>${filter.displayName.join(" / ")}</span>
-            `
-        },
         match: {
             // Required
             stats: (matches) => {
@@ -487,7 +482,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     );
     let didYouMeanOptionsElm = document.getElementById("did-you-mean");
 
-    let categoriesFiltersElm = document.getElementById("categories-filters");
     let categoriesTreeElm = document.getElementById("categories-tree");
 
     let matchesListElm = document.getElementById("matches-list");
@@ -961,7 +955,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
         function createCategoryNode(category, index, arr) {
             let categoryLiElm = document.createElement("li");
-            if (client.isFilter(category)) {
+            let isFilter = client.isFilter(category);
+            if (isFilter) {
                 categoryLiElm.classList.add("is-filter");
             } else if (client.hasChildFilter(category)) {
                 categoryLiElm.classList.add("has-filter");
@@ -979,9 +974,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             let toggle = `<span class="toggle"></span>`;
             let title = `<span class="title">${category.displayName}</span>`;
             let count =
-                category.count > 0
+                category.count > 0 || isFilter
                     ? `<span class="count">${category.count}</span>`
                     : "";
+            categoryLiElm.title = category.displayName;
+
             categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
@@ -1018,18 +1015,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 });
             }
             return categoryLiElm;
-        }
-
-        // Render filter-chips:
-        categoriesFiltersElm.innerHTML = "";
-        for (let f of client.filters) {
-            let ulElm = document.createElement("ul");
-            categoriesFiltersElm.appendChild(ulElm);
-            let liElm = document.createElement("li");
-            ulElm.appendChild(liElm);
-            liElm.innerHTML = render.categories.filter(f);
-            liElm.addEventListener("click", () => client.filterToggle(f));
-            liElm.classList.add("filter");
         }
 
         if (categories.groups.length > 0) {
@@ -1071,6 +1056,24 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             });
             // } else {
             //     categoriesTreeElm.innerHTML = "No categories.";
+        }
+        if (categories.matchCount == 0 && client.filters.length > 0) {
+            let text = document.createElement("p");
+            text.innerHTML =
+                "<strong>No results with current filters!</strong>";
+
+            let button = document.createElement("button");
+            button.innerHTML = "Remove filters";
+            button.addEventListener("click", () => {
+                client.filters = [];
+            });
+
+            let help = document.createElement("div");
+            help.classList.add("no-matches-with-filters");
+            help.appendChild(text);
+            help.appendChild(button);
+
+            categoriesTreeElm.appendChild(help);
         }
     }
 
