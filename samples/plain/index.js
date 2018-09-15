@@ -401,12 +401,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             }
             let mod = checkIntellidebugMod(event, queryTextElm);
             //console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
-            // Force an update, by silently updating the query before then finally calling update()
-            // This is to avoid the case where the queryText has not changed, but enter should trigger a new search anyway.
-            client.deferUpdates(true);
-            client.queryText = queryTextElm.value;
-            client.deferUpdates(false, true);
-            client.update();
+            let query = {
+                ...client.query,
+                ...{ queryText: queryTextElm.value }
+            };
+            client.forceUpdate(query, false); //No need to update autocomplete
             event.preventDefault();
         }
     });
@@ -427,12 +426,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     searchButtonElm.addEventListener("click", event => {
         let mod = checkIntellidebugMod(event, queryTextElm);
         //console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
-        // Force an update, by silently updating the query before then finally calling update()
-        // This is to avoid the case where the queryText has not changed, but enter should trigger a new search anyway.
-        client.deferUpdates(true);
-        client.queryText = queryTextElm.value;
-        client.deferUpdates(false, true);
-        client.update();
+        let query = {
+            ...client.query,
+            ...{ queryText: queryTextElm.value }
+        };
+        client.forceUpdate(query, false); //No need to update autocomplete
     });
 
     // Set up the autocomplete library
