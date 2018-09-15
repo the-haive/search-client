@@ -31,6 +31,69 @@ export class Query {
     public categorizationType?: CategorizationType = CategorizationType.All;
 
     /**
+     * Controls the category expansion overrides. Used to override the expanded property for categories in the category-tree.
+     * Set when the user clicks on the toggle for expanding/collapsing categories.
+     */
+    public clientCategoryExpansion?: { [key: string]: boolean } = {};
+
+    /**
+     * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node
+     * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can
+     * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will
+     * then filter the category-nodes' displayName to only match the text entered.
+     *
+     * Nodes that doesn't have any filters are returned, even if filters for other nodes are defined.
+     *
+     * Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to
+     * automatically be shown, with their immediate children.
+     *
+     * The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter
+     * that node with.
+     *
+     * It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks.
+     *
+     * **Note 1:** This is only used when:
+     *
+     * **1. The categorize service is enabled in the [[SearchClient]] constructor (may be disabled via the [[Settings]]
+     * object).**
+     * **2. You have enabled a [[CategorizeSettings.cbSuccess]] callback.**
+     * **3. You have not disabled the [[CategorizeTriggers.clientCategoryFilterChanged]] trigger.**
+     *
+     * **Note 2:** [[deferUpdates]] will not have any effect on this functionality. Deferring only affects calls to the
+     * server and does not stop categorize-callbacks from being run - as long as they are the result of changing the
+     * [[clientCategoryFilter]].
+     *
+     * @example How to set the clientCategoryFilter:
+     *
+     *      query.clientCategoryFilter = {
+     *         // Show only Author-nodes with DisplayName that matches /john/.
+     *         Author: /john/,
+     *         // Show only nodes in the System/File/Server node that matches /project/
+     *         System_File_Server: /project/,
+     *      }
+     * or
+     *      query.clientCategoryFilter["Author"] = /john/
+     *
+     * As you can see from the example the key is composed by joining the categoryName with an underscore. If you
+     * experience problems with this (i.e. your categories have `_` in their names already) then change the
+     * [[CategorizeSettings.clientCategoryFilterSepChar]], for example to `|`. Note that if you do, then you probably
+     * also need to quote the keys that have the pipe-character.
+     *
+     * @example The above example will with [[CategorizeSettings.clientCategoryFilterSepChar]] set to `|` become:
+     *
+     *     const searchClient = new SearchClient("http://server:9950/");
+     *
+     *     query.clientCategoryFilter = {
+     *         // Show only Author-nodes with DisplayName that matches /john/.
+     *         Author: /john/,
+     *         // Show only nodes in the System/File/Server node that matches /project/
+     *         "System|File|Server": /project/,
+     *     }
+     *
+     */
+    public clientCategoryFilter?: { [key: string]: string | RegExp } = {};
+
+    /**
      * Used to specify the start date-range.
      */
     public dateFrom?: DateSpecification = null;

@@ -28,10 +28,6 @@ export class Categorize extends BaseCall<Categories> {
      */
     public categories: Categories;
 
-    public clientCategoryExpansion: { [key: string]: boolean };
-
-    public clientCategoryFilter: { [key: string]: string | RegExp };
-
     protected settings: ICategorizeSettings;
 
     private queryConverter: CategorizeQueryConverter;
@@ -53,8 +49,6 @@ export class Categorize extends BaseCall<Categories> {
         auth = auth || new AuthToken();
         super.init(settings, auth, fetchMethod);
         // Set own this props
-        this.clientCategoryExpansion = {};
-        this.clientCategoryFilter = {};
         this.queryConverter = new CategorizeQueryConverter();
     }
 
@@ -85,7 +79,7 @@ export class Categorize extends BaseCall<Categories> {
                 })
                 .then((categories: Categories) => {
                     this.categories = categories;
-                    categories = this.filterCategories(categories);
+                    categories = this.filterCategories(categories, query);
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
@@ -105,34 +99,32 @@ export class Categorize extends BaseCall<Categories> {
     }
     public clientCategoryExpansionChanged(
         oldValue: { [key: string]: boolean },
-        value: { [key: string]: boolean }
+        query: Query
     ): void {
-        this.clientCategoryExpansion = value;
         if (
             this.shouldUpdate() &&
             this.settings.triggers.clientCategoryExpansionChanged
         ) {
             this.cbSuccess(
                 false,
-                this.filterCategories(this.categories),
+                this.filterCategories(this.categories, query),
                 null,
                 null
             );
         }
     }
 
-    public clientCategoryFiltersChanged(
+    public clientCategoryFilterChanged(
         oldValue: { [key: string]: string | RegExp },
-        value: { [key: string]: string | RegExp }
+        query: Query
     ): void {
-        this.clientCategoryFilter = value;
         if (
             this.shouldUpdate() &&
             this.settings.triggers.clientCategoryFilterChanged
         ) {
             this.cbSuccess(
                 false,
-                this.filterCategories(this.categories),
+                this.filterCategories(this.categories, query),
                 null,
                 null
             );
@@ -157,7 +149,7 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
 
-    public filtersChanged(oldValue: Filter[], query: Query) {
+    public filtersChanged(oldValue: Filter[], query: Query): void {
         if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
             this.update(query);
         }
@@ -324,14 +316,16 @@ export class Categorize extends BaseCall<Categories> {
         return { displayName: result, ref: res ? res.ref : category };
     }
 
-    private filterCategories(categories: Categories): Categories {
+    private filterCategories(categories: Categories, query: Query): Categories {
         if (
-            (!this.clientCategoryFilter ||
-                Object.getOwnPropertyNames(this.clientCategoryFilter).length ===
-                    0) &&
-            (!this.clientCategoryExpansion ||
-                Object.getOwnPropertyNames(this.clientCategoryExpansion)
-                    .length === 0)
+            !query ||
+            ((!query.clientCategoryFilter ||
+                Object.getOwnPropertyNames(query.clientCategoryFilter)
+                    .length === 0) &&
+                (!query.clientCategoryExpansion ||
+                    Object.getOwnPropertyNames(query.clientCategoryExpansion)
+                        .length === 0) &&
+                query.filters.length === 0)
         ) {
             return categories;
         }
@@ -340,10 +334,10 @@ export class Categorize extends BaseCall<Categories> {
         let groups = cats.groups.map((inGroup: Group) => {
             let group = { ...inGroup };
             if (group.categories && group.categories.length > 0) {
-                group.categories = this.mapCategories(group.categories);
+                group.categories = this.mapCategories(group.categories, query);
             }
-            if (this.clientCategoryExpansion.hasOwnProperty(group.name)) {
-                group.expanded = this.clientCategoryExpansion[group.name];
+            if (query.clientCategoryExpansion.hasOwnProperty(group.name)) {
+                group.expanded = query.clientCategoryExpansion[group.name];
             } else {
                 group.expanded =
                     group.expanded ||
@@ -352,26 +346,30 @@ export class Categorize extends BaseCall<Categories> {
             return group;
         });
         cats.groups = groups.filter(g => g !== undefined);
+        // TODO: Add filter-categories, no matter what the above results are
         return cats;
     }
 
-    private mapCategories(categories: Category[]): Category[] {
+    private mapCategories(categories: Category[], query: Query): Category[] {
         let cats = [...categories];
         cats = cats.map((inCategory: Category) => {
             let category = { ...inCategory };
             // Apply categoryFilters
-            let result = this.inClientCategoryFilters({ ...category });
+            let result = this.inClientCategoryFilter({ ...category }, query);
             if (result !== false) {
                 if (category.children && category.children.length > 0) {
-                    category.children = this.mapCategories(category.children);
+                    category.children = this.mapCategories(
+                        category.children,
+                        query
+                    );
                 }
                 if (result === true) {
                     // The results are filtered
                     category.expanded = true;
                 }
                 let catKey = category.categoryName.join("|");
-                if (this.clientCategoryExpansion.hasOwnProperty(catKey)) {
-                    category.expanded = this.clientCategoryExpansion[catKey];
+                if (query.clientCategoryExpansion.hasOwnProperty(catKey)) {
+                    category.expanded = query.clientCategoryExpansion[catKey];
                 }
                 return category;
             }
@@ -381,19 +379,19 @@ export class Categorize extends BaseCall<Categories> {
         return cats;
     }
 
-    private inClientCategoryFilters(category: Category): boolean {
-        if (!this.clientCategoryFilter) {
+    private inClientCategoryFilter(category: Category, query: Query): boolean {
+        if (!query.clientCategoryFilter) {
             return null;
         }
-        for (let prop in this.clientCategoryFilter) {
-            if (this.clientCategoryFilter.hasOwnProperty(prop)) {
+        for (let prop in query.clientCategoryFilter) {
+            if (query.clientCategoryFilter.hasOwnProperty(prop)) {
                 let filterKey = prop.toLowerCase();
                 let cat = category.categoryName.slice(0, -1);
                 let categoryKey = cat
-                    .join(this.settings.clientCategoryFiltersSepChar)
+                    .join(this.settings.clientCategoryFilterSepChar)
                     .toLowerCase();
                 if (filterKey === categoryKey) {
-                    let displayExpression = this.clientCategoryFilter[prop];
+                    let displayExpression = query.clientCategoryFilter[prop];
                     if (!displayExpression) {
                         continue;
                     }

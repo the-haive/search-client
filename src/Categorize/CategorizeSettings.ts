@@ -4,10 +4,10 @@ import { CategorizeTriggers } from "./CategorizeTriggers";
 
 export interface ICategorizeSettings extends IBaseSettings<Categories> {
     /**
-     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
-     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
+     * This is the separator-character that is used when comparing the clientCategoryFilter. You need to use this
+     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilter]].
      */
-    clientCategoryFiltersSepChar?: string;
+    clientCategoryFilterSepChar?: string;
     /**
      * The trigger-settings for when automatic category-updates are to be triggered.
      */
@@ -19,10 +19,10 @@ export interface ICategorizeSettings extends IBaseSettings<Categories> {
  */
 export class CategorizeSettings extends BaseSettings<Categories> {
     /**
-     * This is the separator-character that is used when comparing the clientCategoryFilters. You need to use this
-     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilters]].
+     * This is the separator-character that is used when comparing the clientCategoryFilter. You need to use this
+     * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilter]].
      */
-    public clientCategoryFiltersSepChar?: string;
+    public clientCategoryFilterSepChar?: string;
 
     /**
      * The trigger-settings for when automatic category result-updates are to be triggered.
@@ -46,9 +46,9 @@ export class CategorizeSettings extends BaseSettings<Categories> {
         super.init(settings);
 
         // Setup our own stuff (props not in the base class).
-        this.clientCategoryFiltersSepChar =
-            typeof settings.clientCategoryFiltersSepChar !== "undefined"
-                ? settings.clientCategoryFiltersSepChar
+        this.clientCategoryFilterSepChar =
+            typeof settings.clientCategoryFilterSepChar !== "undefined"
+                ? settings.clientCategoryFilterSepChar
                 : "_";
         this.triggers = new CategorizeTriggers(settings.triggers);
     }

@@ -7,6 +7,7 @@ import {
     CategorizeTriggers
 } from ".";
 import { Categories } from "../Data";
+import { Query } from "../Common";
 
 // tslint:disable-next-line
 const reference: Categories = require("../test-data/categories.json");
@@ -360,14 +361,16 @@ describe("Categorize basics", () => {
         let pClient = client as any;
 
         // Expect
-        pClient.clientCategoryFilter = {
-            System: /---/,
-            ModifiedDate: /---/,
-            Author: /---/,
-            FileType: /Word/
-        };
+        let query = new Query({
+            clientCategoryFilter: {
+                System: /---/,
+                ModifiedDate: /---/,
+                Author: /---/,
+                FileType: /Word/
+            }
+        });
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: Categories = pClient.filterCategories(workCopy, query);
 
         sanityCheck(workCopy);
 
@@ -515,13 +518,15 @@ describe("Categorize basics", () => {
             workCopy.groups[0].categories[0].children[0].children[0].expanded
         ).toBeFalsy();
 
-        pClient.clientCategoryExpansion = {
-            "System|File": true,
-            "System|File|Testdata": true,
-            "System|File|Testdata|Norway": true
-        } as { [key: string]: boolean };
+        let query = new Query({
+            clientCategoryExpansion: {
+                "System|File": true,
+                "System|File|Testdata": true,
+                "System|File|Testdata|Norway": true
+            }
+        });
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: Categories = pClient.filterCategories(workCopy, query);
 
         expect(results.groups[0].name).toEqual("System");
         expect(results.groups[0].categories[0].name).toEqual("File");

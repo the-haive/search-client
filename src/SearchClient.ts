@@ -75,11 +75,6 @@ export class SearchClient implements AuthToken {
     protected settings: ISettings;
 
     // tslint:disable-next-line:variable-name
-    private _clientCategoryExpansion: { [key: string]: boolean } = {};
-
-    private _clientCategoryFilters: { [key: string]: string | RegExp } = {};
-
-    // tslint:disable-next-line:variable-name
     private _query: Query;
 
     /**
@@ -192,103 +187,18 @@ export class SearchClient implements AuthToken {
 
     public reset(): void {
         this.deferUpdates(true);
-        this._clientCategoryExpansion = {};
-        this._clientCategoryFilters = {};
+        this.clientCategoryExpansion = {};
+        this.clientCategoryFilter = {};
         this.filters = [];
         this.queryText = "";
         this.deferUpdates(false, true);
     }
 
     /**
-     * Gets the currently registered regex-filters.
-     */
-    get clientCategoryFilters(): { [key: string]: string | RegExp } {
-        return this._clientCategoryFilters;
-    }
-
-    /**
-     * This is a handy helper to help the user navigating the category-tree. It is typically used when a given node
-     * has a lot of categories. This often happens with i.e. the Author category node. With this feature you can
-     * present the user with a filter-edit-box in the Author node, and allow them to start typing values which will
-     * then filter the category-nodes' displayName to only match the text entered.
-     *
-     * Nodes that doesn't have any filters are returned, even if filters for other nodes are defined.
-     *
-     * Also note that the filter automatically sets the expanded property for affected nodes, to help allow them to
-     * automatically be shown, with their immediate children.
-     *
-     * The actual value is an associative array that indicates which category-nodes to filter and what pattern to filter
-     * that node with.
-     *
-     * It will not execute any server-side calls, but may run triggers leading to new content returned in callbacks.
-     *
-     * **Note 1:** This is only used when:
-     *
-     * **1. The categorize service is enabled in the [[SearchClient]] constructor (may be disabled via the [[Settings]]
-     * object).**
-     * **2. You have enabled a [[CategorizeSettings.cbSuccess]] callback.**
-     * **3. You have not disabled the [[CategorizeTriggers.clientCategoryFilterChanged]] trigger.**
-     *
-     * **Note 2:** [[deferUpdates]] will not have any effect on this functionality. Deferring only affects calls to the
-     * server and does not stop categorize-callbacks from being run - as long as they are the result of changing the
-     * [[clientCategoryFilter]].
-     *
-     * @example How to set the clientCategoryFilter:
-     *
-     *     const searchClient = new SearchClient("http://server:9950/");
-     *
-     *     searchClient.clientCategoryFilters = {
-     *         // Show only Author-nodes with DisplayName that matches /john/.
-     *         Author: /john/,
-     *         // Show only nodes in the System/File/Server node that matches /project/
-     *         System_File_Server: /project/,
-     *     }
-     *
-     * As you can see from the example the key is composed by joining the categoryName with an underscore. If you
-     * experience problems with this (i.e. your categories have `_` in their names already) then change the
-     * [[CategorizeSettings.clientCategoryFiltersSepChar]], for example to `|`. Note that if you do, then you probably
-     * also need to quote the keys that have the pipe-character.
-     *
-     * @example The above example will with [[CategorizeSettings.clientCategoryFiltersSepChar]] set to `|` become:
-     *
-     *     const searchClient = new SearchClient("http://server:9950/");
-     *
-     *     searchClient.clientCategoryFilters = {
-     *         // Show only Author-nodes with DisplayName that matches /john/.
-     *         Author: /john/,
-     *         // Show only nodes in the System/File/Server node that matches /project/
-     *         "System|File|Server": /project/,
-     *     }
-     *
-     */
-    set clientCategoryFilters(clientCategoryFilters: {
-        [key: string]: string | RegExp;
-    }) {
-        if (clientCategoryFilters !== this._clientCategoryFilters) {
-            const oldValue = this._clientCategoryFilters;
-            this._clientCategoryFilters = clientCategoryFilters;
-
-            this.autocomplete.clientCategoryFiltersChanged(
-                oldValue,
-                this._clientCategoryFilters
-            );
-            this.categorize.clientCategoryFiltersChanged(
-                oldValue,
-                this._clientCategoryFilters
-            );
-            this.find.clientCategoryFiltersChanged(
-                oldValue,
-                this._clientCategoryFilters
-            );
-        }
-        this._clientCategoryFilters = clientCategoryFilters;
-    }
-
-    /**
      * Gets the currently active category expansion overrides.
      */
     get clientCategoryExpansion(): { [key: string]: boolean } {
-        return this._clientCategoryExpansion;
+        return this._query.clientCategoryExpansion;
     }
 
     /**
@@ -297,24 +207,46 @@ export class SearchClient implements AuthToken {
     set clientCategoryExpansion(clientCategoryExpansion: {
         [key: string]: boolean;
     }) {
-        if (clientCategoryExpansion !== this._clientCategoryExpansion) {
-            const oldValue = this._clientCategoryExpansion;
-            this._clientCategoryExpansion = clientCategoryExpansion;
+        if (clientCategoryExpansion !== this._query.clientCategoryExpansion) {
+            const oldValue = this._query.clientCategoryExpansion;
+            this._query.clientCategoryExpansion = clientCategoryExpansion;
 
             this.autocomplete.clientCategoryExpansionChanged(
                 oldValue,
-                this._clientCategoryExpansion
+                this._query
             );
             this.categorize.clientCategoryExpansionChanged(
                 oldValue,
-                this._clientCategoryExpansion
+                this._query
             );
-            this.find.clientCategoryExpansionChanged(
-                oldValue,
-                this._clientCategoryExpansion
-            );
+            this.find.clientCategoryExpansionChanged(oldValue, this._query);
         }
-        this._clientCategoryExpansion = clientCategoryExpansion;
+    }
+
+    /**
+     * Gets the currently registered client category regex-filters.
+     */
+    get clientCategoryFilter(): { [key: string]: string | RegExp } {
+        return this._query.clientCategoryFilter;
+    }
+
+    /**
+     * Sets the currently registered client category regex-filters.
+     */
+    set clientCategoryFilter(clientCategoryFilter: {
+        [key: string]: string | RegExp;
+    }) {
+        if (clientCategoryFilter !== this._query.clientCategoryFilter) {
+            const oldValue = this._query.clientCategoryFilter;
+            this._query.clientCategoryFilter = clientCategoryFilter;
+
+            this.autocomplete.clientCategoryFilterChanged(
+                oldValue,
+                this._query
+            );
+            this.categorize.clientCategoryFilterChanged(oldValue, this._query);
+            this.find.clientCategoryFilterChanged(oldValue, this._query);
+        }
     }
 
     /**
@@ -497,6 +429,9 @@ export class SearchClient implements AuthToken {
         }
     }
 
+    /**
+     * Toggles the expansion/collapsed state for the given group/category
+     */
     public toggleCategoryExpansion(
         node: Category | Group,
         state?: boolean

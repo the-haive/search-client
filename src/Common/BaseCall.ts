@@ -27,7 +27,7 @@ export abstract class BaseCall<TDataType> {
 
     protected auth?: AuthToken;
 
-    protected deferUpdate: boolean = false;
+    protected deferUpdate: boolean;
 
     protected deferredQuery: Query | null;
 
@@ -131,13 +131,13 @@ export abstract class BaseCall<TDataType> {
 
     public clientCategoryExpansionChanged(
         oldValue: { [key: string]: boolean },
-        value: { [key: string]: boolean }
+        query: Query
     ): void {
         /* Default no implementation*/
     }
-    public clientCategoryFiltersChanged(
+    public clientCategoryFilterChanged(
         oldValue: { [key: string]: string | RegExp },
-        value: { [key: string]: string | RegExp }
+        query: Query
     ): void {
         /* Default no implementation*/
     }
