@@ -229,11 +229,16 @@ button:hover {
 #settings .dialog-content header h1 {
     margin: 0;
     font-size: 1em;
+    border-bottom: solid 1px silver;
 }
 
+#settings ul.tab-container {
+    width: 100%;
+}
 #help .dialog-content header h1 {
     margin: 0 0 1.2em 0;
 }
+#category-configuration .dialog-content .dialog-content-main,
 #about .dialog-content .dialog-content-main,
 #help .dialog-content .dialog-content-main,
 #settings .dialog-content .dialog-content-main {
@@ -262,6 +267,7 @@ button:hover {
 
 #settings-close-button {
     margin-left: auto;
+    border-bottom: solid 1px silver;
 }
 
 #settings fieldset {
@@ -1151,17 +1157,16 @@ ul.tab-container {
 }
 ul.tab-container li.tab {
     display: inline;
-    margin-left: 0.1em;
     padding: 0 0.3em;
     cursor: pointer;
     border: solid 1px silver;
-    border-bottom: none;
     font-size: 0.9em;
     border-top-left-radius: 0.4em;
     border-top-right-radius: 0.4em;
 }
 ul.tab-container li.tab.current {
     background-color: rgba(0, 0, 0, 0.08);
+    border-bottom-color: transparent;
 }
 .tab-content:not(.current) {
     display: none;
@@ -1169,8 +1174,15 @@ ul.tab-container li.tab.current {
 
 .tab-content-container {
     background-color: rgba(0, 0, 0, 0.08);
+    border: solid 1px silver;
+    border-top: none;
+    padding: 0.5em;
 }
 
+.tab-spacer {
+    flex-grow: 1;
+    border-bottom: solid 1px silver;
+}
 /* Responsive design */
 
 @media (max-width: 768px) {

@@ -1130,6 +1130,7 @@ function setupTabs() {
         let tabContainerElm = tabContainerElms[i];
         for (let j = 0; j < tabContainerElm.children.length; j++) {
             let tabElm = tabContainerElm.children[j];
+            if (tabElm.id.length === 0) continue;
             const tabContentId = `tab-${tabElm.id}`;
             let tabContent = document.getElementById(tabContentId);
             if (!tabContent) {
