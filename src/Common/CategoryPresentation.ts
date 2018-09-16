@@ -5,36 +5,25 @@
  *             If an extra group-level is introduced then it will be subject for all
  *             consecutive processes in this class.
  * - filter: Reduce to allowed items based on filter.
- * - minCount: Reduce to allowed items based on count.
  * - sort: Changes the order of items left to display.
  * - limit: Limits the no of sorted items to display.
  *
  * @default - All features disabled.
  */
-export class ClientCategoryFilter {
+export class CategoryPresentation {
     /**
      * Used to create an extra level of categories that group items together.
      *
      * @default null
      */
-    public grouping?:
-        | DisplayNameGroupingConfiguration
-        | CountGroupingConfiguration[]
-        | null = null;
+    public grouping?: DisplayNameGroupingConfiguration | number[] | null = null;
 
     /**
-     * Used to include only categories that match the provided filter.
+     * Used to include only categories that match the provided filter (regex + minCount).
      *
      * @default null
      */
-    public filter?: RegExp | null = null;
-
-    /**
-     * Used to exclude items with a count less than the provided value.
-     *
-     * @default null
-     */
-    public minCount?: number | null = null;
+    public filter?: FilterConfiguration | null = null;
 
     /**
      * Used to change the order of the categories.
@@ -54,18 +43,42 @@ export class ClientCategoryFilter {
      *
      * @default null
      */
-    public limit?: number | LimitPageConfiguration | null = null;
+    public limit?: LimitPageConfiguration | null = null;
+}
+
+/**
+ * Defines how items are to be grouped when using regular expression-based grouping.
+ *
+ * @default Disabled
+ */
+export class DisplayNameGroupingConfiguration {
+    /**
+     * Creates a DisplayNameGroupingConfiguration instance.
+     *
+     * @param match The regex to group on (i.e. First letter from items: /^(.)/
+     * @param value The string to use as regex replace on.
+     */
+    constructor(
+        public match: RegExp | null = null,
+        public value: string = "$1"
+    ) {}
+}
+
+/**
+ * Defines how to filter items.
+ */
+export class FilterConfiguration {
+    /**
+     * @param match The current regex match filter
+     * @param minCount The minimum no of matches for the category to show
+     */
+    constructor(public match: RegExp = null, public minCount: number = 0) {}
 }
 
 /**
  * Defines how sorting is to be applied.
  */
-export type SortConfiguration = string | SortPartConfiguration;
-
-/**
- * Defines a part where sorting is to be applied.
- */
-export class SortPartConfiguration {
+export class SortConfiguration {
     /**
      * Creates a sort-part that defines how to order the items scoped.
      *
@@ -128,44 +141,4 @@ export class LimitPageConfiguration {
      * @param pageSize Defines the pageSize that with the `page` controls which item-range to show.
      */
     constructor(public page: number = 1, public pageSize: number = 5) {}
-}
-
-/**
- * Defines how items are to be grouped when using regular expression-based grouping.
- *
- * @default Disabled
- */
-export class DisplayNameGroupingConfiguration {
-    /**
-     * Creates a DisplayNameGroupingConfiguration instance.
-     *
-     * @param match The regex to group on (i.e. First letter from items: /^(.)/
-     * @param value The string to use as regex replace on.
-     */
-    constructor(
-        public match: RegExp | null = null,
-        public value: string = "$1"
-    ) {}
-}
-
-/**
- * Defines how items are to be grouped when using count-based grouping.
- */
-export class CountGroupingConfiguration {
-    /**
-     * Creates a new count-group range.
-     *
-     * @param min Defines the minimum number of counts in order for the item to be grouped.
-     * @param max Defines the minimum number of counts in order for the item to be grouped.
-     * @param displayName Defines the display of the grouped item.
-     */
-    constructor(
-        public min: number,
-        public max: number,
-        public displayName?: string
-    ) {
-        if (typeof this.displayName !== undefined) {
-            this.displayName = `Count ${this.min}-${this.max}`;
-        }
-    }
 }

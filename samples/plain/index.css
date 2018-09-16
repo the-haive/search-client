@@ -161,11 +161,28 @@ body {
     grid-area: settings;
 }
 
+#container.category-configuration #category-configuration,
 #container.about #about,
 #container.help #help,
 #container.auth-pending #auth-pending,
 #container.auth-error #auth-error {
     display: flex;
+}
+
+#category-configuration {
+    grid-row: 2/3;
+    grid-column: 2/4;
+    position: unset;
+}
+
+#grouping-display-name-panel,
+#grouping-count-panel {
+    display: none;
+}
+
+#grouping-display-name:checked ~ #grouping-display-name-panel,
+#grouping-count:checked ~ #grouping-count-panel {
+    display: block;
 }
 
 #about.show,
@@ -194,6 +211,10 @@ button:hover {
     padding: 0.5em;
 }
 
+#category-configuration .dialog-content {
+    width: unset;
+    margin-left: 0;
+}
 #settings .dialog-content {
     margin: unset;
     height: unset;
@@ -213,6 +234,7 @@ button:hover {
     font-size: small;
 }
 
+#category-configuration .dialog-content header,
 #about .dialog-content header,
 #help .dialog-content header,
 #settings .dialog-content header {
@@ -220,6 +242,13 @@ button:hover {
     display: flex;
     justify-content: space-between;
     border-bottom: solid 1px silver;
+}
+
+#category-configuration .dialog-content header {
+    border-bottom: none;
+}
+#category-configuration .dialog-content header h1 {
+    font-size: 1em;
 }
 #settings .dialog-content header {
     border-bottom: none;
@@ -258,6 +287,7 @@ button:hover {
     font-style: initial;
 }
 
+#category-configuration-close-button,
 #about-close-button,
 #help-close-button {
     float: right;
@@ -1182,6 +1212,9 @@ ul.tab-container li.tab.current {
 .tab-spacer {
     flex-grow: 1;
     border-bottom: solid 1px silver;
+}
+fieldset {
+    border-radius: 0.4em;
 }
 /* Responsive design */
 

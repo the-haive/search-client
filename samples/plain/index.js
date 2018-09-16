@@ -581,6 +581,13 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove("settings");
     });
 
+    let categoryConfigurationCloseElm = document.getElementById(
+        "category-configuration-close-button"
+    );
+    categoryConfigurationCloseElm.addEventListener("click", () => {
+        containerElm.classList.remove("category-configuration");
+    });
+
     let menuOptionAbout = document.getElementById("menu-option-about");
     menuOptionAbout.addEventListener("click", () =>
         window.INTS_OpenDialog("about")
