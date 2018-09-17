@@ -219,7 +219,7 @@ button:hover {
     padding: 0;
     display: flex;
     justify-content: space-between;
-    border-bottom: solid 1px silver;
+    border-bottom: thin solid silver;
 }
 #settings .dialog-content header {
     border-bottom: none;
@@ -252,7 +252,7 @@ button:hover {
 
 .dialog-content footer {
     text-align: center;
-    border-top: solid 1px silver;
+    border-top: thin solid silver;
     padding: 0.5em 0 0 0;
     font-size: initial;
     font-style: initial;
@@ -272,7 +272,7 @@ button:hover {
 
 #settings fieldset {
     font-family: sans-serif;
-    border: 1px solid silver;
+    border: thin solid silver;
     border-radius: 5px;
     padding: 15px;
 }
@@ -405,7 +405,7 @@ button#reset.hidden {
 #header {
     grid-area: header;
     background-color: #f9f9f9;
-    border-bottom: 1px solid#DEDEDE;
+    border-bottom: thin solid#DEDEDE;
     text-align: left;
     /*height: 120px;*/
     display: flex;
@@ -424,6 +424,7 @@ button#reset.hidden {
     background-color: transparent;
     color: #000;
     border: none;
+    font-size: 1.5em;
 }
 
 #menu-button:focus {
@@ -464,6 +465,8 @@ button#reset.hidden {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     cursor: pointer;
+    margin: 1px;
+    padding: 1px;
 }
 
 /* Links inside the dropdown */
@@ -535,7 +538,7 @@ button#reset.hidden {
 }
 .query {
     background-color: #ffffff;
-    border: 1px solid #dddddd;
+    border: thin solid #dddddd;
     vertical-align: top;
     height: 44px;
     width: 630px;
@@ -555,26 +558,29 @@ button#reset.hidden {
 .query button {
     background-color: transparent;
     border: 0;
+    width: 25px;
 }
-.search.icon {
+.search.icon,
+#go > span {
     color: #000;
     position: absolute;
-    margin-top: 2px;
-    margin-left: 3px;
+    margin-top: -10px;
+    margin-left: -10px;
     width: 12px;
     height: 12px;
-    border: solid 1px currentColor;
+    border: solid 2px currentColor;
     border-radius: 100%;
     -webkit-transform: rotate(-45deg);
             transform: rotate(-45deg);
   }
-  .search.icon:before {
+  .search.icon:before,
+  #go > span:before {
     content: '';
     position: absolute;
     top: 12px;
     left: 5px;
-    height: 6px;
-    width: 1px;
+    height: 10px;
+    width: 2px;
     background-color: currentColor;
   }
 .query svg {
@@ -669,7 +675,12 @@ button#reset.hidden {
 }
 
 #categories-tree > ul .collapsed.has-children > .entry {
-    border-bottom: 1px solid #dedede;
+    border-bottom: thin solid #dedede;
+}
+
+#categories-tree > ul li > .entry > .title,
+#categories-tree > ul li > .entry > .link {
+    margin-left: 25px;
 }
 
 #categories-tree > ul .entry > .toggle {
@@ -690,20 +701,6 @@ button#reset.hidden {
 #categories-tree > ul .has-children > .entry > .toggle {
     visibility: visible;
 }
-/*
-#categories-tree .collapsed.has-children > .entry > .toggle::before {
-    content: url(/images/expand.svg);
-}
-*/
-#categories-tree > ul .expanded.has-children > .entry > .toggle::before:hover,
-#categories-tree > ul .collapsed.has-children > .entry > .toggle::before:hover {
-    /*background-color: silver;*/
-}
-/*
-#categories-tree > ul .expanded.has-children > .entry > .toggle::before {
-    content: url(/images/collapse.svg); 
-}
-*/
 
 #categories-tree > ul .collapsed.has-children > .entry > .toggle,
 #categories-tree > ul .expanded.has-children > .entry > .toggle {
@@ -719,8 +716,8 @@ button#reset.hidden {
   #categories-tree > ul .expanded.has-children > .entry > .toggle:before {
     content: '';
     position: absolute;
-    left: -5px;
-    top: 5px;
+    left: -4px;
+    top: 4px;
     width: 8px;
     height: 8px;
     border-top: solid 2px currentColor;
@@ -732,7 +729,7 @@ button#reset.hidden {
   #categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
     content: '';
     position: absolute;
-    left: -5px;
+    left: -4px;
     top: 0px;
     width: 8px;
     height: 8px;
@@ -748,10 +745,10 @@ button#reset.hidden {
 #categories-tree > ul ul {
     list-style-type: none;
     padding-left: 0.8em;
-    padding-top: 5px;
+    padding-top: 4px;
 }
 
-#categories-tree .entry > .link {
+#categories-tree li > ul > li > .entry {
     padding: 0.2em 0 0 0.2em;
     margin: 0 0 0 -0.2em;
     cursor: pointer;
@@ -886,7 +883,8 @@ button#reset.hidden {
 
 #matches-list li .date {
     display: block;
-    font-size: 0.75em;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.8em;
     margin: 0.2em 0;
 }
 
@@ -928,7 +926,7 @@ button#reset.hidden {
     padding: 0.2em 0.5em;
     margin: 0.1em 0.5em 0 0;
     background-color: gainsboro;
-    font-size: 0.75em;
+    font-size: 0.8em;
     display: inline-block;
     cursor: pointer;
 }
@@ -1050,7 +1048,7 @@ button#reset.hidden {
 
 #details > h2 {
     margin: 0 0 10px 0;
-    border-bottom: 1px solid #dedede;
+    border-bottom: thin solid #dedede;
 }
 
 #details-properties {
@@ -1091,7 +1089,7 @@ button#reset.hidden {
     grid-area: footer;
     text-align: center;
     background-color: #f9f9f9;
-    border-top: 1px solid#DEDEDE;
+    border-top: thin solid#DEDEDE;
     padding: 10px;
     font-size: 19px;
 }
@@ -1221,7 +1219,8 @@ ul.tab-container li.tab {
     display: inline;
     padding: 0 0.3em;
     cursor: pointer;
-    border: solid 1px silver;
+    border: thin solid silver;
+    border-bottom: none;
     font-size: 0.9em;
     border-top-left-radius: 0.4em;
     border-top-right-radius: 0.4em;
@@ -1247,24 +1246,55 @@ ul.tab-container li.tab.current {
 }
 /* Responsive design */
 
-@media (max-width: 768px) {
-    .container {
+@media (max-width: 815px) { 
+
+    #container {
         grid-template-areas: "header" "categories" "matches" "details" "footer";
         grid-template-columns: 1fr;
-        grid-template-rows: /* Header */
-            auto
-            /* categories */
-            minmax(75px, auto)
-            /* matches */
-            auto
-            /* details */
-            minmax(75px, auto)
-            /* Footer */
-            auto;
+        grid-template-rows: auto auto 1fr auto auto;
+        
     }
-    #categories,
+    #container.no-details:not(.welcome) {
+        grid-template-areas: "header" "categories" "matches" "details" "footer";
+    }
+
+    #categories, #matches,
     #details {
-        margin: 0;
+        margin: 0 1em 0 1em;
+    }
+
+    #top {
+        flex-wrap: wrap;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #query-wrapper {
+        margin-top: 5px;
+        width: 100vw;
+    }
+
+    .query {
+        width: 90vw;
+        margin: auto;
+    }
+
+    #menu {
+        position: absolute;
+        right: 5px;
+    }
+
+    #header #top .search-type {
+        margin-left: 0;
+        text-align: center
+    }
+
+    #matches-pager-label span {
+        display: none;
+    }
+
+    #matches-pager-items {
+        padding-left: 0;
     }
 }
 
