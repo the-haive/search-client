@@ -837,14 +837,20 @@ button#reset.hidden {
     flex-shrink: 0;
 }
 
+#matches-stats {
+    font-size: smaller;
+}
+
 #matches-order {
     display: none;
     font-size: smaller;
     margin-right: 0.5em;
 }
+
 #matches-order.show {
     display: block;
 }
+
 #matches-order .header {
     font-weight: bold;
 }
@@ -853,6 +859,7 @@ button#reset.hidden {
     flex-grow: 1;
     overflow-y: auto;
 }
+
 #matches-list ul {
     list-style: none;
     padding: 0;
@@ -862,6 +869,7 @@ button#reset.hidden {
     margin-bottom: 30px;
     margin-right: 10px;
 }
+
 #matches-list li.current {
     background-color: rgba(0, 0, 0, 0.03);
 }
@@ -1247,20 +1255,39 @@ ul.tab-container li.tab.current {
 /* Responsive design */
 
 @media (max-width: 815px) { 
-
     #container {
-        grid-template-areas: "header" "categories" "matches" "details" "footer";
+        grid-template-areas: "header" 
+                             "categories" 
+                             "matches" 
+                             "footer";
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto 1fr auto auto;
+        grid-template-rows: auto auto 1fr auto;
+        height: calc(100vh-60px);
         
     }
-    #container.no-details:not(.welcome) {
-        grid-template-areas: "header" "categories" "matches" "details" "footer";
+
+    #container.welcome {
+        grid-template-areas: "header" 
+                             "welcome" 
+                             "footer";
+        grid-template-rows: auto 1fr auto;
+        height: 100vh;
     }
 
-    #categories, #matches,
-    #details {
-        margin: 0 1em 0 1em;
+    #container.no-details {
+        grid-template-areas: "header"  
+                             "matches" 
+                             "footer";
+        grid-template-rows: auto 1fr auto;
+    }
+
+    #categories, #welcome, #matches, #details {
+        padding: 0 1em 0 1em;
+    }
+
+    #container.no-details #categories,
+    #container.no-details #categories-tree {
+        display: none;
     }
 
     #top {
@@ -1284,9 +1311,25 @@ ul.tab-container li.tab.current {
         right: 5px;
     }
 
+    #container:not(.no-details) #menu-option-toggle-details::before {
+        content: "Hide categories";
+    }
+
+    #container.no-details #menu-option-toggle-details::before {
+        content: "Show categories";
+    }
+    
+    #details {
+        display: none !important;
+    }
+
     #header #top .search-type {
         margin-left: 0;
         text-align: center
+    }
+
+    #matches-header.has-data {
+        display: block;
     }
 
     #matches-pager-label span {
@@ -1295,6 +1338,8 @@ ul.tab-container li.tab.current {
 
     #matches-pager-items {
         padding-left: 0;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
