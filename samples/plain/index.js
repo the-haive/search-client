@@ -396,10 +396,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             }
             let mod = checkIntellidebugMod(event, queryTextElm);
             //console.log(`queryText ${mod}Enter detected:`, queryTextElm.value);
-            let query = {
-                ...client.query,
-                ...{ queryText: queryTextElm.value }
-            };
+            let query = {};
+            Object.assign(query, client.query, {
+                queryText: queryTextElm.value
+            });
             client.forceUpdate(query, false); //No need to update autocomplete
             event.preventDefault();
         }
@@ -421,10 +421,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     searchButtonElm.addEventListener("click", event => {
         let mod = checkIntellidebugMod(event, queryTextElm);
         //console.log(`Search-button ${mod}clicked:`, queryTextElm.value);
-        let query = {
-            ...client.query,
-            ...{ queryText: queryTextElm.value }
-        };
+        let query = {};
+        Object.assign(query, client.query, { queryText: queryTextElm.value });
         client.forceUpdate(query, false); //No need to update autocomplete
     });
 
