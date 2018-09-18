@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div id="container" class="welcome category-configuration">
+    <div id="container" class="welcome">
         <header id="header">
             <div id="top">
                 <a id="logo" href="./"></a>
@@ -53,8 +53,8 @@
         <div id="error">
             <h2>Ops! Something went wrong.</h2>
             <p>
-                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report this
-                issue.
+                We apologize for this inconvenience. Please try again.<br /> If the problem persists then please report
+                this issue.
             </p>
             <button>Send report (not implemented yet)</button>
             <h3>Error details</h3>
@@ -282,7 +282,8 @@
 
                                 <label for="tab-search-query-settings-search-type" title="Controls what kind of search to make.">SearchType</label>
                                 <select id="tab-search-query-settings-search-type">
-                                    <option title="Return matches where all the words in the QueryText is used.">Match All
+                                    <option title="Return matches where all the words in the QueryText is used.">Match
+                                        All
                                     </option>
                                     <option title="Return matches where at least one of the words in the QueryText is used.">Match
                                         Any
@@ -404,10 +405,40 @@
             <div class="whiteout">
                 <div class="dialog-content">
                     <header>
-                        <h1>Category configuration for <span id="category-name">___</span></h1>
+                        <h1>Category configuration for: <span id="category-name"></span></h1>
                         <div id="category-configuration-close-button">X</div>
                     </header>
                     <div class="dialog-content-main">
+
+                        <fieldset id="expand">
+                            <legend>Expanded</legend>
+
+                            <input id="expanded-enabled" type="checkbox">
+                            <label for="grouping-enabled">Show category as expanded by default.</label>
+                            <button class="reset-button" title="Click to reset the session-state in regards to which nodes are expanded/collapsed.">Reset
+                                the current session's expanded state</button>
+
+                            <button class="toggle-button" data-target-id="expanded-help" data-target-on="block"
+                                data-target-off="none" data-btn-on="Hide introduction" data-btn-off="Show introduction"
+                                data-btn-init="off">
+                                Show introduction
+                            </button>
+
+                            <div id="expanded-help" class="help-block">
+                                <p>
+                                    This decides whether or not the category is to be expanded by default if it has any
+                                    children.
+                                </p>
+                                <p>
+                                    Note that the setting is the <strong>default</strong> value, and that while
+                                    expanding and collapsing the categories in the category-tree the current session
+                                    overrides this default. Click the reset button to get a fresh impression on how the
+                                    categories are drawn.
+                                </p>
+                            </div>
+
+                        </fieldset>
+
 
                         <fieldset id="grouping">
                             <legend>Grouping</legend>
@@ -415,24 +446,26 @@
                             <input id="grouping-enabled" type="checkbox">
                             <label for="grouping-enabled">Enabled</label>
 
-                            <button class="toggle-button" data-target-id="grouping-help" data-target-on="block" data-target-off="none" data-btn-on="Hide introduction"
-                                data-btn-off="Show introduction" data-btn-init="off">
+                            <button class="toggle-button" data-target-id="grouping-help" data-target-on="block"
+                                data-target-off="none" data-btn-on="Hide introduction" data-btn-off="Show introduction"
+                                data-btn-init="off">
                                 Show introduction
                             </button>
 
                             <div id="grouping-help" class="help-block">
                                 <p>
-                                    If the number of child-categories is too large the navigation can be daunting for the user. By using grouping the navigation
-                                    can become easier for the user.
+                                    If the number of child-categories is too large the navigation can be daunting for
+                                    the user. By using grouping the navigation can become easier for the user.
                                 </p>
                                 <p>
-                                    The <strong>number of child-categories</strong> can be used to trigger whether or not
-                                    grouping is be performed or not.
+                                    The <strong>number of child-categories</strong> can be used to trigger whether or
+                                    not grouping is be performed or not.
                                 </p>
                                 <p>
-                                    The grouping is performed by specifying a regular expression pattern to match on, accommodated by a replacement value. All
-                                    categories are run through this using a Regex replace. The replacement value becomes
-                                    the new group and the category that created it becomes a child in that group.
+                                    The grouping is performed by specifying a regular expression pattern to match on,
+                                    accommodated by a replacement value. All categories are run through this using a
+                                    Regex replace. The replacement value becomes the new group and the category that
+                                    created it becomes a child in that group.
                                 </p>
                                 <p>
                                     <strong>Sample, one character (upper-case) groups:</strong>
@@ -468,23 +501,27 @@
                             <input id="filter-enabled" type="checkbox">
                             <label for="filter-enabled">Enabled</label>
 
-                            <button class="toggle-button" data-target-id="filter-help" data-target-on="block" data-target-off="none" data-btn-on="Hide introduction"
-                                data-btn-off="Show introduction" data-btn-init="off">
+                            <button class="toggle-button" data-target-id="filter-help" data-target-on="block"
+                                data-target-off="none" data-btn-on="Hide introduction" data-btn-off="Show introduction"
+                                data-btn-init="off">
                                 Show introduction
                             </button>
 
                             <div id="filter-help" class="help-block">
                                 <p>
-                                    If the number of child-categories is too large the navigation can be daunting for the user. By using filtering the number
-                                    of categories to choose between is reduced for the user.
+                                    If the number of child-categories is too large the navigation can be daunting for
+                                    the user. By using filtering the number of categories to choose between is reduced
+                                    for the user.
                                 </p>
                                 <p>
-                                    By showing a input-control within the category-tree the user can effectively decide which categories to show himself. But
-                                    there is no need to show this control, when there are only a few categories to choose
-                                    from, so this choice is often used together with the min-count setting below.
+                                    By showing a input-control within the category-tree the user can effectively decide
+                                    which categories to show himself. But there is no need to show this control, when
+                                    there are only a few categories to choose from, so this choice is often used
+                                    together with the min-count setting below.
                                 </p>
                                 <p>
-                                    You can also choose to hide all child-categories when there are more than a certain number of categories available.
+                                    You can also choose to hide all child-categories when there are more than a certain
+                                    number of categories available.
                                 </p>
                             </div>
 
@@ -512,29 +549,33 @@
                             <input id="sort-enabled" type="checkbox">
                             <label for="sort-enabled">Enabled</label>
 
-                            <button class="toggle-button" data-target-id="sort-help" data-target-on="block" data-target-off="none" data-btn-on="Hide introduction"
-                                data-btn-off="Show introduction" data-btn-init="off">
+                            <button class="toggle-button" data-target-id="sort-help" data-target-on="block"
+                                data-target-off="none" data-btn-on="Hide introduction" data-btn-off="Show introduction"
+                                data-btn-init="off">
                                 Show introduction
                             </button>
 
                             <div id="sort-help" class="help-block">
                                 <p>
-                                    Sorting the list of categories might make it easier for the users to navigate. Sorting the items by DisplayName helps the
-                                    users find out where things are according to simple alphanumeric understanding. However,
-                                    manually placing items in the list based on a fixed knowledge of perceived importance
-                                    can be a good choice. Or manually placing some categories, while dynamically sorting
-                                    others. Even sorting by count is possible, even though the use case for this might not
-                                    be as prominent as the aforementioned ones.
+                                    Sorting the list of categories might make it easier for the users to navigate.
+                                    Sorting the items by DisplayName helps the users find out where things are
+                                    according to simple alphanumeric understanding. However, manually placing items in
+                                    the list based on a fixed knowledge of perceived importance can be a good choice.
+                                    Or manually placing some categories, while dynamically sorting others. Even sorting
+                                    by count is possible, even though the use case for this might not be as prominent
+                                    as the aforementioned ones.
                                 </p>
                                 <p>
-                                    You can compose the sorting in several step, in this UI composed as rows. Items that are added as 'Static' are considered
-                                    first. The items that are not static are then added in from the first row and downwards.
+                                    You can compose the sorting in several step, in this UI composed as rows. Items
+                                    that are added as 'Static' are considered first. The items that are not static are
+                                    then added in from the first row and downwards.
                                 </p>
                                 <p>
-                                    The <strong>match</strong> setting is used to find candidates to add in each row. The
-                                    method chosen, Original, DisplayName(Asc/Desc), MatchCount(Asc/Desc), is used to sort
-                                    the items internally, "within that row", so to speak.
-                                    <br /> Any remaining items are added to the end in the original order.
+                                    The <strong>match</strong> setting is used to find candidates to add in each row.
+                                    The method chosen, Original, DisplayName(Asc/Desc), MatchCount(Asc/Desc), is used
+                                    to sort the items internally, "within that row", so to speak.
+                                    <br />
+                                    Any remaining items are added to the end in the original order.
                                 </p>
                             </div>
 
@@ -605,18 +646,21 @@
                             <input id="limit-enabled" type="checkbox">
                             <label for="limit-enabled">Enabled</label>
 
-                            <button class="toggle-button" data-target-id="limit-help" data-target-on="block" data-target-off="none" data-btn-on="Hide introduction"
-                                data-btn-off="Show introduction" data-btn-init="off">
+                            <button class="toggle-button" data-target-id="limit-help" data-target-on="block"
+                                data-target-off="none" data-btn-on="Hide introduction" data-btn-off="Show introduction"
+                                data-btn-init="off">
                                 Show introduction
                             </button>
 
                             <div id="limit-help" class="help-block">
                                 <p>
-                                    When there are too many items in the category-list to show at the same time, you can limit the amount of categories to show.
+                                    When there are too many items in the category-list to show at the same time, you
+                                    can limit the amount of categories to show.
                                 </p>
                                 <p>
-                                    Sometimes just limiting the no of categories in itself is the sensible thing to do. Other times you may want to include a
-                                    pager control to allow browsing the categories, page by page.
+                                    Sometimes just limiting the no of categories in itself is the sensible thing to do.
+                                    Other times you may want to include a pager control to allow browsing the
+                                    categories, page by page.
                                 </p>
                             </div>
 
@@ -745,9 +789,9 @@
 
                             <dt>Phrases:</dt>
                             <dd>
-                                If you add quotes around the search-expression then IntelliSearch will return only items where those words are used in sequence.
-                                I.e. searching for <code>"lisa went to school"</code> instead
-                                of just <code>lisa went to school</code>.
+                                If you add quotes around the search-expression then IntelliSearch will return only
+                                items where those words are used in sequence. I.e. searching for <code>"lisa went to school"</code>
+                                instead of just <code>lisa went to school</code>.
                             </dd>
 
                             <dt>Sorting:</dt>
@@ -755,9 +799,9 @@
                                 By default IntelliSearch orders results by relevance, most relevant first to least
                                 relevant last. IntelliSearch calculate a match relevance per item it finds and puts the
                                 most relevant items on top. If you want you can switch the ordering from Relevance to
-                                Date, where items are ordered from newest to oldest.
-                                <i>Note that relevance can be tuned in the search-engine. Please contact the search
-                                    administrator if you have input on how items should be ordered.</i>
+                                Date, where items are ordered from newest to oldest. <i>Note that relevance can be
+                                    tuned in the search-engine. Please contact the search administrator if you have
+                                    input on how items should be ordered.</i>
                             </dd>
 
                             <dt>Number-ranges:</dt>
@@ -768,7 +812,8 @@
                                 switched, IntelliSearch will understand that <code>150-100</code> means the same as the
                                 previous expressions. You can also search for negative ranges, although the expressions
                                 will look a bit weirder. For instance, <code>-100--200</code> will return all items
-                                with the numbers -200 to -100 in them.<br />
+                                with the numbers -200 to -100 in them.
+                                <br />
                                 <i>Requires the number-plugin to be enabled in the search-engine.</i>
                             </dd>
 
@@ -776,12 +821,11 @@
                             <dd>
                                 IntelliSearch will detect the language used in items and for Norwegian (bokmål as well
                                 as ny-norsk) we will amploy what is called 'lemmatization' techniques in order to help
-                                identify the items you are looking for.
-                                A fallback alternative is used for most other common languages, called 'stemming'. With
-                                lemmatization enabled, searching for the word <code>trær</code> for instance, will
-                                automatically also return items where the words <code>tre</code>, <code>trær</code>,
-                                <code>trærne</code>, <code>treet</code> (etc.) are used.
-                                <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
+                                identify the items you are looking for. A fallback alternative is used for most other
+                                common languages, called 'stemming'. With lemmatization enabled, searching for the word
+                                <code>trær</code> for instance, will automatically also return items where the words
+                                <code>tre</code>, <code>trær</code>, <code>trærne</code>, <code>treet</code> (etc.) are
+                                used. <i>Requires the lemmatization-plugin to be enabled in the search-engine.</i>
                             </dd>
                         </dl>
                     </div>

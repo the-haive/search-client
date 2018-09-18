@@ -997,34 +997,21 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     : "";
             categoryLiElm.title = category.displayName;
 
-            let categoryConfigHTML =
-                category.children.length > 0
-                    ? '<div class="category-config-node"></div>'
-                    : "";
+            categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
-            categoryLiElm.innerHTML = `${categoryConfigHTML}<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
-
-            if (category.children.length > 0) {
-                let configElm = categoryLiElm.getElementsByClassName(
-                    "category-config-node"
-                )[0];
-                configElm.addEventListener("click", function(e) {
-                    console.log(
-                        `TODO: Toggled view config for category config '${
-                            category.displayName
-                        }'.`
-                    );
-                });
-            }
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
-                let result = client.toggleCategoryExpansion(category);
-                // console.log(
-                //     `Toggled expansion for category '${
-                //         category.displayName
-                //     }'. Expanded = ${result}`,
-                //     client.clientCategoryExpansion
-                // );
+                if (event.ctrlKey) {
+                    setupCategoryConfig(category, client);
+                } else {
+                    let result = client.toggleCategoryExpansion(category);
+                    // console.log(
+                    //     `Toggled expansion for category '${
+                    //         category.displayName
+                    //     }'. Expanded = ${result}`,
+                    //     client.clientCategoryExpansion
+                    // );
+                }
             });
 
             let linkElm = categoryLiElm.getElementsByClassName("link")[0];
@@ -1057,9 +1044,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             let topConfigElm = document.createElement("div");
             topConfigElm.classList.add("category-config-node", "top");
             topConfigElm.addEventListener("click", function(e) {
-                console.log(
-                    "TODO: Toggled view config for top-level category."
-                );
+                setupCategoryConfig(null, client);
             });
 
             categoriesTreeElm.appendChild(topConfigElm);
@@ -1072,17 +1057,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 let groupLiElm = document.createElement("li");
                 let title = `<span class="title">${group.displayName}</span>`;
                 let toggle = `<span class="toggle"></span>`;
-                groupLiElm.innerHTML = `<div class="category-config-node"></div><div class="entry">${toggle}${title}</div>`;
-                let configElm = groupLiElm.getElementsByClassName(
-                    "category-config-node"
-                )[0];
-                configElm.addEventListener("click", function(e) {
-                    console.log(
-                        `TODO: Toggled view config for category config '${
-                            group.displayName
-                        }'.`
-                    );
-                });
+                groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
                 groupLiElm.classList.add(
                     group.expanded ? "expanded" : "collapsed"
                 );
@@ -1092,13 +1067,17 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
                 let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
-                    let result = client.toggleCategoryExpansion(group);
-                    // console.log(
-                    //     `Toggled expansion for group '${
-                    //         group.displayName
-                    //     }'. Expanded = ${result}`,
-                    //     client.clientCategoryExpansion
-                    // );
+                    if (event.ctrlKey) {
+                        setupCategoryConfig(group, client);
+                    } else {
+                        let result = client.toggleCategoryExpansion(group);
+                        // console.log(
+                        //     `Toggled expansion for group '${
+                        //         group.displayName
+                        //     }'. Expanded = ${result}`,
+                        //     client.clientCategoryExpansion
+                        // );
+                    }
                 });
 
                 if (group.categories.length > 0) {
@@ -1160,6 +1139,33 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function renderSettings() {
         // TODO
         return;
+    }
+
+    function setupCategoryConfig(category, client) {
+        let title = "[root]";
+        if (category) {
+            title = category.displayName;
+            if (category.categoryName) {
+                // Is category
+                title += ` [${category.categoryName.join(",")}]`;
+            } else {
+                // Is group
+                title += ` [${category.name}]`;
+            }
+        }
+
+        console.log(`CategoryConfig for '${title}'...`);
+
+        // Setup the fields
+        let titleElm = document.getElementById("category-name");
+        titleElm.innerHTML = title;
+
+        // TODO: Lookup this category in the settings object. If none, show defaults.
+
+        // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
+
+        // Finally, show the configuration pane
+        containerElm.classList.add("category-configuration");
     }
 }
 

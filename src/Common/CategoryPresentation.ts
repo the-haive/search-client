@@ -7,6 +7,9 @@
  * - filter: Reduces which child-categories that passes through based on filter.
  * - sort: Changes the order of the categories.
  * - limit: Limits the no of categories to display.
+ * - expanded: If any categories are left to be shown then this setting indicates whether or not
+ *             to show the categories in the UI. Note that this is not available for the root-
+ *             level node, as it always shows the first-level of category-nodes.
  *
  * @default - All features disabled.
  */
@@ -14,12 +17,14 @@ export class CategoryPresentation {
     /**
      * Creates a CategoryPresentation instance. Default: All features disabled.
      *
+     * @param expanded Used to indicate whether tho show category-children or not. Default: false (N/A for the root-element)
      * @param grouping Used to create an extra level of categories that group items together. Default: Disabled
      * @param filter Used to include only categories that match the provided filter (regex + minCount). Default: Disabled
      * @param sort  Used to change the order of the categories. Default: Disabled
      * @param limit Used to limit the number of items to display. Default: Disabled
      */
     constructor(
+        public expanded: boolean = false,
         public grouping: GroupingConfiguration = new GroupingConfiguration(),
         public filter: FilterConfiguration = new FilterConfiguration(),
         public sort: SortConfiguration = new SortConfiguration(),
