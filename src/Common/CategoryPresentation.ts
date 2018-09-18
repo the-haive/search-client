@@ -29,8 +29,7 @@ export class CategoryPresentation {
 
 /**
  * Defines how grouping is to be applied on a given categories' children
- * There are two different grouping modes, DisplayName and MatchCount.
- * In addition grouping also can be set to only be executed when there number of child-categories exceeds a given number.
+ * Can be set to only be executed when the number of child-categories exceeds a given number.
  */
 export class GroupingConfiguration {
     /**
@@ -39,19 +38,15 @@ export class GroupingConfiguration {
      * @param enabled Enables or disables the feature. Default: false
      * @param minCount Only applies grouping when the number of children exceeds this number. Default: 20;
      * @param mode DisplayName or MatchCount. Default: DisplayName.
-     * @param displayNamePattern The regex to group on. Default: /^(.)/
-     * @param displayNameReplacement The string to use as regex replace on. Default: "\U$1"
-     * @param matchCountBreaks A list of counts to create groups based on. Default: [1,10,100]
-     * @param matchCountTemplate The text to use as a group-name. Should include the ${from} and/or ${to} variable references. Default: `(${from}-${to})`
+     * @param pattern The regex to group on. Default: /^(.)/
+     * @param replacement The string to use as regex replace on. Default: "\U$1"
      */
     constructor(
         public enabled: boolean = false,
         public minCount: number = 20,
         public mode: GroupingMode = GroupingMode.DisplayName,
-        public displayNamePattern: RegExp = /^(.)/,
-        public displayNameReplacement: string = "\\U$1",
-        public matchCountBreaks: number[] = [1, 10, 100],
-        public matchCountTemplate: string = "(${from}-${to})"
+        public pattern: RegExp = /^(.)/,
+        public replacement: string = "\\U$1"
     ) {}
 }
 
