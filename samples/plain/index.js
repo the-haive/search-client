@@ -997,19 +997,25 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     : "";
             categoryLiElm.title = category.displayName;
 
-            categoryLiElm.innerHTML = `<div class="category-config-node"></div><div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
+            let categoryConfigHTML =
+                category.children.length > 0
+                    ? '<div class="category-config-node"></div>'
+                    : "";
 
-            let configElm = categoryLiElm.getElementsByClassName(
-                "category-config-node"
-            )[0];
-            configElm.addEventListener("click", function(e) {
-                console.log(
-                    `TODO: Toggled view config for category config '${
-                        category.displayName
-                    }'.`
-                );
-            });
+            categoryLiElm.innerHTML = `${categoryConfigHTML}<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
 
+            if (category.children.length > 0) {
+                let configElm = categoryLiElm.getElementsByClassName(
+                    "category-config-node"
+                )[0];
+                configElm.addEventListener("click", function(e) {
+                    console.log(
+                        `TODO: Toggled view config for category config '${
+                            category.displayName
+                        }'.`
+                    );
+                });
+            }
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
                 let result = client.toggleCategoryExpansion(category);

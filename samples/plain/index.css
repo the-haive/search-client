@@ -1399,7 +1399,7 @@ label[for]:hover {
 .ctrl .category-config-node,
 .ctrl .category-config-node:hover {
     display: block;
-    margin-left: 0.8em;
+    margin-left: 0.55em;
 }
 
 /* Responsive design */
