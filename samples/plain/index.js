@@ -604,6 +604,18 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         }
     });
 
+    window.addEventListener("keydown", event => {
+        if (event.ctrlKey) {
+            containerElm.classList.add("ctrl");
+        } else {
+            containerElm.classList.remove("ctrl");
+        }
+    });
+
+    window.addEventListener("keyup", event => {
+        containerElm.classList.remove("ctrl");
+    });
+
     //////////////////////////////////////////////////////////////////////////////////////////
     // 8. Implement callbacks, that in turn render the ui
     //////////////////////////////////////////////////////////////////////////////////////////
@@ -985,7 +997,18 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     : "";
             categoryLiElm.title = category.displayName;
 
-            categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
+            categoryLiElm.innerHTML = `<div class="category-config-node"></div><div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
+
+            let configElm = categoryLiElm.getElementsByClassName(
+                "category-config-node"
+            )[0];
+            configElm.addEventListener("click", function(e) {
+                console.log(
+                    `TODO: Toggled view config for category config '${
+                        category.displayName
+                    }'.`
+                );
+            });
 
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
@@ -1024,6 +1047,17 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         }
 
         if (categories.groups.length > 0) {
+            // Add top-level node to use for configurinhg the categories.
+            let topConfigElm = document.createElement("div");
+            topConfigElm.classList.add("category-config-node", "top");
+            topConfigElm.addEventListener("click", function(e) {
+                console.log(
+                    "TODO: Toggled view config for top-level category."
+                );
+            });
+
+            categoriesTreeElm.appendChild(topConfigElm);
+
             let ul = document.createElement("ul");
             categoriesTreeElm.appendChild(ul);
 
@@ -1032,7 +1066,17 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 let groupLiElm = document.createElement("li");
                 let title = `<span class="title">${group.displayName}</span>`;
                 let toggle = `<span class="toggle"></span>`;
-                groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
+                groupLiElm.innerHTML = `<div class="category-config-node"></div><div class="entry">${toggle}${title}</div>`;
+                let configElm = groupLiElm.getElementsByClassName(
+                    "category-config-node"
+                )[0];
+                configElm.addEventListener("click", function(e) {
+                    console.log(
+                        `TODO: Toggled view config for category config '${
+                            group.displayName
+                        }'.`
+                    );
+                });
                 groupLiElm.classList.add(
                     group.expanded ? "expanded" : "collapsed"
                 );
@@ -1050,6 +1094,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     //     client.clientCategoryExpansion
                     // );
                 });
+
                 if (group.categories.length > 0) {
                     let catUlElm = document.createElement("ul");
                     groupLiElm.appendChild(catUlElm);

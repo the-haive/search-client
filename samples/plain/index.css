@@ -1307,6 +1307,35 @@ label[for]:hover {
 #category-configuration .toggle-button:hover {
     background-color: rgba(255, 255, 0, 0.6);
 }
+
+.category-config-node {
+    height: 1em;
+    width: 1em;
+    display: none;
+    position: absolute;
+    z-index: 100;
+    color: red;
+    cursor: pointer;
+    background-color: silver;
+    border-radius: 1em;
+    vertical-align: middle;
+    line-height: 1em;
+}
+.category-config-node:before {
+    content: "⚙";
+}
+
+.category-config-node.top {
+    margin-top: -1.2em;
+    margin-left: 0 !important;
+}
+
+.ctrl .category-config-node,
+.ctrl .category-config-node:hover {
+    display: block;
+    margin-left: 0.8em;
+}
+
 /* Responsive design */
 
 @media (max-width: 815px) {

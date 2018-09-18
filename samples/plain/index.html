@@ -435,12 +435,12 @@
                                     the new group and the category that created it becomes a child in that group.
                                 </p>
                                 <p>
-                                    <strong>Sample, one character groups:</strong>
+                                    <strong>Sample, one character (upper-case) groups:</strong>
                                     <code>Pattern: '^(.)' Replacement: '\U$1'</code>
                                 </p>
                                 <p>
-                                    <strong>Sample, three character groups:</strong>
-                                    <code>Pattern: '^(...)' Replacement: '\U$1'</code>
+                                    <strong>Sample, three character (title-case) groups:</strong>
+                                    <code>Pattern: '^(.)(..)' Replacement: '\U$1\L$2'</code>
                                 </p>
                             </div>
 
