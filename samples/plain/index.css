@@ -258,7 +258,7 @@ button:hover {
 #settings .dialog-content header h1 {
     margin: 0;
     font-size: 1em;
-    border-bottom: solid 1px silver;
+    border-bottom: thin solid silver;
 }
 
 #settings ul.tab-container {
@@ -297,7 +297,7 @@ button:hover {
 
 #settings-close-button {
     margin-left: auto;
-    border-bottom: solid 1px silver;
+    border-bottom: thin solid silver;
 }
 
 #settings fieldset {
@@ -435,7 +435,7 @@ button#reset.hidden {
 #header {
     grid-area: header;
     background-color: #f9f9f9;
-    border-bottom: thin solid#DEDEDE;
+    border-bottom: thin solid #dedede;
     text-align: left;
     /*height: 120px;*/
     display: flex;
@@ -601,18 +601,18 @@ button#reset.hidden {
     border: solid 2px currentColor;
     border-radius: 100%;
     -webkit-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-  }
-  .search.icon:before,
-  #go > span:before {
-    content: '';
+    transform: rotate(-45deg);
+}
+.search.icon:before,
+#go > span:before {
+    content: "";
     position: absolute;
     top: 12px;
     left: 5px;
     height: 10px;
     width: 2px;
     background-color: currentColor;
-  }
+}
 .query svg {
     width: 24px;
     height: 24px;
@@ -740,11 +740,11 @@ button#reset.hidden {
     margin-top: 0;
     width: 0px;
     height: 16px;
-    background-color: transparent;/* currentColor;*/
-  }
-  
-  #categories-tree > ul .expanded.has-children > .entry > .toggle:before {
-    content: '';
+    background-color: transparent; /* currentColor;*/
+}
+
+#categories-tree > ul .expanded.has-children > .entry > .toggle:before {
+    content: "";
     position: absolute;
     left: -4px;
     top: 4px;
@@ -753,11 +753,11 @@ button#reset.hidden {
     border-top: solid 2px currentColor;
     border-right: solid 2px currentColor;
     -webkit-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-  }
+    transform: rotate(-45deg);
+}
 
-  #categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
-    content: '';
+#categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
+    content: "";
     position: absolute;
     left: -4px;
     top: 0px;
@@ -766,8 +766,8 @@ button#reset.hidden {
     border-top: solid 2px currentColor;
     border-right: solid 2px currentColor;
     -webkit-transform: rotate(135deg);
-            transform: rotate(135deg);
-  }
+    transform: rotate(135deg);
+}
 #categories-tree > ul .collapsed.has-children > ul {
     display: none;
 }
@@ -1127,7 +1127,7 @@ button#reset.hidden {
     grid-area: footer;
     text-align: center;
     background-color: #f9f9f9;
-    border-top: thin solid#DEDEDE;
+    border-top: thin solid #dedede;
     padding: 10px;
     font-size: 19px;
 }
@@ -1272,14 +1272,14 @@ ul.tab-container li.tab.current {
 
 .tab-content-container {
     background-color: rgba(0, 0, 0, 0.08);
-    border: solid 1px silver;
+    border: thin solid silver;
     border-top: none;
     padding: 0.5em;
 }
 
 .tab-spacer {
     flex-grow: 1;
-    border-bottom: solid 1px silver;
+    border-bottom: thin solid silver;
 }
 fieldset {
     border-radius: 0.4em;
@@ -1309,34 +1309,39 @@ label[for]:hover {
 }
 /* Responsive design */
 
-@media (max-width: 815px) { 
+@media (max-width: 815px) {
     #container {
-        grid-template-areas: "header" 
-                             "categories" 
-                             "matches" 
-                             "footer";
+        grid-template-areas:
+            "header"
+            "categories"
+            "matches"
+            "footer";
         grid-template-columns: 1fr;
         grid-template-rows: auto auto 1fr auto;
         height: calc(100vh-60px);
-        
     }
 
     #container.welcome {
-        grid-template-areas: "header" 
-                             "welcome" 
-                             "footer";
+        grid-template-areas:
+            "header"
+            "welcome"
+            "footer";
         grid-template-rows: auto 1fr auto;
         height: 100vh;
     }
 
     #container.no-details {
-        grid-template-areas: "header"  
-                             "matches" 
-                             "footer";
+        grid-template-areas:
+            "header"
+            "matches"
+            "footer";
         grid-template-rows: auto 1fr auto;
     }
 
-    #categories, #welcome, #matches, #details {
+    #categories,
+    #welcome,
+    #matches,
+    #details {
         padding: 0 1em 0 1em;
     }
 
@@ -1373,14 +1378,14 @@ label[for]:hover {
     #container.no-details #menu-option-toggle-details::before {
         content: "Show categories";
     }
-    
+
     #details {
         display: none !important;
     }
 
     #header #top .search-type {
         margin-left: 0;
-        text-align: center
+        text-align: center;
     }
 
     #matches-header.has-data {
