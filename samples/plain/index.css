@@ -191,8 +191,10 @@ button:hover {
 .key-value-grid {
     display: grid;
     grid-gap: 15px;
-    grid-template-columns: repeat(auto-fill,
-        minmax(200px, 1fr) minmax(200px, 2fr));
+    grid-template-columns: repeat(
+        auto-fill,
+        minmax(200px, 1fr) minmax(200px, 2fr)
+    );
     padding: 0.5em;
 }
 
@@ -585,7 +587,7 @@ button#reset.hidden {
 }
 
 .search.icon,
-#go>span {
+#go > span {
     color: #000;
     position: absolute;
     margin-top: -10px;
@@ -599,8 +601,8 @@ button#reset.hidden {
 }
 
 .search.icon:before,
-#go>span:before {
-    content: '';
+#go > span:before {
+    content: "";
     position: absolute;
     top: 12px;
     left: 5px;
@@ -646,14 +648,14 @@ button#reset.hidden {
     overflow-x: hidden;
 }
 
-#details>.close {
+#details > .close {
     position: absolute;
     right: 0;
     margin: -0.7em 1.1em;
     cursor: pointer;
 }
 
-#details>.close:hover {
+#details > .close:hover {
     font-weight: bold;
 }
 
@@ -665,7 +667,7 @@ button#reset.hidden {
     overflow-y: auto;
 }
 
-#categories-tree>ul {
+#categories-tree > ul {
     list-style-type: none;
     padding-left: 0;
 }
@@ -677,7 +679,7 @@ button#reset.hidden {
     white-space: nowrap;
 }
 
-#categories-tree>ul>li>.entry {
+#categories-tree > ul > li > .entry {
     display: block;
     font-size: 0.9em;
     font-weight: bold;
@@ -685,34 +687,30 @@ button#reset.hidden {
     white-space: nowrap;
 }
 
-#categories-tree>ul li>.entry {
+#categories-tree > ul li > .entry {
     border-bottom: 0px solid #dedede;
     display: flex;
     justify-content: stretch;
 }
 
-#categories-tree>ul li>.entry>.link {
+#categories-tree > ul li > .entry > .link {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
 }
 
-#categories-tree>ul li>.entry>.link>.title {
+#categories-tree > ul li > .entry > .link > .title {
     flex-grow: 1;
 }
 
-#categories-tree>ul .collapsed.has-children>.entry {
+#categories-tree > ul .collapsed.has-children > .entry {
     border-bottom: thin solid #dedede;
 }
 
-#categories-tree>ul li>.entry>.title,
-#categories-tree>ul li>.entry>.link {
-    margin-left: 25px;
-}
-
-#categories-tree>ul .entry>.toggle {
+#categories-tree > ul .entry > .toggle {
     visibility: hidden;
     font-size: 0.7em;
+    margin-left: 0.7em;
     margin-right: 0.7em;
     display: inline-block;
     min-width: 1.5em;
@@ -721,19 +719,19 @@ button#reset.hidden {
     vertical-align: middle;
 }
 
-#categories-tree>ul>li>.entry>.toggle {
+#categories-tree > ul > li > .entry > .toggle {
     margin-top: -0.3em;
 }
 
-#categories-tree>ul .has-children>.entry>.toggle {
+#categories-tree > ul .has-children > .entry > .toggle {
     visibility: visible;
 }
 
-#categories-tree>ul .collapsed.has-children>.entry>.toggle,
-#categories-tree>ul .expanded.has-children>.entry>.toggle {
+#categories-tree > ul .collapsed.has-children > .entry > .toggle,
+#categories-tree > ul .expanded.has-children > .entry > .toggle {
     color: #000;
-    position: absolute;
-    margin-left: 10px;
+    position: relative;
+    /*margin-left: 10px;*/
     margin-top: 0;
     width: 0px;
     height: 16px;
@@ -741,10 +739,10 @@ button#reset.hidden {
     /* currentColor;*/
 }
 
-#categories-tree>ul .expanded.has-children>.entry>.toggle:before {
-    content: '';
+#categories-tree > ul .expanded.has-children > .entry > .toggle:before {
+    content: "";
     position: absolute;
-    left: -4px;
+    left: 4px;
     top: 4px;
     width: 8px;
     height: 8px;
@@ -754,10 +752,10 @@ button#reset.hidden {
     transform: rotate(-45deg);
 }
 
-#categories-tree>ul .collapsed.has-children>.entry>.toggle:before {
-    content: '';
+#categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
+    content: "";
     position: absolute;
-    left: -4px;
+    left: 4px;
     top: 0px;
     width: 8px;
     height: 8px;
@@ -767,17 +765,17 @@ button#reset.hidden {
     transform: rotate(135deg);
 }
 
-#categories-tree>ul .collapsed.has-children>ul {
+#categories-tree > ul .collapsed.has-children > ul {
     display: none;
 }
 
-#categories-tree>ul ul {
+#categories-tree > ul ul {
     list-style-type: none;
     padding-left: 0.8em;
     padding-top: 4px;
 }
 
-#categories-tree li>ul>li>.entry {
+#categories-tree li > ul > li > .entry {
     padding: 0.2em 0 0 0.2em;
     margin: 0 0 0 -0.2em;
     cursor: pointer;
@@ -785,37 +783,37 @@ button#reset.hidden {
     border-radius: 0.3em;
 }
 
-#categories-tree>ul li.is-filter>.entry>.link {
+#categories-tree > ul li.is-filter > .entry > .link {
     background-color: rgba(159, 197, 88, 0.3);
     cursor: pointer;
 }
 
-#categories-tree>ul li>.entry>.link:hover {
+#categories-tree > ul li > .entry > .link:hover {
     border-color: rgba(0, 0, 0, 0.3);
 }
 
-#categories-tree>ul li.has-filter>.entry>.link {
+#categories-tree > ul li.has-filter > .entry > .link {
     background-color: rgba(159, 197, 88, 0.15);
 }
 
-#categories-tree>ul .count {
+#categories-tree > ul .count {
     padding: 0 1em;
     font-size: smaller;
 }
 
-#categories-tree>ul .count::before {
+#categories-tree > ul .count::before {
     content: "";
 }
 
-#categories-tree>ul .count::after {
+#categories-tree > ul .count::after {
     content: "";
 }
 
-#categories-tree>ul {
+#categories-tree > ul {
     margin-top: 0;
 }
 
-#categories>ul>li>.entry {
+#categories > ul > li > .entry {
     background-color: transparent;
 }
 
@@ -1092,7 +1090,7 @@ button#reset.hidden {
     margin: 0.5em 0 0 -0.4em;
 }
 
-#details>h2 {
+#details > h2 {
     margin: 0 0 10px 0;
     border-bottom: thin solid #dedede;
 }
@@ -1326,18 +1324,19 @@ ul.tab-container li.tab.current {
 
 @media (max-width: 815px) {
     #container {
-        grid-template-areas: "header"
+        grid-template-areas:
+            "header"
             "categories"
             "matches"
             "footer";
         grid-template-columns: 1fr;
         grid-template-rows: auto auto 1fr auto;
         height: calc(100vh-60px);
-
     }
 
     #container.welcome {
-        grid-template-areas: "header"
+        grid-template-areas:
+            "header"
             "welcome"
             "footer";
         grid-template-rows: auto 1fr auto;
@@ -1345,7 +1344,8 @@ ul.tab-container li.tab.current {
     }
 
     #container.no-details {
-        grid-template-areas: "header"
+        grid-template-areas:
+            "header"
             "matches"
             "footer";
         grid-template-rows: auto 1fr auto;
@@ -1398,7 +1398,7 @@ ul.tab-container li.tab.current {
 
     #header #top .search-type {
         margin-left: 0;
-        text-align: center
+        text-align: center;
     }
 
     #matches-header.has-data {
