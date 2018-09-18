@@ -1216,6 +1216,29 @@ ul.tab-container li.tab.current {
 fieldset {
     border-radius: 0.4em;
 }
+
+label[for]:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.help-block {
+    font-size: 0.85em;
+    font-style: italic;
+    background: rgba(255, 255, 0, 0.1);
+}
+
+#category-configuration .toggle-button {
+    display: block;
+    border: outset 1px;
+    background-color: rgba(255, 255, 0, 0.3);
+    float: right;
+    font-weight: 400;
+}
+
+#category-configuration .toggle-button:hover {
+    background-color: rgba(255, 255, 0, 0.6);
+}
 /* Responsive design */
 
 @media (max-width: 768px) {

@@ -55,6 +55,7 @@ window.onload = function() {
     ]).then(() => {
         setupIntelliSearch(searchSettings, uiSettings);
         setupTabs();
+        setupButtons();
     });
 };
 
@@ -1170,6 +1171,31 @@ function setupTabs() {
                 tabContent.classList.add("current");
             });
         }
+    }
+}
+
+function setupButtons() {
+    var buttonElms = document.getElementsByClassName("toggle-button");
+    for (let i = 0; i < buttonElms.length; i++) {
+        let buttonElm = buttonElms[i];
+        let targetElm = document.getElementById(buttonElm.dataset.targetId);
+        let onStyle = buttonElm.dataset.targetOn;
+        let offStyle = buttonElm.dataset.targetOff;
+        let state;
+        function handler() {
+            if (!state) {
+                state = buttonElm.dataset.btnInit;
+            } else {
+                state = state === "on" ? "off" : "on";
+            }
+            targetElm.style.display = state === "on" ? onStyle : offStyle;
+            buttonElm.innerHTML =
+                state === "on"
+                    ? buttonElm.dataset.btnOn
+                    : buttonElm.dataset.btnOff;
+        }
+        buttonElm.addEventListener("click", handler);
+        handler();
     }
 }
 // Utility template-helper to collect output from a map iterator.

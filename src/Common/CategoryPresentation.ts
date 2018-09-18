@@ -4,64 +4,60 @@
  * - grouping: Grouping might change all items on this level (introduces an extra layer).
  *             If an extra group-level is introduced then it will be subject for all
  *             consecutive processes in this class.
- * - filter: Reduce to allowed items based on filter.
- * - sort: Changes the order of items left to display.
- * - limit: Limits the no of sorted items to display.
+ * - filter: Reduces which child-categories that passes through based on filter.
+ * - sort: Changes the order of the categories.
+ * - limit: Limits the no of categories to display.
  *
  * @default - All features disabled.
  */
 export class CategoryPresentation {
     /**
-     * Used to create an extra level of categories that group items together.
+     * Creates a CategoryPresentation instance. Default: All features disabled.
      *
-     * @default null
+     * @param grouping Used to create an extra level of categories that group items together. Default: Disabled
+     * @param filter Used to include only categories that match the provided filter (regex + minCount). Default: Disabled
+     * @param sort  Used to change the order of the categories. Default: Disabled
+     * @param limit Used to limit the number of items to display. Default: Disabled
      */
-    public grouping?: DisplayNameGroupingConfiguration | number[] | null = null;
-
-    /**
-     * Used to include only categories that match the provided filter (regex + minCount).
-     *
-     * @default null
-     */
-    public filter?: FilterConfiguration | null = null;
-
-    /**
-     * Used to change the order of the categories.
-     * First handles the static strings, then applies the SortPartConfigurations until there are no items left.
-     * Note: If there are additional items left when done above then these will be added at the bottom in the original sorting order.
-     *
-     * @default empty
-     */
-    public sort?: SortConfiguration[] = [];
-
-    /**
-     * Used to limit the number of items to display.
-     * The regular use-case is to set a number, which acts as the number of items to show.
-     * But, the limit is also designed to allow paging, by instead assigning a
-     * LimitPageConfiguration, which can set the page and pageSizer to control which
-     * range of items to show.
-     *
-     * @default null
-     */
-    public limit?: LimitPageConfiguration | null = null;
+    constructor(
+        public grouping: GroupingConfiguration = new GroupingConfiguration(),
+        public filter: FilterConfiguration = new FilterConfiguration(),
+        public sort: SortConfiguration = new SortConfiguration(),
+        public limit: LimitPageConfiguration = new LimitPageConfiguration()
+    ) {}
 }
 
 /**
- * Defines how items are to be grouped when using regular expression-based grouping.
- *
- * @default Disabled
+ * Defines how grouping is to be applied on a given categories' children
+ * There are two different grouping modes, DisplayName and MatchCount.
+ * In addition grouping also can be set to only be executed when there number of child-categories exceeds a given number.
  */
-export class DisplayNameGroupingConfiguration {
+export class GroupingConfiguration {
     /**
-     * Creates a DisplayNameGroupingConfiguration instance.
+     * Creates a GroupingConfiguration instance.
      *
-     * @param match The regex to group on (i.e. First letter from items: /^(.)/
-     * @param value The string to use as regex replace on.
+     * @param enabled Enables or disables the feature. Default: false
+     * @param minCount Only applies grouping when the number of children exceeds this number. Default: 20;
+     * @param mode DisplayName or MatchCount. Default: DisplayName.
+     * @param displayNamePattern The regex to group on. Default: /^(.)/
+     * @param displayNameReplacement The string to use as regex replace on. Default: "\U$1"
+     * @param matchCountBreaks A list of counts to create groups based on. Default: [1,10,100]
+     * @param matchCountTemplate The text to use as a group-name. Should include the ${from} and/or ${to} variable references. Default: `(${from}-${to})`
      */
     constructor(
-        public match: RegExp | null = null,
-        public value: string = "$1"
+        public enabled: boolean = false,
+        public minCount: number = 20,
+        public mode: GroupingMode = GroupingMode.DisplayName,
+        public displayNamePattern: RegExp = /^(.)/,
+        public displayNameReplacement: string = "\\U$1",
+        public matchCountBreaks: number[] = [1, 10, 100],
+        public matchCountTemplate: string = "(${from}-${to})"
     ) {}
+}
+
+export enum GroupingMode {
+    DisplayName = "DisplayName",
+    MatchCount = "MatchCount"
 }
 
 /**
@@ -69,27 +65,50 @@ export class DisplayNameGroupingConfiguration {
  */
 export class FilterConfiguration {
     /**
-     * @param match The current regex match filter
-     * @param minCount The minimum no of matches for the category to show
+     * @param enabled Enables or disables the feature. Default: false
+     * @param match The current regex match filter. Default: // (empty - no matches)
+     * @param maxMatchCount The maximum no of matches for the category to be included. Default: -1 (disabled)
      */
-    constructor(public match: RegExp = null, public minCount: number = 0) {}
+    constructor(
+        public enabled: boolean = false,
+        public match: RegExp = new RegExp(""),
+        public maxMatchCount: number = -1 // disabled
+    ) {}
 }
 
 /**
  * Defines how sorting is to be applied.
+ * First handles the static strings, then applies the SortPartConfigurations until there are no items left.
+ * Note: If there are additional items left when done above then these will be added at the bottom in the original sorting order.
  */
 export class SortConfiguration {
     /**
-     * Creates a sort-part that defines how to order the items scoped.
+     * Creates a sort-configuration that defines how to order the items scoped.
      *
-     * @param method Defines the method/field to use when sorting
-     * @param match Defines the match (string or regex) that defines the scope of items to sort.
-     * @param order Defines whether to sort ascending or descending.
+     * @param enabled Enables or disables the feature. Default: false
+     * @param parts List of sort-parts. Default: Empty
      */
     constructor(
-        public method: SortMethod,
+        public enabled: boolean = false,
+        public parts: SortPartConfigurationType[] = []
+    ) {}
+}
+
+type SortPartConfigurationType = string | SortPartConfiguration;
+
+/**
+ * Defines how sorting is to be applied for the given part.
+ */
+export class SortPartConfiguration {
+    /**
+     * Creates a sort-part that defines how to order the items scoped.
+     *
+     * @param match Defines the match (string or regex) that defines the scope of items to sort. Default: ".*" (anything)
+     * @param method Defines the method/field and order to use when sorting. Default: Original
+     */
+    constructor(
         public match: RegExp | string = /.*/,
-        public order: SortOrder = SortOrder.Asc
+        public method: SortMethod = SortMethod.Original
     ) {}
 }
 
@@ -104,41 +123,44 @@ export enum SortMethod {
     Original = "Original",
 
     /**
-     * Sort by DisplayName field.
+     * Sort Ascending by DisplayName field.
      */
-    DisplayName = "DisplayName",
+    DisplayNameAsc = "DisplayNameAsc",
 
     /**
-     * Sort by Count field.
+     * Sort Descending by DisplayName field.
      */
-    Count = "Count"
-}
-
-/**
- * Defines which order to use when sorting the items.
- */
-export enum SortOrder {
-    /**
-     * Sorts the items in ascending order (low to high).
-     */
-    Asc = "Asc",
+    DisplayNameDesc = "DisplayNameDesc",
 
     /**
-     * Sorts the items in descending order (high to low).
+     * Sort Ascending by MatchCount field.
      */
-    Desc = "Desc"
+    MatchCountAsc = "MatchCountAsc",
+
+    /**
+     * Sort Descending by MatchCount field.
+     */
+    MatchCountDesc = "MatchCountDesc"
 }
 
 /**
  * Defines paging parameters for controlling which range of items to show.
- * @default - Show first page, with 5 items.
+ * Used to limit the number of items to display.
+ * The regular use-case is to set a pageSize, which acts as the number of items to show.
+ * The limit is also designed to allow paging, by changing page from 1 and thus allowing
+ * paging the categories.
  */
 export class LimitPageConfiguration {
     /**
-     * Creates a LimitPageConfiguration instance.
+     * Creates a LimitPageConfiguration instance. Default: Show first page, with 5 items.
      *
-     * @param page Defines the page to show.
-     * @param pageSize Defines the pageSize that with the `page` controls which item-range to show.
+     * @param enabled Enables or disables the feature. Default: false
+     * @param page Defines the page to show. Default: 1
+     * @param pageSize Defines the pageSize that with the `page` controls which item-range to show. Default: 5
      */
-    constructor(public page: number = 1, public pageSize: number = 5) {}
+    constructor(
+        public enabled: boolean = false,
+        public page: number = 1,
+        public pageSize: number = 5
+    ) {}
 }
