@@ -794,8 +794,18 @@ button#reset.hidden {
     transform: rotate(135deg);
 }
 
-.ctrl #categories-tree > ul .expanded.has-children > .entry > .toggle:before,
-.ctrl #categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
+.ctrl
+    #categories-tree:hover
+    > ul
+    .expanded.has-children
+    > .entry
+    > .toggle:before,
+.ctrl
+    #categories-tree:hover
+    > ul
+    .collapsed.has-children
+    > .entry
+    > .toggle:before {
     content: "☸";
     border: none;
     transform: unset;
@@ -805,7 +815,12 @@ button#reset.hidden {
     text-shadow: 0.1em 0.1em 0.1em silver;
 }
 
-.ctrl #categories-tree > ul .expanded.has-children > .entry > .toggle:before {
+.ctrl
+    #categories-tree:hover
+    > ul
+    .expanded.has-children
+    > .entry
+    > .toggle:before {
     margin-top: -0.62em;
 }
 
@@ -1402,7 +1417,7 @@ label[for]:hover {
     margin: 0;
 }
 
-.category-config-node:before {
+#categories:hover .category-config-node:before {
     content: "☸";
 }
 
