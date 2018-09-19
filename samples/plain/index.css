@@ -548,7 +548,7 @@ button#reset.hidden {
 }
 
 #query-text {
-    font-family: Arial, sans-serif;
+    font-family: inherit;
     border: none;
     height: 40px;
     outline: none;

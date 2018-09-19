@@ -1,7 +1,7 @@
 {
     "baseUrl": "http://searchmanager.demo.intellisearch.no",
     "authentication": {
-        "baseUrl": "https://demo-esp.global.ints",
+        "baseUrl": "https://auth.intellisearch.com",
         "basePath": "",
         "servicePath": "auth/login",
         "enabled": true
