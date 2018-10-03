@@ -895,6 +895,7 @@ button#reset.hidden {
 #matches-list li {
     margin-bottom: 30px;
     margin-right: 10px;
+    padding: 5px;
 }
 
 #matches-list li.current {
@@ -918,7 +919,7 @@ button#reset.hidden {
 
 #matches-list li .date {
     display: block;
-    color: rgba(0, 0, 0, 0.5);
+    color: rgb(53, 175, 39);
     font-size: 0.8em;
     margin: 0.2em 0;
 }
@@ -928,12 +929,12 @@ button#reset.hidden {
 }
 
 #matches-list a:link {
-    color: #1a0dab;
+    color: #3d91c6;
 }
 
 #matches-list a:visited,
 #matches-list a:active {
-    color: #609;
+    color: #3d91c6;
 }
 
 #matches-list a:hover {
@@ -943,9 +944,9 @@ button#reset.hidden {
 #matches-list li .extracts {
     font-size: smaller;
     font-style: normal;
-    padding: 0.2em 0 0.5em 0.1em;
-    border-left: solid 0 silver;
-    margin: 0 0 0 0.2em;
+    padding: 0 0 0 0.5em;
+    border-left: solid thick silver;
+    margin: 1em 0 1em 0;
     background-color: transparent;
 }
 
@@ -956,11 +957,11 @@ button#reset.hidden {
 
 #categories-filters .filter,
 #matches-list .category {
-    border-radius: 0.9em;
+    /*border-radius: 0.9em;*/
     border: solid 0.1em transparent;
     padding: 0.2em 0.5em;
     margin: 0.1em 0.5em 0 0;
-    background-color: gainsboro;
+    background-color: #dcdcdc8a;
     font-size: 0.8em;
     display: inline-block;
     cursor: pointer;
@@ -1184,9 +1185,11 @@ button#reset.hidden {
     border: 15px solid transparent;
     border-top-color: #a4ca30;
     border-bottom-color: #a4ca30;
-    -webkit-animation: spin 3s linear infinite;
+    -webkit-animation: spin 1.2s linear infinite;
+    -webkit-animation-direction: reverse;
     /* Chrome, Opera 15+, Safari 5+ */
-    animation: spin 3s linear infinite;
+    animation: spin 1.2s linear infinite;
+    animation-direction: reverse;
     /* Chrome, Firefox 16+, IE 10+, Opera */
 }
 
