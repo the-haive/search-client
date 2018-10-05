@@ -1001,8 +1001,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
-                if (event.ctrlKey) {
-                    setupCategoryConfig(category, client);
+                if (e.ctrlKey) {
+                    // Toggle the client-category-configuration for the category-node
+                    toggleClientCategoryConfiguration(category);
                 } else {
                     let result = client.toggleCategoryExpansion(category);
                     // console.log(
@@ -1044,7 +1045,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             let topConfigElm = document.createElement("div");
             topConfigElm.classList.add("category-config-node", "top");
             topConfigElm.addEventListener("click", function(e) {
-                setupCategoryConfig(null, client);
+                // Toggle the client-category-configuration for the root-node
+                toggleClientCategoryConfiguration(null);
             });
 
             categoriesTreeElm.appendChild(topConfigElm);
@@ -1067,8 +1069,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
                 let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
-                    if (event.ctrlKey) {
-                        setupCategoryConfig(group, client);
+                    if (e.ctrlKey) {
+                        // Toggle the client-category-configuration for the group-node
+                        toggleClientCategoryConfiguration(group);
                     } else {
                         let result = client.toggleCategoryExpansion(group);
                         // console.log(
@@ -1113,6 +1116,37 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         }
     }
 
+    function toggleClientCategoryConfiguration(node) {
+        if (containerElm.classList.contains("category-configuration")) {
+            containerElm.classList.remove("category-configuration");
+        } else {
+            let title = "[root]";
+            if (node) {
+                title = node.displayName;
+                if (node.categoryName) {
+                    // Is category
+                    title += ` [${node.categoryName.join(",")}]`;
+                } else {
+                    // Is group
+                    title += ` [${node.name}]`;
+                }
+            }
+
+            console.log(`CategoryConfig for '${title}'...`);
+
+            // Setup the fields
+            let titleElm = document.getElementById("category-name");
+            titleElm.innerHTML = title;
+
+            // TODO: Lookup this category in the settings object. If none, show defaults.
+
+            // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
+
+            // Finally, show the configuration pane
+            containerElm.classList.add("category-configuration");
+        }
+    }
+
     /**
      * Use this to handle errors and to stop load-spinners.
      */
@@ -1139,33 +1173,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function renderSettings() {
         // TODO
         return;
-    }
-
-    function setupCategoryConfig(category, client) {
-        let title = "[root]";
-        if (category) {
-            title = category.displayName;
-            if (category.categoryName) {
-                // Is category
-                title += ` [${category.categoryName.join(",")}]`;
-            } else {
-                // Is group
-                title += ` [${category.name}]`;
-            }
-        }
-
-        console.log(`CategoryConfig for '${title}'...`);
-
-        // Setup the fields
-        let titleElm = document.getElementById("category-name");
-        titleElm.innerHTML = title;
-
-        // TODO: Lookup this category in the settings object. If none, show defaults.
-
-        // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
-
-        // Finally, show the configuration pane
-        containerElm.classList.add("category-configuration");
     }
 }
 
