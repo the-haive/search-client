@@ -184,10 +184,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             ,
             modDate: (dateString) => {
                 let date = moment(new Date(dateString));
-                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">[~ ${date.fromNow()}]</span>`;
+                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">${date.fromNow()}</span>`;
             },
             title: (title, url) => `
-                <a class="title" href="${url}" title="${title}">${title}</a>
+                <a class="title" href="${url}" title="${title}" target="_blank" rel="noopener noreferrer">${title}</a>
             `,
         },
         details: {
