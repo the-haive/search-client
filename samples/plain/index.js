@@ -587,6 +587,40 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove("category-configuration");
     });
 
+    // Remember original display-style for fieldsets in the client-category-config
+    let cccExpand = document.getElementById("expand");
+    let cccGrouping = document.getElementById("grouping");
+    let cccFilter = document.getElementById("filter");
+    let cccLimit = document.getElementById("limit");
+    for (var elm of [cccExpand, cccGrouping, cccFilter, cccLimit]) {
+        setOriginalDisplay(elm);
+    }
+
+    function setOriginalDisplay(elm) {
+        elm.dataset.originalDisplay = elm.style.display;
+    }
+    /**
+     * Helper to restore the original display-style of an element
+     */
+    function showElement(elm) {
+        if (elm.dataset.originalDisplay !== null) {
+            elm.style.display = elm.dataset.originalDisplay;
+        } else {
+            console.warn(
+                "Tried to reset display for an element that has not persisted the original display-style."
+            );
+        }
+    }
+
+    /**
+     * Helper that hides an element.
+     * Suggested use is to on load call the setOriginalDispla on the element, and after that just toggle
+     * the display via showElement and hideElement.
+     */
+    function hideElement(elm) {
+        elm.style.display = "none";
+    }
+
     let menuOptionAbout = document.getElementById("menu-option-about");
     menuOptionAbout.addEventListener("click", () =>
         window.INTS_OpenDialog("about")
@@ -1117,34 +1151,44 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function toggleClientCategoryConfiguration(node) {
-        if (containerElm.classList.contains("category-configuration")) {
-            containerElm.classList.remove("category-configuration");
-        } else {
-            let title = "[root]";
-            if (node) {
-                title = node.displayName;
-                if (node.categoryName) {
-                    // Is category
-                    title += ` [${node.categoryName.join(",")}]`;
-                } else {
-                    // Is group
-                    title += ` [${node.name}]`;
-                }
+        let title;
+
+        if (node) {
+            title = node.displayName;
+            if (node.categoryName) {
+                // Is category
+                title += ` [${node.categoryName.join(",")}]`;
+            } else {
+                // Is group
+                title += ` [${node.name}]`;
             }
+            // Re-showing all - in case the root-node has just been shown.
+            for (var elm of [cccExpand, cccGrouping, cccFilter, cccLimit]) {
+                showElement(elm);
+            }
+        } else {
+            title = "[root]";
 
-            console.log(`CategoryConfig for '${title}'...`);
-
-            // Setup the fields
-            let titleElm = document.getElementById("category-name");
-            titleElm.innerHTML = title;
-
-            // TODO: Lookup this category in the settings object. If none, show defaults.
-
-            // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
-
-            // Finally, show the configuration pane
-            containerElm.classList.add("category-configuration");
+            // Keeping sorting, but removing all other configs for the root node
+            for (var elm of [cccExpand, cccGrouping, cccFilter, cccLimit]) {
+                hideElement(elm);
+            }
         }
+
+        console.log(`CategoryConfig for '${title}'...`);
+
+        // Setup the fields
+        let titleElm = document.getElementById("category-name");
+        titleElm.innerHTML = title;
+
+        // TODO: Lookup this category in the settings object. If none, show defaults.
+        if (!node) {
+        }
+
+        // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
+
+        // Finally, show the configuration pane
+        containerElm.classList.add("category-configuration");
     }
 
     /**
