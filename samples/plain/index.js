@@ -1187,16 +1187,23 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 hideElement(elm);
             }
         }
+        let titleElm = document.getElementById("category-name");
+
+        if (
+            title === titleElm.innerHTML &&
+            containerElm.classList.contains("dialog-category-configuration")
+        ) {
+            // The same category-config coggle is clicked, toggle (remove) dialog.
+            window.INTS_CloseDialog("dialog-category-configuration");
+            return;
+        }
 
         console.log(`CategoryConfig for '${title}'...`);
 
         // Setup the fields
-        let titleElm = document.getElementById("category-name");
         titleElm.innerHTML = title;
 
         // TODO: Lookup this category in the settings object. If none, show defaults.
-        if (!node) {
-        }
 
         // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
 
