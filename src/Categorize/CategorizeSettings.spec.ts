@@ -1,5 +1,13 @@
 import { CategorizeSettings, ICategorizeSettings } from ".";
 import { Categories } from "../Data";
+import {
+    CategoryPresentation,
+    SortPartConfiguration,
+    SortingConfiguration,
+    GroupingConfiguration,
+    GroupingMode,
+    CategoryPresentationMap
+} from "../Common/CategoryPresentation";
 
 describe("CategorizeSettings basics", () => {
     it("uiLanguageCodeChanged default", () => {
@@ -125,6 +133,71 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(true);
         expect(settings.url).toEqual(
             "http://dummy/RestService/v4/search/categorize"
+        );
+    });
+
+    it("Should be possible to pass a CategoryPresentationMap object to use for values.", () => {
+        let catPresMap: CategoryPresentationMap = {
+            __ROOT__: {
+                sorting: {
+                    enabled: true,
+                    parts: [
+                        "System",
+                        new SortPartConfiguration({ match: /File.*/ })
+                    ],
+                    uiHintShowFilterInputThreshold: 10
+                } as SortingConfiguration
+            } as CategoryPresentation,
+            Author: {
+                expanded: true,
+                grouping: {
+                    enabled: true,
+                    pattern: /^(...)/,
+                    minCount: 5,
+                    mode: "DisplayName",
+                    replacement: "$1"
+                },
+                filter: {
+                    enabled: true,
+                    match: /Hanssen/,
+                    maxMatchCount: 100,
+                    uiHintShowFilterInputThreshold: 10
+                },
+                sorting: {
+                    enabled: true,
+                    parts: [
+                        "System",
+                        new SortPartConfiguration({ match: /File.*/ })
+                    ]
+                },
+                limit: {
+                    enabled: true,
+                    page: 2,
+                    pageSize: 10,
+                    uiHintShowPager: true
+                }
+            }
+        } as CategoryPresentationMap;
+
+        let settings = {
+            baseUrl: "http://dummy",
+            enabled: false,
+            triggers: {
+                clientIdChanged: false,
+                matchGroupingChanged: false
+            },
+            presentations: catPresMap
+        } as ICategorizeSettings;
+
+        settings = new CategorizeSettings(settings);
+
+        expect(settings).toBeDefined();
+        expect(settings.presentations).toBeDefined();
+        expect(settings.presentations.Author.filter.match).toBe(
+            catPresMap.Author.filter.match
+        );
+        expect(settings.presentations.Author.sorting.parts[0]).toEqual(
+            catPresMap.Author.sorting.parts[0]
         );
     });
 });

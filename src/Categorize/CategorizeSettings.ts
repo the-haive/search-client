@@ -1,6 +1,10 @@
 import { BaseSettings, IBaseSettings } from "../Common";
 import { Categories } from "../Data";
 import { CategorizeTriggers } from "./CategorizeTriggers";
+import {
+    CategoryPresentationMap,
+    CategoryPresentation
+} from "../Common/CategoryPresentation";
 
 export interface ICategorizeSettings extends IBaseSettings<Categories> {
     /**
@@ -8,10 +12,16 @@ export interface ICategorizeSettings extends IBaseSettings<Categories> {
      * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilter]].
      */
     clientCategoryFilterSepChar?: string;
+
     /**
      * The trigger-settings for when automatic category-updates are to be triggered.
      */
     triggers?: CategorizeTriggers;
+
+    /**
+     * Settings that dictate the presentation of the categories.
+     */
+    presentations?: CategoryPresentationMap;
 }
 
 /**
@@ -28,6 +38,11 @@ export class CategorizeSettings extends BaseSettings<Categories> {
      * The trigger-settings for when automatic category result-updates are to be triggered.
      */
     public triggers: CategorizeTriggers;
+
+    /**
+     * Settings that dictate the presentation of the categories.
+     */
+    presentations?: Record<string, CategoryPresentation>;
 
     /**
      * Creates an instance of CategorizeSettings, based on CategorizeSettings defaults and the overrides provided as a param.
@@ -51,5 +66,15 @@ export class CategorizeSettings extends BaseSettings<Categories> {
                 ? settings.clientCategoryFilterSepChar
                 : "_";
         this.triggers = new CategorizeTriggers(settings.triggers);
+        this.presentations = {} as CategoryPresentationMap;
+        if (typeof settings.presentations !== "undefined") {
+            for (let key in settings.presentations) {
+                if (settings.presentations.hasOwnProperty(key)) {
+                    this.presentations[key] = new CategoryPresentation(
+                        settings.presentations[key]
+                    );
+                }
+            }
+        }
     }
 }
