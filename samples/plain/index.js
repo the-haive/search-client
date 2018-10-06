@@ -534,9 +534,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     let loadingSuggestions = document.getElementById("spinner");
 
-    let aboutElm = document.getElementById("about");
-    let helpElm = document.getElementById("help");
-    let settingsElm = document.getElementById("settings");
+    let aboutElm = document.getElementById("dialog-about");
+    let helpElm = document.getElementById("dialog-help");
+    let settingsElm = document.getElementById("dialog-settings");
 
     let menu = document.getElementById("menu");
     let menuBtn = document.getElementById("menu-button");
@@ -553,12 +553,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     let menuOptionHelp = document.getElementById("menu-option-help");
     menuOptionHelp.addEventListener("click", () =>
-        window.INTS_OpenDialog("help")
+        window.INTS_OpenDialog("dialog-help")
     );
 
-    let helpCloseElm = document.getElementById("help-close-button");
+    let helpCloseElm = document.getElementById("dialog-help-close-button");
     helpCloseElm.addEventListener("click", () =>
-        window.INTS_CloseDialog("help")
+        window.INTS_CloseDialog("dialog-help")
     );
 
     let menuOptionToggleDetails = document.getElementById(
@@ -570,21 +570,23 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     let menuOptionSettings = document.getElementById("menu-option-settings");
     menuOptionSettings.addEventListener("click", () => {
-        if (containerElm.classList.toggle("settings")) {
+        if (containerElm.classList.toggle("dialog-settings")) {
             renderSettings();
         }
     });
 
-    let settingsCloseElm = document.getElementById("settings-close-button");
+    let settingsCloseElm = document.getElementById(
+        "dialog-settings-close-button"
+    );
     settingsCloseElm.addEventListener("click", () => {
-        containerElm.classList.remove("settings");
+        containerElm.classList.remove("dialog-settings");
     });
 
     let categoryConfigurationCloseElm = document.getElementById(
-        "category-configuration-close-button"
+        "dialog-category-configuration-close-button"
     );
     categoryConfigurationCloseElm.addEventListener("click", () => {
-        containerElm.classList.remove("category-configuration");
+        window.INTS_CloseDialog("dialog-category-configuration");
     });
 
     // Remember original display-style for fieldsets in the client-category-config
@@ -623,12 +625,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     let menuOptionAbout = document.getElementById("menu-option-about");
     menuOptionAbout.addEventListener("click", () =>
-        window.INTS_OpenDialog("about")
+        window.INTS_OpenDialog("dialog-about")
     );
 
-    let aboutCloseElm = document.getElementById("about-close-button");
+    let aboutCloseElm = document.getElementById("dialog-about-close-button");
     aboutCloseElm.addEventListener("click", () =>
-        window.INTS_CloseDialog("about")
+        window.INTS_CloseDialog("dialog-about")
     );
 
     // Close the drop-down menu if the user clicks outside of it
@@ -643,6 +645,17 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             containerElm.classList.add("ctrl");
         } else {
             containerElm.classList.remove("ctrl");
+        }
+        if (event.code === "Escape") {
+            let toRemove = [];
+            for (let c of containerElm.classList) {
+                if (c.indexOf("dialog-") === 0) {
+                    toRemove.push(c);
+                }
+            }
+            for (let c of toRemove) {
+                containerElm.classList.remove(c);
+            }
         }
     });
 
@@ -1188,7 +1201,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
 
         // Finally, show the configuration pane
-        containerElm.classList.add("category-configuration");
+        window.INTS_OpenDialog("dialog-category-configuration");
     }
 
     /**

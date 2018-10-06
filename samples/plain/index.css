@@ -34,7 +34,7 @@ body {
     height: 100vh;
 }
 
-#container.settings:not(.welcome) {
+#container.dialog-settings:not(.welcome) {
     grid-template-areas:
         "header header header"
         "categories matches details"
@@ -42,7 +42,7 @@ body {
     grid-template-rows: auto 2fr minmax(10%, 1fr);
 }
 
-#container.settings.welcome {
+#container.dialog-settings.welcome {
     grid-template-areas:
         "header header header"
         ". welcome welcome"
@@ -64,7 +64,7 @@ body {
         "footer footer footer";
 }
 
-#container.no-matches.settings {
+#container.no-matches.dialog-settings {
     grid-template-areas:
         "header header header"
         ". matches ."
@@ -78,7 +78,7 @@ body {
         "footer footer footer";
 }
 
-#container.no-details.settings:not(.welcome) {
+#container.no-details.dialog-settings:not(.welcome) {
     grid-template-areas:
         "header header header"
         "categories matches matches"
@@ -92,14 +92,14 @@ body {
         "footer footer footer";
 }
 
-#container.error.settings {
+#container.error.dialog-settings {
     grid-template-areas:
         "header header header"
         "error error error"
         "settings settings settings";
 }
 
-#settings,
+#dialog-settings,
 #error,
 #dimmer,
 #category-dimmer,
@@ -160,24 +160,24 @@ body {
     padding-bottom: 1em;
 }
 
-#settings {
+#dialog-settings {
     grid-area: settings;
 }
 
-#container.category-configuration #category-configuration,
-#container.about #about,
-#container.help #help,
+#container.dialog-category-configuration #dialog-category-configuration,
+#container.dialog-about #dialog-about,
+#container.dialog-help #dialog-help,
 #container.auth-pending #auth-pending,
 #container.auth-error #auth-error {
     display: flex;
 }
 
-#category-configuration {
+#dialog-category-configuration {
     grid-row: 2/3;
     grid-column: 2/4;
     position: unset;
 }
-#category-configuration button {
+#dialog-category-configuration button {
     border: outset 1px;
     background-color: rgba(255, 255, 0, 0.3);
     font-weight: 400;
@@ -193,9 +193,9 @@ body {
     display: block;
 }
 
-#about.show,
-#help.show,
-#container.settings #settings {
+#dialog-about.show,
+#dialog-help.show,
+#container.dialog-settings #dialog-settings {
     display: flex;
 }
 
@@ -220,23 +220,23 @@ button:hover {
     padding: 0.5em;
 }
 
-#category-configuration .dialog-content {
+#dialog-category-configuration .dialog-content {
     width: unset;
     margin-left: 0;
     margin-top: 0;
 }
-#settings .dialog-content {
+#dialog-settings .dialog-content {
     margin: unset;
     height: unset;
     width: 100%;
     padding: 0.3em;
 }
 
-#settings .dialog-content legend {
+#dialog-settings .dialog-content legend {
     overflow-x: hidden;
 }
 
-.help {
+.dialog-help {
     display: inline-block;
     margin-left: 1em;
     margin-right: 1em;
@@ -244,50 +244,50 @@ button:hover {
     font-size: small;
 }
 
-#category-configuration .dialog-content header,
-#about .dialog-content header,
-#help .dialog-content header,
-#settings .dialog-content header {
+#dialog-category-configuration .dialog-content header,
+#dialog-about .dialog-content header,
+#dialog-help .dialog-content header,
+#dialog-settings .dialog-content header {
     padding: 0;
     display: flex;
     justify-content: space-between;
     border-bottom: thin solid silver;
 }
 
-#category-configuration .dialog-content header {
+#dialog-category-configuration .dialog-content header {
     border-bottom: none;
 }
-#category-configuration .dialog-content header h1 {
+#dialog-category-configuration .dialog-content header h1 {
     font-size: 1em;
 }
-#settings .dialog-content header {
+#dialog-settings .dialog-content header {
     border-bottom: none;
     flex-shrink: 0;
 }
 
-#settings .dialog-content header h1 {
+#dialog-settings .dialog-content header h1 {
     margin: 0;
     font-size: 1em;
     border-bottom: thin solid silver;
 }
 
-#settings ul.tab-container {
+#dialog-settings ul.tab-container {
     width: 100%;
 }
 
-#help .dialog-content header h1 {
+#dialog-help .dialog-content header h1 {
     margin: 0 0 1.2em 0;
 }
 
-#category-configuration .dialog-content .dialog-content-main,
-#about .dialog-content .dialog-content-main,
-#help .dialog-content .dialog-content-main,
-#settings .dialog-content .dialog-content-main {
+#dialog-category-configuration .dialog-content .dialog-content-main,
+#dialog-about .dialog-content .dialog-content-main,
+#dialog-help .dialog-content .dialog-content-main,
+#dialog-settings .dialog-content .dialog-content-main {
     flex-grow: 1;
     overflow-y: auto;
 }
 
-#settings .dialog-content .dialog-content-main {
+#dialog-settings .dialog-content .dialog-content-main {
     padding: 0.5em 0.5em 0 0.5em;
 }
 
@@ -299,40 +299,40 @@ button:hover {
     font-style: initial;
 }
 
-#category-configuration-close-button,
-#about-close-button,
-#help-close-button {
+#dialog-category-configuration-close-button,
+#dialog-about-close-button,
+#dialog-help-close-button {
     float: right;
     background-color: transparent;
     cursor: pointer;
 }
 
-#settings-close-button {
+#dialog-settings-close-button {
     margin-left: auto;
     border-bottom: thin solid silver;
 }
 
-#settings fieldset {
+#dialog-settings fieldset {
     font-family: sans-serif;
     border: thin solid silver;
     border-radius: 5px;
     padding: 15px;
 }
 
-#settings fieldset legend {
+#dialog-settings fieldset legend {
     padding: 5px 10px;
     border-radius: 5px;
     margin-left: 20px;
 }
 
-#settings section {
+#dialog-settings section {
     margin: 1em 0 0 2em;
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 0.5em;
 }
 
-#settings section input {
+#dialog-settings section input {
     justify-self: flex-end;
 }
 
@@ -1208,7 +1208,7 @@ button#reset.hidden {
     font-size: 19px;
 }
 
-#container:not(.settings) #footer {
+#container:not(.dialog-settings) #footer {
     display: block;
 }
 
@@ -1403,7 +1403,7 @@ label[for]:hover {
     background: rgba(255, 255, 0, 0.1);
 }
 
-#category-configuration .toggle-button {
+#dialog-category-configuration .toggle-button {
     display: block;
     border: outset 1px;
     background-color: rgba(255, 255, 0, 0.3);
@@ -1411,7 +1411,7 @@ label[for]:hover {
     font-weight: 400;
 }
 
-#category-configuration .toggle-button:hover {
+#dialog-category-configuration .toggle-button:hover {
     background-color: rgba(255, 255, 0, 0.6);
 }
 
