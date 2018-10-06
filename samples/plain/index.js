@@ -1198,13 +1198,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             return;
         }
 
-        console.log(`CategoryConfig for '${title}'...`);
-
         // Setup the fields
         titleElm.innerHTML = title;
 
         // TODO: Lookup this category in the settings object. If none, show defaults.
-
         // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
 
         // Finally, show the configuration pane

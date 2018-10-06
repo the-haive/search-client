@@ -125,6 +125,7 @@ body {
     right: 0;
     bottom: 0;
     position: absolute;
+    z-index: 500;
 }
 
 .whiteout {
@@ -608,6 +609,7 @@ button#reset.hidden {
 
 .query .awesomplete {
     width: 100%;
+    z-index: 1000;
 }
 
 .query-text:focus,
