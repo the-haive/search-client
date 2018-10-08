@@ -18,7 +18,7 @@ import { Matches } from "../Data";
  * It is normally used indirectly via the SearchClient class.
  */
 export class Find extends BaseCall<Matches> {
-    protected settings: IFindSettings;
+    public settings: IFindSettings;
 
     private queryConverter: FindQueryConverter;
 

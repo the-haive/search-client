@@ -4,7 +4,8 @@ import {
     GroupingMode,
     SortPartConfiguration,
     SortMethod,
-    MatchMode
+    MatchMode,
+    Casing
 } from "./CategoryPresentation";
 
 import { Categorize } from "../../src/Categorize";
@@ -104,8 +105,8 @@ describe("When managing a CategoryPresentations map it:", () => {
                 enabled: false,
                 minCount: 20,
                 mode: GroupingMode.DisplayName,
-                pattern: RegExp(/^(.)/),
-                replacement: "\\U$1",
+                match: RegExp(/^./),
+                matchCase: Casing.Title,
                 minCountPerGroup: 5
             },
             filter: {
@@ -168,8 +169,6 @@ describe("When grouping a CategoryPresentations map it:", () => {
                     group: {
                         enabled: true,
                         minCount: 1,
-                        match: /^./,
-                        Replacement: "/U$1",
                         minCountPerGroup: 2
                     }
                 } as CategoryPresentation
@@ -189,7 +188,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
         expect(results.groups[2].name).toEqual("ModifiedDate");
     });
 
-    it("Should be possible to map on group-level", () => {
+    it("Should be possible to group on group-level", () => {
         // tslint:disable-next-line:no-require-imports
         let workCopy: Categories = require("../test-data/categories.json");
         sanityCheck(workCopy);
@@ -201,8 +200,6 @@ describe("When grouping a CategoryPresentations map it:", () => {
                     group: {
                         enabled: true,
                         minCount: 1,
-                        match: /^./,
-                        Replacement: "/U$1",
                         minCountPerGroup: 2
                     }
                 } as CategoryPresentation
@@ -216,12 +213,19 @@ describe("When grouping a CategoryPresentations map it:", () => {
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(4);
         expect(results.groups[1].name).toEqual("Author");
-        // TODO: Count the actual number of categories to be created for one of the authors
-        expect(results.groups[1].categories.length).toEqual(1);
-        expect(results.groups[1].categories[1].name).toEqual("Susanne Koch");
+        expect(results.groups[1].categories.length).toEqual(14);
+        expect(results.groups[1].categories[10].name).toEqual("__A__");
+        expect(results.groups[1].categories[10].displayName).toEqual("A");
+        expect(results.groups[1].categories[10].children.length).toEqual(2);
+        expect(results.groups[1].categories[10].children[0].name).toEqual(
+            "Astrid Øksenvåg"
+        );
+        expect(results.groups[1].categories[10].children[1].name).toEqual(
+            "Allan Auke"
+        );
     });
 
-    it("Should be possible to map on category-level", () => {
+    it("Should be possible to group on category-level", () => {
         // tslint:disable-next-line:no-require-imports
         let workCopy: Categories = require("../test-data/categories.json");
         sanityCheck(workCopy);
@@ -233,8 +237,6 @@ describe("When grouping a CategoryPresentations map it:", () => {
                     group: {
                         enabled: true,
                         minCount: 1,
-                        match: /^./,
-                        Replacement: "/U$1",
                         minCountPerGroup: 2
                     }
                 } as CategoryPresentation
@@ -248,9 +250,22 @@ describe("When grouping a CategoryPresentations map it:", () => {
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(4);
         expect(results.groups[2].name).toEqual("ModifiedDate");
-        // TODO: Adjust the expectations to match expected for for M (May, March)
-        expect(results.groups[2].categories.length).toEqual(1);
-        expect(results.groups[2].categories[1].name).toEqual("Susanne Koch");
+        expect(results.groups[2].categories.length).toEqual(3);
+        expect(results.groups[2].categories[0].name).toEqual("2007");
+        expect(results.groups[2].categories[0].children[0].name).toEqual(
+            "Month"
+        );
+        expect(
+            results.groups[2].categories[0].children[0].children[1].name
+        ).toEqual("__M__");
+        expect(
+            results.groups[2].categories[0].children[0].children[1].children[0]
+                .displayName
+        ).toEqual("March");
+        expect(
+            results.groups[2].categories[0].children[0].children[1].children[1]
+                .displayName
+        ).toEqual("May");
     });
 });
 
@@ -381,57 +396,32 @@ describe("When filtering a CategoryPresentations map it:", () => {
     });
 });
 
-describe("When managing expanded state for CategoryPresentation nodes it:", () => {
-    it("Should be possible to toggle expanded state on a group node", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
-
-        let client = new Categorize("http://localhost:9950/");
-        let pClient = client as any;
-
-        // Expect
-        expect(workCopy.groups[0].name).toEqual("System");
-        expect(workCopy.groups[0].categories[0].name).toEqual("File");
-        expect(workCopy.groups[0].categories[0].expanded).toBeFalsy();
-        expect(workCopy.groups[0].categories[0].children[0].name).toEqual(
-            "Testdata"
-        );
-        expect(
-            workCopy.groups[0].categories[0].children[0].children[0].name
-        ).toEqual("Norway");
-        expect(
-            workCopy.groups[0].categories[0].children[0].children[0].expanded
-        ).toBeFalsy();
-
-        let query = new Query({
-            // clientCategoryExpansion: {
-            //     "System|File": true,
-            //     "System|File|Testdata": true,
-            //     "System|File|Testdata|Norway": true
-            // }
-        });
-
-        let results: Categories = pClient.filterCategories(workCopy, query);
-
-        expect(results.groups[0].name).toEqual("System");
-        expect(results.groups[0].categories[0].name).toEqual("File");
-        expect(results.groups[0].categories[0].expanded).toBeTruthy();
-        expect(results.groups[0].categories[0].children[0].name).toEqual(
-            "Testdata"
-        );
-        expect(
-            results.groups[0].categories[0].children[0].expanded
-        ).toBeTruthy();
-        expect(
-            results.groups[0].categories[0].children[0].children[0].name
-        ).toEqual("Norway");
-        expect(
-            results.groups[0].categories[0].children[0].children[0].expanded
-        ).toBeTruthy();
+describe("When sorting a CategoryPresentations map it:", () => {
+    it("Should be possible to sort on root-level", () => {
+        fail("Not implemented yet");
     });
+    it("Should be possible to sort on group-level", () => {
+        fail("Not implemented yet");
+    });
+    it("Should be possible to sort on category-level", () => {
+        fail("Not implemented yet");
+    });
+});
 
-    it("Should be possible to toggle expanded state on a category node", () => {
+describe("When limiting a CategoryPresentations map it:", () => {
+    it("Should be possible to limit on root-level", () => {
+        fail("Not implemented yet");
+    });
+    it("Should be possible to limit on group-level", () => {
+        fail("Not implemented yet");
+    });
+    it("Should be possible to limit on category-level", () => {
+        fail("Not implemented yet");
+    });
+});
+
+describe("When managing expanded state for CategoryPresentation nodes it:", () => {
+    it("Should be possible to toggle expanded state on a group and category node", () => {
         // tslint:disable-next-line:no-require-imports
         let workCopy: Categories = require("../test-data/categories.json");
         sanityCheck(workCopy);
@@ -439,13 +429,17 @@ describe("When managing expanded state for CategoryPresentation nodes it:", () =
         let client = new Categorize("http://localhost:9950/");
         let pClient = client as any;
 
-        // Expect
+        // Expect - before
         expect(workCopy.groups[0].name).toEqual("System");
+        expect(workCopy.groups[0].expanded).toBeTruthy();
         expect(workCopy.groups[0].categories[0].name).toEqual("File");
         expect(workCopy.groups[0].categories[0].expanded).toBeFalsy();
         expect(workCopy.groups[0].categories[0].children[0].name).toEqual(
             "Testdata"
         );
+        expect(
+            workCopy.groups[0].categories[0].children[0].expanded
+        ).toBeFalsy();
         expect(
             workCopy.groups[0].categories[0].children[0].children[0].name
         ).toEqual("Norway");
@@ -453,17 +447,24 @@ describe("When managing expanded state for CategoryPresentation nodes it:", () =
             workCopy.groups[0].categories[0].children[0].children[0].expanded
         ).toBeFalsy();
 
-        let query = new Query({
-            // clientCategoryExpansion: {
-            //     "System|File": true,
-            //     "System|File|Testdata": true,
-            //     "System|File|Testdata|Norway": true
-            // }
-        });
+        client.settings.presentations = {
+            "System|File": {
+                expanded: true
+            } as CategoryPresentation,
+            "System|File|Testdata": {
+                expanded: true
+            } as CategoryPresentation,
+            "System|File|Testdata|Norway": {
+                expanded: true
+            } as CategoryPresentation
+        };
+        //console.log(client.settings);
 
-        let results: Categories = pClient.filterCategories(workCopy, query);
+        let results: Categories = pClient.filterCategories(workCopy);
 
+        // Expect - after
         expect(results.groups[0].name).toEqual("System");
+        expect(results.groups[0].expanded).toBeTruthy();
         expect(results.groups[0].categories[0].name).toEqual("File");
         expect(results.groups[0].categories[0].expanded).toBeTruthy();
         expect(results.groups[0].categories[0].children[0].name).toEqual(

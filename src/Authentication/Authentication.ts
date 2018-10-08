@@ -18,7 +18,7 @@ import { AuthToken } from "./AuthToken";
  * object controls how long before expiration the new token is to be fetched.
  */
 export class Authentication extends BaseCall<any> {
-    protected settings: IAuthenticationSettings;
+    public settings: IAuthenticationSettings;
 
     /**
      * Creates an Authentication object that knows where to get the auth-token and when to refresh it.

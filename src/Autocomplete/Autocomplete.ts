@@ -12,7 +12,7 @@ import {
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
 export class Autocomplete extends BaseCall<string[]> {
-    protected settings: IAutocompleteSettings;
+    public settings: IAutocompleteSettings;
 
     private queryConverter: AutocompleteQueryConverter;
 

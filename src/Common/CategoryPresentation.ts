@@ -78,19 +78,19 @@ export class GroupConfiguration {
     public minCount?: number;
 
     /**
-     * DisplayName or MatchCount. Default: DisplayName.
+     * DisplayName or MatchCount. Default: GroupingMode.DisplayName.
      */
     public mode?: GroupingMode;
 
     /**
-     * The regex to group on. Default: Matches first character /^(.)/
+     * The regex to group on. Default: Matches first character /^./
      */
     public match?: RegExp;
 
     /**
-     * The string to use as regex replace on. Default: Upper-cased match-group 1 from pattern "\U$1"
+     * The casing to apply on the match group ($0). Default: Casing.Title
      */
-    public replacement?: string;
+    public matchCase?: Casing;
 
     /**
      * Only creates the group when number of matches per group reaches this number. Default: 5
@@ -117,21 +117,50 @@ export class GroupConfiguration {
                 ? typeof settings.match === "string"
                     ? new RegExp(settings.match)
                     : settings.match
-                : /^(.)/;
-        this.replacement =
-            typeof settings.replacement !== "undefined"
-                ? settings.replacement
-                : "\\U$1";
+                : /^./;
+        this.matchCase =
+            typeof settings.matchCase !== "undefined"
+                ? (settings.matchCase as Casing)
+                : Casing.Title;
+
         this.minCountPerGroup =
             typeof settings.minCountPerGroup !== "undefined"
                 ? settings.minCountPerGroup
                 : 5;
+    }
+
+    public getMatch(input: string): string {
+        let test = this.match.exec(input);
+        if (test === null) {
+            return null;
+        }
+        switch (this.matchCase) {
+            case Casing.Lower:
+                return test[0].toLowerCase();
+            case Casing.Upper:
+                return test[0].toUpperCase();
+            case Casing.Title:
+                return (
+                    test[0][0].toUpperCase() +
+                    test[0].substring(1).toLowerCase()
+                );
+            case Casing.Unchanged:
+            default:
+                return test[0];
+        }
     }
 }
 
 export enum GroupingMode {
     DisplayName = "DisplayName",
     MatchCount = "MatchCount"
+}
+
+export enum Casing {
+    Unchanged = "Unchanged",
+    Upper = "Upper", // UPPER
+    Lower = "Lower", // lower
+    Title = "Title" // Title
 }
 
 /**
