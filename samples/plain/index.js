@@ -53,6 +53,45 @@ window.onload = function() {
             uiSettings = ui;
         })
     ]).then(() => {
+        if (searchSettings.authentication.enabled) {
+            //alert("Starting pre-auth handshake");
+            let notReady = document
+                .getElementById("not-ready")
+                .getElementsByClassName("dialog-content")[0];
+
+            notReady.style.display = "flex";
+
+            // if (!Cookies.enabled) {
+            //     notReady.innerHTML = `
+            //         <h1>Error</h1>
+            //         <p>
+            //             This application requires cookies to authenticate with the domain controller.
+            //         </p><p>
+            //             Please enable cookies and try reloading the page.
+            //         </p>`;
+            //     notReady.style.display = "flex";
+            //     return;
+            // }
+            // var cookie = Cookies.get("IntelliSearch");
+            // if (!cookie) {
+            //     // Redirect to the auth-page
+            //     //alert("Redirecting for Windows pre-authentication.");
+            //     redirect(searchSettings.authentication.baseUrl);
+            //     return;
+            // } else if (cookie !== "IWAOK") {
+            //     notReady.innerHTML = `
+            //         <h1>Error</h1>
+            //         <p>
+            //             Not able to pre-authenticate with the domain.
+            //         </p><p>
+            //             Verify network, domain and/or VPN-connections and try again.
+            //         </p>`;
+            //     notReady.style.display = "flex";
+            //     return;
+            // }
+        }
+
+        // Continue page-setup
         setupIntelliSearch(searchSettings, uiSettings);
         setupTabs();
         setupButtons();
@@ -674,11 +713,14 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function handleAuthenticationSuccess(result) {
+        document.getElementById("container").classList.remove("not-ready");
         containerElm.classList.remove("auth-pending");
+
         //console.log("handleAuthenticationSuccess", "Result:", result);
     }
 
     function handleAuthenticationError(error) {
+        document.getElementById("container").classList.remove("not-ready");
         stacktrace(stack => {
             console.error("handleAuthenticationError", error.message, stack);
         });
@@ -1443,3 +1485,22 @@ function stacktrace(action) {
             console.error("Unable to create stacktrace", err.message)
         );
 }
+
+// function redirect(url) {
+//     var ua = navigator.userAgent.toLowerCase(),
+//         isIE = ua.indexOf("msie") !== -1,
+//         version = parseInt(ua.substr(4, 2), 10);
+
+//     // Internet Explorer 8 and lower
+//     if (isIE && version < 9) {
+//         var link = document.createElement("a");
+//         link.href = url;
+//         document.body.appendChild(link);
+//         link.click();
+//     }
+
+//     // All other browsers can use the standard window.location.href (they don't lose HTTP_REFERER like Internet Explorer 8 & lower does)
+//     else {
+//         window.location.href = url;
+//     }
+// }
