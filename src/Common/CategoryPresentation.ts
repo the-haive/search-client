@@ -129,7 +129,7 @@ export class GroupConfiguration {
                 : 5;
     }
 
-    public getMatch(input: string): string {
+    public getMatch?(input: string): string {
         let test = this.match.exec(input);
         if (test === null) {
             return null;
@@ -246,7 +246,7 @@ export class SortConfiguration {
     /**
      *
      */
-    public parts?: SortPartConfigurationType[];
+    public parts?: SortPartConfiguration[];
 
     /**
      * Creates a sort-configuration that defines how to order the items scoped.
@@ -265,20 +265,14 @@ export class SortConfiguration {
                 : [];
     }
 
-    private setupParts?(parts: SortPartConfigurationType[]) {
-        let ok: SortPartConfigurationType[] = [];
+    private setupParts?(parts: SortPartConfiguration[]) {
+        let ok: SortPartConfiguration[] = [];
         for (let s of parts) {
-            if (typeof s === "string") {
-                ok.push(s);
-            } else {
-                ok.push(new SortPartConfiguration(s));
-            }
+            ok.push(new SortPartConfiguration(s));
         }
         return ok;
     }
 }
-
-export type SortPartConfigurationType = string | SortPartConfiguration;
 
 /**
  * Defines how sorting is to be applied for the given part.
@@ -290,9 +284,14 @@ export class SortPartConfiguration {
     public match?: RegExp | string;
 
     /**
+     * The current match-mode for the regex filter. Default: DisplayName
+     */
+    public matchMode?: MatchMode;
+
+    /**
      * Defines the method/field and order to use when sorting. Default: Original
      */
-    public method?: SortMethod;
+    public sortMethod?: SortMethod;
     /**
      * Creates a sort-part that defines how to order the items scoped.
      *
@@ -308,9 +307,14 @@ export class SortPartConfiguration {
                     : settings.match
                 : /.*/;
 
-        this.method =
-            typeof settings.method !== "undefined"
-                ? (settings.method as SortMethod)
+        this.matchMode =
+            typeof settings.matchMode !== "undefined"
+                ? (settings.matchMode as MatchMode)
+                : MatchMode.DisplayName;
+
+        this.sortMethod =
+            typeof settings.sortMethod !== "undefined"
+                ? (settings.sortMethod as SortMethod)
                 : SortMethod.Original;
     }
 }
@@ -326,24 +330,24 @@ export enum SortMethod {
     Original = "Original",
 
     /**
-     * Sort Ascending by DisplayName field.
+     * Sort Ascending by Name/DisplayName field.
      */
-    DisplayNameAsc = "DisplayNameAsc",
+    AlphaAsc = "AlphaAsc",
 
     /**
-     * Sort Descending by DisplayName field.
+     * Sort Descending by Name/DisplayName field.
      */
-    DisplayNameDesc = "DisplayNameDesc",
+    AlphaDesc = "AlphaDesc",
 
     /**
      * Sort Ascending by MatchCount field.
      */
-    MatchCountAsc = "MatchCountAsc",
+    CountAsc = "CountAsc",
 
     /**
      * Sort Descending by MatchCount field.
      */
-    MatchCountDesc = "MatchCountDesc"
+    CountDesc = "CountDesc"
 }
 
 /**

@@ -142,32 +142,49 @@ describe("CategorizeSettings basics", () => {
                 sort: {
                     enabled: true,
                     parts: [
-                        "System",
-                        new SortPartConfiguration({ match: /File.*/ })
-                    ],
-                    uiHintShowFilterInputThreshold: 10
+                        {
+                            match: /System/,
+                            matchMode: "DisplayName",
+                            sortMethod: "Original"
+                        } as SortPartConfiguration,
+                        {
+                            match: /File.*/,
+                            matchMode: "DisplayName",
+                            sortMethod: "Original"
+                        } as SortPartConfiguration
+                    ]
                 } as SortConfiguration
-            } as CategoryPresentation,
+            },
             Author: {
                 expanded: true,
                 group: {
                     enabled: true,
-                    pattern: /^(...)/,
                     minCount: 5,
                     mode: "DisplayName",
-                    replacement: "$1"
+                    match: /^(...)/,
+                    matchCase: "Title",
+                    minCountPerGroup: 5
                 },
                 filter: {
                     enabled: true,
                     match: /Hanssen/,
+                    matchMode: "DisplayName",
                     maxMatchCount: 100,
                     uiHintShowFilterInputThreshold: 10
                 },
                 sort: {
                     enabled: true,
                     parts: [
-                        "System",
-                        new SortPartConfiguration({ match: /File.*/ })
+                        {
+                            match: /System/,
+                            matchMode: "DisplayName",
+                            sortMethod: "Original"
+                        } as SortPartConfiguration,
+                        {
+                            match: /File.*/,
+                            matchMode: "DisplayName",
+                            sortMethod: "Original"
+                        } as SortPartConfiguration
                     ]
                 },
                 limit: {

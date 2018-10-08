@@ -6,9 +6,7 @@ import {
     Filter,
     Query,
     SearchType,
-    MatchMode,
-    Casing,
-    GroupConfiguration
+    MatchMode
 } from "../Common";
 import { Categories, Category, Group } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
@@ -452,6 +450,8 @@ export class Categorize extends BaseCall<Categories> {
             }
             if (rootOverride.sort && rootOverride.sort.enabled) {
                 // TODO: Reorder level
+                // let groups: Group[] = [];
+                // rootOverride.sort
             }
             if (rootOverride.limit && rootOverride.limit.enabled) {
                 // TODO: Limit which categories to show

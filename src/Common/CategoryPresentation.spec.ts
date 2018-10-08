@@ -135,7 +135,8 @@ describe("When managing a CategoryPresentations map it:", () => {
         expect(typeof sortPartDefault).toBe("object");
         expect(sortPartDefault).toEqual({
             match: /.*/,
-            method: SortMethod.Original
+            matchMode: MatchMode.DisplayName,
+            sortMethod: SortMethod.Original
         });
     });
 
@@ -398,8 +399,50 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
 describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on root-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                __ROOT__: {
+                    sort: {
+                        enabled: true,
+                        parts: [
+                            {
+                                match: /^System$/,
+                                matchMode: "Name"
+                            } as SortPartConfiguration,
+                            {
+                                match: /.*/,
+                                matchMode: "DisplayName",
+                                sortMethod: "CountDesc"
+                            } as SortPartConfiguration
+                        ]
+                    }
+                } as CategoryPresentation,
+                Author: {
+                    sort: {
+                        enabled: true
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[0].name).toEqual("System");
+        expect(results.groups[1].name).toEqual("Author");
+        expect(results.groups[2].name).toEqual("FileType");
+        expect(results.groups[3].name).toEqual("ModifiedDate");
     });
+
     it("Should be possible to sort on group-level", () => {
         fail("Not implemented yet");
     });
