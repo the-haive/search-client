@@ -5,8 +5,7 @@ import {
     Fetch,
     Filter,
     Query,
-    SearchType,
-    MatchMode
+    SearchType
 } from "../Common";
 import { Categories, Category, Group } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
@@ -98,8 +97,14 @@ export class Categorize extends BaseCall<Categories> {
             return Promise.resolve(null);
         }
     }
-    public clientCategoriesUpdate(query: Query): void {
-        if (this.shouldUpdate()) {
+    public clientCategoryExpansionChanged(
+        oldValue: { [key: string]: boolean },
+        query: Query
+    ): void {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.clientCategoryExpansionChanged
+        ) {
             this.cbSuccess(
                 false,
                 this.filterCategories(this.categories, query),
@@ -109,22 +114,22 @@ export class Categorize extends BaseCall<Categories> {
         }
     }
 
-    // public clientCategoryFilterChanged(
-    //     oldValue: { [key: string]: string | RegExp },
-    //     query: Query
-    // ): void {
-    //     if (
-    //         this.shouldUpdate() &&
-    //         this.settings.triggers.clientCategoryFilterChanged
-    //     ) {
-    //         this.cbSuccess(
-    //             false,
-    //             this.filterCategories(this.categories, query),
-    //             null,
-    //             null
-    //         );
-    //     }
-    // }
+    public clientCategoryFilterChanged(
+        oldValue: { [key: string]: string | RegExp },
+        query: Query
+    ): void {
+        if (
+            this.shouldUpdate() &&
+            this.settings.triggers.clientCategoryFilterChanged
+        ) {
+            this.cbSuccess(
+                false,
+                this.filterCategories(this.categories, query),
+                null,
+                null
+            );
+        }
+    }
 
     public clientIdChanged(oldValue: string, query: Query) {
         if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
@@ -349,198 +354,37 @@ export class Categorize extends BaseCall<Categories> {
         });
     }
 
-    private filterCategories(
-        categories: Categories,
-        query: Query = new Query()
-    ): Categories {
-        // ROOT level adjustments
-        let cats = { ...categories };
-        let rootOverride = this.settings.presentations.__ROOT__;
-        if (rootOverride) {
-            if (
-                rootOverride.group.enabled &&
-                cats.groups.length >= rootOverride.group.minCount
-            ) {
-                // Add level of categories to group according to pattern
-                let matchCategories: Map<string, Category[]> = new Map<
-                    string,
-                    Category[]
-                >();
-
-                let group2MatchGroup: Map<string, string> = new Map<
-                    string,
-                    string
-                >();
-
-                // Iterate, map and count to check whether or not to group results.
-                for (let g of cats.groups) {
-                    let m = rootOverride.group.match.exec(g.displayName);
-                    if (m === null) {
-                        continue;
-                    }
-                    let groupName = m[0];
-
-                    let cat: Category = {
-                        categoryName: ["dummy"],
-                        children: g.categories,
-                        // We are really not sure what the real count is, as the category-hits may or may not be referring to the same items
-                        // -1 should indicate "do not show"
-                        count: -1,
-                        displayName: g.displayName,
-                        expanded: g.expanded,
-                        name: g.name
-                    };
-                    if (!matchCategories.has(groupName)) {
-                        matchCategories.set(groupName, [cat]);
-                    } else {
-                        let collection = matchCategories.get(groupName);
-                        collection.push(cat);
-                        matchCategories.set(groupName, collection);
-                    }
-                    group2MatchGroup.set(g.displayName, groupName);
-                }
-
-                // Do actual re-mapping, if any
-                cats.groups = cats.groups
-                    .map(g => {
-                        let displayName = group2MatchGroup.get(g.displayName);
-                        if (!displayName) {
-                            // Done before
-                            return undefined;
-                        }
-                        let matchGroup = matchCategories.get(displayName);
-                        if (!matchGroup) {
-                            return g;
-                        }
-                        if (
-                            matchGroup.length >=
-                            rootOverride.group.minCountPerGroup
-                        ) {
-                            let newGroup = {
-                                name: `__${displayName}__`,
-                                categories: matchGroup,
-                                displayName,
-                                expanded: true,
-                                categoryName: [`__${displayName}__`]
-                            } as Group;
-                            console.log("Add group", displayName, newGroup);
-                            matchGroup.forEach(i => {
-                                group2MatchGroup.delete(i.displayName);
-                            });
-                            return newGroup;
-                        } else {
-                            console.log("Use group as is", g.displayName);
-                            return g;
-                        }
-                    })
-                    .filter(g => g !== undefined);
-            }
-            if (rootOverride.filter.enabled) {
-                cats.groups = cats.groups.filter(g => {
-                    if (rootOverride.filter.match) {
-                        let matchName =
-                            rootOverride.filter.matchMode ===
-                            MatchMode.DisplayName
-                                ? g.displayName
-                                : g.name;
-                        return rootOverride.filter.match.test(matchName);
-                    }
-                });
-            }
-            if (rootOverride.sort.enabled) {
-                // TODO: Reorder level
-            }
-            if (rootOverride.limit.enabled) {
-                // TODO: Limit which categories to show
-            }
-            // Skipping expansion, as root is always expanded
+    private filterCategories(categories: Categories, query: Query): Categories {
+        if (
+            !query ||
+            ((!query.clientCategoryFilter ||
+                Object.getOwnPropertyNames(query.clientCategoryFilter)
+                    .length === 0) &&
+                (!query.clientCategoryExpansion ||
+                    Object.getOwnPropertyNames(query.clientCategoryExpansion)
+                        .length === 0) &&
+                query.filters.length === 0)
+        ) {
+            return categories;
         }
-        // GROUP-level adjustments
+
+        let cats = { ...categories };
         let groups = cats.groups.map((inGroup: Group) => {
             let group = { ...inGroup };
-            let groupOverride = this.settings.presentations[group.name];
-            if (groupOverride) {
-                if (groupOverride.group.enabled) {
-                    // TODO: Add level of categories to group according to pattern
-                }
-                if (groupOverride.filter.enabled) {
-                    group.categories = group.categories.filter(c => {
-                        if (groupOverride.filter.match) {
-                            let matchName =
-                                groupOverride.filter.matchMode ===
-                                MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name;
-                            return groupOverride.filter.match.test(matchName);
-                        }
-                    });
-                }
-                if (groupOverride.sort.enabled) {
-                    // TODO: Reorder level
-                }
-                if (groupOverride.limit.enabled) {
-                    // TODO: Limit which categories to show
-                }
-                if (groupOverride.expanded !== null) {
-                    // Override whether the group is to be expanded or not
-                    group.expanded = groupOverride.expanded;
-                }
-            }
             if (group.categories && group.categories.length > 0) {
-                group.categories = this.mapCategories(group.categories);
+                group.categories = this.mapCategories(group.categories, query);
+            }
+            if (query.clientCategoryExpansion.hasOwnProperty(group.name)) {
+                group.expanded = query.clientCategoryExpansion[group.name];
+            } else {
+                group.expanded =
+                    group.expanded ||
+                    group.categories.some(c => c.expanded === true);
             }
             return group;
         });
         cats.groups = groups.filter(g => g !== undefined);
         this.addFiltersIfMissing(query.filters, cats);
-        return cats;
-    }
-
-    private mapCategories(categories: Category[]): Category[] {
-        // CATEGORY_level adjustments
-        let cats = [...categories];
-        cats = cats.map((inCategory: Category) => {
-            let category = { ...inCategory };
-            let categoryOverride = this.settings.presentations[
-                category.categoryName.join("|")
-            ];
-            if (categoryOverride) {
-                if (categoryOverride.group.enabled) {
-                    // TODO: Add level of categories to group according to pattern
-                }
-                if (categoryOverride.filter.enabled) {
-                    category.children = category.children.filter(c => {
-                        if (categoryOverride.filter.match) {
-                            let matchName =
-                                categoryOverride.filter.matchMode ===
-                                MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name;
-                            return categoryOverride.filter.match.test(
-                                matchName
-                            );
-                        }
-                    });
-                }
-                if (categoryOverride.sort.enabled) {
-                    // TODO: Reorder level
-                }
-                if (categoryOverride.limit.enabled) {
-                    // TODO: Limit which categories to show
-                }
-                if (categoryOverride.expanded !== null) {
-                    // Override whether the category is to be expanded or not
-                    category.expanded = categoryOverride.expanded;
-                }
-            }
-            if (category.children && category.children.length > 0) {
-                category.children = this.mapCategories(category.children);
-            }
-
-            return category;
-        });
-
-        cats = cats.filter(c => c !== undefined);
         return cats;
     }
 
@@ -576,5 +420,61 @@ export class Categorize extends BaseCall<Categories> {
         }
 
         return { displayName: result, ref: res ? res.ref : category };
+    }
+
+    private inClientCategoryFilter(category: Category, query: Query): boolean {
+        if (!query.clientCategoryFilter) {
+            return null;
+        }
+        for (let prop in query.clientCategoryFilter) {
+            if (query.clientCategoryFilter.hasOwnProperty(prop)) {
+                let filterKey = prop.toLowerCase();
+                let cat = category.categoryName.slice(0, -1);
+                let categoryKey = cat
+                    .join(this.settings.clientCategoryFilterSepChar)
+                    .toLowerCase();
+                if (filterKey === categoryKey) {
+                    let displayExpression = query.clientCategoryFilter[prop];
+                    if (!displayExpression) {
+                        continue;
+                    }
+                    let regex = new RegExp(displayExpression as string, "i");
+                    let result = regex.test(category.displayName);
+                    return result;
+                } else {
+                    continue;
+                }
+            }
+        }
+        return null;
+    }
+
+    private mapCategories(categories: Category[], query: Query): Category[] {
+        let cats = [...categories];
+        cats = cats.map((inCategory: Category) => {
+            let category = { ...inCategory };
+            // Apply categoryFilters
+            let result = this.inClientCategoryFilter({ ...category }, query);
+            if (result !== false) {
+                if (category.children && category.children.length > 0) {
+                    category.children = this.mapCategories(
+                        category.children,
+                        query
+                    );
+                }
+                if (result === true) {
+                    // The results are filtered
+                    category.expanded = true;
+                }
+                let catKey = category.categoryName.join("|");
+                if (query.clientCategoryExpansion.hasOwnProperty(catKey)) {
+                    category.expanded = query.clientCategoryExpansion[catKey];
+                }
+                return category;
+            }
+        });
+
+        cats = cats.filter(c => c !== undefined);
+        return cats;
     }
 }

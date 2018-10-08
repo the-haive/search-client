@@ -129,20 +129,18 @@ export abstract class BaseCall<TDataType> {
         return this.settings.cbSuccess && this.settings.enabled;
     }
 
-    // public clientCategoryExpansionChanged(
-    //     oldValue: { [key: string]: boolean },
-    //     query: Query
-    // ): void {
-    //     /* Default no implementation*/
-    // }
-
-    // public clientCategoryFilterChanged(
-    //     oldValue: { [key: string]: string | RegExp },
-    //     query: Query
-    // ): void {
-    //     /* Default no implementation*/
-    // }
-
+    public clientCategoryExpansionChanged(
+        oldValue: { [key: string]: boolean },
+        query: Query
+    ): void {
+        /* Default no implementation*/
+    }
+    public clientCategoryFilterChanged(
+        oldValue: { [key: string]: string | RegExp },
+        query: Query
+    ): void {
+        /* Default no implementation*/
+    }
     public clientIdChanged(oldValue: string, query: Query): void {
         /* Default no implementation*/
     }

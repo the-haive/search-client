@@ -8,7 +8,7 @@
             "program": "${workspaceRoot}/node_modules/jest-cli/bin/jest.js",
             "stopOnEntry": false,
             "args": ["--runInBand", "--no-cache"],
-            "cwd": "${workspaceRoot}/src",
+            "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
             "runtimeArgs": ["--nolazy"],

@@ -17,8 +17,7 @@ import {
     Filter,
     OrderBy,
     Query,
-    SearchType,
-    CategoryPresentation
+    SearchType
 } from "./Common";
 import { Category, Group } from "./Data";
 import { Find } from "./Find";
@@ -188,65 +187,67 @@ export class SearchClient implements AuthToken {
 
     public reset(): void {
         this.deferUpdates(true);
+        this.clientCategoryExpansion = {};
+        this.clientCategoryFilter = {};
         this.filters = [];
         this.queryText = "";
         this.deferUpdates(false, true);
     }
 
-    // /**
-    //  * Gets the currently active category expansion overrides.
-    //  */
-    // get clientCategoryExpansion(): { [key: string]: boolean } {
-    //     return this._query.clientCategoryExpansion;
-    // }
+    /**
+     * Gets the currently active category expansion overrides.
+     */
+    get clientCategoryExpansion(): { [key: string]: boolean } {
+        return this._query.clientCategoryExpansion;
+    }
 
-    // /**
-    //  * Sets the currently active category expansion overrides.
-    //  */
-    // set clientCategoryExpansion(clientCategoryExpansion: {
-    //     [key: string]: boolean;
-    // }) {
-    //     if (clientCategoryExpansion !== this._query.clientCategoryExpansion) {
-    //         const oldValue = this._query.clientCategoryExpansion;
-    //         this._query.clientCategoryExpansion = clientCategoryExpansion;
+    /**
+     * Sets the currently active category expansion overrides.
+     */
+    set clientCategoryExpansion(clientCategoryExpansion: {
+        [key: string]: boolean;
+    }) {
+        if (clientCategoryExpansion !== this._query.clientCategoryExpansion) {
+            const oldValue = this._query.clientCategoryExpansion;
+            this._query.clientCategoryExpansion = clientCategoryExpansion;
 
-    //         this.autocomplete.clientCategoryExpansionChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.categorize.clientCategoryExpansionChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.find.clientCategoryExpansionChanged(oldValue, this._query);
-    //     }
-    // }
+            this.autocomplete.clientCategoryExpansionChanged(
+                oldValue,
+                this._query
+            );
+            this.categorize.clientCategoryExpansionChanged(
+                oldValue,
+                this._query
+            );
+            this.find.clientCategoryExpansionChanged(oldValue, this._query);
+        }
+    }
 
-    // /**
-    //  * Gets the currently registered client category regex-filters.
-    //  */
-    // get clientCategoryFilter(): { [key: string]: string | RegExp } {
-    //     return this._query.clientCategoryFilter;
-    // }
+    /**
+     * Gets the currently registered client category regex-filters.
+     */
+    get clientCategoryFilter(): { [key: string]: string | RegExp } {
+        return this._query.clientCategoryFilter;
+    }
 
-    // /**
-    //  * Sets the currently registered client category regex-filters.
-    //  */
-    // set clientCategoryFilter(clientCategoryFilter: {
-    //     [key: string]: string | RegExp;
-    // }) {
-    //     if (clientCategoryFilter !== this._query.clientCategoryFilter) {
-    //         const oldValue = this._query.clientCategoryFilter;
-    //         this._query.clientCategoryFilter = clientCategoryFilter;
+    /**
+     * Sets the currently registered client category regex-filters.
+     */
+    set clientCategoryFilter(clientCategoryFilter: {
+        [key: string]: string | RegExp;
+    }) {
+        if (clientCategoryFilter !== this._query.clientCategoryFilter) {
+            const oldValue = this._query.clientCategoryFilter;
+            this._query.clientCategoryFilter = clientCategoryFilter;
 
-    //         this.autocomplete.clientCategoryFilterChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.categorize.clientCategoryFilterChanged(oldValue, this._query);
-    //         this.find.clientCategoryFilterChanged(oldValue, this._query);
-    //     }
-    // }
+            this.autocomplete.clientCategoryFilterChanged(
+                oldValue,
+                this._query
+            );
+            this.categorize.clientCategoryFilterChanged(oldValue, this._query);
+            this.find.clientCategoryFilterChanged(oldValue, this._query);
+        }
+    }
 
     /**
      * Gets the currently active client-id value.
@@ -439,18 +440,18 @@ export class SearchClient implements AuthToken {
         const key = node.hasOwnProperty("categoryName")
             ? (node as Category).categoryName.join("|")
             : node.name;
-        if (this.settings.categorize.presentations[key] === "undefined") {
-            this.settings.categorize.presentations[
-                key
-            ] = new CategoryPresentation({ expanded: !node.expanded });
-        } else {
-            this.settings.categorize.presentations[key].expanded = !this
-                .settings.categorize.presentations[key].expanded;
-        }
-        this.categorize.clientCategoriesUpdate(this.query);
-        return this.settings.categorize.presentations[key].expanded;
-    }
+        let newState =
+            state !== undefined
+                ? state
+                : this.clientCategoryExpansion.hasOwnProperty(key)
+                    ? !this.clientCategoryExpansion[key]
+                    : !node.expanded;
 
+        let newClientCategoryExpansion = { ...this.clientCategoryExpansion };
+        newClientCategoryExpansion[key] = newState;
+        this.clientCategoryExpansion = newClientCategoryExpansion;
+        return newState;
+    }
     /**
      * Gets the currently active match generateContent setting.
      */

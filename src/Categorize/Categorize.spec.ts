@@ -344,14 +344,47 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = [[null, null]];
 
-        let results: Categories = pClient.filterCategories(workCopy, {
-            filters: []
-        });
+        let results: Categories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
         expect(settings.cbRequest).toHaveBeenCalledTimes(0);
         expect(results).toEqual(reference);
+    });
+
+    it("Should be able to filter using direct mock on categorize", () => {
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize("http://localhost:9950/");
+        let pClient = client as any;
+
+        // Expect
+        let query = new Query({
+            clientCategoryFilter: {
+                System: /---/,
+                ModifiedDate: /---/,
+                Author: /---/,
+                FileType: /Word/
+            }
+        });
+
+        let results: Categories = pClient.filterCategories(workCopy, query);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[0].categories.length).toEqual(0);
+        expect(results.groups[1].categories.length).toEqual(0);
+        expect(results.groups[2].categories.length).toEqual(0);
+
+        expect(results.groups[3].name).toEqual("FileType");
+        expect(results.groups[3].expanded).toEqual(true);
+        expect(results.groups[3].categories.length).toEqual(1);
+        expect(results.groups[3].categories[0].name).toEqual("DOC");
+        expect(results.groups[3].categories[0].expanded).toEqual(true);
+        expect(results.groups[3].categories[0].children.length).toEqual(0);
     });
 
     it("Should be possible to use the createCategoryFilter method to create filters, with string[] input", () => {
@@ -463,8 +496,56 @@ describe("Categorize basics", () => {
         expect(filterFileTypeDoc.category.expanded).toEqual(false);
         expect(filterFileTypeDoc.category.name).toEqual("DOC");
     });
+    it("Should be able to toggle expanded state using direct mock on categorize", () => {
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
 
-    it("Should be able to find category-nodes", () => {
+        let client = new Categorize("http://localhost:9950/");
+        let pClient = client as any;
+
+        // Expect
+        expect(workCopy.groups[0].name).toEqual("System");
+        expect(workCopy.groups[0].categories[0].name).toEqual("File");
+        expect(workCopy.groups[0].categories[0].expanded).toBeFalsy();
+        expect(workCopy.groups[0].categories[0].children[0].name).toEqual(
+            "Testdata"
+        );
+        expect(
+            workCopy.groups[0].categories[0].children[0].children[0].name
+        ).toEqual("Norway");
+        expect(
+            workCopy.groups[0].categories[0].children[0].children[0].expanded
+        ).toBeFalsy();
+
+        let query = new Query({
+            clientCategoryExpansion: {
+                "System|File": true,
+                "System|File|Testdata": true,
+                "System|File|Testdata|Norway": true
+            }
+        });
+
+        let results: Categories = pClient.filterCategories(workCopy, query);
+
+        expect(results.groups[0].name).toEqual("System");
+        expect(results.groups[0].categories[0].name).toEqual("File");
+        expect(results.groups[0].categories[0].expanded).toBeTruthy();
+        expect(results.groups[0].categories[0].children[0].name).toEqual(
+            "Testdata"
+        );
+        expect(
+            results.groups[0].categories[0].children[0].expanded
+        ).toBeTruthy();
+        expect(
+            results.groups[0].categories[0].children[0].children[0].name
+        ).toEqual("Norway");
+        expect(
+            results.groups[0].categories[0].children[0].children[0].expanded
+        ).toBeTruthy();
+    });
+
+    it("Should be able to finc category-nodes", () => {
         // tslint:disable-next-line:no-require-imports
         let categories: Categories = require("../test-data/categories.json");
         sanityCheck(categories);

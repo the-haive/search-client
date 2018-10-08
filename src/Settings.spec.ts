@@ -1,4 +1,4 @@
-import { Settings, ISettings, Categories, Matches } from "./SearchClient";
+import { Settings, ISettings, Categories, Matches } from "../src/SearchClient";
 
 describe("Settings basics", () => {
     it("Should be able to create a default settings object with expected values", () => {

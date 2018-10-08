@@ -1088,7 +1088,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         }
 
         if (categories.groups.length > 0) {
-            // Add top-level node to use for configuring the categories.
+            // Add top-level node to use for configurinhg the categories.
             let topConfigElm = document.createElement("div");
             topConfigElm.classList.add("category-config-node", "top");
             topConfigElm.addEventListener("click", function(e) {
@@ -1165,17 +1165,14 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     function toggleClientCategoryConfiguration(node) {
         let title;
-        let mode = "root";
 
         if (node) {
             title = node.displayName;
             if (node.categoryName) {
                 // Is category
-                mode = "category";
                 title += ` [${node.categoryName.join(",")}]`;
             } else {
                 // Is group
-                mode = "group";
                 title += ` [${node.name}]`;
             }
             // Re-showing all - in case the root-node has just been shown.
@@ -1206,28 +1203,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
         // TODO: Lookup this category in the settings object. If none, show defaults.
         // Wire up the various form-fields so that they live-update the settings and redraw categories accordingly.
-        let catPres = client.settings.categorize.presentations;
-
-        let id;
-        switch (mode) {
-            case "root":
-                id = "__ROOT__";
-                break;
-            case "group":
-                id = node.name;
-                break;
-            case "category":
-                id = node.categoryName.join("|");
-                break;
-            default:
-                throw new Error("Unexpected mode");
-        }
-        if (catPres[id]) {
-            console.log(title, "has category-presentation", catPres);
-        } else {
-            catPres[id] = new IntelliSearch.CategoryPresentation();
-            console.log(title, "created category-presentation", catPres);
-        }
 
         // Finally, show the configuration pane
         window.INTS_OpenDialog("dialog-category-configuration");

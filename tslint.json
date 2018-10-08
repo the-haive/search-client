@@ -15,7 +15,6 @@
         "no-require-imports": true,
         "no-trailing-whitespace": false,
         "object-literal-sort-keys": false,
-        "object-literal-key-quotes": false,
         "ordered-imports": [false],
         "prefer-const": false,
         "quotemark": false,
