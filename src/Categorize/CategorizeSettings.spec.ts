@@ -3,8 +3,8 @@ import { Categories } from "../Data";
 import {
     CategoryPresentation,
     SortPartConfiguration,
-    SortingConfiguration,
-    GroupingConfiguration,
+    SortConfiguration,
+    GroupConfiguration,
     GroupingMode,
     CategoryPresentationMap
 } from "../Common/CategoryPresentation";
@@ -139,18 +139,18 @@ describe("CategorizeSettings basics", () => {
     it("Should be possible to pass a CategoryPresentationMap object to use for values.", () => {
         let catPresMap: CategoryPresentationMap = {
             __ROOT__: {
-                sorting: {
+                sort: {
                     enabled: true,
                     parts: [
                         "System",
                         new SortPartConfiguration({ match: /File.*/ })
                     ],
                     uiHintShowFilterInputThreshold: 10
-                } as SortingConfiguration
+                } as SortConfiguration
             } as CategoryPresentation,
             Author: {
                 expanded: true,
-                grouping: {
+                group: {
                     enabled: true,
                     pattern: /^(...)/,
                     minCount: 5,
@@ -163,7 +163,7 @@ describe("CategorizeSettings basics", () => {
                     maxMatchCount: 100,
                     uiHintShowFilterInputThreshold: 10
                 },
-                sorting: {
+                sort: {
                     enabled: true,
                     parts: [
                         "System",
@@ -196,8 +196,8 @@ describe("CategorizeSettings basics", () => {
         expect(settings.presentations.Author.filter.match).toBe(
             catPresMap.Author.filter.match
         );
-        expect(settings.presentations.Author.sorting.parts[0]).toEqual(
-            catPresMap.Author.sorting.parts[0]
+        expect(settings.presentations.Author.sort.parts[0]).toEqual(
+            catPresMap.Author.sort.parts[0]
         );
     });
 });
