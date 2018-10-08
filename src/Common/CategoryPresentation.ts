@@ -23,14 +23,9 @@ export type CategoryPresentationMap = {
  */
 export class CategoryPresentation {
     /**
-     * Used to indicate whether tho show category-children or not. Default: false (N/A for the root-element)
-     */
-    public expanded?: boolean;
-
-    /**
      * Used to create an extra level of categories that group items together. Default: Disabled
      */
-    public grouping?: GroupingConfiguration;
+    public group?: GroupConfiguration;
 
     /**
      * Used to include only categories that match the provided filter (regex + minCount). Default: Disabled
@@ -40,12 +35,17 @@ export class CategoryPresentation {
     /**
      * Used to change the order of the categories. Default: Disabled
      */
-    public sorting?: SortingConfiguration;
+    public sort?: SortConfiguration;
 
     /**
      * Used to limit the number of items to display. Default: Disabled
      */
     public limit?: LimitPageConfiguration;
+
+    /**
+     * Used to indicate whether tho show category-children or not. Default: undefined (N/A for the root-element)
+     */
+    public expanded?: boolean | null;
 
     /**
      * Creates a CategoryPresentation instance. Default: All features disabled.
@@ -54,12 +54,10 @@ export class CategoryPresentation {
     constructor(settings?: CategoryPresentation) {
         settings = settings || ({} as CategoryPresentation);
         this.expanded =
-            typeof settings.expanded !== "undefined"
-                ? settings.expanded
-                : false;
-        this.grouping = new GroupingConfiguration(settings.grouping);
+            typeof settings.expanded !== "undefined" ? settings.expanded : null;
+        this.group = new GroupConfiguration(settings.group);
         this.filter = new FilterConfiguration(settings.filter);
-        this.sorting = new SortingConfiguration(settings.sorting);
+        this.sort = new SortConfiguration(settings.sort);
         this.limit = new LimitPageConfiguration(settings.limit);
     }
 }
@@ -68,14 +66,14 @@ export class CategoryPresentation {
  * Defines how grouping is to be applied on a given categories' children
  * Can be set to only be executed when the number of child-categories exceeds a given number.
  */
-export class GroupingConfiguration {
+export class GroupConfiguration {
     /**
      * Enables or disables the feature. Default: false
      */
     public enabled?: boolean;
 
     /**
-     * Only applies grouping when the number of children exceeds this number. Default: 20
+     * Only applies grouping when the number of children reaches this number. Default: 20
      */
     public minCount?: number;
 
@@ -87,7 +85,7 @@ export class GroupingConfiguration {
     /**
      * The regex to group on. Default: Matches first character /^(.)/
      */
-    public pattern?: RegExp;
+    public match?: RegExp;
 
     /**
      * The string to use as regex replace on. Default: Upper-cased match-group 1 from pattern "\U$1"
@@ -95,12 +93,17 @@ export class GroupingConfiguration {
     public replacement?: string;
 
     /**
+     * Only creates the group when number of matches per group reaches this number. Default: 5
+     */
+    public minCountPerGroup?: number;
+
+    /**
      * Creates a GroupingConfiguration instance.
      *
      * @param settings A GroupingPresentation object describing the behavior.
      */
-    constructor(settings?: GroupingConfiguration) {
-        settings = settings || ({} as GroupingConfiguration);
+    constructor(settings?: GroupConfiguration) {
+        settings = settings || ({} as GroupConfiguration);
         this.enabled =
             typeof settings.enabled !== "undefined" ? settings.enabled : false;
         this.minCount =
@@ -109,16 +112,20 @@ export class GroupingConfiguration {
             typeof settings.mode !== "undefined"
                 ? (settings.mode as GroupingMode)
                 : GroupingMode.DisplayName;
-        this.pattern =
-            typeof settings.pattern !== "undefined"
-                ? typeof settings.pattern === "string"
-                    ? new RegExp(settings.pattern)
-                    : settings.pattern
+        this.match =
+            typeof settings.match !== "undefined"
+                ? typeof settings.match === "string"
+                    ? new RegExp(settings.match)
+                    : settings.match
                 : /^(.)/;
         this.replacement =
             typeof settings.replacement !== "undefined"
                 ? settings.replacement
                 : "\\U$1";
+        this.minCountPerGroup =
+            typeof settings.minCountPerGroup !== "undefined"
+                ? settings.minCountPerGroup
+                : 5;
     }
 }
 
@@ -137,19 +144,24 @@ export class FilterConfiguration {
     public enabled?: boolean;
 
     /**
-     * The current regex match filter. Default: "" (empty - no matches)
+     * The current regex match filter, applied on the Name or DisplayName (see matchMode). Default: "" (empty - no matches)
      */
-    public match: RegExp;
+    public match?: RegExp;
+
+    /**
+     * The current match-mode for the regex filter. Default: DisplayName
+     */
+    public matchMode?: MatchMode;
 
     /**
      * The maximum no of matches for the category to be included. Default: -1 (disabled)
      */
-    public maxMatchCount: number;
+    public maxMatchCount?: number;
 
     /**
      * Hints the UI to show an input box when the number of hits exceeds a given number. Default: 20
      */
-    public uiHintShowFilterInputThreshold: number;
+    public uiHintShowFilterInputThreshold?: number;
 
     /**
      * Creates a FilterConfiguration instance that describes how to filter categories.
@@ -169,6 +181,11 @@ export class FilterConfiguration {
                     : settings.match
                 : new RegExp("");
 
+        this.matchMode =
+            typeof settings.matchMode !== "undefined"
+                ? (settings.matchMode as MatchMode)
+                : MatchMode.DisplayName;
+
         this.maxMatchCount =
             typeof settings.maxMatchCount !== "undefined"
                 ? settings.maxMatchCount
@@ -181,12 +198,17 @@ export class FilterConfiguration {
     }
 }
 
+export enum MatchMode {
+    Name = "Name",
+    DisplayName = "DisplayName"
+}
+
 /**
  * Defines how sorting is to be applied.
  * First handles the static strings, then applies the SortPartConfigurations until there are no items left.
  * Note: If there are additional items left when done above then these will be added at the bottom in the original sorting order.
  */
-export class SortingConfiguration {
+export class SortConfiguration {
     /**
      *
      */
@@ -202,8 +224,8 @@ export class SortingConfiguration {
      *
      * @param settings A SortConfiguration object that describes the wanted behavior
      */
-    constructor(settings?: SortingConfiguration) {
-        settings = settings || ({} as SortingConfiguration);
+    constructor(settings?: SortConfiguration) {
+        settings = settings || ({} as SortConfiguration);
 
         this.enabled =
             typeof settings.enabled !== "undefined" ? settings.enabled : false;
@@ -306,22 +328,22 @@ export class LimitPageConfiguration {
     /**
      * Enables or disables the feature. Default: false
      */
-    public enabled: boolean;
+    public enabled?: boolean;
 
     /**
      * Defines the page to show. Default: 1
      */
-    public page: number;
+    public page?: number;
 
     /**
      * Defines the pageSize that with the `page` controls which item-range to show. Default: 5
      */
-    public pageSize: number;
+    public pageSize?: number;
 
     /**
      * Hints the ui to show a pager to allow browsing the categories in the node. Default: true
      */
-    public uiHintShowPager: boolean;
+    public uiHintShowPager?: boolean;
 
     /**
      * Creates a LimitPageConfiguration instance. Default: Show first page, with 5 items.
