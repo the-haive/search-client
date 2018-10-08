@@ -146,6 +146,7 @@ body {
     overflow-y: auto;
 }
 
+#not-ready .dialog-content,
 #auth-pending .dialog-content,
 #auth-error .dialog-content {
     height: unset;
@@ -153,6 +154,10 @@ body {
     padding-bottom: 1em;
     text-align: center;
     font-size: 80%;
+}
+
+#not-ready .dialog-content {
+    display: none;
 }
 
 #auth-pending .spinner {
@@ -168,6 +173,7 @@ body {
 #container.dialog-category-configuration #dialog-category-configuration,
 #container.dialog-about #dialog-about,
 #container.dialog-help #dialog-help,
+#container.not-ready #not-ready,
 #container.auth-pending #auth-pending,
 #container.auth-error #auth-error {
     display: flex;
