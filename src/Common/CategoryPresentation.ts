@@ -301,11 +301,7 @@ export class SortPartConfiguration {
         settings = settings || ({} as SortPartConfiguration);
 
         this.match =
-            typeof settings.match !== "undefined"
-                ? typeof settings.match === "string"
-                    ? new RegExp(settings.match)
-                    : settings.match
-                : /.*/;
+            typeof settings.match !== "undefined" ? settings.match : /.*/;
 
         this.matchMode =
             typeof settings.matchMode !== "undefined"

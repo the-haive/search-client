@@ -140,14 +140,6 @@ describe("When managing a CategoryPresentations map it:", () => {
         });
     });
 
-    it("Should be possible to create a string-based SortPart, with the string converted to a RegExp on creation", () => {
-        let re = "test";
-        let sortPart = new SortPartConfiguration({ match: re });
-
-        expect(sortPart.match).toEqual(/test/);
-        expect(sortPart.match).not.toBe(re); // Has been mutated to regexp
-    });
-
     it("Should be possible to create a RegExp-based SortPart, without the input being mutated", () => {
         let re = /test/;
         let sortPart = new SortPartConfiguration({ match: re });
@@ -411,13 +403,13 @@ describe("When sorting a CategoryPresentations map it:", () => {
                         enabled: true,
                         parts: [
                             {
-                                match: /^System$/,
-                                matchMode: "Name"
-                            } as SortPartConfiguration,
-                            {
                                 match: /.*/,
                                 matchMode: "DisplayName",
-                                sortMethod: "CountDesc"
+                                sortMethod: "AlphaDesc"
+                            } as SortPartConfiguration,
+                            {
+                                match: "System",
+                                matchMode: "Name"
                             } as SortPartConfiguration
                         ]
                     }
@@ -437,17 +429,136 @@ describe("When sorting a CategoryPresentations map it:", () => {
         sanityCheck(workCopy);
 
         expect(results.groups.length).toEqual(4);
-        expect(results.groups[0].name).toEqual("System");
-        expect(results.groups[1].name).toEqual("Author");
-        expect(results.groups[2].name).toEqual("FileType");
-        expect(results.groups[3].name).toEqual("ModifiedDate");
+        expect(results.groups[0].displayName).toEqual("Modified date");
+        expect(results.groups[1].displayName).toEqual("Forfatter");
+        expect(results.groups[2].displayName).toEqual("Filtype");
+        expect(results.groups[3].name).toEqual("System");
     });
 
     it("Should be possible to sort on group-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                Author: {
+                    sort: {
+                        enabled: true,
+                        parts: [
+                            {
+                                match: /^A.*/,
+                                matchMode: "Name"
+                            } as SortPartConfiguration,
+                            {
+                                match: /^L.*/i,
+                                matchMode: "Name",
+                                sortMethod: "CountDesc"
+                            } as SortPartConfiguration,
+                            {
+                                match: "Olav Hansen",
+                                matchMode: "Name",
+                                sortMethod: "AlphaAsc"
+                            } as SortPartConfiguration
+                        ]
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[1].name).toEqual("Author");
+        expect(results.groups[1].categories[0].name).toEqual("Astrid Øksenvåg");
+        expect(results.groups[1].categories[1].name).toEqual("Allan Auke");
+        expect(results.groups[1].categories[2].name).toEqual("lises");
+        expect(results.groups[1].categories[3].name).toEqual("lkg");
+        expect(results.groups[1].categories[4].name).toEqual("Lars Frode");
+        expect(results.groups[1].categories[5].name).toEqual("Lars F.");
+        expect(results.groups[1].categories[6].name).toEqual("Lise Sagdahl");
+        expect(results.groups[1].categories[7].name).toEqual("Olav Hansen");
+        expect(results.groups[1].categories[8].name).toEqual(
+            "Bibliotek - Admin"
+        );
+        expect(results.groups[1].categories[9].name).toEqual(
+            "Gro Merethe Johnsrud"
+        );
+        expect(results.groups[1].categories[10].name).toEqual("GESL");
     });
+
     it("Should be possible to sort on category-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                "ModifiedDate|2007|Month": {
+                    sort: {
+                        enabled: true,
+                        parts: [
+                            {
+                                match: /^Dec.*/,
+                                matchMode: "DisplayName"
+                            } as SortPartConfiguration,
+                            {
+                                match: /^Sep.*/,
+                                matchMode: "Name"
+                            } as SortPartConfiguration,
+                            {
+                                match: /.*/,
+                                matchMode: "Name",
+                                sortMethod: "CountDesc"
+                            } as SortPartConfiguration
+                        ]
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[2].name).toEqual("ModifiedDate");
+        expect(results.groups[2].categories[0].name).toEqual("2007");
+        expect(results.groups[2].categories[0].children[0].name).toEqual(
+            "Month"
+        );
+        expect(
+            results.groups[2].categories[0].children[0].children[0].displayName
+        ).toEqual("December");
+        expect(
+            results.groups[2].categories[0].children[0].children[1].displayName
+        ).toEqual("September");
+        expect(
+            results.groups[2].categories[0].children[0].children[2].displayName
+        ).toEqual("March");
+        expect(
+            results.groups[2].categories[0].children[0].children[2].count
+        ).toBe(71);
+        expect(
+            results.groups[2].categories[0].children[0].children[3].displayName
+        ).toEqual("May");
+        expect(
+            results.groups[2].categories[0].children[0].children[3].count
+        ).toBe(71);
+        expect(
+            results.groups[2].categories[0].children[0].children[4].displayName
+        ).toEqual("October");
+        expect(
+            results.groups[2].categories[0].children[0].children[4].count
+        ).toBe(27);
     });
 });
 
