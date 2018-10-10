@@ -8,7 +8,8 @@ import {
     SearchType,
     MatchMode,
     SortPartConfiguration,
-    SortMethod
+    SortMethod,
+    LimitPageConfiguration
 } from "../Common";
 import { Categories, Category, Group } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
@@ -352,6 +353,12 @@ export class Categorize extends BaseCall<Categories> {
         });
     }
 
+    private limit(array: any[], limit: LimitPageConfiguration): any[] {
+        let from = (limit.page - 1) * limit.pageSize;
+        let to = from + limit.pageSize;
+        return array.slice(from, to);
+    }
+
     private filterCategories(
         categories: Categories,
         query: Query = new Query()
@@ -568,7 +575,8 @@ export class Categorize extends BaseCall<Categories> {
                 cats.groups = sortedGroups.concat(other);
             }
             if (rootOverride.limit && rootOverride.limit.enabled) {
-                // TODO: Limit which categories to show
+                // Limit which categories to show
+                cats.groups = this.limit(cats.groups, rootOverride.limit);
             }
             // Skipping expansion, as root is always expanded
         }
@@ -808,7 +816,11 @@ export class Categorize extends BaseCall<Categories> {
                     group.categories = sortedCats.concat(other);
                 }
                 if (groupOverride.limit && groupOverride.limit.enabled) {
-                    // TODO: Limit which categories to show
+                    // Limit which categories to show
+                    group.categories = this.limit(
+                        group.categories,
+                        groupOverride.limit
+                    );
                 }
                 if (groupOverride.expanded !== null) {
                     // Override whether the group is to be expanded or not
@@ -1070,7 +1082,11 @@ export class Categorize extends BaseCall<Categories> {
                     category.children = sortedCats.concat(other);
                 }
                 if (categoryOverride.limit && categoryOverride.limit.enabled) {
-                    // TODO: Limit which categories to show
+                    // Limit which categories to show
+                    category.children = this.limit(
+                        category.children,
+                        categoryOverride.limit
+                    );
                 }
                 if (categoryOverride.expanded !== null) {
                     // Override whether the category is to be expanded or not

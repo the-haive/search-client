@@ -564,13 +564,89 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
 describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on root-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                __ROOT__: {
+                    limit: {
+                        enabled: true,
+                        pageSize: 2
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(2);
     });
+
     it("Should be possible to limit on group-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                Author: {
+                    limit: {
+                        enabled: true,
+                        pageSize: 2
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[1].name).toEqual("Author");
+        expect(results.groups[1].categories.length).toEqual(2);
     });
+
     it("Should be possible to limit on category-level", () => {
-        fail("Not implemented yet");
+        // tslint:disable-next-line:no-require-imports
+        let workCopy: Categories = require("../test-data/categories.json");
+        sanityCheck(workCopy);
+
+        let client = new Categorize({
+            baseUrl: "http://localhost:9950/",
+            presentations: {
+                "ModifiedDate|2014": {
+                    limit: {
+                        enabled: true,
+                        pageSize: 2
+                    }
+                }
+            }
+        });
+
+        let pClient = client as any;
+
+        let results: Categories = pClient.filterCategories(workCopy);
+
+        sanityCheck(workCopy);
+
+        expect(results.groups.length).toEqual(4);
+        expect(results.groups[2].name).toEqual("ModifiedDate");
+        expect(results.groups[2].categories[1].name).toEqual("2014");
+        expect(results.groups[2].categories[1].children.length).toEqual(2);
+        expect(results.groups[2].categories[2].children[0].name).toEqual(
+            "Month"
+        );
     });
 });
 

@@ -387,8 +387,18 @@ export class LimitPageConfiguration {
 
         this.page = typeof settings.page !== "undefined" ? settings.page : 1;
 
+        function setPageSizeThrowOnNegative() {
+            if (settings.pageSize < 0) {
+                throw new Error("limit pageSize cannot be negative");
+                return 0;
+            } else {
+                return settings.pageSize;
+            }
+        }
         this.pageSize =
-            typeof settings.pageSize !== "undefined" ? settings.pageSize : 5;
+            typeof settings.pageSize !== "undefined"
+                ? setPageSizeThrowOnNegative()
+                : 5;
 
         this.uiHintShowPager =
             typeof settings.uiHintShowPager !== "undefined"
