@@ -135,6 +135,10 @@ body {
     width: 100%;
 }
 
+.whiteout .spinner {
+    z-index: 2500;
+}
+
 .dialog-content {
     margin: auto;
     width: 90%;
@@ -602,6 +606,10 @@ button#reset.hidden {
     font-size: 32px;
 }
 
+.not-ready #query-text {
+    color: #eee;
+}
+
 .query {
     background-color: #ffffff;
     border: thin solid #dddddd;
@@ -615,7 +623,7 @@ button#reset.hidden {
 
 .query .awesomplete {
     width: 100%;
-    z-index: 1000;
+    z-index: 500;
 }
 
 .query-text:focus,
@@ -1325,7 +1333,7 @@ button#reset.hidden {
 /* Mini spinner for autocomplete and authentication */
 
 .spinner {
-    z-index: 100;
+    z-index: 1500;
 }
 
 #spinner {
@@ -1537,8 +1545,11 @@ label[for]:hover {
         margin-right: auto;
     }
 }
-
 /* Awesomplete overrides */
+.awesomplete {
+    margin-left: 0.45em;
+}
+
 .awesomplete mark {
     background: unset;
     font-weight: 100;
