@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-rc.1"></a>
+# [1.0.0-rc.1](https://github.com/IntelliSearch/search-client/compare/v1.0.0-beta.4...v1.0.0-rc.1) (2018-10-11)
+
+
+### Bug Fixes
+
+* Fix for toggleCategoryExpansion. Refactored CategoryPresentation. Docs generated. ([8fac8b8](https://github.com/IntelliSearch/search-client/commit/8fac8b8))
+* **docs:** Minor versioning error, and adjust doc build command ([6221860](https://github.com/IntelliSearch/search-client/commit/6221860))
+
+
+
 <a name="1.0.0-beta.4"></a>
 # [1.0.0-beta.4](https://github.com/IntelliSearch/search-client/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2018-05-14)
 
