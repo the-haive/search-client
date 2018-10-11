@@ -14,7 +14,6 @@ import {
 import { Categories, Category, Group } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
 import { CategorizeSettings, ICategorizeSettings } from "./CategorizeSettings";
-import { cat } from "shelljs";
 
 /**
  * The Categorize service queries the search-engine for which categories that any

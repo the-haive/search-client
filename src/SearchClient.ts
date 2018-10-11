@@ -439,14 +439,21 @@ export class SearchClient implements AuthToken {
         const key = node.hasOwnProperty("categoryName")
             ? (node as Category).categoryName.join("|")
             : node.name;
-        if (this.settings.categorize.presentations[key] === "undefined") {
+        if (!this.settings.categorize.presentations[key]) {
+            console.log("Presentations key created", key);
             this.settings.categorize.presentations[
                 key
             ] = new CategoryPresentation({ expanded: !node.expanded });
         } else {
+            console.log("Presentations key already exists", key);
             this.settings.categorize.presentations[key].expanded = !this
                 .settings.categorize.presentations[key].expanded;
         }
+        console.log(
+            "Expanded",
+            key,
+            this.settings.categorize.presentations[key].expanded
+        );
         this.categorize.clientCategoriesUpdate(this.query);
         return this.settings.categorize.presentations[key].expanded;
     }
