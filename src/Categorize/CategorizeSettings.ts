@@ -1,12 +1,12 @@
 import { BaseSettings, IBaseSettings } from "../Common";
-import { Categories } from "../Data";
+import { ICategories } from "../Data";
 import { CategorizeTriggers } from "./CategorizeTriggers";
 import {
     CategoryPresentationMap,
     CategoryPresentation
 } from "../Common/CategoryPresentation";
 
-export interface ICategorizeSettings extends IBaseSettings<Categories> {
+export interface ICategorizeSettings extends IBaseSettings<ICategories> {
     /**
      * This is the separator-character that is used when comparing the clientCategoryFilter. You need to use this
      * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilter]].
@@ -27,7 +27,7 @@ export interface ICategorizeSettings extends IBaseSettings<Categories> {
 /**
  * These are all the settings that can affect the returned categories for categorize() lookups.
  */
-export class CategorizeSettings extends BaseSettings<Categories> {
+export class CategorizeSettings extends BaseSettings<ICategories> {
     /**
      * This is the separator-character that is used when comparing the clientCategoryFilter. You need to use this
      * to join categoryName arrays in the filter section. See [[SearchClient.clientCategoryFilter]].

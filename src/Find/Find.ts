@@ -10,14 +10,14 @@ import {
 } from "../Common";
 import { FindQueryConverter } from "./FindQueryConverter";
 import { FindSettings, IFindSettings } from "./FindSettings";
-import { Matches } from "../Data";
+import { IMatches } from "../Data";
 
 /**
  * The Find service queries the search-engine for search-matches for the given query.
  *
  * It is normally used indirectly via the SearchClient class.
  */
-export class Find extends BaseCall<Matches> {
+export class Find extends BaseCall<IMatches> {
     public settings: IFindSettings;
 
     private queryConverter: FindQueryConverter;
@@ -51,7 +51,7 @@ export class Find extends BaseCall<Matches> {
     public fetch(
         query: Query = new Query(),
         suppressCallbacks: boolean = false
-    ): Promise<Matches> {
+    ): Promise<IMatches> {
         let url = this.queryConverter.getUrl(
             this.settings.url,
             new Query(query)
@@ -70,7 +70,7 @@ export class Find extends BaseCall<Matches> {
                     }
                     return response.json();
                 })
-                .then((matches: Matches) => {
+                .then((matches: IMatches) => {
                     this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                     return matches;
                 })

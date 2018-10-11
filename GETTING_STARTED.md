@@ -4,103 +4,50 @@
 
 This section will cover only the basics. We highly recommend using the API-documentation for more details and insight.
 
-The two central classes are [[SearchClient]] and [[Settings]]:
+The two central classes are SearchClient and Settings:
 
-### [[SearchClient]]
+### SearchClient
 
-The central class is the [[SearchClient]]. To start using it you will need to create a new instance of it. The constructor takes two parameters, a baseUrl and optionally a settings object.
+The central class is the [[SearchClient]]. To start using it you will need to create a new instance of it.
 
--   The base-url is typically `"http://myserver:9950"` for the IntelliSearch SearchService.
--   The settings object has properties that help you customize the solution to your needs.
-    -   If you are using the "manual" mode with promises, then you can leave this empty.
-    -   If you want to use the "automatic" mode, then you will have to set up some of these properties.
-    -   Use the settings' version parameter to override the default 4 with 3 or 2 (if you are using a v2 or v3 backend rest-interface).
+**Note: If you are embedding the library via a script-tag then all the library features are in the IntelliSearch namespace.**
 
-### [[Settings]]
+The constructor takes one parameter (`settings`: [[ISettings]]), where at least the [[Settings.baseUrl]] must be set.
 
-The [[Settings]] class holds properties as follows:
+The settings interface has properties that help you customize the solution to your needs. The `baseUrl` is typically `"http://<your-server>:9950"` for the IntelliSearch SearchService.
 
--   `allCategories`: [[AllCategoriesSettings]]</a>
--   `authentication`: [[AuthenticationSettings]]</a>
--   `autocomplete`: [[AutocompleteSettings]]</a>
--   `bestBets`: [[BestBetsSettings]]</a>
--   `categorize`: [[CategorizeSettings]]</a>
--   `find`: [[FindSettings]]</a>
--   `query`: [[Query]]</a>
+We recommend using the automatic mode, where you only need to interface with the SearchClient class and it's settings.
+
+### Settings
+
+The [[Settings]] class has the following properties:
+
+- `baseUrl`: string - The base url for the endpoint (domain + port only).
+- `basePath`: string - The path (default usually is correct: `"RestService/v4)"`
+- `authentication`: [[AuthenticationSettings]] - Defines how `authentication`-calls are handled
+- `autocomplete`: [[AutocompleteSettings]] - Defines how `autocomplete`-calls are handled
+- `categorize`: [[CategorizeSettings]] - Defines how `categorize`-calls are handled
+- `find`: [[FindSettings]] - Defines how `find`-calls are handled
+- `query`: [[Query]] - Defines the default query-options.\
 
 Please consult the documentation for specific details on each of them. Suffice to say that all the `*Settings` classes contains a boolean property called `enabled`, which by default is `true`.
 
-**Versions:**
-By default the SearchClient services will use version 4 of the backend SearchService REST API. If you need to connect to the v2 or v3 REST interface then pass this in the Settings object.
-
 ## Automatic mode
 
-The automatic mode is the simplest way for you as a developer to use the search-client. It makes it easy for you to hook up your search-ui to the search-backend, without you having to add source code to detect when and how the various features are to be executed. Instead you can "stand on shoulders" and leverage the knowledge that is already incorporated into the implemented automated triggers. You can set things up and it should "just work". We do however suggest that you invest time into understanding the various search-features and how the the triggers work. That will help you find the best way to implement the search-backend for your search.
-
-### Update input
-
-In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type. This is how the search-client will know when to execute searches/lookups and not.
-
-These are **properties** on the SearchClient class. It is expected that you set and get them directly:
-
--   `clientId`: string
--   `dateFrom`: [[DateSpecification]]
--   `dateTo`: [[DateSpecification]]
--   `filters`: string[]
--   `matchGrouping`: boolean
--   `matchOrderBy`: [[OrderBy]]</a>
--   `matchPage`: number
--   `matchPageSize`: number
--   `maxSuggestions`: number
--   `queryText`: string
--   `searchType`: [[SearchType]]</a>
-
-I.e. `searchClient.queryText = "my query";`
-The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the `queryText` property.
-
-In addition the `filters` and `matchPage` properties also have a couple of helpers:
-
--   `filterAdd(string filter)`
--   `filterRemove(string filter)`
--   `matchPageNext()`
--   `matchPagePrev()`
+The automatic mode is by far the simplest and sexiest way for you as a developer to use the search-client. It makes it very easy for you to hook up your search-ui to the search-backend, without you having to add source code to detect when and how the various features are to be executed. Instead you can "stand on our shoulders" and leverage the knowledge that is already incorporated into the implemented automated triggers. You can set things up and it should "just work". We do however suggest that you invest time into understanding the various search-features and how the the triggers work. That will help you find the best way to implement the search-backend for your needs.
 
 ### Set up triggers
 
-The `autocomplete`, `categorize` and `find` properties are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called `trigger`:
+The `Autocomplete`, `Categorize`, `Find` (and optionally also the `authentication`) services are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called `trigger`:
 
--   [[AutocompleteTriggers]]</a>
--   [[CategorizeTriggers]]</a>
--   [[FindTriggers]]</a>
+- [[AutocompleteTriggers]]</a>
+- [[CategorizeTriggers]]</a>
+- [[FindTriggers]]</a>
+- [[AuthenticationTriggers]]</a>
 
-These triggers have a common set of properties, inherited from the [[BaseTriggers]] class:
+We suggest spending time on examining the triggers for the respective services above.
 
--   `queryChange`:
-    Trigger execution when the query changes.
-
--   `queryChangeMinLength`:
-    Minimum query-text length before triggering execution.
-
-    **Note: Requires queryChange to be true.**
-
--   `queryChangeDelay`:
-    Delay triggers for query-text changes until no change has been made for a certain time (in milliseconds). This is to avoid executing searches constantly while the user is typing.
-
-    **Note: Requires queryChange to be true.**
-
--   `queryChangeInstantRegex`:
-    When this regex matches the query-text the change will trigger immediately instead of delaying the trigger (as defined above).
-
-    **Note: Requires queryChange to be true.**
-
-    **Note: Requires query to be longer than queryMinLength.**
-
-    Default for Autocomplete: Trigger on first whitespace after non-whitespace.
-    Default for Categorize/Find: Trigger on first ENTER after non-whitespace.
-
-This means that in the passed Settings-object you can differentiate on when the backend operations are to be executed for each of them.
-
-### Set up Callbacks
+### Set up callbacks
 
 The automatic mode operations (autocomplete, categorize and find) also allow you to specify callbacks as a part of the configuration. The callbacks can be used in the manual mode too, but they were designed to be part of the automatic mode primarily.
 
@@ -112,107 +59,51 @@ The automatic mode operations (autocomplete, categorize and find) also allow you
 If you don't return or return false then the request runs as expected.
 
 1. `cbSuccess`
-   This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be `(data: <TDataType>) => void`, where the &lt;TDataType&gt; is `string[]` for the autocomplete call, `Categories` for the categorize call and `Matches` for the find call.
+   This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be `(data: <TDataType>) => void`, where the &lt;TDataType&gt; is `string[]` for the autocomplete call, `ICategories` for the categorize call and `IMatches` for the find call.
 
 1. `cbError`
    This callback is called whenever a backend operation somehow fails to complete. The signature of the callback should be `(error: any) => void`. The error object could be anything, but should explain the cause of the problem if console.log()'ed or toString()'ed to the page.
 
-It is important to understand that autocomplete, categorize and find all have independent callbacks in the configuration. Because of this the success, error and busy-state for each of them can be tracked independently. This means that the query-field may have an indicator somewhere that indicates that it is doing a lookup (if wanted). The categories section may have an indicator to tell that it is working, and finally the results area may also have an indicator telling that results are pending.
+It is important to understand that Authentication, Autocomplete, Categorize and Find all have independent callbacks in the configuration. Because of this the success, error and busy-state for each of them can be tracked independently. This means that the query-field may have an indicator somewhere that indicates that it is doing a lookup (if wanted). The categories section may have an indicator to tell that it is working, and finally the results area may also have an indicator telling that results are pending.
 
-### Manual fetch
+### Handling user input
 
-In the automatic mode, you will never normally use any of the webservice-operations directly. They will all be invoked indirectly as a result of you updating the input-values (as listed in the previous section).
+In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type. This is how the search-client will know when to execute searches/lookups and not.
 
-The web-service properties are available though (as long as you didn't pass `enabled: false` for them in the settings object). Please note that the autocomplete, categorize and find web-services will by default call any registered callbacks a a part of the fetch-process. If you don't want the callbacks to be enabled for the fetch then you can pass a second variable to the fetch() call, a boolean `suppressCallbacks` parameter, set to `true`.
+These are the **properties** on the SearchClient class that you can manipulate in order to change the query that the search-client is to execute. It is expected that you both `set` and `get` them directly:
 
-    // Sets suppressCallbacks to true via second param to fetch
-    client.find.fetch({ queryText: "Hello world" }, true)
-    .then((matches) => {
-        console.log("Find results:", matches);
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+- `clientId`: string
+- `dateFrom`: [[DateSpecification]]
+- `dateTo`: [[DateSpecification]]
+- `filters`: string[]
+- `matchGenerateContent`: boolean
+- `matchGenerateContentHighlights`: boolean
+- `matchGrouping`: boolean
+- `matchOrderBy`: [[OrderBy]]
+- `matchPage`: number
+- `matchPageSize`: number
+- `maxSuggestions`: number
+- `query`: [[Query]]
+- `queryText`: string
+- `searchType`: [[SearchType]]
+- `uiLanguageCode`: string
 
-**Example:**
+I.e. `searchClient.queryText = "my query";`
+The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the `queryText` property.
 
-    // Without authentication
-    let client = new SearchClient("http://server:9950/", {
-        version: 4,
-        authentication: {
-            enables: false,
-        },
-        find: {
-            cbRequest: (url, reqInit) => {
-                findError = null;
-                findResults = null;
-                findLoading = true;
-            },
-            cbSuccess: (matches) => {
-                findResults = matches;
-                findLoading = false;
-            },
-            cbError: (error) => {
-                findError = error.toString();
-                findLoading = false;
-            },
-            triggers: {
-                queryChanged: true // Means that the match-results will update on queryChanges, and according to the other default trigger values. Still needs minLength and triggerDelay is also obeyed. This example allows a kind of real-time search for matches.
-            }
-        },
-        categorize: {
-            cbRequest: (url, reqInit) => {
-                categorizeError = null;
-                categorizeResults = null;
-                categorizeLoading = true;
-            },
-            cbSuccess: (categories) => {
-                categorizeResults = categories;
-                categorizeLoading = false;
-            },
-            cbError: (error) => {
-                categorizeError = error.toString();
-                categorizeLoading = false;
-            },
-            triggers: {
-                // Here we don't change the triggers. queryChange is false so it will not "auto-search".
-            }
-        },
-        autocomplete: {
-            enabled: false // for this example we turn off autocomplete
-        }
-    });
+In addition the there are some additional methods that help manage changes in the UI:
 
-    // Sets the queryText, which dependent on the setting triggers may or may not invoke a fetch on the various web-services.
-    // In this scenario autocomplete is not looked up since it is disabled in the settings object.
-    client.queryText = "hello world";
-
-    // The user clicks the Search-button and a find and categorize should be executed.
-    client.findAndCategorize();
-
-    // The registered callbacks passed to the SearchClient constructor will be called automatically to track the progress and deliver results when returned.
-
-## Manual mode
-
-There is no need to update inputs or triggers. Instead the search-client will execute on your command. The results can be received in callbacks or using promises.
-
-While it is possible to set up callbacks to handle the results of the manual fetches, it is not the recommended practice. We suggest that you instead use the Promises returned (see sample below).
-
-In manual mode, you control which web-service to call when yourself. This is what the manual mode is all about. The typical mode of operation is still to instantiate the central SearchClient class, but to call the web-services via their respective search-client instance properties: allCategories.fetch(), authentication.fetch(), autocomplete.fetch(), bestBets.fetch(), categorize.fetch() and find.fetch().
-
-**Example:**
-
-    let client = new SearchClient("http://server:9950/");
-
-    client.find.fetch({ queryText: "Hello world" })
-    .then((matches) => {
-        console.log("Find results:", matches);
-    })
-    .catch((error) => {
-        console.error(error);
-    });
-
-It is recommended to use Promises as shown in the sample above when doing manual operations.
+- `toggleCategoryExpansion(...)` [[SearchClient.toggleCategoryExpansion]] - To toggle expanded/collapsed state for a category in the category-tree.
+- `filterAdd(...)` [[SearchClient.filterAdd]] - To add a category as a filter
+- `filterRemove(...)` [[SearchClient.filterRemove]] - To remove a category as a filter
+- `filterToggle(...)` [[SearchClient.filterToggle]] - To toggle a category as a filter
+- `isFilter(...)` [[SearchClient.isFilter]] - To check whether a given category-node is also a filter
+- `hasChildFilter()` [[SearchClient.hasChildFilter]] - To check whether any child of a given category-node is a filter
+- `matchPageNext()` [[SearchClient.matchPageNext]] - To go to the next page of matches
+- `matchPagePrev()` [[SearchClient.matchPagePrev]] - To fgo back to the previous page of matches
+- `update(...)` [[SearchClient.update]] - Typically called when the user clicks the search-button (or when i.e. the Enter-button has been pressed in the query-field). Will update the services according to changes in the query object (if any).
+- `forceUpdate(...)` [[SearchClient.forceUpdate]] - Used to force an update - even if there has been no changes in the query.
+- `reset()` [[SearchClient.reset]] - Resets the search-client instance back to the original startup state (handy to reset filters, query++)
 
 ## Deferring and suppressing registered callbacks
 
@@ -220,24 +111,25 @@ Please note that any of the services' registered callbacks will be called as a p
 
 1. For the SearchClient: Call `deferUpdates(true)` before you do anything that would normally trigger callbacks. This will in turn call `deferUpdates(true)` for all services. When you want callbacks to again be activated, call `deferUpdate(false)` method. When first param is false it optionally takes a second parameter that can be used to indicate whether pending updates are to be skipped or not.
 1. For a specific service: Call its specific `deferUpdates(true)` before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call `deferUpdates(false)` and use the second parameter to indicate whether pending updates are to be skipped or not.
-1. When using manual mode: Pass a second variable to the `fetch()`-call, a boolean `suppressCallbacks` parameter, set to `true`.
+
+Please see [[SearchClient.deferUpdates]] for more information.
 
 ## Authentication
 
-The IntelliSearch SearchService supports using JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: `authentication: { enabled: false }`.
+The IntelliSearch SearchService supports using OpenID authentication via JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: `authentication: { enabled: false }`.
 
 If you however want to use authentication, then there are a couple of things that is important:
 
-1. The SearchService must be configured to use the CurrentPrincipal plugin.
+1. The SearchService must be configured to use the `CurrentPrincipal` plugin (which then extracts the authentication JWT package).
 
-1. A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.
+2. A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.
 
     - The web-service endpoint must identify the user and create a JWT that is returned.
     - On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchService (a random key was generated on setup and should be pre-configured).
     - A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.
     - It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.
 
-1. The SearchClient authentication settings object must define:
+3. The SearchClient authentication settings object must define:
     - The endpoint url.
     - The path for the jwt value when returned.
       If the returned structure is `{ user: { jwt: "actualtokenhash" } }` then the tokenPath should be `[ "user", "jwt" ]`.

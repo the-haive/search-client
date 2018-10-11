@@ -1,7 +1,7 @@
 import fetch from "jest-fetch-mock";
 
-import { Find, FindSettings, IFindSettings, FindTriggers } from ".";
-import { Matches } from "../Data";
+import { Find, IFindSettings, FindTriggers } from ".";
+import { IMatches } from "../Data";
 
 describe("Find basics", () => {
     it("Should have imported Find class defined", () => {
@@ -68,7 +68,7 @@ describe("Find basics", () => {
             cbError: (error: any) => {
                 /* dummy */
             },
-            cbSuccess: (data: Matches) => {
+            cbSuccess: (data: IMatches) => {
                 /* dummy */
             },
             enabled: false,

@@ -8,7 +8,6 @@ import {
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
-import { ISettings } from "./Settings";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {

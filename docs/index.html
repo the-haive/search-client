@@ -1,0 +1,465 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>IntelliSearch SearchClient</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">IntelliSearch SearchClient</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> IntelliSearch SearchClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="intellisearch-searchclient">IntelliSearch SearchClient</h1>
+				<p><a href="https://semaphoreci.com/spiralis/search-client"><img src="https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg" alt="Build Status"></a></p>
+				<h2 id="project-links">Project links</h2>
+				<ul>
+					<li><a href="https://intellisearch.github.io/search-client/">Documentation</a></li>
+					<li><a href="https://www.npmjs.com/package/search-client">Node Package Manager</a></li>
+					<li><a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a></li>
+					<li><a href="https://github.com/IntelliSearch/search-client">GitHub repository</a></li>
+					<li><a href="https://github.com/IntelliSearch/search-client/issues">Issues</a></li>
+					<li><a href="https://github.com/IntelliSearch/search-client/blob/master/CHANGELOG.md">Changelog</a></li>
+				</ul>
+				<h2 id="about">About</h2>
+				<p>The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchManager instance.</p>
+				<p>The package handles all the backend web-services so that you can focus on the user interface instead.</p>
+				<p>The SearchClient wraps and manages all the IntelliSearch SearchService REST web-services:</p>
+				<ul>
+					<li><strong>Autocomplete</strong> - Lookups query-text and suggests words to help write the query.</li>
+					<li><strong>Find</strong> - Searches the index based on the current query (query-text, filters, ...).</li>
+					<li><strong>Categorize</strong> - Generates a category tree with counts based on the current query (query-text, filters, ...)</li>
+				</ul>
+				<p>In addition, it also handles a OpenID authentication.</p>
+				<h2 id="use-in-npm-projects">Use in NPM projects</h2>
+				<p>For projects that consumes npm packages natively you add this package as you would add any other npm-package:</p>
+				<pre><code><span class="hljs-meta">&gt;</span><span class="bash"> npm install --save search-client</span>
+</code></pre><p>Since we have implemented the search-client in Typescript all the data-types and signatures are available for your IDE to use as intellisense. Please also use the documentation available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).</p>
+				<h2 id="use-in-browser-via-script-tag-">Use in browser (via script-tag)</h2>
+				<p>For web-pages that needs to have a script-tag embedded you can fetch the file(s) needed via the jsDelivr cdn, like this:</p>
+				<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//cdn.jsdelivr.net/search-client/</span></span></span><span class="hljs-template-variable">{version}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">/IntelliSearch.bundle.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+</code></pre><p>- where <code>{version}</code> is to be replaced with the actual version you want.</p>
+				<p><strong>CDN version aliases:</strong></p>
+				<p>We strongly recommend that you use the full version id for production sites. For development sites we do recommend the same, but we also see that using a version alias might be handy in some cases.</p>
+				<ul>
+					<li><p><code>latest</code>
+						You <em>can</em> use the jsdelivr version alias <code>latest</code> to always just get the latest version. Just be warned that your site is at high risk of breaking when new versions of the search-client are released. If the search-client library is updated and somehow is no longer compatible with your code, then your site will potentially break and stop working.</p>
+					</li>
+					<li><p><code>&lt;Major&gt;</code> (i.e. <code>1</code>)
+						This means that it will get the latest version for the given major version. Note that the same warning as for <code>latest</code> applies, although this is less risky than just getting any <code>latest</code> version.</p>
+					</li>
+					<li><p><code>&lt;Major.Minor&gt;</code> (i.e. <code>1.1</code>)
+						This means that it will get the latest version for the given major.minor version. Note that the same warning as for <code>latest</code> applies, although this is less risky than both of the above options.</p>
+					</li>
+				</ul>
+				<p><strong>Note:</strong> A benefit to using the npm system is the inclusion of <code>map</code>-files. Next to the browser-bundles in the project you can find accompanying <code>.map</code> files that browsers are able to utilize in order to give a better debugging experience.</p>
+				<h2 id="license">License</h2>
+				<p><a href="../LICENSE">LICENCE</a></p>
+				<h1 id="getting-started">Getting started</h1>
+				<h2 id="basics">Basics</h2>
+				<p>This section will cover only the basics. We highly recommend using the API-documentation for more details and insight.</p>
+				<p>The two central classes are SearchClient and Settings:</p>
+				<h3 id="searchclient">SearchClient</h3>
+				<p>The central class is the <a href="classes/searchclient.html">SearchClient</a>. To start using it you will need to create a new instance of it.</p>
+				<p><strong>Note: If you are embedding the library via a script-tag then all the library features are in the IntelliSearch namespace.</strong></p>
+				<p>The constructor takes one parameter (<code>settings</code>: <a href="interfaces/isettings.html">ISettings</a>), where at least the <a href="classes/settings.html#baseurl">Settings.baseUrl</a> must be set.</p>
+				<p>The settings interface has properties that help you customize the solution to your needs. The <code>baseUrl</code> is typically <code>&quot;http://&lt;your-server&gt;:9950&quot;</code> for the IntelliSearch SearchService.</p>
+				<p>We recommend using the automatic mode, where you only need to interface with the SearchClient class and it&#39;s settings.</p>
+				<h3 id="settings">Settings</h3>
+				<p>The <a href="classes/settings.html">Settings</a> class has the following properties:</p>
+				<ul>
+					<li><code>baseUrl</code>: string - The base url for the endpoint (domain + port only).</li>
+					<li><code>basePath</code>: string - The path (default usually is correct: <code>&quot;RestService/v4)&quot;</code></li>
+					<li><code>authentication</code>: <a href="classes/authenticationsettings.html">AuthenticationSettings</a> - Defines how <code>authentication</code>-calls are handled</li>
+					<li><code>autocomplete</code>: <a href="classes/autocompletesettings.html">AutocompleteSettings</a> - Defines how <code>autocomplete</code>-calls are handled</li>
+					<li><code>categorize</code>: <a href="classes/categorizesettings.html">CategorizeSettings</a> - Defines how <code>categorize</code>-calls are handled</li>
+					<li><code>find</code>: <a href="classes/findsettings.html">FindSettings</a> - Defines how <code>find</code>-calls are handled</li>
+					<li><code>query</code>: <a href="classes/query.html">Query</a> - Defines the default query-options.\</li>
+				</ul>
+				<p>Please consult the documentation for specific details on each of them. Suffice to say that all the <code>*Settings</code> classes contains a boolean property called <code>enabled</code>, which by default is <code>true</code>.</p>
+				<h2 id="automatic-mode">Automatic mode</h2>
+				<p>The automatic mode is by far the simplest and sexiest way for you as a developer to use the search-client. It makes it very easy for you to hook up your search-ui to the search-backend, without you having to add source code to detect when and how the various features are to be executed. Instead you can &quot;stand on our shoulders&quot; and leverage the knowledge that is already incorporated into the implemented automated triggers. You can set things up and it should &quot;just work&quot;. We do however suggest that you invest time into understanding the various search-features and how the the triggers work. That will help you find the best way to implement the search-backend for your needs.</p>
+				<h3 id="set-up-triggers">Set up triggers</h3>
+				<p>The <code>Autocomplete</code>, <code>Categorize</code>, <code>Find</code> (and optionally also the <code>authentication</code>) services are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called <code>trigger</code>:</p>
+				<ul>
+					<li><a href="classes/autocompletetriggers.html">AutocompleteTriggers</a></a></li>
+					<li><a href="classes/categorizetriggers.html">CategorizeTriggers</a></a></li>
+					<li><a href="classes/findtriggers.html">FindTriggers</a></a></li>
+					<li><a href="classes/authenticationtriggers.html">AuthenticationTriggers</a></a></li>
+				</ul>
+				<p>We suggest spending time on examining the triggers for the respective services above.</p>
+				<h3 id="set-up-callbacks">Set up callbacks</h3>
+				<p>The automatic mode operations (autocomplete, categorize and find) also allow you to specify callbacks as a part of the configuration. The callbacks can be used in the manual mode too, but they were designed to be part of the automatic mode primarily.</p>
+				<ol>
+					<li><p><code>cbRequest</code>
+						This callback is called before the request is started. Typically you will use this to control loading/waiting indicators on the page. The signature includes some optional params <code>(url: string, reqInit: RequestInit): bool</code>.</p>
+						<p> <strong>Note that if you add this callback, and explicitly return false, then the request will not be executed.</strong></p>
+					</li>
+				</ol>
+				<p>If you don&#39;t return or return false then the request runs as expected.</p>
+				<ol>
+					<li><p><code>cbSuccess</code>
+						This callback is called whenever a backend operation has completed and results have been received. The signature of the callback should be <code>(data: &lt;TDataType&gt;) =&gt; void</code>, where the &lt;TDataType&gt; is <code>string[]</code> for the autocomplete call, <code>ICategories</code> for the categorize call and <code>IMatches</code> for the find call.</p>
+					</li>
+					<li><p><code>cbError</code>
+						This callback is called whenever a backend operation somehow fails to complete. The signature of the callback should be <code>(error: any) =&gt; void</code>. The error object could be anything, but should explain the cause of the problem if console.log()&#39;ed or toString()&#39;ed to the page.</p>
+					</li>
+				</ol>
+				<p>It is important to understand that Authentication, Autocomplete, Categorize and Find all have independent callbacks in the configuration. Because of this the success, error and busy-state for each of them can be tracked independently. This means that the query-field may have an indicator somewhere that indicates that it is doing a lookup (if wanted). The categories section may have an indicator to tell that it is working, and finally the results area may also have an indicator telling that results are pending.</p>
+				<h3 id="handling-user-input">Handling user input</h3>
+				<p>In order for the automatic mode to work you need to update the values in your query-field as well as filters and/or sorting order / search-type. This is how the search-client will know when to execute searches/lookups and not.</p>
+				<p>These are the <strong>properties</strong> on the SearchClient class that you can manipulate in order to change the query that the search-client is to execute. It is expected that you both <code>set</code> and <code>get</code> them directly:</p>
+				<ul>
+					<li><code>clientId</code>: string</li>
+					<li><code>dateFrom</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
+					<li><code>dateTo</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
+					<li><code>filters</code>: string[]</li>
+					<li><code>matchGenerateContent</code>: boolean</li>
+					<li><code>matchGenerateContentHighlights</code>: boolean</li>
+					<li><code>matchGrouping</code>: boolean</li>
+					<li><code>matchOrderBy</code>: <a href="enums/orderby.html">OrderBy</a></li>
+					<li><code>matchPage</code>: number</li>
+					<li><code>matchPageSize</code>: number</li>
+					<li><code>maxSuggestions</code>: number</li>
+					<li><code>query</code>: <a href="classes/query.html">Query</a></li>
+					<li><code>queryText</code>: string</li>
+					<li><code>searchType</code>: <a href="enums/searchtype.html">SearchType</a></li>
+					<li><code>uiLanguageCode</code>: string</li>
+				</ul>
+				<p>I.e. <code>searchClient.queryText = &quot;my query&quot;;</code>
+				The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the <code>queryText</code> property.</p>
+				<p>In addition the there are some additional methods that help manage changes in the UI:</p>
+				<ul>
+					<li><code>toggleCategoryExpansion(...)</code> <a href="classes/searchclient.html#togglecategoryexpansion">SearchClient.toggleCategoryExpansion</a> - To toggle expanded/collapsed state for a category in the category-tree.</li>
+					<li><code>filterAdd(...)</code> <a href="classes/searchclient.html#filteradd">SearchClient.filterAdd</a> - To add a category as a filter</li>
+					<li><code>filterRemove(...)</code> <a href="classes/searchclient.html#filterremove">SearchClient.filterRemove</a> - To remove a category as a filter</li>
+					<li><code>filterToggle(...)</code> <a href="classes/searchclient.html#filtertoggle">SearchClient.filterToggle</a> - To toggle a category as a filter</li>
+					<li><code>isFilter(...)</code> <a href="classes/searchclient.html#isfilter">SearchClient.isFilter</a> - To check whether a given category-node is also a filter</li>
+					<li><code>hasChildFilter()</code> <a href="classes/searchclient.html#haschildfilter">SearchClient.hasChildFilter</a> - To check whether any child of a given category-node is a filter</li>
+					<li><code>matchPageNext()</code> <a href="classes/searchclient.html#matchpagenext">SearchClient.matchPageNext</a> - To go to the next page of matches</li>
+					<li><code>matchPagePrev()</code> <a href="classes/searchclient.html#matchpageprev">SearchClient.matchPagePrev</a> - To fgo back to the previous page of matches</li>
+					<li><code>update(...)</code> <a href="classes/searchclient.html#update">SearchClient.update</a> - Typically called when the user clicks the search-button (or when i.e. the Enter-button has been pressed in the query-field). Will update the services according to changes in the query object (if any).</li>
+					<li><code>forceUpdate(...)</code> <a href="classes/searchclient.html#forceupdate">SearchClient.forceUpdate</a> - Used to force an update - even if there has been no changes in the query.</li>
+					<li><code>reset()</code> <a href="classes/searchclient.html#reset">SearchClient.reset</a> - Resets the search-client instance back to the original startup state (handy to reset filters, query++)</li>
+				</ul>
+				<h2 id="deferring-and-suppressing-registered-callbacks">Deferring and suppressing registered callbacks</h2>
+				<p>Please note that any of the services&#39; registered callbacks will be called as a part of the fetch-process. This regards to both automatic and manual mode fetches. If you don&#39;t want the callbacks to be enabled you have two options:</p>
+				<ol>
+					<li>For the SearchClient: Call <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. This will in turn call <code>deferUpdates(true)</code> for all services. When you want callbacks to again be activated, call <code>deferUpdate(false)</code> method. When first param is false it optionally takes a second parameter that can be used to indicate whether pending updates are to be skipped or not.</li>
+					<li>For a specific service: Call its specific <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call <code>deferUpdates(false)</code> and use the second parameter to indicate whether pending updates are to be skipped or not.</li>
+				</ol>
+				<p>Please see <a href="classes/searchclient.html#deferupdates">SearchClient.deferUpdates</a> for more information.</p>
+				<h2 id="authentication">Authentication</h2>
+				<p>The IntelliSearch SearchService supports using OpenID authentication via JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: <code>authentication: { enabled: false }</code>.</p>
+				<p>If you however want to use authentication, then there are a couple of things that is important:</p>
+				<ol>
+					<li><p>The SearchService must be configured to use the <code>CurrentPrincipal</code> plugin (which then extracts the authentication JWT package).</p>
+					</li>
+					<li><p>A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.</p>
+						<ul>
+							<li>The web-service endpoint must identify the user and create a JWT that is returned.</li>
+							<li>On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchService (a random key was generated on setup and should be pre-configured).</li>
+							<li>A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.</li>
+							<li>It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.</li>
+						</ul>
+					</li>
+					<li><p>The SearchClient authentication settings object must define:</p>
+						<ul>
+							<li>The endpoint url.</li>
+							<li>The path for the jwt value when returned.
+							If the returned structure is <code>{ user: { jwt: &quot;actualtokenhash&quot; } }</code> then the tokenPath should be <code>[ &quot;user&quot;, &quot;jwt&quot; ]</code>.</li>
+							<li>By default</li>
+						</ul>
+					</li>
+				</ol>
+				<p>The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to pre-fetch it to have it ready asap in case a search is made).</p>
+				<p>The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: <code>authentication: { triggers: { expiryOverlap: 60 } }</code>. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.</p>
+				<h2 id="documentation-intellisense-types">Documentation / Intellisense / Types</h2>
+				<p>If you are using typescript, then the data-types are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client docs-folder (typically <code>./node_modules/search-client/docs/index.html</code>).</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/casing.html" class="tsd-kind-icon">Casing</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/categorizationtype.html" class="tsd-kind-icon">Categorization<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/groupingmode.html" class="tsd-kind-icon">Grouping<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/matchmode.html" class="tsd-kind-icon">Match<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/orderby.html" class="tsd-kind-icon">Order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/searchtype.html" class="tsd-kind-icon">Search<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sortmethod.html" class="tsd-kind-icon">Sort<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authtoken.html" class="tsd-kind-icon">Auth<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authentication.html" class="tsd-kind-icon">Authentication</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authenticationsettings.html" class="tsd-kind-icon">Authentication<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authenticationtriggers.html" class="tsd-kind-icon">Authentication<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/autocomplete.html" class="tsd-kind-icon">Autocomplete</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/autocompletequeryconverter.html" class="tsd-kind-icon">Autocomplete<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/autocompletesettings.html" class="tsd-kind-icon">Autocomplete<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/autocompletetriggers.html" class="tsd-kind-icon">Autocomplete<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/basecall.html" class="tsd-kind-icon">Base<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basequeryconverter.html" class="tsd-kind-icon">Base<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/basesettings.html" class="tsd-kind-icon">Base<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categorize.html" class="tsd-kind-icon">Categorize</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categorizequeryconverter.html" class="tsd-kind-icon">Categorize<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categorizesettings.html" class="tsd-kind-icon">Categorize<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categorizetriggers.html" class="tsd-kind-icon">Categorize<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/categorypresentation.html" class="tsd-kind-icon">Category<wbr>Presentation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filter.html" class="tsd-kind-icon">Filter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filterconfiguration.html" class="tsd-kind-icon">Filter<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/find.html" class="tsd-kind-icon">Find</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/findqueryconverter.html" class="tsd-kind-icon">Find<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/findsettings.html" class="tsd-kind-icon">Find<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/findtriggers.html" class="tsd-kind-icon">Find<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/groupconfiguration.html" class="tsd-kind-icon">Group<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/limitpageconfiguration.html" class="tsd-kind-icon">Limit<wbr>Page<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/query.html" class="tsd-kind-icon">Query</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/searchclient.html" class="tsd-kind-icon">Search<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/settings.html" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sortconfiguration.html" class="tsd-kind-icon">Sort<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sortpartconfiguration.html" class="tsd-kind-icon">Sort<wbr>Part<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iauthenticationsettings.html" class="tsd-kind-icon">IAuthentication<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iautocompletesettings.html" class="tsd-kind-icon">IAutocomplete<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/ibasesettings.html" class="tsd-kind-icon">IBase<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icategories.html" class="tsd-kind-icon">ICategories</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icategorizesettings.html" class="tsd-kind-icon">ICategorize<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icategory.html" class="tsd-kind-icon">ICategory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ifindsettings.html" class="tsd-kind-icon">IFind<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/igroup.html" class="tsd-kind-icon">IGroup</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imatchitem.html" class="tsd-kind-icon">IMatch<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imatches.html" class="tsd-kind-icon">IMatches</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imetadata.html" class="tsd-kind-icon">IMeta<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/isettings.html" class="tsd-kind-icon">ISettings</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#categorypresentationmap" class="tsd-kind-icon">Category<wbr>Presentation<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datespecification" class="tsd-kind-icon">Date<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fetch" class="tsd-kind-icon">Fetch</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

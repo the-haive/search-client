@@ -1,3 +1,5 @@
-CHANGELOG.md
+*.md
+*.html
 samples/plain/*.min.js
 samples/plain/*.min.js.map
+

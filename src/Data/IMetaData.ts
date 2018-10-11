@@ -1,7 +1,7 @@
 /**
  * Defines the interface for metadata.
  */
-export interface MetaData {
+export interface IMetaData {
     /**
      * Sequential running number per metaList
      */

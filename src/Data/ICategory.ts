@@ -2,7 +2,7 @@
  * A Category-node is located somewhere in the tree below a Group-node.
  * It contains information about this category-node as well as a list of child-categories.
  */
-export interface Category {
+export interface ICategory {
     /**
      * Sequential running number per category
      */
@@ -14,7 +14,7 @@ export interface Category {
     /**
      * The child categories for this category.
      */
-    children: Category[];
+    children: ICategory[];
     /**
      * The number of matches for this category.
      */

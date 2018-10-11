@@ -1,0 +1,20 @@
+{
+    "name": "IntelliSearch SearchClient",
+    "mode": "file",
+    "out": "docs",
+    "exclude": "**/*.+(spec.ts|json)",
+    "theme": "default",
+    "ignoreCompilerErrors": true,
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "excludeExternals": true,
+    "excludeNotExported": "true",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "preserveConstEnums": "true",
+    "stripInternal": "true",
+    "suppressExcessPropertyErrors": "true",
+    "suppressImplicitAnyIndexErrors": "true",
+    "experimentalDecorators": true,
+    "readme": "./tmp/docs/INDEX.md"
+}

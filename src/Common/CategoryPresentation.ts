@@ -390,7 +390,6 @@ export class LimitPageConfiguration {
         function setPageSizeThrowOnNegative() {
             if (settings.pageSize < 0) {
                 throw new Error("limit pageSize cannot be negative");
-                return 0;
             } else {
                 return settings.pageSize;
             }

@@ -1,9 +1,9 @@
-import { MetaData } from "./MetaData";
+import { IMetaData } from "./IMetaData";
 
 /**
  * Defines the interface for a match-item.
  */
-export interface MatchItem {
+export interface IMatchItem {
     /**
      * Sequential running number per match-item
      */
@@ -51,7 +51,7 @@ export interface MatchItem {
     /**
      * Any metadata for the item.
      */
-    metaList: MetaData[];
+    metaList: IMetaData[];
     /**
      * A reference to the item's parent id, if any.
      */

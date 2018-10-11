@@ -1,11 +1,6 @@
 import fetch from "jest-fetch-mock";
 
-import {
-    Autocomplete,
-    AutocompleteSettings,
-    IAutocompleteSettings,
-    AutocompleteTriggers
-} from ".";
+import { Autocomplete, IAutocompleteSettings, AutocompleteTriggers } from ".";
 import { Query } from "../Common";
 
 describe("Autocomplete basics", () => {

@@ -9,14 +9,9 @@ import {
 } from "./CategoryPresentation";
 
 import { Categorize } from "../../src/Categorize";
-import { Categories } from "../../src/Data";
-import { Query } from "../../src/Common";
-import { Replacement } from "tslint";
+import { ICategories } from "../../src/Data";
 
-// tslint:disable-next-line
-const reference: Categories = require("../test-data/categories.json");
-
-function sanityCheck(categories: Categories) {
+function sanityCheck(categories: ICategories) {
     expect(categories.groups.length).toEqual(4);
     expect(categories.groups[0].name).toEqual("System");
     expect(categories.groups[0].expanded).toEqual(true);
@@ -152,7 +147,7 @@ describe("When managing a CategoryPresentations map it:", () => {
 describe("When grouping a CategoryPresentations map it:", () => {
     it("Should be possible to group on root-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -170,7 +165,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -183,7 +178,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
     it("Should be possible to group on group-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -201,7 +196,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(4);
@@ -220,7 +215,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
     it("Should be possible to group on category-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -238,7 +233,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(4);
@@ -265,7 +260,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
 describe("When filtering a CategoryPresentations map it:", () => {
     it("Should be possible to filter on root-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -283,7 +278,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -294,7 +289,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
     it("Should be possible to filter on group-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -319,7 +314,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(1);
@@ -330,7 +325,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
     it("Should be possible to filter on category-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -369,7 +364,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
         expect(results.groups.length).toEqual(1);
@@ -392,7 +387,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
 describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on root-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -424,7 +419,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -437,7 +432,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
     it("Should be possible to sort on group-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -469,7 +464,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -494,7 +489,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
     it("Should be possible to sort on category-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -525,7 +520,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -565,7 +560,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
 describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on root-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -582,7 +577,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -591,7 +586,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
     it("Should be possible to limit on group-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -608,7 +603,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -619,7 +614,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
     it("Should be possible to limit on category-level", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize({
@@ -636,7 +631,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -653,7 +648,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
 describe("When managing expanded state for CategoryPresentation nodes it:", () => {
     it("Should be possible to toggle expanded state on a group and category node", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
@@ -690,7 +685,7 @@ describe("When managing expanded state for CategoryPresentation nodes it:", () =
         };
         //console.log(client.settings);
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         // Expect - after
         expect(results.groups[0].name).toEqual("System");

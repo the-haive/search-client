@@ -1,10 +1,10 @@
-import { Category } from "./Category";
+import { ICategory } from "./ICategory";
 
 /**
  * The Group-node is the top-level node for each of the category "trees".
  * It contains information about this group-node as well as a list of child-categories.
  */
-export interface Group {
+export interface IGroup {
     /**
      * Sequential running number per group
      */
@@ -12,7 +12,7 @@ export interface Group {
     /**
      * The child categories for this group.
      */
-    categories: Category[];
+    categories: ICategory[];
     /**
      * The displayName is what is expected to be presented as the group-name for the end-user.
      */

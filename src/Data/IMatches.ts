@@ -1,9 +1,9 @@
-import { MatchItem } from "./MatchItem";
+import { IMatchItem } from "./IMatchItem";
 
 /**
  * Defines interface for received search-matches.
  */
-export interface Matches {
+export interface IMatches {
     /**
      * Always 1
      */
@@ -31,5 +31,5 @@ export interface Matches {
     /**
      * The actual list of match-items.
      */
-    searchMatches: MatchItem[];
+    searchMatches: IMatchItem[];
 }

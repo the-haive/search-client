@@ -1,9 +1,9 @@
-import { Group } from "./Group";
+import { IGroup } from "./IGroup";
 
 /**
  * Represents categories returned from the search-engine, as delivered from the categorize() and allCategories() calls.
  */
-export interface Categories {
+export interface ICategories {
     /**
      * Always only 1
      */
@@ -12,7 +12,7 @@ export interface Categories {
     /**
      * A list of top-level groups.
      */
-    groups: Group[];
+    groups: IGroup[];
     /**
      * Indicates whether the matchCount value is estimated or exact.
      */

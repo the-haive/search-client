@@ -103,7 +103,8 @@ describe("Query basics", () => {
         };
 
         expect(() => {
-            let query = new Query(jsonQuery as any);
+            // tslint:disable-next-line:no-unused-expression
+            new Query(jsonQuery as any);
         }).toThrow();
     });
     it("Should not be able to create a query with illegal OrderType enum string value", () => {
@@ -112,7 +113,8 @@ describe("Query basics", () => {
         };
 
         expect(() => {
-            let query = new Query(jsonQuery as any);
+            // tslint:disable-next-line:no-unused-expression
+            new Query(jsonQuery as any);
         }).toThrow();
     });
     it("Should not be able to create a query with illegal SearchType enum string value", () => {
@@ -121,7 +123,8 @@ describe("Query basics", () => {
         };
 
         expect(() => {
-            let query = new Query(jsonQuery as any);
+            // tslint:disable-next-line:no-unused-expression
+            new Query(jsonQuery as any);
         }).toThrow();
     });
 });

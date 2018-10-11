@@ -6,13 +6,13 @@ import {
     ICategorizeSettings,
     CategorizeTriggers
 } from ".";
-import { Category, Categories } from "../Data";
-import { Filter, Query } from "../Common";
+import { ICategory, ICategories } from "../Data";
+import { Filter } from "../Common";
 
 // tslint:disable-next-line
-const reference: Categories = require("../test-data/categories.json");
+const reference: ICategories = require("../test-data/categories.json");
 
-function sanityCheck(categories: Categories) {
+function sanityCheck(categories: ICategories) {
     expect(categories.groups.length).toEqual(4);
     expect(categories.groups[0].name).toEqual("System");
     expect(categories.groups[0].expanded).toEqual(true);
@@ -166,7 +166,7 @@ describe("Categorize basics", () => {
             cbError: (error: any) => {
                 /* dummy */
             },
-            cbSuccess: (data: Categories) => {
+            cbSuccess: (data: ICategories) => {
                 /* dummy */
             },
             enabled: false,
@@ -192,7 +192,7 @@ describe("Categorize basics", () => {
 
     it("Should be able to Categorize some results", () => {
         // tslint:disable-next-line:no-require-imports
-        const categories: Categories = require("../test-data/categories.json");
+        const categories: ICategories = require("../test-data/categories.json");
         fetch.resetMocks();
         fetch.mockResponse(JSON.stringify(categories));
 
@@ -211,7 +211,7 @@ describe("Categorize basics", () => {
         let categorize = new Categorize(settings, null, fetch);
         categorize
             .fetch()
-            .then((response: Categories) => {
+            .then((response: ICategories) => {
                 expect(typeof response).toBe("object");
                 expect(response.groups.length).toBe(6);
             })
@@ -255,20 +255,20 @@ describe("Categorize basics", () => {
 
     it("Should be able to understand sample categories", () => {
         // tslint:disable-next-line:no-require-imports
-        let categories: Categories = require("../test-data/categories.json");
+        let categories: ICategories = require("../test-data/categories.json");
         sanityCheck(categories);
     });
 
     it("Should have no effect when there are no filters defined", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change, when no filter is added and running the filtermethod
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -277,7 +277,7 @@ describe("Categorize basics", () => {
 
     it("Should have no effect when filters are empty", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
@@ -286,7 +286,7 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set manually
         pClient.clientCategoryFilter = [];
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -295,7 +295,7 @@ describe("Categorize basics", () => {
 
     it("Should have no effect when the filter is null", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
@@ -303,7 +303,7 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = null;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -312,7 +312,7 @@ describe("Categorize basics", () => {
 
     it("Should have no effect when the filter is undefined", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let client = new Categorize("http://localhost:9950/");
@@ -321,7 +321,7 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = undefined;
 
-        let results: Categories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
 
@@ -330,7 +330,7 @@ describe("Categorize basics", () => {
 
     it("Should have no effect when the filter only has null-filters", () => {
         // tslint:disable-next-line:no-require-imports
-        let workCopy: Categories = require("../test-data/categories.json");
+        let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
         let settings = {
@@ -344,7 +344,7 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = [[null, null]];
 
-        let results: Categories = pClient.filterCategories(workCopy, {
+        let results: ICategories = pClient.filterCategories(workCopy, {
             filters: []
         });
 
@@ -466,7 +466,7 @@ describe("Categorize basics", () => {
 
     it("Should be able to find category-nodes", () => {
         // tslint:disable-next-line:no-require-imports
-        let categories: Categories = require("../test-data/categories.json");
+        let categories: ICategories = require("../test-data/categories.json");
         sanityCheck(categories);
 
         let client = new Categorize("http://localhost:9950/");
@@ -481,7 +481,7 @@ describe("Categorize basics", () => {
 
     it("Should be able to add missing filters as category-tree nodes", () => {
         // tslint:disable-next-line:no-require-imports
-        let categories: Categories = require("../test-data/categories.json");
+        let categories: ICategories = require("../test-data/categories.json");
         sanityCheck(categories);
 
         let client = new Categorize("http://localhost:9950/");
@@ -495,7 +495,7 @@ describe("Categorize basics", () => {
             children: [],
             displayName: "Child",
             name: "child"
-        } as Category;
+        } as ICategory;
 
         let filter = new Filter(["Group", "Child"], category);
         expect(filter.category).toEqual(category);
@@ -539,7 +539,7 @@ describe("Categorize basics", () => {
             children: [],
             displayName: "Leaf",
             name: "leaf"
-        } as Category;
+        } as ICategory;
 
         filter = new Filter(["Group", "Child", "Leaf"], category);
         pClient.addFiltersIfMissing([filter], categories);
@@ -585,7 +585,7 @@ describe("Categorize basics", () => {
             isEstimatedCount: false,
             matchCount: 0,
             statusCode: 0
-        } as Categories;
+        } as ICategories;
 
         pClient.addFiltersIfMissing([filter], emptyCategories);
         expect(emptyCategories.groups.length).toEqual(1);

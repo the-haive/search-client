@@ -1,8 +1,8 @@
 import { BaseSettings, IBaseSettings } from "../Common";
 import { FindTriggers } from "./FindTriggers";
-import { Matches } from "../Data";
+import { IMatches } from "../Data";
 
-export interface IFindSettings extends IBaseSettings<Matches> {
+export interface IFindSettings extends IBaseSettings<IMatches> {
     /**
      * The trigger-settings for when automatic match result-updates are to be triggered.
      */
@@ -12,7 +12,7 @@ export interface IFindSettings extends IBaseSettings<Matches> {
 /**
  * These are all the settings that can affect the returned categories for Find() lookups.
  */
-export class FindSettings extends BaseSettings<Matches> {
+export class FindSettings extends BaseSettings<IMatches> {
     /**
      * The trigger-settings for when automatic match result-updates are to be triggered.
      */

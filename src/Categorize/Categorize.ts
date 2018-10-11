@@ -9,9 +9,10 @@ import {
     MatchMode,
     SortPartConfiguration,
     SortMethod,
-    LimitPageConfiguration
+    LimitPageConfiguration,
+    CategoryPresentation
 } from "../Common";
-import { Categories, Category, Group } from "../Data";
+import { ICategories, ICategory, IGroup } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
 import { CategorizeSettings, ICategorizeSettings } from "./CategorizeSettings";
 
@@ -21,7 +22,7 @@ import { CategorizeSettings, ICategorizeSettings } from "./CategorizeSettings";
  *
  * It is normally used indirectly via the SearchClient class.
  */
-export class Categorize extends BaseCall<Categories> {
+export class Categorize extends BaseCall<ICategories> {
     /**
      * This represents the last categories that was received from the backend.
      *
@@ -30,7 +31,7 @@ export class Categorize extends BaseCall<Categories> {
      * the SearchClient is often doing in the automatic mode) then the contents
      * may be overwritten at any time.
      */
-    public categories: Categories;
+    public categories: ICategories;
 
     public settings: ICategorizeSettings;
 
@@ -65,7 +66,7 @@ export class Categorize extends BaseCall<Categories> {
     public fetch(
         query: Query = new Query(),
         suppressCallbacks: boolean = false
-    ): Promise<Categories> {
+    ): Promise<ICategories> {
         let url = this.queryConverter.getUrl(this.settings.url, query);
         let reqInit = this.requestObject();
 
@@ -81,7 +82,7 @@ export class Categorize extends BaseCall<Categories> {
                     }
                     return response.json();
                 })
-                .then((categories: Categories) => {
+                .then((categories: ICategories) => {
                     this.categories = categories;
                     categories = this.filterCategories(categories, query);
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
@@ -212,7 +213,7 @@ export class Categorize extends BaseCall<Categories> {
      *
      * @param categoryName A string array or a Category that denotes the category to create a filter for.
      */
-    public createCategoryFilter(categoryName: string[] | Category): Filter {
+    public createCategoryFilter(categoryName: string[] | ICategory): Filter {
         let catName = Array.isArray(categoryName)
             ? categoryName
             : categoryName.categoryName;
@@ -263,8 +264,8 @@ export class Categorize extends BaseCall<Categories> {
      */
     public findCategory(
         categoryName: string[],
-        categories?: Categories
-    ): Group | Category | null {
+        categories?: ICategories
+    ): IGroup | ICategory | null {
         categories = categories || this.categories;
         if (!categories) {
             return null;
@@ -290,7 +291,7 @@ export class Categorize extends BaseCall<Categories> {
     /**
      * Adds missing filters as category-tree-nodes.
      */
-    private addFiltersIfMissing(filters: Filter[], cats: Categories) {
+    private addFiltersIfMissing(filters: Filter[], cats: ICategories) {
         filters.forEach(f => {
             const depth = f.displayName.length;
             for (let i = 0; i < depth; i++) {
@@ -305,7 +306,7 @@ export class Categorize extends BaseCall<Categories> {
                             categories: [],
                             expanded: false,
                             name: categoryNames[0]
-                        } as Group;
+                        } as IGroup;
                         cats.groups.push(group);
                     } else {
                         // Need to add child category
@@ -333,7 +334,7 @@ export class Categorize extends BaseCall<Categories> {
                                       expanded: false,
                                       displayName,
                                       name: categoryNames[i]
-                                  } as Category);
+                                  } as ICategory);
 
                         // Since the parent has a child, set the node to be expanded.
                         parent.expanded = true;
@@ -341,10 +342,10 @@ export class Categorize extends BaseCall<Categories> {
                         // Add the child-category to the parent-node
                         if (i === 1) {
                             // Parent is a group
-                            (parent as Group).categories.push(category);
+                            (parent as IGroup).categories.push(category);
                         } else {
                             // Parent is a category
-                            (parent as Category).children.push(category);
+                            (parent as ICategory).children.push(category);
                         }
                     }
                 }
@@ -352,17 +353,10 @@ export class Categorize extends BaseCall<Categories> {
         });
     }
 
-    private limit(array: any[], limit: LimitPageConfiguration): any[] {
-        let from = (limit.page - 1) * limit.pageSize;
-        let to = from + limit.pageSize;
-        return array.slice(from, to);
-    }
-
     private filterCategories(
-        categories: Categories,
+        categories: ICategories,
         query: Query = new Query()
-    ): Categories {
-        //console.log(this.settings.presentations);
+    ): ICategories {
         // ROOT level adjustments
         let cats = { ...categories };
         let rootOverride = this.settings.presentations.__ROOT__;
@@ -373,214 +367,23 @@ export class Categorize extends BaseCall<Categories> {
                 cats.groups.length >= rootOverride.group.minCount
             ) {
                 // Add level of categories to group according to pattern
-                let matchCategories: Map<string, Category[]> = new Map<
-                    string,
-                    Category[]
-                >();
-
-                let group2MatchGroup: Map<string, string> = new Map<
-                    string,
-                    string
-                >();
-
-                // Iterate, map and count to check whether or not to group results.
-                for (let g of cats.groups) {
-                    let groupName = rootOverride.group.getMatch(g.displayName);
-                    if (!groupName) {
-                        continue;
-                    }
-
-                    let groupAsCategory: Category = {
-                        categoryName: [g.name],
-                        children: g.categories,
-                        // We are really not sure what the real count is, as the category-hits may or may not be referring to the same items
-                        // -1 should indicate "do not show"
-                        count: -1,
-                        displayName: g.displayName,
-                        expanded: g.expanded,
-                        name: g.name
-                    };
-                    if (!matchCategories.has(groupName)) {
-                        matchCategories.set(groupName, [groupAsCategory]);
-                    } else {
-                        let collection = matchCategories.get(groupName);
-                        collection.push(groupAsCategory);
-                        matchCategories.set(groupName, collection);
-                    }
-                    group2MatchGroup.set(g.displayName, groupName);
-                }
-
-                // Do actual re-mapping, if any
-                cats.groups = cats.groups
-                    .map(g => {
-                        let displayName = group2MatchGroup.get(g.displayName);
-                        if (!displayName) {
-                            // Done before
-                            return undefined;
-                        }
-                        let matchGroup = matchCategories.get(displayName);
-                        if (!matchGroup) {
-                            return g;
-                        }
-                        if (
-                            matchGroup.length >=
-                            rootOverride.group.minCountPerGroup
-                        ) {
-                            let newGroup = {
-                                name: `__${displayName}__`,
-                                categories: matchGroup,
-                                displayName,
-                                expanded: true,
-                                categoryName: [`__${displayName}__`]
-                            } as Group;
-                            //console.log("Add group", displayName, newGroup);
-                            matchGroup.forEach(i => {
-                                group2MatchGroup.delete(i.displayName);
-                            });
-                            return newGroup;
-                        } else {
-                            //console.log("Use group as is", g.displayName);
-                            return g;
-                        }
-                    })
-                    .filter(g => g !== undefined);
+                cats.groups = this.grouping(rootOverride, cats.groups);
             }
             if (rootOverride.filter && rootOverride.filter.enabled) {
-                cats.groups = cats.groups.filter(g => {
-                    if (rootOverride.filter.match) {
-                        let matchName =
-                            rootOverride.filter.matchMode ===
-                            MatchMode.DisplayName
-                                ? g.displayName
-                                : g.name;
-                        return rootOverride.filter.match.test(matchName);
-                    }
-                });
+                cats.groups = this.filtering(rootOverride, cats.groups);
             }
             if (rootOverride.sort && rootOverride.sort.enabled) {
                 // Reorder level
-                // 1. Create parts2group-map
-                let part2groups = new Map<SortPartConfiguration, Group[]>();
-                for (let p of rootOverride.sort.parts) {
-                    part2groups.set(p, []);
-                }
-
-                let other = new Array<Group>();
-                let stringMatches = rootOverride.sort.parts.filter(
-                    p => typeof p.match === "string"
-                );
-                let regexMatches = rootOverride.sort.parts.filter(
-                    p => typeof p.match === "object"
-                );
-
-                for (let g of cats.groups) {
-                    let found = false;
-                    //console.log("g start", g.name);
-                    for (let stringPart of stringMatches) {
-                        if (
-                            stringPart.match ===
-                            (stringPart.matchMode === MatchMode.DisplayName
-                                ? g.displayName
-                                : g.name)
-                        ) {
-                            let collection = part2groups.get(stringPart);
-                            collection.push(g);
-                            part2groups.set(stringPart, collection);
-                            //console.log("is string", g.name, stringPart.match);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (found) {
-                        continue;
-                    }
-                    for (let regexPart of regexMatches) {
-                        if (
-                            (regexPart.match as RegExp).test(
-                                regexPart.matchMode === MatchMode.DisplayName
-                                    ? g.displayName
-                                    : g.name
-                            )
-                        ) {
-                            let collection = part2groups.get(regexPart);
-                            collection.push(g);
-                            part2groups.set(regexPart, collection);
-                            //console.log("is regex", g.name, regexPart.match);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        //console.log("is rest", g.name);
-                        other.push(g);
-                    }
-                }
-                //console.log("groups done");
-
-                // 2. Sort each part
-                let sortedGroups = new Array<Group>();
-                part2groups.forEach((gs, p) => {
-                    //console.log(p.match);
-                    if (gs.length === 1) {
-                        sortedGroups = sortedGroups.concat(gs);
-                        return;
-                    }
-
-                    let res = new Array<Group>();
-                    switch (p.sortMethod) {
-                        case SortMethod.AlphaAsc:
-                            res = gs.sort((a, b) => {
-                                let aVal =
-                                    p.matchMode === MatchMode.DisplayName
-                                        ? a.displayName
-                                        : a.name;
-                                let bVal =
-                                    p.matchMode === MatchMode.DisplayName
-                                        ? b.displayName
-                                        : b.name;
-                                return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
-                            });
-                            break;
-
-                        case SortMethod.AlphaDesc:
-                            res = gs.sort((a, b) => {
-                                let aVal =
-                                    p.matchMode === MatchMode.DisplayName
-                                        ? a.displayName
-                                        : a.name;
-                                let bVal =
-                                    p.matchMode === MatchMode.DisplayName
-                                        ? b.displayName
-                                        : b.name;
-                                return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
-                            });
-                            break;
-
-                        case SortMethod.CountAsc:
-                        case SortMethod.CountDesc:
-                            throw new Error(
-                                "Groups cannot be ordered by count (as they have no count)"
-                            );
-                        case SortMethod.Original:
-                        default:
-                            // Keep order unchanged
-                            res = gs;
-                    }
-
-                    sortedGroups = sortedGroups.concat(res);
-                });
-
-                // Finally add any leftovers at the bottom
-                cats.groups = sortedGroups.concat(other);
+                cats.groups = this.sorting(rootOverride, cats.groups);
             }
             if (rootOverride.limit && rootOverride.limit.enabled) {
                 // Limit which categories to show
-                cats.groups = this.limit(cats.groups, rootOverride.limit);
+                cats.groups = this.limiting(cats.groups, rootOverride.limit);
             }
             // Skipping expansion, as root is always expanded
         }
         // GROUP-level adjustments
-        let groups = cats.groups.map((inGroup: Group) => {
+        let groups = cats.groups.map((inGroup: IGroup) => {
             let group = { ...inGroup };
             let groupOverride = this.settings.presentations[group.name];
             if (groupOverride) {
@@ -590,233 +393,27 @@ export class Categorize extends BaseCall<Categories> {
                     group.categories.length >= groupOverride.group.minCount
                 ) {
                     // Add level of categories to group according to pattern
-                    let matchCategories: Map<string, Category[]> = new Map<
-                        string,
-                        Category[]
-                    >();
-
-                    let category2MatchCategory: Map<string, string> = new Map<
-                        string,
-                        string
-                    >();
-
-                    // Iterate, map and count to check whether or not to group results.
-                    for (let c of group.categories) {
-                        let groupName = groupOverride.group.getMatch(
-                            c.displayName
-                        );
-                        if (!groupName) {
-                            continue;
-                        }
-
-                        if (!matchCategories.has(groupName)) {
-                            matchCategories.set(groupName, [c]);
-                        } else {
-                            let collection = matchCategories.get(groupName);
-                            collection.push(c);
-                            matchCategories.set(groupName, collection);
-                        }
-                        category2MatchCategory.set(c.displayName, groupName);
-                    }
-
-                    // Do actual re-mapping, if any
-                    group.categories = group.categories
-                        .map(c => {
-                            let displayName = category2MatchCategory.get(
-                                c.displayName
-                            );
-                            if (!displayName) {
-                                // Done before
-                                return undefined;
-                            }
-                            let matchCategory = matchCategories.get(
-                                displayName
-                            );
-                            if (!matchCategory) {
-                                return c;
-                            }
-                            if (
-                                matchCategory.length >=
-                                groupOverride.group.minCountPerGroup
-                            ) {
-                                let newCategory = {
-                                    name: `__${displayName}__`,
-                                    children: matchCategory,
-                                    displayName,
-                                    expanded: true,
-                                    categoryName: [`__${displayName}__`],
-                                    count: -1
-                                } as Category;
-                                //console.log("Add group-category", displayName, newCategory);
-                                matchCategory.forEach(i => {
-                                    category2MatchCategory.delete(
-                                        i.displayName
-                                    );
-                                });
-                                return newCategory;
-                            } else {
-                                //console.log("Use category as is", c.displayName);
-                                return c;
-                            }
-                        })
-                        .filter(c => c !== undefined);
+                    group.categories = this.grouping(
+                        groupOverride,
+                        group.categories
+                    );
                 }
                 if (groupOverride.filter && groupOverride.filter.enabled) {
-                    group.categories = group.categories.filter(c => {
-                        if (groupOverride.filter.match) {
-                            let matchName =
-                                groupOverride.filter.matchMode ===
-                                MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name;
-                            return groupOverride.filter.match.test(matchName);
-                        }
-                    });
+                    group.categories = this.filtering(
+                        groupOverride,
+                        group.categories
+                    );
                 }
                 if (groupOverride.sort && groupOverride.sort.enabled) {
                     // Reorder level
-                    // 1. Create parts2group-map
-                    let part2cats = new Map<
-                        SortPartConfiguration,
-                        Category[]
-                    >();
-                    for (let p of groupOverride.sort.parts) {
-                        part2cats.set(p, []);
-                    }
-
-                    let other = new Array<Category>();
-                    let stringMatches = groupOverride.sort.parts.filter(
-                        p => typeof p.match === "string"
+                    group.categories = this.sorting(
+                        groupOverride,
+                        group.categories
                     );
-                    let regexMatches = groupOverride.sort.parts.filter(
-                        p => typeof p.match === "object"
-                    );
-
-                    for (let c of group.categories) {
-                        let found = false;
-                        //console.log("category start", c.name);
-                        for (let stringPart of stringMatches) {
-                            if (
-                                stringPart.match ===
-                                (stringPart.matchMode === MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name)
-                            ) {
-                                let collection = part2cats.get(stringPart);
-                                collection.push(c);
-                                part2cats.set(stringPart, collection);
-                                //console.log("is string", c.name, stringPart.match);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found) {
-                            continue;
-                        }
-                        for (let regexPart of regexMatches) {
-                            if (
-                                (regexPart.match as RegExp).test(
-                                    regexPart.matchMode ===
-                                    MatchMode.DisplayName
-                                        ? c.displayName
-                                        : c.name
-                                )
-                            ) {
-                                let collection = part2cats.get(regexPart);
-                                collection.push(c);
-                                part2cats.set(regexPart, collection);
-                                //console.log("is regex", c.name, regexPart.match);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            //console.log("is rest", c.name);
-                            other.push(c);
-                        }
-                    }
-                    //console.log("categories done");
-
-                    // 2. Sort each part
-                    let sortedCats = new Array<Category>();
-                    part2cats.forEach((cs, p) => {
-                        //console.log(p.match, cs.length);
-                        if (cs.length === 1) {
-                            sortedCats = sortedCats.concat(cs);
-                            return;
-                        }
-
-                        let res = new Array<Category>();
-                        switch (p.sortMethod) {
-                            case SortMethod.AlphaAsc:
-                                res = cs.sort((a, b) => {
-                                    let aVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? a.displayName
-                                            : a.name;
-                                    let bVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? b.displayName
-                                            : b.name;
-                                    return aVal < bVal
-                                        ? -1
-                                        : aVal > bVal
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-
-                            case SortMethod.AlphaDesc:
-                                res = cs.sort((a, b) => {
-                                    let aVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? a.displayName
-                                            : a.name;
-                                    let bVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? b.displayName
-                                            : b.name;
-                                    return aVal > bVal
-                                        ? -1
-                                        : aVal < bVal
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-
-                            case SortMethod.CountAsc:
-                                res = cs.sort((a, b) => {
-                                    return a.count < b.count
-                                        ? -1
-                                        : a.count > b.count
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-                            case SortMethod.CountDesc:
-                                res = cs.sort((a, b) => {
-                                    return a.count > b.count
-                                        ? -1
-                                        : a.count < b.count
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-                            case SortMethod.Original:
-                            default:
-                                // Keep order unchanged
-                                res = cs;
-                        }
-
-                        sortedCats = sortedCats.concat(res);
-                    });
-
-                    // Finally add any leftovers at the bottom
-                    group.categories = sortedCats.concat(other);
                 }
                 if (groupOverride.limit && groupOverride.limit.enabled) {
                     // Limit which categories to show
-                    group.categories = this.limit(
+                    group.categories = this.limiting(
                         group.categories,
                         groupOverride.limit
                     );
@@ -836,10 +433,10 @@ export class Categorize extends BaseCall<Categories> {
         return cats;
     }
 
-    private mapCategories(categories: Category[]): Category[] {
+    private mapCategories(categories: ICategory[]): ICategory[] {
         // CATEGORY_level adjustments
         let cats = [...categories];
-        cats = cats.map((inCategory: Category) => {
+        cats = cats.map((inCategory: ICategory) => {
             let category = { ...inCategory };
             let categoryOverride = this.settings.presentations[
                 category.categoryName.join("|")
@@ -850,245 +447,33 @@ export class Categorize extends BaseCall<Categories> {
                     categoryOverride.group.enabled &&
                     category.children.length >= categoryOverride.group.minCount
                 ) {
-                    // Add level of categories to group according to pattern
-                    let matchCategories: Map<string, Category[]> = new Map<
-                        string,
-                        Category[]
-                    >();
-
-                    let category2MatchCategory: Map<string, string> = new Map<
-                        string,
-                        string
-                    >();
-
-                    // Iterate, map and count to check whether or not to group results.
-                    for (let c of category.children) {
-                        let groupName = categoryOverride.group.getMatch(
-                            c.displayName
-                        );
-                        if (!groupName) {
-                            continue;
-                        }
-
-                        if (!matchCategories.has(groupName)) {
-                            matchCategories.set(groupName, [c]);
-                        } else {
-                            let collection = matchCategories.get(groupName);
-                            collection.push(c);
-                            matchCategories.set(groupName, collection);
-                        }
-                        category2MatchCategory.set(c.displayName, groupName);
-                    }
-
-                    // Do actual re-mapping, if any
-                    category.children = category.children
-                        .map(c => {
-                            let displayName = category2MatchCategory.get(
-                                c.displayName
-                            );
-                            if (!displayName) {
-                                // Done before
-                                return undefined;
-                            }
-                            let matchCategory = matchCategories.get(
-                                displayName
-                            );
-                            if (!matchCategory) {
-                                return c;
-                            }
-                            if (
-                                matchCategory.length >=
-                                categoryOverride.group.minCountPerGroup
-                            ) {
-                                let newCategory = {
-                                    name: `__${displayName}__`,
-                                    children: matchCategory,
-                                    displayName,
-                                    expanded: true,
-                                    categoryName: [`__${displayName}__`],
-                                    count: -1
-                                } as Category;
-                                //console.log("Add group-category", displayName, newCategory);
-                                matchCategory.forEach(i => {
-                                    category2MatchCategory.delete(
-                                        i.displayName
-                                    );
-                                });
-                                return newCategory;
-                            } else {
-                                //console.log("Use category as is", c.displayName);
-                                return c;
-                            }
-                        })
-                        .filter(c => c !== undefined);
+                    category.children = this.grouping(
+                        categoryOverride,
+                        category.children
+                    );
                 }
                 if (
                     categoryOverride.filter &&
                     categoryOverride.filter.enabled
                 ) {
-                    category.children = category.children.filter(c => {
-                        if (categoryOverride.filter.match) {
-                            let matchName =
-                                categoryOverride.filter.matchMode ===
-                                MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name;
-                            return categoryOverride.filter.match.test(
-                                matchName
-                            );
-                        }
-                    });
+                    category.children = this.filtering(
+                        categoryOverride,
+                        category.children
+                    );
                 }
                 if (categoryOverride.sort && categoryOverride.sort.enabled) {
-                    // Reorder level
-                    // 1. Create parts2group-map
-                    let part2cats = new Map<
-                        SortPartConfiguration,
-                        Category[]
-                    >();
-                    for (let p of categoryOverride.sort.parts) {
-                        part2cats.set(p, []);
-                    }
-
-                    let other = new Array<Category>();
-                    let stringMatches = categoryOverride.sort.parts.filter(
-                        p => typeof p.match === "string"
+                    category.children = this.sorting(
+                        categoryOverride,
+                        category.children
                     );
-                    let regexMatches = categoryOverride.sort.parts.filter(
-                        p => typeof p.match === "object"
-                    );
-
-                    for (let c of category.children) {
-                        let found = false;
-                        //console.log("category start", c.name);
-                        for (let stringPart of stringMatches) {
-                            if (
-                                stringPart.match ===
-                                (stringPart.matchMode === MatchMode.DisplayName
-                                    ? c.displayName
-                                    : c.name)
-                            ) {
-                                let collection = part2cats.get(stringPart);
-                                collection.push(c);
-                                part2cats.set(stringPart, collection);
-                                //console.log("is string", c.name, stringPart.match);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (found) {
-                            continue;
-                        }
-                        for (let regexPart of regexMatches) {
-                            if (
-                                (regexPart.match as RegExp).test(
-                                    regexPart.matchMode ===
-                                    MatchMode.DisplayName
-                                        ? c.displayName
-                                        : c.name
-                                )
-                            ) {
-                                let collection = part2cats.get(regexPart);
-                                collection.push(c);
-                                part2cats.set(regexPart, collection);
-                                //console.log("is regex", c.name, regexPart.match);
-                                found = true;
-                                break;
-                            }
-                        }
-                        if (!found) {
-                            //console.log("is rest", c.name);
-                            other.push(c);
-                        }
-                    }
-                    //console.log("categories done");
-
-                    // 2. Sort each part
-                    let sortedCats = new Array<Category>();
-                    part2cats.forEach((cs, p) => {
-                        //console.log(p.match, cs.length);
-                        if (cs.length === 1) {
-                            sortedCats = sortedCats.concat(cs);
-                            return;
-                        }
-
-                        let res = new Array<Category>();
-                        switch (p.sortMethod) {
-                            case SortMethod.AlphaAsc:
-                                res = cs.sort((a, b) => {
-                                    let aVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? a.displayName
-                                            : a.name;
-                                    let bVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? b.displayName
-                                            : b.name;
-                                    return aVal < bVal
-                                        ? -1
-                                        : aVal > bVal
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-
-                            case SortMethod.AlphaDesc:
-                                res = cs.sort((a, b) => {
-                                    let aVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? a.displayName
-                                            : a.name;
-                                    let bVal =
-                                        p.matchMode === MatchMode.DisplayName
-                                            ? b.displayName
-                                            : b.name;
-                                    return aVal > bVal
-                                        ? -1
-                                        : aVal < bVal
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-
-                            case SortMethod.CountAsc:
-                                res = cs.sort((a, b) => {
-                                    return a.count < b.count
-                                        ? -1
-                                        : a.count > b.count
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-                            case SortMethod.CountDesc:
-                                res = cs.sort((a, b) => {
-                                    return a.count > b.count
-                                        ? -1
-                                        : a.count < b.count
-                                            ? 1
-                                            : 0;
-                                });
-                                break;
-                            case SortMethod.Original:
-                            default:
-                                // Keep order unchanged
-                                res = cs;
-                        }
-
-                        sortedCats = sortedCats.concat(res);
-                    });
-
-                    // Finally add any leftovers at the bottom
-                    category.children = sortedCats.concat(other);
                 }
                 if (categoryOverride.limit && categoryOverride.limit.enabled) {
-                    // Limit which categories to show
-                    category.children = this.limit(
+                    category.children = this.limiting(
                         category.children,
                         categoryOverride.limit
                     );
                 }
                 if (categoryOverride.expanded !== null) {
-                    // Override whether the category is to be expanded or not
                     category.expanded = categoryOverride.expanded;
                 }
             }
@@ -1102,11 +487,249 @@ export class Categorize extends BaseCall<Categories> {
         cats = cats.filter(c => c !== undefined);
         return cats;
     }
+    private grouping<T extends IGroup | ICategory>(
+        categoryOverride: CategoryPresentation,
+        categories: T[]
+    ): T[] {
+        let matchCategories: Map<string, ICategory[]> = new Map<
+            string,
+            ICategory[]
+        >();
+
+        let category2MatchCategory: Map<string, string> = new Map<
+            string,
+            string
+        >();
+
+        // Iterate, map and count to check whether or not to group results.
+        let isCategory: boolean;
+        for (let c of categories) {
+            let groupName = categoryOverride.group.getMatch(c.displayName);
+            if (!groupName) {
+                continue;
+            }
+
+            isCategory = c.hasOwnProperty("count");
+            let newNode: ICategory = isCategory
+                ? (c as ICategory)
+                : {
+                      categoryName: [c.name],
+                      children: (c as IGroup).categories,
+                      // We are really not sure what the real count is, as the category-hits may or may not be referring to the same items
+                      // -1 should indicate "do not show"
+                      count: -1,
+                      displayName: c.displayName,
+                      expanded: c.expanded,
+                      name: c.name
+                  };
+
+            if (!matchCategories.has(groupName)) {
+                matchCategories.set(groupName, [newNode]);
+            } else {
+                let collection = matchCategories.get(groupName);
+                collection.push(newNode);
+                matchCategories.set(groupName, collection);
+            }
+            category2MatchCategory.set(c.displayName, groupName);
+        }
+
+        // Do actual re-mapping, if any
+        return categories
+            .map(c => {
+                let displayName = category2MatchCategory.get(c.displayName);
+                if (!displayName) {
+                    // Done before
+                    return undefined;
+                }
+                let matchCategory = matchCategories.get(displayName);
+                if (!matchCategory) {
+                    return c;
+                }
+                if (
+                    matchCategory.length >=
+                    categoryOverride.group.minCountPerGroup
+                ) {
+                    let newCategory = {
+                        name: `__${displayName}__`,
+                        children: matchCategory,
+                        displayName,
+                        expanded: true,
+                        categoryName: [`__${displayName}__`]
+                    } as T;
+                    if (isCategory) {
+                        (newCategory as ICategory).count = -1;
+                    }
+
+                    matchCategory.forEach(i => {
+                        category2MatchCategory.delete(i.displayName);
+                    });
+                    return newCategory;
+                } else {
+                    return c;
+                }
+            })
+            .filter(c => c !== undefined);
+    }
+
+    private filtering<T extends IGroup | ICategory>(
+        override: CategoryPresentation,
+        groups: T[]
+    ): T[] {
+        return groups.filter(g => {
+            if (override.filter.match) {
+                let matchName =
+                    override.filter.matchMode === MatchMode.DisplayName
+                        ? g.displayName
+                        : g.name;
+                return override.filter.match.test(matchName);
+            }
+        });
+    }
+
+    private sorting<T extends ICategory | IGroup>(
+        categoryOverride: CategoryPresentation,
+        categories: T[]
+    ): T[] {
+        // 1. Create parts2group-map
+        let part2cats = new Map<SortPartConfiguration, T[]>();
+        for (let p of categoryOverride.sort.parts) {
+            part2cats.set(p, []);
+        }
+
+        let other = new Array<T>();
+        let stringMatches = categoryOverride.sort.parts.filter(
+            p => typeof p.match === "string"
+        );
+        let regexMatches = categoryOverride.sort.parts.filter(
+            p => typeof p.match === "object"
+        );
+
+        for (let c of categories) {
+            let found = false;
+            for (let stringPart of stringMatches) {
+                if (
+                    stringPart.match ===
+                    (stringPart.matchMode === MatchMode.DisplayName
+                        ? c.displayName
+                        : c.name)
+                ) {
+                    let collection = part2cats.get(stringPart);
+                    collection.push(c);
+                    part2cats.set(stringPart, collection);
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                continue;
+            }
+            for (let regexPart of regexMatches) {
+                if (
+                    (regexPart.match as RegExp).test(
+                        regexPart.matchMode === MatchMode.DisplayName
+                            ? c.displayName
+                            : c.name
+                    )
+                ) {
+                    let collection = part2cats.get(regexPart);
+                    collection.push(c);
+                    part2cats.set(regexPart, collection);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                other.push(c);
+            }
+        }
+
+        // 2. Sort each part
+        let sortedCats = new Array<T>();
+        part2cats.forEach((cs, p) => {
+            if (cs.length === 1) {
+                sortedCats = sortedCats.concat(cs);
+                return;
+            }
+            let res = new Array<T>();
+
+            switch (p.sortMethod) {
+                case SortMethod.AlphaAsc:
+                    res = cs.sort((a, b) => {
+                        let aVal =
+                            p.matchMode === MatchMode.DisplayName
+                                ? a.displayName
+                                : a.name;
+                        let bVal =
+                            p.matchMode === MatchMode.DisplayName
+                                ? b.displayName
+                                : b.name;
+                        return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                    });
+                    break;
+
+                case SortMethod.AlphaDesc:
+                    res = cs.sort((a, b) => {
+                        let aVal =
+                            p.matchMode === MatchMode.DisplayName
+                                ? a.displayName
+                                : a.name;
+                        let bVal =
+                            p.matchMode === MatchMode.DisplayName
+                                ? b.displayName
+                                : b.name;
+                        return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+                    });
+                    break;
+
+                case SortMethod.CountAsc:
+                    if (cs[0].hasOwnProperty("count")) {
+                        res = (cs as ICategory[]).sort((a, b) => {
+                            return a.count < b.count
+                                ? -1
+                                : a.count > b.count
+                                    ? 1
+                                    : 0;
+                        }) as T[];
+                    } else {
+                        res = cs;
+                    }
+                    break;
+                case SortMethod.CountDesc:
+                    if (cs[0].hasOwnProperty("count")) {
+                        res = (cs as ICategory[]).sort((a, b) => {
+                            return a.count > b.count
+                                ? -1
+                                : a.count < b.count
+                                    ? 1
+                                    : 0;
+                        }) as T[];
+                    } else {
+                        res = cs;
+                    }
+                    break;
+                case SortMethod.Original:
+                default:
+                    // Keep order unchanged
+                    res = cs;
+            }
+
+            sortedCats = sortedCats.concat(res);
+        });
+
+        // Finally add any leftovers at the bottom
+        return sortedCats.concat(other);
+    }
+
+    private limiting(array: any[], limit: LimitPageConfiguration): any[] {
+        let from = (limit.page - 1) * limit.pageSize;
+        let to = from + limit.pageSize;
+        return array.slice(from, to);
+    }
 
     private getCategoryPathDisplayNameFromCategories(
         categoryName: string[],
-        categories: Category[]
-    ): { displayName: string[]; ref: Category } {
+        categories: ICategory[]
+    ): { displayName: string[]; ref: ICategory } {
         let result: string[] = [];
         let path = categoryName.slice(0);
         let catId = path.splice(0, 1)[0].toLowerCase();
@@ -1119,7 +742,7 @@ export class Categorize extends BaseCall<Categories> {
 
         result.push(category.displayName);
 
-        let res: { displayName: string[]; ref: Category };
+        let res: { displayName: string[]; ref: ICategory };
         if (path.length > 0 && category.children.length === 0) {
             return null;
         }

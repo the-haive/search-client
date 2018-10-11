@@ -1,4 +1,4 @@
-import { Category } from "../Data";
+import { ICategory } from "../Data";
 
 /**
  * The Filter interface defines what information is held for a chosen category as a filter.
@@ -10,5 +10,5 @@ export class Filter {
      * @param displayName Holds an array of all displayNames for the path to this category.
      * @param category A copy/reference to the actual category selected (from what was received in the categorize call).
      */
-    constructor(public displayName: string[], public category: Category) {}
+    constructor(public displayName: string[], public category: ICategory) {}
 }

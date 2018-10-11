@@ -20,7 +20,7 @@ import {
     SearchType,
     CategoryPresentation
 } from "./Common";
-import { Category, Group } from "./Data";
+import { ICategory, IGroup } from "./Data";
 import { Find } from "./Find";
 import { Settings, ISettings } from "./Settings";
 
@@ -78,31 +78,19 @@ export class SearchClient implements AuthToken {
     // tslint:disable-next-line:variable-name
     private _query: Query;
 
+    private _origSettings: ISettings | string;
+    private _origFetchMethod: Fetch;
+
     /**
+     * Creates a SearchClient instance using the supplied settings object. Please see <a href="https://intellisearch.github.io/search-client/">getting-started section</a>
+     * for an introduction on how to set up the instance.
      *
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
     constructor(settings: ISettings | string, fetchMethod?: Fetch) {
-        this.settings = new Settings(settings);
-
-        this.authentication = new Authentication(
-            this.settings.authentication,
-            this,
-            fetchMethod
-        );
-        this.autocomplete = new Autocomplete(
-            this.settings.autocomplete,
-            this,
-            fetchMethod
-        );
-        this.categorize = new Categorize(
-            this.settings.categorize,
-            this,
-            fetchMethod
-        );
-        this.find = new Find(this.settings.find, this, fetchMethod);
-
-        this._query = this.settings.query;
+        this._origSettings = settings;
+        this._origFetchMethod = fetchMethod;
+        this.setup(settings, fetchMethod);
     }
 
     /**
@@ -186,67 +174,177 @@ export class SearchClient implements AuthToken {
         this.update(null, autocomplete, categorize, find);
     }
 
+    /**
+     * Resets the SearchClient instance (filters, queryText, categoryPresentations++) to initial values.
+     */
     public reset(): void {
         this.deferUpdates(true);
-        this.filters = [];
-        this.queryText = "";
+        this.setup(this._origSettings, this._origFetchMethod);
         this.deferUpdates(false, true);
     }
 
-    // /**
-    //  * Gets the currently active category expansion overrides.
-    //  */
-    // get clientCategoryExpansion(): { [key: string]: boolean } {
-    //     return this._query.clientCategoryExpansion;
-    // }
+    /**
+     * Returns true if the passed argument is a filter.
+     * Typically used to visually indicate that a category is also a filter.
+     */
+    public isFilter(category: string[] | ICategory | Filter): boolean {
+        const item = this.filterId(category);
+        return item ? this.filterIndex(item) !== -1 : false;
+    }
 
-    // /**
-    //  * Sets the currently active category expansion overrides.
-    //  */
-    // set clientCategoryExpansion(clientCategoryExpansion: {
-    //     [key: string]: boolean;
-    // }) {
-    //     if (clientCategoryExpansion !== this._query.clientCategoryExpansion) {
-    //         const oldValue = this._query.clientCategoryExpansion;
-    //         this._query.clientCategoryExpansion = clientCategoryExpansion;
+    /**
+     * Checks whether any child-node of the given category has a filter defined for it.
+     * Typically used to visually show in the tree that a child-node has an active filter.
+     */
+    public hasChildFilter(category: string[] | ICategory): boolean {
+        const item = this.filterId(category);
+        if (!item || this.filterIndex(item) !== -1) {
+            return false;
+        }
+        const categoryPath = item.join("|");
+        // tslint:disable-next-line:prefer-for-of
+        for (let i = 0; i < this.filters.length; i++) {
+            let filter = this.filters[i];
+            let filterPath = filter.category.categoryName.join("|");
+            if (filterPath.indexOf(categoryPath) === 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    //         this.autocomplete.clientCategoryExpansionChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.categorize.clientCategoryExpansionChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.find.clientCategoryExpansionChanged(oldValue, this._query);
-    //     }
-    // }
+    /**
+     * Add the given filter, if it isn't already there.
+     *
+     * Will run trigger-checks and potentially update services.
+     */
+    public filterAdd(
+        filter: string[] | ICategory | Filter,
+        hidden: boolean = false
+    ): boolean {
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
 
-    // /**
-    //  * Gets the currently registered client category regex-filters.
-    //  */
-    // get clientCategoryFilter(): { [key: string]: string | RegExp } {
-    //     return this._query.clientCategoryFilter;
-    // }
+        if (foundIndex === -1) {
+            this.doFilterAdd(item, hidden);
+            return true;
+        }
+        // Filter already set
+        return false;
+    }
 
-    // /**
-    //  * Sets the currently registered client category regex-filters.
-    //  */
-    // set clientCategoryFilter(clientCategoryFilter: {
-    //     [key: string]: string | RegExp;
-    // }) {
-    //     if (clientCategoryFilter !== this._query.clientCategoryFilter) {
-    //         const oldValue = this._query.clientCategoryFilter;
-    //         this._query.clientCategoryFilter = clientCategoryFilter;
+    /**
+     * Remove the given filter, if it is already set.
+     *
+     * Will run trigger-checks and potentially update services.
+     */
+    public filterRemove(filter: string[] | ICategory | Filter): boolean {
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
 
-    //         this.autocomplete.clientCategoryFilterChanged(
-    //             oldValue,
-    //             this._query
-    //         );
-    //         this.categorize.clientCategoryFilterChanged(oldValue, this._query);
-    //         this.find.clientCategoryFilterChanged(oldValue, this._query);
-    //     }
-    // }
+        if (foundIndex > -1) {
+            this.doFilterRemove(foundIndex);
+            return true;
+        }
+        // Filter already set
+        return false;
+    }
+
+    /**
+     * Toggle the given filter.
+     *
+     * Will run trigger-checks and potentially update services.
+     *
+     * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
+     * @return true if the filter was added, false if it was removed.
+     */
+    public filterToggle(
+        filter: string[] | ICategory | Filter,
+        hidden: boolean = false
+    ): boolean {
+        const item = this.filterId(filter);
+        const foundIndex = this.filterIndex(item);
+
+        if (foundIndex > -1) {
+            this.doFilterRemove(foundIndex);
+            return false;
+        } else {
+            this.doFilterAdd(item, hidden);
+            return true;
+        }
+    }
+
+    /**
+     * Toggles the expansion/collapsed state for the given group/category
+     */
+    public toggleCategoryExpansion(
+        node: ICategory | IGroup,
+        state?: boolean
+    ): boolean {
+        // Look up internal expansion-override list and see if we are already overriding this setting.
+        const key = node.hasOwnProperty("categoryName")
+            ? (node as ICategory).categoryName.join("|")
+            : node.name;
+        if (!this.settings.categorize.presentations[key]) {
+            this.settings.categorize.presentations[
+                key
+            ] = new CategoryPresentation({ expanded: !node.expanded });
+        } else {
+            this.settings.categorize.presentations[key].expanded = !this
+                .settings.categorize.presentations[key].expanded;
+        }
+        this.categorize.clientCategoriesUpdate(this.query);
+        return this.settings.categorize.presentations[key].expanded;
+    }
+
+    /**
+     * Decides whether an update should be executed or not. Typically used to temporarily turn
+     * off update-execution. When turned back on the second param can be used to indicate whether
+     * pending updates should be executed or not.
+     *
+     * **Note:** Changes deferring of updates for all components (Autocomplete, Categorize and Find).
+     * Use the service properties of the SearchClient instance to control deferring for each service.
+     *
+     * @example Some examples:
+     *
+     *     // Example 1: Defer updates to avoid multiple updates:
+     *     searchClient.deferUpdates(true);
+     *
+     *     // Example 2: Change some props that triggers may be listening for
+     *     searchClient.dateFrom = { M: -1};
+     *     searchClient.dateTo = { M: 0};
+     *     // When calling deferUpdates with (false) the above two update-events are now executed as one instead (both value-changes are accounted for though)
+     *     searchClient.deferUpdates(false);
+     *
+     *     // Example 3: Suppress updates (via deferUpdates):
+     *     searchClient.deferUpdates(true);
+     *     // Change a prop that should trigger updates
+     *     searchClient.queryText = "some text";
+     *     // Call deferUpdates with (false, true), to skip the pending update.
+     *     searchClient.deferUpdates(false, true);
+     *
+     *     // Example 4: Defer update only for one service (Categorize in this sample):
+     *     searchClient.categorize.deferUpdates(true);
+     *
+     * @param state Turns on or off deferring of updates.
+     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring
+     * is turned off. The param is ignored for `state=true`. Default is false.
+     */
+    public deferUpdates(state: boolean, skipPending: boolean = false) {
+        this.autocomplete.deferUpdates(state, skipPending);
+        this.categorize.deferUpdates(state, skipPending);
+        this.find.deferUpdates(state, skipPending);
+    }
+
+    /**
+     * Find the category based on the category-name array.
+     *
+     * @param categoryName The category array that identifies the category.
+     * @returns The Category object if found or null.
+     */
+    public findCategory(categoryName: string[]): IGroup | ICategory | null {
+        return this.categorize.findCategory(categoryName);
+    }
 
     /**
      * Gets the currently active client-id value.
@@ -340,122 +438,6 @@ export class SearchClient implements AuthToken {
             this.categorize.filtersChanged(oldValue, this._query);
             this.find.filtersChanged(oldValue, this._query);
         }
-    }
-
-    /**
-     * Returns true if the passed argument is a filter.
-     */
-    public isFilter(category: string[] | Category | Filter): boolean {
-        const item = this.filterId(category);
-        return item ? this.filterIndex(item) !== -1 : false;
-    }
-
-    public hasChildFilter(category: string[] | Category): boolean {
-        const item = this.filterId(category);
-        if (!item || this.filterIndex(item) !== -1) {
-            return false;
-        }
-        const categoryPath = item.join("|");
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < this.filters.length; i++) {
-            let filter = this.filters[i];
-            let filterPath = filter.category.categoryName.join("|");
-            if (filterPath.indexOf(categoryPath) === 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Add the given filter, if it isn't already there.
-     *
-     * Will run trigger-checks and potentially update services.
-     */
-    public filterAdd(
-        filter: string[] | Category | Filter,
-        hidden: boolean = false
-    ): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
-
-        if (foundIndex === -1) {
-            this.doFilterAdd(item, hidden);
-            return true;
-        }
-        // Filter already set
-        return false;
-    }
-
-    /**
-     * Remove the given filter, if it is already set.
-     *
-     * Will run trigger-checks and potentially update services.
-     */
-    public filterRemove(filter: string[] | Category | Filter): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
-
-        if (foundIndex > -1) {
-            this.doFilterRemove(foundIndex);
-            return true;
-        }
-        // Filter already set
-        return false;
-    }
-
-    /**
-     * Toggle the given filter.
-     *
-     * Will run trigger-checks and potentially update services.
-     *
-     * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
-     * @return true if the filter was added, false if it was removed.
-     */
-    public filterToggle(
-        filter: string[] | Category | Filter,
-        hidden: boolean = false
-    ): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
-
-        if (foundIndex > -1) {
-            this.doFilterRemove(foundIndex);
-            return false;
-        } else {
-            this.doFilterAdd(item, hidden);
-            return true;
-        }
-    }
-
-    /**
-     * Toggles the expansion/collapsed state for the given group/category
-     */
-    public toggleCategoryExpansion(
-        node: Category | Group,
-        state?: boolean
-    ): boolean {
-        // Look up internal expansion-override list and see if we are already overriding this setting.
-        const key = node.hasOwnProperty("categoryName")
-            ? (node as Category).categoryName.join("|")
-            : node.name;
-        if (!this.settings.categorize.presentations[key]) {
-            console.log("Presentations key created", key);
-            this.settings.categorize.presentations[
-                key
-            ] = new CategoryPresentation({ expanded: !node.expanded });
-        } else {
-            console.log("Presentations key already exists", key);
-            this.settings.categorize.presentations[key].expanded = !this
-                .settings.categorize.presentations[key].expanded;
-        }
-        console.log(
-            "Expanded",
-            key,
-            this.settings.categorize.presentations[key].expanded
-        );
-        this.categorize.clientCategoriesUpdate(this.query);
-        return this.settings.categorize.presentations[key].expanded;
     }
 
     /**
@@ -679,7 +661,7 @@ export class SearchClient implements AuthToken {
     }
 
     /**
-     * Sets the query to use.
+     * Sets the query to use. Consider using the queryText-property for query-text-changes instead.
      *
      * **Note:** Changing the `query` property will likely lead to multiple trigger-checks and potential updates.
      * This is because changing the whole value will lead to each of the query-objects' properties to trigger individual
@@ -770,55 +752,6 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    /**
-     * Decides whether an update should be executed or not. Typically used to temporarily turn
-     * off update-execution. When turned back on the second param can be used to indicate whether
-     * pending updates should be executed or not.
-     *
-     * **Note:** Changes deferring of updates for all components (Autocomplete, Categorize and Find).
-     * Use the service properties of the SearchClient instance to control deferring for each service.
-     *
-     * @example Some examples:
-     *
-     *     // Example 1: Defer updates to avoid multiple updates:
-     *     searchClient.deferUpdates(true);
-     *
-     *     // Example 2: Change some props that triggers may be listening for
-     *     searchClient.dateFrom = { M: -1};
-     *     searchClient.dateTo = { M: 0};
-     *     // When calling deferUpdates with (false) the above two update-events are now executed as one instead (both value-changes are accounted for though)
-     *     searchClient.deferUpdates(false);
-     *
-     *     // Example 3: Suppress updates (via deferUpdates):
-     *     searchClient.deferUpdates(true);
-     *     // Change a prop that should trigger updates
-     *     searchClient.queryText = "some text";
-     *     // Call deferUpdates with (false, true), to skip the pending update.
-     *     searchClient.deferUpdates(false, true);
-     *
-     *     // Example 4: Defer update only for one service (Categorize in this sample):
-     *     searchClient.categorize.deferUpdates(true);
-     *
-     * @param state Turns on or off deferring of updates.
-     * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring
-     * is turned off. The param is ignored for `state=true`. Default is false.
-     */
-    public deferUpdates(state: boolean, skipPending: boolean = false) {
-        this.autocomplete.deferUpdates(state, skipPending);
-        this.categorize.deferUpdates(state, skipPending);
-        this.find.deferUpdates(state, skipPending);
-    }
-
-    /**
-     * Find the category based on the category-name array.
-     *
-     * @param categoryName The category array that identifies the category.
-     * @returns The Category object if found or null.
-     */
-    public findCategory(categoryName: string[]): Group | Category | null {
-        return this.categorize.findCategory(categoryName);
-    }
-
     private doFilterAdd(filter: string[], hidden: boolean = false) {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
         const newFilter = this.categorize.createCategoryFilter(filter);
@@ -886,7 +819,7 @@ export class SearchClient implements AuthToken {
         return true;
     }
 
-    private filterId(filter: string[] | Category | Filter): string[] {
+    private filterId(filter: string[] | ICategory | Filter): string[] {
         let id: string[];
         if (Array.isArray(filter)) {
             id = filter;
@@ -903,5 +836,30 @@ export class SearchClient implements AuthToken {
         return this._query.filters.findIndex(
             f => f.category.categoryName.join("|") === filterString
         );
+    }
+
+    private setup(settings: string | ISettings, fetchMethod: Fetch) {
+        this.settings = new Settings(settings);
+        this.authentication = new Authentication(
+            this.settings.authentication,
+            this,
+            fetchMethod
+        );
+        this.settings.authentication = this.authentication.settings;
+        this.autocomplete = new Autocomplete(
+            this.settings.autocomplete,
+            this,
+            fetchMethod
+        );
+        this.settings.autocomplete = this.autocomplete.settings;
+        this.categorize = new Categorize(
+            this.settings.categorize,
+            this,
+            fetchMethod
+        );
+        this.settings.categorize = this.categorize.settings;
+        this.find = new Find(this.settings.find, this, fetchMethod);
+        this.settings.find = this.find.settings;
+        this._query = this.settings.query;
     }
 }

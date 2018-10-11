@@ -1,11 +1,8 @@
 import { CategorizeSettings, ICategorizeSettings } from ".";
-import { Categories } from "../Data";
+import { ICategories } from "../Data";
 import {
-    CategoryPresentation,
     SortPartConfiguration,
     SortConfiguration,
-    GroupConfiguration,
-    GroupingMode,
     CategoryPresentationMap
 } from "../Common/CategoryPresentation";
 
@@ -99,7 +96,7 @@ describe("CategorizeSettings basics", () => {
     });
 
     it("Should be possible to pass a partial CategorizeSettings object to use for values.", () => {
-        let fnSuccess = (categories: Categories) => {
+        let fnSuccess = (categories: ICategories) => {
             /* dummy */
         };
 
