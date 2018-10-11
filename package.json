@@ -44,9 +44,10 @@
     },
     "keywords": [
         "typescript",
-        "lib",
         "library",
-        "boilerplate"
+        "intellisearch",
+        "search-client",
+        "search-engine"
     ],
     "files": [
         "lib",
