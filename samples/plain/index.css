@@ -989,7 +989,7 @@ button#reset.hidden {
 }
 
 #matches-list li .headline * {
-    margin-left: 1em;
+    margin-left: 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1001,7 +1001,7 @@ button#reset.hidden {
     display: block;
     color: rgb(53, 175, 39);
     font-size: 0.8em;
-    margin: 0.2em 0;
+    margin: 0.2em 0 0 0.5rem;
 }
 
 #matches-list a {
@@ -1019,6 +1019,21 @@ button#reset.hidden {
 
 #matches-list a:hover {
     text-decoration: underline;
+}
+
+#matches-list .item .title {
+    display: flex;
+    flex-direction: row;
+}
+
+#matches-list .item img.icon-primary {
+    height: 2.5em;
+}
+
+#matches-list .item .headline {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #matches-list li .extracts {

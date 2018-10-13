@@ -178,8 +178,13 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             // Required
             item: (match) => `
                 <div class="item">
-                    ${render.match.title(match.title, match.url)}
-                    ${render.match.modDate(match.date)}
+                    <div class="title">
+                        ${render.match.icon(match)}
+                        <div class="headline">
+                            ${render.match.title(match)}
+                            ${render.match.modDate(match.date)}
+                        </div>
+                    </div>
                     ${render.match.abstracts(match.abstracts)}
                     ${render.match.extracts(match.extracts)}
                     ${render.match.categories(match.categories)}
@@ -223,10 +228,36 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             ,
             modDate: (dateString) => {
                 let date = moment(new Date(dateString));
-                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">${date.fromNow()}</span>`;
+                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">Sist endret: ${date.fromNow()}</span>`;
             },
-            title: (title, url) => `
-                <a class="title" href="${url}" title="${title}" target="_blank" rel="noopener noreferrer">${title}</a>
+            icon: (match) => {
+                let primary = uiSettings.match.icon.primary
+                let regex = getRegExp(primary.match);
+                let prop = null;
+                let iconSrc = primary.unresolved;
+                for(let i= 0; i < primary.property.length; i++) {
+                    if (prop == null) {
+                        prop = match;
+                    }
+                    prop = prop[primary.property[i]];
+                    if (prop == null) {
+                        break;
+                    }
+                }
+                if (prop) {
+                    let value = prop.replace(regex, primary.replacement);
+                    iconSrc = primary.map[value];
+                }
+                console.log("Primary icon", iconSrc, "sourceName", primary.property.join(",", prop));
+                return `<img src="${iconSrc}" title="Source: ${prop || "unresolved"}" class="icon-primary">`
+            },
+            title: ({title, url}) => `
+                    <a class="title"
+                       href="${url}"
+                       title="${title}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       >${title}</a>
             `,
         },
         details: {
@@ -1396,19 +1427,24 @@ function collect(collection, action) {
 // Utility helper to exclude items
 function excluded(item, regexExclusionPatterns) {
     for (const exclude of regexExclusionPatterns) {
-        var regParts = exclude.match(/^\/(.*?)\/([gim]*)$/);
-        let regex;
-        if (regParts) {
-            // the parsed pattern had delimiters and modifiers. handle them.
-            regex = new RegExp(regParts[1], regParts[2]);
-        } else {
-            // we got pattern string without delimiters
-            regex = new RegExp(regex);
-        }
+        let regex = getRegExp(exclude);
         const match = regex.test(item);
         if (match) return true;
     }
     return false;
+}
+
+function getRegExp(pattern) {
+    var regParts = pattern.match(/^\/(.*?)\/([gim]*)$/);
+    let regex;
+    if (regParts) {
+        // the parsed pattern had delimiters and modifiers. handle them.
+        regex = new RegExp(regParts[1], regParts[2]);
+    } else {
+        // we got pattern string without delimiters
+        regex = new RegExp(regex);
+    }
+    return regex;
 }
 
 // Lookup the actual categoryName in the category-tree. Used to get the real category-names in the match and in the details.

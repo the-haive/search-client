@@ -7,6 +7,32 @@
             "addNext": true,
             "addLast": true
         },
+        "icon": {
+            "primary": {
+                "property": ["sourceName"],
+                "match": "/(.+)/",
+                "replacement": "$1",
+                "map": {
+                    "demo-esp": "images/source-fileshare.png",
+                    "Mailbox": "images/source-mail.png"
+                },
+                "unresolved": "images/source-unresolved.png"
+            },
+            "overlay": [
+                {
+                    "filetype": {
+                        "property": ["metaList", "FileType"],
+                        "match": "/\\.?(.+)/",
+                        "map": {
+                            "txt": "images/txt.png",
+                            "doc": "images/doc.png",
+                            "png": "images/png.png"
+                        },
+                        "unresolved": "images/filetype-unresolved.png"
+                    }
+                }
+            ]
+        },
         "categories": {
             "show": true,
             "exclude": [
