@@ -230,26 +230,40 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 let date = moment(new Date(dateString));
                 return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">Sist endret: ${date.fromNow()}</span>`;
             },
+            iconSourceResolve: (icon, match) => {
+                let regex = getRegExp(icon.match);
+                let value = null;
+                let src = icon.unresolved;
+                if (icon.property) {
+                    value = match[icon.property];
+                } else {
+                    if (!icon.metadata) {
+                        throw new Error("The icon specification must have either 'property' or 'metadata' set.");
+                    }
+                    value = match.metaList.filter(i => i.key === icon.metadata);
+                    if (value.length > 0) {
+                        value = value[0].value;
+                    } else {
+                        value = null;
+                    }
+                }
+                if (value) {
+                    let lookup = value.replace(regex, icon.replacement);
+                    let mapped = icon.map[lookup];
+                    if (mapped) {
+                        src = mapped;
+                    }
+                }
+                return {src, key: icon.property || icon.metadata, value};
+            },
             icon: (match) => {
-                let primary = uiSettings.match.icon.primary
-                let regex = getRegExp(primary.match);
-                let prop = null;
-                let iconSrc = primary.unresolved;
-                for(let i= 0; i < primary.property.length; i++) {
-                    if (prop == null) {
-                        prop = match;
-                    }
-                    prop = prop[primary.property[i]];
-                    if (prop == null) {
-                        break;
-                    }
-                }
-                if (prop) {
-                    let value = prop.replace(regex, primary.replacement);
-                    iconSrc = primary.map[value];
-                }
-                console.log("Primary icon", iconSrc, "sourceName", primary.property.join(",", prop));
-                return `<img src="${iconSrc}" title="Source: ${prop || "unresolved"}" class="icon-primary">`
+                let primaryIcon = render.match.iconSourceResolve(uiSettings.match.icon.primary, match);
+                let overlayIcon = render.match.iconSourceResolve(uiSettings.match.icon.overlay.filetype, match);
+                return `
+                    <img src="${primaryIcon.src}" title="${primaryIcon.key}: ${primaryIcon.value || "unresolved"}" class="icon-primary">
+                    <img src="${overlayIcon.src}" title="${overlayIcon.key}: ${overlayIcon.value || "unresolved"}" class="icon-overlay">
+
+                    `;
             },
             title: ({title, url}) => `
                     <a class="title"

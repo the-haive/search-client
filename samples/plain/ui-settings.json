@@ -9,7 +9,7 @@
         },
         "icon": {
             "primary": {
-                "property": ["sourceName"],
+                "property": "sourceName",
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
@@ -18,20 +18,17 @@
                 },
                 "unresolved": "images/source-unresolved.png"
             },
-            "overlay": [
-                {
-                    "filetype": {
-                        "property": ["metaList", "FileType"],
-                        "match": "/\\.?(.+)/",
-                        "map": {
-                            "txt": "images/txt.png",
-                            "doc": "images/doc.png",
-                            "png": "images/png.png"
-                        },
-                        "unresolved": "images/filetype-unresolved.png"
-                    }
+            "overlay": {
+                "filetype": {
+                    "metadata": "FileType",
+                    "match": "/\\.?(.+)/",
+                    "replacement": "$1",
+                    "map": {
+                        "txt": "images/filetype-txt.ico"
+                    },
+                    "unresolved": "images/filetype-unresolved.png"
                 }
-            ]
+            }
         },
         "categories": {
             "show": true,

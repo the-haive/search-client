@@ -1029,6 +1029,10 @@ button#reset.hidden {
 #matches-list .item img.icon-primary {
     height: 2.5em;
 }
+#matches-list .item img.icon-primary + img.icon-overlay {
+    height: 1em;
+    margin-left: -0.7em;
+}
 
 #matches-list .item .headline {
     flex-grow: 1;
