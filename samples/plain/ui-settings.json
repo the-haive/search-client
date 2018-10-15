@@ -13,14 +13,14 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "demo-esp": "images/source-fileshare.png",
-                    "Mailbox": "images/source-mail.png"
+                    "docs.global.ints": "images/source-fileshare.png",
+                    "Mailbox": "images/source-mailbox.png"
                 },
                 "unresolved": "images/source-unresolved.png"
             },
             "overlay": {
                 "filetype": {
-                    "metadata": "FileType",
+                    "metadata": "Extension",
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
                     "map": {
@@ -55,7 +55,7 @@
                 "/^categories$/",
                 "/^content$/",
                 "/^metaList$/",
-                "/^title$/",
+                "/^Xtitle$/",
                 "/^url$/",
                 "/^$/"
             ]
@@ -67,7 +67,7 @@
                 "/^ItemId(Hash|Uri)$/",
                 "/^CrawlerName/",
                 "/^CrawledDate/",
-                "/^System$/",
+                "/^XSystem$/",
                 "/^Exists$/"
             ]
         },

@@ -38,7 +38,7 @@ function load(file) {
 }
 
 window.onload = function() {
-    moment.locale(window.navigator.language);
+    moment.locale(window.navigator.language || navigator.userLanguage);
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
     //    We first try to load a default from the settings file on the server.
@@ -181,7 +181,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             },
             // Required
             item: (match) => `
-                <div class="item">
+                <div class="item  parent-level-${match.parentLevel} ${match.isTrueMatch ? '' : 'ghost'}">
                     <div class="title">
                         ${render.match.icon(match)}
                         <div class="headline">
@@ -232,7 +232,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             ,
             modDate: (dateString) => {
                 let date = moment(new Date(dateString));
-                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">Sist endret: ${date.fromNow()}</span>`;
+                return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">Last modified: ${date.fromNow()}</span>`;
             },
             iconSourceResolve: (icon, match) => {
                 let regex = getRegExp(icon.match);
