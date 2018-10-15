@@ -24,7 +24,15 @@
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
                     "map": {
-                        "txt": "images/filetype-txt.ico"
+                        "txt": "images/filetype-txt.png",
+                        "doc": "images/filetype-doc.png",
+                        "xls": "images/filetype-doc.png",
+                        "ppt": "images/filetype-doc.png",
+                        "pdf": "images/filetype-doc.png",
+                        "xml": "images/filetype-doc.png",
+                        "zip": "images/filetype-doc.png",
+                        "msg": "images/filetype-doc.png",
+                        "html": "images/filetype-doc.png"
                     },
                     "unresolved": "images/filetype-unresolved.png"
                 }

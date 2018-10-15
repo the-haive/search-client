@@ -789,20 +789,20 @@ button#reset.hidden {
     background-color: transparent;
 }
 
-#categories-tree > ul .expanded.has-children > .entry > .toggle:before {
+#categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
     content: "";
     position: absolute;
-    left: 4px;
-    top: 4px;
+    right: 5px;
+    top: 2px;
     width: 8px;
     height: 8px;
     border-top: solid 2px currentColor;
     border-right: solid 2px currentColor;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
-#categories-tree > ul .collapsed.has-children > .entry > .toggle:before {
+#categories-tree > ul .expanded.has-children > .entry > .toggle:before {
     content: "";
     position: absolute;
     left: 4px;
