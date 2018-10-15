@@ -1030,8 +1030,8 @@ button#reset.hidden {
     height: 2.5em;
 }
 #matches-list .item img.icon-primary + img.icon-overlay {
-    height: 1em;
-    margin-left: -0.7em;
+    height: 32px;/*1em;*/
+    margin-left: -1.3em;
 }
 
 #matches-list .item .headline {
@@ -1047,6 +1047,7 @@ button#reset.hidden {
     border-left: solid thick silver;
     margin: 1em 0 1em 0;
     background-color: transparent;
+    line-height: 1em;
 }
 
 #matches-list li .extract {

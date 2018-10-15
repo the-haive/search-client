@@ -307,7 +307,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     <dl class="properties">
                         ${collect(items, (prop) => `
                             <dt title="${prop}">${prop}</dt>
-                            <dd title="${match[prop]}">${match[prop]}</dd>
+                            <dd title="${match[prop]}">${match[prop]}&nbsp;</dd>
                         `)}
                     </dl>
                 `;
@@ -325,7 +325,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     <dl class="metadata">
                         ${collect(items, (meta) => `
                             <dt title="${meta.key}">${meta.key}</dt>
-                            <dd title="${meta.value}">${meta.value}</dd>
+                            <dd title="${meta.value}">${meta.value}&nbsp;</dd>
                         `)}
                     </dl>
                 `;
