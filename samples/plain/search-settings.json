@@ -4,7 +4,7 @@
         "baseUrl": "https://auth.intellisearch.com",
         "basePath": "",
         "servicePath": "auth/login",
-        "enabled": true
+        "enabled": false
     },
     "autocomplete": {
         "enabled": true

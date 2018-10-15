@@ -89,6 +89,10 @@ window.onload = function() {
             //     notReady.style.display = "flex";
             //     return;
             // }
+        } else {
+            document
+                .getElementById("container")
+                .classList.remove("not-ready", "auth-pending");
         }
 
         // Continue page-setup
@@ -758,9 +762,9 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function handleAuthenticationSuccess(result) {
-        document.getElementById("container").classList.remove("not-ready");
-        containerElm.classList.remove("auth-pending");
-
+        document
+            .getElementById("container")
+            .classList.remove("not-ready", "auth-pending");
         //console.log("handleAuthenticationSuccess", "Result:", result);
     }
 
