@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-rc.3"></a>
+# [1.0.0-rc.3](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2018-10-16)
+
+
+### Bug Fixes
+
+* Fixes [#14](https://github.com/IntelliSearch/search-client/issues/14), [#15](https://github.com/IntelliSearch/search-client/issues/15), [#16](https://github.com/IntelliSearch/search-client/issues/16) ([12b7783](https://github.com/IntelliSearch/search-client/commit/12b7783))
+
+
+
 <a name="1.0.0-rc.2"></a>
 # [1.0.0-rc.2](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2018-10-16)
 
