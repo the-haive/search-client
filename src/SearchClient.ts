@@ -347,6 +347,28 @@ export class SearchClient implements AuthToken {
     }
 
     /**
+     * Gets the previous page of match-results.
+     * Will run trigger-checks and potentially update services.
+     */
+    public matchPagePrev(): boolean {
+        // Cannot fetch page less than 0
+        if (this._query.matchPage > 1) {
+            this.matchPage--;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Gets the next page of match-results (if any).
+     * Will run trigger-checks and potentially update services.
+     */
+    public matchPageNext(): boolean {
+        this.matchPage++;
+        return true;
+    }
+
+    /**
      * Gets the currently active client-id value.
      */
     get clientId(): string {
@@ -359,7 +381,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set clientId(clientId: string) {
-        if (clientId !== this._query.clientId) {
+        // tslint:disable-next-line:triple-equals
+        if (clientId != this._query.clientId) {
             const oldValue = this._query.clientId;
             this._query.clientId = clientId;
 
@@ -430,7 +453,8 @@ export class SearchClient implements AuthToken {
     set filters(filters: Filter[]) {
         filters = filters || [];
         const sortedFilters = filters.sort();
-        if (sortedFilters.join("") !== this._query.filters.join("")) {
+        // tslint:disable-next-line:triple-equals
+        if (sortedFilters.join("") != this._query.filters.join("")) {
             const oldValue = this._query.filters.slice(0); // clone
             this._query.filters = sortedFilters;
 
@@ -455,7 +479,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set matchGenerateContent(generateContent: boolean) {
-        if (generateContent !== this._query.matchGenerateContent) {
+        // tslint:disable-next-line:triple-equals
+        if (generateContent != this._query.matchGenerateContent) {
             const oldValue = this._query.matchGenerateContent;
             this._query.matchGenerateContent = generateContent;
 
@@ -484,7 +509,8 @@ export class SearchClient implements AuthToken {
      */
     set matchGenerateContentHighlights(generateContentHighlights: boolean) {
         if (
-            generateContentHighlights !==
+            // tslint:disable-next-line:triple-equals
+            generateContentHighlights !=
             this._query.matchGenerateContentHighlights
         ) {
             const oldValue = this._query.matchGenerateContentHighlights;
@@ -520,7 +546,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set matchGrouping(useGrouping: boolean) {
-        if (useGrouping !== this._query.matchGrouping) {
+        // tslint:disable-next-line:triple-equals
+        if (useGrouping != this._query.matchGrouping) {
             const oldValue = this._query.matchGrouping;
             this._query.matchGrouping = useGrouping;
 
@@ -547,7 +574,8 @@ export class SearchClient implements AuthToken {
                 '"matchPage" cannot be set to a value smaller than 1.'
             );
         }
-        if (page !== this._query.matchPage) {
+        // tslint:disable-next-line:triple-equals
+        if (page != this._query.matchPage) {
             const oldValue = this._query.matchPage;
             this._query.matchPage = page;
 
@@ -555,28 +583,6 @@ export class SearchClient implements AuthToken {
             this.categorize.matchPageChanged(oldValue, this._query);
             this.find.matchPageChanged(oldValue, this._query);
         }
-    }
-
-    /**
-     * Gets the previous page of match-results.
-     * Will run trigger-checks and potentially update services.
-     */
-    public matchPagePrev(): boolean {
-        // Cannot fetch page less than 0
-        if (this._query.matchPage > 1) {
-            this.matchPage--;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Gets the next page of match-results (if any).
-     * Will run trigger-checks and potentially update services.
-     */
-    public matchPageNext(): boolean {
-        this.matchPage++;
-        return true;
     }
 
     /**
@@ -596,7 +602,8 @@ export class SearchClient implements AuthToken {
                 '"matchPageSize" cannot be set to a value smaller than 1.'
             );
         }
-        if (pageSize !== this._query.matchPageSize) {
+        // tslint:disable-next-line:triple-equals
+        if (pageSize != this._query.matchPageSize) {
             const oldValue = this._query.matchPageSize;
             this._query.matchPageSize = pageSize;
 
@@ -618,7 +625,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set matchOrderBy(orderBy: OrderBy) {
-        if (orderBy !== this._query.matchOrderBy) {
+        // tslint:disable-next-line:triple-equals
+        if (orderBy != this._query.matchOrderBy) {
             const oldValue = this._query.matchOrderBy;
             this._query.matchOrderBy = orderBy;
 
@@ -643,7 +651,8 @@ export class SearchClient implements AuthToken {
         if (maxSuggestions < 0) {
             maxSuggestions = 0;
         }
-        if (maxSuggestions !== this._query.maxSuggestions) {
+        // tslint:disable-next-line:triple-equals
+        if (maxSuggestions != this._query.maxSuggestions) {
             const oldValue = this._query.maxSuggestions;
             this._query.maxSuggestions = maxSuggestions;
 
@@ -696,7 +705,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set queryText(queryText: string) {
-        if (queryText !== this._query.queryText) {
+        // tslint:disable-next-line:triple-equals
+        if (queryText != this._query.queryText) {
             const oldValue = this._query.queryText;
             this._query.queryText = queryText;
 
@@ -718,7 +728,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     set searchType(searchType: SearchType) {
-        if (searchType !== this._query.searchType) {
+        // tslint:disable-next-line:triple-equals
+        if (searchType != this._query.searchType) {
             const oldValue = this._query.searchType;
             this._query.searchType = searchType;
 
@@ -742,7 +753,8 @@ export class SearchClient implements AuthToken {
      * Changes will run trigger-checks and potentially update services.
      */
     set uiLanguageCode(uiLanguageCode: string) {
-        if (uiLanguageCode !== this._query.uiLanguageCode) {
+        // tslint:disable-next-line:triple-equals
+        if (uiLanguageCode != this._query.uiLanguageCode) {
             const oldValue = this._query.uiLanguageCode;
             this._query.uiLanguageCode = uiLanguageCode;
 
