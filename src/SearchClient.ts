@@ -276,12 +276,18 @@ export class SearchClient implements AuthToken {
 
     /**
      * Toggles the expansion/collapsed state for the given group/category
+     *
+     * @param node The node that is to be expanded.
+     * @return The new state of the node.
      */
     public toggleCategoryExpansion(
-        node: ICategory | IGroup,
+        node: string[] | ICategory | IGroup,
         state?: boolean
     ): boolean {
         // Look up internal expansion-override list and see if we are already overriding this setting.
+        if (Array.isArray(node)) {
+            node = this.findCategory(node);
+        }
         const key = node.hasOwnProperty("categoryName")
             ? (node as ICategory).categoryName.join("|")
             : node.name;
