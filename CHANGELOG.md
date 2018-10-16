@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-rc.2"></a>
+# [1.0.0-rc.2](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.1...v1.0.0-rc.2) (2018-10-16)
+
+
+### Bug Fixes
+
+* Fix for toggleCategoryExpansion. Refactored CategoryPresentation. Docs generated. ([8fac8b8](https://github.com/IntelliSearch/search-client/commit/8fac8b8))
+* **docs:** Minor versioning error, and adjust doc build command ([6221860](https://github.com/IntelliSearch/search-client/commit/6221860))
+* **query:** Changed query property setters to use coerced value equality checks (instead of referential equality checks) ([7762312](https://github.com/IntelliSearch/search-client/commit/7762312))
+
+
+
 <a name="1.0.0-rc.1"></a>
 # [1.0.0-rc.1](https://github.com/IntelliSearch/search-client/compare/v1.0.0-beta.4...v1.0.0-rc.1) (2018-10-11)
 
