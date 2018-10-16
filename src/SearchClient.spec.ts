@@ -496,6 +496,42 @@ describe("SearchClient filter interface", () => {
         findFetch.mockReset();
     });
 
+    it("Search instance should allow deferring matchPage too", () => {
+        jest.useFakeTimers();
+
+        let settings = new Settings({
+            baseUrl: "http://localhost:9950",
+            find: {
+                cbRequest: jest.fn(() => false),
+                cbSuccess: jest.fn(),
+                triggers: {
+                    queryChange: true,
+                    queryChangeInstantRegex: /\S $/
+                }
+            }
+        });
+
+        let client = new SearchClient(settings);
+        let pClient = client as any;
+
+        const findFetch = jest.fn();
+        pClient.find.fetch = findFetch;
+
+        // We try once more to defer updates
+        client.deferUpdates(true);
+
+        client.matchPage = 2;
+        expect(pClient.settings.query.matchPage).toEqual(2);
+        expect(findFetch).not.toBeCalled();
+
+        client.deferUpdates(false, false);
+
+        expect(findFetch).toBeCalledTimes(1);
+        expect(pClient.settings.query.matchPage).toEqual(2);
+
+        findFetch.mockReset();
+    });
+
     it("should be able to get correct full url for lookups", () => {
         let urlFindResult: string;
         let mockFindRequest = jest.fn((url: string) => {

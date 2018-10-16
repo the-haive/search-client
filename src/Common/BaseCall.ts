@@ -31,6 +31,8 @@ export abstract class BaseCall<TDataType> {
 
     protected deferredQuery: Query | null;
 
+    protected deferredUseMatchPage: boolean | null;
+
     protected delay: number;
 
     /**
@@ -43,9 +45,11 @@ export abstract class BaseCall<TDataType> {
         this.deferUpdate = state;
         if (!state && this.deferredQuery) {
             const query = this.deferredQuery;
+            const useMatchPage = this.deferredUseMatchPage;
             this.deferredQuery = null;
+            this.deferredUseMatchPage = null;
             if (!skipPending && this.shouldUpdate()) {
-                this.update(query);
+                this.update(query, null, useMatchPage);
             }
         }
     }
@@ -104,6 +108,7 @@ export abstract class BaseCall<TDataType> {
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
             this.deferredQuery = query;
+            this.deferredUseMatchPage = useQueryMatchPage;
         } else {
             // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
             clearTimeout(this.delay);
