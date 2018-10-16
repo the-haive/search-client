@@ -3,7 +3,7 @@
         "target": "es5",
         "module": "es2015",
         "rootDir": "src",
-        "outDir": "/temp",
+        "outDir": "./temp",
         "newLine": "LF",
         "lib": ["dom", "es2017"],
         "moduleResolution": "node",
