@@ -1128,6 +1128,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             );
 
             let toggle = `<span class="toggle"></span>`;
+            let filter = `<span class="filter"></span>`;
             let title = `<span class="title">${category.displayName}</span>`;
             let count =
                 category.count > 0 || isFilter
@@ -1135,7 +1136,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     : "";
             categoryLiElm.title = category.displayName;
 
-            categoryLiElm.innerHTML = `<div class="entry">${toggle}<span class="link">${title}${count}<span></div>`;
+            categoryLiElm.innerHTML = `<div class="entry">${toggle}${filter}<span class="link">${title}${count}<span></div>`;
 
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
@@ -1155,6 +1156,21 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
             let linkElm = categoryLiElm.getElementsByClassName("link")[0];
             linkElm.addEventListener("click", function(e) {
+                let closestLi = e.target.closest("li");
+                if (closestLi === categoryLiElm) {
+                    let added = client.filterToggle(category);
+                    closestLi.classList.toggle("is-filter");
+                    // console.log(
+                    //     `Filter ${category.displayName} was ${
+                    //         added ? "added" : "removed"
+                    //     }. Current filters:`,
+                    //     client.filters
+                    // );
+                }
+            });
+
+            let filterElm = categoryLiElm.getElementsByClassName("filter")[0];
+            filterElm.addEventListener("click", function(e) {
                 let closestLi = e.target.closest("li");
                 if (closestLi === categoryLiElm) {
                     let added = client.filterToggle(category);
@@ -1195,9 +1211,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             categories.groups.forEach(function(group, index, arr) {
                 // Create the group-node
                 let groupLiElm = document.createElement("li");
-                let title = `<span class="title">${group.displayName}</span>`;
                 let toggle = `<span class="toggle"></span>`;
-                groupLiElm.innerHTML = `<div class="entry">${toggle}${title}</div>`;
+                let filter = `<span class="filter"></span>`;
+                let title = `<span class="title">${group.displayName}</span>`;
+                groupLiElm.innerHTML = `<div class="entry">${toggle}${filter}${title}</div>`;
                 groupLiElm.classList.add(
                     group.expanded ? "expanded" : "collapsed"
                 );
