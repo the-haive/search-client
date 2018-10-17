@@ -657,12 +657,15 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     });
 
     let menuOptionSettings = document.getElementById("menu-option-settings");
-    menuOptionSettings.addEventListener("click", () => {
-        if (containerElm.classList.toggle("dialog-settings")) {
-            renderSettings();
-        }
-    });
-
+    if (!uiSettings.configuration.settings.enabled) {
+        menuOptionSettings.style.display = "none";
+    } else {
+        menuOptionSettings.addEventListener("click", () => {
+            if (containerElm.classList.toggle("dialog-settings")) {
+                renderSettings();
+            }
+        });
+    }
     let settingsCloseElm = document.getElementById(
         "dialog-settings-close-button"
     );
@@ -729,10 +732,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     });
 
     window.addEventListener("keydown", event => {
-        if (event.ctrlKey) {
-            containerElm.classList.add("ctrl");
-        } else {
-            containerElm.classList.remove("ctrl");
+        if (uiSettings.configuration.categoryPresentation.enabled) {
+            if (event.ctrlKey) {
+                containerElm.classList.add("ctrl");
+            } else {
+                containerElm.classList.remove("ctrl");
+            }
         }
         if (event.code === "Escape") {
             let toRemove = [];
@@ -1140,7 +1145,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
             let toggleElm = categoryLiElm.getElementsByClassName("toggle")[0];
             toggleElm.addEventListener("click", function(e) {
-                if (e.ctrlKey) {
+                if (
+                    e.ctrlKey &&
+                    uiSettings.configuration.categoryPresentation.enabled
+                ) {
                     // Toggle the client-category-configuration for the category-node
                     toggleClientCategoryConfiguration(category);
                 } else {
@@ -1224,7 +1232,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
                 let toggleElm = groupLiElm.getElementsByClassName("toggle")[0];
                 toggleElm.addEventListener("click", function(e) {
-                    if (e.ctrlKey) {
+                    if (
+                        e.ctrlKey &&
+                        uiSettings.configuration.categoryPresentation.enabled
+                    ) {
                         // Toggle the client-category-configuration for the group-node
                         toggleClientCategoryConfiguration(group);
                     } else {
@@ -1330,11 +1341,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             default:
                 throw new Error("Unexpected mode");
         }
-        if (catPres[id]) {
-            console.log(title, "has category-presentation", catPres);
-        } else {
+        if (!catPres[id]) {
             catPres[id] = new IntelliSearch.CategoryPresentation();
-            console.log(title, "created category-presentation", catPres);
         }
 
         // Finally, show the configuration pane

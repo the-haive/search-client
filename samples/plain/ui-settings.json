@@ -1,4 +1,12 @@
 {
+    "configuration": {
+        "settings": {
+            "enabled": false
+        },
+        "categoryPresentation": {
+            "enabled": false
+        }
+    },
     "match": {
         "pager": {
             "size": 10,
