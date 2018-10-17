@@ -1068,6 +1068,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             containerElm.classList.add("no-matches");
             matchesListElm.innerHTML = "No matches.";
         }
+        // Scroll to top of match-list, always on update.
+        matchesListElm.scrollTop = 0;
     }
 
     /**
