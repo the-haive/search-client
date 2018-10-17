@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0-rc.4"></a>
+# [1.0.0-rc.4](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.3...v1.0.0-rc.4) (2018-10-17)
+
+
+### Bug Fixes
+
+* Trying to fix problem with webpack not creating the right code for the browser target. ([8a8fbb7](https://github.com/IntelliSearch/search-client/commit/8a8fbb7))
+* **search-ui:** Always scroll to top of match-list after paging. ([d8b6f29](https://github.com/IntelliSearch/search-client/commit/d8b6f29))
+
+
+### Features
+
+* **search-ui:** Can use ui-settings to control whether or not to be able to show categoryPresentation config and settings config. By default off. ([60e70bf](https://github.com/IntelliSearch/search-client/commit/60e70bf))
+* **search-ui:** Search-as-you-type not triggering after delay, and no min-length for query. ([e055027](https://github.com/IntelliSearch/search-client/commit/e055027))
+
+
+
 <a name="1.0.0-rc.3"></a>
 # [1.0.0-rc.3](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.2...v1.0.0-rc.3) (2018-10-16)
 
