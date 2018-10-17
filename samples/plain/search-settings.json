@@ -9,6 +9,18 @@
     "autocomplete": {
         "enabled": true
     },
+    "find": {
+        "triggers": {
+            "queryChangeDelay": -1,
+            "queryChangeMinLength": 0
+        }
+    },
+    "categorize": {
+        "triggers": {
+            "queryChangeDelay": -1,
+            "queryChangeMinLength": 0
+        }
+    },
     "query": {
         "clientId": "plain-sample",
         "matchGenerateContent": true,
