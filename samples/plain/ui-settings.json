@@ -21,8 +21,9 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "docs.global.ints": "images/source-fileshare.png",
-                    "Mailbox": "images/source-mailbox.png"
+                    "docs.global.ints": "images/source-fileshare3.png",
+                    "demo-esp": "images/source-fileshare3.png",
+                    "Mailbox": "images/source-mail.png"
                 },
                 "unresolved": "images/source-unresolved.png"
             },
@@ -34,15 +35,19 @@
                     "map": {
                         "txt": "images/filetype-txt.png",
                         "doc": "images/filetype-doc.png",
-                        "xls": "images/filetype-doc.png",
-                        "ppt": "images/filetype-doc.png",
-                        "pdf": "images/filetype-doc.png",
-                        "xml": "images/filetype-doc.png",
-                        "zip": "images/filetype-doc.png",
-                        "msg": "images/filetype-doc.png",
-                        "html": "images/filetype-doc.png"
+                        "docx": "images/filetype-doc.png",
+                        "xls": "images/filetype-xls.png",
+                        "xlsx": "images/filetype-xls.png",
+                        "ppt": "images/filetype-ppt.png",
+                        "pptx": "images/filetype-ppt.png",
+                        "pdf": "images/filetype-pdf.png",
+                        "xml": "images/filetype-xml.png",
+                        "zip": "images/filetype-zip.png",
+                        "msg": "images/filetype-msg.png",
+                        "htm": "images/filetype-html.png",
+                        "html": "images/filetype-html.png"
                     },
-                    "unresolved": "images/filetype-unresolved.png"
+                    "unresolved": "images/1x1.png"
                 }
             }
         },
@@ -56,7 +61,7 @@
                 "/^GDPR$/",
                 "/^Tabs/",
                 "/^Type$/",
-                "/^Filetype$/i"
+                "/^Filetype$/i",
             ]
         }
     },
@@ -96,8 +101,7 @@
                 "/^Author$/",
                 "/^GDPR$/",
                 "/^Tabs/",
-                "/^Type$/",
-                "/^Filetype$/i"
+                "/^Type$/"
             ]
         }
     },

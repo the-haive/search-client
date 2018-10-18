@@ -830,7 +830,7 @@ button#reset.hidden {
     border: none;
     transform: unset;
     zoom: 156%;
-    margin: -0.22em 0 0 -3px;
+    margin: -0.48em 0 0 -3px;
     font-weight: normal;
     text-shadow: 0.1em 0.1em 0.1em silver;
 }
@@ -841,7 +841,7 @@ button#reset.hidden {
     .expanded.has-children
     > .entry
     > .toggle:before {
-    margin-top: -0.62em;
+    margin-top: -0.33em;
 }
 
 #categories-tree > ul .collapsed.has-children > ul {
@@ -1090,6 +1090,7 @@ button#reset.hidden {
     margin-left: -2.7em;
     margin-top: 1.2em;*/
     height: 32px; /*1em;*/
+    min-width: 32px; /*1em;*/
     margin-left: -1.3em;
 }
 
@@ -1554,6 +1555,14 @@ label[for]:hover {
     }
 
     #container.no-details {
+        grid-template-areas:
+            "header"
+            "matches"
+            "footer";
+        grid-template-rows: auto 1fr auto;
+    }
+
+    #container.no-details:not(.welcome) {
         grid-template-areas:
             "header"
             "matches"
