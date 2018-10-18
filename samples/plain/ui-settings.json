@@ -61,7 +61,7 @@
                 "/^GDPR$/",
                 "/^Tabs/",
                 "/^Type$/",
-                "/^Filetype$/i",
+                "/^Filetype$/i"
             ]
         }
     },

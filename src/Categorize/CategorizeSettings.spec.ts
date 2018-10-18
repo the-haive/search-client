@@ -40,7 +40,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.clientIdChanged).toEqual(true);
         expect(settings.triggers.dateFromChanged).toEqual(true);
         expect(settings.triggers.dateToChanged).toEqual(true);
-        expect(settings.triggers.filterChanged).toEqual(true);
+        expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect(settings.triggers.queryChange).toEqual(true);
@@ -63,7 +63,7 @@ describe("CategorizeSettings basics", () => {
                 clientIdChanged: false,
                 dateFromChanged: false,
                 dateToChanged: false,
-                filterChanged: false,
+                filtersChanged: false,
                 queryChange: true,
                 queryChangeDelay: 100,
                 queryChangeInstantRegex: /\S/,
@@ -85,7 +85,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.clientIdChanged).toEqual(false);
         expect(settings.triggers.dateFromChanged).toEqual(false);
         expect(settings.triggers.dateToChanged).toEqual(false);
-        expect(settings.triggers.filterChanged).toEqual(false);
+        expect(settings.triggers.filtersChanged).toEqual(false);
         expect(settings.triggers.queryChangeDelay).toEqual(100);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S/);
         expect(settings.triggers.queryChange).toEqual(true);
@@ -121,7 +121,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.clientIdChanged).toEqual(false);
         expect(settings.triggers.dateFromChanged).toEqual(true);
         expect(settings.triggers.dateToChanged).toEqual(true);
-        expect(settings.triggers.filterChanged).toEqual(true);
+        expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
         expect(settings.triggers.queryChange).toEqual(true);

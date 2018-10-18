@@ -3,14 +3,9 @@
  */
 export class CategorizeTriggers {
     /**
-     * Triggers when the clientCategoryExpansion has changed.
+     * Triggers when the categorizationType has changed
      */
-    public clientCategoryExpansionChanged?: boolean;
-
-    /**
-     * Triggers when the clientCategoryFilter has changed.
-     */
-    public clientCategoryFilterChanged?: boolean;
+    public categorizationTypeChanged?: boolean;
 
     /**
      * Triggers when the clientId property has changed
@@ -30,7 +25,7 @@ export class CategorizeTriggers {
     /**
      * Triggers when the filter property has changed.
      */
-    public filterChanged?: boolean;
+    public filtersChanged?: boolean;
 
     /**
      * Turns on or off all query-related triggers.
@@ -86,14 +81,9 @@ export class CategorizeTriggers {
      * @param triggers - The triggers defined here will override the default CategorizeTrigger.
      */
     constructor(triggers: CategorizeTriggers = {}) {
-        this.clientCategoryExpansionChanged =
-            typeof triggers.clientCategoryExpansionChanged !== "undefined"
-                ? triggers.clientCategoryExpansionChanged
-                : true;
-
-        this.clientCategoryFilterChanged =
-            typeof triggers.clientCategoryFilterChanged !== "undefined"
-                ? triggers.clientCategoryFilterChanged
+        this.categorizationTypeChanged =
+            typeof triggers.categorizationTypeChanged !== "undefined"
+                ? triggers.categorizationTypeChanged
                 : true;
 
         this.clientIdChanged =
@@ -111,9 +101,9 @@ export class CategorizeTriggers {
                 ? triggers.dateToChanged
                 : true;
 
-        this.filterChanged =
-            typeof triggers.filterChanged !== "undefined"
-                ? triggers.filterChanged
+        this.filtersChanged =
+            typeof triggers.filtersChanged !== "undefined"
+                ? triggers.filtersChanged
                 : true;
 
         this.queryChange =

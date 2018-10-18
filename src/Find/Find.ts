@@ -59,6 +59,7 @@ export class Find extends BaseCall<IMatches> {
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+            this.fetchQuery = new Query(query);
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
@@ -90,34 +91,46 @@ export class Find extends BaseCall<IMatches> {
     }
 
     public clientIdChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
+        if (!this.shouldUpdate("clientId", query)) {
+            return;
+        }
+        if (this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.dateFromChanged) {
+        if (!this.shouldUpdate("dateFrom", query)) {
+            return;
+        }
+        if (this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
 
     public dateToChanged(oldValue: DateSpecification, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.dateToChanged) {
+        if (!this.shouldUpdate("dateTo", query)) {
+            return;
+        }
+        if (this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
 
     public filtersChanged(oldValue: Filter[], query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
+        if (!this.shouldUpdate("filters", query)) {
+            return;
+        }
+        if (this.settings.triggers.filtersChanged) {
             this.update(query);
         }
     }
 
     public matchGenerateContentChanged(oldValue: boolean, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.matchGenerateContentChanged
-        ) {
+        if (!this.shouldUpdate("matchGenerateContent", query)) {
+            return;
+        }
+        if (this.settings.triggers.matchGenerateContentChanged) {
             this.update(query);
         }
     }
@@ -126,8 +139,10 @@ export class Find extends BaseCall<IMatches> {
         oldValue: boolean,
         query: Query
     ) {
+        if (!this.shouldUpdate("matchGenerateContentHighlights", query)) {
+            return;
+        }
         if (
-            this.shouldUpdate() &&
             this.settings.triggers.matchGenerateContentChanged &&
             this.settings.triggers.matchGenerateContentHighlightsChanged
         ) {
@@ -136,39 +151,48 @@ export class Find extends BaseCall<IMatches> {
     }
 
     public matchGroupingChanged(oldValue: boolean, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.matchGroupingChanged
-        ) {
+        if (!this.shouldUpdate("matchGrouping", query)) {
+            return;
+        }
+        if (this.settings.triggers.matchGroupingChanged) {
             this.update(query);
         }
     }
 
     public matchOrderByChanged(oldValue: OrderBy, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchOrderByChanged) {
+        if (!this.shouldUpdate("matchOrderBy", query)) {
+            return;
+        }
+        if (this.settings.triggers.matchOrderByChanged) {
             this.update(query);
         }
     }
 
     public matchPageChanged(oldValue: number, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.matchPageChanged) {
+        if (!this.shouldUpdate("matchPage", query)) {
+            return;
+        }
+        if (this.settings.triggers.matchPageChanged) {
             this.update(query, null, true);
         }
     }
 
     public matchPageSizeChanged(oldValue: number, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.matchPageSizeChanged
-        ) {
+        if (!this.shouldUpdate("matchPageSize", query)) {
+            return;
+        }
+        if (this.settings.triggers.matchPageSizeChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
+        if (!this.shouldUpdate("queryText", query)) {
+            return;
+        }
+        if (this.settings.triggers.queryChange) {
             if (
-                query.queryText.length >
+                query.queryText.trim().length >
                 this.settings.triggers.queryChangeMinLength
             ) {
                 if (
@@ -194,16 +218,19 @@ export class Find extends BaseCall<IMatches> {
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.searchTypeChanged) {
+        if (!this.shouldUpdate("searchType", query)) {
+            return;
+        }
+        if (this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
     public uiLanguageCodeChanged(oldValue: string, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.uiLanguageCodeChanged
-        ) {
+        if (!this.shouldUpdate("uiLanguageCode", query)) {
+            return;
+        }
+        if (this.settings.triggers.uiLanguageCodeChanged) {
             this.update(query);
         }
     }

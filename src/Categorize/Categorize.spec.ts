@@ -102,7 +102,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
-        expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
+        expect(pCategorize.settings.triggers.filtersChanged).toEqual(true);
         expect(pCategorize.settings.url).toEqual(
             "http://localhost:9950/RestService/v4/search/categorize"
         );
@@ -130,7 +130,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeUndefined();
         expect(pCategorize.settings.triggers).toBeDefined();
-        expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
+        expect(pCategorize.settings.triggers.filtersChanged).toEqual(true);
         expect(pCategorize.settings.url).toEqual(
             "http://localhost:9950/RestService/v4/search/categorize"
         );
@@ -154,7 +154,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
-        expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
+        expect(pCategorize.settings.triggers.filtersChanged).toEqual(true);
         expect(pCategorize.settings.url).toEqual(
             "http://localhost:9950/test/search/categorize"
         );
@@ -184,7 +184,7 @@ describe("Categorize basics", () => {
         expect(pCategorize.settings.cbRequest).toBeUndefined();
         expect(pCategorize.settings.cbSuccess).toBeDefined();
         expect(pCategorize.settings.triggers).toBeDefined();
-        expect(pCategorize.settings.triggers.filterChanged).toEqual(true);
+        expect(pCategorize.settings.triggers.filtersChanged).toEqual(true);
         expect(pCategorize.settings.url).toEqual(
             "http://localhost:9950/test/search/categorize"
         );

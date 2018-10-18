@@ -8,11 +8,10 @@ describe("FindTriggers", () => {
 
     it("Should be able to create default FindTrigger", () => {
         let settings = {
-            clientCategoryFilterChanged: false,
             clientIdChanged: false,
             dateFromChanged: false,
             dateToChanged: false,
-            filterChanged: false,
+            filtersChanged: false,
             matchGenerateContentChanged: false,
             matchGenerateContentHighlightsChanged: false,
             matchGroupingChanged: false,

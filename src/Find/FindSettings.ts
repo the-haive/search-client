@@ -1,6 +1,7 @@
 import { BaseSettings, IBaseSettings } from "../Common";
 import { FindTriggers } from "./FindTriggers";
 import { IMatches } from "../Data";
+import { QueryChangeSpecifications } from "../Common/QueryChangeSpecifications";
 
 export interface IFindSettings extends IBaseSettings<IMatches> {
     /**
@@ -42,5 +43,23 @@ export class FindSettings extends BaseSettings<IMatches> {
 
         // Setup our own stuff (props not in the base class).
         this.triggers = new FindTriggers(settings.triggers);
+
+        // A change in any of the defined fields should indicate that the results may have changed.
+        this.queryChangeSpecs =
+            typeof settings.queryChangeSpecs !== "undefined"
+                ? settings.queryChangeSpecs
+                : QueryChangeSpecifications.clientId |
+                  QueryChangeSpecifications.dateFrom |
+                  QueryChangeSpecifications.dateTo |
+                  QueryChangeSpecifications.filters |
+                  QueryChangeSpecifications.matchGenerateContent |
+                  QueryChangeSpecifications.matchGenerateContentHighlights |
+                  QueryChangeSpecifications.matchGrouping |
+                  QueryChangeSpecifications.matchOrderBy |
+                  QueryChangeSpecifications.matchPage |
+                  QueryChangeSpecifications.matchPageSize |
+                  QueryChangeSpecifications.queryText |
+                  QueryChangeSpecifications.searchType |
+                  QueryChangeSpecifications.uiLanguageCode;
     }
 }

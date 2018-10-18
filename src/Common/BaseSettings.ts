@@ -1,3 +1,6 @@
+import { QueryChangeSpecifications } from "./QueryChangeSpecifications";
+import { Query } from "./Query";
+
 export interface IBaseSettings<TDataType> {
     /**
      * A notifier method to call whenever the lookup fails.
@@ -25,6 +28,21 @@ export interface IBaseSettings<TDataType> {
     cbSuccess?: (data?: TDataType) => void;
 
     /**
+     * A notifier method to call whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
+     * When called the UI could/should indicate that the results are invalid. This can be removing the results, showing them "greyed out", etc.
+     * The state is valid until the next cbRequest, Success or cbError is called.
+     *
+     * @param invalid - This indicates if the state-notification is invalid or not
+     * @param fetchedQuery - This is the query that was used to create the current results.
+     * @param futureQuery - This is the query that has not yet resulted in an update of the results.
+     */
+    cbResultState?: (
+        invalid: boolean,
+        fetchedQuery: Query,
+        futureQuery: Query
+    ) => void;
+
+    /**
      * Whether or not this setting-feature is enabled or not.
      */
     enabled?: boolean;
@@ -46,6 +64,11 @@ export interface IBaseSettings<TDataType> {
      * The service-specific path added to the base-path.
      */
     servicePath?: string;
+
+    /**
+     * Defines the enum bit-field flags that signifies which query-fields that may resolve in changed results (both Categorize and Find).
+     */
+    queryChangeSpecs?: QueryChangeSpecifications;
 
     readonly url?: string;
 }
@@ -83,6 +106,21 @@ export abstract class BaseSettings<TDataType>
     public cbSuccess?: (data?: TDataType) => void;
 
     /**
+     * A notifier method to call whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
+     * When called the UI could/should indicate that the results are invalid. This can be removing the results, showing them "greyed out", etc.
+     * The state is valid until the next cbRequest, Success or cbError is called.
+     *
+     * @param valid - This indicates if the queries passed are equal or not.
+     * @param fetchedQuery - This is the query that was used to create the current results.
+     * @param futureQuery - This is the query that has not yet resulted in an update of the results.
+     */
+    cbResultState?: (
+        valid: boolean,
+        fetchedQuery: Query,
+        futureQuery: Query
+    ) => void;
+
+    /**
      * Whether or not this setting-feature is enabled or not.
      */
     public enabled: boolean;
@@ -103,6 +141,11 @@ export abstract class BaseSettings<TDataType>
      * The service-specific path added to the base-path.
      */
     public servicePath: string;
+
+    /**
+     * Defines the enum bit-field flags that signifies which query-fields that may resolve in changed results (both Categorize and Find).
+     */
+    public queryChangeSpecs: QueryChangeSpecifications;
 
     /**
      * Returns the actual url for the service.
@@ -149,5 +192,6 @@ export abstract class BaseSettings<TDataType>
         this.cbError = settings.cbError;
         this.cbRequest = settings.cbRequest;
         this.cbSuccess = settings.cbSuccess;
+        this.cbResultState = settings.cbResultState;
     }
 }

@@ -8,12 +8,11 @@ describe("CategorizeTriggers", () => {
 
     it("Should be able to create default CategorizeTrigger", () => {
         let settings = {
-            clientCategoryExpansionChanged: false,
-            clientCategoryFilterChanged: false,
+            categorizationTypeChanged: false,
             clientIdChanged: false,
             dateFromChanged: false,
             dateToChanged: false,
-            filterChanged: false,
+            filtersChanged: false,
             queryChange: false,
             queryChangeDelay: 100,
             queryChangeInstantRegex: /.+/,

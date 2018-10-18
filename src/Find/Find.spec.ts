@@ -2,6 +2,7 @@ import fetch from "jest-fetch-mock";
 
 import { Find, IFindSettings, FindTriggers } from ".";
 import { IMatches } from "../Data";
+import { Query } from "../Common";
 
 describe("Find basics", () => {
     it("Should have imported Find class defined", () => {
@@ -19,7 +20,7 @@ describe("Find basics", () => {
         expect(pFind.settings.cbRequest).toBeUndefined();
         expect(pFind.settings.cbSuccess).toBeUndefined();
         expect(pFind.settings.triggers).toBeDefined();
-        expect(pFind.settings.triggers.filterChanged).toEqual(true);
+        expect(pFind.settings.triggers.filtersChanged).toEqual(true);
         expect(pFind.settings.url).toEqual(
             "http://localhost:9950/RestService/v4/search/find"
         );
@@ -56,7 +57,7 @@ describe("Find basics", () => {
         expect(pFind.settings.cbRequest).toBeUndefined();
         expect(pFind.settings.cbSuccess).toBeDefined();
         expect(pFind.settings.triggers).toBeDefined();
-        expect(pFind.settings.triggers.filterChanged).toEqual(true);
+        expect(pFind.settings.triggers.filtersChanged).toEqual(true);
         expect(pFind.settings.url).toEqual(
             "http://localhost:9950/test/search/find"
         );
@@ -86,7 +87,7 @@ describe("Find basics", () => {
         expect(pFind.settings.cbRequest).toBeUndefined();
         expect(pFind.settings.cbSuccess).toBeDefined();
         expect(pFind.settings.triggers).toBeDefined();
-        expect(pFind.settings.triggers.filterChanged).toEqual(true);
+        expect(pFind.settings.triggers.filtersChanged).toEqual(true);
         expect(pFind.settings.url).toEqual(
             "http://localhost:9950/test/search/find"
         );
@@ -149,5 +150,26 @@ describe("Find basics", () => {
                 expect(settings.cbRequest).toHaveBeenCalled();
                 expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
+    });
+
+    it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
+        fetch.resetMocks();
+        // Not caring about the response, just to stop the fetch from completing.
+        fetch.mockResponse(JSON.stringify(null));
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbResultState: jest.fn(),
+            cbSuccess: jest.fn()
+        } as IFindSettings;
+
+        let find = new Find(settings, null, fetch);
+        find.update({ queryText: "search-1" });
+        expect(settings.cbResultState).not.toBeCalled();
+        find.shouldUpdate("queryText", { queryText: "search-1" });
+        expect(settings.cbResultState).toBeCalledTimes(1);
+        find.shouldUpdate("queryText", { queryText: "search-2" });
+        expect(settings.cbResultState).toBeCalledTimes(2);
+        find.shouldUpdate("queryText", { queryText: "search-2" });
+        expect(settings.cbResultState).toBeCalledTimes(3);
     });
 });

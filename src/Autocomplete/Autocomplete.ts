@@ -88,16 +88,19 @@ export class Autocomplete extends BaseCall<string[]> {
     }
 
     public maxSuggestionsChanged(oldValue: number, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.maxSuggestionsChanged
-        ) {
+        if (!this.shouldUpdate("maxSuggestions", query)) {
+            return;
+        }
+        if (this.settings.triggers.maxSuggestionsChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
+        if (!this.shouldUpdate("queryText", query)) {
+            return;
+        }
+        if (this.settings.triggers.queryChange) {
             if (
                 query.queryText.length >
                 this.settings.triggers.queryChangeMinLength

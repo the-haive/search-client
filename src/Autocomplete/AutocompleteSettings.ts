@@ -1,5 +1,6 @@
 import { BaseSettings, IBaseSettings } from "../Common";
 import { AutocompleteTriggers } from "./AutocompleteTriggers";
+import { QueryChangeSpecifications } from "../Common/QueryChangeSpecifications";
 
 export interface IAutocompleteSettings extends IBaseSettings<string[]> {
     /**
@@ -34,5 +35,12 @@ export class AutocompleteSettings extends BaseSettings<string[]> {
 
         // Setup our own stuff (props not in the base class).
         this.triggers = new AutocompleteTriggers(settings.triggers);
+
+        // A change in any of the defined fields should indicate that the results may have changed.
+        this.queryChangeSpecs =
+            typeof settings.queryChangeSpecs !== "undefined"
+                ? settings.queryChangeSpecs
+                : QueryChangeSpecifications.maxSuggestions |
+                  QueryChangeSpecifications.queryText;
     }
 }

@@ -9,6 +9,7 @@ import { AuthToken } from "../Authentication/AuthToken";
 import { Filter } from "./Filter";
 import { Query } from "./Query";
 import { CategorizationType } from "./CategorizationType";
+import { QueryChangeSpecifications } from "./QueryChangeSpecifications";
 
 export type Fetch = (
     input?: Request | string,
@@ -34,6 +35,18 @@ export abstract class BaseCall<TDataType> {
     protected deferredUseMatchPage: boolean | null;
 
     protected delay: number;
+
+    /**
+     * The query used for the last fetch operation.
+     * When the actual query is different from this then the UI should reflect that it is
+     * not representative for the current query. It should then call a callback to notify
+     * on this state.
+     * The UI can then decide what to do with the no-longer representative results, for instance:
+     *   - Remove the results)
+     *   - "Disable" the results
+     *   - "Ghost" the results (but allow operating on them)
+     */
+    protected fetchQuery: Query;
 
     /**
      * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
@@ -130,23 +143,17 @@ export abstract class BaseCall<TDataType> {
         }
     }
 
-    public shouldUpdate(): boolean {
+    public shouldUpdate(fieldName?: string, query?: Query): boolean {
+        if (
+            this.settings.cbSuccess &&
+            this.settings.enabled &&
+            fieldName &&
+            query
+        ) {
+            this.outdatedWarning(fieldName, query);
+        }
         return this.settings.cbSuccess && this.settings.enabled;
     }
-
-    // public clientCategoryExpansionChanged(
-    //     oldValue: { [key: string]: boolean },
-    //     query: Query
-    // ): void {
-    //     /* Default no implementation*/
-    // }
-
-    // public clientCategoryFilterChanged(
-    //     oldValue: { [key: string]: string | RegExp },
-    //     query: Query
-    // ): void {
-    //     /* Default no implementation*/
-    // }
 
     public clientIdChanged(oldValue: string, query: Query): void {
         /* Default no implementation*/
@@ -261,6 +268,22 @@ export abstract class BaseCall<TDataType> {
         }
         if (this.settings.cbSuccess && !suppressCallbacks) {
             this.settings.cbSuccess(data);
+        }
+    }
+
+    /**
+     * Checks whether or not to notify that the results are invalidated (no longer representative for the query).
+     */
+    private outdatedWarning(fieldName: string, query: Query) {
+        if (
+            this.settings.cbResultState &&
+            this.settings.queryChangeSpecs &
+                QueryChangeSpecifications[fieldName]
+        ) {
+            let invalid =
+                !this.fetchQuery ||
+                !this.fetchQuery.equals(query, this.settings.queryChangeSpecs);
+            this.settings.cbResultState(invalid, this.fetchQuery, query);
         }
     }
 }

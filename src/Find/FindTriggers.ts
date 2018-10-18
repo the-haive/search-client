@@ -3,11 +3,6 @@
  */
 export class FindTriggers {
     /**
-     * Triggers when the clientCategoryFilter is changed.
-     */
-    public clientCategoryFilterChanged?: boolean;
-
-    /**
      * Triggers when the clientId property has changed
      */
     public clientIdChanged?: boolean;
@@ -25,7 +20,7 @@ export class FindTriggers {
     /**
      * Triggers when the filter property has changed.
      */
-    public filterChanged?: boolean;
+    public filtersChanged?: boolean;
 
     /**
      * Triggers when the generateContent property has changed.
@@ -111,11 +106,6 @@ export class FindTriggers {
      * @param triggers - The trigger defined here will override the default FindTrigger.
      */
     constructor(triggers: FindTriggers = {}) {
-        this.clientCategoryFilterChanged =
-            typeof triggers.clientCategoryFilterChanged !== "undefined"
-                ? triggers.clientCategoryFilterChanged
-                : true;
-
         this.clientIdChanged =
             typeof triggers.clientIdChanged !== "undefined"
                 ? triggers.clientIdChanged
@@ -128,9 +118,9 @@ export class FindTriggers {
             typeof triggers.dateToChanged !== "undefined"
                 ? triggers.dateToChanged
                 : true;
-        this.filterChanged =
-            typeof triggers.filterChanged !== "undefined"
-                ? triggers.filterChanged
+        this.filtersChanged =
+            typeof triggers.filtersChanged !== "undefined"
+                ? triggers.filtersChanged
                 : true;
         this.matchGenerateContentChanged =
             typeof triggers.matchGenerateContentChanged !== "undefined"

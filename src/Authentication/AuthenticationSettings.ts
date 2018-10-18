@@ -1,6 +1,7 @@
 import { BaseSettings, IBaseSettings } from "../Common/BaseSettings";
 
 import { AuthenticationTriggers } from "./AuthenticationTriggers";
+import { QueryChangeSpecifications } from "../Common/QueryChangeSpecifications";
 
 export interface IAuthenticationSettings extends IBaseSettings<any> {
     /**
@@ -75,5 +76,8 @@ export class AuthenticationSettings extends BaseSettings<any> {
                 : ["jwtToken"];
 
         this.triggers = new AuthenticationTriggers(settings.triggers);
+
+        // No query changes will trigger outdated warnings
+        this.queryChangeSpecs = QueryChangeSpecifications.none;
     }
 }

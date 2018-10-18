@@ -86,8 +86,10 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#cberror" class="tsd-kind-icon">cb<wbr>Error</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#cbrequest" class="tsd-kind-icon">cb<wbr>Request</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#cbresultsoutdated" class="tsd-kind-icon">cb<wbr>Results<wbr>Outdated</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#enabled" class="tsd-kind-icon">enabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#querychangespecs" class="tsd-kind-icon">query<wbr>Change<wbr>Specs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="iauthenticationsettings.html#servicepath" class="tsd-kind-icon">service<wbr>Path</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iauthenticationsettings.html#token" class="tsd-kind-icon">token</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="iauthenticationsettings.html#tokenpath" class="tsd-kind-icon">token<wbr>Path</a></li>
@@ -107,7 +109,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#basepath">basePath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L43">Common/BaseSettings.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L51">Common/BaseSettings.ts:51</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -125,7 +127,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#baseurl">baseUrl</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L35">Common/BaseSettings.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L43">Common/BaseSettings.ts:43</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -141,7 +143,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#cberror">cbError</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L6">Common/BaseSettings.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L9">Common/BaseSettings.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -183,7 +185,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#cbrequest">cbRequest</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L19">Common/BaseSettings.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L22">Common/BaseSettings.ts:22</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -229,13 +231,53 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="cbresultsoutdated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cb<wbr>Results<wbr>Outdated</h3>
+					<div class="tsd-signature tsd-kind-icon">cb<wbr>Results<wbr>Outdated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#cbresultsoutdated">cbResultsOutdated</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L33">Common/BaseSettings.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A notifier method to call whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>newQuery<span class="tsd-signature-symbol">: </span><a href="../classes/query.html" class="tsd-signature-type">Query</a>, oldQuery<span class="tsd-signature-symbol">: </span><a href="../classes/query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>newQuery: <a href="../classes/query.html" class="tsd-signature-type">Query</a></h5>
+											</li>
+											<li>
+												<h5>oldQuery: <a href="../classes/query.html" class="tsd-signature-type">Query</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 					<a name="cbsuccess" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cb<wbr>Success</h3>
 					<div class="tsd-signature tsd-kind-icon">cb<wbr>Success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#cbsuccess">cbSuccess</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L25">Common/BaseSettings.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L28">Common/BaseSettings.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -277,12 +319,28 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#enabled">enabled</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L30">Common/BaseSettings.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L38">Common/BaseSettings.ts:38</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Whether or not this setting-feature is enabled or not.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="querychangespecs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> query<wbr>Change<wbr>Specs</h3>
+					<div class="tsd-signature tsd-kind-icon">query<wbr>Change<wbr>Specs<span class="tsd-signature-symbol">:</span> <a href="../enums/querychangespecifications.html" class="tsd-signature-type">QueryChangeSpecifications</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#querychangespecs">queryChangeSpecs</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L61">Common/BaseSettings.ts:61</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Defines the enum bit-field flags that signifies which query-fields that may resolve in changed results (both Categorize and Find).</p>
 						</div>
 					</div>
 				</section>
@@ -293,7 +351,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#servicepath">servicePath</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L48">Common/BaseSettings.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L56">Common/BaseSettings.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -308,7 +366,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L9">Authentication/AuthenticationSettings.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L10">Authentication/AuthenticationSettings.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -323,7 +381,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L15">Authentication/AuthenticationSettings.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L16">Authentication/AuthenticationSettings.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -339,7 +397,7 @@
 					<div class="tsd-signature tsd-kind-icon">triggers<span class="tsd-signature-symbol">:</span> <a href="../classes/authenticationtriggers.html" class="tsd-signature-type">AuthenticationTriggers</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L20">Authentication/AuthenticationSettings.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/AuthenticationSettings.ts#L21">Authentication/AuthenticationSettings.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -355,7 +413,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="ibasesettings.html">IBaseSettings</a>.<a href="ibasesettings.html#url">url</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L50">Common/BaseSettings.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseSettings.ts#L63">Common/BaseSettings.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -389,10 +447,16 @@
 								<a href="iauthenticationsettings.html#cbrequest" class="tsd-kind-icon">cb<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iauthenticationsettings.html#cbresultsoutdated" class="tsd-kind-icon">cb<wbr>Results<wbr>Outdated</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iauthenticationsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iauthenticationsettings.html#enabled" class="tsd-kind-icon">enabled</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="iauthenticationsettings.html#querychangespecs" class="tsd-kind-icon">query<wbr>Change<wbr>Specs</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 								<a href="iauthenticationsettings.html#servicepath" class="tsd-kind-icon">service<wbr>Path</a>

@@ -1,4 +1,4 @@
-import { Category } from "../Data";
+import { ICategory } from "../Data";
 import { Filter, OrderBy, Query, SearchType } from "../Common";
 import { FindQueryConverter } from "./FindQueryConverter";
 
@@ -13,14 +13,14 @@ const fixedQuery = new Query({
             count: 1,
             expanded: true,
             name: "Bob"
-        } as Category),
+        } as ICategory),
         new Filter(["Filtype", "Word"], {
             categoryName: ["FileTypes", "docx"],
             displayName: "Word",
             count: 1,
             expanded: true,
             name: "docx"
-        } as Category)
+        } as ICategory)
     ],
     matchGrouping: true,
     matchOrderBy: OrderBy.Date,

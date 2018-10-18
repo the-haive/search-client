@@ -1,6 +1,5 @@
-import { FindSettings } from ".";
-import { Matches } from "../Data";
-import { IFindSettings } from "./FindSettings";
+import { IFindSettings, FindSettings } from ".";
+import { IMatches } from "../Data";
 
 describe("FindSettings basics", () => {
     it("uiLanguageCodeChanged default", () => {
@@ -38,7 +37,7 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.clientIdChanged).toEqual(true);
         expect(settings.triggers.dateFromChanged).toEqual(true);
         expect(settings.triggers.dateToChanged).toEqual(true);
-        expect(settings.triggers.filterChanged).toEqual(true);
+        expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.matchGenerateContentChanged).toEqual(true);
         expect(settings.triggers.matchGenerateContentHighlightsChanged).toEqual(
             true
@@ -67,7 +66,7 @@ describe("FindSettings basics", () => {
                 clientIdChanged: false,
                 dateFromChanged: false,
                 dateToChanged: false,
-                filterChanged: false,
+                filtersChanged: false,
                 matchGenerateContentChanged: false,
                 matchGroupingChanged: false,
                 matchOrderByChanged: false,
@@ -94,7 +93,7 @@ describe("FindSettings basics", () => {
         expect(actualSettings.triggers.clientIdChanged).toEqual(false);
         expect(actualSettings.triggers.dateFromChanged).toEqual(false);
         expect(actualSettings.triggers.dateToChanged).toEqual(false);
-        expect(actualSettings.triggers.filterChanged).toEqual(false);
+        expect(actualSettings.triggers.filtersChanged).toEqual(false);
         expect(actualSettings.triggers.matchGenerateContentChanged).toEqual(
             false
         );
@@ -117,7 +116,7 @@ describe("FindSettings basics", () => {
     });
 
     it("Should be possible to pass a partial FindSettings object to use for values.", () => {
-        let fnSuccess = (matches: Matches) => {
+        let fnSuccess = (matches: IMatches) => {
             /* dummy */
         };
 
@@ -142,7 +141,7 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.clientIdChanged).toEqual(false);
         expect(settings.triggers.dateFromChanged).toEqual(true);
         expect(settings.triggers.dateToChanged).toEqual(true);
-        expect(settings.triggers.filterChanged).toEqual(true);
+        expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.matchGenerateContentChanged).toEqual(true);
         expect(settings.triggers.matchGenerateContentHighlightsChanged).toEqual(
             true

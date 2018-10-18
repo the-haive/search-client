@@ -10,7 +10,8 @@ import {
     SortPartConfiguration,
     SortMethod,
     LimitPageConfiguration,
-    CategoryPresentation
+    CategoryPresentation,
+    CategorizationType
 } from "../Common";
 import { ICategories, ICategory, IGroup } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
@@ -71,6 +72,7 @@ export class Categorize extends BaseCall<ICategories> {
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+            this.fetchQuery = new Query(query);
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
@@ -113,51 +115,61 @@ export class Categorize extends BaseCall<ICategories> {
         }
     }
 
-    // public clientCategoryFilterChanged(
-    //     oldValue: { [key: string]: string | RegExp },
-    //     query: Query
-    // ): void {
-    //     if (
-    //         this.shouldUpdate() &&
-    //         this.settings.triggers.clientCategoryFilterChanged
-    //     ) {
-    //         this.cbSuccess(
-    //             false,
-    //             this.filterCategories(this.categories, query),
-    //             null,
-    //             null
-    //         );
-    //     }
-    // }
+    public categorizationTypeChanged(
+        oldValue: CategorizationType,
+        query: Query
+    ): void {
+        if (!this.shouldUpdate("categorizationType", query)) {
+            return;
+        }
+        if (this.settings.triggers.categorizationTypeChanged) {
+            this.update(query);
+        }
+    }
 
     public clientIdChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.clientIdChanged) {
+        if (!this.shouldUpdate("clientId", query)) {
+            return;
+        }
+        if (this.settings.triggers.clientIdChanged) {
             this.update(query);
         }
     }
 
     public dateFromChanged(oldValue: DateSpecification, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.dateFromChanged) {
+        if (!this.shouldUpdate("dateFrom", query)) {
+            return;
+        }
+        if (this.settings.triggers.dateFromChanged) {
             this.update(query);
         }
     }
 
     public dateToChanged(oldValue: DateSpecification, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.dateToChanged) {
+        if (!this.shouldUpdate("dateTo", query)) {
+            return;
+        }
+        if (this.settings.triggers.dateToChanged) {
             this.update(query);
         }
     }
 
-    public filtersChanged(oldValue: Filter[], query: Query): void {
-        if (this.shouldUpdate() && this.settings.triggers.filterChanged) {
+    public filtersChanged(oldValue: Filter[], query: Query) {
+        if (!this.shouldUpdate("filters", query)) {
+            return;
+        }
+        if (this.settings.triggers.filtersChanged) {
             this.update(query);
         }
     }
 
     public queryTextChanged(oldValue: string, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.queryChange) {
+        if (!this.shouldUpdate("queryText", query)) {
+            return;
+        }
+        if (this.settings.triggers.queryChange) {
             if (
-                query.queryText.length >
+                query.queryText.trim().length >
                 this.settings.triggers.queryChangeMinLength
             ) {
                 if (
@@ -183,16 +195,19 @@ export class Categorize extends BaseCall<ICategories> {
     }
 
     public searchTypeChanged(oldValue: SearchType, query: Query) {
-        if (this.shouldUpdate() && this.settings.triggers.searchTypeChanged) {
+        if (!this.shouldUpdate("searchType", query)) {
+            return;
+        }
+        if (this.settings.triggers.searchTypeChanged) {
             this.update(query);
         }
     }
 
     public uiLanguageCodeChanged(oldValue: string, query: Query) {
-        if (
-            this.shouldUpdate() &&
-            this.settings.triggers.uiLanguageCodeChanged
-        ) {
+        if (!this.shouldUpdate("uiLanguageCode", query)) {
+            return;
+        }
+        if (this.settings.triggers.uiLanguageCodeChanged) {
             this.update(query);
         }
     }

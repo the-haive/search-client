@@ -218,15 +218,12 @@ export class SearchClient implements AuthToken {
      *
      * Will run trigger-checks and potentially update services.
      */
-    public filterAdd(
-        filter: string[] | ICategory | Filter,
-        hidden: boolean = false
-    ): boolean {
+    public filterAdd(filter: string[] | ICategory | Filter): boolean {
         const item = this.filterId(filter);
         const foundIndex = this.filterIndex(item);
 
         if (foundIndex === -1) {
-            this.doFilterAdd(item, hidden);
+            this.doFilterAdd(item);
             return true;
         }
         // Filter already set
@@ -258,10 +255,7 @@ export class SearchClient implements AuthToken {
      * @param filter Is either string[], Filter or Category. When string array it expects the equivalent of the Category.categoryName property, which is like this: ["Author", "Normann"].
      * @return true if the filter was added, false if it was removed.
      */
-    public filterToggle(
-        filter: string[] | ICategory | Filter,
-        hidden: boolean = false
-    ): boolean {
+    public filterToggle(filter: string[] | ICategory | Filter): boolean {
         const item = this.filterId(filter);
         const foundIndex = this.filterIndex(item);
 
@@ -269,7 +263,7 @@ export class SearchClient implements AuthToken {
             this.doFilterRemove(foundIndex);
             return false;
         } else {
-            this.doFilterAdd(item, hidden);
+            this.doFilterAdd(item);
             return true;
         }
     }
@@ -712,7 +706,7 @@ export class SearchClient implements AuthToken {
      */
     set queryText(queryText: string) {
         // tslint:disable-next-line:triple-equals
-        if (queryText != this._query.queryText) {
+        if (queryText.trim() != this._query.queryText.trim()) {
             const oldValue = this._query.queryText;
             this._query.queryText = queryText;
 
@@ -770,7 +764,7 @@ export class SearchClient implements AuthToken {
         }
     }
 
-    private doFilterAdd(filter: string[], hidden: boolean = false) {
+    private doFilterAdd(filter: string[]) {
         // Find item in categorize.categories, and build displayName for the Filter (displayName for each categoryNode in the hierarchy)
         const newFilter = this.categorize.createCategoryFilter(filter);
         if (!newFilter) {

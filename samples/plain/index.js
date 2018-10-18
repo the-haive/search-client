@@ -121,12 +121,14 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         find: {
             cbRequest: handleFindRequest,
             cbSuccess: handleFindSuccess,
-            cbError: handleFindError
+            cbError: handleFindError,
+            cbResultState: handleFindResultState
         },
         categorize: {
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
-            cbError: handleCategorizeError
+            cbError: handleCategorizeError,
+            cbResultState: handleCategorizeResultState
         }
     };
 
@@ -1097,6 +1099,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         matchesHeader.classList.remove("has-data");
     }
 
+    function handleFindResultState(invalid, fetchedQuery, futureQuery) {
+        console.log("Find", invalid); //, fetchedQuery, futureQuery);
+    }
+
     /*** Categorize callbacks ***************************************************************/
 
     /**
@@ -1371,6 +1377,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         });
 
         categoriesTreeElm.innerHTML = "";
+    }
+
+    function handleCategorizeResultState(invalid, fetchedQuery, futureQuery) {
+        console.log("Categorize", invalid); //, fetchedQuery, futureQuery);
     }
 
     // Render settings dialog.
