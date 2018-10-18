@@ -592,7 +592,11 @@
                             <hr />
 
                             <div id="sort-pane">
-                                <table id="sort-part">
+                                <!--
+                                    This template is not displayed in the UI.
+                                    The contents however is used to draw sort-part sections in the list dynamically.
+                                -->
+                                <template id="sort-part">
                                     <tr>
                                         <td>
                                             <input class="match" type=text />
@@ -615,7 +619,7 @@
                                             <button class="remove" title="Remove rule">X</button>
                                         </td>
                                     </tr>
-                                </table>
+                                </template>
                                 <table>
                                     <thead>
                                         <tr>
