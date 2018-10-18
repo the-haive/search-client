@@ -105,3 +105,6 @@ typings/
 \.rpt2_cache/
 
 temp/
+samples/plain/IntelliSearch\.js
+
+samples/plain/IntelliSearch\.min\.js
