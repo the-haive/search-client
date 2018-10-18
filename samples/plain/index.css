@@ -960,7 +960,7 @@ button#reset.hidden {
     flex-direction: column;
 }
 
-#matches-error {
+#matches-error-panel {
     padding: 20px;
     border: thin solid rgb(139, 72, 72);
     background-color: rgba(248, 180, 180, 1);

@@ -8,6 +8,7 @@
     <title>IntelliSearch SearchClient</title>
     <link rel="stylesheet" href="awesomplete.css">
     <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="manifest" href="/manifest.json">
 </head>
 
 <body>
@@ -118,7 +119,6 @@
         </div>
 
         <main id="matches">
-            <span id="matches-error">Timeout error</span>
             <div id="matches-header">
                 <span id="matches-stats"></span>
                 <div id="matches-order">
@@ -133,6 +133,7 @@
                 <label>Did you mean:</label>
                 <ul id="did-you-mean"></ul>
             </div>
+            <span id="matches-error-panel">Timeout error</span>
             <div id="matches-list">
             </div>
             <div id="no-matches">
