@@ -118,6 +118,7 @@
         </div>
 
         <main id="matches">
+            <span id="matches-error">Timeout error</span>
             <div id="matches-header">
                 <span id="matches-stats"></span>
                 <div id="matches-order">
@@ -555,7 +556,7 @@
                         <fieldset id="sort">
                             <legend>Sort</legend>
 
-                            <input id="sort-enabled" type="checkbox">
+                            <input id="sort-enabled" type="checkbox" />
                             <label for="sort-enabled">Enabled</label>
 
                             <button class="toggle-button" data-target-id="sort-help" data-target-on="block"
@@ -590,13 +591,13 @@
                             <hr />
 
                             <div id="sort-pane">
-                                <template id="sort-part">
+                                <table id="sort-part">
                                     <tr>
                                         <td>
-                                            <input class="match" type=text></span>
+                                            <input class="match" type=text />
                                         </td>
                                         <td>
-                                            <input class="is-regex" type=checkbox></span>
+                                            <input class="is-regex" type=checkbox />
                                         </td>
                                         <td>
                                             <select>
@@ -613,7 +614,7 @@
                                             <button class="remove" title="Remove rule">X</button>
                                         </td>
                                     </tr>
-                                </template>
+                                </table>
                                 <table>
                                     <thead>
                                         <tr>

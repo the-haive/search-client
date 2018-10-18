@@ -919,10 +919,6 @@ button#reset.hidden {
     border-radius: 50%;
 }
 
-#categories-tree > ul li.has-filter > .entry > .link {
-    /*background-color: rgba(159, 197, 88, 0.15);*/
-}
-
 #categories-tree > ul .count {
     padding: 0 1em;
     font-size: smaller;
@@ -962,6 +958,15 @@ button#reset.hidden {
     grid-area: matches;
     display: flex;
     flex-direction: column;
+}
+
+#matches-error {
+    padding: 20px;
+    border: thin solid rgb(139, 72, 72);
+    background-color: rgba(248, 180, 180, 1);
+    border-radius: 5px;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 #did-you-mean-container {
@@ -1019,10 +1024,14 @@ button#reset.hidden {
     padding: 0;
 }
 
-#matches-list li {
-    margin-bottom: 30px;
+#matches-list li > div {
+    margin-top: 30px;
     margin-right: 10px;
     padding: 5px;
+}
+
+#matches-list li:first-child > div {
+    margin-top: 0;
 }
 
 #matches-list li.current {
@@ -1069,11 +1078,12 @@ button#reset.hidden {
 }
 
 #matches-list .item.parent-level-1 {
+    margin-top: 10px;
     margin-left: 4em;
 }
 
 #matches-list .item.parent-level-1 img.icon-primary {
-    display: none;
+    visibility: hidden;
 }
 
 #matches-list .item .title {
@@ -1092,6 +1102,10 @@ button#reset.hidden {
     height: 32px; /*1em;*/
     min-width: 32px; /*1em;*/
     margin-left: -1.3em;
+}
+
+#matches-list .item.parent-level-1 img.icon-primary + img.icon-overlay {
+    margin-left: -2.7em;
 }
 
 #matches-list .item .headline {
@@ -1121,7 +1135,7 @@ button#reset.hidden {
     border: solid 0.1em transparent;
     padding: 0.2em 0.5em;
     margin: 0.1em 0.5em 0 0;
-    background-color: #dcdcdc8a;
+    background-color: rgba(219, 219, 219, 0.5);
     font-size: 0.8em;
     display: inline-block;
     cursor: pointer;
