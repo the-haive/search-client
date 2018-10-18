@@ -11,14 +11,12 @@
     },
     "find": {
         "triggers": {
-            "queryChangeDelay": -1,
-            "queryChangeMinLength": 0
+            "queryChange": false
         }
     },
     "categorize": {
         "triggers": {
-            "queryChangeDelay": -1,
-            "queryChangeMinLength": 0
+            "queryChange": false
         }
     },
     "query": {

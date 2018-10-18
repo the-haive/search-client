@@ -116,6 +116,13 @@ body {
     display: none;
 }
 
+#container.invalid-results #dimmer {
+    display: block;
+}
+#container.invalid-results #dimmer .loader-wrapper {
+    display: none;
+}
+
 .dialog {
     display: none;
     background-color: rgba(255, 255, 255, 0.7);
@@ -392,7 +399,7 @@ button:hover {
 #dimmer,
 #category-dimmer {
     margin: -10px 0;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.7);
     z-index: 100;
     flex-direction: column;
     overflow: hidden;

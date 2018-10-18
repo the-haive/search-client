@@ -127,8 +127,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         categorize: {
             cbRequest: handleCategorizeRequest,
             cbSuccess: handleCategorizeSuccess,
-            cbError: handleCategorizeError,
-            cbResultState: handleCategorizeResultState
+            cbError: handleCategorizeError
         }
     };
 
@@ -450,11 +449,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     // This reports changes in the query, but does not detect enter
     queryTextElm.addEventListener("input", function() {
         //console.log("queryText changed: " + queryTextElm.value);
-        if (queryTextElm.value.length > 0) {
-            resetBtn.classList.remove("hidden");
-        } else {
-            resetBtn.classList.add("hidden");
-        }
+        // if (queryTextElm.value.length > 0) {
+        //     resetBtn.classList.remove("hidden");
+        // } else {
+        //     resetBtn.classList.add("hidden");
+        // }
         client.queryText = queryTextElm.value;
 
         adjustQueryTextFontSize();
@@ -825,6 +824,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleFindRequest(url, reqInit) {
         //console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
+        containerElm.classList.remove("invalid-results");
         containerElm.classList.add("matches-loading");
     }
 
@@ -833,7 +833,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleFindSuccess(matches) {
         // console.log("handleFindSuccess", "Matches:", matches);
-        containerElm.classList.remove("welcome", "matches-loading", "error");
+        containerElm.classList.remove(
+            "welcome",
+            "matches-loading",
+            "error",
+            "invalid-results"
+        );
 
         detailsHeaderElm.style.visibility = "hidden";
         detailsTitleElm.innerHTML = "";
@@ -1081,7 +1086,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove(
             "matches-loading",
             "categories-loading",
-            "welcome"
+            "welcome",
+            "invalid-results"
         );
         containerElm.classList.add("error");
         detailsHeaderElm.style.visibility = "hidden";
@@ -1100,7 +1106,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function handleFindResultState(invalid, fetchedQuery, futureQuery) {
-        console.log("Find", invalid); //, fetchedQuery, futureQuery);
+        // This handling now adds a dimmer over the full results-row, and there is no
+        // separate handling for invalid results state for categories
+        containerElm.classList.toggle("invalid-results", invalid);
+        //console.log("Find", invalid); //, fetchedQuery, futureQuery);
     }
 
     /*** Categorize callbacks ***************************************************************/
@@ -1377,10 +1386,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         });
 
         categoriesTreeElm.innerHTML = "";
-    }
-
-    function handleCategorizeResultState(invalid, fetchedQuery, futureQuery) {
-        console.log("Categorize", invalid); //, fetchedQuery, futureQuery);
     }
 
     // Render settings dialog.

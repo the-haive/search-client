@@ -706,7 +706,7 @@ export class SearchClient implements AuthToken {
      */
     set queryText(queryText: string) {
         // tslint:disable-next-line:triple-equals
-        if (queryText.trim() != this._query.queryText.trim()) {
+        if (queryText != this._query.queryText) {
             const oldValue = this._query.queryText;
             this._query.queryText = queryText;
 

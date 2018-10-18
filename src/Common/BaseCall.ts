@@ -280,9 +280,10 @@ export abstract class BaseCall<TDataType> {
             this.settings.queryChangeSpecs &
                 QueryChangeSpecifications[fieldName]
         ) {
-            let invalid =
-                !this.fetchQuery ||
-                !this.fetchQuery.equals(query, this.settings.queryChangeSpecs);
+            let invalid = this.fetchQuery
+                ? !this.fetchQuery.equals(query, this.settings.queryChangeSpecs)
+                : false;
+
             this.settings.cbResultState(invalid, this.fetchQuery, query);
         }
     }
