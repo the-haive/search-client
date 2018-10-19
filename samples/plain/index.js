@@ -236,30 +236,45 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 return `<span class="date" title="Modified: ${date.format("dddd, MMMM Do YYYY, hh:mm:ss")}">Last modified: ${date.fromNow()}</span>`;
             },
             iconSourceResolve: (icon, match) => {
-                let regex = getRegExp(icon.match);
                 let value = null;
                 let src = icon.unresolved;
                 if (icon.property) {
                     value = match[icon.property];
-                } else {
-                    if (!icon.metadata) {
-                        throw new Error("The icon specification must have either 'property' or 'metadata' set.");
-                    }
-                    value = match.metaList.filter(i => i.key === icon.metadata);
-                    if (value.length > 0) {
-                        value = value[0].value;
-                    } else {
-                        value = null;
-                    }
+                }
+                if (!value && icon.category) {
+                    let keyPropertyRegex = getRegExp(icon.category);
+                    match.categories.find(c => {
+                        let keyValueSplitPos = c.lastIndexOf("|");
+                        if (keyValueSplitPos === -1) {
+                            return false;
+                        }
+                        let key = c.substr(0, keyValueSplitPos);
+                        if (keyPropertyRegex.test(key)){
+                            value = c.substr(keyValueSplitPos + 1);
+                            return true;
+                        }
+                        return false;
+                    });
+                }
+                if (!value && icon.metadata) {
+                    let keyMetadataRegex = getRegExp(icon.metadata);
+                    match.metaList.find(m => {
+                        if (keyMetadataRegex.test(m.key)){
+                            value = m.value;
+                            return true;
+                        }
+                        return false;
+                    });
                 }
                 if (value) {
+                    let regex = getRegExp(icon.match);
                     let lookup = value.replace(regex, icon.replacement);
                     let mapped = icon.map[lookup];
                     if (mapped) {
                         src = mapped;
                     }
                 }
-                return {src, key: icon.property || icon.metadata, value};
+                return {src, key: icon.property || icon.category || icon.metadata, value};
             },
             icon: (match) => {
                 let primaryIcon = render.match.iconSourceResolve(uiSettings.match.icon.primary, match);
@@ -1502,7 +1517,7 @@ function getRegExp(pattern) {
         regex = new RegExp(regParts[1], regParts[2]);
     } else {
         // we got pattern string without delimiters
-        regex = new RegExp(regex);
+        regex = new RegExp(pattern);
     }
     return regex;
 }

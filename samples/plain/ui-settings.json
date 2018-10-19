@@ -29,6 +29,7 @@
             },
             "overlay": {
                 "filetype": {
+                    "category": "/^FileType.Extension$/i",
                     "metadata": "Extension",
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
