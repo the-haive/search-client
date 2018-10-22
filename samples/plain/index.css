@@ -10,7 +10,6 @@ body {
     1. "welcome" - The starting state with welcome text.
     2. "no-details"   - Search-results without details.
     3. ""             - Search results with details.
-    4. "error"        - Shows an error on the page.
 
     In addition there is a #big-dimmer element that overlays the second row. This is applied programmatically when the query
     has changed and the already presented results are not representative for the query.
@@ -85,22 +84,7 @@ body {
         "settings settings settings";
 }
 
-#container.error {
-    grid-template-areas:
-        "header header header"
-        "error error error"
-        "footer footer footer";
-}
-
-#container.error.dialog-settings {
-    grid-template-areas:
-        "header header header"
-        "error error error"
-        "settings settings settings";
-}
-
 #dialog-settings,
-#error,
 #dimmer,
 #category-dimmer,
 #container.welcome #categories,
@@ -108,10 +92,6 @@ body {
 #container.welcome #details,
 #container.no-details #details,
 #container.no-matches #details,
-#container.error #categories,
-#container.error #matches,
-#container.error #details,
-#container.error #welcome,
 #container.no-details #details {
     display: none;
 }
@@ -385,14 +365,7 @@ button:hover {
     padding-bottom: 1em;
 }
 
-#error {
-    grid-area: error;
-    padding: 0 2em;
-    overflow-y: auto;
-}
-
-#container.welcome #welcome,
-#container.error #error {
+#container.welcome #welcome {
     display: block;
 }
 
@@ -462,10 +435,6 @@ button:hover {
 
 #no-matches {
     display: none;
-}
-
-#error span.key {
-    font-weight: bold;
 }
 
 button#reset.hidden {
@@ -967,15 +936,6 @@ button#reset.hidden {
     flex-direction: column;
 }
 
-#matches-error-panel {
-    padding: 20px;
-    border: thin solid rgb(139, 72, 72);
-    background-color: rgba(248, 180, 180, 1);
-    border-radius: 5px;
-    margin-bottom: 30px;
-    margin-top: 30px;
-}
-
 #did-you-mean-container {
     margin-top: 1em;
     flex-shrink: 0;
@@ -1134,6 +1094,11 @@ button#reset.hidden {
 #matches-list li .extract {
     display: block;
     padding: 0 0 0.5em 0;
+}
+
+#details-content b,
+#matches-list li .extract b {
+    background-color: lemonchiffon;
 }
 
 #categories-filters .filter,
@@ -1671,4 +1636,31 @@ label[for]:hover {
 
 .awesomplete li {
     font-weight: 700;
+}
+
+#awn-toast-container.awn-top .awn-toast:first-child {
+    margin-top: 0 !important;
+}
+
+.awn-toast {
+    padding-right: 44px !important;
+    width: 360px;
+}
+
+.awn-toast-alert .alert {
+    padding-top: 0.4em;
+    border-top: solid 1px;
+}
+.awn-toast-alert .type {
+    font-weight: bold;
+}
+
+.awn-toast-alert .type,
+.awn-toast-alert .message {
+    display: inline-block;
+}
+
+.awn-toast-alert .details {
+    margin-top: 0.4em;
+    font-size: smaller;
 }

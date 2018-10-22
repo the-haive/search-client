@@ -1,5 +1,6 @@
 *.md
 *.html
+samples/plain/*.min.css
 samples/plain/*.min.js
 samples/plain/*.min.js.map
 

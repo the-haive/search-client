@@ -16,6 +16,8 @@
  * - Men, ved feil i både kategori og matches så viser vi en felles feil-melding.
  */
 
+let notifier;
+
 function load(file) {
     return fetch(file, {
         "Content-Type": "text/json",
@@ -38,6 +40,36 @@ function load(file) {
 }
 
 window.onload = function() {
+    // TODO: Localize notifications
+    notifier = new AWN({
+        labels: {
+            tip: "Tip",
+            info: "Info",
+            success: "Success",
+            warning: "Attention",
+            alert: "Error",
+            async: "Loading",
+            confirm: "Confirmation required"
+        },
+        icons: {
+            enabled: false
+        },
+        modal: {
+            okLabel: "OK",
+            cancelLabel: "Cancel",
+            maxWidth: "500px"
+        },
+        messages: {
+            async: "Please, wait...",
+            "async-block": "Loading"
+        },
+        maxNotifications: 10,
+        animationDuration: 400,
+        asyncBlockMinDuration: 500,
+        position: "top-right",
+        duration: 10000
+    });
+    //standardAlertMessage("Find", "error-details");
     moment.locale(window.navigator.language || navigator.userLanguage);
     //////////////////////////////////////////////////////////////////////////////////////////
     // 1. First create a settings object that is sent to the search-engine.
@@ -60,35 +92,6 @@ window.onload = function() {
                 .getElementsByClassName("dialog-content")[0];
 
             notReady.style.display = "flex";
-
-            // if (!Cookies.enabled) {
-            //     notReady.innerHTML = `
-            //         <h1>Error</h1>
-            //         <p>
-            //             This application requires cookies to authenticate with the domain controller.
-            //         </p><p>
-            //             Please enable cookies and try reloading the page.
-            //         </p>`;
-            //     notReady.style.display = "flex";
-            //     return;
-            // }
-            // var cookie = Cookies.get("IntelliSearch");
-            // if (!cookie) {
-            //     // Redirect to the auth-page
-            //     //alert("Redirecting for Windows pre-authentication.");
-            //     redirect(searchSettings.authentication.baseUrl);
-            //     return;
-            // } else if (cookie !== "IWAOK") {
-            //     notReady.innerHTML = `
-            //         <h1>Error</h1>
-            //         <p>
-            //             Not able to pre-authenticate with the domain.
-            //         </p><p>
-            //             Verify network, domain and/or VPN-connections and try again.
-            //         </p>`;
-            //     notReady.style.display = "flex";
-            //     return;
-            // }
         } else {
             document
                 .getElementById("container")
@@ -367,74 +370,16 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                 `;
             },
         },
-        error: {
-            find: (error, stack) => `
-                <h4>Find:</h4>
-                <ul>
-                    <li>
-                        <span class="key">Message:</span>
-                        <span class="message">${error.message}</span>
-                    </li>
-                    <li>
-                        <span class="key">Stacktrace:</span><br/>
-                        <span class="stacktrace">${stack}</span>
-                    </li>
-                    <li>
-                        <span class="key">Internal stacktrace:</span><br/>
-                        <span class="stacktrace">${error.stack}</span>
-                    </li>
-                </ul>
-            `,
-            categorize: (error, stack) => `
-                <h4>Categorize:</h4>
-                <ul>
-                    <li>
-                        <span class="key">Message:</span>
-                        <span class="message">${error.message}</span>
-                    </li>
-                    <li>
-                        <span class="key">Stacktrace:</span><br/>
-                        <span class="stacktrace">${stack}</span>
-                    </li>
-                    <li>
-                        <span class="key">Internal stacktrace:</span><br/>
-                        <span class="stacktrace">${error.stack}</span>
-                    </li>
-                </ul>
-            `,
-            generic: (error, stack) => `
-                <h4>Generic:</h4>
-                <ul>
-                    <li>
-                        <span class="key">Message:</span>
-                        <span class="message">${error.message}</span>
-                    </li>
-                    <li>
-                        <span class="key">Stacktrace:</span><br/>
-                        <span class="stacktrace">${stack}</span>
-                    </li>
-                    <li>
-                        <span class="key">Internal stacktrace:</span><br/>
-                        <span class="stacktrace">${error.stack}</span>
-                    </li>
-                </ul>
-            `,
-        },
     };
 
-    let genericErrorElm = document.getElementById("generic-error");
     window.onError = function(message, source, lineno, colno, error) {
-        containerElm.classList.remove(
-            "matches-loading",
-            "categories-loading",
-            "welcome"
-        );
-        containerElm.classList.add("error");
+        standardAlertMessage("General error:", message);
+        console.error("General error: ", error);
+        containerElm.classList.remove("matches-loading", "categories-loading");
 
-        stacktrace(stack => {
-            console.error("handleCategorizeError", error.message, stack);
-            genericErrorElm.innerHTML = render.error.generic(error, stack);
-        });
+        // stacktrace(stack => {
+        //     console.error("Error", error.message, stack);
+        // });
     };
     //////////////////////////////////////////////////////////////////////////////////////////
     // 5. Initialize the client engine
@@ -633,9 +578,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.add("no-details");
     }
 
-    let matchesErrorElm = document.getElementById("matches-error");
-    let categoriesErrorElm = document.getElementById("categories-error");
-
     let loadingSuggestions = document.getElementById("spinner");
 
     let aboutElm = document.getElementById("dialog-about");
@@ -790,13 +732,16 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     }
 
     function handleAuthenticationError(error) {
+        standardAlertMessage("Authentication:", error.message);
+        console.error("handleAuthenticationError - ", error);
         document.getElementById("container").classList.remove("not-ready");
-        stacktrace(stack => {
-            console.error("handleAuthenticationError", error.message, stack);
-        });
+
+        // stacktrace(stack => {
+        //     console.error("handleAuthenticationError", error.message, stack);
+        // });
+
         containerElm.classList.remove("auth-pending");
         containerElm.classList.add("auth-error");
-        // TODO: Write details on error to dialog?
     }
 
     /*** Autocomplete callbacks *************************************************************/
@@ -824,11 +769,13 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleAutocompleteError(error) {
+        standardAlertMessage("Autocomplete:", error.message);
+        console.error("handleAutocompleteError - ", error);
         loadingSuggestions.style.visibility = "hidden";
 
-        stacktrace(stack => {
-            console.error("handleAutocompleteError", error.message, stack);
-        });
+        // stacktrace(stack => {
+        //     console.error("handleAutocompleteError", error.message, stack);
+        // });
     }
 
     /*** Find callbacks *********************************************************************/
@@ -851,7 +798,6 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove(
             "welcome",
             "matches-loading",
-            "error",
             "invalid-results"
         );
 
@@ -1098,19 +1044,18 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleFindError(error) {
+        standardAlertMessage("Find:", error.message);
+        console.error("handleFindError - ", error);
         containerElm.classList.remove(
             "matches-loading",
             "categories-loading",
-            "welcome",
             "invalid-results"
         );
-        containerElm.classList.add("error");
         detailsHeaderElm.style.visibility = "hidden";
 
-        stacktrace(stack => {
-            console.error("handleFindError", error, stack);
-            matchesErrorElm.innerHTML = render.error.find(error, stack);
-        });
+        // stacktrace(stack => {
+        //     console.error("handleFindError", error, stack);
+        // });
 
         matchesStatsElm.innerHTML = "";
         matchesListElm.innerHTML = "No matches.";
@@ -1143,7 +1088,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleCategorizeSuccess(categories) {
         // console.log("handleCategorizeSuccess", "Categories:", categories);
-        containerElm.classList.remove("categories-loading", "error");
+        containerElm.classList.remove("categories-loading");
         categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
@@ -1385,20 +1330,13 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      * Use this to handle errors and to stop load-spinners.
      */
     function handleCategorizeError(error) {
-        containerElm.classList.remove(
-            "matches-loading",
-            "categories-loading",
-            "welcome"
-        );
-        containerElm.classList.add("error");
+        standardAlertMessage("Categorize:", error.message);
+        console.error("handleCategorizeError - ", error);
+        containerElm.classList.remove("matches-loading", "categories-loading");
 
-        stacktrace(stack => {
-            console.error("handleCategorizeError", error.message, stack);
-            categoriesErrorElm.innerHTML = render.error.categorize(
-                error,
-                stack
-            );
-        });
+        // stacktrace(stack => {
+        //     console.error("handleCategorizeError", error.message, stack);
+        // });
 
         categoriesTreeElm.innerHTML = "";
     }
@@ -1582,20 +1520,31 @@ function truncateMiddleEllipsis(fullStr, strLen, separator) {
     );
 }
 
-function stacktrace(action) {
-    StackTrace.get(error, { offline: true })
-        .then(stackframes => {
-            // Remove the topmost three frames, as they are artificial.
-            stackframes = stackframes.slice(3);
-            return stackframes.map(function(sf) {
-                return sf.toString();
-            });
-        })
-        .then(action)
-        .catch(err =>
-            console.error("Unable to create stacktrace", err.message)
-        );
+function standardAlertMessage(type, message) {
+    notifier.alert(`
+        <div class="alert">
+            <div class="type">${type}</div>
+            <div class="message">${message}</div>
+            <div class="details">See console-log for more information.</div>
+        </div>
+
+    `);
 }
+
+// function stacktrace(action) {
+//     StackTrace.get(error, { offline: true })
+//         .then(stackframes => {
+//             // Remove the topmost three frames, as they are artificial.
+//             stackframes = stackframes.slice(3);
+//             return stackframes.map(function(sf) {
+//                 return sf.toString();
+//             });
+//         })
+//         .then(action)
+//         .catch(err =>
+//             console.error("Unable to create stacktrace", err.message)
+//         );
+// }
 
 // function redirect(url) {
 //     var ua = navigator.userAgent.toLowerCase(),
