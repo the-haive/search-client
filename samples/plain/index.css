@@ -694,6 +694,10 @@ button#reset.hidden {
     overflow-y: auto;
 }
 
+#categories-tree {
+    max-width: 245px;
+}
+
 #categories-tree > ul {
     list-style-type: none;
     padding-left: 0;
@@ -1096,9 +1100,13 @@ button#reset.hidden {
     padding: 0 0 0.5em 0;
 }
 
-#details-content b,
 #matches-list li .extract b {
+    /*background-color: lemonchiffon;
+    padding: 0 3px;*/
+}
+#details-content b {
     background-color: lemonchiffon;
+    padding: 0 3px;
 }
 
 #categories-filters .filter,
