@@ -613,7 +613,41 @@ button#reset.hidden {
     width: 25px;
 }
 
-.search.icon,
+#reset > span {
+    color: #0000006e;
+    position: absolute;
+    margin-left: -9px;
+    margin-top: -8px;
+    width: 14px;
+    height: 14px;
+    border: solid 2px currentColor;
+    border-radius: 100%;
+}
+
+#reset > span:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background-color: currentColor;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 6px;
+    left: 2px;
+}
+
+#reset > span:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background-color: currentColor;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 6px;
+    left: 2px;
+}
+
 #go > span {
     color: #000;
     position: absolute;
@@ -627,7 +661,6 @@ button#reset.hidden {
     transform: rotate(-45deg);
 }
 
-.search.icon:before,
 #go > span:before {
     content: "";
     position: absolute;
