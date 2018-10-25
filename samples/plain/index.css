@@ -760,10 +760,13 @@ button#reset.hidden {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
+    max-width: 200px;
 }
 
 #categories-tree > ul li > .entry > .link > .title {
     flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #categories-tree > ul .collapsed.has-children > .entry {
@@ -891,6 +894,7 @@ button#reset.hidden {
     background-color: currentColor;
     /*border: solid 1px currentColor;*/
     border-radius: 100%;
+    min-width: 14px;
 }
 
 #categories-tree > ul li.is-filter > .entry > .filter::after {
@@ -1093,6 +1097,14 @@ button#reset.hidden {
 #matches-list .item .title {
     display: flex;
     flex-direction: row;
+}
+
+#matches-list .item.ghost {
+    opacity: 0.5;
+}
+
+#matches-list .item.ghost > div.categories {
+    display: none;
 }
 
 #matches-list .item img.icon-primary {
