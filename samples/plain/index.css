@@ -646,6 +646,12 @@ button#reset.hidden {
     user-select: none;
 }
 
+#matches-order .container {
+    font-size: 1em;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+
 /* Hide the browser's default checkbox */
 .container input {
     position: absolute;
@@ -666,25 +672,41 @@ button#reset.hidden {
     border: thin solid #aaa;
 }
 
+/* Create a custom radiobutton */
+.radiobutton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+    border: thin solid #aaa;
+    border-radius: 50%;
+}
+
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.container:hover input ~ .checkmark,
+.container:hover input ~ .radiobutton {
     background-color: rgba(122, 193, 67, 0.6);
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.container input:checked ~ .checkmark,
+.container input:checked ~ .radiobutton {
     background-color: rgba(122, 193, 67, 1);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.checkmark:after,
+.radiobutton:after {
     content: "";
     position: absolute;
     display: none;
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.container input:checked ~ .checkmark:after,
+.container input:checked ~ .radiobutton:after {
     display: block;
 }
 
@@ -699,6 +721,16 @@ button#reset.hidden {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+/* Style the indicator (dot/circle) */
+.container .radiobutton:after {
+    top: 4px;
+    left: 4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
 }
 
 #tabs {
@@ -1019,10 +1051,11 @@ button#reset.hidden {
 }
 
 #matches-order.show {
-    display: block;
+    display: flex;
 }
 
 #matches-order .header {
+    margin-top: 10px;
     font-weight: 700;
 }
 
