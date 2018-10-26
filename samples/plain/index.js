@@ -498,6 +498,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     //    - Match ordering
     //    - ...
     //////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
     let searchTypeAllElm = document.getElementById("search-type-all");
     searchTypeAllElm.addEventListener("click", function() {
         client.searchType = IntelliSearch.SearchType.Keywords;
@@ -512,6 +514,16 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         client.searchType === IntelliSearch.SearchType.Keywords;
     searchTypeAnyElm.checked =
         client.searchType === IntelliSearch.SearchType.Relevance;
+    */
+
+    let searchTypeAllElm = document.getElementById("search-type-all");
+    searchTypeAllElm.addEventListener("change", function() {
+        if (this.checked) {
+            client.searchType = IntelliSearch.SearchType.Keywords;
+        } else {
+            client.searchType = IntelliSearch.SearchType.Relevance;
+        }
+    });
 
     let matchesHeader = document.getElementById("matches-header");
 
