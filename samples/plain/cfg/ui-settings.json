@@ -21,11 +21,12 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "docs.global.ints": "images/source-fileshare3.png",
-                    "demo-esp": "images/source-fileshare3.png",
-                    "Mailbox": "images/source-mail.png"
+                    "":                 "/img/INTS_Logo.svg",
+                    "docs.global.ints": "./img/sources/source-fileshare.png",
+                    "demo-esp":         "./img/sources/source-fileshare.png",
+                    "Mailbox":          "./img/sources/source-mailbox.png"
                 },
-                "unresolved": "images/source-unresolved.png"
+                "unresolved": "./img/sources/source-unresolved.png"
             },
             "overlay": {
                 "filetype": {
@@ -34,21 +35,21 @@
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
                     "map": {
-                        "txt": "images/filetype-txt.png",
-                        "doc": "images/filetype-doc.png",
-                        "docx": "images/filetype-doc.png",
-                        "xls": "images/filetype-xls.png",
-                        "xlsx": "images/filetype-xls.png",
-                        "ppt": "images/filetype-ppt.png",
-                        "pptx": "images/filetype-ppt.png",
-                        "pdf": "images/filetype-pdf.png",
-                        "xml": "images/filetype-xml.png",
-                        "zip": "images/filetype-zip.png",
-                        "msg": "images/filetype-msg.png",
-                        "htm": "images/filetype-html.png",
-                        "html": "images/filetype-html.png"
+                        "txt":  "./img/filetypes/filetype-txt.png",
+                        "doc":  "./img/filetypes/filetype-doc.png",
+                        "docx": "./img/filetypes/filetype-doc.png",
+                        "xls":  "./img/filetypes/filetype-xls.png",
+                        "xlsx": "./img/filetypes/filetype-xls.png",
+                        "ppt":  "./img/filetypes/filetype-ppt.png",
+                        "pptx": "./img/filetypes/filetype-ppt.png",
+                        "pdf":  "./img/filetypes/filetype-pdf.png",
+                        "xml":  "./img/filetypes/filetype-xml.png",
+                        "zip":  "./img/filetypes/filetype-zip.png",
+                        "msg":  "./img/filetypes/filetype-msg.png",
+                        "htm":  "./img/filetypes/filetype-html.png",
+                        "html": "./img/filetypes/filetype-html.png"
                     },
-                    "unresolved": "images/1x1.png"
+                    "unresolved": "./img/1x1.png"
                 }
             }
         },

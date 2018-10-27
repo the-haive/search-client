@@ -78,10 +78,10 @@ window.onload = function() {
     let searchSettings = {};
     let uiSettings = {};
     Promise.all([
-        load("./search-settings.json").then(ss => {
+        load("./cfg/search-settings.json").then(ss => {
             searchSettings = ss;
         }),
-        load("./ui-settings.json").then(ui => {
+        load("./cfg/ui-settings.json").then(ui => {
             uiSettings = ui;
         })
     ]).then(() => {
