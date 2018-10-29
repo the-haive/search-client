@@ -157,7 +157,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                         <span>About ${matches.estimatedMatchCount} matches</span>
                     `;
                 } else {
-                    return "No matches";
+                    return "";
                 }
             },
             pager: {
@@ -1046,7 +1046,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             matchesPagerElm.classList.remove("show");
             matchesStatsElm.innerHTML = "";
             containerElm.classList.add("no-matches");
-            matchesListElm.innerHTML = "No matches.";
+            matchesListElm.innerHTML = "";
         }
         // Scroll to top of match-list, always on update.
         matchesListElm.scrollTop = 0;
