@@ -94,7 +94,7 @@ body {
     margin: auto;
     overflow-y: auto;
     padding: 0.5em 1em;
-    width: 90%;
+    width: 40%;
 }
 
 #not-ready .dialog-content,
@@ -757,7 +757,7 @@ button#reset.hidden {
     overflow-x: hidden;
 }
 
-#details > .close {
+/*#details > .close {
     cursor: pointer;
     margin: -0.7em 1.1em;
     position: absolute;
@@ -766,6 +766,58 @@ button#reset.hidden {
 
 #details > .close:hover {
     font-weight: 700;
+}*/
+
+.close {
+    color: #000;
+    position: relative;
+    margin-top: 5px;
+    margin-left: 0;
+    width: 21px;
+    height: 21px;
+}
+
+#details > .close {
+    position: absolute;
+    margin-top: 0;
+    right: 20px;
+}
+
+.close:before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    width: 21px;
+    height: 1px;
+    background-color: currentColor;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.close:after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    width: 21px;
+    height: 1px;
+    background-color: currentColor;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#dialog-settings-close-button.close {
+    height: 15px;
+    width: 15px;
+    margin-right: 2px;
+}
+#dialog-settings-close-button.close:before,
+#dialog-settings-close-button.close:after {
+    width: 15px;
+    top: 2px;
+}
+
+.close:hover:before,
+.close:hover:after {
+    height: 2px;
 }
 
 #categories {

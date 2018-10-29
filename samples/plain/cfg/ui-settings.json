@@ -21,10 +21,10 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "":                 "/img/INTS_Logo.svg",
+                    "": "/img/INTS_Logo.svg",
                     "docs.global.ints": "./img/sources/source-fileshare.png",
-                    "demo-esp":         "./img/sources/source-fileshare.png",
-                    "Mailbox":          "./img/sources/source-mailbox.png"
+                    "demo-esp": "./img/sources/source-fileshare.png",
+                    "Mailbox": "./img/sources/source-mailbox.png"
                 },
                 "unresolved": "./img/sources/source-unresolved.png"
             },
@@ -35,18 +35,18 @@
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
                     "map": {
-                        "txt":  "./img/filetypes/filetype-txt.png",
-                        "doc":  "./img/filetypes/filetype-doc.png",
+                        "txt": "./img/filetypes/filetype-txt.png",
+                        "doc": "./img/filetypes/filetype-doc.png",
                         "docx": "./img/filetypes/filetype-doc.png",
-                        "xls":  "./img/filetypes/filetype-xls.png",
+                        "xls": "./img/filetypes/filetype-xls.png",
                         "xlsx": "./img/filetypes/filetype-xls.png",
-                        "ppt":  "./img/filetypes/filetype-ppt.png",
+                        "ppt": "./img/filetypes/filetype-ppt.png",
                         "pptx": "./img/filetypes/filetype-ppt.png",
-                        "pdf":  "./img/filetypes/filetype-pdf.png",
-                        "xml":  "./img/filetypes/filetype-xml.png",
-                        "zip":  "./img/filetypes/filetype-zip.png",
-                        "msg":  "./img/filetypes/filetype-msg.png",
-                        "htm":  "./img/filetypes/filetype-html.png",
+                        "pdf": "./img/filetypes/filetype-pdf.png",
+                        "xml": "./img/filetypes/filetype-xml.png",
+                        "zip": "./img/filetypes/filetype-zip.png",
+                        "msg": "./img/filetypes/filetype-msg.png",
+                        "htm": "./img/filetypes/filetype-html.png",
                         "html": "./img/filetypes/filetype-html.png"
                     },
                     "unresolved": "./img/1x1.png"
