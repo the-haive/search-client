@@ -767,6 +767,9 @@ export class Categorize extends BaseCall<ICategories> {
                 path,
                 category.children
             );
+            if (!res) {
+                return;
+            }
             if (res.displayName && res.displayName.length > 0) {
                 result = result.concat(res.displayName);
             }
