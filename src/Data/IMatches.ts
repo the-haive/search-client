@@ -32,4 +32,6 @@ export interface IMatches {
      * The actual list of match-items.
      */
     searchMatches: IMatchItem[];
+    statusCode: number;
+    errorMessage: string;
 }

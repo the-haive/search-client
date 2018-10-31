@@ -72,6 +72,9 @@ export class Find extends BaseCall<IMatches> {
                     return response.json();
                 })
                 .then((matches: IMatches) => {
+                    if (matches.errorMessage) {
+                        throw new Error(matches.errorMessage);
+                    }
                     this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                     return matches;
                 })

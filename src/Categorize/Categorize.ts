@@ -85,6 +85,9 @@ export class Categorize extends BaseCall<ICategories> {
                     return response.json();
                 })
                 .then((categories: ICategories) => {
+                    if (categories.errorMessage) {
+                        throw new Error(categories.errorMessage);
+                    }
                     this.categories = categories;
                     categories = this.filterCategories(categories, query);
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
