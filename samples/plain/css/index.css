@@ -46,20 +46,13 @@ body {
 #dialog-settings,
 #dimmer,
 #category-dimmer,
+#matches-dimmer,
 #container.welcome #categories,
 #container.welcome #matches,
 #container.welcome #details,
 #container.no-details #details,
 #container.no-matches #details,
 #container.no-details #details {
-    display: none;
-}
-
-#container.invalid-results #dimmer {
-    display: block;
-}
-
-#container.invalid-results #dimmer .loader-wrapper {
     display: none;
 }
 
@@ -333,6 +326,7 @@ button:hover {
 }
 
 #dimmer,
+#matches-dimmer,
 #category-dimmer {
     background-color: rgba(255, 255, 255, 0.7);
     flex-direction: column;
@@ -344,10 +338,15 @@ button:hover {
     z-index: 100;
 }
 
+#matches-dimmer {
+    grid-column: 2/3;
+}
+
 #category-dimmer {
     grid-column: 1/2;
 }
 
+#matches-dimmer .whiteout,
 #category-dimmer .whiteout,
 #dimmer .whiteout {
     display: flex;
@@ -359,6 +358,7 @@ button:hover {
     left: 45%;
 }
 
+#matches-dimmer .loader-wrapper,
 #category-dimmer .loader-wrapper {
     zoom: 50%;
 }
@@ -369,11 +369,15 @@ button:hover {
     display: block;
 }
 
+#container:not(.invalid-match-results) #matches-dimmmer,
+#container:not(.invalid-category-results) #category-dimmmer,
 #container.query-changed:not(.matches-loading) #dimmer .loader-wrapper,
 #container.query-changed:not(.categories-loading) #dimmer .loader-wrapper {
     display: none;
 }
 
+#container.invalid-match-results #matches-dimmmer,
+#container.invalid-category-results #category-dimmmer,
 #container.matches-loading #dimmer,
 #container.categories-loading:not(.matches-loading) #category-dimmer {
     display: flex;

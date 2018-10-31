@@ -798,7 +798,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleFindRequest(url, reqInit) {
         //console.log("handleFindRequest", "Url: ", url, "ReqInit:", reqInit);
-        containerElm.classList.remove("invalid-results");
+        containerElm.classList.remove("invalid-match-results");
         containerElm.classList.add("matches-loading");
     }
 
@@ -810,7 +810,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         containerElm.classList.remove(
             "welcome",
             "matches-loading",
-            "invalid-results"
+            "invalid-match-results"
         );
 
         detailsHeaderElm.style.visibility = "hidden";
@@ -1058,11 +1058,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function handleFindError(error) {
         standardAlertMessage("Find:", error.message);
         console.error("handleFindError - ", error);
-        containerElm.classList.remove(
-            "matches-loading",
-            "categories-loading",
-            "invalid-results"
-        );
+        containerElm.classList.remove("matches-loading");
+        const hasWelcome = containerElm.classList.contains("welcome");
+        containerElm.classList.toggle("invalid-match-results", !hasWelcome);
+
         detailsHeaderElm.style.visibility = "hidden";
 
         // stacktrace(stack => {
@@ -1080,7 +1079,8 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function handleFindResultState(invalid, fetchedQuery, futureQuery) {
         // This handling now adds a dimmer over the full results-row, and there is no
         // separate handling for invalid results state for categories
-        containerElm.classList.toggle("invalid-results", invalid);
+        containerElm.classList.toggle("invalid-match-results", invalid);
+        containerElm.classList.toggle("invalid-category-results", invalid);
         //console.log("Find", invalid); //, fetchedQuery, futureQuery);
     }
 
@@ -1093,6 +1093,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function handleCategorizeRequest(url, reqInit) {
         // console.log("handleCategorizeRequest", "Url: ", url, "ReqInit:", reqInit);
         containerElm.classList.add("categories-loading");
+        containerElm.classList.remove("invalid-category-results");
     }
 
     /**
@@ -1100,7 +1101,11 @@ function setupIntelliSearch(searchSettings, uiSettings) {
      */
     function handleCategorizeSuccess(categories) {
         // console.log("handleCategorizeSuccess", "Categories:", categories);
-        containerElm.classList.remove("categories-loading");
+        containerElm.classList.remove(
+            "welcome",
+            "categories-loading",
+            "invalid-category-results"
+        );
         categoriesTreeElm.innerHTML = "";
 
         function createCategoryNode(category, index, arr) {
@@ -1344,7 +1349,10 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     function handleCategorizeError(error) {
         standardAlertMessage("Categorize:", error.message);
         console.error("handleCategorizeError - ", error);
-        containerElm.classList.remove("matches-loading", "categories-loading");
+
+        containerElm.classList.remove("categories-loading");
+        const hasWelcome = containerElm.classList.contains("welcome");
+        containerElm.classList.toggle("invalid-category-results", !hasWelcome);
 
         // stacktrace(stack => {
         //     console.error("handleCategorizeError", error.message, stack);
