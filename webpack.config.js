@@ -22,7 +22,8 @@ module.exports = {
     },
     plugins: [
         new UglifyJsPlugin({
-            sourceMap: true,
+            sourceMap: false,
+            extractComments: true,
             include: /\.min\.js$/
         })
     ],
