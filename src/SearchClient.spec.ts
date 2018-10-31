@@ -302,6 +302,10 @@ describe("SearchClient filter interface", () => {
         expect(client.filters).not.toContainEqual(filterSystemFile);
         expect(client.filters).toContainEqual(filterAuthorLarsFrode);
         expect(client.filters).toContainEqual(filterFileTypeDoc);
+
+        expect(client.filters).toHaveLength(2);
+        client.reset();
+        expect(client.filters).toHaveLength(0);
     });
 
     it("Should have working match*, queryText, searchType, findAndCategorize and date interfaces", () => {

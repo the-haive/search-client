@@ -178,9 +178,7 @@ export class SearchClient implements AuthToken {
      * Resets the SearchClient instance (filters, queryText, categoryPresentations++) to initial values.
      */
     public reset(): void {
-        this.deferUpdates(true);
         this.setup(this._origSettings, this._origFetchMethod);
-        this.deferUpdates(false, true);
     }
 
     /**
@@ -873,5 +871,6 @@ export class SearchClient implements AuthToken {
         this.find = new Find(this.settings.find, this, fetchMethod);
         this.settings.find = this.find.settings;
         this._query = this.settings.query;
+        this._query.filters = [];
     }
 }
