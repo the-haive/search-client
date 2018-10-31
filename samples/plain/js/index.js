@@ -102,6 +102,7 @@ window.onload = function() {
         setupIntelliSearch(searchSettings, uiSettings);
         setupTabs();
         setupButtons();
+        document.getElementById("query-text").focus(); // Set the focus to the query-field.
     });
 };
 
@@ -464,6 +465,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         client.reset();
         containerElm.className = "welcome";
         queryTextElm.value = "";
+        queryTextElm.focus();
     });
 
     // We also want the search button to force a
@@ -474,6 +476,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         let query = {};
         Object.assign(query, client.query, { queryText: queryTextElm.value });
         client.forceUpdate(query, false); //No need to update autocomplete
+        queryTextElm.focus();
     });
 
     // Set up the autocomplete library
@@ -523,6 +526,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         } else {
             client.searchType = IntelliSearch.SearchType.Relevance;
         }
+        queryTextElm.focus();
     });
 
     let matchesHeader = document.getElementById("matches-header");
@@ -530,11 +534,13 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let orderByRelevanceElm = document.getElementById("option-relevance");
     orderByRelevanceElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Relevance;
+        queryTextElm.focus();
     });
 
     let orderByDateElm = document.getElementById("option-date");
     orderByDateElm.addEventListener("click", function() {
         client.matchOrderBy = IntelliSearch.OrderBy.Date;
+        queryTextElm.focus();
     });
 
     let didYouMeanContainerElm = document.getElementById(
@@ -558,6 +564,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let detailsCloseElm = detailsElm.getElementsByClassName("close")[0];
     detailsCloseElm.addEventListener("click", () => {
         containerElm.classList.toggle("no-details");
+        queryTextElm.focus();
     });
     let detailsHeaderElm = document.getElementById("details-header");
     let detailsTitleElm = document.getElementById("details-title");
@@ -574,10 +581,12 @@ function setupIntelliSearch(searchSettings, uiSettings) {
         detailsOptionContent.addEventListener("click", function() {
             detailsElm.classList.add("content");
             detailsElm.classList.remove("properties");
+            queryTextElm.focus();
         });
         detailsOptionProperties.addEventListener("click", function() {
             detailsElm.classList.add("properties");
             detailsElm.classList.remove("content");
+            queryTextElm.focus();
         });
     } else {
         detailsOptionContent.checked = false;
@@ -600,13 +609,16 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     let menuBtn = document.getElementById("menu-button");
     menuBtn.addEventListener("click", () => {
         menu.classList.toggle("show");
+        queryTextElm.focus();
     });
 
     window.INTS_OpenDialog = function(dialog) {
         containerElm.classList.add(dialog);
+        queryTextElm.focus();
     };
     window.INTS_CloseDialog = function(dialog) {
         containerElm.classList.remove(dialog);
+        queryTextElm.focus();
     };
 
     let menuOptionHelp = document.getElementById("menu-option-help");
@@ -624,6 +636,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     );
     menuOptionToggleDetails.addEventListener("click", () => {
         containerElm.classList.toggle("no-details");
+        queryTextElm.focus();
     });
 
     let menuOptionSettings = document.getElementById("menu-option-settings");
@@ -634,6 +647,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             if (containerElm.classList.toggle("dialog-settings")) {
                 renderSettings();
             }
+            queryTextElm.focus();
         });
     }
     let settingsCloseElm = document.getElementById(
@@ -641,6 +655,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
     );
     settingsCloseElm.addEventListener("click", () => {
         containerElm.classList.remove("dialog-settings");
+        queryTextElm.focus();
     });
 
     let categoryConfigurationCloseElm = document.getElementById(
@@ -860,6 +875,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     );
                     categoryChipElm.addEventListener("click", () => {
                         client.filterToggle(categoryName);
+                        queryTextElm.focus();
                     });
                 }
             }
@@ -949,6 +965,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                         "click",
                         () => {
                             client.matchPagePrev();
+                            queryTextElm.focus();
                         },
                         false
                     );
@@ -965,6 +982,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     "click",
                     () => {
                         client.matchPage = 1;
+                        queryTextElm.focus();
                     },
                     false
                 );
@@ -988,6 +1006,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                         "click",
                         () => {
                             client.matchPage = pageNum;
+                            queryTextElm.focus();
                         },
                         false
                     );
@@ -1013,6 +1032,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     "click",
                     () => {
                         client.matchPage = pageMax;
+                        queryTextElm.focus();
                     },
                     false
                 );
@@ -1035,6 +1055,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                         "click",
                         () => {
                             client.matchPageNext();
+                            queryTextElm.focus();
                         },
                         false
                     );
@@ -1154,6 +1175,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     //     client.clientCategoryExpansion
                     // );
                 }
+                queryTextElm.focus();
             });
 
             let linkElm = categoryLiElm.getElementsByClassName("link")[0];
@@ -1169,6 +1191,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     //     client.filters
                     // );
                 }
+                queryTextElm.focus();
             });
 
             let filterElm = categoryLiElm.getElementsByClassName("filter")[0];
@@ -1184,6 +1207,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                     //     client.filters
                     // );
                 }
+                queryTextElm.focus();
             });
             if (category.children.length > 0) {
                 let catUlElm = document.createElement("ul");
@@ -1203,6 +1227,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             topConfigElm.addEventListener("click", function(e) {
                 // Toggle the client-category-configuration for the root-node
                 toggleClientCategoryConfiguration(null);
+                queryTextElm.focus();
             });
 
             categoriesTreeElm.appendChild(topConfigElm);
@@ -1241,6 +1266,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
                         //     client.clientCategoryExpansion
                         // );
                     }
+                    queryTextElm.focus();
                 });
 
                 if (group.categories.length > 0) {
@@ -1265,6 +1291,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             button.innerHTML = "Remove filters";
             button.addEventListener("click", () => {
                 client.filters = [];
+                queryTextElm.focus();
             });
 
             let help = document.createElement("div");
