@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.5...v1.0.0) (2018-11-05)
+
+
+### Bug Fixes
+
+* **search-client:** Added `categorizationType` to `SearchClient` class. Added and fixed unit-tests. ([9d01cdb](https://github.com/IntelliSearch/search-client/commit/9d01cdb))
+
+
+
 <a name="1.0.0-rc.5"></a>
 # [1.0.0-rc.5](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.4...v1.0.0-rc.5) (2018-10-19)
 
