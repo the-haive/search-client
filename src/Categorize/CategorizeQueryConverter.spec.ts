@@ -1,5 +1,11 @@
 import { ICategory } from "../Data";
-import { Filter, OrderBy, Query, SearchType } from "../Common";
+import {
+    Filter,
+    OrderBy,
+    Query,
+    SearchType,
+    CategorizationType
+} from "../Common";
 import { CategorizeQueryConverter } from ".";
 
 const fixedQuery = new Query({
@@ -28,7 +34,11 @@ const fixedQuery = new Query({
     matchPageSize: 20,
     maxSuggestions: 20,
     queryText: "test",
-    searchType: SearchType.Keywords
+    searchType: SearchType.Keywords,
+    categorizationType: CategorizationType.All,
+    matchGenerateContent: true,
+    matchGenerateContentHighlights: false,
+    uiLanguageCode: "en"
 });
 
 describe("QueryConverters", () => {
@@ -55,7 +65,7 @@ describe("QueryConverters", () => {
     it("Should match expectations for REST V4 with given query", () => {
         let qc = new CategorizeQueryConverter();
         const expectedFindUrl =
-            "http://localhost:9950/RestService/v4/search/categorize?c=mobile&ct=All&df=2017-03-13T09%3A00%3A00.000Z&dt=2017-03-13T09%3A00%3A00.000Z&f=Authors%7CBob%3BFileTypes%7Cdocx&q=test&t=Keywords";
+            "http://localhost:9950/RestService/v4/search/categorize?c=mobile&ct=All&df=2017-03-13T09%3A00%3A00.000Z&dt=2017-03-13T09%3A00%3A00.000Z&f=Authors%7CBob%3BFileTypes%7Cdocx&l=en&q=test&t=Keywords";
 
         expect(
             qc.getUrl(

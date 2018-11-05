@@ -8,6 +8,7 @@ import {
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
+import { CategorizationType } from "./Common";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {
@@ -530,7 +531,7 @@ describe("SearchClient filter interface", () => {
 
         client.deferUpdates(false, false);
 
-        expect(findFetch).toBeCalledTimes(1);
+        expect(findFetch).toHaveBeenCalledTimes(1);
         expect(pClient.settings.query.matchPage).toEqual(2);
 
         findFetch.mockReset();
@@ -620,15 +621,29 @@ describe("SearchClient filter interface", () => {
         expect(client.matchGrouping).toBeTruthy();
         expect(client.query.matchGrouping).toBeTruthy();
         expect((client as any)._query.matchGrouping).toBeTruthy();
+    });
 
-        mockFindRequest.mockReset();
-        mockCatRequest.mockReset();
-        client.update(); // Updating according to triggers and settings
-        expect(mockFindRequest).toHaveBeenCalledTimes(1);
-        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+    it("Should update as expected when client query properties changes", () => {
+        let mockFindRequest = jest.fn();
+        let mockFindSuccess = jest.fn();
+        let mockCatRequest = jest.fn();
+        let mockCatSuccess = jest.fn();
 
-        mockFindRequest.mockReset();
-        mockCatRequest.mockReset();
+        let client = new SearchClient({
+            baseUrl: "http://localhost:9950/",
+            find: {
+                cbRequest: mockFindRequest,
+                cbSuccess: mockFindSuccess
+            },
+            categorize: {
+                cbRequest: mockCatRequest,
+                cbSuccess: mockCatSuccess
+            },
+            query: {
+                matchGrouping: true
+            }
+        });
+
         let q = client.query;
         q.queryText = "test2\n"; // Modifying the reference, so should already do the updates.
         client.update(q); // So the update should not do work.
@@ -677,5 +692,72 @@ describe("SearchClient filter interface", () => {
         client.forceUpdate(null, false, false, false); // Forcing an update, but stopping services
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.uiLanguageCode = "no";
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.categorizationType = CategorizationType.DocumentHitsOnly;
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.matchGenerateContent = true;
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        // No changes - same value applied again.
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.matchGenerateContent = true;
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.matchGenerateContentHighlights = false;
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.matchOrderBy = OrderBy.Date;
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.clientId = "new";
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.dateFrom = { M: -2 };
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.dateTo = { M: -1 };
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.matchPageSize = 25;
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+        client.searchType = SearchType.Relevance;
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
     });
 });

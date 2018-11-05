@@ -1,7 +1,7 @@
 import fetch from "jest-fetch-mock";
 
 import { Find, IFindSettings, FindTriggers } from ".";
-import { IMatches } from "../Data";
+import { IMatches, IMatchItem } from "../Data";
 import { Query } from "../Common";
 
 describe("Find basics", () => {
@@ -96,30 +96,31 @@ describe("Find basics", () => {
     it("Should be able to Find some results", () => {
         fetch.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse(JSON.stringify(null));
+        fetch.mockResponse(
+            JSON.stringify({
+                bestBets: [],
+                didYouMeanList: [],
+                errorMessage: null,
+                estimatedMatchCount: 1,
+                expandedQuery: "",
+                nextPageRef: 0,
+                searchMatches: [{} as IMatchItem]
+            } as IMatches)
+        );
         let settings = {
             baseUrl: "http://localhost:9950/",
-            cbRequest: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            }),
-            cbSuccess: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            })
+            cbError: jest.fn(),
+            cbRequest: jest.fn(),
+            cbSuccess: jest.fn()
         } as IFindSettings;
 
         let find = new Find(settings, null, fetch);
         find.fetch()
-            .then(response => {
-                expect(typeof response).toBe("object");
-            })
             .catch(error => {
                 fail("Should not fail");
             })
             .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
-                expect(settings.cbSuccess).toHaveBeenCalled();
+                expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
             });
     });
 
@@ -147,7 +148,7 @@ describe("Find basics", () => {
                 fail("Should not yield an error");
             })
             .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbRequest).toHaveBeenCalledTimes(1);
                 expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
     });
@@ -166,10 +167,10 @@ describe("Find basics", () => {
         find.update({ queryText: "search-1" });
         expect(settings.cbResultState).not.toBeCalled();
         find.shouldUpdate("queryText", { queryText: "search-1" });
-        expect(settings.cbResultState).toBeCalledTimes(1);
+        expect(settings.cbResultState).toHaveBeenCalledTimes(1);
         find.shouldUpdate("queryText", { queryText: "search-2" });
-        expect(settings.cbResultState).toBeCalledTimes(2);
+        expect(settings.cbResultState).toHaveBeenCalledTimes(2);
         find.shouldUpdate("queryText", { queryText: "search-2" });
-        expect(settings.cbResultState).toBeCalledTimes(3);
+        expect(settings.cbResultState).toHaveBeenCalledTimes(3);
     });
 });

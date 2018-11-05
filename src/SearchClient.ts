@@ -18,7 +18,8 @@ import {
     OrderBy,
     Query,
     SearchType,
-    CategoryPresentation
+    CategoryPresentation,
+    CategorizationType
 } from "./Common";
 import { ICategory, IGroup } from "./Data";
 import { Find } from "./Find";
@@ -364,6 +365,30 @@ export class SearchClient implements AuthToken {
     public matchPageNext(): boolean {
         this.matchPage++;
         return true;
+    }
+
+    /**
+     * Gets the currently active categorizationType value.
+     */
+    get categorizationType(): CategorizationType {
+        return this._query.categorizationType;
+    }
+
+    /**
+     * Sets the currently active categorizationType.
+     *
+     * Will run trigger-checks and potentially update services.
+     */
+    set categorizationType(categorizationType: CategorizationType) {
+        // tslint:disable-next-line:triple-equals
+        if (categorizationType != this._query.categorizationType) {
+            const oldValue = this._query.categorizationType;
+            this._query.clientId = categorizationType;
+
+            this.autocomplete.categorizationTypeChanged(oldValue, this._query);
+            this.categorize.categorizationTypeChanged(oldValue, this._query);
+            this.find.categorizationTypeChanged(oldValue, this._query);
+        }
     }
 
     /**
