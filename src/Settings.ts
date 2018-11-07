@@ -73,7 +73,7 @@ export class Settings {
 
     /**
      * You can use this path to override the path to the rest-service.
-     * If not set, it will default to "RestService/v4".
+     * Default: RestService/v4
      */
     public basePath?: string;
 
@@ -105,6 +105,12 @@ export class Settings {
 
         // The baseUrl is to be used by all services, unless they have a specified baseUrl themselves.
         let common = { basePath: this.basePath, baseUrl: this.baseUrl };
+        if (
+            settings.authentication &&
+            typeof settings.authentication.basePath === "undefined"
+        ) {
+            settings.authentication.basePath = "";
+        }
 
         this.authentication = new AuthenticationSettings({
             ...common,

@@ -48,7 +48,7 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.matchPageSizeChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
-        expect(settings.triggers.queryChange).toEqual(true);
+        expect(settings.triggers.queryChange).toBeFalsy();
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);
@@ -152,7 +152,7 @@ describe("FindSettings basics", () => {
         expect(settings.triggers.matchPageSizeChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
-        expect(settings.triggers.queryChange).toEqual(true);
+        expect(settings.triggers.queryChange).toBeFalsy();
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(false);

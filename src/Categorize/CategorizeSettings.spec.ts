@@ -43,7 +43,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
-        expect(settings.triggers.queryChange).toEqual(true);
+        expect(settings.triggers.queryChange).toEqual(false);
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(true);
@@ -124,7 +124,7 @@ describe("CategorizeSettings basics", () => {
         expect(settings.triggers.filtersChanged).toEqual(true);
         expect(settings.triggers.queryChangeDelay).toEqual(2000);
         expect(settings.triggers.queryChangeInstantRegex).toEqual(/\S\s$/u);
-        expect(settings.triggers.queryChange).toEqual(true);
+        expect(settings.triggers.queryChange).toEqual(false);
         expect(settings.triggers.queryChangeMinLength).toEqual(2);
         expect(settings.triggers.searchTypeChanged).toEqual(true);
         expect(settings.triggers.uiLanguageCodeChanged).toEqual(true);

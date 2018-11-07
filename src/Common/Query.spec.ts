@@ -10,14 +10,16 @@ describe("Query basics", () => {
 
         expect(query).toBeDefined();
         expect(query instanceof Query).toBeTruthy();
-        expect(query.clientId).toBe("");
-        expect(query.categorizationType).toBe(CategorizationType.All);
+        expect(query.clientId).toBe("web");
+        expect(query.categorizationType).toBe(
+            CategorizationType.DocumentHitsOnly
+        );
         expect(query.dateFrom).toBeNull();
         expect(query.dateTo).toBeNull();
         expect(query.filters).toHaveLength(0);
-        expect(query.matchGenerateContent).toBeFalsy();
+        expect(query.matchGenerateContent).toBeTruthy();
         expect(query.matchGenerateContentHighlights).toBeTruthy();
-        expect(query.matchGrouping).toBeFalsy();
+        expect(query.matchGrouping).toBeTruthy();
         expect(query.matchOrderBy).toBe(OrderBy.Relevance);
         expect(query.matchPage).toBe(1);
         expect(query.matchPageSize).toBe(10);

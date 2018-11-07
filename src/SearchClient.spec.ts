@@ -75,7 +75,7 @@ describe("SearchClient settings", () => {
         expect(client.authenticationToken).toEqual("test");
 
         // clientId
-        expect(client.clientId).toEqual("");
+        expect(client.clientId).toEqual("web");
         client.clientId = "test";
         expect(client.clientId).toEqual("test");
 
@@ -314,7 +314,7 @@ describe("SearchClient filter interface", () => {
         client.categorize.categories = reference;
 
         // matchGrouping
-        expect(client.matchGrouping).toBeFalsy();
+        expect(client.matchGrouping).toBeTruthy();
         client.matchGrouping = true;
         expect(client.matchGrouping).toBeTruthy();
         client.matchGrouping = false;
@@ -557,11 +557,17 @@ describe("SearchClient filter interface", () => {
             baseUrl: "http://localhost:9950/",
             find: {
                 cbRequest: mockFindRequest,
-                cbSuccess: mockFindSuccess
+                cbSuccess: mockFindSuccess,
+                triggers: {
+                    queryChange: true
+                }
             },
             categorize: {
                 cbRequest: mockCatRequest,
-                cbSuccess: mockCatSuccess
+                cbSuccess: mockCatSuccess,
+                triggers: {
+                    queryChange: true
+                }
             }
         });
 
@@ -569,10 +575,10 @@ describe("SearchClient filter interface", () => {
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
         expect(urlFindResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/find?g=false&gc=false&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
+            "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
         );
         expect(urlCatResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/categorize?ct=All&q=test%0A&t=Keywords"
+            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&q=test%0A&t=Keywords"
         );
     });
 
@@ -596,11 +602,17 @@ describe("SearchClient filter interface", () => {
             baseUrl: "http://localhost:9950/",
             find: {
                 cbRequest: mockFindRequest,
-                cbSuccess: mockFindSuccess
+                cbSuccess: mockFindSuccess,
+                triggers: {
+                    queryChange: true
+                }
             },
             categorize: {
                 cbRequest: mockCatRequest,
-                cbSuccess: mockCatSuccess
+                cbSuccess: mockCatSuccess,
+                triggers: {
+                    queryChange: true
+                }
             },
             query: {
                 matchGrouping: true
@@ -612,10 +624,10 @@ describe("SearchClient filter interface", () => {
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
         expect(urlFindResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/find?g=true&gc=false&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
+            "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
         );
         expect(urlCatResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/categorize?ct=All&q=test%0A&t=Keywords"
+            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&q=test%0A&t=Keywords"
         );
 
         expect(client.matchGrouping).toBeTruthy();
@@ -633,11 +645,17 @@ describe("SearchClient filter interface", () => {
             baseUrl: "http://localhost:9950/",
             find: {
                 cbRequest: mockFindRequest,
-                cbSuccess: mockFindSuccess
+                cbSuccess: mockFindSuccess,
+                triggers: {
+                    queryChange: true
+                }
             },
             categorize: {
                 cbRequest: mockCatRequest,
-                cbSuccess: mockCatSuccess
+                cbSuccess: mockCatSuccess,
+                triggers: {
+                    queryChange: true
+                }
             },
             query: {
                 matchGrouping: true
@@ -701,20 +719,20 @@ describe("SearchClient filter interface", () => {
 
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
-        client.categorizationType = CategorizationType.DocumentHitsOnly;
+        client.categorizationType = CategorizationType.All;
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
 
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
-        client.matchGenerateContent = true;
+        client.matchGenerateContent = false;
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
 
         // No changes - same value applied again.
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
-        client.matchGenerateContent = true;
+        client.matchGenerateContent = false;
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
 

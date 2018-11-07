@@ -24,12 +24,13 @@ export class Query {
     /**
      * Any string that you want to identify the client with. Can be used in the categories configuration and in the relevance tuning.
      */
-    public clientId?: string = "";
+    public clientId?: string = "web";
 
     /**
      * Used to specify whether categorize calls should always return all categories or just categories that has matches.
      */
-    public categorizationType?: CategorizationType = CategorizationType.All;
+    public categorizationType?: CategorizationType =
+        CategorizationType.DocumentHitsOnly;
 
     /**
      * Used to specify the start date-range.
@@ -53,7 +54,7 @@ export class Query {
     /**
      * Decides whether or not to request content to be generated in the response matches.
      */
-    public matchGenerateContent?: boolean = false;
+    public matchGenerateContent?: boolean = true;
 
     /**
      * Decides whether or not to request highlight-tags to be included in the generated the response matches.
@@ -65,7 +66,7 @@ export class Query {
     /**
      * Decides whether or not to use the parent-grouping feature to group results.
      */
-    public matchGrouping?: boolean = false;
+    public matchGrouping?: boolean = true;
 
     /**
      * Decides which ordering algorithm to use.

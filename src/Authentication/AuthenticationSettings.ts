@@ -27,12 +27,14 @@ export interface IAuthenticationSettings extends IBaseSettings<any> {
 export class AuthenticationSettings extends BaseSettings<any> {
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
+     * Default: Undefined
      */
     public token?: string;
 
     /**
      * This is the path to the value returned by the authentication-call.
      * Should be a name-based lookup array, pointing to where the resulting auth-token is to be found.
+     * Default: ["jwtToken"]
      */
     public tokenPath?: string[];
 

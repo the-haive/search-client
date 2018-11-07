@@ -12,6 +12,8 @@ describe("AutocompleteSettings basics", () => {
         expect(settings).toBeDefined();
         expect(settings instanceof AuthenticationSettings).toBeTruthy();
         expect(settings.enabled).toBeFalsy();
+        expect(settings.basePath).toEqual("");
+        expect(settings.servicePath).toEqual("auth/login");
         expect(settings.cbRequest).toBeUndefined();
         expect(settings.cbError).toBeUndefined();
         expect(settings.cbSuccess).toBeUndefined();

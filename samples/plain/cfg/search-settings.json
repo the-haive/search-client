@@ -2,29 +2,10 @@
     "baseUrl": "http://searchmanager.demo.intellisearch.no",
     "authentication": {
         "baseUrl": "https://auth.intellisearch.com",
-        "basePath": "",
         "servicePath": "auth/login",
-        "enabled": false
-    },
-    "autocomplete": {
         "enabled": true
     },
-    "find": {
-        "triggers": {
-            "queryChange": false
-        }
-    },
     "categorize": {
-        "triggers": {
-            "queryChange": false
-        }
-    },
-    "query": {
-        "clientId": "plain-sample",
-        "matchGenerateContent": true,
-        "matchGrouping": true,
-        "matchPageSize": 10,
-        "searchType": "Keywords",
-        "categorizationType": "DocumentHitsOnly"
+        "presentations": {}
     }
 }

@@ -21,19 +21,20 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.baseUrl).toEqual(
             "http://localhost:9950"
         );
-        expect(pAuthentication.settings).toBeDefined();
-        expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.settings.cbError).toBeUndefined();
-        expect(pAuthentication.settings.cbRequest).toBeUndefined();
-        expect(pAuthentication.settings.cbSuccess).toBeUndefined();
-        expect(pAuthentication.settings.token).toBeUndefined();
-        expect(pAuthentication.settings.tokenPath).toContain("jwtToken");
-        expect(pAuthentication.settings.triggers).toBeDefined();
-        expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
+        let settings = pAuthentication.settings as IAuthenticationSettings;
+        expect(settings).toBeDefined();
+        expect(settings.enabled).toBeFalsy();
+        expect(settings.basePath).toEqual("");
+        expect(settings.servicePath).toEqual("auth/login");
+        expect(settings.cbError).toBeUndefined();
+        expect(settings.cbRequest).toBeUndefined();
+        expect(settings.cbSuccess).toBeUndefined();
+        expect(settings.token).toBeUndefined();
+        expect(settings.tokenPath).toContain("jwtToken");
+        expect(settings.triggers).toBeDefined();
+        expect(settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.auth.authenticationToken).toBeUndefined();
-        expect(pAuthentication.settings.url).toEqual(
-            "http://localhost:9950/auth/login"
-        );
+        expect(settings.url).toEqual("http://localhost:9950/auth/login");
     });
 
     it("Should throw for invalid Urls", () => {

@@ -44,6 +44,7 @@ export class CategoryPresentation {
 
     /**
      * Used to indicate whether tho show category-children or not. Default: undefined (N/A for the root-element)
+     * Default: null
      */
     public expanded?: boolean | null;
 
@@ -68,32 +69,38 @@ export class CategoryPresentation {
  */
 export class GroupConfiguration {
     /**
-     * Enables or disables the feature. Default: false
+     * Enables or disables the feature.
+     * Default: false
      */
     public enabled?: boolean;
 
     /**
-     * Only applies grouping when the number of children reaches this number. Default: 20
+     * Only applies grouping when the number of children reaches this number.
+     * Default: 20
      */
     public minCount?: number;
 
     /**
-     * DisplayName or MatchCount. Default: GroupingMode.DisplayName.
+     * DisplayName or MatchCount.
+     * Default: GroupingMode.DisplayName.
      */
     public mode?: GroupingMode;
 
     /**
-     * The regex to group on. Default: Matches first character /^./
+     * The regex to group on.
+     * Default: Matches first character /^./
      */
     public match?: RegExp;
 
     /**
-     * The casing to apply on the match group ($0). Default: Casing.Title
+     * The casing to apply on the match group ($0).
+     * Default: Casing.Title
      */
     public matchCase?: Casing;
 
     /**
-     * Only creates the group when number of matches per group reaches this number. Default: 5
+     * Only creates the group when number of matches per group reaches this number.
+     * Default: 5
      */
     public minCountPerGroup?: number;
 
@@ -168,27 +175,32 @@ export enum Casing {
  */
 export class FilterConfiguration {
     /**
-     * Enables or disables the feature. Default: false
+     * Enables or disables the feature.
+     * Default: false
      */
     public enabled?: boolean;
 
     /**
-     * The current regex match filter, applied on the Name or DisplayName (see matchMode). Default: "" (empty - no matches)
+     * The current regex match filter, applied on the Name or DisplayName (see matchMode).
+     * Default: "" (empty - no matches)
      */
     public match?: RegExp;
 
     /**
-     * The current match-mode for the regex filter. Default: DisplayName
+     * The current match-mode for the regex filter.
+     * Default: DisplayName
      */
     public matchMode?: MatchMode;
 
     /**
-     * The maximum no of matches for the category to be included. Default: -1 (disabled)
+     * The maximum no of matches for the category to be included.
+     * Default: -1 (disabled)
      */
     public maxMatchCount?: number;
 
     /**
-     * Hints the UI to show an input box when the number of hits exceeds a given number. Default: 20
+     * Hints the UI to show an input box when the number of hits exceeds a given number.
+     * Default: 20
      */
     public uiHintShowFilterInputThreshold?: number;
 
@@ -239,12 +251,14 @@ export enum MatchMode {
  */
 export class SortConfiguration {
     /**
-     *
+     * Defines whether or not to enable sort for this category-level.
+     * Default: false
      */
     public enabled?: boolean;
 
     /**
-     *
+     * A list of SortPartConfigurations.
+     * Default: Empty list.
      */
     public parts?: SortPartConfiguration[];
 
@@ -279,17 +293,20 @@ export class SortConfiguration {
  */
 export class SortPartConfiguration {
     /**
-     * Defines the match (string or regex) that defines the scope of items to sort. Default: ".*" (anything)
+     * Defines the match (string or regex) that defines the scope of items to sort.
+     * Default: ".*" (anything)
      */
     public match?: RegExp | string;
 
     /**
-     * The current match-mode for the regex filter. Default: DisplayName
+     * The current match-mode for the regex filter.
+     * Default: DisplayName
      */
     public matchMode?: MatchMode;
 
     /**
-     * Defines the method/field and order to use when sorting. Default: Original
+     * Defines the method/field and order to use when sorting.
+     * Default: Original
      */
     public sortMethod?: SortMethod;
     /**
@@ -355,22 +372,26 @@ export enum SortMethod {
  */
 export class LimitPageConfiguration {
     /**
-     * Enables or disables the feature. Default: false
+     * Enables or disables the feature.
+     * Default: false
      */
     public enabled?: boolean;
 
     /**
-     * Defines the page to show. Default: 1
+     * Defines the page to show.
+     * Default: 1
      */
     public page?: number;
 
     /**
-     * Defines the pageSize that with the `page` controls which item-range to show. Default: 5
+     * Defines the pageSize that with the `page` controls which item-range to show.
+     * Default: 5
      */
     public pageSize?: number;
 
     /**
-     * Hints the ui to show a pager to allow browsing the categories in the node. Default: true
+     * Hints the ui to show a pager to allow browsing the categories in the node.
+     * Default: true
      */
     public uiHintShowPager?: boolean;
 

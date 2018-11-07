@@ -36,7 +36,7 @@ describe("QueryConverters", () => {
         let qc = new FindQueryConverter();
         let defaultQuery = new Query();
         const expectedFindUrl =
-            "http://localhost:9950/RestService/v4/search/find?g=false&gc=false&gch=true&o=Relevance&p=1&s=10&t=Keywords";
+            "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&s=10&t=Keywords";
 
         expect(
             qc.getUrl(
@@ -49,7 +49,7 @@ describe("QueryConverters", () => {
     it("Should match expectations for REST V4 with given query", () => {
         let qc = new FindQueryConverter();
         const expectedFindUrl =
-            "http://localhost:9950/RestService/v4/search/find?c=mobile&df=2017-03-13T09%3A00%3A00.000Z&dt=2017-03-13T09%3A00%3A00.000Z&f=Authors%7CBob%3BFileTypes%7Cdocx&g=true&gc=false&gch=true&o=Date&p=1&q=test&s=20&t=Keywords";
+            "http://localhost:9950/RestService/v4/search/find?c=mobile&df=2017-03-13T09%3A00%3A00.000Z&dt=2017-03-13T09%3A00%3A00.000Z&f=Authors%7CBob%3BFileTypes%7Cdocx&g=true&gc=true&gch=true&o=Date&p=1&q=test&s=20&t=Keywords";
 
         expect(
             qc.getUrl(

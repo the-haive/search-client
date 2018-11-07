@@ -3,57 +3,68 @@
  */
 export class FindTriggers {
     /**
-     * Triggers when the clientId property has changed
+     * Triggers when the clientId property has changed.
+     * Default: true
      */
     public clientIdChanged?: boolean;
 
     /**
      * Triggers when the from date property has changed.
+     * Default: true
      */
     public dateFromChanged?: boolean;
 
     /**
      * Triggers when the to date property has changed.
+     * Default: true
      */
     public dateToChanged?: boolean;
 
     /**
      * Triggers when the filter property has changed.
+     * Default: true
      */
     public filtersChanged?: boolean;
 
     /**
      * Triggers when the generateContent property has changed.
+     * Default: true
      */
     public matchGenerateContentChanged?: boolean;
 
     /**
      * Triggers when the generateContentHighlights property has changed.
+     * Default: true
      */
     public matchGenerateContentHighlightsChanged?: boolean;
 
     /**
      * Triggers when the useGrouping property has changed.
+     * Default: true
      */
     public matchGroupingChanged?: boolean;
 
     /**
      * Triggers when the orderBy property has changed.
+     * Default: true
      */
     public matchOrderByChanged?: boolean;
 
     /**
      * Triggers when the page property has changed.
+     * Default: true
      */
     public matchPageChanged?: boolean;
 
     /**
      * Triggers when the pageSize property has changed.
+     * Default: true
      */
     public matchPageSizeChanged?: boolean;
 
     /**
      * Turns on or off all query-related triggers.
+     * Default: false
      */
     public queryChange?: boolean;
 
@@ -68,6 +79,7 @@ export class FindTriggers {
      *
      * Default for Find is to run delayed lookups after 2 seconds. The queryChangeInstantRegex matches will
      * run immediately though.
+     * Default: 2000ms
      */
     public queryChangeDelay?: number;
 
@@ -77,7 +89,7 @@ export class FindTriggers {
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default: Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
+     * Default: /\S\s$/u - Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
      */
     public queryChangeInstantRegex?: RegExp;
 
@@ -86,18 +98,21 @@ export class FindTriggers {
      * One character followed by an enter (default).
      *
      * Note: Requires queryChange to be true.
+     *
+     * Default: 2
      */
     public queryChangeMinLength?: number;
 
     /**
      * Triggers when the searchType property has changed. Default: true
+     * Default: true
      */
     public searchTypeChanged?: boolean;
 
     /**
      * Triggers when the uiLanguageCode property has changed.
      * Note: Overrides the default set in CategorizeTriggers.
-     * Default: Do not re-fetch on change - as there are no language-dependent data in the find-response.
+     * Default: false - Do not re-fetch on change - as there are no language-dependent data in the find-response.
      */
     public uiLanguageCodeChanged?: boolean;
 
@@ -150,7 +165,7 @@ export class FindTriggers {
         this.queryChange =
             typeof triggers.queryChange !== "undefined"
                 ? triggers.queryChange
-                : true;
+                : false;
         this.queryChangeDelay =
             typeof triggers.queryChangeDelay !== "undefined"
                 ? triggers.queryChangeDelay

@@ -3,32 +3,38 @@
  */
 export class CategorizeTriggers {
     /**
-     * Triggers when the categorizationType has changed
+     * Triggers when the categorizationType has changed.
+     * Default: true
      */
     public categorizationTypeChanged?: boolean;
 
     /**
-     * Triggers when the clientId property has changed
+     * Triggers when the clientId property has changed.
+     * Default: true
      */
     public clientIdChanged?: boolean;
 
     /**
      * Triggers when the from date property has changed.
+     * Default: true
      */
     public dateFromChanged?: boolean;
 
     /**
      * Triggers when the to date property has changed.
+     * Default: true
      */
     public dateToChanged?: boolean;
 
     /**
      * Triggers when the filter property has changed.
+     * Default: true
      */
     public filtersChanged?: boolean;
 
     /**
      * Turns on or off all query-related triggers.
+     * Default: false
      */
     public queryChange?: boolean;
 
@@ -41,8 +47,8 @@ export class CategorizeTriggers {
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default for Categorize is to run delayed lookups after 2 seconds. The queryChangeInstantRegex matches will
-     * run immediately though.
+     * Default: 2000 - Run delayed lookups after 2 seconds.
+     * Note: Queries matching the queryChangeInstantRegex will run immediately though.
      */
     public queryChangeDelay?: number;
 
@@ -52,7 +58,7 @@ export class CategorizeTriggers {
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default: Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
+     * Default: /\S\s$/u - Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
      */
     public queryChangeInstantRegex?: RegExp;
 
@@ -61,17 +67,20 @@ export class CategorizeTriggers {
      * One character followed by an enter (default).
      *
      * Note: Requires queryChange to be true.
+     *
+     * Default: 2
      */
     public queryChangeMinLength?: number;
 
     /**
      * Triggers when the searchType property has changed. Default: true
+     * Default: true
      */
     public searchTypeChanged?: boolean;
 
     /**
      * Triggers when the uiLanguageCode property has changed.
-     * Default: Re-fetch on change - as the categories normally are translated.
+     * Default: true - Re-fetch on change - as the categories normally are translated.
      */
     public uiLanguageCodeChanged?: boolean;
 
@@ -109,7 +118,7 @@ export class CategorizeTriggers {
         this.queryChange =
             typeof triggers.queryChange !== "undefined"
                 ? triggers.queryChange
-                : true;
+                : false;
 
         this.queryChangeDelay =
             typeof triggers.queryChangeDelay !== "undefined"

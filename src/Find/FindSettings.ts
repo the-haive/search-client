@@ -20,8 +20,8 @@ export class FindSettings extends BaseSettings<IMatches> {
     public triggers: FindTriggers;
 
     /**
-     * The endpoint to do Find lookups for. Default: "search/find"
-     * Overrides base.
+     * The endpoint to do Find lookups for. Overrides base-class.
+     * Default: "search/find"
      */
     public servicePath: string;
 
