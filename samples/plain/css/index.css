@@ -1153,7 +1153,7 @@ button#reset.hidden {
     margin-left: 0.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    /*white-space: nowrap;*/
 }
 
 #matches-list li .date {
