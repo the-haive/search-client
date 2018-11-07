@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/IntelliSearch/search-client/compare/v1.0.0...v1.0.1) (2018-11-07)
+
+
+### Bug Fixes
+
+* **sample:** Set proper caching strategies for the various page resources. ([a2ea81b](https://github.com/IntelliSearch/search-client/commit/a2ea81b))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/IntelliSearch/search-client/compare/v1.0.0-rc.5...v1.0.0) (2018-11-05)
 
