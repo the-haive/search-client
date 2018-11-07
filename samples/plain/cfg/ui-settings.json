@@ -21,12 +21,12 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "": "/img/INTS_Logo-64.png",
-                    "docs.global.ints": "./img/sources/source-fileshare.png",
-                    "demo-esp": "./img/sources/source-fileshare.png",
-                    "Mailbox": "./img/sources/source-mailbox.png"
+                    "": "/img/INTS_Logo-64.png?v1",
+                    "docs.global.ints": "./img/sources/source-fileshare.png?v1",
+                    "demo-esp": "./img/sources/source-fileshare.png?v1",
+                    "Mailbox": "./img/sources/source-mailbox.png?v1"
                 },
-                "unresolved": "./img/sources/source-unresolved.png"
+                "unresolved": "./img/sources/source-unresolved.png?v1"
             },
             "overlay": {
                 "filetype": {
@@ -35,21 +35,21 @@
                     "match": "/\\.?(.+)/",
                     "replacement": "$1",
                     "map": {
-                        "txt": "./img/filetypes/filetype-txt.png",
-                        "doc": "./img/filetypes/filetype-doc.png",
-                        "docx": "./img/filetypes/filetype-doc.png",
-                        "xls": "./img/filetypes/filetype-xls.png",
-                        "xlsx": "./img/filetypes/filetype-xls.png",
-                        "ppt": "./img/filetypes/filetype-ppt.png",
-                        "pptx": "./img/filetypes/filetype-ppt.png",
-                        "pdf": "./img/filetypes/filetype-pdf.png",
-                        "xml": "./img/filetypes/filetype-xml.png",
-                        "zip": "./img/filetypes/filetype-zip.png",
-                        "msg": "./img/filetypes/filetype-msg.png",
-                        "htm": "./img/filetypes/filetype-html.png",
-                        "html": "./img/filetypes/filetype-html.png"
+                        "txt": "./img/filetypes/filetype-txt.png?v1",
+                        "doc": "./img/filetypes/filetype-doc.png?v1",
+                        "docx": "./img/filetypes/filetype-doc.png?v1",
+                        "xls": "./img/filetypes/filetype-xls.png?v1",
+                        "xlsx": "./img/filetypes/filetype-xls.png?v1",
+                        "ppt": "./img/filetypes/filetype-ppt.png?v1",
+                        "pptx": "./img/filetypes/filetype-ppt.png?v1",
+                        "pdf": "./img/filetypes/filetype-pdf.png?v1",
+                        "xml": "./img/filetypes/filetype-xml.png?v1",
+                        "zip": "./img/filetypes/filetype-zip.png?v1",
+                        "msg": "./img/filetypes/filetype-msg.png?v1",
+                        "htm": "./img/filetypes/filetype-html.png?v1",
+                        "html": "./img/filetypes/filetype-html.png?v1"
                     },
-                    "unresolved": "./img/1x1.png"
+                    "unresolved": "./img/1x1.png?v1"
                 }
             }
         },

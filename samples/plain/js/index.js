@@ -20,6 +20,7 @@ let notifier;
 
 function load(file) {
     return fetch(file, {
+        cache: "no-store",
         "Content-Type": "text/json",
         credentials: "include"
     })
