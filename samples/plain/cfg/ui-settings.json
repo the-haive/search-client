@@ -21,7 +21,7 @@
                 "match": "/(.+)/",
                 "replacement": "$1",
                 "map": {
-                    "": "/img/INTS_Logo-64.svg",
+                    "": "/img/INTS_Logo-64.png",
                     "docs.global.ints": "./img/sources/source-fileshare.png",
                     "demo-esp": "./img/sources/source-fileshare.png",
                     "Mailbox": "./img/sources/source-mailbox.png"
