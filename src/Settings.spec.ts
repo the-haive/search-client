@@ -1,4 +1,4 @@
-import { Settings, ISettings, Categories, Matches } from "./SearchClient";
+import { Settings, ISettings, ICategories, IMatches } from "./SearchClient";
 
 describe("Settings basics", () => {
     it("Should be able to create a default settings object with expected values", () => {
@@ -38,10 +38,10 @@ describe("Settings basics", () => {
         let fnSuccessAutocomplete = (suggestions: string[]) => {
             /* dummy */
         };
-        let fnSuccessCategorize = (categories: Categories) => {
+        let fnSuccessCategorize = (categories: ICategories) => {
             /* dummy */
         };
-        let fnSuccessFind = (matches: Matches) => {
+        let fnSuccessFind = (matches: IMatches) => {
             /* dummy */
         };
 

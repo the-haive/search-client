@@ -43,7 +43,7 @@ export class CategorizeSettings extends BaseSettings<ICategories> {
     /**
      * Settings that dictate the presentation of the categories.
      */
-    presentations?: Record<string, CategoryPresentation>;
+    presentations?: CategoryPresentationMap;
 
     /**
      * Creates an instance of CategorizeSettings, based on CategorizeSettings defaults and the overrides provided as a param.
