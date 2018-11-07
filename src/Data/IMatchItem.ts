@@ -18,6 +18,10 @@ export interface IMatchItem {
      */
     categories?: string[];
     /**
+     * A list of query permissions that matched the item permissions.
+     */
+    matchedPermissions?: string[];
+    /**
      * A list of content paragrahs, that represent the full item in regards to textual content.
      * To get the content, please set the generateContent (and potentially also the generateContentHightlights) settings in the request.
      * Note: The paragraphs returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no paragraphs.
