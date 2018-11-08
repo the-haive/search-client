@@ -678,6 +678,15 @@ describe("SearchClient filter interface", () => {
 
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
+        client.queryText = "test"; // Modifying the reference, so should already do the updates.
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+        client.forceUpdate();
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
         client.forceUpdate(); // And forcing without query object should also work.
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
@@ -777,5 +786,42 @@ describe("SearchClient filter interface", () => {
         client.searchType = SearchType.Relevance;
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
+    });
+    
+    it("Should update as expected when client query properties changes, for default triggers", () => {
+        let mockFindRequest = jest.fn();
+        let mockFindSuccess = jest.fn();
+        let mockCatRequest = jest.fn();
+        let mockCatSuccess = jest.fn();
+
+        let client = new SearchClient({
+            baseUrl: "http://localhost:9950/",
+            find: {
+                cbRequest: mockFindRequest,
+                cbSuccess: mockFindSuccess,
+            },
+            categorize: {
+                cbRequest: mockCatRequest,
+                cbSuccess: mockCatSuccess,
+            },
+        });
+
+        client.queryText = "test"; 
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+        client.update();
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
+        mockFindRequest.mockReset();
+        mockCatRequest.mockReset();
+
+        client.queryText = "test2"; 
+        expect(mockFindRequest).toHaveBeenCalledTimes(0);
+        expect(mockCatRequest).toHaveBeenCalledTimes(0);
+        client.forceUpdate();
+        expect(mockFindRequest).toHaveBeenCalledTimes(1);
+        expect(mockCatRequest).toHaveBeenCalledTimes(1);
+
     });
 });
