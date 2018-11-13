@@ -104,6 +104,8 @@ export class GroupConfiguration {
      */
     public minCountPerGroup?: number;
 
+    displayName: { [groupNameMatch: string]: string };
+
     /**
      * Creates a GroupingConfiguration instance.
      *
@@ -134,26 +136,39 @@ export class GroupConfiguration {
             typeof settings.minCountPerGroup !== "undefined"
                 ? settings.minCountPerGroup
                 : 5;
+
+        this.displayName =
+            typeof settings.displayName !== "undefined"
+                ? settings.displayName
+                : {};
     }
 
     public getMatch?(input: string): string {
-        let test = this.match.exec(input);
-        if (test === null) {
+        let match = this.match.exec(input);
+        if (match === null) {
             return null;
+        }
+
+        let name = match[0];
+        for (let key in this.displayName) {
+            if (this.displayName.hasOwnProperty(key)) {
+                if (!new RegExp(key).exec(match[0])) {
+                    continue;
+                }
+                name = match[0].replace(key, this.displayName[key]);
+                break;
+            }
         }
         switch (this.matchCase) {
             case Casing.Lower:
-                return test[0].toLowerCase();
+                return name.toLowerCase();
             case Casing.Upper:
-                return test[0].toUpperCase();
+                return name.toUpperCase();
             case Casing.Title:
-                return (
-                    test[0][0].toUpperCase() +
-                    test[0].substring(1).toLowerCase()
-                );
+                return name[0].toUpperCase() + name.substring(1).toLowerCase();
             case Casing.Unchanged:
             default:
-                return test[0];
+                return name;
         }
     }
 }

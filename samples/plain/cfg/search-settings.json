@@ -6,6 +6,50 @@
         "enabled": true
     },
     "categorize": {
-        "presentations": {}
+        "presentations": {
+            "Date": {
+                "expanded": true,
+                "group": {
+                    "enabled": true,
+                    "minCount": 1,
+                    "mode": "GroupingMode.DisplayName",
+                    "match": "^...",
+                    "matchCase": "Casing.Title",
+                    "minCountPerGroup": 2,
+                    "displayName": {
+                        "200": "2000-2009",
+                        "201": "2010-2019",
+                        "202": "2020-2029",
+                        "203": "2030-2039"
+                    }
+                },
+                "filter": {
+                    "enabled": false,
+                    "match": ".",
+                    "matchMode": "MatchMode.DisplayName",
+                    "maxMatchCount": -1,
+                    "uiHintShowFilterInputThreshold": 20
+                },
+                "sort": {
+                    "enabled": true,
+                    "parts": [
+                        {
+                            "match": "201.",
+                            "sortMethod": "SortMethod.CountDesc"
+                        },
+                        {
+                            "match": "200.",
+                            "sortMethod": "SortMethod.AlphaDesc"
+                        }
+                    ]
+                },
+                "limit": {
+                    "enabled": false,
+                    "page": 1,
+                    "pageSize": 5,
+                    "uiHintShowPager": true
+                }
+            }
+        }
     }
 }

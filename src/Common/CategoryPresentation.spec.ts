@@ -121,7 +121,7 @@ describe("When managing a CategoryPresentations map it:", () => {
                 pageSize: 5,
                 uiHintShowPager: true
             }
-        });
+        } as CategoryPresentation);
     });
 
     it("Should have expected valued for a default SortPart", () => {
@@ -168,8 +168,6 @@ describe("When grouping a CategoryPresentations map it:", () => {
         let results: ICategories = pClient.filterCategories(workCopy);
 
         sanityCheck(workCopy);
-
-        console.log(results);
         expect(results.groups.length).toEqual(3);
         expect(results.groups[0].name).toEqual("System");
         expect(results.groups[1].name).toEqual("__F__");
