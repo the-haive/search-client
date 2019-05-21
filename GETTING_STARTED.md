@@ -116,9 +116,16 @@ Please see [[SearchClient.deferUpdates]] for more information.
 
 ## Authentication
 
-The IntelliSearch SearchService supports using OpenID authentication via JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: `authentication: { enabled: false }`.
+The IntelliSearch SearchService supports two modes of authentication:
 
-If you however want to use authentication, then there are a couple of things that is important:
+1. Simple JWT based authentication
+2. OpenId Connect based authentication
+
+Both modes are described in details below. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: `authentication: { enabled: false }`.
+
+## JWT Authentication
+
+The IntelliSearch SearchService supports JWT based (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. To use this kind of authentication:
 
 1. The SearchService must be configured to use the `CurrentPrincipal` plugin (which then extracts the authentication JWT package).
 
@@ -130,6 +137,7 @@ If you however want to use authentication, then there are a couple of things tha
     - It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.
 
 3. The SearchClient authentication settings object must define:
+    - Type set to 'jwt'
     - The endpoint url.
     - The path for the jwt value when returned.
       If the returned structure is `{ user: { jwt: "actualtokenhash" } }` then the tokenPath should be `[ "user", "jwt" ]`.
@@ -138,6 +146,51 @@ If you however want to use authentication, then there are a couple of things tha
 The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to pre-fetch it to have it ready asap in case a search is made).
 
 The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: `authentication: { triggers: { expiryOverlap: 60 } }`. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.
+
+Example:
+
+"authentication": {
+  "type": "jwt",
+  "baseUrl": "auth_webservice_url",
+  "servicePath": "auth/login",
+  "enabled": true
+}
+
+## OpenId Connect Authentication
+
+The IntelliSearch SearchService supports OpenId Connect based authentication.
+
+1. The SearchService must be configured to use the `CurrentPrincipal` plugin (which then extracts the authentication JWT package).
+
+2. A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.
+
+    - Web service must support standard Open Id Connect flows.
+    - Web service must expose discovery enpoint - which should return information like issuer name, key material and supported scopes.
+    - The web-service endpoint must identify the user and create access_token for that user.
+    - A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.
+    - It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.
+
+3. The SearchClient authentication settings object must define:
+    - Type set to oidc
+    - Base url - the url of authotity (identity server) supporting Open Id Connect protocol
+    - Service path - path of identity server service
+    - Client Id - id of the client registered in identity server
+    - Response type - describes response type to be returned by identity server
+    - Scopes - list of scopes requested by client
+    - Enable logging flag
+
+Example:
+
+ "authentication": {
+  "type": "oidc",
+  "baseUrl": "authority_url,
+  "servicePath": "openid",
+  "clientId": "intellisearch.webclient.implicit",
+  "scope": "openid profile",
+  "responseType": "id_token token",
+  "enabled": true,
+  "enableLogging": true
+  }
 
 ## Documentation / Intellisense / Types
 
