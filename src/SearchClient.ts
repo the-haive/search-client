@@ -8,7 +8,7 @@ export * from "./Data";
 export * from "./Find";
 export * from "./Settings";
 
-import { AuthToken, Authentication } from "./Authentication";
+import { AuthToken, Authentication, AuthenticationFactory } from "./Authentication";
 import { Autocomplete } from "./Autocomplete";
 import { Categorize } from "./Categorize";
 import {
@@ -874,12 +874,10 @@ export class SearchClient implements AuthToken {
     }
 
     private setup(settings: string | ISettings, fetchMethod: Fetch) {
-        this.settings = new Settings(settings);
-        this.authentication = new Authentication(
-            this.settings.authentication,
-            this,
-            fetchMethod
-        );
+        this.settings = new Settings(settings);        
+
+        this.authentication = (new AuthenticationFactory()).create(this.settings.authentication, this, fetchMethod);
+        
         this.settings.authentication = this.authentication.settings;
         this.autocomplete = new Autocomplete(
             this.settings.autocomplete,

@@ -64,6 +64,7 @@
     "deep-equal": "^1.0.1",
     "jwt-simple": "^0.5.1",
     "moment": "^2.22.2",
+    "oidc-client": "^1.7.1",
     "tslib": "^1.9.2",
     "valid-url": "^1.0.9"
   },
@@ -75,6 +76,7 @@
     "cpx": "^1.5.0",
     "jest": "^23.1.0",
     "jest-fetch-mock": "^1.6.5",
+    "jest-localstorage-mock": "^2.4.0",
     "jest-plugin-unhandled-promise": "^2.9.0",
     "node-watch": "^0.5.8",
     "pascal-case": "^2.0.1",
@@ -93,7 +95,8 @@
   "jest": {
     "automock": false,
     "setupFiles": [
-      "jest-plugin-unhandled-promise/setup"
+      "jest-plugin-unhandled-promise/setup",
+      "jest-localstorage-mock"
     ],
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest"

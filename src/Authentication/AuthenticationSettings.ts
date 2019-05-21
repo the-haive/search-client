@@ -3,28 +3,75 @@ import { BaseSettings, IBaseSettings } from "../Common/BaseSettings";
 import { AuthenticationTriggers } from "./AuthenticationTriggers";
 import { QueryChangeSpecifications } from "../Common/QueryChangeSpecifications";
 
+import OIDC, { UserManagerSettings } from "oidc-client";
+
 export interface IAuthenticationSettings extends IBaseSettings<any> {
+    /**
+     * Sets authentication type - jwt or oidc.
+     */
+    type: string;
+
+    /**
+     * Sets id of the client registered in identity server
+     */
+    clientId?: string;
+
+    /**
+     * Sets response type which describes response type to be returned by identity server
+     */
+    responseType?: string;
+
+    /**
+     * Sets list of scopes requested by client.
+     */
+    scope?: string;
+    
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      */
     token?: string;
+    
+    /**
+     * The trigger-settings for when a new auth-token is to be requested.
+     */
+    triggers?: AuthenticationTriggers;
 
     /**
      * This is the path to the value returned by the authentication-call.
      * Should be a name-based lookup array, pointing to where the resulting auth-token is to be found.
      */
     tokenPath?: string[];
+    
+    /**
+     * The OpenId Connect settings.
+     */
+    oidcSettings: UserManagerSettings;
 
     /**
-     * The trigger-settings for when a new auth-token is to be requested.
+     * Enables logging of OpenId Connect client.
      */
-    triggers?: AuthenticationTriggers;
+    enableLogging: boolean;
 }
 
 /**
  * These are all the settings that can affect the use of jwt authentication in the search-client.
  */
 export class AuthenticationSettings extends BaseSettings<any> {
+    /**
+     * Sets authentication type - jwt or oidc.
+     */
+    public type: string;
+
+    /**
+     * The OpenId Connect settings.
+     */
+    public oidcSettings: UserManagerSettings;
+
+    /**
+     * Enables logging of OpenId Connect client.
+     */
+    public enableLogging: boolean;
+
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      * Default: Undefined
@@ -49,7 +96,7 @@ export class AuthenticationSettings extends BaseSettings<any> {
      */
     constructor(settings: IAuthenticationSettings | string) {
         super(); // dummy (using init instead)
-
+        
         // Setup settings object before calling super.init with it.
         if (typeof settings === "string") {
             settings = { baseUrl: settings } as IAuthenticationSettings;
@@ -68,6 +115,9 @@ export class AuthenticationSettings extends BaseSettings<any> {
 
         super.init(settings);
 
+        this.type =
+            typeof settings.type !== "undefined" ? settings.type : "jwt";
+
         // Setup our own stuff (props not in the base class).
         this.token =
             typeof settings.token !== "undefined" ? settings.token : undefined;
@@ -81,5 +131,23 @@ export class AuthenticationSettings extends BaseSettings<any> {
 
         // No query changes will trigger outdated warnings
         this.queryChangeSpecs = QueryChangeSpecifications.none;
+
+        this.oidcSettings = this.type === "oidc" ? {            
+            authority: this.url,
+
+            client_id: typeof settings.clientId !== "undefined" ? settings.clientId : "intellisearch.webclient.implicit",
+            response_type: typeof settings.responseType !== "undefined" ? settings.responseType : "id_token token",
+            scope: typeof settings.scope !== "undefined" ? settings.scope : "openid profile",
+
+            silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent.html",
+            redirect_uri: window.location.protocol + "//" + window.location.host + "/callback.html",
+            post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/logout.html",       
+
+            automaticSilentRenew: true,
+            loadUserInfo: true,
+            userStore: new OIDC.WebStorageStateStore({ store: window.localStorage })
+        } : {};
+
+        this.enableLogging = settings.enableLogging;
     }
 }
