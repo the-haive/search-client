@@ -31,21 +31,14 @@ describe("Authentication basics", () => {
         expect(settings.token).toBeUndefined();       
         expect(settings.triggers).toBeDefined();
         expect(settings.triggers.expiryOverlap).toEqual(60);
-        expect(pAuthentication.auth.authenticationToken).toBeUndefined();
+    
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
-
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
 
         expect(settings.url).toEqual("http://localhost:9950/auth/login");
     });
@@ -77,24 +70,17 @@ describe("Authentication basics", () => {
         expect(settings.cbSuccess).toBeUndefined();
         expect(settings.token).toBeUndefined();        
         expect(settings.triggers.expiryOverlap).toEqual(60);
-        expect(pAuthentication.auth.authenticationToken).toBeUndefined();
         expect(pAuthentication.settings.url).toEqual(
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
     });
 
     it("Should be able to pass an AuthenticationSettings instance with additional settings", () => {        
@@ -124,19 +110,13 @@ describe("Authentication basics", () => {
             "http://dummy/test/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://dummy/test/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
     });
 
     it("Should be able to pass a manual object settings as AuthenticationSettings", () => {        
@@ -175,19 +155,13 @@ describe("Authentication basics", () => {
             "http://localhost:9950/test/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/test/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
     });
 
     it("Should be able to pass object settings as AuthenticationSettings", () => {
@@ -215,19 +189,13 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
 
         authentication
             .fetch()
@@ -268,19 +236,13 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
 
         authentication
             .fetch()
@@ -320,19 +282,13 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.oidcSettings).toBeDefined();
-        expect(settings.oidcSettings.authority).toEqual("http://localhost:9950/auth/login");
-        expect(settings.oidcSettings.client_id).toEqual("intellisearch.webclient.implicit");
-        expect(settings.oidcSettings.response_type).toEqual("id_token token");
-        expect(settings.oidcSettings.scope).toEqual("openid profile");
+        expect(settings.clientId).toBeUndefined();
+        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.scope).toBeUndefined();
 
-        expect(settings.oidcSettings.silent_redirect_uri).toEqual("about:///silent.html");
-        expect(settings.oidcSettings.redirect_uri).toEqual("about:///callback.html");
-        expect(settings.oidcSettings.post_logout_redirect_uri).toEqual("about:///logout.html");
-
-        expect(settings.oidcSettings.automaticSilentRenew).toBeTruthy();
-        expect(settings.oidcSettings.loadUserInfo).toBeTruthy();
-        expect(settings.oidcSettings.userStore).toBeDefined();
+        expect(settings.silentRedirectUri).toBeUndefined();
+        expect(settings.redirectUri).toBeUndefined();
+        expect(settings.postLogoutRedirectUri).toBeUndefined();
 
         authentication
             .fetch()
