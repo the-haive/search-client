@@ -173,6 +173,9 @@ The IntelliSearch SearchService supports OpenId Connect based authentication.
 3. The SearchClient authentication settings object must define:
     - Type set to oidc
     - Base url - the url of authotity (identity server) supporting Open Id Connect protocol
+    - Silent redirect url - the url for redirect in silent token renew operation
+    - Redirect url - the url for redirect in login operation
+    - Post logout redirect url - the url for redirect in logout operation
     - Service path - path of identity server service
     - Client Id - id of the client registered in identity server
     - Response type - describes response type to be returned by identity server
@@ -183,8 +186,11 @@ Example:
 
  "authentication": {
   "type": "oidc",
-  "baseUrl": "authority_url,
-  "servicePath": "openid",
+  "baseUrl": "localhost:5000",
+  "silentRedirectUri": "localhost:9000/silent.html",
+  "redirectUri": "localhost:9000/callback.html",
+  "postLogoutRedirectUri": "localhost:9000",
+  "servicePath": "",
   "clientId": "intellisearch.webclient.implicit",
   "scope": "openid profile",
   "responseType": "id_token token",

@@ -55,11 +55,6 @@ export class SearchClient implements AuthToken {
     public authentication: Authentication = undefined;
 
     /**
-     * Holds a reference to the currently set authentication token.
-     */
-    public authenticationToken: string = undefined;
-
-    /**
      * Holds a reference to the setup Autocomplete service.
      */
     public autocomplete: Autocomplete = undefined;
@@ -74,6 +69,11 @@ export class SearchClient implements AuthToken {
      */
     public find: Find = undefined;
 
+    /**
+     * Holds a reference to method resolving jwt access token.
+     */
+    public tokenResolver: () => string;
+
     protected settings: ISettings;
 
     // tslint:disable-next-line:variable-name
@@ -81,6 +81,13 @@ export class SearchClient implements AuthToken {
 
     private _origSettings: ISettings | string;
     private _origFetchMethod: Fetch;
+
+    /**
+     * Holds a reference to the currently set authentication token.
+     */
+    get authenticationToken(): string {        
+        return this.tokenResolver();
+    }    
 
     /**
      * Creates a SearchClient instance using the supplied settings object. Please see <a href="https://intellisearch.github.io/search-client/">getting-started section</a>
@@ -92,8 +99,9 @@ export class SearchClient implements AuthToken {
         this._origSettings = settings;
         this._origFetchMethod = fetchMethod;
         this.setup(settings, fetchMethod);
+        this.tokenResolver = () => "";
     }
-
+    
     /**
      * This method is typically called when the user clicks the search-button in the UI.
      *

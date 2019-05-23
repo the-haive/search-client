@@ -90,8 +90,8 @@ export abstract class BaseCall<TDataType> {
             includeAuthorizationHeader &&
             this.auth &&
             this.auth.authenticationToken
-        ) {
-            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
+        ) {        
+            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;                    
         }
 
         return {

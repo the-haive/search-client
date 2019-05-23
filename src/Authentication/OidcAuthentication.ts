@@ -1,4 +1,4 @@
-import OIDC from "oidc-client";
+import OIDC, { UserManagerSettings } from "oidc-client";
 
 import { BaseCall, Fetch, Query } from "../Common";
 import {
@@ -18,8 +18,28 @@ import { AuthToken } from "./AuthToken";
  * expired. When that happens a new token will be fetched from the oidc end-point.
  */
 export class OidcAuthentication extends BaseCall<any> implements Authentication {
+
+    static handleSilentSignin(): void {              
+        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
+        mgr.signinSilentCallback();
+    }
+
+    static handleSigninRedirect(): void {            
+        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
+
+        mgr.signinRedirectCallback().then(user => {    
+            window.history.replaceState({},
+            window.document.title,
+            window.location.origin + window.location.pathname);
+            window.location.href = "index.html";
+        });
+    }
+
     public settings: IAuthenticationSettings;   
+
     private user: OIDC.UserManager;
+
+    private oidcSettings: UserManagerSettings;
 
     /**
      * Creates an OidcAuthentication object that knows where to get the auth-token and when to refresh it.
@@ -43,9 +63,22 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
         settings = new AuthenticationSettings(settings);
         auth = auth || new AuthToken();
         super.init(settings, auth, fetchMethod);
-        
-        this.user = new OIDC.UserManager(this.settings.oidcSettings);
 
+        this.oidcSettings = {            
+            authority: settings.url,
+            client_id: settings.clientId,
+            response_type: settings.responseType,
+            scope: settings.scope,
+            silent_redirect_uri: settings.silentRedirectUri,
+            redirect_uri: settings.redirectUri,
+            post_logout_redirect_uri: settings.postLogoutRedirectUri,
+            automaticSilentRenew: true,
+            loadUserInfo: true,
+            userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage })
+        };
+        
+        this.user = new OIDC.UserManager(this.oidcSettings);
+        
         if (this.settings.enableLogging) {
             OIDC.Log.logger = console;
             OIDC.Log.level = OIDC.Log.INFO;
@@ -56,7 +89,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
             this.update(null);
         }
     }
-    
+        
     /**
      * Fetches the authentication-token from the oidc server.
      * @param query - For the Authentication service this parameter is ignored.
@@ -78,7 +111,10 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
                     });
                 } else {
                     // Update the token
-                    that.auth.authenticationToken = user.access_token;
+                    that.auth.tokenResolver = () => {                         
+                       let oidcKey = `oidc.user:${that.oidcSettings.authority}:${that.oidcSettings.client_id}`;                       
+                       return JSON.parse(window.sessionStorage.getItem(oidcKey)).access_token;                        
+                    };
                     
                     that.cbSuccess(
                         suppressCallbacks,
@@ -87,7 +123,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
                         reqInit
                     );
                   
-                    return that.auth.authenticationToken;
+                    return user.access_token;
                 }          
             }).catch(error => {
                 this.cbError(
@@ -132,5 +168,5 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
                 }
             }
         }
-    }
+    }    
 }

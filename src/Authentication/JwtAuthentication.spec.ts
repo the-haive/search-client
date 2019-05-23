@@ -33,7 +33,6 @@ describe("Authentication basics", () => {
         expect(settings.tokenPath).toContain("jwtToken");
         expect(settings.triggers).toBeDefined();
         expect(settings.triggers.expiryOverlap).toEqual(60);
-        expect(pAuthentication.auth.authenticationToken).toBeUndefined();
         expect(settings.url).toEqual("http://localhost:9950/auth/login");
     });
 
@@ -65,7 +64,6 @@ describe("Authentication basics", () => {
         expect(pAuthentication.settings.tokenPath).toContain("jwtToken");
         expect(pAuthentication.settings.triggers).toBeDefined();
         expect(pAuthentication.settings.triggers.expiryOverlap).toEqual(60);
-        expect(pAuthentication.auth.authenticationToken).toBeUndefined();
         expect(pAuthentication.settings.url).toEqual(
             "http://localhost:9950/auth/login"
         );

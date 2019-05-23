@@ -70,8 +70,10 @@ describe("SearchClient settings", () => {
         let client = new SearchClient("http://localhost:9950");
 
         // authenticationToken
-        expect(client.authenticationToken).toBeUndefined();
-        client.authenticationToken = "test";
+        client.tokenResolver = () => 
+        {                                                
+           return "test";                       
+        };
         expect(client.authenticationToken).toEqual("test");
 
         // clientId

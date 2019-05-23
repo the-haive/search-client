@@ -46,7 +46,9 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
 
         // Set own this props
         if (settings.token) {
-            this.auth.authenticationToken = settings.token;
+            //this.auth.authenticationToken = settings.token;
+            let token = settings.token;
+            this.auth.tokenResolver = () =>  token;
             settings.token = undefined;
             this.setupRefresh();
         } else if (settings.enabled) {
@@ -85,7 +87,8 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
                     }
 
                     // Update the token
-                    this.auth.authenticationToken = data;
+                    this.auth.tokenResolver = () =>  data;
+                    //this.auth.authenticationToken = data;
 
                     // Set up a timer for refreshing the token before/if it expires.
                     this.setupRefresh();
