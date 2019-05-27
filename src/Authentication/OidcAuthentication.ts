@@ -78,6 +78,19 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
         };
         
         this.user = new OIDC.UserManager(this.oidcSettings);
+
+        let that = this;
+        this.user.events.addSilentRenewError(() => {
+            that.login(that.user);           
+        });
+
+        this.user.events.addAccessTokenExpired(() => {
+            that.login(that.user);
+        });
+
+        this.user.events.addUserSignedOut(() => {    
+            that.login(that.user);
+        });
         
         if (this.settings.enableLogging) {
             OIDC.Log.logger = console;
@@ -105,10 +118,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
             let that = this;
             return this.user.getUser().then(user => {                  
                 if (!user) {
-                    that.user.createSigninRequest()
-                    .then((response) => {
-                        window.location.href = response.url;
-                    });
+                    that.login(that.user);
                 } else {
                     // Update the token
                     that.auth.tokenResolver = () => {                         
@@ -168,5 +178,12 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
                 }
             }
         }
-    }    
+    }
+    
+    private login(userManager: OIDC.UserManager) {
+        userManager.createSigninRequest()
+        .then((response) => {
+            window.location.href = response.url;
+        });     
+    }
 }
