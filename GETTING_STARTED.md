@@ -198,6 +198,8 @@ Example:
   "enableLogging": true
   }
 
+Example configuration is provided in samples\plain\cfg\search-settings-oidc.js config file.
+
 ## Documentation / Intellisense / Types
 
 If you are using typescript, then the data-types are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client docs-folder (typically `./node_modules/search-client/docs/index.html`).

@@ -1,0 +1,19 @@
+{
+    "baseUrl": "http://localhost:9950",
+	 "authentication": {
+		"type": "oidc",
+        "baseUrl": "http://localhost",
+		"silentRedirectUri": "http://localhost:9000/silent.html",
+		"redirectUri": "http://localhost:9000/callback.html",
+		"postLogoutRedirectUri": "http://localhost:9000",
+		"servicePath": "",
+		"clientId": "intellisearch.webclient.implicit",
+		"scope": "openid profile searchmanager.api",
+		"responseType": "id_token token",
+        "enabled": true,
+		"enableLogging": true
+    },
+     "categorize": {
+        "presentations": {}
+    }
+}
