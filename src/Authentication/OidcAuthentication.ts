@@ -78,18 +78,17 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
         };
         
         this.user = new OIDC.UserManager(this.oidcSettings);
-
-        let that = this;
+        
         this.user.events.addSilentRenewError(() => {
-            that.login(that.user);           
+            this.login(this.user);           
         });
 
         this.user.events.addAccessTokenExpired(() => {
-            that.login(that.user);
+            this.login(this.user);
         });
 
         this.user.events.addUserSignedOut(() => {    
-            that.login(that.user);
+            this.login(this.user);
         });
         
         if (this.settings.enableLogging) {
@@ -114,22 +113,21 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
         suppressCallbacks: boolean = false
     ): Promise<string> {       
         const reqInit = this.requestObject(false);
-        if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {
-            let that = this;
+        if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {            
             return this.user.getUser().then(user => {                  
                 if (!user) {
-                    that.login(that.user);
+                    this.login(this.user);
                 } else {
                     // Update the token
-                    that.auth.tokenResolver = () => {                         
-                       let oidcKey = `oidc.user:${that.oidcSettings.authority}:${that.oidcSettings.client_id}`;                       
+                    this.auth.tokenResolver = () => {                         
+                       let oidcKey = `oidc.user:${this.oidcSettings.authority}:${this.oidcSettings.client_id}`;                       
                        return JSON.parse(window.sessionStorage.getItem(oidcKey)).access_token;                        
                     };
                     
-                    that.cbSuccess(
+                    this.cbSuccess(
                         suppressCallbacks,
-                        that.auth.authenticationToken,
-                        that.settings.url,
+                        this.auth.authenticationToken,
+                        this.settings.url,
                         reqInit
                     );
                   
