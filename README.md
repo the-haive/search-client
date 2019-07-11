@@ -13,7 +13,7 @@
 
 ## About
 
-The SearchClient library makes it easy to hook up your search-UI to an Haive SearchManager instance.
+The SearchClient library makes it easy to hook up your search-UI to a Haive SearchManager instance.
 
 The package handles all the backend web-services so that you can focus on the user interface instead.
 
