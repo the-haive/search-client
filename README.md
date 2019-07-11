@@ -1,23 +1,23 @@
-# IntelliSearch SearchClient
+# Haive SearchClient
 
 [![Build Status](https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg)](https://semaphoreci.com/spiralis/search-client)
 
 ## Project links
 
-- <a href="https://intellisearch.github.io/search-client/">Documentation</a>
+- <a href="https://the-haive.github.io/search-client/">Documentation</a>
 - <a href="https://www.npmjs.com/package/search-client">Node Package Manager</a>
 - <a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a>
-- <a href="https://github.com/IntelliSearch/search-client">GitHub repository</a>
-- <a href="https://github.com/IntelliSearch/search-client/issues">Issues</a>
-- <a href="https://github.com/IntelliSearch/search-client/blob/master/CHANGELOG.md">Changelog</a>
+- <a href="https://github.com/the-haive/search-client">GitHub repository</a>
+- <a href="https://github.com/the-haive/search-client/issues">Issues</a>
+- <a href="https://github.com/the-haive/search-client/blob/master/CHANGELOG.md">Changelog</a>
 
 ## About
 
-The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchManager instance.
+The SearchClient library makes it easy to hook up your search-UI to an Haive SearchManager instance.
 
 The package handles all the backend web-services so that you can focus on the user interface instead.
 
-The SearchClient wraps and manages all the IntelliSearch SearchService REST web-services:
+The SearchClient wraps and manages all the Haive SearchService REST web-services:
 
 - **Autocomplete** - Lookups query-text and suggests words to help write the query.
 - **Find** - Searches the index based on the current query (query-text, filters, ...).
