@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Autocomplete | HAIVE IntelliSearch SearchClient</title>
+	<title>OidcAuthentication | HAIVE IntelliSearch SearchClient</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="autocomplete.html">Autocomplete</a>
+					<a href="oidcauthentication.html">OidcAuthentication</a>
 				</li>
 			</ul>
-			<h1>Class Autocomplete</h1>
+			<h1>Class OidcAuthentication</h1>
 		</div>
 	</div>
 </header>
@@ -65,22 +65,32 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>This class allows you to create a service that executes autocomplete lookups for the Haive SearchManager service.</p>
+						<p>The OidcAuthentication service is a supporting feature for the other services.
+							Typically used via the <a href="searchclient.html#constructor">SearchClient.constructor</a> and by providing <a href="authenticationsettings.html">AuthenticationSettings</a> settings in
+						the <a href="settings.html#authentication">Settings.authentication</a> property.</p>
 					</div>
-					<p>Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.</p>
+					<p>The authentication system is based on OpenId Connect and needs an end-point to be configured supporting full
+						oidc flows. This service will be monitoring the token-value to see if it is either missing or
+					expired. When that happens a new token will be fetched from the oidc end-point.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="basecall.html" class="tsd-signature-type">BaseCall</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="basecall.html" class="tsd-signature-type">BaseCall</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Autocomplete</span>
+								<span class="target">OidcAuthentication</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/authentication.html" class="tsd-signature-type">Authentication</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -90,44 +100,46 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="autocomplete.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="oidcauthentication.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="autocomplete.html#settings" class="tsd-kind-icon">settings</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="oidcauthentication.html#settings" class="tsd-kind-icon">settings</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="autocomplete.html#fetch" class="tsd-kind-icon">fetch</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="autocomplete.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="autocomplete.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="autocomplete.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="oidcauthentication.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="oidcauthentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="oidcauthentication.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="oidcauthentication.html#handlesigninredirect" class="tsd-kind-icon">handle<wbr>Signin<wbr>Redirect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="oidcauthentication.html#handlesilentsignin" class="tsd-kind-icon">handle<wbr>Silent<wbr>Signin</a></li>
 							</ul>
 						</section>
 					</div>
@@ -139,27 +151,27 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Autocomplete<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/iautocompletesettings.html" class="tsd-signature-type">IAutocompleteSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, auth<span class="tsd-signature-symbol">?: </span><a href="authtoken.html" class="tsd-signature-type">AuthToken</a>, fetchMethod<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="autocomplete.html" class="tsd-signature-type">Autocomplete</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Oidc<wbr>Authentication<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, auth<span class="tsd-signature-symbol">?: </span><a href="authtoken.html" class="tsd-signature-type">AuthToken</a>, fetchMethod<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="oidcauthentication.html" class="tsd-signature-type">OidcAuthentication</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Autocomplete/Autocomplete.ts#L17">Autocomplete/Autocomplete.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L42">Authentication/OidcAuthentication.ts:42</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates an Autocomplete instance that knows how to get query-suggestions.</p>
+									<p>Creates an OidcAuthentication object that knows where to get the auth-token and when to refresh it.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>settings: <a href="../interfaces/iautocompletesettings.html" class="tsd-signature-type">IAutocompleteSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5>settings: <a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The settings for how the Autocomplete is to operate.</p>
+											<p>The settings for the authentication object.</p>
 										</div>
 									</div>
 								</li>
@@ -167,7 +179,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> auth: <a href="authtoken.html" class="tsd-signature-type">AuthToken</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The object that handles authentication.</p>
+											<p>An object that controls the authentication for the lookups.</p>
 										</div>
 									</div>
 								</li>
@@ -175,7 +187,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fetchMethod: <a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="autocomplete.html" class="tsd-signature-type">Autocomplete</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="oidcauthentication.html" class="tsd-signature-type">OidcAuthentication</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -185,10 +197,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="settings" class="tsd-anchor"></a>
 					<h3>settings</h3>
-					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="../interfaces/iautocompletesettings.html" class="tsd-signature-type">IAutocompleteSettings</a></div>
+					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#settings">settings</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Autocomplete/Autocomplete.ts#L15">Autocomplete/Autocomplete.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L38">Authentication/OidcAuthentication.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -372,19 +385,19 @@
 					<a name="fetch" class="tsd-anchor"></a>
 					<h3>fetch</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="query.html" class="tsd-signature-type">Query</a>, suppressCallbacks<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="query.html" class="tsd-signature-type">Query</a>, suppressCallbacks<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Autocomplete/Autocomplete.ts#L44">Autocomplete/Autocomplete.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L111">Authentication/OidcAuthentication.ts:111</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>When called it will execute a rest-call to the base-url and fetch autocomplete suggestions based on the query passed.
-									Note that if a request callback has been setup then if it returns false the request is skipped.</p>
+									<p>Fetches the authentication-token from the oidc server.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -392,7 +405,7 @@
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> query: <a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol"> =&nbsp;new Query()</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Is used to find out which autocomplete suggestions and from what sources they should be retrieved.</p>
+										<p>For the Authentication service this parameter is ignored.</p>
 									</div>
 								</li>
 								<li>
@@ -402,8 +415,8 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a promise that when resolved returns a jwt token.</p>
 						</li>
 					</ul>
 				</section>
@@ -596,18 +609,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="maxsuggestionschanged" class="tsd-anchor"></a>
 					<h3>max<wbr>Suggestions<wbr>Changed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="basecall.html">BaseCall</a>.<a href="basecall.html#maxsuggestionschanged">maxSuggestionsChanged</a></p>
+								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#maxsuggestionschanged">maxSuggestionsChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Autocomplete/Autocomplete.ts#L88">Autocomplete/Autocomplete.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L197">Common/BaseCall.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -623,18 +636,18 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="querytextchanged" class="tsd-anchor"></a>
 					<h3>query<wbr>Text<wbr>Changed</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">query<wbr>Text<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="basecall.html">BaseCall</a>.<a href="basecall.html#querytextchanged">queryTextChanged</a></p>
+								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#querytextchanged">queryTextChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Autocomplete/Autocomplete.ts#L97">Autocomplete/Autocomplete.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L200">Common/BaseCall.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -763,18 +776,19 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="update" class="tsd-anchor"></a>
 					<h3>update</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a>, delay<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, useQueryMatchPage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a>, delay<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#update">update</a></p>
+								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#update">update</a></p>
+								<p>Overrides <a href="basecall.html">BaseCall</a>.<a href="basecall.html#update">update</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L113">Common/BaseCall.ts:113</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L156">Authentication/OidcAuthentication.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -796,13 +810,41 @@
 										<p>A delay for when to execute the update, in milliseconds. Defaults to undefined.</p>
 									</div>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> useQueryMatchPage: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>If true then the query matchpage number will not be reset to 1. Otherwise it is by default always 1.</p>
-									</div>
-								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="handlesigninredirect" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> handle<wbr>Signin<wbr>Redirect</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Signin<wbr>Redirect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L27">Authentication/OidcAuthentication.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="handlesilentsignin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> handle<wbr>Silent<wbr>Signin</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Silent<wbr>Signin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/OidcAuthentication.ts#L22">Authentication/OidcAuthentication.ts:22</a></li>
+								</ul>
+							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -822,76 +864,82 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="autocomplete.html" class="tsd-kind-icon">Autocomplete</a>
+						<a href="oidcauthentication.html" class="tsd-kind-icon">Oidc<wbr>Authentication</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="autocomplete.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="oidcauthentication.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="autocomplete.html#settings" class="tsd-kind-icon">settings</a>
+								<a href="oidcauthentication.html#settings" class="tsd-kind-icon">settings</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a>
+								<a href="oidcauthentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a>
+								<a href="oidcauthentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a>
+								<a href="oidcauthentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a>
+								<a href="oidcauthentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a>
+								<a href="oidcauthentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
+								<a href="oidcauthentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="autocomplete.html#fetch" class="tsd-kind-icon">fetch</a>
+								<a href="oidcauthentication.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a>
+								<a href="oidcauthentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a>
+								<a href="oidcauthentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a>
+								<a href="oidcauthentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a>
+								<a href="oidcauthentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a>
+								<a href="oidcauthentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a>
+								<a href="oidcauthentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a>
+								<a href="oidcauthentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="oidcauthentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="autocomplete.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
+								<a href="oidcauthentication.html#update" class="tsd-kind-icon">update</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="autocomplete.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="oidcauthentication.html#handlesigninredirect" class="tsd-kind-icon">handle<wbr>Signin<wbr>Redirect</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="autocomplete.html#update" class="tsd-kind-icon">update</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="oidcauthentication.html#handlesilentsignin" class="tsd-kind-icon">handle<wbr>Silent<wbr>Signin</a>
 							</li>
 						</ul>
 					</li>

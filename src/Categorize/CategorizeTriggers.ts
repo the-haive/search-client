@@ -58,7 +58,7 @@ export class CategorizeTriggers {
      * Note: Requires queryChange to be true.
      * Note: Requires query to be longer than queryMinLength.
      *
-     * Default: /\S\s$/u - Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/1
+     * Default: /\S\s$/ - Trigger on first ENTER or SPACE. Sample: https://regex101.com/r/P0xfej/2
      */
     public queryChangeInstantRegex?: RegExp;
 
@@ -128,7 +128,7 @@ export class CategorizeTriggers {
         this.queryChangeInstantRegex =
             typeof triggers.queryChangeInstantRegex !== "undefined"
                 ? triggers.queryChangeInstantRegex
-                : /\S\s$/u;
+                : /\S\s$/;
 
         this.queryChangeMinLength =
             typeof triggers.queryChangeMinLength !== "undefined"

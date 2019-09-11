@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Authentication | IntelliSearch SearchClient</title>
+	<title>JwtAuthentication | HAIVE IntelliSearch SearchClient</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">IntelliSearch SearchClient</a>
+					<a href="../index.html" class="title">HAIVE IntelliSearch SearchClient</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="authentication.html">Authentication</a>
+					<a href="jwtauthentication.html">JwtAuthentication</a>
 				</li>
 			</ul>
-			<h1>Class Authentication</h1>
+			<h1>Class JwtAuthentication</h1>
 		</div>
 	</div>
 </header>
@@ -65,7 +65,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The Authentication service is a supporting feature for the other services.
+						<p>The JwtAuthentication service is a supporting feature for the other services.
 							Typically used via the <a href="searchclient.html#constructor">SearchClient.constructor</a> and by providing <a href="authenticationsettings.html">AuthenticationSettings</a> settings in
 						the <a href="settings.html#authentication">Settings.authentication</a> property.</p>
 					</div>
@@ -82,10 +82,16 @@
 						<a href="basecall.html" class="tsd-signature-type">BaseCall</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">Authentication</span>
+								<span class="target">JwtAuthentication</span>
 							</li>
 						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/authentication.html" class="tsd-signature-type">Authentication</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -95,44 +101,44 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="authentication.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jwtauthentication.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="authentication.html#settings" class="tsd-kind-icon">settings</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="jwtauthentication.html#settings" class="tsd-kind-icon">settings</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="authentication.html#fetch" class="tsd-kind-icon">fetch</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="authentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="authentication.html#update" class="tsd-kind-icon">update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jwtauthentication.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="jwtauthentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="jwtauthentication.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 					</div>
@@ -144,18 +150,18 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Authentication<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, auth<span class="tsd-signature-symbol">?: </span><a href="authtoken.html" class="tsd-signature-type">AuthToken</a>, fetchMethod<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="authentication.html" class="tsd-signature-type">Authentication</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Jwt<wbr>Authentication<span class="tsd-signature-symbol">(</span>settings<span class="tsd-signature-symbol">: </span><a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, auth<span class="tsd-signature-symbol">?: </span><a href="authtoken.html" class="tsd-signature-type">AuthToken</a>, fetchMethod<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jwtauthentication.html" class="tsd-signature-type">JwtAuthentication</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/Authentication.ts#L21">Authentication/Authentication.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/JwtAuthentication.ts#L22">Authentication/JwtAuthentication.ts:22</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Creates an Authentication object that knows where to get the auth-token and when to refresh it.</p>
+									<p>Creates an JwtAuthentication object that knows where to get the auth-token and when to refresh it.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -180,7 +186,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fetchMethod: <a href="../globals.html#fetch" class="tsd-signature-type">Fetch</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="authentication.html" class="tsd-signature-type">Authentication</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="jwtauthentication.html" class="tsd-signature-type">JwtAuthentication</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -192,8 +198,9 @@
 					<h3>settings</h3>
 					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="../interfaces/iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#settings">settings</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/Authentication.ts#L21">Authentication/Authentication.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/JwtAuthentication.ts#L22">Authentication/JwtAuthentication.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -211,7 +218,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#deferupdatestate">deferUpdateState</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L73">Common/BaseCall.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L73">Common/BaseCall.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -237,7 +244,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#categorizationtypechanged">categorizationTypeChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L161">Common/BaseCall.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L161">Common/BaseCall.ts:161</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -264,7 +271,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#clientidchanged">clientIdChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L158">Common/BaseCall.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L158">Common/BaseCall.ts:158</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -291,7 +298,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#datefromchanged">dateFromChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L167">Common/BaseCall.ts:167</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L167">Common/BaseCall.ts:167</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -318,7 +325,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#datetochanged">dateToChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L170">Common/BaseCall.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L170">Common/BaseCall.ts:170</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -345,7 +352,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#deferupdates">deferUpdates</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L57">Common/BaseCall.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L57">Common/BaseCall.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -382,8 +389,9 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/Authentication.ts#L57">Authentication/Authentication.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/JwtAuthentication.ts#L66">Authentication/JwtAuthentication.ts:66</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +430,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#filterschanged">filtersChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L173">Common/BaseCall.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L173">Common/BaseCall.ts:173</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -449,7 +457,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchgeneratecontentchanged">matchGenerateContentChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L176">Common/BaseCall.ts:176</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L176">Common/BaseCall.ts:176</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -476,7 +484,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchgeneratecontenthighlightschanged">matchGenerateContentHighlightsChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L179">Common/BaseCall.ts:179</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L179">Common/BaseCall.ts:179</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -503,7 +511,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchgroupingchanged">matchGroupingChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L185">Common/BaseCall.ts:185</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L185">Common/BaseCall.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -530,7 +538,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchorderbychanged">matchOrderByChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L188">Common/BaseCall.ts:188</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L188">Common/BaseCall.ts:188</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -557,7 +565,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchpagechanged">matchPageChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L191">Common/BaseCall.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L191">Common/BaseCall.ts:191</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -584,7 +592,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#matchpagesizechanged">matchPageSizeChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L194">Common/BaseCall.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L194">Common/BaseCall.ts:194</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -611,7 +619,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#maxsuggestionschanged">maxSuggestionsChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L197">Common/BaseCall.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L197">Common/BaseCall.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -638,7 +646,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#querytextchanged">queryTextChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L200">Common/BaseCall.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L200">Common/BaseCall.ts:200</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -665,7 +673,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#requestobject">requestObject</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L82">Common/BaseCall.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L82">Common/BaseCall.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -697,7 +705,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#searchtypechanged">searchTypeChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L203">Common/BaseCall.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L203">Common/BaseCall.ts:203</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -724,7 +732,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#shouldupdate">shouldUpdate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L146">Common/BaseCall.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L146">Common/BaseCall.ts:146</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -751,7 +759,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecall.html">BaseCall</a>.<a href="basecall.html#uilanguagecodechanged">uiLanguageCodeChanged</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Common/BaseCall.ts#L206">Common/BaseCall.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/BaseCall.ts#L206">Common/BaseCall.ts:206</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -776,9 +784,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#update">update</a></p>
 								<p>Overrides <a href="basecall.html">BaseCall</a>.<a href="basecall.html#update">update</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/master/src/Authentication/Authentication.ts#L114">Authentication/Authentication.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/JwtAuthentication.ts#L124">Authentication/JwtAuthentication.ts:124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -820,76 +829,76 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="authentication.html" class="tsd-kind-icon">Authentication</a>
+						<a href="jwtauthentication.html" class="tsd-kind-icon">Jwt<wbr>Authentication</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="authentication.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="jwtauthentication.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="authentication.html#settings" class="tsd-kind-icon">settings</a>
+								<a href="jwtauthentication.html#settings" class="tsd-kind-icon">settings</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a>
+								<a href="jwtauthentication.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a>
+								<a href="jwtauthentication.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a>
+								<a href="jwtauthentication.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a>
+								<a href="jwtauthentication.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a>
+								<a href="jwtauthentication.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
+								<a href="jwtauthentication.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="authentication.html#fetch" class="tsd-kind-icon">fetch</a>
+								<a href="jwtauthentication.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a>
+								<a href="jwtauthentication.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a>
+								<a href="jwtauthentication.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a>
+								<a href="jwtauthentication.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a>
+								<a href="jwtauthentication.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a>
+								<a href="jwtauthentication.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a>
+								<a href="jwtauthentication.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a>
+								<a href="jwtauthentication.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
+								<a href="jwtauthentication.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a>
+								<a href="jwtauthentication.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a>
+								<a href="jwtauthentication.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a>
+								<a href="jwtauthentication.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
+								<a href="jwtauthentication.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="authentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a>
+								<a href="jwtauthentication.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
-								<a href="authentication.html#update" class="tsd-kind-icon">update</a>
+								<a href="jwtauthentication.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>

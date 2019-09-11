@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SortMethod | HAIVE IntelliSearch SearchClient</title>
+	<title>Authentication | HAIVE IntelliSearch SearchClient</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,116 +52,117 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="sortmethod.html">SortMethod</a>
+					<a href="authentication.html">Authentication</a>
 				</li>
 			</ul>
-			<h1>Enumeration SortMethod</h1>
+			<h1>Interface Authentication</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Defines how to sort the part.</p>
-					</div>
-				</div>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Authentication</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/jwtauthentication.html" class="tsd-signature-type">JwtAuthentication</a></li>
+					<li><a href="../classes/oidcauthentication.html" class="tsd-signature-type">OidcAuthentication</a></li>
+				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="sortmethod.html#alphaasc" class="tsd-kind-icon">Alpha<wbr>Asc</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="sortmethod.html#alphadesc" class="tsd-kind-icon">Alpha<wbr>Desc</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="sortmethod.html#countasc" class="tsd-kind-icon">Count<wbr>Asc</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="sortmethod.html#countdesc" class="tsd-kind-icon">Count<wbr>Desc</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="sortmethod.html#original" class="tsd-kind-icon">Original</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="authentication.html#settings" class="tsd-kind-icon">settings</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authentication.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="authentication.html#update" class="tsd-kind-icon">update</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="alphaasc" class="tsd-anchor"></a>
-					<h3>Alpha<wbr>Asc</h3>
-					<div class="tsd-signature tsd-kind-icon">Alpha<wbr>Asc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;AlphaAsc&quot;</span></div>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="settings" class="tsd-anchor"></a>
+					<h3>settings</h3>
+					<div class="tsd-signature tsd-kind-icon">settings<span class="tsd-signature-symbol">:</span> <a href="iauthenticationsettings.html" class="tsd-signature-type">IAuthenticationSettings</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/CategoryPresentation.ts#L348">Common/CategoryPresentation.ts:348</a></li>
+							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/Authentication.ts#L8">Authentication/Authentication.ts:8</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sort Ascending by Name/DisplayName field.</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="alphadesc" class="tsd-anchor"></a>
-					<h3>Alpha<wbr>Desc</h3>
-					<div class="tsd-signature tsd-kind-icon">Alpha<wbr>Desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;AlphaDesc&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/CategoryPresentation.ts#L353">Common/CategoryPresentation.ts:353</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sort Descending by Name/DisplayName field.</p>
-						</div>
-					</div>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="../classes/query.html" class="tsd-signature-type">Query</a>, suppressCallbacks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/Authentication.ts#L10">Authentication/Authentication.ts:10</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>query: <a href="../classes/query.html" class="tsd-signature-type">Query</a></h5>
+								</li>
+								<li>
+									<h5>suppressCallbacks: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="countasc" class="tsd-anchor"></a>
-					<h3>Count<wbr>Asc</h3>
-					<div class="tsd-signature tsd-kind-icon">Count<wbr>Asc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;CountAsc&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/CategoryPresentation.ts#L358">Common/CategoryPresentation.ts:358</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sort Ascending by MatchCount field.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="countdesc" class="tsd-anchor"></a>
-					<h3>Count<wbr>Desc</h3>
-					<div class="tsd-signature tsd-kind-icon">Count<wbr>Desc<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;CountDesc&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/CategoryPresentation.ts#L363">Common/CategoryPresentation.ts:363</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sort Descending by MatchCount field.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="original" class="tsd-anchor"></a>
-					<h3>Original</h3>
-					<div class="tsd-signature tsd-kind-icon">Original<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;Original&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Common/CategoryPresentation.ts#L343">Common/CategoryPresentation.ts:343</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Sort in the order received from the server.</p>
-						</div>
-					</div>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="../classes/query.html" class="tsd-signature-type">Query</a>, delay<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/IntelliSearch/search-client/blob/3c803a1/src/Authentication/Authentication.ts#L15">Authentication/Authentication.ts:15</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>query: <a href="../classes/query.html" class="tsd-signature-type">Query</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> delay: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -177,23 +178,17 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum">
-						<a href="sortmethod.html" class="tsd-kind-icon">Sort<wbr>Method</a>
+					<li class="current tsd-kind-interface">
+						<a href="authentication.html" class="tsd-kind-icon">Authentication</a>
 						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="sortmethod.html#alphaasc" class="tsd-kind-icon">Alpha<wbr>Asc</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="authentication.html#settings" class="tsd-kind-icon">settings</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="sortmethod.html#alphadesc" class="tsd-kind-icon">Alpha<wbr>Desc</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="authentication.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="sortmethod.html#countasc" class="tsd-kind-icon">Count<wbr>Asc</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="sortmethod.html#countdesc" class="tsd-kind-icon">Count<wbr>Desc</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="sortmethod.html#original" class="tsd-kind-icon">Original</a>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="authentication.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>

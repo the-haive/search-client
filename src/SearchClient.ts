@@ -26,7 +26,7 @@ import { Find } from "./Find";
 import { Settings, ISettings } from "./Settings";
 
 /**
- * This is the "main class" of this package. Please read the <a href="https://intellisearch.github.io/search-client/">getting-started section</a>"
+ * This is the "main class" of this package. Please read the <a href="https://the-haive.github.io/search-client/">getting-started section</a>"
  * for a proper introduction.
  *
  * The SearchClient manages a range of other services:
@@ -90,7 +90,7 @@ export class SearchClient implements AuthToken {
     }    
 
     /**
-     * Creates a SearchClient instance using the supplied settings object. Please see <a href="https://intellisearch.github.io/search-client/">getting-started section</a>
+     * Creates a SearchClient instance using the supplied settings object. Please see <a href="https://the-haive.github.io/search-client/">getting-started section</a>
      * for an introduction on how to set up the instance.
      *
      * @param settings A settings object that indicates how the search-client instance is to behave.
@@ -505,7 +505,7 @@ export class SearchClient implements AuthToken {
     /**
      * Sets whether the results should generate the content or not.
      *
-     * **Note:** Requires the backend IndexManager to have the option enabled in it's configuration too.
+     * **Note:** Requires the backend IndexManager to have the option enabled in its configuration too.
      *
      * Will run trigger-checks and potentially update services.
      */

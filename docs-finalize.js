@@ -4,9 +4,8 @@ const replace = require("replace-in-file");
 
 const options = {
     files: ["docs/**/*.html"],
-    from: /<a href="https:\/\/github\.com\/IntelliSearch\/search\-client\/blob\/(\w+)\/src\//gi,
-    to:
-        '<a href="https://github.com/IntelliSearch/search-client/blob/master/src/',
+    from: /<a href="https:\/\/github\.com\/the-haive\/search\-client\/blob\/(\w+)\/src\//gi,
+    to: '<a href="https://github.com/the-haive/search-client/blob/master/src/',
     encoding: "utf8"
 };
 

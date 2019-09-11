@@ -7,7 +7,7 @@ import {
 } from "./AutocompleteSettings";
 
 /**
- * This class allows you to create a service that executes autocomplete lookupds for the IntelliSearch SearchService.
+ * This class allows you to create a service that executes autocomplete lookups for the Haive SearchManager service.
  *
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
@@ -56,9 +56,7 @@ export class Autocomplete extends BaseCall<string[]> {
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(
-                            `${response.status} ${
-                                response.statusText
-                            } for request url '${url}'`
+                            `${response.status} ${response.statusText} for request url '${url}'`
                         );
                     }
                     return response.json();
