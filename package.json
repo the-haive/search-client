@@ -1,6 +1,6 @@
 {
   "name": "search-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Javascript library for executing searches in the HAIVE IntelliSearch search-index via the SearchManager REST interface.",
   "author": "Ronny Hanssen <ronny@haive.ai> (http://haive.ai/)",
   "license": "MIT",

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.3"></a>
+## [1.0.3](https://github.com/the-haive/search-client/compare/v1.0.2...v1.0.3) (2019-09-17)
+
+
+### Features
+
+* Reduce package size by removing moment-locales during build ([e4104b2](https://github.com/the-haive/search-client/commit/e4104b2))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/the-haive/search-client/compare/v1.0.1...v1.0.2) (2019-09-11)
 
