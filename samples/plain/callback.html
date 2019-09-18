@@ -1,13 +1,32 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <title>IntelliSearch SearchClient</title>    
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+        <meta http-equiv="Pragma" content="no-cache">
+        <title>IntelliSearch SearchClient</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.3/awesomplete.min.css">
+        <link rel="stylesheet" href="./vendor/awesome-notifications/awesome-notifications.min.css?v1">
+        <link rel="stylesheet" href="./css/index.css?v1">
+    </head>
 <body>    
-    <h1>Processing callback...</h1>      
-    <a href="index.html">Back to index</a>
+    <div id="auth-pending">
+        <div class="whiteout">
+            <div class="dialog-content">
+                <header>
+                    <h1>Authenticating user</h1>
+                </header>
+                <div class="dialog-content-main">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <script src="./IntelliSearch.js"></script>    
+    <script src="./dist/IntelliSearch.js"></script>    
+    <script src="js/common.js"></script>
     <script src="js/callback.js"></script>
 </body>
 </html>

@@ -18,28 +18,6 @@
 
 let notifier;
 
-function load(file) {
-    return fetch(file, {
-        cache: "no-store",
-        "Content-Type": "text/json",
-        credentials: "include"
-    })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                throw new Error();
-            }
-        })
-        .then(json => json)
-        .catch(err => {
-            console.warn(
-                `Failed to find/read ${file} on the server. Using empty object as input.`
-            );
-            return {};
-        });
-}
-
 window.onload = function() {
     // TODO: Localize notifications
     notifier = new AWN({
@@ -395,7 +373,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // prettier-ignore
     // Sets up the client that connects to the IntelliSearch backend using the aforementioned settings
-    let client = new IntelliSearch.SearchClient(searchSettings);
+    let client = new IntelliSearch.SearchClient(searchSettings);  
     if (searchSettings.authentication.enabled && !client.authenticationToken) {
         document.getElementById("container").classList.add("auth-pending");
     }

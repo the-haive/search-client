@@ -88,7 +88,6 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
 
                     // Update the token
                     this.auth.tokenResolver = () =>  data;
-                    //this.auth.authenticationToken = data;
 
                     // Set up a timer for refreshing the token before/if it expires.
                     this.setupRefresh();
