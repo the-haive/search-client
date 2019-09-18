@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/the-haive/search-client/compare/v1.0.3...v1.1.0) (2019-09-18)
+
+
+### Features
+
+* Adds response mode option and state persistance to oidc authentication. ([d7b1a01](https://github.com/the-haive/search-client/commit/d7b1a01))
+
+
+
 <a name="1.0.3"></a>
 ## [1.0.3](https://github.com/the-haive/search-client/compare/v1.0.2...v1.0.3) (2019-09-17)
 

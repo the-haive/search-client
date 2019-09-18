@@ -1,131 +1,131 @@
 {
-    "name": "search-client",
-    "version": "1.0.3",
-    "description": "Javascript library for executing searches in the HAIVE IntelliSearch search-index via the SearchManager REST interface.",
-    "author": "Ronny Hanssen <ronny@haive.ai> (http://haive.ai/)",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/the-haive/search-client.git"
-    },
-    "homepage": "https://github.com/the-haive/search-client#readme",
-    "bugs": {
-        "url": "https://github.com/the-haive/search-client/issues"
-    },
-    "main": "lib/SearchClient.js",
-    "module": "es/SearchClient.js",
-    "browser": "dist/IntelliSearch.js",
-    "types": "es/SearchClient.d.ts",
-    "scripts": {
-        "prebuild": "yarn run clean",
-        "build": "yarn run build:lib && yarn run build:es && yarn run build:umd",
-        "build:lib": "tsc --outDir lib --module commonjs",
-        "build:es": "tsc --outDir es --module es2015",
-        "build:umd": "webpack --config webpack.config.js",
-        "build:umd:watch": "webpack --config webpack.config.js --watch",
-        "postbuild": "rimraf {lib,es}/**/__tests__ {lib,es}/**/*.{spec,test}.* dist/temp",
-        "clean": "rimraf dist/* es/* lib/* docs/* coverage/* tmp/*",
-        "typecheck": "tsc --noEmit",
-        "lint": "tslint --project tsconfig.json --format stylish --exclude src/test-data/categories.json",
-        "test": "jest --env=jsdom --coverage",
-        "test:watch": "jest --env=jsdom --watch --updateSnapshot",
-        "posttest": "yarn run typecheck && yarn run lint",
-        "predocs": "node docs-prepare.js",
-        "docs": "echo \"*** Documenting...\" && yarn run rimraf docs && yarn run typedoc ./src/ --options typedoc.json && echo \"*** Documentation created: ./docs/index.html\"",
-        "postdocs": "yarn run rimraf tmp && node docs-finalize.js",
-        "verify": "yarn run clean && yarn run build && yarn run test && yarn run docs && echo \"*** Verify success.\" && echo \"- If ready to release, commit changes and then 'yarn run bump' (optionally with params https://www.npmjs.com/package/standard-version).\" && echo \"- Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md\"",
-        "bump": "yarn run standard-version",
-        "pack": "echo \"*** Packing...\" && yarn pack && echo \"Pack success.\" && echo \"- Package created.\" && echo \"- Remember to git-push commits and tags to the git-origin!\" && echo \"- Run 'npm publish' to publish the package to the npmjs repository.\"",
-        "//prepublishOnly": "yarn run build",
-        "//preversion": "yarn test",
-        "//postversion": "git push && git push --tags",
-        "samples:plain": "concurrently \"browser-sync samples/plain dist -w --port 9000\" \"yarn run build:umd:watch\" ",
-        "samples:plain:browser": "browser-sync samples/plain dist -w --port 9000"
-    },
-    "keywords": [
-        "typescript",
-        "library",
-        "intellisearch",
-        "haive",
-        "search-client",
-        "search-engine"
+  "name": "search-client",
+  "version": "1.1.0",
+  "description": "Javascript library for executing searches in the HAIVE IntelliSearch search-index via the SearchManager REST interface.",
+  "author": "Ronny Hanssen <ronny@haive.ai> (http://haive.ai/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-haive/search-client.git"
+  },
+  "homepage": "https://github.com/the-haive/search-client#readme",
+  "bugs": {
+    "url": "https://github.com/the-haive/search-client/issues"
+  },
+  "main": "lib/SearchClient.js",
+  "module": "es/SearchClient.js",
+  "browser": "dist/IntelliSearch.js",
+  "types": "es/SearchClient.d.ts",
+  "scripts": {
+    "prebuild": "yarn run clean",
+    "build": "yarn run build:lib && yarn run build:es && yarn run build:umd",
+    "build:lib": "tsc --outDir lib --module commonjs",
+    "build:es": "tsc --outDir es --module es2015",
+    "build:umd": "webpack --config webpack.config.js",
+    "build:umd:watch": "webpack --config webpack.config.js --watch",
+    "postbuild": "rimraf {lib,es}/**/__tests__ {lib,es}/**/*.{spec,test}.* dist/temp",
+    "clean": "rimraf dist/* es/* lib/* docs/* coverage/* tmp/*",
+    "typecheck": "tsc --noEmit",
+    "lint": "tslint --project tsconfig.json --format stylish --exclude src/test-data/categories.json",
+    "test": "jest --env=jsdom --coverage",
+    "test:watch": "jest --env=jsdom --watch --updateSnapshot",
+    "posttest": "yarn run typecheck && yarn run lint",
+    "predocs": "node docs-prepare.js",
+    "docs": "echo \"*** Documenting...\" && yarn run rimraf docs && yarn run typedoc ./src/ --options typedoc.json && echo \"*** Documentation created: ./docs/index.html\"",
+    "postdocs": "yarn run rimraf tmp && node docs-finalize.js",
+    "verify": "yarn run clean && yarn run build && yarn run test && yarn run docs && echo \"*** Verify success.\" && echo \"- If ready to release, commit changes and then 'yarn run bump' (optionally with params https://www.npmjs.com/package/standard-version).\" && echo \"- Note that commit comment should follow standard-version comment convention https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md\"",
+    "bump": "yarn run standard-version",
+    "pack": "echo \"*** Packing...\" && yarn pack && echo \"Pack success.\" && echo \"- Package created.\" && echo \"- Remember to git-push commits and tags to the git-origin!\" && echo \"- Run 'npm publish' to publish the package to the npmjs repository.\"",
+    "//prepublishOnly": "yarn run build",
+    "//preversion": "yarn test",
+    "//postversion": "git push && git push --tags",
+    "samples:plain": "concurrently \"browser-sync samples/plain dist -w --port 9000\" \"yarn run build:umd:watch\" ",
+    "samples:plain:browser": "browser-sync samples/plain dist -w --port 9000"
+  },
+  "keywords": [
+    "typescript",
+    "library",
+    "intellisearch",
+    "haive",
+    "search-client",
+    "search-engine"
+  ],
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ],
+  "dependencies": {
+    "@types/deep-equal": "^1.0.1",
+    "@types/jwt-simple": "^0.5.33",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^10.3.3",
+    "@types/valid-url": "^1.0.2",
+    "cross-fetch": "^2.2.1",
+    "deep-equal": "^1.0.1",
+    "jwt-simple": "^0.5.6",
+    "moment": "^2.22.2",
+    "oidc-client": "^1.7.1",
+    "tslib": "^1.9.2",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.1.0",
+    "browser-sync": "^2.24.6",
+    "concat-files": "^0.1.1",
+    "concurrently": "^4.0.0",
+    "cpx": "^1.5.0",
+    "jest": "^23.1.0",
+    "jest-fetch-mock": "^1.6.5",
+    "jest-localstorage-mock": "^2.4.0",
+    "jest-plugin-unhandled-promise": "^2.9.0",
+    "node-watch": "^0.5.8",
+    "pascal-case": "^2.0.1",
+    "replace-in-file": "^3.4.0",
+    "rimraf": "^2.6.2",
+    "standard-version": "^4.4.0",
+    "ts-jest": "^22.4.6",
+    "ts-loader": "^4.5.0",
+    "tslint": "^5.10.0",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.9.2",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "jest-plugin-unhandled-promise/setup",
+      "jest-localstorage-mock"
     ],
-    "files": [
-        "lib",
-        "es",
-        "dist"
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "lib",
+      "es",
+      "dist",
+      "samples"
     ],
-    "dependencies": {
-        "@types/deep-equal": "^1.0.1",
-        "@types/jwt-simple": "^0.5.33",
-        "@types/moment": "^2.13.0",
-        "@types/node": "^10.3.3",
-        "@types/valid-url": "^1.0.2",
-        "cross-fetch": "^2.2.1",
-        "deep-equal": "^1.0.1",
-        "jwt-simple": "^0.5.6",
-        "moment": "^2.22.2",
-        "oidc-client": "^1.7.1",
-        "tslib": "^1.9.2",
-        "valid-url": "^1.0.9"
-    },
-    "devDependencies": {
-        "@types/jest": "^23.1.0",
-        "browser-sync": "^2.24.6",
-        "concat-files": "^0.1.1",
-        "concurrently": "^4.0.0",
-        "cpx": "^1.5.0",
-        "jest": "^23.1.0",
-        "jest-fetch-mock": "^1.6.5",
-        "jest-localstorage-mock": "^2.4.0",
-        "jest-plugin-unhandled-promise": "^2.9.0",
-        "node-watch": "^0.5.8",
-        "pascal-case": "^2.0.1",
-        "replace-in-file": "^3.4.0",
-        "rimraf": "^2.6.2",
-        "standard-version": "^4.4.0",
-        "ts-jest": "^22.4.6",
-        "ts-loader": "^4.5.0",
-        "tslint": "^5.10.0",
-        "typedoc": "^0.11.1",
-        "typescript": "^2.9.2",
-        "uglifyjs-webpack-plugin": "^1.3.0",
-        "webpack": "^4.17.1",
-        "webpack-cli": "^3.1.0"
-    },
-    "jest": {
-        "automock": false,
-        "setupFiles": [
-            "jest-plugin-unhandled-promise/setup",
-            "jest-localstorage-mock"
-        ],
-        "transform": {
-            "^.+\\.(t|j)sx?$": "ts-jest"
-        },
-        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-        "testPathIgnorePatterns": [
-            "node_modules",
-            "lib",
-            "es",
-            "dist",
-            "samples"
-        ],
-        "collectCoverageFrom": [
-            "src/**/*.{t,j}s?(x)",
-            "!src/**/*.d.ts"
-        ],
-        "moduleFileExtensions": [
-            "js",
-            "jsx",
-            "json",
-            "ts",
-            "tsx"
-        ],
-        "globals": {
-            "ts-jest": {
-                "skipBabel": true,
-                "tsConfigFile": "tsconfig.jest.json"
-            }
-        }
+    "collectCoverageFrom": [
+      "src/**/*.{t,j}s?(x)",
+      "!src/**/*.d.ts"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "ts",
+      "tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true,
+        "tsConfigFile": "tsconfig.jest.json"
+      }
     }
+  }
 }
