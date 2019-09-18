@@ -10,6 +10,7 @@
 		"clientId": "intellisearch.webclient.implicit",
 		"scope": "openid profile searchmanager.api",
 		"responseType": "id_token token",
+		"responseMode": "fragment",
         "enabled": true,
 		"enableLogging": true
     },

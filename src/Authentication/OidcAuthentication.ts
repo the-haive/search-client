@@ -19,19 +19,16 @@ import { AuthToken } from "./AuthToken";
  */
 export class OidcAuthentication extends BaseCall<any> implements Authentication {
 
-    static handleSilentSignin(): void {              
-        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
+    static handleSilentSignin(responseMode: string): void {              
+        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: responseMode, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
         mgr.signinSilentCallback();
     }
 
-    static handleSigninRedirect(): void {            
-        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
+    static handleSigninRedirect(responseMode: string, callback: (state: any) => any): void {            
+        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: responseMode, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
 
-        mgr.signinRedirectCallback().then(user => {    
-            window.history.replaceState({},
-            window.document.title,
-            window.location.origin + window.location.pathname);
-            window.location.href = "index.html";
+        mgr.signinRedirectCallback().then(user => {       
+            callback(user.state);
         });
     }
 
@@ -179,7 +176,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
     }
     
     private login(userManager: OIDC.UserManager) {
-        userManager.createSigninRequest()
+        userManager.createSigninRequest({ data: { currentUrl: window.location.href } })
         .then((response) => {
             window.location.href = response.url;
         });     

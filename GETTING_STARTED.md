@@ -179,10 +179,11 @@ The IntelliSearch SearchService supports OpenId Connect based authentication.
     - Service path - path of identity server service
     - Client Id - id of the client registered in identity server
     - Response type - describes response type to be returned by identity server
+    - Response mode - describes server response mode ('fragment' for implicit flow, 'query' for authorization code flow)
     - Scopes - list of scopes requested by client
     - Enable logging flag
 
-Example:
+Implicit flow example:
 
  "authentication": {
   "type": "oidc",
@@ -194,6 +195,24 @@ Example:
   "clientId": "intellisearch.webclient.implicit",
   "scope": "openid profile",
   "responseType": "id_token token",
+  "responseMode": "fragment",
+  "enabled": true,
+  "enableLogging": true
+  }
+
+  Authorization code flow example:
+
+ "authentication": {
+  "type": "oidc",
+  "baseUrl": "localhost:5000",
+  "silentRedirectUri": "localhost:9000/silent.html",
+  "redirectUri": "localhost:9000/callback.html",
+  "postLogoutRedirectUri": "localhost:9000",
+  "servicePath": "",
+  "clientId": "intellisearch.webclient.implicit",
+  "scope": "openid profile",
+  "responseType": "id_token token",
+  "responseMode": "query",
   "enabled": true,
   "enableLogging": true
   }
