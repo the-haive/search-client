@@ -39,7 +39,7 @@ export interface IAuthenticationSettings extends IBaseSettings<any> {
      */
     responseType?: string;
 
-      /**
+    /**
      * Sets response mode which describes mode of returning data by identity server
      */
     responseMode?: string;
