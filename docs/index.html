@@ -263,12 +263,13 @@
 							<li>Service path - path of identity server service</li>
 							<li>Client Id - id of the client registered in identity server</li>
 							<li>Response type - describes response type to be returned by identity server</li>
+							<li>Response mode - describes server response mode (&#39;fragment&#39; for implicit flow, &#39;query&#39; for authorization code flow)</li>
 							<li>Scopes - list of scopes requested by client</li>
 							<li>Enable logging flag</li>
 						</ul>
 					</li>
 				</ol>
-				<p>Example:</p>
+				<p>Implicit flow example:</p>
 				<p> &quot;authentication&quot;: {
 					&quot;type&quot;: &quot;oidc&quot;,
 					&quot;baseUrl&quot;: &quot;localhost:5000&quot;,
@@ -279,6 +280,22 @@
 					&quot;clientId&quot;: &quot;intellisearch.webclient.implicit&quot;,
 					&quot;scope&quot;: &quot;openid profile&quot;,
 					&quot;responseType&quot;: &quot;id_token token&quot;,
+					&quot;responseMode&quot;: &quot;fragment&quot;,
+					&quot;enabled&quot;: true,
+					&quot;enableLogging&quot;: true
+				}</p>
+				<p>  Authorization code flow example:</p>
+				<p> &quot;authentication&quot;: {
+					&quot;type&quot;: &quot;oidc&quot;,
+					&quot;baseUrl&quot;: &quot;localhost:5000&quot;,
+					&quot;silentRedirectUri&quot;: &quot;localhost:9000/silent.html&quot;,
+					&quot;redirectUri&quot;: &quot;localhost:9000/callback.html&quot;,
+					&quot;postLogoutRedirectUri&quot;: &quot;localhost:9000&quot;,
+					&quot;servicePath&quot;: &quot;&quot;,
+					&quot;clientId&quot;: &quot;intellisearch.webclient.implicit&quot;,
+					&quot;scope&quot;: &quot;openid profile&quot;,
+					&quot;responseType&quot;: &quot;id_token token&quot;,
+					&quot;responseMode&quot;: &quot;query&quot;,
 					&quot;enabled&quot;: true,
 					&quot;enableLogging&quot;: true
 				}</p>

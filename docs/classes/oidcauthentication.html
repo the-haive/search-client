@@ -157,7 +157,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Authentication/OidcAuthentication.ts:42</li>
+									<li>Defined in Authentication/OidcAuthentication.ts:39</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -201,7 +201,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#settings">settings</a></p>
 						<ul>
-							<li>Defined in Authentication/OidcAuthentication.ts:38</li>
+							<li>Defined in Authentication/OidcAuthentication.ts:35</li>
 						</ul>
 					</aside>
 				</section>
@@ -392,7 +392,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#fetch">fetch</a></p>
 								<ul>
-									<li>Defined in Authentication/OidcAuthentication.ts:111</li>
+									<li>Defined in Authentication/OidcAuthentication.ts:108</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -788,7 +788,7 @@
 								<p>Implementation of <a href="../interfaces/authentication.html">Authentication</a>.<a href="../interfaces/authentication.html#update">update</a></p>
 								<p>Overrides <a href="basecall.html">BaseCall</a>.<a href="basecall.html#update">update</a></p>
 								<ul>
-									<li>Defined in Authentication/OidcAuthentication.ts:156</li>
+									<li>Defined in Authentication/OidcAuthentication.ts:153</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -819,7 +819,7 @@
 					<a name="handlesigninredirect" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> handle<wbr>Signin<wbr>Redirect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Signin<wbr>Redirect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Signin<wbr>Redirect<span class="tsd-signature-symbol">(</span>responseMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -828,6 +828,33 @@
 									<li>Defined in Authentication/OidcAuthentication.ts:27</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>responseMode: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>state: <span class="tsd-signature-type">any</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -836,7 +863,7 @@
 					<a name="handlesilentsignin" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> handle<wbr>Silent<wbr>Signin</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Silent<wbr>Signin<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Silent<wbr>Signin<span class="tsd-signature-symbol">(</span>responseMode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -845,6 +872,12 @@
 									<li>Defined in Authentication/OidcAuthentication.ts:22</li>
 								</ul>
 							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>responseMode: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
