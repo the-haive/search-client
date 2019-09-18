@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const path = require("path");
 
@@ -21,6 +22,8 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"]
     },
     plugins: [
+        // Ignore all locale files of moment.js
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
         new UglifyJsPlugin({
             sourceMap: false,
             extractComments: true,

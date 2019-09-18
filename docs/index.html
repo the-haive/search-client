@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IntelliSearch SearchClient</title>
+	<title>HAIVE IntelliSearch SearchClient</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">IntelliSearch SearchClient</a>
+					<a href="index.html" class="title">HAIVE IntelliSearch SearchClient</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> IntelliSearch SearchClient</h1>
+			<h1> HAIVE IntelliSearch SearchClient</h1>
 		</div>
 	</div>
 </header>
@@ -60,21 +60,21 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="intellisearch-searchclient">IntelliSearch SearchClient</h1>
+				<h1 id="haive-searchclient">Haive SearchClient</h1>
 				<p><a href="https://semaphoreci.com/spiralis/search-client"><img src="https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg" alt="Build Status"></a></p>
 				<h2 id="project-links">Project links</h2>
 				<ul>
-					<li><a href="https://intellisearch.github.io/search-client/">Documentation</a></li>
+					<li><a href="https://the-haive.github.io/search-client/">Documentation</a></li>
 					<li><a href="https://www.npmjs.com/package/search-client">Node Package Manager</a></li>
-					<li><a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a></li>
-					<li><a href="https://github.com/IntelliSearch/search-client">GitHub repository</a></li>
-					<li><a href="https://github.com/IntelliSearch/search-client/issues">Issues</a></li>
-					<li><a href="https://github.com/IntelliSearch/search-client/blob/master/CHANGELOG.md">Changelog</a></li>
+					<li><a href="https://www.jsdelivr.com/package/npm/search-client">CDN at JSDelivr</a></li>
+					<li><a href="https://github.com/the-haive/search-client">GitHub repository</a></li>
+					<li><a href="https://github.com/the-haive/search-client/issues">Issues</a></li>
+					<li><a href="https://github.com/the-haive/search-client/blob/master/CHANGELOG.md">Changelog</a></li>
 				</ul>
 				<h2 id="about">About</h2>
-				<p>The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchManager instance.</p>
+				<p>The SearchClient library makes it easy to hook up your search-UI to a Haive SearchManager instance.</p>
 				<p>The package handles all the backend web-services so that you can focus on the user interface instead.</p>
-				<p>The SearchClient wraps and manages all the IntelliSearch SearchService REST web-services:</p>
+				<p>The SearchClient wraps and manages all the Haive SearchManager REST web-services:</p>
 				<ul>
 					<li><strong>Autocomplete</strong> - Lookups query-text and suggests words to help write the query.</li>
 					<li><strong>Find</strong> - Searches the index based on the current query (query-text, filters, ...).</li>
@@ -87,7 +87,7 @@
 </code></pre><p>Since we have implemented the search-client in Typescript all the data-types and signatures are available for your IDE to use as intellisense. Please also use the documentation available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).</p>
 				<h2 id="use-in-browser-via-script-tag-">Use in browser (via script-tag)</h2>
 				<p>For web-pages that needs to have a script-tag embedded you can fetch the file(s) needed via the jsDelivr cdn, like this:</p>
-				<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//cdn.jsdelivr.net/search-client/</span></span></span><span class="hljs-template-variable">{version}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">/IntelliSearch.bundle.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+				<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//cdn.jsdelivr.net/npm/search-client@</span></span></span><span class="hljs-template-variable">{version}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">/dist/IntelliSearch.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
 </code></pre><p>- where <code>{version}</code> is to be replaced with the actual version you want.</p>
 				<p><strong>CDN version aliases:</strong></p>
 				<p>We strongly recommend that you use the full version id for production sites. For development sites we do recommend the same, but we also see that using a version alias might be handy in some cases.</p>
@@ -102,7 +102,8 @@
 						This means that it will get the latest version for the given major.minor version. Note that the same warning as for <code>latest</code> applies, although this is less risky than both of the above options.</p>
 					</li>
 				</ul>
-				<p><strong>Note:</strong> A benefit to using the npm system is the inclusion of <code>map</code>-files. Next to the browser-bundles in the project you can find accompanying <code>.map</code> files that browsers are able to utilize in order to give a better debugging experience.</p>
+				<p><strong>Note:</strong> You can replace <code>dist</code> with <code>es</code> to get different builds of the library too. For browser script you should use <code>dist</code> as that version is in UMD format.
+				A benefit to using the npm system is the inclusion of <code>map</code>-files. These are available for the <code>es</code> and <code>lib</code> versions only. Next to the browser-bundles in the project you can find accompanying <code>.map</code> files that browsers are able to utilize in order to give a better debugging experience.</p>
 				<h2 id="license">License</h2>
 				<p><a href="../LICENSE">LICENCE</a></p>
 				<h1 id="getting-started">Getting started</h1>
@@ -113,7 +114,7 @@
 				<p>The central class is the <a href="classes/searchclient.html">SearchClient</a>. To start using it you will need to create a new instance of it.</p>
 				<p><strong>Note: If you are embedding the library via a script-tag then all the library features are in the IntelliSearch namespace.</strong></p>
 				<p>The constructor takes one parameter (<code>settings</code>: <a href="interfaces/isettings.html">ISettings</a>), where at least the <a href="classes/settings.html#baseurl">Settings.baseUrl</a> must be set.</p>
-				<p>The settings interface has properties that help you customize the solution to your needs. The <code>baseUrl</code> is typically <code>&quot;http://&lt;your-server&gt;:9950&quot;</code> for the IntelliSearch SearchService.</p>
+				<p>The settings interface has properties that help you customize the solution to your needs. The <code>baseUrl</code> is typically <code>&quot;http://&lt;your-server&gt;:9950&quot;</code> for the Haive SearchManager.</p>
 				<p>We recommend using the automatic mode, where you only need to interface with the SearchClient class and it&#39;s settings.</p>
 				<h3 id="settings">Settings</h3>
 				<p>The <a href="classes/settings.html">Settings</a> class has the following properties:</p>
@@ -200,21 +201,28 @@
 				</ol>
 				<p>Please see <a href="classes/searchclient.html#deferupdates">SearchClient.deferUpdates</a> for more information.</p>
 				<h2 id="authentication">Authentication</h2>
-				<p>The IntelliSearch SearchService supports using OpenID authentication via JWT (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: <code>authentication: { enabled: false }</code>.</p>
-				<p>If you however want to use authentication, then there are a couple of things that is important:</p>
+				<p>The Haive SearchManager supports two modes of authentication:</p>
 				<ol>
-					<li><p>The SearchService must be configured to use the <code>CurrentPrincipal</code> plugin (which then extracts the authentication JWT package).</p>
+					<li>Simple JWT based authentication</li>
+					<li>OpenId Connect based authentication</li>
+				</ol>
+				<p>Both modes are described in details below. If the index is public and does not use authentication then you can turn off authentication (which is enabled by default) by passing this in the settings object in the SearchClient constructor: <code>authentication: { enabled: false }</code>.</p>
+				<h2 id="jwt-authentication">JWT Authentication</h2>
+				<p>The Haive SearchManager supports JWT based (<a href="https://jwt.io/">JSON Web Token</a>) authentication for differentiating users/permissions. To use this kind of authentication:</p>
+				<ol>
+					<li><p>The SearchManager must be configured to use the <code>CurrentPrincipal</code> plugin (which then extracts the authentication JWT package).</p>
 					</li>
 					<li><p>A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.</p>
 						<ul>
 							<li>The web-service endpoint must identify the user and create a JWT that is returned.</li>
-							<li>On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchService (a random key was generated on setup and should be pre-configured).</li>
+							<li>On the server-side the JWT needs to be generated by using the same secret key as is set up in the SearchManager (a random key was generated on setup and should be pre-configured).</li>
 							<li>A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.</li>
-							<li>It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchService and this web-service.</li>
+							<li>It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchManager and this web-service.</li>
 						</ul>
 					</li>
 					<li><p>The SearchClient authentication settings object must define:</p>
 						<ul>
+							<li>Type set to &#39;jwt&#39;</li>
 							<li>The endpoint url.</li>
 							<li>The path for the jwt value when returned.
 							If the returned structure is <code>{ user: { jwt: &quot;actualtokenhash&quot; } }</code> then the tokenPath should be <code>[ &quot;user&quot;, &quot;jwt&quot; ]</code>.</li>
@@ -224,6 +232,57 @@
 				</ol>
 				<p>The authentication system, when enabled will attempt to fetch the authentication-token as soon as it is setup (trying to pre-fetch it to have it ready asap in case a search is made).</p>
 				<p>The authentication system decodes the jwt-token when received and checks for when the token expires. It then sets up a timeout to fetch a new token in ample time before the current one expires. The overlap for this is defined in its triggers: <code>authentication: { triggers: { expiryOverlap: 60 } }</code>. The default is 60 seconds, which means that the client will try to get a new JWT 60 seconds before the old one expires.</p>
+				<p>Example:</p>
+				<p>&quot;authentication&quot;: {
+					&quot;type&quot;: &quot;jwt&quot;,
+					&quot;baseUrl&quot;: &quot;auth_webservice_url&quot;,
+					&quot;servicePath&quot;: &quot;auth/login&quot;,
+					&quot;enabled&quot;: true
+				}</p>
+				<h2 id="openid-connect-authentication">OpenId Connect Authentication</h2>
+				<p>The Haive SearchManager supports OpenId Connect based authentication.</p>
+				<ol>
+					<li><p>The SearchManager must be configured to use the <code>CurrentPrincipal</code> plugin (which then extracts the authentication JWT package).</p>
+					</li>
+					<li><p>A web-service that identifies the user must be setup that is accessible from the page that the search-client runs on.</p>
+						<ul>
+							<li>Web service must support standard Open Id Connect flows.</li>
+							<li>Web service must expose discovery endpoint - which should return information like issuer name, key material and supported scopes.</li>
+							<li>The web-service endpoint must identify the user and create access_token for that user.</li>
+							<li>A choice must be made on the expiration time for the token. It is suggested to be liberal, but to still have an expiration time. An hour would probably be fine in many cases.</li>
+							<li>It is suggested that the creation time property in the JWT is backdated with a minute or so to cope for time variances between the SearchManager and this web-service.</li>
+						</ul>
+					</li>
+					<li><p>The SearchClient authentication settings object must define:</p>
+						<ul>
+							<li>Type set to oidc</li>
+							<li>Base url - the url of authority (identity server) supporting Open Id Connect protocol</li>
+							<li>Silent redirect url - the url for redirect in silent token renew operation</li>
+							<li>Redirect url - the url for redirect in login operation</li>
+							<li>Post logout redirect url - the url for redirect in logout operation</li>
+							<li>Service path - path of identity server service</li>
+							<li>Client Id - id of the client registered in identity server</li>
+							<li>Response type - describes response type to be returned by identity server</li>
+							<li>Scopes - list of scopes requested by client</li>
+							<li>Enable logging flag</li>
+						</ul>
+					</li>
+				</ol>
+				<p>Example:</p>
+				<p> &quot;authentication&quot;: {
+					&quot;type&quot;: &quot;oidc&quot;,
+					&quot;baseUrl&quot;: &quot;localhost:5000&quot;,
+					&quot;silentRedirectUri&quot;: &quot;localhost:9000/silent.html&quot;,
+					&quot;redirectUri&quot;: &quot;localhost:9000/callback.html&quot;,
+					&quot;postLogoutRedirectUri&quot;: &quot;localhost:9000&quot;,
+					&quot;servicePath&quot;: &quot;&quot;,
+					&quot;clientId&quot;: &quot;intellisearch.webclient.implicit&quot;,
+					&quot;scope&quot;: &quot;openid profile&quot;,
+					&quot;responseType&quot;: &quot;id_token token&quot;,
+					&quot;enabled&quot;: true,
+					&quot;enableLogging&quot;: true
+				}</p>
+				<p>Example configuration is provided in samples\plain\cfg\search-settings-oidc.js config file.</p>
 				<h2 id="documentation-intellisense-types">Documentation / Intellisense / Types</h2>
 				<p>If you are using typescript, then the data-types are available for your IDE to use. If not, then all types and definitions are available in the generated API-documentation in the search-client docs-folder (typically <code>./node_modules/search-client/docs/index.html</code>).</p>
 			</div>
@@ -266,7 +325,7 @@
 						<a href="classes/authtoken.html" class="tsd-kind-icon">Auth<wbr>Token</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/authentication.html" class="tsd-kind-icon">Authentication</a>
+						<a href="classes/authenticationfactory.html" class="tsd-kind-icon">Authentication<wbr>Factory</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/authenticationsettings.html" class="tsd-kind-icon">Authentication<wbr>Settings</a>
@@ -332,7 +391,13 @@
 						<a href="classes/groupconfiguration.html" class="tsd-kind-icon">Group<wbr>Configuration</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/jwtauthentication.html" class="tsd-kind-icon">Jwt<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/limitpageconfiguration.html" class="tsd-kind-icon">Limit<wbr>Page<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/oidcauthentication.html" class="tsd-kind-icon">Oidc<wbr>Authentication</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/query.html" class="tsd-kind-icon">Query</a>
@@ -348,6 +413,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/sortpartconfiguration.html" class="tsd-kind-icon">Sort<wbr>Part<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/authentication.html" class="tsd-kind-icon">Authentication</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/iauthenticationsettings.html" class="tsd-kind-icon">IAuthentication<wbr>Settings</a>

@@ -1,23 +1,23 @@
-# IntelliSearch SearchClient
+# Haive SearchClient
 
 [![Build Status](https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg)](https://semaphoreci.com/spiralis/search-client)
 
 ## Project links
 
-- <a href="https://intellisearch.github.io/search-client/">Documentation</a>
+- <a href="https://the-haive.github.io/search-client/">Documentation</a>
 - <a href="https://www.npmjs.com/package/search-client">Node Package Manager</a>
-- <a href="https://www.jsdelivr.com/projects/search-client">CDN at JSDelivr</a>
-- <a href="https://github.com/IntelliSearch/search-client">GitHub repository</a>
-- <a href="https://github.com/IntelliSearch/search-client/issues">Issues</a>
-- <a href="https://github.com/IntelliSearch/search-client/blob/master/CHANGELOG.md">Changelog</a>
+- <a href="https://www.jsdelivr.com/package/npm/search-client">CDN at JSDelivr</a>
+- <a href="https://github.com/the-haive/search-client">GitHub repository</a>
+- <a href="https://github.com/the-haive/search-client/issues">Issues</a>
+- <a href="https://github.com/the-haive/search-client/blob/master/CHANGELOG.md">Changelog</a>
 
 ## About
 
-The SearchClient library makes it easy to hook up your search-UI to an IntelliSearch SearchManager instance.
+The SearchClient library makes it easy to hook up your search-UI to a Haive SearchManager instance.
 
 The package handles all the backend web-services so that you can focus on the user interface instead.
 
-The SearchClient wraps and manages all the IntelliSearch SearchService REST web-services:
+The SearchClient wraps and manages all the Haive SearchManager REST web-services:
 
 - **Autocomplete** - Lookups query-text and suggests words to help write the query.
 - **Find** - Searches the index based on the current query (query-text, filters, ...).
@@ -37,7 +37,7 @@ Since we have implemented the search-client in Typescript all the data-types and
 
 For web-pages that needs to have a script-tag embedded you can fetch the file(s) needed via the jsDelivr cdn, like this:
 
-    <script src="//cdn.jsdelivr.net/search-client/{version}/IntelliSearch.bundle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/search-client@{version}/dist/IntelliSearch.min.js"></script>
 
 \- where `{version}` is to be replaced with the actual version you want.
 
@@ -54,7 +54,8 @@ We strongly recommend that you use the full version id for production sites. For
 - `<Major.Minor>` (i.e. `1.1`)
   This means that it will get the latest version for the given major.minor version. Note that the same warning as for `latest` applies, although this is less risky than both of the above options.
 
-**Note:** A benefit to using the npm system is the inclusion of `map`-files. Next to the browser-bundles in the project you can find accompanying `.map` files that browsers are able to utilize in order to give a better debugging experience.
+**Note:** You can replace `dist` with `es` to get different builds of the library too. For browser script you should use `dist` as that version is in UMD format.
+A benefit to using the npm system is the inclusion of `map`-files. These are available for the `es` and `lib` versions only. Next to the browser-bundles in the project you can find accompanying `.map` files that browsers are able to utilize in order to give a better debugging experience.
 
 ## License
 

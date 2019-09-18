@@ -22,8 +22,8 @@ export interface IMatchItem {
      */
     matchedPermissions?: string[];
     /**
-     * A list of content paragrahs, that represent the full item in regards to textual content.
-     * To get the content, please set the generateContent (and potentially also the generateContentHightlights) settings in the request.
+     * A list of content paragraphs, that represent the full item in regards to textual content.
+     * To get the content, please set the generateContent (and potentially also the generateContentHighlights) settings in the request.
      * Note: The paragraphs returned is according to configured rules in the IndexManager. The IndexManager may even be configured to return no paragraphs.
      */
     content?: string[];
@@ -32,7 +32,7 @@ export interface IMatchItem {
      */
     date: string;
     /**
-     * This is the list of extracts that show where some representative hits occured in the match-item.
+     * This is the list of extracts that show where some representative hits occurred in the match-item.
      */
     extracts: string[];
     /**

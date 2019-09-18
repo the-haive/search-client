@@ -1,5 +1,5 @@
 {
-    "name": "IntelliSearch SearchClient",
+    "name": "HAIVE IntelliSearch SearchClient",
     "mode": "file",
     "out": "docs",
     "exclude": "**/*.+(spec.ts|json)",
