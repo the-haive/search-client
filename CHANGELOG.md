@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/the-haive/search-client/compare/v1.1.0...v1.1.1) (2019-10-04)
+
+
+### Bug Fixes
+
+* clears stale oidc state entries after succesful signin ([a6f50d5](https://github.com/the-haive/search-client/commit/a6f50d5))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/the-haive/search-client/compare/v1.0.3...v1.1.0) (2019-09-18)
 
