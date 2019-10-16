@@ -1,5 +1,6 @@
-import { QueryChangeSpecifications } from "./QueryChangeSpecifications";
-import { Query } from "./Query";
+import 'url-polyfill';
+import { QueryChangeSpecifications } from './QueryChangeSpecifications';
+import { Query } from './Query';
 
 export interface IBaseSettings<TDataType> {
     /**
@@ -39,7 +40,7 @@ export interface IBaseSettings<TDataType> {
     cbResultState?: (
         invalid: boolean,
         fetchedQuery: Query,
-        futureQuery: Query
+        futureQuery: Query,
     ) => void;
 
     /**
@@ -117,7 +118,7 @@ export abstract class BaseSettings<TDataType>
     cbResultState?: (
         valid: boolean,
         fetchedQuery: Query,
-        futureQuery: Query
+        futureQuery: Query,
     ) => void;
 
     /**
@@ -159,7 +160,7 @@ export abstract class BaseSettings<TDataType>
         if (this.servicePath) {
             parts.push(this.servicePath);
         }
-        let url = new URL(parts.join("/"));
+        let url = new URL(parts.join('/'));
         return url.toString();
     }
 
@@ -170,24 +171,24 @@ export abstract class BaseSettings<TDataType>
      */
     protected init(settings: IBaseSettings<TDataType>): void {
         if (
-            typeof settings.baseUrl === "undefined" ||
-            typeof settings.servicePath === "undefined"
+            typeof settings.baseUrl === 'undefined' ||
+            typeof settings.servicePath === 'undefined'
         ) {
             throw Error(
-                "Must have settings, with baseUrl, basePath and servicePath."
+                'Must have settings, with baseUrl, basePath and servicePath.',
             );
         }
         this.enabled =
-            typeof settings.enabled !== "undefined" ? settings.enabled : true;
+            typeof settings.enabled !== 'undefined' ? settings.enabled : true;
 
-        this.baseUrl = settings.baseUrl.replace(/\/+$/, "");
+        this.baseUrl = settings.baseUrl.replace(/\/+$/, '');
 
         this.basePath =
-            typeof settings.basePath !== "undefined"
-                ? settings.basePath.replace(/(^\/+)|(\/+$)/g, "")
-                : "RestService/v4";
+            typeof settings.basePath !== 'undefined'
+                ? settings.basePath.replace(/(^\/+)|(\/+$)/g, '')
+                : 'RestService/v4';
 
-        this.servicePath = settings.servicePath.replace(/(^\/+)|(\/+$)/g, "");
+        this.servicePath = settings.servicePath.replace(/(^\/+)|(\/+$)/g, '');
 
         this.cbError = settings.cbError;
         this.cbRequest = settings.cbRequest;
