@@ -902,6 +902,5 @@ export class SearchClient implements AuthToken {
         this.find = new Find(this.settings.find, this, fetchMethod);
         this.settings.find = this.find.settings;
         this._query = this.settings.query;
-        this._query.filters = [];
     }
 }

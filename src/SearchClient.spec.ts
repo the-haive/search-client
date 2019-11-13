@@ -8,7 +8,7 @@ import {
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
-import { CategorizationType } from "./Common";
+import { CategorizationType, Filter } from "./Common";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {
@@ -43,7 +43,6 @@ describe("SearchClient basics", () => {
     it("Search instance with empty settings should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
         let searchClient = new SearchClient("http://localhost:9950");
 
-        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
         expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
         expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
         expect(searchClient.find.shouldUpdate()).toBeFalsy();
@@ -60,7 +59,6 @@ describe("SearchClient settings", () => {
             find: { enabled: false }
         } as Settings);
 
-        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
         expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
         expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
         expect(searchClient.find.shouldUpdate()).toBeFalsy();
@@ -70,9 +68,9 @@ describe("SearchClient settings", () => {
         let client = new SearchClient("http://localhost:9950");
 
         // authenticationToken
-        client.tokenResolver = () => 
-        {                                                
-           return "test";                       
+        client.tokenResolver = () =>
+        {
+           return "test";
         };
         expect(client.authenticationToken).toEqual("test");
 
@@ -570,17 +568,22 @@ describe("SearchClient filter interface", () => {
                 triggers: {
                     queryChange: true
                 }
-            }
+            },
+            query: {
+                filters: [
+                    { category: { categoryName: ['preFilter'] } } as Filter,
+                ],
+            },
         });
 
         client.queryText = "test\n";
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
         expect(urlFindResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
+            'http://localhost:9950/RestService/v4/search/find?c=web&f=preFilter&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords',
         );
         expect(urlCatResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&q=test%0A&t=Keywords"
+            'http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&f=preFilter&q=test%0A&t=Keywords',
         );
     });
 
@@ -789,7 +792,7 @@ describe("SearchClient filter interface", () => {
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
     });
-    
+
     it("Should update as expected when client query properties changes, for default triggers", () => {
         let mockFindRequest = jest.fn();
         let mockFindSuccess = jest.fn();
@@ -808,7 +811,7 @@ describe("SearchClient filter interface", () => {
             },
         });
 
-        client.queryText = "test"; 
+        client.queryText = "test";
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
         client.update();
@@ -818,7 +821,7 @@ describe("SearchClient filter interface", () => {
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
 
-        client.queryText = "test2"; 
+        client.queryText = "test2";
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
         client.forceUpdate();
