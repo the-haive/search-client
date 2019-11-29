@@ -1,6 +1,6 @@
 import 'url-polyfill';
 import { QueryChangeSpecifications } from './QueryChangeSpecifications';
-import { Query } from './Query';
+import { IQuery } from './Query';
 
 export interface IBaseSettings<TDataType> {
     /**
@@ -39,8 +39,8 @@ export interface IBaseSettings<TDataType> {
      */
     cbResultState?: (
         invalid: boolean,
-        fetchedQuery: Query,
-        futureQuery: Query,
+        fetchedQuery: IQuery,
+        futureQuery: IQuery,
     ) => void;
 
     /**
@@ -117,8 +117,8 @@ export abstract class BaseSettings<TDataType>
      */
     cbResultState?: (
         valid: boolean,
-        fetchedQuery: Query,
-        futureQuery: Query,
+        fetchedQuery: IQuery,
+        futureQuery: IQuery,
     ) => void;
 
     /**

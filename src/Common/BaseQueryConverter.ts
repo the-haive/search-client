@@ -1,6 +1,6 @@
 import moment from "moment";
 
-import { Query } from ".";
+import { IQuery } from ".";
 
 export abstract class BaseQueryConverter {
     /**
@@ -10,7 +10,7 @@ export abstract class BaseQueryConverter {
      * @param query is the query that is to be converted into the url.
      * @returns The url to use for fetching the date, represented as a string.
      */
-    public getUrl(url: string, query: Query): string {
+    public getUrl(url: string, query: IQuery): string {
         let params = this.getUrlParams(query).sort();
         return `${url}?${params.join("&")}`;
     }
@@ -18,7 +18,7 @@ export abstract class BaseQueryConverter {
     /**
      * Converts the query params to an array of key=value segments.
      */
-    protected abstract getUrlParams(query: Query): string[];
+    protected abstract getUrlParams(query: IQuery): string[];
 
     protected addParamIfSet(params: string[], key: string, param: any) {
         let value = param.toString();

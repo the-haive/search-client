@@ -1,8 +1,8 @@
-import fetch from "jest-fetch-mock";
+import {FetchMock} from "jest-fetch-mock";
+const fetchMock = fetch as FetchMock;
 
 import { Find, IFindSettings, FindTriggers } from ".";
 import { IMatches, IMatchItem } from "../Data";
-import { Query } from "../Common";
 
 describe("Find basics", () => {
     it("Should have imported Find class defined", () => {
@@ -94,9 +94,9 @@ describe("Find basics", () => {
     });
 
     it("Should be able to Find some results", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse(
+        fetchMock.mockResponse(
             JSON.stringify({
                 bestBets: [],
                 didYouMeanList: [],
@@ -125,9 +125,9 @@ describe("Find basics", () => {
     });
 
     it("Should be able to stop a Find using cbRequest", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
@@ -154,9 +154,9 @@ describe("Find basics", () => {
     });
 
     it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbResultState: jest.fn(),

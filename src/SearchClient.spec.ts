@@ -4,10 +4,14 @@ import {
     Settings,
     OrderBy,
     SearchType,
-    CategorizeQueryConverter
+    CategorizeQueryConverter,
+    ICategories
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
+Object.freeze(reference);
+const catRef = reference as ICategories;
+
 import { CategorizationType, Filter } from "./Common";
 
 describe("SearchClient basics", () => {
@@ -68,8 +72,7 @@ describe("SearchClient settings", () => {
         let client = new SearchClient("http://localhost:9950");
 
         // authenticationToken
-        client.tokenResolver = () =>
-        {
+        client.tokenResolver = () => {
            return "test";
         };
         expect(client.authenticationToken).toEqual("test");
@@ -192,7 +195,7 @@ describe("SearchClient settings", () => {
 describe("SearchClient filter interface", () => {
     it("Should have working filter interfaces", () => {
         let client = new SearchClient("http://localhost:9950");
-        client.categorize.categories = reference;
+        client.categorize.categories = catRef;
 
         // filters
         expect(client.filters).toHaveLength(0);
@@ -311,7 +314,7 @@ describe("SearchClient filter interface", () => {
 
     it("Should have working match*, queryText, searchType, findAndCategorize and date interfaces", () => {
         let client = new SearchClient("http://localhost:9950");
-        client.categorize.categories = reference;
+        client.categorize.categories = catRef;
 
         // matchGrouping
         expect(client.matchGrouping).toBeTruthy();
@@ -430,7 +433,7 @@ describe("SearchClient filter interface", () => {
 
         // With current settings none of the services should update for queryText="test"
         client.queryText = "test";
-        expect(pClient.settings.query.queryText).toEqual("test");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(pClient.settings.find.triggers.queryChange).toEqual(true);
         expect(pClient.find.settings.triggers.queryChange).toEqual(true);
         expect(pClient.settings.find.triggers.queryChangeInstantRegex).toEqual(
@@ -448,7 +451,8 @@ describe("SearchClient filter interface", () => {
 
         // But, if the query ends with a space then the find-service should update (has callback and has enabled queryChangeTrigger and set instanceRegex)
         client.queryText = "test ";
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -461,7 +465,8 @@ describe("SearchClient filter interface", () => {
         client.queryText = "test";
         client.queryText = "test ";
         jest.runAllTimers();
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -483,7 +488,8 @@ describe("SearchClient filter interface", () => {
         client.deferUpdates(true);
         client.queryText = "test";
         client.queryText = "test ";
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -526,13 +532,15 @@ describe("SearchClient filter interface", () => {
         client.deferUpdates(true);
 
         client.matchPage = 2;
-        expect(pClient.settings.query.matchPage).toEqual(2);
+        expect(pClient.query.matchPage).toEqual(2);
+        expect(pClient.settings.query.matchPage).toEqual(1);
         expect(findFetch).not.toBeCalled();
 
         client.deferUpdates(false, false);
 
         expect(findFetch).toHaveBeenCalledTimes(1);
-        expect(pClient.settings.query.matchPage).toEqual(2);
+        expect(pClient.query.matchPage).toEqual(2);
+        expect(pClient.settings.query.matchPage).toEqual(1);
 
         findFetch.mockReset();
     });

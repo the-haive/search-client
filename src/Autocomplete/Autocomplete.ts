@@ -1,5 +1,5 @@
 import { AuthToken } from "../Authentication";
-import { BaseCall, Fetch, Query } from "../Common";
+import { BaseCall, Fetch, IQuery, Query } from "../Common";
 import { AutocompleteQueryConverter } from "./AutocompleteQueryConverter";
 import {
     AutocompleteSettings,
@@ -42,7 +42,7 @@ export class Autocomplete extends BaseCall<string[]> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(
-        query: Query = new Query(),
+        query: IQuery = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<string[]> {
         let url = this.queryConverter.getUrl(
@@ -85,7 +85,7 @@ export class Autocomplete extends BaseCall<string[]> {
         }
     }
 
-    public maxSuggestionsChanged(oldValue: number, query: Query) {
+    public maxSuggestionsChanged(oldValue: number, query: IQuery) {
         if (!this.shouldUpdate("maxSuggestions", query)) {
             return;
         }
@@ -94,7 +94,7 @@ export class Autocomplete extends BaseCall<string[]> {
         }
     }
 
-    public queryTextChanged(oldValue: string, query: Query) {
+    public queryTextChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("queryText", query)) {
             return;
         }

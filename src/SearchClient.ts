@@ -15,8 +15,9 @@ import {
     DateSpecification,
     Fetch,
     Filter,
-    OrderBy,
+    IQuery,
     Query,
+    OrderBy,
     SearchType,
     CategoryPresentation,
     CategorizationType
@@ -85,9 +86,9 @@ export class SearchClient implements AuthToken {
     /**
      * Holds a reference to the currently set authentication token.
      */
-    get authenticationToken(): string {        
+    get authenticationToken(): string {
         return this.tokenResolver();
-    }    
+    }
 
     /**
      * Creates a SearchClient instance using the supplied settings object. Please see <a href="https://the-haive.github.io/search-client/">getting-started section</a>
@@ -101,7 +102,7 @@ export class SearchClient implements AuthToken {
         this.setup(settings, fetchMethod);
         this.tokenResolver = () => "";
     }
-    
+
     /**
      * This method is typically called when the user clicks the search-button in the UI.
      *
@@ -122,7 +123,7 @@ export class SearchClient implements AuthToken {
      * effective when query is not set.
      */
     public update(
-        query?: Query,
+        query?: IQuery,
         autocomplete: boolean = true,
         categorize: boolean = true,
         find: boolean = true
@@ -156,7 +157,7 @@ export class SearchClient implements AuthToken {
      *
      * It may force an update based on the existing this.query value or you can provide a new query object to be used.
      * After having set the value the services will be called, unless they are disabled in their respective configs
-     * or turned off in the params to this medhod.
+     * or turned off in the params to this method.
      *
      * @param query If passed in then the query object will update the internal query-object without triggering any updates,
      * but will just after this force an update on all enabled services, that are not turned off by the consecutive params.
@@ -166,7 +167,7 @@ export class SearchClient implements AuthToken {
      * @param find Allows turning off updates for the Find service (if the service is enabled in the settings).
      */
     public forceUpdate(
-        query?: Query,
+        query?: IQuery,
         autocomplete: boolean = true,
         categorize: boolean = true,
         find: boolean = true
@@ -195,8 +196,7 @@ export class SearchClient implements AuthToken {
      * Typically used to visually indicate that a category is also a filter.
      */
     public isFilter(category: string[] | ICategory | Filter): boolean {
-        const item = this.filterId(category);
-        return item ? this.filterIndex(item) !== -1 : false;
+        return this._query.isFilter(category);
     }
 
     /**
@@ -204,20 +204,7 @@ export class SearchClient implements AuthToken {
      * Typically used to visually show in the tree that a child-node has an active filter.
      */
     public hasChildFilter(category: string[] | ICategory): boolean {
-        const item = this.filterId(category);
-        if (!item || this.filterIndex(item) !== -1) {
-            return false;
-        }
-        const categoryPath = item.join("|");
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < this.filters.length; i++) {
-            let filter = this.filters[i];
-            let filterPath = filter.category.categoryName.join("|");
-            if (filterPath.indexOf(categoryPath) === 0) {
-                return true;
-            }
-        }
-        return false;
+        return this._query.hasChildFilter(category);
     }
 
     /**
@@ -226,8 +213,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterAdd(filter: string[] | ICategory | Filter): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
+        const item = this._query.filterId(filter);
+        const foundIndex = this._query.filterIndex(item);
 
         if (foundIndex === -1) {
             this.doFilterAdd(item);
@@ -243,8 +230,8 @@ export class SearchClient implements AuthToken {
      * Will run trigger-checks and potentially update services.
      */
     public filterRemove(filter: string[] | ICategory | Filter): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
+        const item = this._query.filterId(filter);
+        const foundIndex = this._query.filterIndex(item);
 
         if (foundIndex > -1) {
             this.doFilterRemove(foundIndex);
@@ -263,8 +250,8 @@ export class SearchClient implements AuthToken {
      * @return true if the filter was added, false if it was removed.
      */
     public filterToggle(filter: string[] | ICategory | Filter): boolean {
-        const item = this.filterId(filter);
-        const foundIndex = this.filterIndex(item);
+        const item = this._query.filterId(filter);
+        const foundIndex = this._query.filterIndex(item);
 
         if (foundIndex > -1) {
             this.doFilterRemove(foundIndex);
@@ -696,7 +683,7 @@ export class SearchClient implements AuthToken {
     /**
      * Returns the currently active query.
      */
-    get query(): Query {
+    get query(): IQuery {
         return this._query;
     }
 
@@ -710,7 +697,7 @@ export class SearchClient implements AuthToken {
      * To avoid multiple updates, call `deferUpdates(true)` before and deferUpdates(false) afterwards. Then at max
      * only one update will be generated.
      */
-    set query(query: Query) {
+    set query(query: IQuery) {
         this.clientId = query.clientId;
         this.dateFrom = query.dateFrom;
         this.dateTo = query.dateTo;
@@ -831,7 +818,7 @@ export class SearchClient implements AuthToken {
             }
         });
 
-        // Ecxecute the actual removel (wihthout triggering an update).
+        // Execute the actual remove (without triggering an update).
         toRemove.forEach(f => {
             this._query.filters.forEach((item, index) => {
                 if (item === f) {
@@ -862,30 +849,11 @@ export class SearchClient implements AuthToken {
         return true;
     }
 
-    private filterId(filter: string[] | ICategory | Filter): string[] {
-        let id: string[];
-        if (Array.isArray(filter)) {
-            id = filter;
-        } else if (filter instanceof Filter) {
-            id = filter.category.categoryName;
-        } else {
-            id = filter.categoryName;
-        }
-        return id;
-    }
-
-    private filterIndex(filter: string[]): number {
-        const filterString = filter.join("|");
-        return this._query.filters.findIndex(
-            f => f.category.categoryName.join("|") === filterString
-        );
-    }
-
     private setup(settings: string | ISettings, fetchMethod: Fetch) {
-        this.settings = new Settings(settings);        
+        this.settings = new Settings(settings);
 
         this.authentication = (new AuthenticationFactory()).create(this.settings.authentication, this, fetchMethod);
-        
+
         this.settings.authentication = this.authentication.settings;
         this.autocomplete = new Autocomplete(
             this.settings.autocomplete,
@@ -901,6 +869,6 @@ export class SearchClient implements AuthToken {
         this.settings.categorize = this.categorize.settings;
         this.find = new Find(this.settings.find, this, fetchMethod);
         this.settings.find = this.find.settings;
-        this._query = this.settings.query;
+        this._query = new Query(this.settings.query);
     }
 }

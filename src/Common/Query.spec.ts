@@ -3,7 +3,7 @@ import { CategorizationType } from "./CategorizationType";
 import { SearchType } from "./SearchType";
 import { OrderBy } from "./OrderBy";
 import { Filter } from "./Filter";
-import { ICategory } from '../../es/Data/ICategory';
+import { ICategory } from '../Data';
 
 describe("Query basics", () => {
     it("Should be able to create a query object with default values", () => {

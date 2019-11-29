@@ -11,7 +11,7 @@ if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
-// When joining the two md-files we need to ensure that there is at least one empty line inbetween them
+// When joining the two md-files we need to ensure that there is at least one empty line in between them
 fs.writeFileSync(dir + 'dummy.txt', '\n');
 
 

@@ -1,4 +1,5 @@
-import fetch from "jest-fetch-mock";
+import {FetchMock} from "jest-fetch-mock";
+const fetchMock = fetch as FetchMock;
 
 import { Autocomplete, IAutocompleteSettings, AutocompleteTriggers } from ".";
 import { Query } from "../Common";
@@ -96,19 +97,24 @@ describe("Autocomplete basics", () => {
     });
 
     it("Should be able to get some autocomplete suggestions", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
+
+        let cbRequest = jest.fn((url, reqInit) => {
+            expect(typeof url).toBe("string");
+            expect(typeof reqInit).toBe("object");
+        }) as unknown;
+
+        let cbSuccess = jest.fn((url, reqInit) => {
+            expect(typeof url).toBe("string");
+            expect(typeof reqInit).toBe("object");
+        }) as unknown;
+
         let settings = {
             baseUrl: "http://localhost:9950/",
-            cbRequest: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            }),
-            cbSuccess: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            })
+            cbRequest,
+            cbSuccess
         } as IAutocompleteSettings;
 
         let autocomplete = new Autocomplete(settings, null, fetch);
@@ -127,9 +133,9 @@ describe("Autocomplete basics", () => {
     });
 
     it("Should be able to stop an Autocomplete using cbRequest", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
@@ -159,20 +165,22 @@ describe("Autocomplete basics", () => {
     it("Should be able to create response when changing queryText", () => {
         jest.useFakeTimers();
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.resetMocks();
-        fetch.mockResponse(
+        fetchMock.resetMocks();
+        fetchMock.mockResponse(
             JSON.stringify(["queryTextForMe", "queryTextForYou"])
         );
+        let cbSuccess = jest.fn(suggestions => {
+            expect(suggestions).toContain("queryTextForMe");
+            expect(suggestions).toContain("queryTextForYou");
+        }) as unknown;
+        let cbError = jest.fn((suppressCallbacks, error, url, reqInit) => {
+            fail("Should not have thrown an error.");
+        }) as unknown;
 
         let settings = {
             baseUrl: "http://localhost:9950/",
-            cbSuccess: jest.fn(suggestions => {
-                expect(suggestions).toContain("queryTextForMe");
-                expect(suggestions).toContain("queryTextForYou");
-            }),
-            cbError: jest.fn((suppressCallbacks, error, url, reqInit) => {
-                fail("Should not have thrown an error.");
-            })
+            cbSuccess,
+            cbError
         } as IAutocompleteSettings;
 
         let autocomplete = new Autocomplete(settings, null, fetch);

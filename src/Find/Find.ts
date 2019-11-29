@@ -4,9 +4,10 @@ import {
     BaseCall,
     DateSpecification,
     Filter,
-    OrderBy,
+    IQuery,
     Query,
-    SearchType
+    OrderBy,
+    SearchType,
 } from "../Common";
 import { FindQueryConverter } from "./FindQueryConverter";
 import { FindSettings, IFindSettings } from "./FindSettings";
@@ -49,7 +50,7 @@ export class Find extends BaseCall<IMatches> {
      * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
      */
     public fetch(
-        query: Query = new Query(),
+        query: IQuery = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<IMatches> {
         let url = this.queryConverter.getUrl(
@@ -93,7 +94,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public clientIdChanged(oldValue: string, query: Query) {
+    public clientIdChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("clientId", query)) {
             return;
         }
@@ -102,7 +103,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public dateFromChanged(oldValue: DateSpecification, query: Query) {
+    public dateFromChanged(oldValue: DateSpecification, query: IQuery) {
         if (!this.shouldUpdate("dateFrom", query)) {
             return;
         }
@@ -111,7 +112,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public dateToChanged(oldValue: DateSpecification, query: Query) {
+    public dateToChanged(oldValue: DateSpecification, query: IQuery) {
         if (!this.shouldUpdate("dateTo", query)) {
             return;
         }
@@ -120,7 +121,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public filtersChanged(oldValue: Filter[], query: Query) {
+    public filtersChanged(oldValue: Filter[], query: IQuery) {
         if (!this.shouldUpdate("filters", query)) {
             return;
         }
@@ -129,7 +130,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public matchGenerateContentChanged(oldValue: boolean, query: Query) {
+    public matchGenerateContentChanged(oldValue: boolean, query: IQuery) {
         if (!this.shouldUpdate("matchGenerateContent", query)) {
             return;
         }
@@ -140,7 +141,7 @@ export class Find extends BaseCall<IMatches> {
 
     public matchGenerateContentHighlightsChanged(
         oldValue: boolean,
-        query: Query
+        query: IQuery
     ) {
         if (!this.shouldUpdate("matchGenerateContentHighlights", query)) {
             return;
@@ -153,7 +154,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public matchGroupingChanged(oldValue: boolean, query: Query) {
+    public matchGroupingChanged(oldValue: boolean, query: IQuery) {
         if (!this.shouldUpdate("matchGrouping", query)) {
             return;
         }
@@ -162,7 +163,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public matchOrderByChanged(oldValue: OrderBy, query: Query) {
+    public matchOrderByChanged(oldValue: OrderBy, query: IQuery) {
         if (!this.shouldUpdate("matchOrderBy", query)) {
             return;
         }
@@ -171,7 +172,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public matchPageChanged(oldValue: number, query: Query) {
+    public matchPageChanged(oldValue: number, query: IQuery) {
         if (!this.shouldUpdate("matchPage", query)) {
             return;
         }
@@ -180,7 +181,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public matchPageSizeChanged(oldValue: number, query: Query) {
+    public matchPageSizeChanged(oldValue: number, query: IQuery) {
         if (!this.shouldUpdate("matchPageSize", query)) {
             return;
         }
@@ -189,7 +190,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public queryTextChanged(oldValue: string, query: Query) {
+    public queryTextChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("queryText", query)) {
             return;
         }
@@ -220,7 +221,7 @@ export class Find extends BaseCall<IMatches> {
         clearTimeout(this.delay);
     }
 
-    public searchTypeChanged(oldValue: SearchType, query: Query) {
+    public searchTypeChanged(oldValue: SearchType, query: IQuery) {
         if (!this.shouldUpdate("searchType", query)) {
             return;
         }
@@ -229,7 +230,7 @@ export class Find extends BaseCall<IMatches> {
         }
     }
 
-    public uiLanguageCodeChanged(oldValue: string, query: Query) {
+    public uiLanguageCodeChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("uiLanguageCode", query)) {
             return;
         }
