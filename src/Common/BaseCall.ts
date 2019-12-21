@@ -15,6 +15,11 @@ export type Fetch = (
     init?: RequestInit
 ) => Promise<Response>;
 
+export interface IWarning {
+    message: string;
+    statusCode: number;
+}
+
 /**
  * A common service base-class for the descending Autocomplete, Categorize and Find classes.
  *
@@ -251,8 +256,21 @@ export abstract class BaseCall<TDataType> {
         if (!this.settings) {
             throw new Error("Settings cannot be empty.");
         }
-        if (this.settings.cbSuccess && !suppressCallbacks) {
+        if (this.settings.cbError && !suppressCallbacks) {
             this.settings.cbError(error);
+        }
+    }
+    protected cbWarning(
+        suppressCallbacks: boolean,
+        warning: IWarning,
+        url: string,
+        reqInit: RequestInit
+    ): void {
+        if (!this.settings) {
+            throw new Error("Settings cannot be empty.");
+        }
+        if (this.settings.cbWarning && !suppressCallbacks) {
+            this.settings.cbWarning(warning);
         }
     }
 

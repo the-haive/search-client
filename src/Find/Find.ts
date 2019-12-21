@@ -73,8 +73,14 @@ export class Find extends BaseCall<IMatches> {
                     return response.json();
                 })
                 .then((matches: IMatches) => {
-                    if (matches.errorMessage) {
-                        throw new Error(matches.errorMessage);
+                    // Handle situations where parsing was ok, but we have an error in the returned message from the server
+                    if (matches.errorMessage || matches.statusCode !== 0) {
+                        let  { errorMessage, statusCode } = matches;
+                        const warning = {
+                            message: errorMessage || "Unspecified issue",
+                            statusCode
+                        };
+                        this.cbWarning(suppressCallbacks, warning, url, reqInit);
                     }
                     this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                     return matches;

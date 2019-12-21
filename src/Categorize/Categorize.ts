@@ -86,11 +86,17 @@ export class Categorize extends BaseCall<ICategories> {
                     return response.json();
                 })
                 .then((categories: ICategories) => {
-                    if (categories.errorMessage) {
-                        throw new Error(categories.errorMessage);
-                    }
                     this.categories = categories;
                     categories = this.filterCategories(categories, query);
+                    // Handle situations where parsing was ok, but we have an error in the returned message from the server
+                    if (categories.errorMessage || categories.statusCode !== 0) {
+                        let  { errorMessage, statusCode } = categories;
+                        const warning = {
+                            message: errorMessage || "Unspecified issue",
+                            statusCode
+                        };
+                        this.cbWarning(suppressCallbacks, warning, url, reqInit);
+                    }
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
@@ -481,6 +487,11 @@ export class Categorize extends BaseCall<ICategories> {
             let hiddenFiltersInCategory = hiddenFilters.filter(f => f.category.categoryName.length > depth && f.category.categoryName[depth] === category.name);
             if (hiddenFiltersInCategory.find(f => f.category.categoryName.length === depth + 1)) {
                 // The hidden filter is for this category exactly. So, remove the category
+                return null;
+            }
+
+            if (category.categoryName == null) {
+                console.warn(`HAIVE/search-client: Illegal category-object received. The categoryName array cannot be null. The category was not added to the category-tree.`, category);
                 return null;
             }
 

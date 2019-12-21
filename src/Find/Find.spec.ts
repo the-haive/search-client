@@ -93,7 +93,7 @@ describe("Find basics", () => {
         );
     });
 
-    it("Should be able to Find some results", () => {
+    it("Should be able to Find some results", async () => {
         fetchMock.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
         fetchMock.mockResponse(
@@ -115,16 +115,15 @@ describe("Find basics", () => {
         } as IFindSettings;
 
         let find = new Find(settings, null, fetch);
-        find.fetch()
-            .catch(error => {
-                fail("Should not fail");
-            })
-            .then(() => {
-                expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
-            });
+        try {
+            await find.fetch();
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
     });
 
-    it("Should be able to stop a Find using cbRequest", () => {
+    it("Should be able to stop a Find using cbRequest", async () => {
         fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
         fetchMock.mockResponse(JSON.stringify(null));
@@ -140,17 +139,14 @@ describe("Find basics", () => {
         } as IFindSettings;
 
         let find = new Find(settings, null, fetch);
-        find.fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Should not yield an error");
-            })
-            .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalledTimes(1);
-                expect(settings.cbSuccess).not.toHaveBeenCalled();
-            });
+        try {
+            const response = await find.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Should not yield an error");
+        }
+        expect(settings.cbRequest).toHaveBeenCalledTimes(1);
+        expect(settings.cbSuccess).not.toHaveBeenCalled();
     });
 
     it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
@@ -172,5 +168,55 @@ describe("Find basics", () => {
         expect(settings.cbResultState).toHaveBeenCalledTimes(2);
         find.shouldUpdate("queryText", { queryText: "search-2" });
         expect(settings.cbResultState).toHaveBeenCalledTimes(3);
+    });
+
+    it("Calls both cbSuccess and cbWarning when results indicate error via statusCode", async () => {
+        fetchMock.resetMocks();
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchMock.mockResponse(
+            JSON.stringify({
+                bestBets: [],
+                didYouMeanList: [],
+                statusCode: 1,
+                errorMessage: "Categorize warning",
+                estimatedMatchCount: 1,
+                expandedQuery: "",
+                nextPageRef: 0,
+                searchMatches: [{} as IMatchItem]
+            } as IMatches)
+        );
+
+        let cbError = jest.fn((error) => {
+            fail("Should not fail");
+        });
+
+        let cbWarning = jest.fn((warning) => {
+            expect(typeof warning).toBe("object");
+            expect(warning.statusCode).toBe(1);
+            expect(warning.message).toBe("Categorize warning");
+        });
+
+        let cbSuccess = jest.fn((results) => {
+            expect(typeof results).toBe("object");
+        });
+
+
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbWarning,
+            cbError,
+            cbSuccess
+        } as IFindSettings;
+
+        let find = new Find(settings, null, fetch);
+        try {
+            const response = await find.fetch();
+            expect(response.estimatedMatchCount).toEqual(1);
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbError).toHaveBeenCalledTimes(0);
+        expect(settings.cbWarning).toHaveBeenCalledTimes(1);
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
     });
 });

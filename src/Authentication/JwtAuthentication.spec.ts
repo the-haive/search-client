@@ -142,7 +142,7 @@ describe("Authentication basics", () => {
         );
     });
 
-    it("Should be able to pass object settings as AuthenticationSettings", () => {
+    it("Should be able to pass object settings as AuthenticationSettings", async () => {
         let actualUrl: string;
         const settings = {
             baseUrl: "http://localhost:9950/",
@@ -166,20 +166,17 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
-
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
-    it("Should be able to pass new AuthenticationSettings object", () => {
+    it("Should be able to pass new AuthenticationSettings object", async () => {
         let actualUrl: string;
         let settings = new AuthenticationSettings({
             baseUrl: "http://localhost:9950/",
@@ -204,19 +201,17 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
-    it("Should be able to pass anonymous object settings", () => {
+    it("Should be able to pass anonymous object settings", async () => {
         let actualUrl: string;
         let settings = {
             baseUrl: "http://localhost:9950/",
@@ -241,14 +236,12 @@ describe("Authentication basics", () => {
             "http://localhost:9950/auth/login"
         );
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });

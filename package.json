@@ -129,7 +129,7 @@
     "globals": {
       "ts-jest": {
         "babelConfig": true,
-        "tsConfig": "./tsconfig.jest.json",
+        "tsConfig": "<rootDir>/tsconfig.jest.json",
         "diagnostics": false
       }
     }

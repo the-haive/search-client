@@ -1,13 +1,57 @@
 import 'url-polyfill';
 import { QueryChangeSpecifications } from './QueryChangeSpecifications';
 import { IQuery } from './Query';
+import { IWarning } from './BaseCall';
 
 export interface IBaseSettings<TDataType> {
     /**
      * A notifier method to call whenever the lookup fails.
+     * It is recommended to issue a clear and visible error to the user when this method is called, as there will be no results.
+     *
+     * The callback exists for all services (Authentication, Autocomplete, Find and Categorize), but the severity of an error is
+     * very different for each of them:
+     *
+     * - Authentication (severity = 3):
+     *   This should not happen if authentication is not enabled. If it is and this fails, then the user should be notified about
+     *   the issue, as this might reduce the number of results they see (if any at all).
+     *
+     * - Autocomplete (severity = 1):
+     *   Getting an error during autocomplete is not something that you want to inform the user about. A small warning in the
+     *   console log would probably be perfect.
+     *
+     * - Find (severity = 3):
+     *   Getting an error for this call is something that the user should be made aware of. You don't have to tell all the
+     *   details, but you should make it clear to the user that the reason they have no matches is that an error occurred.
+     *   Otherwise they might start speculating in why there are no results on screen, and in worst case scenario they might
+     *   think that the query yielded 0 matches, which is potentially and probably not the truth.
+     *
+     * - Categorize (severity = 2):
+     *   Errors while querying for categories are considered important, but less important than the Find errors. The reason
+     *   is that the categories themselves are normally not the end-results that the user is waiting for. They are "meta" to the
+     *   actual matches, and they are also a tool to help the user narrow down on the results, helping them find the data they
+     *   are looking for.
+     *
      * @param error - An error object as given by the fetch operation.
      */
     cbError?: (error?: any) => void;
+
+    /**
+     * A notifier method to call when the lookup succeeds, but the received data from the backend indicates a problem.
+     * Note that although this callback can be defined in the settings for all services (Authentication, Autocomplete, Find and
+     * Categorize), only Find and Categorize uses it.
+     *
+     * It is recommended to show these messages as complementary information to the user. Data was received and most likely the
+     * user can see results on their screen. There might however be scenarios were the data could somehow be i.e. incomplete.
+     *
+     * For instance: Consider a situation where the backend search is scaled and uses multiple nodes without replicas. If some
+     * of the nodes respond, while one or more doesn't then the results are partial. This will be notified using this method.
+     * For that scenario, an explanation at a strategic location in the UI would help the user understand that the results may
+     * not be complete. Depending on the search query used, the results *could* be complete, as the node(s) that didn't respond
+     * might not have any matching results anyway. Hence - the user should be warned that the data *may* be incomplete.
+     *
+     * @param warning - A warning object containing a message and a statusCode.
+     */
+    cbWarning?: (warning?: IWarning) => void;
 
     /**
      * A notifier method that is called just before the fetch operation is started. When the request
@@ -23,15 +67,16 @@ export interface IBaseSettings<TDataType> {
     cbRequest?: (url?: string, reqInit?: RequestInit) => boolean;
 
     /**
-     * A notifier method to call whenever the lookup results have been received.
+     * A notifier method that is called whenever the lookup results have been received.
+     *
      * @param data - The lookup results.
      */
     cbSuccess?: (data?: TDataType) => void;
 
     /**
-     * A notifier method to call whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
+     * A notifier method that is called whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
      * When called the UI could/should indicate that the results are invalid. This can be removing the results, showing them "greyed out", etc.
-     * The state is valid until the next cbRequest, Success or cbError is called.
+     * The state is valid until the next cbRequest, cbSuccess or cbError is called.
      *
      * @param invalid - This indicates if the state-notification is invalid or not
      * @param fetchedQuery - This is the query that was used to create the current results.
@@ -83,9 +128,52 @@ export abstract class BaseSettings<TDataType>
     implements IBaseSettings<TDataType> {
     /**
      * A notifier method to call whenever the lookup fails.
+     * It is recommended to issue a clear and visible error to the user when this method is called, as there will be no results.
+     *
+     * The callback exists for all services (Authentication, Autocomplete, Find and Categorize), but the severity of an error is
+     * very different for each of them:
+     *
+     * - Authentication (severity = 3):
+     *   This should not happen if authentication is not enabled. If it is and this fails, then the user should be notified about
+     *   the issue, as this might reduce the number of results they see (if any at all).
+     *
+     * - Autocomplete (severity = 1):
+     *   Getting an error during autocomplete is not something that you want to inform the user about. A small warning in the
+     *   console log would probably be perfect.
+     *
+     * - Find (severity = 3):
+     *   Getting an error for this call is something that the user should be made aware of. You don't have to tell all the
+     *   details, but you should make it clear to the user that the reason they have no matches is that an error occurred.
+     *   Otherwise they might start speculating in why there are no results on screen, and in worst case scenario they might
+     *   think that the query yielded 0 matches, which is potentially and probably not the truth.
+     *
+     * - Categorize (severity = 2):
+     *   Errors while querying for categories are considered important, but less important than the Find errors. The reason
+     *   is that the categories themselves are normally not the end-results that the user is waiting for. They are "meta" to the
+     *   actual matches, and they are also a tool to help the user narrow down on the results, helping them find the data they
+     *   are looking for.
+     *
      * @param error - An error object as given by the fetch operation.
      */
     public cbError?: (error?: any) => void;
+
+    /**
+     * A notifier method to call when the lookup succeeds, but the received data from the backend indicates a problem.
+     * Note that although this callback can be defined in the settings for all services (Authentication, Autocomplete, Find and
+     * Categorize), only Find and Categorize uses it.
+     *
+     * It is recommended to show these messages as complementary information to the user. Data was received and most likely the
+     * user can see results on their screen. There might however be scenarios were the data could somehow be i.e. incomplete.
+     *
+     * For instance: Consider a situation where the backend search is scaled and uses multiple nodes without replicas. If some
+     * of the nodes respond, while one or more doesn't then the results are partial. This will be notified using this method.
+     * For that scenario, an explanation at a strategic location in the UI would help the user understand that the results may
+     * not be complete. Depending on the search query used, the results *could* be complete, as the node(s) that didn't respond
+     * might not have any matching results anyway. Hence - the user should be warned that the data *may* be incomplete.
+     *
+     * @param warning - A warning object containing a message and a statusCode.
+     */
+    cbWarning?: (warning?: IWarning) => void;
 
     /**
      * A notifier method that is called just before the fetch operation is started. When the request
@@ -101,7 +189,8 @@ export abstract class BaseSettings<TDataType>
     public cbRequest?: (url?: string, reqInit?: RequestInit) => boolean;
 
     /**
-     * A notifier method to call whenever the lookup results have been received.
+     * A notifier method that is called whenever the lookup results have been received.
+     *
      * @param data - The lookup results.
      */
     public cbSuccess?: (data?: TDataType) => void;
@@ -190,6 +279,7 @@ export abstract class BaseSettings<TDataType>
 
         this.servicePath = settings.servicePath.replace(/(^\/+)|(\/+$)/g, '');
 
+        this.cbWarning = settings.cbWarning;
         this.cbError = settings.cbError;
         this.cbRequest = settings.cbRequest;
         this.cbSuccess = settings.cbSuccess;
