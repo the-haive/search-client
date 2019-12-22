@@ -1,5 +1,7 @@
 # Haive SearchClient
 
+[![NPM](https://nodei.co/npm/search-client.png?compact=true)](https://npmjs.com/package/search-client)
+[![NPM Downloads](https://img.shields.io/npm/dt/search-client.svg)](https://npmjs.com/package/search-client)
 [![Build Status](https://semaphoreci.com/api/v1/spiralis/search-client/branches/master/shields_badge.svg)](https://semaphoreci.com/spiralis/search-client)
 
 ## Project links
