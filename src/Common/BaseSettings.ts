@@ -116,7 +116,7 @@ export interface IBaseSettings<TDataType> {
      */
     queryChangeSpecs?: QueryChangeSpecifications;
 
-    readonly url?: string;
+    url?: string;
 }
 
 /**
@@ -252,7 +252,9 @@ export abstract class BaseSettings<TDataType>
         let url = new URL(parts.join('/'));
         return url.toString();
     }
-
+    public set url(value: string) {
+        // Do nothing
+    }
     /**
      * Handles the construction of the base-settings class with its properties.
      *

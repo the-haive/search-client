@@ -312,6 +312,47 @@ describe("SearchClient filter interface", () => {
         expect(client.filters).toHaveLength(0);
     });
 
+    it("Should not modify _origSettings' query-filters when toggling filters", () => {
+        let client = new SearchClient({ baseUrl: "http://dummy/", basePath: "", query: {
+            clientId: "test"
+        }});
+        const clientAny = client as any;
+        expect(clientAny).toBe(client);
+
+        expect(clientAny._origSettings.query).toBeDefined();
+        expect(clientAny._origSettings.query.filters).toBeUndefined();
+
+        client.categorize.categories = catRef;
+
+        const filterFileTypeDoc = client.categorize.createCategoryFilter([
+            "FileType",
+            "DOC"
+        ]);
+
+        expect(client.filters).toHaveLength(0);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
+        client.filterToggle(filterFileTypeDoc);
+
+        expect(client.filters).toHaveLength(1);
+        expect(clientAny._origSettings.query).not.toBe(clientAny.settings.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny.settings.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(client.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(client.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(clientAny._query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny._query.filters);
+
+        client.reset();
+
+        expect(client.filters).toHaveLength(0);
+        expect(clientAny._origSettings.query).not.toBe(clientAny.settings.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny.settings.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(client.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(client.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(clientAny._query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny._query.filters);
+    });
+
     it("Should have working match*, queryText, searchType, findAndCategorize and date interfaces", () => {
         let client = new SearchClient("http://localhost:9950");
         client.categorize.categories = catRef;

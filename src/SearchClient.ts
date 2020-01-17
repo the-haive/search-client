@@ -1,4 +1,5 @@
 import deepEqual from "deep-equal";
+import clone from 'clone';
 
 export * from "./Authentication";
 export * from "./Autocomplete";
@@ -97,8 +98,6 @@ export class SearchClient implements AuthToken {
      * @param settings A settings object that indicates how the search-client instance is to behave.
      */
     constructor(settings: ISettings | string, fetchMethod?: Fetch) {
-        this._origSettings = settings;
-        this._origFetchMethod = fetchMethod;
         this.setup(settings, fetchMethod);
         this.tokenResolver = () => "";
     }
@@ -850,6 +849,10 @@ export class SearchClient implements AuthToken {
     }
 
     private setup(settings: string | ISettings, fetchMethod: Fetch) {
+        // Make sure that we keep the original settings and fetchmethod, for the reset-function to reuse later.
+        this._origSettings = clone(settings);
+        this._origFetchMethod = clone(fetchMethod);
+
         this.settings = new Settings(settings);
 
         this.authentication = (new AuthenticationFactory()).create(this.settings.authentication, this, fetchMethod);
