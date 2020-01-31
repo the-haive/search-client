@@ -43,6 +43,21 @@ export interface ISettings {
      * BaseUrl for the SearchClient service (can be overriden in specific services)
      */
     baseUrl?: string;
+
+    /**
+     * Defines client mode - Rest or Hapi.
+     */
+    mode?: string;
+
+    /**
+     * Defines index id for Hapi mode.
+     */
+    hapiIndexId?: number;
+
+    /**
+     * Defines api key for Hapi mode.
+     */
+    hapiApiKey?: string;
 }
 
 /**
@@ -88,6 +103,21 @@ export class Settings {
     public baseUrl?: string;
 
     /**
+     * Defines client mode - Rest or Hapi.
+     */
+    public mode?: string;
+
+    /**
+     * Defines index id for Hapi mode.
+     */
+    public hapiIndexId?: number;
+
+    /**
+     * Defines api key for Hapi mode.
+     */
+    public hapiApiKey?: string;
+
+    /**
      * Creates a Settings object for you, based on Settings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default Settings.
      */
@@ -95,6 +125,11 @@ export class Settings {
         if (typeof settings === "string") {
             settings = { baseUrl: settings };
         }
+
+        this.mode = settings.mode;
+
+        this.hapiIndexId = settings.hapiIndexId;
+        this.hapiApiKey = settings.hapiApiKey;
 
         this.baseUrl = settings.baseUrl;
 
@@ -104,7 +139,7 @@ export class Settings {
                 : "RestService/v4";
 
         // The baseUrl is to be used by all services, unless they have a specified baseUrl themselves.
-        let common = { basePath: this.basePath, baseUrl: this.baseUrl };
+        let common = { basePath: this.basePath, baseUrl: this.baseUrl, mode: this.mode, hapiIndexId: this.hapiIndexId, hapiApiKey: this.hapiApiKey };
         if (
             settings.authentication &&
             typeof settings.authentication.basePath === "undefined"

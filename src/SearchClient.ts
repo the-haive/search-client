@@ -23,6 +23,7 @@ import {
 } from "./Common";
 import { ICategory, IGroup } from "./Data";
 import { Find } from "./Find";
+import { FindFactory } from "./Find";
 import { Settings, ISettings } from "./Settings";
 
 /**
@@ -899,7 +900,9 @@ export class SearchClient implements AuthToken {
             fetchMethod
         );
         this.settings.categorize = this.categorize.settings;
-        this.find = new Find(this.settings.find, this, fetchMethod);
+
+        this.find = (new FindFactory()).create(this.settings.find, this, fetchMethod);    
+
         this.settings.find = this.find.settings;
         this._query = this.settings.query;
         this._query.filters = [];
