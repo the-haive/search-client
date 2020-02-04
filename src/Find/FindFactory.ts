@@ -25,7 +25,7 @@ export class FindFactory {
         );
         return hapiFind;
     } else {
-      throw new Error('Select either a Rest or a Hapi client type.');
+      throw new Error('Find: Select either a Rest or a Hapi client type.');
     }
   }
 }

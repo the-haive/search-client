@@ -3,9 +3,9 @@ import { BaseCall, DateSpecification, Fetch, Filter, OrderBy, Query, SearchType 
 import { IMatches } from "../Data";
 import { FindQueryConverter } from "./FindQueryConverter";
 import { FindSettings, IFindSettings } from "./FindSettings";
-import { Index } from '../Common/Hapi/Typings/Typings';
 import { HapiClient } from '../Common/Hapi/HapiClient';
 import { SearchResultMapper } from '../Common/Hapi/Mappers/SearchResultMapper';
+import { search } from '../Common/Hapi/Typings/search';
 
 /**
  * The Find service queries the search-engine for search-matches for the given query.
@@ -60,9 +60,20 @@ export class HapiFind extends BaseCall<IMatches> {
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
             this.fetchQuery = new Query(query);
 
-            return this.client.search(query.queryText).then((data: Index) => {
-                console.log(JSON.stringify(data, undefined, 2));
-                return SearchResultMapper.map(this.settings.hapiIndexId, data);     
+            let categoryFilter = new Array<any>();
+            query.filters.forEach(f => {
+                categoryFilter.push({
+                    values: f.category.categoryName
+                });             
+            });
+
+            let queryType = query.searchType === "Keywords" ? "MatchAll" : "MatchAny";
+            let sortBy = query.matchOrderBy;
+            let skip = (query.matchPage - 1) * query.matchPageSize;
+            let take = query.matchPageSize;
+
+            return this.client.search(query.queryText, categoryFilter, queryType, sortBy, skip, skip * take).then((data: search) => {
+                    return SearchResultMapper.map(this.settings.hapiIndexId, data);     
                 })
                 .then((matches: IMatches) => {
                     if (matches.errorMessage) {

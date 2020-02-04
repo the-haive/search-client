@@ -10,7 +10,6 @@ export * from "./Settings";
 
 import { AuthToken, Authentication, AuthenticationFactory } from "./Authentication";
 import { Autocomplete } from "./Autocomplete";
-import { Categorize } from "./Categorize";
 import {
     DateSpecification,
     Fetch,
@@ -25,6 +24,8 @@ import { ICategory, IGroup } from "./Data";
 import { Find } from "./Find";
 import { FindFactory } from "./Find";
 import { Settings, ISettings } from "./Settings";
+import { CategorizeFactory } from './Categorize/CategorizeFactory';
+import { Categorize } from './Categorize/Categorize';
 
 /**
  * This is the "main class" of this package. Please read the <a href="https://the-haive.github.io/search-client/">getting-started section</a>"
@@ -894,7 +895,7 @@ export class SearchClient implements AuthToken {
             fetchMethod
         );
         this.settings.autocomplete = this.autocomplete.settings;
-        this.categorize = new Categorize(
+        this.categorize = (new CategorizeFactory()).create(
             this.settings.categorize,
             this,
             fetchMethod

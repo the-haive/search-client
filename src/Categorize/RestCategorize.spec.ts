@@ -1,7 +1,7 @@
 import fetch from "jest-fetch-mock";
 
 import {
-    Categorize,
+    RestCategorize,
     CategorizeSettings,
     ICategorizeSettings,
     CategorizeTriggers
@@ -88,15 +88,15 @@ function sanityCheck(categories: ICategories) {
 
 describe("Categorize basics", () => {
     it("Should have imported Categorize class defined", () => {
-        expect(typeof Categorize).toBe("function");
+        expect(typeof RestCategorize).toBe("function");
     });
 
     it("Should be able to create Categorize instance", () => {
-        let categorize = new Categorize("http://localhost:9950/");
+        let categorize = new RestCategorize("http://localhost:9950/");
         let pCategorize = categorize as any;
 
         expect(typeof categorize).toBe("object");
-        expect(categorize instanceof Categorize).toBeTruthy();
+        expect(categorize instanceof RestCategorize).toBeTruthy();
         expect(pCategorize.settings.enabled).toEqual(true);
         expect(pCategorize.settings.cbError).toBeUndefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
@@ -110,18 +110,18 @@ describe("Categorize basics", () => {
 
     it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
-            let categorize = new Categorize("file://localhost:9950");
+            let categorize = new RestCategorize("file://localhost:9950");
             expect(typeof categorize).toBe("object");
         }).not.toThrow();
 
         expect(() => {
-            let categorize = new Categorize("http:+//localhost:9950");
+            let categorize = new RestCategorize("http:+//localhost:9950");
             expect(typeof categorize).toBe("object");
         }).not.toThrow();
     });
 
     it("Should be able to pass a default CategorizeSettings instance", () => {
-        let categorize = new Categorize("http://localhost:9950/");
+        let categorize = new RestCategorize("http://localhost:9950/");
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -144,7 +144,7 @@ describe("Categorize basics", () => {
         settings.triggers = new CategorizeTriggers();
         settings.basePath = "/test";
 
-        let categorize = new Categorize(settings);
+        let categorize = new RestCategorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -174,7 +174,7 @@ describe("Categorize basics", () => {
             basePath: "/test"
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings);
+        let categorize = new RestCategorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -208,7 +208,7 @@ describe("Categorize basics", () => {
             })
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings, null, fetch);
+        let categorize = new RestCategorize(settings, null, fetch);
         categorize
             .fetch()
             .then((response: ICategories) => {
@@ -238,7 +238,7 @@ describe("Categorize basics", () => {
             cbSuccess: jest.fn()
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings, null, fetch);
+        let categorize = new RestCategorize(settings, null, fetch);
         categorize
             .fetch()
             .then(response => {
@@ -264,7 +264,7 @@ describe("Categorize basics", () => {
         let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change, when no filter is added and running the filtermethod
@@ -280,7 +280,7 @@ describe("Categorize basics", () => {
         let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change when filters are set manually
@@ -298,7 +298,7 @@ describe("Categorize basics", () => {
         let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = null;
@@ -315,7 +315,7 @@ describe("Categorize basics", () => {
         let workCopy: ICategories = require("../test-data/categories.json");
         sanityCheck(workCopy);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change when filters are set to null
@@ -338,7 +338,7 @@ describe("Categorize basics", () => {
             cbRequest: jest.fn(() => false)
         };
 
-        let client = new Categorize(settings);
+        let client = new RestCategorize(settings);
         let pClient = client as any;
 
         // Expect no change when filters are set to null
@@ -356,7 +356,7 @@ describe("Categorize basics", () => {
 
     it("Should be possible to use the createCategoryFilter method to create filters, with string[] input", () => {
         // tslint:disable-next-line:no-require-imports
-        let categorize = new Categorize("http://localhost:9950");
+        let categorize = new RestCategorize("http://localhost:9950");
         categorize.categories = reference;
         const filterSystemFile = categorize.createCategoryFilter([
             "System",
@@ -413,7 +413,7 @@ describe("Categorize basics", () => {
     });
 
     it("Should be possible to use the createCategoryFilter method to create filters, with Category input", () => {
-        let categorize = new Categorize("http://localhost:9950");
+        let categorize = new RestCategorize("http://localhost:9950");
         categorize.categories = reference;
         const filterSystemFile = categorize.createCategoryFilter(
             reference.groups[0].categories[0].children[0].children[0]
@@ -469,7 +469,7 @@ describe("Categorize basics", () => {
         let categories: ICategories = require("../test-data/categories.json");
         sanityCheck(categories);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         expect(typeof pClient.findCategory).toBe("function");
@@ -484,7 +484,7 @@ describe("Categorize basics", () => {
         let categories: ICategories = require("../test-data/categories.json");
         sanityCheck(categories);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
         //client.categories = workCopy;
 

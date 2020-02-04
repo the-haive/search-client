@@ -1,6 +1,9 @@
-import { IFindSettings } from '../../Find/FindSettings';
 import { GraphQLClient } from 'graphql-request';
-import { Index } from './Typings/Typings';
+import { search } from './Typings/search';
+import { HapiQueries } from './HapiQueries';
+import { categorize } from './Typings/categorize';
+import { ISettings } from '../../Settings';
+import { print } from 'graphql/language/printer';
 
 export class HapiClient {
 
@@ -8,43 +11,7 @@ export class HapiClient {
 
     private indexId: number;
 
-    private readonly SEARCH_QUERY = `
-    query search($indexId: Int!, $filterParameters: FilterParametersInput!) {      
-        index
-        {
-          items
-          (      
-            indexIds: [$indexId],      
-            filter: $filterParameters                 
-          )
-          {
-            hits,
-            results
-            {
-              id
-              parentIds
-              url
-              title 
-              content
-              extracts       
-              relevance			
-              date
-              metadata
-              {
-                name
-                value
-              }
-              categories
-              {
-                values
-              }
-            }     
-          }
-        } 
-      }
-        `;
-
-    constructor(settings: IFindSettings) {
+    constructor(settings: ISettings) {
         this.indexId = settings.hapiIndexId;
 
         this.client = new GraphQLClient(settings.baseUrl, {
@@ -54,7 +21,7 @@ export class HapiClient {
         });
     }
 
-    public async search(searchQuery?: string, queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<Index> {
+    public async search(searchQuery?: string, categories?: any[], queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<search> {
         const variables = {
             indexId: this.indexId,
             filterParameters: {  
@@ -64,16 +31,41 @@ export class HapiClient {
                 ...(skip && { skip }),
                 ...(take && { take }),
                 ...(dateFrom && { dateFrom }),
-                ...(dateTo && { dateTo })           
+                ...(dateTo && { dateTo }),
+                ...(categories && { categories })            
               }    
         };
 
         try {
-            const data = await this.client.request<Index>(this.SEARCH_QUERY, variables);
+            const data = await this.client.request<search>(print(HapiQueries.SEARCH_QUERY), variables);
             return data;
           } catch (error) {
             console.error(JSON.stringify(error, undefined, 2));
             return null;
           }  
     }
+
+    public async categorize(searchQuery?: string, categories?: any[], queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<categorize> {
+      const variables = {
+          indexId: this.indexId,
+          filterParameters: {  
+              ...(searchQuery && { searchQuery }),
+              ...(queryType && { queryType }),
+              ...(sortBy && { sortBy }),
+              ...(skip && { skip }),
+              ...(take && { take }),
+              ...(dateFrom && { dateFrom }),
+              ...(dateTo && { dateTo }),
+              ...(categories && { categories })            
+            }    
+      };
+
+      try {
+          const data = await this.client.request<categorize>(print(HapiQueries.CATEGORIZE_QUERY), variables);
+          return data;
+        } catch (error) {
+          console.error(JSON.stringify(error, undefined, 2));
+          return null;
+        }  
+  }
 }

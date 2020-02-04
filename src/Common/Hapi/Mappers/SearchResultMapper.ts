@@ -1,9 +1,9 @@
 import { IMatches } from '../../../Data/IMatches';
 import { IMetaData } from '../../../Data/IMetaData';
-import { Index, Categories, Metadata } from '../Typings/Typings';
+import { search, search_index_items_results_categories, search_index_items_results_metadata } from '../Typings/search';
 
 export class SearchResultMapper {
-     public static map(indexId: number, data: Index): IMatches {
+     public static map(indexId: number, data: search): IMatches {
         let matches = {
             id: 1,
             bestBets: new Array<any>(),
@@ -43,7 +43,7 @@ export class SearchResultMapper {
         return matches;
      }
 
-    private static mapCategories(categories: Categories[]): string[] {
+    private static mapCategories(categories: search_index_items_results_categories[]): string[] {
         let result = new Array<string>();   
         if (categories) {
             categories.forEach((c) => {
@@ -56,7 +56,7 @@ export class SearchResultMapper {
         return result;
      }
 
-     private static mapMetadata(metadata: Metadata[]): IMetaData[] {
+     private static mapMetadata(metadata: search_index_items_results_metadata[]): IMetaData[] {
         let result = new Array<IMetaData>();   
         if (metadata) {
             metadata.forEach((m) => {
