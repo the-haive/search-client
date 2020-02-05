@@ -4,6 +4,7 @@ import { HapiQueries } from './HapiQueries';
 import { categorize } from './Typings/categorize';
 import { ISettings } from '../../Settings';
 import { print } from 'graphql/language/printer';
+import { autocomplete } from './Typings/autocomplete';
 
 export class HapiClient {
 
@@ -67,5 +68,22 @@ export class HapiClient {
           console.error(JSON.stringify(error, undefined, 2));
           return null;
         }  
-  }
+    }
+
+    public async autocomplete(searchQuery?: string, maxSuggestions?: number, minQueryLength?: number): Promise<autocomplete> {
+      const variables = {
+          indexId: this.indexId,          
+          searchQuery,
+          maxSuggestions,
+          minQueryLength         
+      };
+
+      try {
+          const data = await this.client.request<autocomplete>(print(HapiQueries.AUTOCOMPLETE_QUERY), variables);
+          return data;
+        } catch (error) {
+          console.error(JSON.stringify(error, undefined, 2));
+          return null;
+        }  
+    }
 }

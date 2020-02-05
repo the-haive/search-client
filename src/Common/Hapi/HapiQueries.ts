@@ -58,4 +58,19 @@ export class HapiQueries {
       } 
     }
     `;   
+
+    public static readonly AUTOCOMPLETE_QUERY = gql`
+    query autocomplete($indexId: Int!, $searchQuery: String!, $maxSuggestions: Int!, $minQueryLength: Int! ) {      
+      index
+      {
+        autocomplete
+        (      
+          indexIds: [$indexId],      
+          searchQuery: $searchQuery,
+          maxSuggestions: $maxSuggestions
+          minQueryLength: $minQueryLength
+        )       
+      } 
+    }
+    `;   
 }

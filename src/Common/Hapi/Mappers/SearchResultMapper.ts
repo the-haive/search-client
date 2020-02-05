@@ -47,16 +47,14 @@ export class SearchResultMapper {
         let result = new Array<string>();   
         if (categories) {
             categories.forEach((c) => {
-                c.values.forEach((v) => {
-                    result.push(v);
-                });
+                result.push(c.values.join("|"));                
             });
         }
 
         return result;
      }
 
-     private static mapMetadata(metadata: search_index_items_results_metadata[]): IMetaData[] {
+    private static mapMetadata(metadata: search_index_items_results_metadata[]): IMetaData[] {
         let result = new Array<IMetaData>();   
         if (metadata) {
             metadata.forEach((m) => {

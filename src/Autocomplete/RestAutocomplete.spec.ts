@@ -1,19 +1,19 @@
 import fetch from "jest-fetch-mock";
 
-import { Autocomplete, IAutocompleteSettings, AutocompleteTriggers } from ".";
+import { Autocomplete, IAutocompleteSettings, AutocompleteTriggers, RestAutocomplete } from ".";
 import { Query } from "../Common";
 
 describe("Autocomplete basics", () => {
     it("Should have imported Autocomplete class defined", () => {
-        expect(typeof Autocomplete).toBe("function");
+        expect(typeof RestAutocomplete).toBe("function");
     });
 
     it("Should be able to create Autocomplete instance", () => {
-        let autocomplete = new Autocomplete("http://localhost:9950/");
+        let autocomplete = new RestAutocomplete("http://localhost:9950/");
         let pAutocomplete = autocomplete as any;
 
         expect(typeof autocomplete).toBe("object");
-        expect(autocomplete instanceof Autocomplete).toBeTruthy();
+        expect(autocomplete instanceof RestAutocomplete).toBeTruthy();
         expect(pAutocomplete.settings).toBeDefined();
         expect(pAutocomplete.settings.enabled).toEqual(true);
         expect(pAutocomplete.settings.cbError).toBeUndefined();
@@ -29,10 +29,10 @@ describe("Autocomplete basics", () => {
     });
 
     it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
-        let autocomplete = new Autocomplete("file://localhost:9950");
+        let autocomplete = new RestAutocomplete("file://localhost:9950");
         expect(typeof autocomplete).toBe("object");
 
-        autocomplete = new Autocomplete("http:+//localhost:9950");
+        autocomplete = new RestAutocomplete("http:+//localhost:9950");
         expect(typeof autocomplete).toBe("object");
     });
 
@@ -45,7 +45,7 @@ describe("Autocomplete basics", () => {
         settings.triggers = new AutocompleteTriggers();
         settings.basePath = "/test";
 
-        let autocomplete = new Autocomplete(settings);
+        let autocomplete = new RestAutocomplete(settings);
         let pAutocomplete = autocomplete as any;
 
         expect(typeof pAutocomplete.auth).toBe("object");
@@ -77,7 +77,7 @@ describe("Autocomplete basics", () => {
             basePath: "/test"
         } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(settings);
+        let autocomplete = new RestAutocomplete(settings);
         let pAutocomplete = autocomplete as any;
 
         expect(typeof pAutocomplete.auth).toBe("object");
@@ -111,7 +111,7 @@ describe("Autocomplete basics", () => {
             })
         } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(settings, null, fetch);
+        let autocomplete = new RestAutocomplete(settings, null, fetch);
         autocomplete
             .fetch()
             .then(response => {
@@ -141,7 +141,7 @@ describe("Autocomplete basics", () => {
             cbSuccess: jest.fn()
         } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(settings, null, fetch);
+        let autocomplete = new RestAutocomplete(settings, null, fetch);
         autocomplete
             .fetch()
             .then(response => {
@@ -175,7 +175,7 @@ describe("Autocomplete basics", () => {
             })
         } as IAutocompleteSettings;
 
-        let autocomplete = new Autocomplete(settings, null, fetch);
+        let autocomplete = new RestAutocomplete(settings, null, fetch);
         let newQuery = new Query();
         newQuery.queryText = "queryText";
         autocomplete.queryTextChanged("", newQuery);

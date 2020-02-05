@@ -6,13 +6,14 @@ import { FindSettings, IFindSettings } from "./FindSettings";
 import { HapiClient } from '../Common/Hapi/HapiClient';
 import { SearchResultMapper } from '../Common/Hapi/Mappers/SearchResultMapper';
 import { search } from '../Common/Hapi/Typings/search';
+import { Find } from '.';
 
 /**
  * The Find service queries the search-engine for search-matches for the given query.
  *
  * It is normally used indirectly via the SearchClient class.
  */
-export class HapiFind extends BaseCall<IMatches> {
+export class HapiFind extends BaseCall<IMatches> implements Find {
     public settings: IFindSettings;
 
     private queryConverter: FindQueryConverter;
