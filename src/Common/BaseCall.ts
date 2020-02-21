@@ -1,13 +1,12 @@
 import fetch from "cross-fetch";
 
-import { DateSpecification } from "./Query";
+import { DateSpecification, IQuery, Query } from "./Query";
 import { OrderBy } from "./OrderBy";
 import { SearchType } from "./SearchType";
 import { IBaseSettings } from "./BaseSettings";
 import { AuthToken } from "../Authentication/AuthToken";
 
 import { Filter } from "./Filter";
-import { Query } from "./Query";
 import { CategorizationType } from "./CategorizationType";
 import { QueryChangeSpecifications } from "./QueryChangeSpecifications";
 
@@ -15,6 +14,11 @@ export type Fetch = (
     input?: Request | string,
     init?: RequestInit
 ) => Promise<Response>;
+
+export interface IWarning {
+    message: string;
+    statusCode: number;
+}
 
 /**
  * A common service base-class for the descending Autocomplete, Categorize and Find classes.
@@ -30,7 +34,7 @@ export abstract class BaseCall<TDataType> {
 
     protected deferUpdate: boolean;
 
-    protected deferredQuery: Query | null;
+    protected deferredQuery: IQuery | null;
 
     protected deferredUseMatchPage: boolean | null;
 
@@ -46,7 +50,7 @@ export abstract class BaseCall<TDataType> {
      *   - "Disable" the results
      *   - "Ghost" the results (but allow operating on them)
      */
-    protected fetchQuery: Query;
+    protected fetchQuery: IQuery;
 
     /**
      * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
@@ -90,8 +94,8 @@ export abstract class BaseCall<TDataType> {
             includeAuthorizationHeader &&
             this.auth &&
             this.auth.authenticationToken
-        ) {        
-            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;                    
+        ) {
+            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
         }
 
         return {
@@ -111,7 +115,7 @@ export abstract class BaseCall<TDataType> {
      * @param useQueryMatchPage If true then the query matchpage number will not be reset to 1. Otherwise it is by default always 1.
      */
     public update(
-        query: Query,
+        query: IQuery,
         delay?: number,
         useQueryMatchPage?: boolean
     ): void {
@@ -143,7 +147,7 @@ export abstract class BaseCall<TDataType> {
         }
     }
 
-    public shouldUpdate(fieldName?: string, query?: Query): boolean {
+    public shouldUpdate(fieldName?: string, query?: IQuery): boolean {
         if (
             this.settings.cbSuccess &&
             this.settings.enabled &&
@@ -155,55 +159,55 @@ export abstract class BaseCall<TDataType> {
         return this.settings.cbSuccess && this.settings.enabled;
     }
 
-    public clientIdChanged(oldValue: string, query: Query): void {
+    public clientIdChanged(oldValue: string, query: IQuery): void {
         /* Default no implementation*/
     }
     public categorizationTypeChanged(
         oldValue: CategorizationType,
-        query: Query
+        query: IQuery
     ): void {
         /* Default no implementation*/
     }
-    public dateFromChanged(oldValue: DateSpecification, query: Query): void {
+    public dateFromChanged(oldValue: DateSpecification, query: IQuery): void {
         /* Default no implementation*/
     }
-    public dateToChanged(oldValue: DateSpecification, query: Query): void {
+    public dateToChanged(oldValue: DateSpecification, query: IQuery): void {
         /* Default no implementation*/
     }
-    public filtersChanged(oldValue: Filter[], query: Query): void {
+    public filtersChanged(oldValue: Filter[], query: IQuery): void {
         /* Default no implementation*/
     }
-    public matchGenerateContentChanged(oldValue: boolean, query: Query): void {
+    public matchGenerateContentChanged(oldValue: boolean, query: IQuery): void {
         /* Default no implementation*/
     }
     public matchGenerateContentHighlightsChanged(
         oldValue: boolean,
-        query: Query
+        query: IQuery
     ): void {
         /* Default no implementation*/
     }
-    public matchGroupingChanged(oldValue: boolean, query: Query): void {
+    public matchGroupingChanged(oldValue: boolean, query: IQuery): void {
         /* Default no implementation*/
     }
-    public matchOrderByChanged(oldValue: OrderBy, query: Query): void {
+    public matchOrderByChanged(oldValue: OrderBy, query: IQuery): void {
         /* Default no implementation*/
     }
-    public matchPageChanged(oldValue: number, query: Query): void {
+    public matchPageChanged(oldValue: number, query: IQuery): void {
         /* Default no implementation*/
     }
-    public matchPageSizeChanged(oldValue: number, query: Query): void {
+    public matchPageSizeChanged(oldValue: number, query: IQuery): void {
         /* Default no implementation*/
     }
-    public maxSuggestionsChanged(oldValue: number, query: Query): void {
+    public maxSuggestionsChanged(oldValue: number, query: IQuery): void {
         /* Default no implementation*/
     }
-    public queryTextChanged(oldValue: string, query: Query): void {
+    public queryTextChanged(oldValue: string, query: IQuery): void {
         /* Default no implementation*/
     }
-    public searchTypeChanged(oldValue: SearchType, query: Query): void {
+    public searchTypeChanged(oldValue: SearchType, query: IQuery): void {
         /* Default no implementation*/
     }
-    public uiLanguageCodeChanged(oldValue: string, query: Query): void {
+    public uiLanguageCodeChanged(oldValue: string, query: IQuery): void {
         /* Default no implementation*/
     }
 
@@ -224,7 +228,7 @@ export abstract class BaseCall<TDataType> {
     }
 
     protected abstract fetch(
-        query?: Query,
+        query?: IQuery,
         suppressCallbacks?: boolean
     ): Promise<any>;
 
@@ -252,8 +256,21 @@ export abstract class BaseCall<TDataType> {
         if (!this.settings) {
             throw new Error("Settings cannot be empty.");
         }
-        if (this.settings.cbSuccess && !suppressCallbacks) {
+        if (this.settings.cbError && !suppressCallbacks) {
             this.settings.cbError(error);
+        }
+    }
+    protected cbWarning(
+        suppressCallbacks: boolean,
+        warning: IWarning,
+        url: string,
+        reqInit: RequestInit
+    ): void {
+        if (!this.settings) {
+            throw new Error("Settings cannot be empty.");
+        }
+        if (this.settings.cbWarning && !suppressCallbacks) {
+            this.settings.cbWarning(warning);
         }
     }
 
@@ -274,14 +291,14 @@ export abstract class BaseCall<TDataType> {
     /**
      * Checks whether or not to notify that the results are invalidated (no longer representative for the query).
      */
-    private outdatedWarning(fieldName: string, query: Query) {
+    private outdatedWarning(fieldName: string, query: IQuery) {
         if (
             this.settings.cbResultState &&
             this.settings.queryChangeSpecs &
                 QueryChangeSpecifications[fieldName]
         ) {
             let invalid = this.fetchQuery
-                ? !this.fetchQuery.equals(query, this.settings.queryChangeSpecs)
+                ? !(this.fetchQuery as Query).equals(query, this.settings.queryChangeSpecs)
                 : false;
 
             this.settings.cbResultState(invalid, this.fetchQuery, query);

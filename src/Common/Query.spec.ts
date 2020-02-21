@@ -3,6 +3,7 @@ import { CategorizationType } from "./CategorizationType";
 import { SearchType } from "./SearchType";
 import { OrderBy } from "./OrderBy";
 import { Filter } from "./Filter";
+import { ICategory } from '../Data';
 
 describe("Query basics", () => {
     it("Should be able to create a query object with default values", () => {
@@ -40,7 +41,10 @@ describe("Query basics", () => {
                 displayName: "test",
                 expanded: true,
                 name: "test"
-            })
+            }),
+            new Filter(['test2'], {
+                categoryName: ['test2'],
+            } as ICategory)
         ];
         let query = new Query({
             clientId: "clientId",

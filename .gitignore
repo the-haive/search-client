@@ -110,3 +110,5 @@ samples/plain/IntelliSearch\.js
 samples/plain/IntelliSearch\.min\.js
 
 package-lock.json
+
+stats.json

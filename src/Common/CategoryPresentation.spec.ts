@@ -8,8 +8,14 @@ import {
     Casing
 } from "./CategoryPresentation";
 
-import { Categorize } from "../../src/Categorize";
-import { ICategories } from "../../src/Data";
+import { RestCategorize } from "../Categorize";
+import { ICategories } from "../Data";
+
+import reference from '../test-data/categories.json';
+Object.freeze(reference);
+const catRef = reference as ICategories;
+
+import merge from 'deepmerge';
 
 function sanityCheck(categories: ICategories) {
     expect(categories.groups.length).toEqual(4);
@@ -146,11 +152,10 @@ describe("When managing a CategoryPresentations map it:", () => {
 
 describe("When grouping a CategoryPresentations map it:", () => {
     it("Should be possible to group on root-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
+        let workCopy = merge({}, catRef);
         sanityCheck(workCopy);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -169,7 +174,6 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         sanityCheck(workCopy);
 
-        console.log(results);
         expect(results.groups.length).toEqual(3);
         expect(results.groups[0].name).toEqual("System");
         expect(results.groups[1].name).toEqual("__F__");
@@ -177,11 +181,9 @@ describe("When grouping a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to group on group-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -196,9 +198,9 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
         expect(results.groups.length).toEqual(4);
         expect(results.groups[1].name).toEqual("Author");
         expect(results.groups[1].categories.length).toEqual(14);
@@ -214,11 +216,9 @@ describe("When grouping a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to group on category-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2007|Month": {
@@ -233,9 +233,9 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
         expect(results.groups.length).toEqual(4);
         expect(results.groups[2].name).toEqual("ModifiedDate");
         expect(results.groups[2].categories.length).toEqual(3);
@@ -259,11 +259,9 @@ describe("When grouping a CategoryPresentations map it:", () => {
 
 describe("When filtering a CategoryPresentations map it:", () => {
     it("Should be possible to filter on root-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -278,9 +276,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(1);
         expect(results.groups[0].name).toEqual("System");
@@ -288,11 +286,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to filter on group-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -314,9 +310,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
         expect(results.groups.length).toEqual(1);
         expect(results.groups[0].name).toEqual("Author");
         expect(results.groups[0].categories.length).toEqual(1);
@@ -324,11 +320,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to filter on category-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -364,9 +358,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
         expect(results.groups.length).toEqual(1);
         expect(results.groups[0].name).toEqual("ModifiedDate");
         expect(results.groups[0].categories.length).toEqual(1);
@@ -386,11 +380,9 @@ describe("When filtering a CategoryPresentations map it:", () => {
 
 describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on root-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -419,9 +411,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[0].displayName).toEqual("Modified date");
@@ -431,11 +423,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to sort on group-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -464,9 +454,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[1].name).toEqual("Author");
@@ -488,11 +478,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to sort on category-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2007|Month": {
@@ -520,9 +508,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[2].name).toEqual("ModifiedDate");
@@ -559,11 +547,9 @@ describe("When sorting a CategoryPresentations map it:", () => {
 
 describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on root-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -577,19 +563,17 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(2);
     });
 
     it("Should be possible to limit on group-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -603,9 +587,9 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[1].name).toEqual("Author");
@@ -613,11 +597,9 @@ describe("When limiting a CategoryPresentations map it:", () => {
     });
 
     it("Should be possible to limit on category-level", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2014": {
@@ -631,9 +613,9 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
         let pClient = client as any;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
         expect(results.groups.length).toEqual(4);
         expect(results.groups[2].name).toEqual("ModifiedDate");
@@ -647,29 +629,27 @@ describe("When limiting a CategoryPresentations map it:", () => {
 
 describe("When managing expanded state for CategoryPresentation nodes it:", () => {
     it("Should be possible to toggle expanded state on a group and category node", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        sanityCheck(catRef);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect - before
-        expect(workCopy.groups[0].name).toEqual("System");
-        expect(workCopy.groups[0].expanded).toBeTruthy();
-        expect(workCopy.groups[0].categories[0].name).toEqual("File");
-        expect(workCopy.groups[0].categories[0].expanded).toBeFalsy();
-        expect(workCopy.groups[0].categories[0].children[0].name).toEqual(
+        expect(catRef.groups[0].name).toEqual("System");
+        expect(catRef.groups[0].expanded).toBeTruthy();
+        expect(catRef.groups[0].categories[0].name).toEqual("File");
+        expect(catRef.groups[0].categories[0].expanded).toBeFalsy();
+        expect(catRef.groups[0].categories[0].children[0].name).toEqual(
             "Testdata"
         );
         expect(
-            workCopy.groups[0].categories[0].children[0].expanded
+            catRef.groups[0].categories[0].children[0].expanded
         ).toBeFalsy();
         expect(
-            workCopy.groups[0].categories[0].children[0].children[0].name
+            catRef.groups[0].categories[0].children[0].children[0].name
         ).toEqual("Norway");
         expect(
-            workCopy.groups[0].categories[0].children[0].children[0].expanded
+            catRef.groups[0].categories[0].children[0].children[0].expanded
         ).toBeFalsy();
 
         client.settings.presentations = {
@@ -685,7 +665,7 @@ describe("When managing expanded state for CategoryPresentation nodes it:", () =
         };
         //console.log(client.settings);
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(catRef);
 
         // Expect - after
         expect(results.groups[0].name).toEqual("System");

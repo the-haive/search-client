@@ -7,13 +7,13 @@ export interface IAuthenticationSettings extends IBaseSettings<any> {
     /**
      * Sets authentication type - jwt or oidc.
      */
-    type: string;
-       
+    type?: string;
+
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      */
     token?: string;
-    
+
     /**
      * The trigger-settings for when a new auth-token is to be requested.
      */
@@ -63,11 +63,11 @@ export interface IAuthenticationSettings extends IBaseSettings<any> {
      * Sets list of scopes requested by client.
      */
     scope?: string;
-    
+
     /**
      * Enables logging of OpenId Connect client.
      */
-    enableLogging: boolean;
+    enableLogging?: boolean;
 }
 
 /**
@@ -77,8 +77,8 @@ export class AuthenticationSettings extends BaseSettings<any> {
     /**
      * Sets authentication type - jwt or oidc.
      */
-    public type: string;
-   
+    public type?: string;
+
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      * Default: Undefined
@@ -130,11 +130,11 @@ export class AuthenticationSettings extends BaseSettings<any> {
      * Sets list of scopes requested by client.
      */
     public scope?: string;
-    
+
     /**
      * Enables logging of OpenId Connect client.
      */
-    public enableLogging: boolean;
+    public enableLogging?: boolean;
 
     /**
      * Creates an AuthenticationSettings object for you, based on AuthenticationSettings defaults and the overrides provided as a param.
@@ -142,7 +142,7 @@ export class AuthenticationSettings extends BaseSettings<any> {
      */
     constructor(settings: IAuthenticationSettings | string) {
         super(); // dummy (using init instead)
-        
+
         // Setup settings object before calling super.init with it.
         if (typeof settings === "string") {
             settings = { baseUrl: settings } as IAuthenticationSettings;
@@ -178,7 +178,10 @@ export class AuthenticationSettings extends BaseSettings<any> {
         // No query changes will trigger outdated warnings
         this.queryChangeSpecs = QueryChangeSpecifications.none;
 
-        this.enableLogging = settings.enableLogging;
+        this.enableLogging =
+            typeof settings.enableLogging !== 'undefined'
+                ? settings.enableLogging
+                : false;
 
         this.clientId = settings.clientId;
 

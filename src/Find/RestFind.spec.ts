@@ -1,8 +1,8 @@
-import fetch from "jest-fetch-mock";
+import {FetchMock} from "jest-fetch-mock";
+const fetchMock = fetch as FetchMock;
 
-import { Find, IFindSettings, FindTriggers, RestFind } from ".";
+import { RestFind, IFindSettings, FindTriggers } from ".";
 import { IMatches, IMatchItem } from "../Data";
-import { Query } from "../Common";
 
 describe("Find basics", () => {
     it("Should have imported Find class defined", () => {
@@ -93,10 +93,10 @@ describe("Find basics", () => {
         );
     });
 
-    it("Should be able to Find some results", () => {
-        fetch.resetMocks();
+    it("Should be able to Find some results", async () => {
+        fetchMock.resetMocks();
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse(
+        fetchMock.mockResponse(
             JSON.stringify({
                 bestBets: [],
                 didYouMeanList: [],
@@ -124,10 +124,10 @@ describe("Find basics", () => {
             });
     });
 
-    it("Should be able to stop a Find using cbRequest", () => {
-        fetch.resetMocks();
+    it("Should be able to stop a Find using cbRequest", async () => {
+        fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
@@ -154,9 +154,9 @@ describe("Find basics", () => {
     });
 
     it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
-        fetch.resetMocks();
+        fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
-        fetch.mockResponse(JSON.stringify(null));
+        fetchMock.mockResponse(JSON.stringify(null));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbResultState: jest.fn(),
@@ -172,5 +172,54 @@ describe("Find basics", () => {
         expect(settings.cbResultState).toHaveBeenCalledTimes(2);
         find.shouldUpdate("queryText", { queryText: "search-2" });
         expect(settings.cbResultState).toHaveBeenCalledTimes(3);
+    });
+
+    it("Calls both cbSuccess and cbWarning when results indicate error via statusCode", async () => {
+        fetchMock.resetMocks();
+        // Not caring about the response, just to allow the fetch to complete.
+        fetchMock.mockResponse(
+            JSON.stringify({
+                bestBets: [],
+                didYouMeanList: [],
+                statusCode: 1,
+                errorMessage: "Categorize warning",
+                estimatedMatchCount: 1,
+                expandedQuery: "",
+                nextPageRef: 0,
+                searchMatches: [{} as IMatchItem]
+            } as IMatches)
+        );
+
+        let cbError = jest.fn((error) => {
+            fail("Should not fail");
+        });
+
+        let cbWarning = jest.fn((warning) => {
+            expect(typeof warning).toBe("object");
+            expect(warning.statusCode).toBe(1);
+            expect(warning.message).toBe("Categorize warning");
+        });
+
+        let cbSuccess = jest.fn((results) => {
+            expect(typeof results).toBe("object");
+        });
+
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbWarning,
+            cbError,
+            cbSuccess
+        } as IFindSettings;
+
+        let find = new RestFind(settings, null, fetch);
+        try {
+            const response = await find.fetch();
+            expect(response.estimatedMatchCount).toEqual(1);
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbError).toHaveBeenCalledTimes(0);
+        expect(settings.cbWarning).toHaveBeenCalledTimes(1);
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
     });
 });

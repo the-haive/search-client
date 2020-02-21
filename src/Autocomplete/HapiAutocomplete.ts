@@ -27,7 +27,7 @@ export class HapiAutocomplete extends BaseCall<string[]> implements Autocomplete
      * @param auth - The object that handles authentication.
      */
     constructor(
-        settings: IAutocompleteSettings | string,
+        settings: IAutocompleteSettings,
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {

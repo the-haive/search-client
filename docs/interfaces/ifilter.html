@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>FindQueryConverter | HAIVE IntelliSearch SearchClient</title>
+	<title>IFilter | HAIVE IntelliSearch SearchClient</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,86 +52,76 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="findqueryconverter.html">FindQueryConverter</a>
+					<a href="ifilter.html">IFilter</a>
 				</li>
 			</ul>
-			<h1>Class FindQueryConverter</h1>
+			<h1>Interface IFilter</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Class to handle creating find lookups.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="basequeryconverter.html" class="tsd-signature-type">BaseQueryConverter</a>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">FindQueryConverter</span>
-							</li>
-						</ul>
+						<span class="target">IFilter</span>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implemented by</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../classes/filter.html" class="tsd-signature-type">Filter</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-inherited">
-							<h3>Methods</h3>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="findqueryconverter.html#geturl" class="tsd-kind-icon">get<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#category" class="tsd-kind-icon">category</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="ifilter.html#hidden" class="tsd-kind-icon">hidden</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="geturl" class="tsd-anchor"></a>
-					<h3>get<wbr>Url</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Url<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="basequeryconverter.html">BaseQueryConverter</a>.<a href="basequeryconverter.html#geturl">getUrl</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseQueryConverter.ts#L13">Common/BaseQueryConverter.ts:13</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the url for the REST API.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>query: <a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>is the query that is to be converted into the url.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>The url to use for fetching the date, represented as a string.</p>
-						</li>
-					</ul>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="category" class="tsd-anchor"></a>
+					<h3>category</h3>
+					<div class="tsd-signature tsd-kind-icon">category<span class="tsd-signature-symbol">:</span> <a href="icategory.html" class="tsd-signature-type">ICategory</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L5">Common/Filter.ts:5</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="displayname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">display<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L4">Common/Filter.ts:4</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="hidden" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> hidden</h3>
+					<div class="tsd-signature tsd-kind-icon">hidden<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L6">Common/Filter.ts:6</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -147,11 +137,17 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="findqueryconverter.html" class="tsd-kind-icon">Find<wbr>Query<wbr>Converter</a>
+					<li class="current tsd-kind-interface">
+						<a href="ifilter.html" class="tsd-kind-icon">IFilter</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="findqueryconverter.html#geturl" class="tsd-kind-icon">get<wbr>Url</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ifilter.html#category" class="tsd-kind-icon">category</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ifilter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="ifilter.html#hidden" class="tsd-kind-icon">hidden</a>
 							</li>
 						</ul>
 					</li>

@@ -77,6 +77,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/ifilter.html" class="tsd-signature-type">IFilter</a></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -92,6 +98,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filter.html#category" class="tsd-kind-icon">category</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="filter.html#hidden" class="tsd-kind-icon">hidden</a></li>
 							</ul>
 						</section>
 					</div>
@@ -103,13 +110,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Filter<span class="tsd-signature-symbol">(</span>displayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, category<span class="tsd-signature-symbol">: </span><a href="../interfaces/icategory.html" class="tsd-signature-type">ICategory</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Filter<span class="tsd-signature-symbol">(</span>displayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, category<span class="tsd-signature-symbol">: </span><a href="../interfaces/icategory.html" class="tsd-signature-type">ICategory</a>, hidden<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="filter.html" class="tsd-signature-type">Filter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Common/Filter.ts:6</li>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L14">Common/Filter.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -135,6 +142,14 @@
 										</div>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> hidden: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Whether or not the filter should be included in the category tree.</p>
+										</div>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="filter.html" class="tsd-signature-type">Filter</a></h4>
 						</li>
@@ -148,30 +163,33 @@
 					<h3>category</h3>
 					<div class="tsd-signature tsd-kind-icon">category<span class="tsd-signature-symbol">:</span> <a href="../interfaces/icategory.html" class="tsd-signature-type">ICategory</a></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ifilter.html">IFilter</a>.<a href="../interfaces/ifilter.html#category">category</a></p>
 						<ul>
-							<li>Defined in Common/Filter.ts:13</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L13">Common/Filter.ts:13</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>A copy/reference to the actual category selected (from what was received in the categorize call).</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="displayname" class="tsd-anchor"></a>
-					<h3>display<wbr>Name</h3>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> display<wbr>Name</h3>
 					<div class="tsd-signature tsd-kind-icon">display<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ifilter.html">IFilter</a>.<a href="../interfaces/ifilter.html#displayname">displayName</a></p>
 						<ul>
-							<li>Defined in Common/Filter.ts:13</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L12">Common/Filter.ts:12</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Holds an array of all displayNames for the path to this category.</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="hidden" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> hidden</h3>
+					<div class="tsd-signature tsd-kind-icon">hidden<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ifilter.html">IFilter</a>.<a href="../interfaces/ifilter.html#hidden">hidden</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/Filter.ts#L14">Common/Filter.ts:14</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -199,6 +217,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="filter.html#displayname" class="tsd-kind-icon">display<wbr>Name</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="filter.html#hidden" class="tsd-kind-icon">hidden</a>
+							</li>
 						</ul>
 					</li>
 				</ul>
@@ -220,6 +241,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -268,7 +290,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

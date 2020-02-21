@@ -4,6 +4,7 @@ import {
     DateSpecification,
     Fetch,
     Filter,
+    IQuery,
     Query,
     SearchType,
     MatchMode,
@@ -11,7 +12,7 @@ import {
     SortMethod,
     LimitPageConfiguration,
     CategoryPresentation,
-    CategorizationType
+    CategorizationType,
 } from "../Common";
 import { ICategories, ICategory, IGroup } from "../Data";
 import { CategorizeQueryConverter } from "./CategorizeQueryConverter";
@@ -65,7 +66,7 @@ export class RestCategorize extends BaseCall<ICategories> {
      * @returns a promise that when resolved returns a Categories object.
      */
     public fetch(
-        query: Query = new Query(),
+        query: IQuery = new Query(),
         suppressCallbacks: boolean = false
     ): Promise<ICategories> {
         let url = this.queryConverter.getUrl(this.settings.url, query);
@@ -85,11 +86,17 @@ export class RestCategorize extends BaseCall<ICategories> {
                     return response.json();
                 })
                 .then((categories: ICategories) => {
-                    if (categories.errorMessage) {
-                        throw new Error(categories.errorMessage);
-                    }
                     this.categories = categories;
                     categories = this.filterCategories(categories, query);
+                    // Handle situations where parsing was ok, but we have an error in the returned message from the server
+                    if (categories.errorMessage || categories.statusCode !== 0) {
+                        let  { errorMessage, statusCode } = categories;
+                        const warning = {
+                            message: errorMessage || "Unspecified issue",
+                            statusCode
+                        };
+                        this.cbWarning(suppressCallbacks, warning, url, reqInit);
+                    }
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })
@@ -107,7 +114,7 @@ export class RestCategorize extends BaseCall<ICategories> {
             return Promise.resolve(null);
         }
     }
-    public clientCategoriesUpdate(query: Query): void {
+    public clientCategoriesUpdate(query: IQuery): void {
         if (this.shouldUpdate()) {
             this.cbSuccess(
                 false,
@@ -120,7 +127,7 @@ export class RestCategorize extends BaseCall<ICategories> {
 
     public categorizationTypeChanged(
         oldValue: CategorizationType,
-        query: Query
+        query: IQuery
     ): void {
         if (!this.shouldUpdate("categorizationType", query)) {
             return;
@@ -130,7 +137,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public clientIdChanged(oldValue: string, query: Query) {
+    public clientIdChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("clientId", query)) {
             return;
         }
@@ -139,7 +146,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public dateFromChanged(oldValue: DateSpecification, query: Query) {
+    public dateFromChanged(oldValue: DateSpecification, query: IQuery) {
         if (!this.shouldUpdate("dateFrom", query)) {
             return;
         }
@@ -148,7 +155,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public dateToChanged(oldValue: DateSpecification, query: Query) {
+    public dateToChanged(oldValue: DateSpecification, query: IQuery) {
         if (!this.shouldUpdate("dateTo", query)) {
             return;
         }
@@ -157,7 +164,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public filtersChanged(oldValue: Filter[], query: Query) {
+    public filtersChanged(oldValue: Filter[], query: IQuery) {
         if (!this.shouldUpdate("filters", query)) {
             return;
         }
@@ -166,7 +173,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public queryTextChanged(oldValue: string, query: Query) {
+    public queryTextChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("queryText", query)) {
             return;
         }
@@ -197,7 +204,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         clearTimeout(this.delay);
     }
 
-    public searchTypeChanged(oldValue: SearchType, query: Query) {
+    public searchTypeChanged(oldValue: SearchType, query: IQuery) {
         if (!this.shouldUpdate("searchType", query)) {
             return;
         }
@@ -206,7 +213,7 @@ export class RestCategorize extends BaseCall<ICategories> {
         }
     }
 
-    public uiLanguageCodeChanged(oldValue: string, query: Query) {
+    public uiLanguageCodeChanged(oldValue: string, query: IQuery) {
         if (!this.shouldUpdate("uiLanguageCode", query)) {
             return;
         }
@@ -309,13 +316,16 @@ export class RestCategorize extends BaseCall<ICategories> {
     /**
      * Adds missing filters as category-tree-nodes.
      */
-    private addFiltersIfMissing(filters: Filter[], cats: ICategories) {
+    private addFiltersInTreeIfMissing(filters: Filter[], cats: ICategories) {
         filters.forEach(f => {
-            const depth = f.displayName.length;
+            if (f.hidden) {
+                return;
+            }
+            const depth = f.category.categoryName.length;
             for (let i = 0; i < depth; i++) {
                 let categoryNames = f.category.categoryName.slice(0, i + 1);
                 if (!this.findCategory(categoryNames, cats)) {
-                    let displayName = f.displayName[i];
+                    let displayName = f.displayName ? f.displayName[i] : categoryNames[categoryNames.length - 1];
                     let parentCategoryNames = categoryNames.slice(0, -1);
                     if (i === 0) {
                         // Need to add group
@@ -341,6 +351,7 @@ export class RestCategorize extends BaseCall<ICategories> {
                             i === depth - 1
                                 ? // Since we are on the last element we can add the category within the filter directly
                                   {
+                                      ...{ children: [], displayName},
                                       ...f.category,
                                       ...{ count: 0, expanded: false }
                                   }
@@ -373,7 +384,7 @@ export class RestCategorize extends BaseCall<ICategories> {
 
     private filterCategories(
         categories: ICategories,
-        query: Query = new Query()
+        query: IQuery = new Query()
     ): ICategories {
         // ROOT level adjustments
         let cats = { ...categories };
@@ -400,9 +411,20 @@ export class RestCategorize extends BaseCall<ICategories> {
             }
             // Skipping expansion, as root is always expanded
         }
+        const hiddenFilters: Filter[] = query.filters ? query.filters.filter(f => f.hidden) : [];
+
         // GROUP-level adjustments
         let groups = cats.groups.map((inGroup: IGroup) => {
             let group = { ...inGroup };
+
+            // Iterate filters that have only the group-level set
+            let hiddenFiltersInGroup = hiddenFilters.filter(f => f.category.categoryName.length > 0 && f.category.categoryName[0] === group.name);
+            let match = hiddenFiltersInGroup.find(f => f.category.categoryName.length === 1);
+            if (match) {
+                // The hidden filter is for this group exactly. So, remove the group
+                return null;
+            }
+
             let groupOverride = this.settings.presentations[group.name];
             if (groupOverride) {
                 if (
@@ -442,20 +464,37 @@ export class RestCategorize extends BaseCall<ICategories> {
                 }
             }
             if (group.categories && group.categories.length > 0) {
-                group.categories = this.mapCategories(group.categories);
+                group.categories = this.mapCategories(group.categories, hiddenFiltersInGroup, 1); //.filter(c => c !== undefined && c !== null);
+            }
+            if ((!group.categories || group.categories.length === 0) && hiddenFiltersInGroup.length > 0) {
+                // If the group has no categories, due to hidden filters, then remove the group itself
+                return null;
             }
             return group;
         });
-        cats.groups = groups.filter(g => g !== undefined);
-        this.addFiltersIfMissing(query.filters, cats);
+        cats.groups = groups.filter(g => g !== undefined && g !== null);
+        this.addFiltersInTreeIfMissing(query.filters, cats);
         return cats;
     }
 
-    private mapCategories(categories: ICategory[]): ICategory[] {
+    private mapCategories(categories: ICategory[], hiddenFilters: Filter[], depth: number): ICategory[] {
         // CATEGORY_level adjustments
         let cats = [...categories];
         cats = cats.map((inCategory: ICategory) => {
             let category = { ...inCategory };
+
+            // Iterate filters that have only the group-level set
+            let hiddenFiltersInCategory = hiddenFilters.filter(f => f.category.categoryName.length > depth && f.category.categoryName[depth] === category.name);
+            if (hiddenFiltersInCategory.find(f => f.category.categoryName.length === depth + 1)) {
+                // The hidden filter is for this category exactly. So, remove the category
+                return null;
+            }
+
+            if (category.categoryName == null) {
+                console.warn(`HAIVE/search-client: Illegal category-object received. The categoryName array cannot be null. The category was not added to the category-tree.`, category);
+                return null;
+            }
+
             let categoryOverride = this.settings.presentations[
                 category.categoryName.join("|")
             ];
@@ -496,13 +535,17 @@ export class RestCategorize extends BaseCall<ICategories> {
                 }
             }
             if (category.children && category.children.length > 0) {
-                category.children = this.mapCategories(category.children);
+                category.children = this.mapCategories(category.children, hiddenFilters, depth++);
+            }
+            if ((!category.children || category.children.length === 0) && hiddenFiltersInCategory.length > 0) {
+                // If the category has no children, due to hidden filters, then remove the category itself
+                return null;
             }
 
             return category;
         });
 
-        cats = cats.filter(c => c !== undefined);
+        cats = cats.filter(c => c !== undefined && c !== null);
         return cats;
     }
     private grouping<T extends IGroup | ICategory>(
@@ -586,7 +629,7 @@ export class RestCategorize extends BaseCall<ICategories> {
                     return c;
                 }
             })
-            .filter(c => c !== undefined);
+            .filter(c => c !== undefined && c !== null);
     }
 
     private filtering<T extends IGroup | ICategory>(

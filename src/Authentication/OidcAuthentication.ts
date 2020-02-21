@@ -22,6 +22,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
     static handleSilentSignin(responseMode: string): void {              
         let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: responseMode, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
         mgr.signinSilentCallback();
+        mgr.clearStaleState();
     }
 
     static handleSigninRedirect(responseMode: string, callback: (state: any) => any): void {            
@@ -29,6 +30,7 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
 
         mgr.signinRedirectCallback().then(user => {       
             callback(user.state);
+            mgr.clearStaleState();
         });
     }
 

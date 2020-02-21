@@ -10,25 +10,25 @@ export interface ICategory {
     /**
      * This is the hierarchical "full path" for this category, top-down.
      */
-    categoryName: string[];
+    categoryName?: string[];
     /**
      * The child categories for this category.
      */
-    children: ICategory[];
+    children?: ICategory[];
     /**
      * The number of matches for this category.
      */
-    count: number;
+    count?: number;
     /**
      * The displayName is what is expected to be presented as the category-name for the end-user.
      */
-    displayName: string;
+    displayName?: string;
     /**
      * Indicates whether or not this category-node should be expanded or not.
      */
-    expanded: boolean;
+    expanded?: boolean;
     /**
      * The internal name identifier for this category-node.
      */
-    name: string;
+    name?: string;
 }

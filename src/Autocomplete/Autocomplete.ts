@@ -1,4 +1,4 @@
-import { Query, CategorizationType, DateSpecification, Filter, SearchType, OrderBy } from "../Common";
+import { IQuery, CategorizationType, DateSpecification, Filter, SearchType, OrderBy } from "../Common";
 import {    
     IAutocompleteSettings
 } from "./AutocompleteSettings";
@@ -7,49 +7,49 @@ export interface Autocomplete {
 
     settings: IAutocompleteSettings;
 
-    maxSuggestionsChanged(oldValue: number, query: Query): void;
+    maxSuggestionsChanged(oldValue: number, query: IQuery): void;
 
-    queryTextChanged(oldValue: string, query: Query): void;
+    queryTextChanged(oldValue: string, query: IQuery): void;
 
     fetch(
-        query: Query,
+        query: IQuery,
         suppressCallbacks: boolean
     ): Promise<string[]>;    
 
     categorizationTypeChanged(
         oldValue: CategorizationType,
-        query: Query
+        query: IQuery
     ): void;
 
     deferUpdates(state: boolean, skipPending: boolean): void;
 
     update(
-        query: Query,
+        query: IQuery,
         delay?: number,
         useQueryMatchPage?: boolean
     ): void;
 
-    shouldUpdate(fieldName?: string, query?: Query): boolean;
+    shouldUpdate(fieldName?: string, query?: IQuery): boolean;
 
-    clientIdChanged(oldValue: string, query: Query): void;
+    clientIdChanged(oldValue: string, query: IQuery): void;
 
-    dateFromChanged(oldValue: DateSpecification, query: Query): void;
+    dateFromChanged(oldValue: DateSpecification, query: IQuery): void;
 
-    dateToChanged(oldValue: DateSpecification, query: Query): void;
+    dateToChanged(oldValue: DateSpecification, query: IQuery): void;
 
-    filtersChanged(oldValue: Filter[], query: Query): void;
+    filtersChanged(oldValue: Filter[], query: IQuery): void;
         
-    searchTypeChanged(oldValue: SearchType, query: Query): void;
+    searchTypeChanged(oldValue: SearchType, query: IQuery): void;
 
-    uiLanguageCodeChanged(oldValue: string, query: Query): void;
+    uiLanguageCodeChanged(oldValue: string, query: IQuery): void;
 
-    matchGenerateContentChanged(oldValue: boolean, query: Query): void;
+    matchGenerateContentChanged(oldValue: boolean, query: IQuery): void;
     matchGenerateContentHighlightsChanged(
         oldValue: boolean,
-        query: Query
+        query: IQuery
     ): void;
-    matchGroupingChanged(oldValue: boolean, query: Query): void;
-    matchOrderByChanged(oldValue: OrderBy, query: Query): void;
-    matchPageChanged(oldValue: number, query: Query): void;
-    matchPageSizeChanged(oldValue: number, query: Query): void;
+    matchGroupingChanged(oldValue: boolean, query: IQuery): void;
+    matchOrderByChanged(oldValue: OrderBy, query: IQuery): void;
+    matchPageChanged(oldValue: number, query: IQuery): void;
+    matchPageSizeChanged(oldValue: number, query: IQuery): void;
 }

@@ -373,7 +373,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
 
     // prettier-ignore
     // Sets up the client that connects to the IntelliSearch backend using the aforementioned settings
-    let client = new IntelliSearch.SearchClient(searchSettings);  
+    let client = new IntelliSearch.SearchClient(searchSettings);
     if (searchSettings.authentication.enabled && !client.authenticationToken) {
         document.getElementById("container").classList.add("auth-pending");
     }
@@ -1261,7 +1261,7 @@ function setupIntelliSearch(searchSettings, uiSettings) {
             // } else {
             //     categoriesTreeElm.innerHTML = "No categories.";
         }
-        if (categories.matchCount == 0 && client.filters.length > 0) {
+        if (categories.matchCount == 0 && client.filters.filter(f => !f.hidden).length > 0) {
             let text = document.createElement("p");
             text.innerHTML =
                 "<strong>No results with current filters!</strong>";

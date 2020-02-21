@@ -107,6 +107,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#cbrequest" class="tsd-kind-icon">cb<wbr>Request</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#cbresultstate" class="tsd-kind-icon">cb<wbr>Result<wbr>State</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#cbwarning" class="tsd-kind-icon">cb<wbr>Warning</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#enabled" class="tsd-kind-icon">enabled</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#querychangespecs" class="tsd-kind-icon">query<wbr>Change<wbr>Specs</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="findsettings.html#servicepath" class="tsd-kind-icon">service<wbr>Path</a></li>
@@ -116,7 +117,7 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="findsettings.html#url" class="tsd-kind-icon">url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -134,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Find/FindSettings.ts:26</li>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Find/FindSettings.ts#L26">Find/FindSettings.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -168,7 +169,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#basepath">basePath</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#basepath">basePath</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:138</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L228">Common/BaseSettings.ts:228</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -186,7 +187,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#baseurl">baseUrl</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#baseurl">baseUrl</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:131</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L221">Common/BaseSettings.ts:221</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -203,13 +204,38 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#cberror">cbError</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cberror">cbError</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:87</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L158">Common/BaseSettings.ts:158</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A notifier method to call whenever the lookup fails.</p>
+							<p>A notifier method to call whenever the lookup fails.
+							It is recommended to issue a clear and visible error to the user when this method is called, as there will be no results.</p>
 						</div>
+						<p>The callback exists for all services (Authentication, Autocomplete, Find and Categorize), but the severity of an error is
+						very different for each of them:</p>
+						<ul>
+							<li><p>Authentication (severity = 3):
+									This should not happen if authentication is not enabled. If it is and this fails, then the user should be notified about
+								the issue, as this might reduce the number of results they see (if any at all).</p>
+							</li>
+							<li><p>Autocomplete (severity = 1):
+									Getting an error during autocomplete is not something that you want to inform the user about. A small warning in the
+								console log would probably be perfect.</p>
+							</li>
+							<li><p>Find (severity = 3):
+									Getting an error for this call is something that the user should be made aware of. You don&#39;t have to tell all the
+									details, but you should make it clear to the user that the reason they have no matches is that an error occurred.
+									Otherwise they might start speculating in why there are no results on screen, and in worst case scenario they might
+								think that the query yielded 0 matches, which is potentially and probably not the truth.</p>
+							</li>
+							<li><p>Categorize (severity = 2):
+									Errors while querying for categories are considered important, but less important than the Find errors. The reason
+									is that the categories themselves are normally not the end-results that the user is waiting for. They are &quot;meta&quot; to the
+									actual matches, and they are also a tool to help the user narrow down on the results, helping them find the data they
+								are looking for.</p>
+							</li>
+						</ul>
 						<dl class="tsd-comment-tags">
 							<dt>param</dt>
 							<dd><p>An error object as given by the fetch operation.</p>
@@ -246,7 +272,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#cbrequest">cbRequest</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbrequest">cbRequest</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:100</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L189">Common/BaseSettings.ts:189</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -299,7 +325,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#cbresultstate">cbResultState</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbresultstate">cbResultState</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:117</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L207">Common/BaseSettings.ts:207</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -325,7 +351,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>valid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, fetchedQuery<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a>, futureQuery<span class="tsd-signature-symbol">: </span><a href="query.html" class="tsd-signature-type">Query</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>valid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, fetchedQuery<span class="tsd-signature-symbol">: </span><a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a>, futureQuery<span class="tsd-signature-symbol">: </span><a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -335,10 +361,10 @@
 												<h5>valid: <span class="tsd-signature-type">boolean</span></h5>
 											</li>
 											<li>
-												<h5>fetchedQuery: <a href="query.html" class="tsd-signature-type">Query</a></h5>
+												<h5>fetchedQuery: <a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a></h5>
 											</li>
 											<li>
-												<h5>futureQuery: <a href="query.html" class="tsd-signature-type">Query</a></h5>
+												<h5>futureQuery: <a href="../interfaces/iquery.html" class="tsd-signature-type">IQuery</a></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -356,12 +382,12 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#cbsuccess">cbSuccess</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbsuccess">cbSuccess</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:106</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L196">Common/BaseSettings.ts:196</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>A notifier method to call whenever the lookup results have been received.</p>
+							<p>A notifier method that is called whenever the lookup results have been received.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>param</dt>
@@ -392,6 +418,58 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="cbwarning" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cb<wbr>Warning</h3>
+					<div class="tsd-signature tsd-kind-icon">cb<wbr>Warning<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#cbwarning">cbWarning</a></p>
+						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#cbwarning">cbWarning</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L176">Common/BaseSettings.ts:176</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A notifier method to call when the lookup succeeds, but the received data from the backend indicates a problem.
+								Note that although this callback can be defined in the settings for all services (Authentication, Autocomplete, Find and
+							Categorize), only Find and Categorize uses it.</p>
+						</div>
+						<p>It is recommended to show these messages as complementary information to the user. Data was received and most likely the
+						user can see results on their screen. There might however be scenarios were the data could somehow be i.e. incomplete.</p>
+						<p>For instance: Consider a situation where the backend search is scaled and uses multiple nodes without replicas. If some
+							of the nodes respond, while one or more doesn&#39;t then the results are partial. This will be notified using this method.
+							For that scenario, an explanation at a strategic location in the UI would help the user understand that the results may
+							not be complete. Depending on the search query used, the results <em>could</em> be complete, as the node(s) that didn&#39;t respond
+						might not have any matching results anyway. Hence - the user should be warned that the data <em>may</em> be incomplete.</p>
+						<dl class="tsd-comment-tags">
+							<dt>param</dt>
+							<dd><p>A warning object containing a message and a statusCode.</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>warning<span class="tsd-signature-symbol">?: </span><a href="../interfaces/iwarning.html" class="tsd-signature-type">IWarning</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> warning: <a href="../interfaces/iwarning.html" class="tsd-signature-type">IWarning</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="enabled" class="tsd-anchor"></a>
 					<h3>enabled</h3>
 					<div class="tsd-signature tsd-kind-icon">enabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -399,7 +477,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#enabled">enabled</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#enabled">enabled</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:126</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L216">Common/BaseSettings.ts:216</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -416,7 +494,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#querychangespecs">queryChangeSpecs</a></p>
 						<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#querychangespecs">queryChangeSpecs</a></p>
 						<ul>
-							<li>Defined in Common/BaseSettings.ts:148</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L238">Common/BaseSettings.ts:238</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -433,7 +511,7 @@
 						<p>Implementation of <a href="../interfaces/ibasesettings.html">IBaseSettings</a>.<a href="../interfaces/ibasesettings.html#servicepath">servicePath</a></p>
 						<p>Overrides <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#servicepath">servicePath</a></p>
 						<ul>
-							<li>Defined in Find/FindSettings.ts:26</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Find/FindSettings.ts#L26">Find/FindSettings.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -449,7 +527,7 @@
 					<div class="tsd-signature tsd-kind-icon">triggers<span class="tsd-signature-symbol">:</span> <a href="findtriggers.html" class="tsd-signature-type">FindTriggers</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in Find/FindSettings.ts:20</li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Find/FindSettings.ts#L20">Find/FindSettings.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -461,18 +539,19 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 					<a name="url" class="tsd-anchor"></a>
 					<h3>url</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> url<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> url<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#url">url</a></p>
 								<ul>
-									<li>Defined in Common/BaseSettings.ts:153</li>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L243">Common/BaseSettings.ts:243</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -481,6 +560,26 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="basesettings.html">BaseSettings</a>.<a href="basesettings.html#url">url</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseSettings.ts#L255">Common/BaseSettings.ts:255</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the actual url for the service.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -523,6 +622,9 @@
 								<a href="findsettings.html#cbsuccess" class="tsd-kind-icon">cb<wbr>Success</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="findsettings.html#cbwarning" class="tsd-kind-icon">cb<wbr>Warning</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="findsettings.html#enabled" class="tsd-kind-icon">enabled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -534,7 +636,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="findsettings.html#triggers" class="tsd-kind-icon">triggers</a>
 							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 								<a href="findsettings.html#url" class="tsd-kind-icon">url</a>
 							</li>
 						</ul>
@@ -558,6 +660,7 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -606,7 +709,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

@@ -1,5 +1,3 @@
-import * as jwt from "jwt-simple";
-
 import { OidcAuthentication } from "./OidcAuthentication";
 import {
     AuthenticationSettings,
@@ -28,12 +26,12 @@ describe("Authentication basics", () => {
         expect(settings.cbError).toBeUndefined();
         expect(settings.cbRequest).toBeUndefined();
         expect(settings.cbSuccess).toBeUndefined();
-        expect(settings.token).toBeUndefined();       
+        expect(settings.token).toBeUndefined();
         expect(settings.triggers).toBeDefined();
         expect(settings.triggers.expiryOverlap).toEqual(60);
-    
+
         expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.responseType).toBeUndefined();
         expect(settings.scope).toBeUndefined();
 
         expect(settings.silentRedirectUri).toBeUndefined();
@@ -68,14 +66,14 @@ describe("Authentication basics", () => {
         expect(settings.cbError).toBeUndefined();
         expect(settings.cbRequest).toBeUndefined();
         expect(settings.cbSuccess).toBeUndefined();
-        expect(settings.token).toBeUndefined();        
+        expect(settings.token).toBeUndefined();
         expect(settings.triggers.expiryOverlap).toEqual(60);
         expect(pAuthentication.settings.url).toEqual(
             "http://localhost:9950/auth/login"
         );
 
         expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
+        expect(settings.responseType).toBeUndefined();
         expect(settings.scope).toBeUndefined();
 
         expect(settings.silentRedirectUri).toBeUndefined();
@@ -83,43 +81,43 @@ describe("Authentication basics", () => {
         expect(settings.postLogoutRedirectUri).toBeUndefined();
     });
 
-    it("Should be able to pass an AuthenticationSettings instance with additional settings", () => {        
+    it("Should be able to pass an AuthenticationSettings instance with additional settings", () => {
         let settings = new AuthenticationSettings("http://dummy");
         settings.cbError = jest.fn();
         settings.cbSuccess = jest.fn();
-        settings.enabled = false;        
+        settings.enabled = false;
         settings.triggers = new AuthenticationTriggers();
         settings.basePath = "/test";
 
         let authentication = new OidcAuthentication(settings);
         let pAuthentication = authentication as any;
-        let settings = pAuthentication.settings as IAuthenticationSettings;
+        let settings2 = pAuthentication.settings as IAuthenticationSettings;
 
         expect(typeof pAuthentication.auth).toBe("object");
-        expect(settings.baseUrl).toEqual("http://dummy");
-        expect(settings).toBeDefined();
-        expect(settings.enabled).toEqual(false);
-        expect(settings.cbError).toBeDefined();
-        expect(settings.cbRequest).toBeUndefined();
-        expect(settings.cbSuccess).toBeDefined();
-        expect(settings.token).toBeUndefined();
-        expect(settings.triggers).toBeDefined();
-        expect(settings.triggers.expiryOverlap).toEqual(60);
-        expect(settings.token).toBeUndefined();        
-        expect(settings.url).toEqual(
+        expect(settings2.baseUrl).toEqual("http://dummy");
+        expect(settings2).toBeDefined();
+        expect(settings2.enabled).toEqual(false);
+        expect(settings2.cbError).toBeDefined();
+        expect(settings2.cbRequest).toBeUndefined();
+        expect(settings2.cbSuccess).toBeDefined();
+        expect(settings2.token).toBeUndefined();
+        expect(settings2.triggers).toBeDefined();
+        expect(settings2.triggers.expiryOverlap).toEqual(60);
+        expect(settings2.token).toBeUndefined();
+        expect(settings2.url).toEqual(
             "http://dummy/test/auth/login"
         );
 
-        expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
-        expect(settings.scope).toBeUndefined();
+        expect(settings2.clientId).toBeUndefined();
+        expect(settings2.responseType).toBeUndefined();
+        expect(settings2.scope).toBeUndefined();
 
-        expect(settings.silentRedirectUri).toBeUndefined();
-        expect(settings.redirectUri).toBeUndefined();
-        expect(settings.postLogoutRedirectUri).toBeUndefined();
+        expect(settings2.silentRedirectUri).toBeUndefined();
+        expect(settings2.redirectUri).toBeUndefined();
+        expect(settings2.postLogoutRedirectUri).toBeUndefined();
     });
 
-    it("Should be able to pass a manual object settings as AuthenticationSettings", () => {        
+    it("Should be able to pass a manual object settings as AuthenticationSettings", () => {
         let settings = {
             baseUrl: "http://localhost:9950",
             cbError: (error: any) => {
@@ -129,42 +127,42 @@ describe("Authentication basics", () => {
             cbSuccess: (token: string) => {
                 /* dummy */
             },
-            enabled: false,            
+            enabled: false,
             triggers: new AuthenticationTriggers(),
             basePath: "/test"
         } as AuthenticationSettings;
 
         let authentication = new OidcAuthentication(settings);
         let pAuthentication = authentication as any;
-        let settings = pAuthentication.settings as IAuthenticationSettings;
+        let settings2 = pAuthentication.settings as IAuthenticationSettings;
 
         expect(typeof pAuthentication.auth).toBe("object");
         expect(pAuthentication.settings.baseUrl).toEqual(
             "http://localhost:9950"
         );
-        expect(settings).toBeDefined();
-        expect(settings.enabled).toEqual(false);
-        expect(settings.cbError).toBeDefined();
-        expect(settings.cbRequest).toBeDefined();
-        expect(settings.cbSuccess).toBeDefined();
-        expect(settings.token).toBeUndefined();        
-        expect(settings.triggers).toBeDefined();
-        expect(settings.triggers.expiryOverlap).toEqual(60);
-        expect(settings.token).toBeUndefined();        
-        expect(settings.url).toEqual(
+        expect(settings2).toBeDefined();
+        expect(settings2.enabled).toEqual(false);
+        expect(settings2.cbError).toBeDefined();
+        expect(settings2.cbRequest).toBeDefined();
+        expect(settings2.cbSuccess).toBeDefined();
+        expect(settings2.token).toBeUndefined();
+        expect(settings2.triggers).toBeDefined();
+        expect(settings2.triggers.expiryOverlap).toEqual(60);
+        expect(settings2.token).toBeUndefined();
+        expect(settings2.url).toEqual(
             "http://localhost:9950/test/auth/login"
         );
 
-        expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
-        expect(settings.scope).toBeUndefined();
+        expect(settings2.clientId).toBeUndefined();
+        expect(settings2.responseType).toBeUndefined();
+        expect(settings2.scope).toBeUndefined();
 
-        expect(settings.silentRedirectUri).toBeUndefined();
-        expect(settings.redirectUri).toBeUndefined();
-        expect(settings.postLogoutRedirectUri).toBeUndefined();
+        expect(settings2.silentRedirectUri).toBeUndefined();
+        expect(settings2.redirectUri).toBeUndefined();
+        expect(settings2.postLogoutRedirectUri).toBeUndefined();
     });
 
-    it("Should be able to pass object settings as AuthenticationSettings", () => {
+    it("Should be able to pass object settings as AuthenticationSettings", async () => {
         let actualUrl: string;
         const settings = {
             baseUrl: "http://localhost:9950/",
@@ -176,41 +174,38 @@ describe("Authentication basics", () => {
         } as IAuthenticationSettings;
         let authentication = new OidcAuthentication(settings);
         let pAuthentication = authentication as any;
-        let settings = pAuthentication.settings as IAuthenticationSettings;
+        let settings2 = pAuthentication.settings as IAuthenticationSettings;
 
-        expect(settings).toBeDefined();
-        expect(settings.enabled).toBeFalsy();
-        expect(settings.baseUrl).toEqual(
+        expect(settings2).toBeDefined();
+        expect(settings2.enabled).toBeFalsy();
+        expect(settings2.baseUrl).toEqual(
             "http://localhost:9950"
         );
-        expect(settings.cbRequest).toBeDefined();
-        expect(settings.cbSuccess).toBeDefined();
-        expect(settings.url).toEqual(
+        expect(settings2.cbRequest).toBeDefined();
+        expect(settings2.cbSuccess).toBeDefined();
+        expect(settings2.url).toEqual(
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
-        expect(settings.scope).toBeUndefined();
+        expect(settings2.clientId).toBeUndefined();
+        expect(settings2.responseType).toBeUndefined();
+        expect(settings2.scope).toBeUndefined();
 
-        expect(settings.silentRedirectUri).toBeUndefined();
-        expect(settings.redirectUri).toBeUndefined();
-        expect(settings.postLogoutRedirectUri).toBeUndefined();
+        expect(settings2.silentRedirectUri).toBeUndefined();
+        expect(settings2.redirectUri).toBeUndefined();
+        expect(settings2.postLogoutRedirectUri).toBeUndefined();
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
-
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
-    it("Should be able to pass new AuthenticationSettings object", () => {
+    it("Should be able to pass new AuthenticationSettings object", async () => {
         let actualUrl: string;
         let settings = new AuthenticationSettings({
             baseUrl: "http://localhost:9950/",
@@ -223,40 +218,38 @@ describe("Authentication basics", () => {
 
         let authentication = new OidcAuthentication(settings);
         let pAuthentication = authentication as any;
-        let settings = pAuthentication.settings as IAuthenticationSettings;
+        let settings2 = pAuthentication.settings as IAuthenticationSettings;
 
-        expect(settings).toBeDefined();
-        expect(settings.enabled).toBeFalsy();
-        expect(settings.baseUrl).toEqual(
+        expect(settings2).toBeDefined();
+        expect(settings2.enabled).toBeFalsy();
+        expect(settings2.baseUrl).toEqual(
             "http://localhost:9950"
         );
-        expect(settings.cbRequest).toBeDefined();
-        expect(settings.cbSuccess).toBeDefined();
-        expect(settings.url).toEqual(
+        expect(settings2.cbRequest).toBeDefined();
+        expect(settings2.cbSuccess).toBeDefined();
+        expect(settings2.url).toEqual(
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
-        expect(settings.scope).toBeUndefined();
+        expect(settings2.clientId).toBeUndefined();
+        expect(settings2.responseType).toBeUndefined();
+        expect(settings2.scope).toBeUndefined();
 
-        expect(settings.silentRedirectUri).toBeUndefined();
-        expect(settings.redirectUri).toBeUndefined();
-        expect(settings.postLogoutRedirectUri).toBeUndefined();
+        expect(settings2.silentRedirectUri).toBeUndefined();
+        expect(settings2.redirectUri).toBeUndefined();
+        expect(settings2.postLogoutRedirectUri).toBeUndefined();
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
     });
 
-    it("Should be able to pass anonymous object settings", () => {
+    it("Should be able to pass anonymous object settings", async () => {
         let actualUrl: string;
         let settings = {
             baseUrl: "http://localhost:9950/",
@@ -269,36 +262,34 @@ describe("Authentication basics", () => {
 
         let authentication = new OidcAuthentication(settings);
         let pAuthentication = authentication as any;
-        let settings = pAuthentication.settings as IAuthenticationSettings;
+        let settings2 = pAuthentication.settings as IAuthenticationSettings;
 
-        expect(pAuthentication.settings).toBeDefined();
-        expect(pAuthentication.settings.enabled).toBeFalsy();
-        expect(pAuthentication.settings.baseUrl).toEqual(
+        expect(settings2).toBeDefined();
+        expect(settings2.enabled).toBeFalsy();
+        expect(settings2.baseUrl).toEqual(
             "http://localhost:9950"
         );
-        expect(pAuthentication.settings.cbRequest).toBeDefined();
-        expect(pAuthentication.settings.cbSuccess).toBeDefined();
-        expect(pAuthentication.settings.url).toEqual(
+        expect(settings2.cbRequest).toBeDefined();
+        expect(settings2.cbSuccess).toBeDefined();
+        expect(settings2.url).toEqual(
             "http://localhost:9950/auth/login"
         );
 
-        expect(settings.clientId).toBeUndefined();
-        expect(settings.responseTtype).toBeUndefined();
-        expect(settings.scope).toBeUndefined();
+        expect(settings2.clientId).toBeUndefined();
+        expect(settings2.responseType).toBeUndefined();
+        expect(settings2.scope).toBeUndefined();
 
-        expect(settings.silentRedirectUri).toBeUndefined();
-        expect(settings.redirectUri).toBeUndefined();
-        expect(settings.postLogoutRedirectUri).toBeUndefined();
+        expect(settings2.silentRedirectUri).toBeUndefined();
+        expect(settings2.redirectUri).toBeUndefined();
+        expect(settings2.postLogoutRedirectUri).toBeUndefined();
 
-        authentication
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Did not expect to throw error");
-            });
+        try {
+            const response = await authentication.fetch();
+            expect(response).toBeNull();
+        } catch (error) {
+            fail("Did not expect to throw error");
+        }
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(actualUrl).toEqual("http://localhost:9950/auth/login");
-    });    
+    });
 });

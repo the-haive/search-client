@@ -4,7 +4,7 @@ import {
 } from "./Authentication";
 import { AutocompleteSettings, IAutocompleteSettings } from "./Autocomplete";
 import { CategorizeSettings, ICategorizeSettings } from "./Categorize";
-import { Query } from "./Common";
+import { IQuery, Query } from "./Common";
 import { FindSettings, IFindSettings } from "./Find";
 
 export interface ISettings {
@@ -37,7 +37,7 @@ export interface ISettings {
     /**
      * Settings for the common query (autocomplete/find/categorize)
      */
-    query?: Query;
+    query?: IQuery;
 
     /**
      * BaseUrl for the SearchClient service (can be overriden in specific services)
@@ -65,7 +65,7 @@ export interface ISettings {
  *
  * Please see the data-type description for each property in question.
  */
-export class Settings {
+export class Settings implements ISettings {
     /**
      * The JWT authentication token to use.
      */
@@ -95,10 +95,10 @@ export class Settings {
     /**
      * Settings for the common query (autocomplete/find/categorize)
      */
-    public query?: Query;
+    public query?: IQuery;
 
     /**
-     * BaseUrl for the SearchClient service (can be overriden in specific services)
+     * BaseUrl for the SearchClient service (can be overridden in specific services)
      */
     public baseUrl?: string;
 

@@ -1,5 +1,5 @@
-import fetch from "jest-fetch-mock";
-
+import {FetchMock} from "jest-fetch-mock";
+const fetchMock = fetch as FetchMock;
 import {
     RestCategorize,
     CategorizeSettings,
@@ -7,10 +7,29 @@ import {
     CategorizeTriggers
 } from ".";
 import { ICategory, ICategories } from "../Data";
-import { Filter } from "../Common";
+import { Filter, IQuery } from "../Common";
+import merge from 'deepmerge';
 
-// tslint:disable-next-line
-const reference: ICategories = require("../test-data/categories.json");
+import reference from "../test-data/categories.json";
+Object.freeze(reference);
+const catRef = reference as ICategories;
+
+let spyConsoleWarn: any;
+beforeAll(() => {
+    // Create a spy on console (console.log in this case) and provide some mocked implementation
+    // In mocking global objects it's usually better than simple `jest.fn()`
+    // because you can `unmock` it in clean way doing `mockRestore`
+    spyConsoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+afterAll(() => {
+    // Restore mock after all tests are done, so it won't affect other test suites
+    spyConsoleWarn.mockRestore();
+  });
+afterEach(() => {
+    // Clear mock (all calls etc) after each test.
+    // It's needed when you're using console somewhere in the tests so you have clean mock each time
+    spyConsoleWarn.mockClear();
+  });
 
 function sanityCheck(categories: ICategories) {
     expect(categories.groups.length).toEqual(4);
@@ -190,43 +209,40 @@ describe("Categorize basics", () => {
         );
     });
 
-    it("Should be able to Categorize some results", () => {
-        // tslint:disable-next-line:no-require-imports
-        const categories: ICategories = require("../test-data/categories.json");
-        fetch.resetMocks();
-        fetch.mockResponse(JSON.stringify(categories));
+    it("Should be able to Categorize some results", async () => {
+        let categories = merge({}, catRef) as ICategories;
+        fetchMock.resetMocks();
+        fetchMock.mockResponse(JSON.stringify(categories));
+
+        let cbRequest = jest.fn((url, reqInit) => {
+            expect(typeof url).toBe("string");
+            expect(typeof reqInit).toBe("object");
+        }) as unknown;
+        let cbSuccess = jest.fn((data) => {
+            expect(typeof data).toBe("object");
+        }) as unknown;
 
         let settings = {
             baseUrl: "http://localhost:9950/",
-            cbRequest: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            }),
-            cbSuccess: jest.fn((url, reqInit) => {
-                expect(typeof url).toBe("string");
-                expect(typeof reqInit).toBe("object");
-            })
+            cbRequest,
+            cbSuccess
         } as ICategorizeSettings;
 
         let categorize = new RestCategorize(settings, null, fetch);
-        categorize
-            .fetch()
-            .then((response: ICategories) => {
-                expect(typeof response).toBe("object");
-                expect(response.groups.length).toBe(6);
-            })
-            .catch(error => {
-                fail("Should not fail");
-            })
-            .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
-                expect(settings.cbSuccess).toHaveBeenCalled();
-            });
+        try {
+            const response = await categorize.fetch();
+            expect(typeof response).toBe("object");
+            expect(response.groups.length).toEqual(4);
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(settings.cbSuccess).toHaveBeenCalled();
     });
 
-    it("Should be able to stop a Categorize using cbRequest", () => {
+    it("Should be able to stop a Categorize using cbRequest", async () => {
         // Not caring about the response, just to allow the fetch to complete.
-        fetch.mockResponse(JSON.stringify({}));
+        fetchMock.mockResponse(JSON.stringify({}));
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
@@ -251,34 +267,26 @@ describe("Categorize basics", () => {
                 expect(settings.cbRequest).toHaveBeenCalled();
                 expect(settings.cbSuccess).not.toHaveBeenCalled();
             });
-    });
-
-    it("Should be able to understand sample categories", () => {
-        // tslint:disable-next-line:no-require-imports
-        let categories: ICategories = require("../test-data/categories.json");
-        sanityCheck(categories);
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(settings.cbSuccess).not.toHaveBeenCalled();
     });
 
     it("Should have no effect when there are no filters defined", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        let categories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
-        // Expect no change, when no filter is added and running the filtermethod
-        let results: ICategories = pClient.filterCategories(workCopy);
+        // Expect no change, when no filter is added and running the filter method
+        let results: ICategories = pClient.filterCategories(categories);
 
-        sanityCheck(workCopy);
+        sanityCheck(categories);
 
-        expect(results).toEqual(reference);
+        expect(results).toEqual(catRef);
     });
 
     it("Should have no effect when filters are empty", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        let categories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
@@ -286,34 +294,30 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set manually
         pClient.clientCategoryFilter = [];
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(categories);
 
-        sanityCheck(workCopy);
+        sanityCheck(categories);
 
-        expect(results).toEqual(reference);
+        expect(results).toEqual(catRef);
     });
 
     it("Should have no effect when the filter is null", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        let categories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = null;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(categories);
 
-        sanityCheck(workCopy);
+        sanityCheck(categories);
 
-        expect(results).toEqual(reference);
+        expect(results).toEqual(catRef);
     });
 
     it("Should have no effect when the filter is undefined", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        let categories: ICategories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
@@ -321,17 +325,15 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = undefined;
 
-        let results: ICategories = pClient.filterCategories(workCopy);
+        let results: ICategories = pClient.filterCategories(categories);
 
-        sanityCheck(workCopy);
+        sanityCheck(categories);
 
-        expect(results).toEqual(reference);
+        expect(results).toEqual(catRef);
     });
 
     it("Should have no effect when the filter only has null-filters", () => {
-        // tslint:disable-next-line:no-require-imports
-        let workCopy: ICategories = require("../test-data/categories.json");
-        sanityCheck(workCopy);
+        let categories = merge({}, catRef) as ICategories;
 
         let settings = {
             baseUrl: "http://localhost:9950/",
@@ -344,20 +346,19 @@ describe("Categorize basics", () => {
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = [[null, null]];
 
-        let results: ICategories = pClient.filterCategories(workCopy, {
+        let results: ICategories = pClient.filterCategories(categories, {
             filters: []
         });
 
-        sanityCheck(workCopy);
+        sanityCheck(categories);
 
         expect(settings.cbRequest).toHaveBeenCalledTimes(0);
-        expect(results).toEqual(reference);
+        expect(results).toEqual(catRef);
     });
 
     it("Should be possible to use the createCategoryFilter method to create filters, with string[] input", () => {
-        // tslint:disable-next-line:no-require-imports
         let categorize = new RestCategorize("http://localhost:9950");
-        categorize.categories = reference;
+        categorize.categories = merge({}, catRef) as ICategories;
         const filterSystemFile = categorize.createCategoryFilter([
             "System",
             "File",
@@ -414,9 +415,9 @@ describe("Categorize basics", () => {
 
     it("Should be possible to use the createCategoryFilter method to create filters, with Category input", () => {
         let categorize = new RestCategorize("http://localhost:9950");
-        categorize.categories = reference;
+        categorize.categories = merge({}, catRef) as ICategories;
         const filterSystemFile = categorize.createCategoryFilter(
-            reference.groups[0].categories[0].children[0].children[0]
+            categorize.categories.groups[0].categories[0].children[0].children[0]
         );
         expect(filterSystemFile.displayName.length).toEqual(4);
         expect(filterSystemFile.displayName[0]).toEqual("Kilde");
@@ -433,7 +434,7 @@ describe("Categorize basics", () => {
         expect(filterSystemFile.category.expanded).toEqual(false);
         expect(filterSystemFile.category.name).toEqual("Norway");
         const filterAuthorLarsFrode = categorize.createCategoryFilter(
-            reference.groups[1].categories[18]
+            categorize.categories.groups[1].categories[18]
         );
         expect(filterAuthorLarsFrode.displayName[0]).toEqual("Forfatter");
         expect(filterAuthorLarsFrode.displayName[1]).toEqual("Lars Frode");
@@ -451,7 +452,7 @@ describe("Categorize basics", () => {
         expect(filterAuthorLarsFrode.category.expanded).toEqual(false);
         expect(filterAuthorLarsFrode.category.name).toEqual("Lars Frode");
         const filterFileTypeDoc = categorize.createCategoryFilter(
-            reference.groups[3].categories[0]
+            categorize.categories.groups[3].categories[0]
         );
         expect(filterFileTypeDoc.displayName[0]).toEqual("Filtype");
         expect(filterFileTypeDoc.displayName[1]).toEqual("Word");
@@ -465,9 +466,7 @@ describe("Categorize basics", () => {
     });
 
     it("Should be able to find category-nodes", () => {
-        // tslint:disable-next-line:no-require-imports
-        let categories: ICategories = require("../test-data/categories.json");
-        sanityCheck(categories);
+        let categories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
@@ -480,15 +479,13 @@ describe("Categorize basics", () => {
     });
 
     it("Should be able to add missing filters as category-tree nodes", () => {
-        // tslint:disable-next-line:no-require-imports
-        let categories: ICategories = require("../test-data/categories.json");
-        sanityCheck(categories);
+        let categories = merge({}, catRef) as ICategories;
 
         let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
         //client.categories = workCopy;
 
-        expect(typeof pClient.addFiltersIfMissing).toBe("function");
+        expect(typeof pClient.addFiltersInTreeIfMissing).toBe("function");
 
         let category = {
             categoryName: ["group", "child"],
@@ -500,7 +497,8 @@ describe("Categorize basics", () => {
         let filter = new Filter(["Group", "Child"], category);
         expect(filter.category).toEqual(category);
 
-        pClient.addFiltersIfMissing([filter], categories);
+        pClient.addFiltersInTreeIfMissing([filter], categories);
+        sanityCheck(catRef);
         expect(categories.groups.length).toEqual(5);
         expect(categories.groups[4].displayName).toEqual("Group");
         expect(categories.groups[4].expanded).toEqual(true);
@@ -517,7 +515,7 @@ describe("Categorize basics", () => {
         expect(categories.groups[4].categories[0].children.length).toEqual(0);
 
         // Add the same category again, should not add anything
-        pClient.addFiltersIfMissing([filter], categories);
+        pClient.addFiltersInTreeIfMissing([filter], categories);
         expect(categories.groups.length).toEqual(5);
         expect(categories.groups[4].displayName).toEqual("Group");
         expect(categories.groups[4].expanded).toEqual(true);
@@ -542,7 +540,7 @@ describe("Categorize basics", () => {
         } as ICategory;
 
         filter = new Filter(["Group", "Child", "Leaf"], category);
-        pClient.addFiltersIfMissing([filter], categories);
+        pClient.addFiltersInTreeIfMissing([filter], categories);
         expect(categories.groups.length).toEqual(5);
         expect(categories.groups[4].displayName).toEqual("Group");
         expect(categories.groups[4].expanded).toEqual(true);
@@ -587,7 +585,7 @@ describe("Categorize basics", () => {
             statusCode: 0
         } as ICategories;
 
-        pClient.addFiltersIfMissing([filter], emptyCategories);
+        pClient.addFiltersInTreeIfMissing([filter], emptyCategories);
         expect(emptyCategories.groups.length).toEqual(1);
         expect(emptyCategories.groups[0].displayName).toEqual("Group");
         expect(emptyCategories.groups[0].expanded).toEqual(true);
@@ -627,5 +625,224 @@ describe("Categorize basics", () => {
         expect(
             categories.groups[4].categories[0].children[0].children.length
         ).toEqual(0);
+
+        // Remove the category node that has been added, to not make other tests fail.
+        categories.groups = categories.groups.filter(g => g.name !== "group");
+    });
+
+    it("Make sure that when categoryName == null the error is ignored by ignoring the 'bad' category", async () => {
+        const categories = {
+            "groups": [
+                {
+                    "categories": [
+                        {
+                            "categoryName": ["System", "File"],
+                            "children": [
+                                {
+                                    "categoryName": null,
+                                    "children": [],
+                                    "count": 101,
+                                    "displayName": "Test data",
+                                    "expanded": false,
+                                    "name": "Testdata"
+                                }
+                            ],
+                            "count": 101,
+                            "displayName": "Filer",
+                            "expanded": false,
+                            "name": "File"
+                        }
+                    ],
+                    "displayName": "Kilde",
+                    "expanded": true,
+                    "name": "System"
+                }
+            ],
+            "isEstimatedCount": false,
+            "matchCount": 101,
+            "extendedProperties": [],
+            "statusCode": 0,
+            "errorMessage": ""
+        } as ICategories;
+
+        fetchMock.resetMocks();
+        fetchMock.mockResponse(JSON.stringify(categories));
+
+        let cbError = jest.fn((error) => {
+            fail("Should not fail");
+        });
+        let cbSuccess = jest.fn((results) => {
+            expect(typeof results).toBe("object");
+        }) as unknown;
+
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbError,
+            cbSuccess
+        } as ICategorizeSettings;
+
+        const categorize = new RestCategorize(settings, null, fetch);
+        try {
+            const response = await categorize.fetch();
+            expect(response.groups.length).toEqual(1);
+            expect(response.groups[0].categories[0].children.length).toEqual(0);
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbError).toHaveBeenCalledTimes(0);
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+        expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
+        //expect(consoleMocks.consoleMessages.warn.length).toEqual(1);
+    });
+
+    it("Calls both cbSuccess and cbWarning when results indicate error via statusCode", async () => {
+        fetchMock.resetMocks();
+        fetchMock.mockResponse(JSON.stringify({
+            "groups": [
+                {
+                    "categories": [
+                        {
+                            "categoryName": ["System", "File"],
+                            "children": [],
+                            "count": 101,
+                            "displayName": "Filer",
+                            "expanded": false,
+                            "name": "File"
+                        }
+                    ],
+                    "displayName": "Kilde",
+                    "expanded": true,
+                    "name": "System"
+                }
+            ],
+            "isEstimatedCount": false,
+            "matchCount": 101,
+            "extendedProperties": [],
+            "statusCode": 1,
+            "errorMessage": "Categorize warning"
+        } as ICategories));
+
+        let cbError = jest.fn((error) => {
+            fail("Should not fail");
+        });
+
+        let cbWarning = jest.fn((warning) => {
+            expect(typeof warning).toBe("object");
+            expect(warning.statusCode).toBe(1);
+            expect(warning.message).toBe("Categorize warning");
+        });
+
+        let cbSuccess = jest.fn((results) => {
+            expect(typeof results).toBe("object");
+        });
+
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbError,
+            cbWarning,
+            cbSuccess
+        } as ICategorizeSettings;
+
+        let categorize = new RestCategorize(settings, null, fetch);
+        try {
+            const response = await categorize.fetch();
+            expect(response.groups.length).toEqual(1);
+        } catch (error) {
+            fail("Should not fail");
+        }
+        expect(settings.cbError).toHaveBeenCalledTimes(0);
+        expect(settings.cbWarning).toHaveBeenCalledTimes(1);
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("Handle filters in the query-settings", () => {
+    it("handle non-hidden filters in categories that already contains the filter", () => {
+        // Arrange - When adding a non-hidden filter, the category-tree should contain the category-node that corresponds to this filter.
+        let query: IQuery = {
+            filters: [
+                { category: { categoryName: ["System", "File"] } }
+            ]
+        };
+
+        const categorize = new RestCategorize("http://localhost:9950");
+        let categories = merge({}, catRef) as ICategories;
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
+
+        // Act - process received categories, with the query-settings
+        categories = (categorize as any).filterCategories(categories, query);
+
+        // Assert - Since the filter only contains categories that is in the categories, no change should occur
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
+    });
+
+    it("handle non-hidden filters in categories that does not already contain the filter", () => {
+        // Arrange - When adding a non-hidden filter, the category-tree should contain the category-node that corresponds to this filter.
+        let query: IQuery = {
+            filters: [
+                { category: { categoryName: ["NewGroup", "NewCategory"] } }
+            ]
+        };
+
+        const categorize = new RestCategorize("http://localhost:9950");
+        let categories = merge({}, catRef) as ICategories;
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
+
+        // Act - process received categories, with the query-settings
+        categories = (categorize as any).filterCategories(categories, query);
+
+        // Assert - Since the filter contains new groups/categories then these are added to the tree
+        expect(categories.groups.length).toEqual(5);
+        expect(categories.groups[0].categories.length).toEqual(1);
+        expect(categories.groups[4].categories.length).toEqual(1);
+        expect(categories.groups[4].categories[0].categoryName).toEqual(query.filters[0].category.categoryName);
+    });
+
+    it("handle hidden filters in categories that already contains the filter", () => {
+
+        // Arrange - When adding a hidden filter, any category that matches that filter is not be be displayed in the
+        // category tree (as that would make it possible for the user to start manipulating the filter)
+        let query: IQuery = {
+                filters: [{ category: { categoryName: ["System", "File"] },
+                hidden: true
+            }]
+        };
+
+        const categorize = new RestCategorize("http://localhost:9950");
+        let categories = merge({}, catRef) as ICategories;
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
+
+        // Act - process received categories, with the query-settings
+        categories = (categorize as any).filterCategories(categories, query);
+
+        // Assert - The categories should no longer contain the "File" category within the "System" group (and, since System now has no more categories it too should be gone)
+        expect(categories.groups.length).toEqual(3);
+    });
+
+    it("handle non-hidden filters in categories that does not already contain the filter", () => {
+        // Arrange - When adding a hidden filter, any category that matches that filter is not be be displayed in the
+        // category tree (as that would make it possible for the user to start manipulating the filter)
+        let query: IQuery = {
+            filters: [{
+                category: { categoryName: ["NewGroup", "NewCategory"] },
+                hidden: true
+            }]
+        };
+
+        const categorize = new RestCategorize("http://localhost:9950");
+        let categories = merge({}, catRef) as ICategories;
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
+
+        // Act - process received categories, with the query-settings
+        categories = (categorize as any).filterCategories(categories, query);
+
+        // Assert - The categories should be the same as before (should not include the new Filter)
+        expect(categories.groups.length).toEqual(4);
+        expect(categories.groups[0].categories.length).toEqual(1);
     });
 });

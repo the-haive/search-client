@@ -4,7 +4,7 @@ module.exports = function(wallaby) {
         files: [
             'src/**/*.ts',
             'src/**/*.json',
-            'setupJest.js',
+            'setupJest.ts',
             '!src/**/*.spec.ts'
         ],
 

@@ -38,5 +38,10 @@
             "allow-pascal-case",
             "allow-leading-underscore"
         ]
+    },
+    "linterOptions": {
+        "exclude": [
+            "./setupJest.ts"
+        ]
     }
 }

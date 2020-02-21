@@ -4,11 +4,15 @@ import {
     Settings,
     OrderBy,
     SearchType,
-    CategorizeQueryConverter
+    CategorizeQueryConverter,
+    ICategories
 } from "./SearchClient";
 
 import reference from "./test-data/categories.json";
-import { CategorizationType } from "./Common";
+Object.freeze(reference);
+const catRef = reference as ICategories;
+
+import { CategorizationType, Filter } from "./Common";
 
 describe("SearchClient basics", () => {
     it("Should have imported SearchClient class defined", () => {
@@ -43,7 +47,6 @@ describe("SearchClient basics", () => {
     it("Search instance with empty settings should have autocomplete(), find(), categorize(), allCategories() and bestBets() interface", () => {
         let searchClient = new SearchClient("http://localhost:9950");
 
-        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
         expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
         expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
         expect(searchClient.find.shouldUpdate()).toBeFalsy();
@@ -60,7 +63,6 @@ describe("SearchClient settings", () => {
             find: { enabled: false }
         } as Settings);
 
-        expect(searchClient.authentication.shouldUpdate()).toBeFalsy();
         expect(searchClient.autocomplete.shouldUpdate()).toBeFalsy();
         expect(searchClient.categorize.shouldUpdate()).toBeFalsy();
         expect(searchClient.find.shouldUpdate()).toBeFalsy();
@@ -70,9 +72,8 @@ describe("SearchClient settings", () => {
         let client = new SearchClient("http://localhost:9950");
 
         // authenticationToken
-        client.tokenResolver = () => 
-        {                                                
-           return "test";                       
+        client.tokenResolver = () => {
+           return "test";
         };
         expect(client.authenticationToken).toEqual("test");
 
@@ -194,7 +195,7 @@ describe("SearchClient settings", () => {
 describe("SearchClient filter interface", () => {
     it("Should have working filter interfaces", () => {
         let client = new SearchClient("http://localhost:9950");
-        client.categorize.categories = reference;
+        client.categorize.categories = catRef;
 
         // filters
         expect(client.filters).toHaveLength(0);
@@ -311,9 +312,50 @@ describe("SearchClient filter interface", () => {
         expect(client.filters).toHaveLength(0);
     });
 
+    it("Should not modify _origSettings' query-filters when toggling filters", () => {
+        let client = new SearchClient({ baseUrl: "http://dummy/", basePath: "", query: {
+            clientId: "test"
+        }});
+        const clientAny = client as any;
+        expect(clientAny).toBe(client);
+
+        expect(clientAny._origSettings.query).toBeDefined();
+        expect(clientAny._origSettings.query.filters).toBeUndefined();
+
+        client.categorize.categories = catRef;
+
+        const filterFileTypeDoc = client.categorize.createCategoryFilter([
+            "FileType",
+            "DOC"
+        ]);
+
+        expect(client.filters).toHaveLength(0);
+        expect(client.filters).not.toContainEqual(filterFileTypeDoc);
+
+        client.filterToggle(filterFileTypeDoc);
+
+        expect(client.filters).toHaveLength(1);
+        expect(clientAny._origSettings.query).not.toBe(clientAny.settings.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny.settings.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(client.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(client.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(clientAny._query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny._query.filters);
+
+        client.reset();
+
+        expect(client.filters).toHaveLength(0);
+        expect(clientAny._origSettings.query).not.toBe(clientAny.settings.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny.settings.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(client.query);
+        expect(clientAny._origSettings.query.filters).not.toBe(client.query.filters);
+        expect(clientAny._origSettings.query).not.toBe(clientAny._query);
+        expect(clientAny._origSettings.query.filters).not.toBe(clientAny._query.filters);
+    });
+
     it("Should have working match*, queryText, searchType, findAndCategorize and date interfaces", () => {
         let client = new SearchClient("http://localhost:9950");
-        client.categorize.categories = reference;
+        client.categorize.categories = catRef;
 
         // matchGrouping
         expect(client.matchGrouping).toBeTruthy();
@@ -432,7 +474,7 @@ describe("SearchClient filter interface", () => {
 
         // With current settings none of the services should update for queryText="test"
         client.queryText = "test";
-        expect(pClient.settings.query.queryText).toEqual("test");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(pClient.settings.find.triggers.queryChange).toEqual(true);
         expect(pClient.find.settings.triggers.queryChange).toEqual(true);
         expect(pClient.settings.find.triggers.queryChangeInstantRegex).toEqual(
@@ -450,7 +492,8 @@ describe("SearchClient filter interface", () => {
 
         // But, if the query ends with a space then the find-service should update (has callback and has enabled queryChangeTrigger and set instanceRegex)
         client.queryText = "test ";
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -463,7 +506,8 @@ describe("SearchClient filter interface", () => {
         client.queryText = "test";
         client.queryText = "test ";
         jest.runAllTimers();
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -485,7 +529,8 @@ describe("SearchClient filter interface", () => {
         client.deferUpdates(true);
         client.queryText = "test";
         client.queryText = "test ";
-        expect(pClient.settings.query.queryText).toEqual("test ");
+        expect(pClient.queryText).toEqual("test ");
+        expect(pClient.settings.query.queryText).toEqual("");
         expect(autocompleteFetch).not.toBeCalled();
         autocompleteFetch.mockReset();
         expect(categorizeFetch).not.toBeCalled();
@@ -528,13 +573,15 @@ describe("SearchClient filter interface", () => {
         client.deferUpdates(true);
 
         client.matchPage = 2;
-        expect(pClient.settings.query.matchPage).toEqual(2);
+        expect(pClient.query.matchPage).toEqual(2);
+        expect(pClient.settings.query.matchPage).toEqual(1);
         expect(findFetch).not.toBeCalled();
 
         client.deferUpdates(false, false);
 
         expect(findFetch).toHaveBeenCalledTimes(1);
-        expect(pClient.settings.query.matchPage).toEqual(2);
+        expect(pClient.query.matchPage).toEqual(2);
+        expect(pClient.settings.query.matchPage).toEqual(1);
 
         findFetch.mockReset();
     });
@@ -570,17 +617,22 @@ describe("SearchClient filter interface", () => {
                 triggers: {
                     queryChange: true
                 }
-            }
+            },
+            query: {
+                filters: [
+                    { category: { categoryName: ['preFilter'] } } as Filter,
+                ],
+            },
         });
 
         client.queryText = "test\n";
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
         expect(urlFindResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
+            'http://localhost:9950/RestService/v4/search/find?c=web&f=preFilter&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords',
         );
         expect(urlCatResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&q=test%0A&t=Keywords"
+            'http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&f=preFilter&q=test%0A&t=Keywords',
         );
     });
 
@@ -789,7 +841,7 @@ describe("SearchClient filter interface", () => {
         expect(mockFindRequest).toHaveBeenCalledTimes(1);
         expect(mockCatRequest).toHaveBeenCalledTimes(1);
     });
-    
+
     it("Should update as expected when client query properties changes, for default triggers", () => {
         let mockFindRequest = jest.fn();
         let mockFindSuccess = jest.fn();
@@ -808,7 +860,7 @@ describe("SearchClient filter interface", () => {
             },
         });
 
-        client.queryText = "test"; 
+        client.queryText = "test";
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
         client.update();
@@ -818,7 +870,7 @@ describe("SearchClient filter interface", () => {
         mockFindRequest.mockReset();
         mockCatRequest.mockReset();
 
-        client.queryText = "test2"; 
+        client.queryText = "test2";
         expect(mockFindRequest).toHaveBeenCalledTimes(0);
         expect(mockCatRequest).toHaveBeenCalledTimes(0);
         client.forceUpdate();

@@ -16,5 +16,6 @@
     "suppressExcessPropertyErrors": "true",
     "suppressImplicitAnyIndexErrors": "true",
     "experimentalDecorators": true,
-    "readme": "./tmp/docs/INDEX.md"
+    "readme": "./tmp/docs/INDEX.md",
+    "gitRevision": "master"
 }
