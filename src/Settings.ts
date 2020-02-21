@@ -45,9 +45,9 @@ export interface ISettings {
     baseUrl?: string;
 
     /**
-     * Defines client mode - Rest or Hapi.
+     * Defines client mode - rest or hapi.
      */
-    mode?: string;
+    mode?: "rest" | "hapi";
 
     /**
      * Defines index id for Hapi mode.
@@ -103,9 +103,9 @@ export class Settings {
     public baseUrl?: string;
 
     /**
-     * Defines client mode - Rest or Hapi.
+     * Defines client mode - rest or hapi.
      */
-    public mode?: string;
+    public mode?: "rest" | "hapi";
 
     /**
      * Defines index id for Hapi mode.
