@@ -15,7 +15,7 @@ export class SearchResultMapper {
             statusCode: 0,
             errorMessage: "",
         };
-
+     
         data.index.items.results.forEach((item) => {
         {                                        
             matches.searchMatches.push({

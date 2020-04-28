@@ -5,6 +5,9 @@ import { categorize } from './Typings/categorize';
 import { ISettings } from '../../Settings';
 import { print } from 'graphql/language/printer';
 import { autocomplete } from './Typings/autocomplete';
+import { SearchResultMapper } from './Mappers/SearchResultMapper';
+import { IMatches } from '../../Data/IMatches';
+import { IMatchItem } from '../../Data';
 
 export class HapiClient {
 
@@ -22,7 +25,7 @@ export class HapiClient {
         });
     }
 
-    public async search(searchQuery?: string, categories?: any[], queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<search> {
+    public async search(searchQuery?: string, categories?: any[], queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<IMatches> {
         const variables = {
             indexId: this.indexId,
             filterParameters: {  
@@ -36,14 +39,29 @@ export class HapiClient {
                 ...(categories && { categories })            
               }    
         };
-
+      
         try {
-            const data = await this.client.request<search>(print(HapiQueries.SEARCH_QUERY), variables);
-            return data;
-          } catch (error) {
-            console.error(JSON.stringify(error, undefined, 2));
-            return null;
-          }  
+          const data = await this.client.request<search>(print(HapiQueries.SEARCH_QUERY), variables);
+          return SearchResultMapper.map(this.indexId, data);      
+        } catch (error) {
+          if (error.response && error.response.errors) {
+            let errorMessage = "";
+            error.response.errors.forEach((e: { message: string; }) => {
+                errorMessage += e.message + "|";
+            });  
+            
+            return {
+              bestBets: [],
+              didYouMeanList: [],
+              statusCode: 1,
+              errorMessage,
+              estimatedMatchCount: 0,
+              expandedQuery: "",
+              nextPageRef: 0,
+              searchMatches: [{} as IMatchItem]
+            };
+          }
+        }           
     }
 
     public async categorize(searchQuery?: string, categories?: any[], queryType?: string, sortBy?: string, skip?: number, take?: number, dateFrom?: Date, dateTo?: Date): Promise<categorize> {

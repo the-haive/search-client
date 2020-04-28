@@ -4,8 +4,6 @@ import { IMatches } from "../Data";
 import { FindQueryConverter } from "./FindQueryConverter";
 import { FindSettings, IFindSettings } from "./FindSettings";
 import { HapiClient } from '../Common/Hapi/HapiClient';
-import { SearchResultMapper } from '../Common/Hapi/Mappers/SearchResultMapper';
-import { search } from '../Common/Hapi/Typings/search';
 import { Find } from '.';
 
 /**
@@ -62,28 +60,34 @@ export class HapiFind extends BaseCall<IMatches> implements Find {
             this.fetchQuery = new Query(query);
 
             let categoryFilter = new Array<any>();
-            query.filters.forEach(f => {
-                categoryFilter.push({
-                    values: f.category.categoryName
-                });             
-            });
+
+            if (query.filters) {
+                query.filters.forEach(f => {
+                    categoryFilter.push({
+                        values: f.category.categoryName
+                    });             
+                });
+            }
 
             let queryType = query.searchType === "Keywords" ? "MatchAll" : "MatchAny";
             let sortBy = query.matchOrderBy;
             let skip = (query.matchPage - 1) * query.matchPageSize;
             let take = query.matchPageSize;
 
-            return this.client.search(query.queryText, categoryFilter, queryType, sortBy, skip, skip * take).then((data: search) => {
-                    return SearchResultMapper.map(this.settings.hapiIndexId, data);     
-                })
-                .then((matches: IMatches) => {
-                    if (matches.errorMessage) {
-                        throw new Error(matches.errorMessage);
+            return this.client.search(query.queryText, categoryFilter, queryType, sortBy, skip, skip * take)
+                .then((matches: IMatches) => {        
+                    if (matches.errorMessage || matches.statusCode !== 0) {
+                        let  { errorMessage, statusCode } = matches;
+                        const warning = {
+                            message: errorMessage || "Unspecified issue",
+                            statusCode
+                        };
+                        this.cbWarning(suppressCallbacks, warning, url, reqInit);
                     }
                     this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                     return matches;
                 })
-                .catch((error: any) => {
+                .catch((error: any) => {                                       
                     this.cbError(suppressCallbacks, error, url, reqInit);
                     throw error;
                 });

@@ -90,12 +90,18 @@ export class HapiCategorize extends BaseCall<ICategories> {
             return this.client.categorize(query.queryText, categoryFilter).then((data: categorize) => {
                 return CategorizeResultMapper.map(this.settings.hapiIndexId, data);     
                 })
-                .then((categories: ICategories) => {
-                    if (categories.errorMessage) {
-                        throw new Error(categories.errorMessage);
-                    }
+                .then((categories: ICategories) => {   
                     this.categories = categories;
                     categories = this.filterCategories(categories, query);
+                    // Handle situations where parsing was ok, but we have an error in the returned message from the server
+                    if (categories.errorMessage || categories.statusCode !== 0) {
+                        let  { errorMessage, statusCode } = categories;
+                        const warning = {
+                            message: errorMessage || "Unspecified issue",
+                            statusCode
+                        };
+                        this.cbWarning(suppressCallbacks, warning, url, reqInit);
+                    }
                     this.cbSuccess(suppressCallbacks, categories, url, reqInit);
                     return categories;
                 })

@@ -18,34 +18,34 @@ export class CategorizeResultMapper {
      public static map(indexId: number, data: categorize): ICategories {
         let categories = {
             groups: new Array<IGroup>(),
-            isEstimatedCount: true,  
-            matchCount: 0,
+            isEstimatedCount: data.index.categories.isEstimatedCount,  
+            matchCount: data.index.categories.matchCount,
             extendedProperties: new Array<any>(),
-            statusCode: 0,
-            errorMessage: ""
+            statusCode: data.index.categories.statusCode,
+            errorMessage: data.index.categories.errorMessage
         };
 
         let hierarchy = new Array<IHierarchy>();
 
-        data.index.categories.forEach((category) => {
-            {                                                  
+        data.index.categories.results.forEach((category) => {
+            {              
                 hierarchy.push(
                     {
-                        name: category.name,
-                        displayName: category.displayName,
-                        categoryName: category.categoryName,
-                        id: category.categoryName.join("|"),
-                        parentId: category.categoryName.length > 2 ? category.categoryName.slice(0, category.categoryName.length - 1).join("|") : null,
+                        name: category.categoryName,
+                        displayName: category.categoryDisplayName,
+                        categoryName: category.path,
+                        id: category.path.join("|"),
+                        parentId: category.path.length > 2 ? category.path.slice(0, category.path.length - 1).join("|") : null,
                         groupName: category.groupName,
                         groupDisplayName: category.groupDisplayName,
-                        count: category.count,
+                        count: category.itemsCount,
                         children: new Array<IHierarchy>()
                     }
-                );  
+                );            
             }
         });
 
-        data.index.categories.forEach((category) => {
+        data.index.categories.results.forEach((category) => {
             let group = categories.groups.find((g) => 
                 g.name === category.groupName
             );

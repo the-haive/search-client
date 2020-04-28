@@ -48,12 +48,19 @@ export class HapiQueries {
           filter: $filterParameters       
         )
         {
-          name
-          displayName
-          categoryName
-          groupName
-          groupDisplayName
-          count          
+          results
+          {
+            categoryName
+            categoryDisplayName
+            groupName
+            groupDisplayName           
+            path
+            itemsCount 
+          }
+          errorMessage
+          isEstimatedCount
+          matchCount
+          statusCode       
         }
       } 
     }
