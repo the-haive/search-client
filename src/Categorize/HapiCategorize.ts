@@ -321,13 +321,16 @@ export class HapiCategorize extends BaseCall<ICategories> {
     /**
      * Adds missing filters as category-tree-nodes.
      */
-    private addFiltersIfMissing(filters: Filter[], cats: ICategories) {
+    private addFiltersInTreeIfMissing(filters: Filter[], cats: ICategories) {
         filters.forEach(f => {
-            const depth = f.displayName.length;
+            if (f.hidden) {
+                return;
+            }
+            const depth = f.category.categoryName.length;
             for (let i = 0; i < depth; i++) {
                 let categoryNames = f.category.categoryName.slice(0, i + 1);
                 if (!this.findCategory(categoryNames, cats)) {
-                    let displayName = f.displayName[i];
+                    let displayName = f.displayName ? f.displayName[i] : categoryNames[categoryNames.length - 1];
                     let parentCategoryNames = categoryNames.slice(0, -1);
                     if (i === 0) {
                         // Need to add group
@@ -353,6 +356,7 @@ export class HapiCategorize extends BaseCall<ICategories> {
                             i === depth - 1
                                 ? // Since we are on the last element we can add the category within the filter directly
                                   {
+                                      ...{ children: [], displayName},
                                       ...f.category,
                                       ...{ count: 0, expanded: false }
                                   }
@@ -387,87 +391,115 @@ export class HapiCategorize extends BaseCall<ICategories> {
         categories: ICategories,
         query: Query = new Query()
     ): ICategories {
-        // ROOT level adjustments
-        let cats = { ...categories };
-        let rootOverride = this.settings.presentations.__ROOT__;
-        if (rootOverride) {
-            if (
-                rootOverride.group &&
-                rootOverride.group.enabled &&
-                cats.groups.length >= rootOverride.group.minCount
-            ) {
-                // Add level of categories to group according to pattern
-                cats.groups = this.grouping(rootOverride, cats.groups);
-            }
-            if (rootOverride.filter && rootOverride.filter.enabled) {
-                cats.groups = this.filtering(rootOverride, cats.groups);
-            }
-            if (rootOverride.sort && rootOverride.sort.enabled) {
-                // Reorder level
-                cats.groups = this.sorting(rootOverride, cats.groups);
-            }
-            if (rootOverride.limit && rootOverride.limit.enabled) {
-                // Limit which categories to show
-                cats.groups = this.limiting(cats.groups, rootOverride.limit);
-            }
-            // Skipping expansion, as root is always expanded
-        }
-        // GROUP-level adjustments
-        let groups = cats.groups.map((inGroup: IGroup) => {
-            let group = { ...inGroup };
-            let groupOverride = this.settings.presentations[group.name];
-            if (groupOverride) {
-                if (
-                    groupOverride.group &&
-                    groupOverride.group.enabled &&
-                    group.categories.length >= groupOverride.group.minCount
-                ) {
-                    // Add level of categories to group according to pattern
-                    group.categories = this.grouping(
-                        groupOverride,
-                        group.categories
-                    );
-                }
-                if (groupOverride.filter && groupOverride.filter.enabled) {
-                    group.categories = this.filtering(
-                        groupOverride,
-                        group.categories
-                    );
-                }
-                if (groupOverride.sort && groupOverride.sort.enabled) {
-                    // Reorder level
-                    group.categories = this.sorting(
-                        groupOverride,
-                        group.categories
-                    );
-                }
-                if (groupOverride.limit && groupOverride.limit.enabled) {
-                    // Limit which categories to show
-                    group.categories = this.limiting(
-                        group.categories,
-                        groupOverride.limit
-                    );
-                }
-                if (groupOverride.expanded !== null) {
-                    // Override whether the group is to be expanded or not
-                    group.expanded = groupOverride.expanded;
-                }
-            }
-            if (group.categories && group.categories.length > 0) {
-                group.categories = this.mapCategories(group.categories);
-            }
-            return group;
-        });
-        cats.groups = groups.filter(g => g !== undefined);
-        this.addFiltersIfMissing(query.filters, cats);
-        return cats;
+          // ROOT level adjustments
+          let cats = { ...categories };
+          let rootOverride = this.settings.presentations.__ROOT__;
+          if (rootOverride) {
+              if (
+                  rootOverride.group &&
+                  rootOverride.group.enabled &&
+                  cats.groups.length >= rootOverride.group.minCount
+              ) {
+                  // Add level of categories to group according to pattern
+                  cats.groups = this.grouping(rootOverride, cats.groups);
+              }
+              if (rootOverride.filter && rootOverride.filter.enabled) {
+                  cats.groups = this.filtering(rootOverride, cats.groups);
+              }
+              if (rootOverride.sort && rootOverride.sort.enabled) {
+                  // Reorder level
+                  cats.groups = this.sorting(rootOverride, cats.groups);
+              }
+              if (rootOverride.limit && rootOverride.limit.enabled) {
+                  // Limit which categories to show
+                  cats.groups = this.limiting(cats.groups, rootOverride.limit);
+              }
+              // Skipping expansion, as root is always expanded
+          }
+          const hiddenFilters: Filter[] = query.filters ? query.filters.filter(f => f.hidden) : [];
+  
+          // GROUP-level adjustments
+          let groups = cats.groups.map((inGroup: IGroup) => {
+              let group = { ...inGroup };
+  
+              // Iterate filters that have only the group-level set
+              let hiddenFiltersInGroup = hiddenFilters.filter(f => f.category.categoryName.length > 0 && f.category.categoryName[0] === group.name);
+              let match = hiddenFiltersInGroup.find(f => f.category.categoryName.length === 1);
+              if (match) {
+                  // The hidden filter is for this group exactly. So, remove the group
+                  return null;
+              }
+  
+              let groupOverride = this.settings.presentations[group.name];
+              if (groupOverride) {
+                  if (
+                      groupOverride.group &&
+                      groupOverride.group.enabled &&
+                      group.categories.length >= groupOverride.group.minCount
+                  ) {
+                      // Add level of categories to group according to pattern
+                      group.categories = this.grouping(
+                          groupOverride,
+                          group.categories
+                      );
+                  }
+                  if (groupOverride.filter && groupOverride.filter.enabled) {
+                      group.categories = this.filtering(
+                          groupOverride,
+                          group.categories
+                      );
+                  }
+                  if (groupOverride.sort && groupOverride.sort.enabled) {
+                      // Reorder level
+                      group.categories = this.sorting(
+                          groupOverride,
+                          group.categories
+                      );
+                  }
+                  if (groupOverride.limit && groupOverride.limit.enabled) {
+                      // Limit which categories to show
+                      group.categories = this.limiting(
+                          group.categories,
+                          groupOverride.limit
+                      );
+                  }
+                  if (groupOverride.expanded !== null) {
+                      // Override whether the group is to be expanded or not
+                      group.expanded = groupOverride.expanded;
+                  }
+              }
+              if (group.categories && group.categories.length > 0) {
+                  group.categories = this.mapCategories(group.categories, hiddenFiltersInGroup, 1); //.filter(c => c !== undefined && c !== null);
+              }
+              if ((!group.categories || group.categories.length === 0) && hiddenFiltersInGroup.length > 0) {
+                  // If the group has no categories, due to hidden filters, then remove the group itself
+                  return null;
+              }
+              return group;
+          });
+          cats.groups = groups.filter(g => g !== undefined && g !== null);
+          this.addFiltersInTreeIfMissing(query.filters, cats);
+          return cats;
     }
 
-    private mapCategories(categories: ICategory[]): ICategory[] {
+    private mapCategories(categories: ICategory[], hiddenFilters: Filter[], depth: number): ICategory[] {
         // CATEGORY_level adjustments
         let cats = [...categories];
         cats = cats.map((inCategory: ICategory) => {
             let category = { ...inCategory };
+
+            // Iterate filters that have only the group-level set
+            let hiddenFiltersInCategory = hiddenFilters.filter(f => f.category.categoryName.length > depth && f.category.categoryName[depth] === category.name);
+            if (hiddenFiltersInCategory.find(f => f.category.categoryName.length === depth + 1)) {
+                // The hidden filter is for this category exactly. So, remove the category
+                return null;
+            }
+
+            if (category.categoryName == null) {
+                console.warn(`HAIVE/search-client: Illegal category-object received. The categoryName array cannot be null. The category was not added to the category-tree.`, category);
+                return null;
+            }
+
             let categoryOverride = this.settings.presentations[
                 category.categoryName.join("|")
             ];
@@ -508,13 +540,17 @@ export class HapiCategorize extends BaseCall<ICategories> {
                 }
             }
             if (category.children && category.children.length > 0) {
-                category.children = this.mapCategories(category.children);
+                category.children = this.mapCategories(category.children, hiddenFilters, depth++);
+            }
+            if ((!category.children || category.children.length === 0) && hiddenFiltersInCategory.length > 0) {
+                // If the category has no children, due to hidden filters, then remove the category itself
+                return null;
             }
 
             return category;
         });
 
-        cats = cats.filter(c => c !== undefined);
+        cats = cats.filter(c => c !== undefined && c !== null);
         return cats;
     }
     private grouping<T extends IGroup | ICategory>(

@@ -74,7 +74,7 @@ export class HapiFind extends BaseCall<IMatches> implements Find {
             let skip = (query.matchPage - 1) * query.matchPageSize;
             let take = query.matchPageSize;
 
-            return this.client.search(query.queryText, categoryFilter, queryType, sortBy, skip, skip * take)
+            return this.client.search(query.queryText, categoryFilter, queryType, sortBy, skip, take)
                 .then((matches: IMatches) => {        
                     if (matches.errorMessage || matches.statusCode !== 0) {
                         let  { errorMessage, statusCode } = matches;
