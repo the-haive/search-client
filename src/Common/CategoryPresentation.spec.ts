@@ -8,7 +8,7 @@ import {
     Casing
 } from "./CategoryPresentation";
 
-import { Categorize } from "../Categorize";
+import { RestCategorize } from "../Categorize";
 import { ICategories } from "../Data";
 
 import reference from '../test-data/categories.json';
@@ -155,7 +155,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
         let workCopy = merge({}, catRef);
         sanityCheck(workCopy);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -183,7 +183,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
     it("Should be possible to group on group-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -218,7 +218,7 @@ describe("When grouping a CategoryPresentations map it:", () => {
     it("Should be possible to group on category-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2007|Month": {
@@ -261,7 +261,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
     it("Should be possible to filter on root-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -288,7 +288,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
     it("Should be possible to filter on group-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -322,7 +322,7 @@ describe("When filtering a CategoryPresentations map it:", () => {
     it("Should be possible to filter on category-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -382,7 +382,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on root-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -425,7 +425,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on group-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -480,7 +480,7 @@ describe("When sorting a CategoryPresentations map it:", () => {
     it("Should be possible to sort on category-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2007|Month": {
@@ -549,7 +549,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on root-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 __ROOT__: {
@@ -573,7 +573,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on group-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 Author: {
@@ -599,7 +599,7 @@ describe("When limiting a CategoryPresentations map it:", () => {
     it("Should be possible to limit on category-level", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize({
+        let client = new RestCategorize({
             baseUrl: "http://localhost:9950/",
             presentations: {
                 "ModifiedDate|2014": {
@@ -631,7 +631,7 @@ describe("When managing expanded state for CategoryPresentation nodes it:", () =
     it("Should be possible to toggle expanded state on a group and category node", () => {
         sanityCheck(catRef);
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new RestCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect - before

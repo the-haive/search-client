@@ -1,7 +1,7 @@
 import {FetchMock} from "jest-fetch-mock";
 const fetchMock = fetch as FetchMock;
-import {
-    Categorize,
+import {    
+    HapiCategorize,
     CategorizeSettings,
     ICategorizeSettings,
     CategorizeTriggers
@@ -9,6 +9,8 @@ import {
 import { ICategory, ICategories } from "../Data";
 import { Filter, IQuery } from "../Common";
 import merge from 'deepmerge';
+
+import { categoriesResponse } from "../test-data/hapi-categories";
 
 import reference from "../test-data/categories.json";
 Object.freeze(reference);
@@ -107,15 +109,15 @@ function sanityCheck(categories: ICategories) {
 
 describe("Categorize basics", () => {
     it("Should have imported Categorize class defined", () => {
-        expect(typeof Categorize).toBe("function");
+        expect(typeof HapiCategorize).toBe("function");
     });
 
     it("Should be able to create Categorize instance", () => {
-        let categorize = new Categorize("http://localhost:9950/");
+        let categorize = new HapiCategorize("http://localhost:9950/");
         let pCategorize = categorize as any;
 
         expect(typeof categorize).toBe("object");
-        expect(categorize instanceof Categorize).toBeTruthy();
+        expect(categorize instanceof HapiCategorize).toBeTruthy();
         expect(pCategorize.settings.enabled).toEqual(true);
         expect(pCategorize.settings.cbError).toBeUndefined();
         expect(pCategorize.settings.cbRequest).toBeUndefined();
@@ -129,18 +131,18 @@ describe("Categorize basics", () => {
 
     it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
-            let categorize = new Categorize("file://localhost:9950");
+            let categorize = new HapiCategorize("file://localhost:9950");
             expect(typeof categorize).toBe("object");
         }).not.toThrow();
 
         expect(() => {
-            let categorize = new Categorize("http:+//localhost:9950");
+            let categorize = new HapiCategorize("http:+//localhost:9950");
             expect(typeof categorize).toBe("object");
         }).not.toThrow();
     });
 
     it("Should be able to pass a default CategorizeSettings instance", () => {
-        let categorize = new Categorize("http://localhost:9950/");
+        let categorize = new HapiCategorize("http://localhost:9950/");
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -163,7 +165,7 @@ describe("Categorize basics", () => {
         settings.triggers = new CategorizeTriggers();
         settings.basePath = "/test";
 
-        let categorize = new Categorize(settings);
+        let categorize = new HapiCategorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -193,7 +195,7 @@ describe("Categorize basics", () => {
             basePath: "/test"
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings);
+        let categorize = new HapiCategorize(settings);
         let pCategorize = categorize as any;
 
         expect(typeof pCategorize.auth).toBe("object");
@@ -209,10 +211,16 @@ describe("Categorize basics", () => {
         );
     });
 
-    it("Should be able to Categorize some results", async () => {
-        let categories = merge({}, catRef) as ICategories;
-        fetchMock.resetMocks();
-        fetchMock.mockResponse(JSON.stringify(categories));
+    it("Should be able to Categorize some results", async () => {        
+        fetchMock.mockResponse(
+            JSON.stringify(categoriesResponse),
+            { 
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
 
         let cbRequest = jest.fn((url, reqInit) => {
             expect(typeof url).toBe("string");
@@ -228,11 +236,11 @@ describe("Categorize basics", () => {
             cbSuccess
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings, null, fetch);
+        let categorize = new HapiCategorize(settings, null, fetch);
         try {
             const response = await categorize.fetch();
             expect(typeof response).toBe("object");
-            expect(response.groups.length).toEqual(4);
+            expect(response.groups.length).toEqual(3);
         } catch (error) {
             fail("Should not fail");
         }
@@ -254,13 +262,19 @@ describe("Categorize basics", () => {
             cbSuccess: jest.fn()
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings, null, fetch);
-        try {
-            const response = await categorize.fetch();
-            expect(response).toBeNull();
-        } catch (error) {
-            fail("Should not yield an error");
-        }
+        let categorize = new HapiCategorize(settings, null, fetch);
+        categorize
+            .fetch()
+            .then(response => {
+                expect(response).toBeNull();
+            })
+            .catch(error => {
+                fail("Should not yield an error");
+            })
+            .then(() => {
+                expect(settings.cbRequest).toHaveBeenCalled();
+                expect(settings.cbSuccess).not.toHaveBeenCalled();
+            });
         expect(settings.cbRequest).toHaveBeenCalled();
         expect(settings.cbSuccess).not.toHaveBeenCalled();
     });
@@ -268,7 +282,7 @@ describe("Categorize basics", () => {
     it("Should have no effect when there are no filters defined", () => {
         let categories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change, when no filter is added and running the filter method
@@ -282,7 +296,7 @@ describe("Categorize basics", () => {
     it("Should have no effect when filters are empty", () => {
         let categories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change when filters are set manually
@@ -298,7 +312,7 @@ describe("Categorize basics", () => {
     it("Should have no effect when the filter is null", () => {
         let categories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
         // Expect no change when filters are set to null
         pClient.clientCategoryFilter = null;
@@ -313,7 +327,7 @@ describe("Categorize basics", () => {
     it("Should have no effect when the filter is undefined", () => {
         let categories: ICategories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         // Expect no change when filters are set to null
@@ -334,7 +348,7 @@ describe("Categorize basics", () => {
             cbRequest: jest.fn(() => false)
         };
 
-        let client = new Categorize(settings);
+        let client = new HapiCategorize(settings);
         let pClient = client as any;
 
         // Expect no change when filters are set to null
@@ -351,7 +365,7 @@ describe("Categorize basics", () => {
     });
 
     it("Should be possible to use the createCategoryFilter method to create filters, with string[] input", () => {
-        let categorize = new Categorize("http://localhost:9950");
+        let categorize = new HapiCategorize("http://localhost:9950");
         categorize.categories = merge({}, catRef) as ICategories;
         const filterSystemFile = categorize.createCategoryFilter([
             "System",
@@ -408,7 +422,7 @@ describe("Categorize basics", () => {
     });
 
     it("Should be possible to use the createCategoryFilter method to create filters, with Category input", () => {
-        let categorize = new Categorize("http://localhost:9950");
+        let categorize = new HapiCategorize("http://localhost:9950");
         categorize.categories = merge({}, catRef) as ICategories;
         const filterSystemFile = categorize.createCategoryFilter(
             categorize.categories.groups[0].categories[0].children[0].children[0]
@@ -462,7 +476,7 @@ describe("Categorize basics", () => {
     it("Should be able to find category-nodes", () => {
         let categories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
 
         expect(typeof pClient.findCategory).toBe("function");
@@ -475,10 +489,9 @@ describe("Categorize basics", () => {
     it("Should be able to add missing filters as category-tree nodes", () => {
         let categories = merge({}, catRef) as ICategories;
 
-        let client = new Categorize("http://localhost:9950/");
+        let client = new HapiCategorize("http://localhost:9950/");
         let pClient = client as any;
-        //client.categories = workCopy;
-
+        
         expect(typeof pClient.addFiltersInTreeIfMissing).toBe("function");
 
         let category = {
@@ -624,97 +637,89 @@ describe("Categorize basics", () => {
         categories.groups = categories.groups.filter(g => g.name !== "group");
     });
 
-    it("Make sure that when categoryName == null the error is ignored by ignoring the 'bad' category", async () => {
-        const categories = {
-            "groups": [
-                {
-                    "categories": [
-                        {
-                            "categoryName": ["System", "File"],
-                            "children": [
-                                {
-                                    "categoryName": null,
-                                    "children": [],
-                                    "count": 101,
-                                    "displayName": "Test data",
-                                    "expanded": false,
-                                    "name": "Testdata"
-                                }
-                            ],
-                            "count": 101,
-                            "displayName": "Filer",
-                            "expanded": false,
-                            "name": "File"
-                        }
-                    ],
-                    "displayName": "Kilde",
-                    "expanded": true,
-                    "name": "System"
-                }
-            ],
-            "isEstimatedCount": false,
-            "matchCount": 101,
-            "extendedProperties": [],
-            "statusCode": 0,
-            "errorMessage": ""
-        } as ICategories;
-
-        fetchMock.resetMocks();
-        fetchMock.mockResponse(JSON.stringify(categories));
-
-        let cbError = jest.fn((error) => {
-            fail("Should not fail");
-        });
-        let cbSuccess = jest.fn((results) => {
-            expect(typeof results).toBe("object");
-        }) as unknown;
-
-        let settings = {
-            baseUrl: "http://localhost:9950/",
-            cbError,
-            cbSuccess
-        } as ICategorizeSettings;
-
-        const categorize = new Categorize(settings, null, fetch);
-        try {
-            const response = await categorize.fetch();
-            expect(response.groups.length).toEqual(1);
-            expect(response.groups[0].categories[0].children.length).toEqual(0);
-        } catch (error) {
-            fail("Should not fail");
-        }
-        expect(settings.cbError).toHaveBeenCalledTimes(0);
-        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
-        expect(spyConsoleWarn).toHaveBeenCalledTimes(1);
-        //expect(consoleMocks.consoleMessages.warn.length).toEqual(1);
-    });
-
     it("Calls both cbSuccess and cbWarning when results indicate error via statusCode", async () => {
-        fetchMock.resetMocks();
-        fetchMock.mockResponse(JSON.stringify({
-            "groups": [
-                {
-                    "categories": [
-                        {
-                            "categoryName": ["System", "File"],
-                            "children": [],
-                            "count": 101,
-                            "displayName": "Filer",
-                            "expanded": false,
-                            "name": "File"
-                        }
-                    ],
-                    "displayName": "Kilde",
-                    "expanded": true,
-                    "name": "System"
+
+        let response = {
+            data: {
+              index: {
+                categories: {
+                  errorMessage: "Categorize warning",
+                  isEstimatedCount: false,
+                  matchCount: 1,
+                  statusCode: 1,
+                  results: [
+                    {
+                      categoryName: "Document",
+                      categoryDisplayName: "Document",
+                      groupName: "FileType",
+                      groupDisplayName: "File type",
+                      path: [
+                        "FileType",
+                        "Document"
+                      ],
+                      itemsCount: 1
+                    },
+                    {
+                      categoryName: "Doc",
+                      categoryDisplayName: "Doc",
+                      groupName: "FileType",
+                      groupDisplayName: "File type",
+                      path: [
+                        "FileType",
+                        "Document",
+                        "Doc"
+                      ],
+                      itemsCount: 1
+                    },
+                    {
+                      categoryName: "2020",
+                      categoryDisplayName: "2020",
+                      groupName: "Date",
+                      groupDisplayName: "Date",
+                      path: [
+                        "Date",
+                        "2020"
+                      ],
+                      itemsCount: 1
+                    },
+                    {
+                      categoryName: "4",
+                      categoryDisplayName: "April",
+                      groupName: "Date",
+                      groupDisplayName: "Date",
+                      path: [
+                        "Date",
+                        "2020",
+                        "4"
+                      ],
+                      itemsCount: 1
+                    },
+                    {
+                      categoryName: "Engineering",
+                      categoryDisplayName: "Engineering",
+                      groupName: "Topic",
+                      groupDisplayName: "Topic",
+                      path: [
+                        "Topic",
+                        "Engineering"
+                      ],
+                      itemsCount: 1
+                    }
+                  ]
                 }
-            ],
-            "isEstimatedCount": false,
-            "matchCount": 101,
-            "extendedProperties": [],
-            "statusCode": 1,
-            "errorMessage": "Categorize warning"
-        } as ICategories));
+              }
+            }
+          };
+
+        fetchMock.mockResponse(
+            JSON.stringify(response),
+            { 
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
 
         let cbError = jest.fn((error) => {
             fail("Should not fail");
@@ -737,10 +742,9 @@ describe("Categorize basics", () => {
             cbSuccess
         } as ICategorizeSettings;
 
-        let categorize = new Categorize(settings, null, fetch);
+        let categorize = new HapiCategorize(settings, null, fetch);
         try {
-            const response = await categorize.fetch();
-            expect(response.groups.length).toEqual(1);
+            await categorize.fetch();
         } catch (error) {
             fail("Should not fail");
         }
@@ -759,7 +763,7 @@ describe("Handle filters in the query-settings", () => {
             ]
         };
 
-        const categorize = new Categorize("http://localhost:9950");
+        const categorize = new HapiCategorize("http://localhost:9950");
         let categories = merge({}, catRef) as ICategories;
         expect(categories.groups.length).toEqual(4);
         expect(categories.groups[0].categories.length).toEqual(1);
@@ -780,7 +784,7 @@ describe("Handle filters in the query-settings", () => {
             ]
         };
 
-        const categorize = new Categorize("http://localhost:9950");
+        const categorize = new HapiCategorize("http://localhost:9950");
         let categories = merge({}, catRef) as ICategories;
         expect(categories.groups.length).toEqual(4);
         expect(categories.groups[0].categories.length).toEqual(1);
@@ -805,7 +809,7 @@ describe("Handle filters in the query-settings", () => {
             }]
         };
 
-        const categorize = new Categorize("http://localhost:9950");
+        const categorize = new HapiCategorize("http://localhost:9950");
         let categories = merge({}, catRef) as ICategories;
         expect(categories.groups.length).toEqual(4);
         expect(categories.groups[0].categories.length).toEqual(1);
@@ -827,7 +831,7 @@ describe("Handle filters in the query-settings", () => {
             }]
         };
 
-        const categorize = new Categorize("http://localhost:9950");
+        const categorize = new HapiCategorize("http://localhost:9950");
         let categories = merge({}, catRef) as ICategories;
         expect(categories.groups.length).toEqual(4);
         expect(categories.groups[0].categories.length).toEqual(1);

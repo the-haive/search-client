@@ -4,7 +4,7 @@
         "module": "es2015",
         "outDir": "./temp",
         "newLine": "LF",
-        "lib": ["dom", "es2017"],
+        "lib": ["dom", "es2017", "esnext"],
         "moduleResolution": "node",
         "importHelpers": true,
         "declaration": true,
@@ -27,7 +27,7 @@
         "node_modules",
         "dist",
         "es",
-        "lib",
+        "lib", 
         "src/**/*.spec.ts",
         "src/**/*.json"
     ]

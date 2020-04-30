@@ -1,20 +1,20 @@
 import {FetchMock} from "jest-fetch-mock";
 const fetchMock = fetch as FetchMock;
 
-import { Find, IFindSettings, FindTriggers } from ".";
+import { RestFind, IFindSettings, FindTriggers } from ".";
 import { IMatches, IMatchItem } from "../Data";
 
 describe("Find basics", () => {
     it("Should have imported Find class defined", () => {
-        expect(typeof Find).toBe("function");
+        expect(typeof RestFind).toBe("function");
     });
 
     it("Should be able to create Find instance", () => {
-        let find = new Find("http://localhost:9950/");
+        let find = new RestFind("http://localhost:9950/");
         let pFind = find as any;
 
         expect(typeof find).toBe("object");
-        expect(find instanceof Find).toBeTruthy();
+        expect(find instanceof RestFind).toBeTruthy();
         expect(pFind.settings.enabled).toEqual(true);
         expect(pFind.settings.cbError).toBeUndefined();
         expect(pFind.settings.cbRequest).toBeUndefined();
@@ -28,12 +28,12 @@ describe("Find basics", () => {
 
     it("Should not throw, even for invalid urls. Not perfect, but avoids an additional dependency.", () => {
         expect(() => {
-            let find = new Find("file://localhost:9950");
+            let find = new RestFind("file://localhost:9950");
             expect(typeof find).toBe("object");
         }).not.toThrow();
 
         expect(() => {
-            let find = new Find("http:+//localhost:9950");
+            let find = new RestFind("http:+//localhost:9950");
             expect(typeof find).toBe("object");
         }).not.toThrow();
     });
@@ -47,7 +47,7 @@ describe("Find basics", () => {
         settings.triggers = new FindTriggers();
         settings.basePath = "/test";
 
-        let find = new Find(settings);
+        let find = new RestFind(settings);
         let pFind = find as any;
 
         expect(typeof pFind.auth).toBe("object");
@@ -77,7 +77,7 @@ describe("Find basics", () => {
             basePath: "/test"
         } as IFindSettings;
 
-        let find = new Find(settings);
+        let find = new RestFind(settings);
         let pFind = find as any;
 
         expect(typeof pFind.auth).toBe("object");
@@ -114,13 +114,14 @@ describe("Find basics", () => {
             cbSuccess: jest.fn()
         } as IFindSettings;
 
-        let find = new Find(settings, null, fetch);
-        try {
-            await find.fetch();
-        } catch (error) {
-            fail("Should not fail");
-        }
-        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+        let find = new RestFind(settings, null, fetch);
+        find.fetch()
+            .catch(error => {
+                fail("Should not fail");
+            })
+            .then(() => {
+                expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("Should be able to stop a Find using cbRequest", async () => {
@@ -138,15 +139,18 @@ describe("Find basics", () => {
             cbSuccess: jest.fn()
         } as IFindSettings;
 
-        let find = new Find(settings, null, fetch);
-        try {
-            const response = await find.fetch();
-            expect(response).toBeNull();
-        } catch (error) {
-            fail("Should not yield an error");
-        }
-        expect(settings.cbRequest).toHaveBeenCalledTimes(1);
-        expect(settings.cbSuccess).not.toHaveBeenCalled();
+        let find = new RestFind(settings, null, fetch);
+        find.fetch()
+            .then(response => {
+                expect(response).toBeNull();
+            })
+            .catch(error => {
+                fail("Should not yield an error");
+            })
+            .then(() => {
+                expect(settings.cbRequest).toHaveBeenCalledTimes(1);
+                expect(settings.cbSuccess).not.toHaveBeenCalled();
+            });
     });
 
     it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
@@ -159,7 +163,7 @@ describe("Find basics", () => {
             cbSuccess: jest.fn()
         } as IFindSettings;
 
-        let find = new Find(settings, null, fetch);
+        let find = new RestFind(settings, null, fetch);
         find.update({ queryText: "search-1" });
         expect(settings.cbResultState).not.toBeCalled();
         find.shouldUpdate("queryText", { queryText: "search-1" });
@@ -200,7 +204,6 @@ describe("Find basics", () => {
             expect(typeof results).toBe("object");
         });
 
-
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbWarning,
@@ -208,7 +211,7 @@ describe("Find basics", () => {
             cbSuccess
         } as IFindSettings;
 
-        let find = new Find(settings, null, fetch);
+        let find = new RestFind(settings, null, fetch);
         try {
             const response = await find.fetch();
             expect(response.estimatedMatchCount).toEqual(1);

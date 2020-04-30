@@ -116,7 +116,22 @@ export interface IBaseSettings<TDataType> {
      */
     queryChangeSpecs?: QueryChangeSpecifications;
 
-    url?: string;
+    readonly url?: string;
+
+    /**
+     * Defines client mode - Rest or Hapi.
+     */
+    mode?: "rest" | "hapi";
+
+    /**
+     * Defines index id for Hapi mode.
+     */
+    hapiIndexId?: number;
+
+    /**
+     * Defines api key for Hapi mode.
+     */
+    hapiApiKey?: string;
 }
 
 /**
@@ -238,6 +253,21 @@ export abstract class BaseSettings<TDataType>
     public queryChangeSpecs: QueryChangeSpecifications;
 
     /**
+     * Defines client mode - Rest or Hapi.
+     */
+    public mode: "rest" | "hapi";
+
+    /**
+     * Defines index id for Hapi mode.
+     */
+    public hapiIndexId?: number;
+
+    /**
+     * Defines api key for Hapi mode.
+     */
+    public hapiApiKey?: string;
+
+    /**
      * Returns the actual url for the service.
      */
     public get url(): string {
@@ -272,7 +302,14 @@ export abstract class BaseSettings<TDataType>
         this.enabled =
             typeof settings.enabled !== 'undefined' ? settings.enabled : true;
 
-        this.baseUrl = settings.baseUrl.replace(/\/+$/, '');
+        this.mode =
+            typeof settings.mode !== "undefined" ? settings.mode : "rest";
+
+        this.hapiIndexId = settings.hapiIndexId;
+        
+        this.hapiApiKey = settings.hapiApiKey;
+
+        this.baseUrl = settings.baseUrl.replace(/\/+$/, "");
 
         this.basePath =
             typeof settings.basePath !== 'undefined'

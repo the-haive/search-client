@@ -1,127 +1,55 @@
-import { AuthToken } from "../Authentication";
-import { BaseCall, Fetch, IQuery, Query } from "../Common";
-import { AutocompleteQueryConverter } from "./AutocompleteQueryConverter";
-import {
-    AutocompleteSettings,
+import { IQuery, CategorizationType, DateSpecification, Filter, SearchType, OrderBy } from "../Common";
+import {    
     IAutocompleteSettings
 } from "./AutocompleteSettings";
 
-/**
- * This class allows you to create a service that executes autocomplete lookups for the Haive SearchManager service.
- *
- * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
- */
-export class Autocomplete extends BaseCall<string[]> {
-    public settings: IAutocompleteSettings;
+export interface Autocomplete {
 
-    private queryConverter: AutocompleteQueryConverter;
+    settings: IAutocompleteSettings;
 
-    /**
-     * Creates an Autocomplete instance that knows how to get query-suggestions.
-     * @param settings - The settings for how the Autocomplete is to operate.
-     * @param auth - The object that handles authentication.
-     */
-    constructor(
-        settings: IAutocompleteSettings | string,
-        auth?: AuthToken,
-        fetchMethod?: Fetch
-    ) {
-        super(); // dummy
-        // prepare for super.init
-        settings = new AutocompleteSettings(settings);
-        auth = auth || new AuthToken();
-        super.init(settings, auth, fetchMethod);
-        this.queryConverter = new AutocompleteQueryConverter();
-    }
+    maxSuggestionsChanged(oldValue: number, query: IQuery): void;
 
-    /**
-     * When called it will execute a rest-call to the base-url and fetch autocomplete suggestions based on the query passed.
-     * Note that if a request callback has been setup then if it returns false the request is skipped.
-     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved.
-     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
-     */
-    public fetch(
-        query: IQuery = new Query(),
-        suppressCallbacks: boolean = false
-    ): Promise<string[]> {
-        let url = this.queryConverter.getUrl(
-            this.settings.url,
-            new Query(query)
-        );
-        let reqInit = this.requestObject();
+    queryTextChanged(oldValue: string, query: IQuery): void;
 
-        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-            return this.fetchMethod(url, reqInit)
-                .then((response: Response) => {
-                    if (!response.ok) {
-                        throw Error(
-                            `${response.status} ${response.statusText} for request url '${url}'`
-                        );
-                    }
-                    return response.json();
-                })
-                .then((suggestions: string[]) => {
-                    this.cbSuccess(
-                        suppressCallbacks,
-                        suggestions,
-                        url,
-                        reqInit
-                    );
-                    return suggestions;
-                })
-                .catch(error => {
-                    this.cbError(suppressCallbacks, error, url, reqInit);
-                    throw error;
-                });
-        } else {
-            // TODO: When a fetch is stopped due to cbRequest returning false, should we:
-            // 1) Reject the promise (will then be returned as an error).
-            // or
-            // 2) Resolve the promise (will then be returned as a success).
-            // or
-            // 3) should we do something else (old code returned undefined...)
-            return Promise.resolve(null);
-        }
-    }
+    fetch(
+        query: IQuery,
+        suppressCallbacks: boolean
+    ): Promise<string[]>;    
 
-    public maxSuggestionsChanged(oldValue: number, query: IQuery) {
-        if (!this.shouldUpdate("maxSuggestions", query)) {
-            return;
-        }
-        if (this.settings.triggers.maxSuggestionsChanged) {
-            this.update(query);
-        }
-    }
+    categorizationTypeChanged(
+        oldValue: CategorizationType,
+        query: IQuery
+    ): void;
 
-    public queryTextChanged(oldValue: string, query: IQuery) {
-        if (!this.shouldUpdate("queryText", query)) {
-            return;
-        }
-        if (this.settings.triggers.queryChange) {
-            if (
-                query.queryText.length >
-                this.settings.triggers.queryChangeMinLength
-            ) {
-                if (
-                    this.settings.triggers.queryChangeInstantRegex &&
-                    this.settings.triggers.queryChangeInstantRegex.test(
-                        query.queryText
-                    )
-                ) {
-                    this.update(query);
-                    return;
-                } else {
-                    if (this.settings.triggers.queryChangeDelay > -1) {
-                        this.update(
-                            query,
-                            this.settings.triggers.queryChangeDelay
-                        );
-                        return;
-                    }
-                }
-            }
-        }
-        clearTimeout(this.delay);
-    }
+    deferUpdates(state: boolean, skipPending: boolean): void;
+
+    update(
+        query: IQuery,
+        delay?: number,
+        useQueryMatchPage?: boolean
+    ): void;
+
+    shouldUpdate(fieldName?: string, query?: IQuery): boolean;
+
+    clientIdChanged(oldValue: string, query: IQuery): void;
+
+    dateFromChanged(oldValue: DateSpecification, query: IQuery): void;
+
+    dateToChanged(oldValue: DateSpecification, query: IQuery): void;
+
+    filtersChanged(oldValue: Filter[], query: IQuery): void;
+        
+    searchTypeChanged(oldValue: SearchType, query: IQuery): void;
+
+    uiLanguageCodeChanged(oldValue: string, query: IQuery): void;
+
+    matchGenerateContentChanged(oldValue: boolean, query: IQuery): void;
+    matchGenerateContentHighlightsChanged(
+        oldValue: boolean,
+        query: IQuery
+    ): void;
+    matchGroupingChanged(oldValue: boolean, query: IQuery): void;
+    matchOrderByChanged(oldValue: OrderBy, query: IQuery): void;
+    matchPageChanged(oldValue: number, query: IQuery): void;
+    matchPageSizeChanged(oldValue: number, query: IQuery): void;
 }
