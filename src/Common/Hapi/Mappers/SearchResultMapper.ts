@@ -1,6 +1,6 @@
 import { IMatches } from '../../../Data/IMatches';
 import { IMetaData } from '../../../Data/IMetaData';
-import { search, search_index_items_results_categories, search_index_items_results_metadata } from '../Typings/search';
+import { search, search_index_items_results_categories, search_index_items_results_metadata, search_index_items_results } from '../Typings/search';
 
 export class SearchResultMapper {
      public static map(indexId: number, data: search): IMatches {
@@ -16,7 +16,7 @@ export class SearchResultMapper {
             errorMessage: "",
         };
      
-        data.index.items.results.forEach((item) => {
+        data.index.items.results.forEach((item: search_index_items_results) => {
         {                                        
             matches.searchMatches.push({
                 id: 0,
@@ -46,7 +46,7 @@ export class SearchResultMapper {
     private static mapCategories(categories: search_index_items_results_categories[]): string[] {
         let result = new Array<string>();   
         if (categories) {
-            categories.forEach((c) => {
+            categories.forEach((c: search_index_items_results_categories) => {
                 result.push(c.values.join("|"));                
             });
         }
@@ -57,7 +57,7 @@ export class SearchResultMapper {
     private static mapMetadata(metadata: search_index_items_results_metadata[]): IMetaData[] {
         let result = new Array<IMetaData>();   
         if (metadata) {
-            metadata.forEach((m) => {
+            metadata.forEach((m: search_index_items_results_metadata) => {
                 result.push({
                     key: m.name,
                     value: m.value

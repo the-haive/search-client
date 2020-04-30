@@ -1,5 +1,5 @@
 import { ICategories } from '../../../Data/ICategories';
-import { categorize } from '../Typings/categorize';
+import { categorize, categorize_index_categories_results } from '../Typings/categorize';
 import { IGroup } from '../../../Data/IGroup';
 
 interface IHierarchy {
@@ -27,7 +27,7 @@ export class CategorizeResultMapper {
 
         let hierarchy = new Array<IHierarchy>();
 
-        data.index.categories.results.forEach((category) => {
+        data.index.categories.results.forEach((category: categorize_index_categories_results) => {
             {              
                 hierarchy.push(
                     {
@@ -45,7 +45,7 @@ export class CategorizeResultMapper {
             }
         });
 
-        data.index.categories.results.forEach((category) => {
+        data.index.categories.results.forEach((category: categorize_index_categories_results) => {
             let group = categories.groups.find((g) => 
                 g.name === category.groupName
             );

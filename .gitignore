@@ -74,6 +74,7 @@ jspm_packages/
 
 # Typescript v1 declaration files
 typings/
+!src/Common/Hapi/Typings
 
 # Optional npm cache directory
 .npm
