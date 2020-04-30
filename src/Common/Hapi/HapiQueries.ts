@@ -16,9 +16,12 @@ export class HapiQueries {
             results
             {
               id
+              internalId
               parentIds
+              parentLevel
               url
               title 
+              abstract
               content
               extracts       
               relevance			
