@@ -65,11 +65,13 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Defines the different categorizationtypes that can be used (modes).</p>
+						<p>Defines the different categorization-types that can be used (modes).</p>
 					</div>
+					<p>This affects only the category-tree that is returned. The generated match-list will always have the set category-filters applied and will not be affected by this setting.</p>
+					<p>Note: Hidden filters are always applied, no matter the value of this setting.</p>
 					<dl class="tsd-comment-tags">
 						<dt>default</dt>
-						<dd><p>All</p>
+						<dd><p>Normal</p>
 						</dd>
 					</dl>
 				</div>
@@ -82,7 +84,8 @@
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="categorizationtype.html#all" class="tsd-kind-icon">All</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="categorizationtype.html#documenthitsonly" class="tsd-kind-icon">Document<wbr>Hits<wbr>Only</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="categorizationtype.html#drilldown" class="tsd-kind-icon">Drilldown</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="categorizationtype.html#normal" class="tsd-kind-icon">Normal</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,28 +99,47 @@
 					<div class="tsd-signature tsd-kind-icon">All<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;All&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/CategorizationType.ts#L9">Common/CategorizationType.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/CategorizationType.ts#L18">Common/CategorizationType.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Returns categories with hits only.</p>
+							<p>Returns all known categories. Typically only suitable for public indexes (no permissions).</p>
 						</div>
+						<p>Server-side execution returns the full precalculated category-tree, without considering the user&#39;s permissions or hits.</p>
+						<p>Note: This requires a config-setting to be enabled on the server side index, as it will reveal all categories for any end-user.</p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="documenthitsonly" class="tsd-anchor"></a>
-					<h3>Document<wbr>Hits<wbr>Only</h3>
-					<div class="tsd-signature tsd-kind-icon">Document<wbr>Hits<wbr>Only<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;DocumentHitsOnly&quot;</span></div>
+					<a name="drilldown" class="tsd-anchor"></a>
+					<h3>Drilldown</h3>
+					<div class="tsd-signature tsd-kind-icon">Drilldown<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;Drilldown&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/CategorizationType.ts#L14">Common/CategorizationType.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/CategorizationType.ts#L25">Common/CategorizationType.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Returns all categories (even for categories that has no hits).</p>
+							<p>Returns only categories with hits. This setting in effect reduces the number of categories each time a category-filter is added.</p>
 						</div>
+						<p>Server-side execution does apply category-filters in the categorize() call.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="normal" class="tsd-anchor"></a>
+					<h3>Normal</h3>
+					<div class="tsd-signature tsd-kind-icon">Normal<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> =&nbsp;&quot;Normal&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/CategorizationType.ts#L32">Common/CategorizationType.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Returns all categories that the user can access for the given queryText.</p>
+						</div>
+						<p>Server-side execution does <em>not</em> apply category-filters in the categorize() call.</p>
 					</div>
 				</section>
 			</section>
@@ -141,7 +163,10 @@
 								<a href="categorizationtype.html#all" class="tsd-kind-icon">All</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="categorizationtype.html#documenthitsonly" class="tsd-kind-icon">Document<wbr>Hits<wbr>Only</a>
+								<a href="categorizationtype.html#drilldown" class="tsd-kind-icon">Drilldown</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="categorizationtype.html#normal" class="tsd-kind-icon">Normal</a>
 							</li>
 						</ul>
 					</li>

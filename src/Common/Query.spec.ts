@@ -13,7 +13,7 @@ describe("Query basics", () => {
         expect(query instanceof Query).toBeTruthy();
         expect(query.clientId).toBe("web");
         expect(query.categorizationType).toBe(
-            CategorizationType.DocumentHitsOnly
+            CategorizationType.Normal
         );
         expect(query.dateFrom).toBeNull();
         expect(query.dateTo).toBeNull();
@@ -48,7 +48,7 @@ describe("Query basics", () => {
         ];
         let query = new Query({
             clientId: "clientId",
-            categorizationType: CategorizationType.DocumentHitsOnly,
+            categorizationType: CategorizationType.Drilldown,
             dateFrom: from,
             dateTo: to,
             filters,
@@ -69,7 +69,7 @@ describe("Query basics", () => {
 
         expect(query.clientId).toBe("clientId");
         expect(query.categorizationType).toBe(
-            CategorizationType.DocumentHitsOnly
+            CategorizationType.Drilldown
         );
         expect(query.dateFrom).toEqual(from);
         expect(query.dateTo).toEqual(to);
@@ -88,7 +88,7 @@ describe("Query basics", () => {
 
     it("Should be able to create a query with enum overrides using strings (like from a plain json object)", () => {
         let jsonQuery = {
-            categorizationType: "DocumentHitsOnly",
+            categorizationType: "Drilldown",
             matchOrderBy: "Date",
             searchType: "Relevance"
         };
@@ -97,7 +97,7 @@ describe("Query basics", () => {
 
         expect(query).toBeDefined();
         expect(query.categorizationType).toBe(
-            CategorizationType.DocumentHitsOnly
+            CategorizationType.Drilldown
         );
         expect(query.matchOrderBy).toBe(OrderBy.Date);
         expect(query.searchType).toBe(SearchType.Relevance);

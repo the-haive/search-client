@@ -113,7 +113,7 @@ export class Query implements IQuery {
      * Used to specify whether categorize calls should always return all categories or just categories that has matches.
      */
     public categorizationType?: CategorizationType =
-        CategorizationType.DocumentHitsOnly;
+        CategorizationType.Normal;
 
     /**
      * Used to specify the start date-range.

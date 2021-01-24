@@ -46,7 +46,7 @@ describe("QueryConverters", () => {
         let qc = new CategorizeQueryConverter();
         let defaultQuery = new Query();
         const expectedFindUrl =
-            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&t=Keywords";
+            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=Normal&t=Keywords";
 
         expect(
             qc.getUrl(

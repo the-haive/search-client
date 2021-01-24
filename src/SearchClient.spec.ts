@@ -620,7 +620,12 @@ describe("SearchClient filter interface", () => {
             },
             query: {
                 filters: [
-                    { category: { categoryName: ['preFilter'] } } as Filter,
+                    { 
+                        category: { 
+                            categoryName: ['preFilter']
+                        },
+                        hidden: true
+                    },
                 ],
             },
         });
@@ -632,7 +637,7 @@ describe("SearchClient filter interface", () => {
             'http://localhost:9950/RestService/v4/search/find?c=web&f=preFilter&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords',
         );
         expect(urlCatResult).toEqual(
-            'http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&f=preFilter&q=test%0A&t=Keywords',
+            'http://localhost:9950/RestService/v4/search/categorize?c=web&ct=Normal&hf=preFilter&q=test%0A&t=Keywords',
         );
     });
 
@@ -681,7 +686,7 @@ describe("SearchClient filter interface", () => {
             "http://localhost:9950/RestService/v4/search/find?c=web&g=true&gc=true&gch=true&o=Relevance&p=1&q=test%0A&s=10&t=Keywords"
         );
         expect(urlCatResult).toEqual(
-            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=DocumentHitsOnly&q=test%0A&t=Keywords"
+            "http://localhost:9950/RestService/v4/search/categorize?c=web&ct=Normal&q=test%0A&t=Keywords"
         );
 
         expect(client.matchGrouping).toBeTruthy();

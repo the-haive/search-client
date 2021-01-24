@@ -13,10 +13,14 @@ export class CategorizeQueryConverter extends BaseQueryConverter {
         this.addParamIfSet(params, "c", query.clientId);
         this.addParamIfSet(params, "df", this.createDate(query.dateFrom));
         this.addParamIfSet(params, "dt", this.createDate(query.dateTo));
-        let filters: string[] = query.filters.map(f =>
+        let filters: string[] = query.filters.filter(f => !f.hidden).map(f =>
             f.category.categoryName.join("|")
         );
         this.addParamIfSet(params, "f", filters.join(";"));
+        let hiddenFilters: string[] = query.filters.filter(f => f.hidden === true).map(f =>
+            f.category.categoryName.join("|")
+        );
+        this.addParamIfSet(params, "hf", hiddenFilters.join(";"));
         this.addParamIfSet(params, "q", query.queryText);
         this.addParamIfSet(params, "t", query.searchType);
         this.addParamIfSet(params, "l", query.uiLanguageCode);
