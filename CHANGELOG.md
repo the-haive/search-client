@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.0.0](https://github.com/the-haive/search-client/compare/v1.3.1...v2.0.0) (2021-01-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* New default `CategorizationType`: `Normal`. 
+
+### Features
+
+* New default `CategorizationType`: `Normal`.  ([1a16ec2](https://github.com/the-haive/search-client/commit/1a16ec2e92c868b509423f06d701f36e79a00e65))
 
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/the-haive/search-client/compare/v1.3.0...v1.3.1) (2020-01-17)
