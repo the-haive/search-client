@@ -1,5 +1,5 @@
-import {FetchMock} from "jest-fetch-mock";
-const fetchMock = fetch as FetchMock;
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
 
 import { Find, IFindSettings, FindTriggers } from ".";
 import { IMatches, IMatchItem } from "../Data";
@@ -149,6 +149,47 @@ describe("Find basics", () => {
         expect(settings.cbSuccess).not.toHaveBeenCalled();
     });
 
+    it("Should be able to cancel running find() calls, and handle only the last find() call", async () => {
+        jest.useFakeTimers();
+        fetchMock.resetMocks();
+
+        const expectedMatches = {
+            bestBets: [],
+            didYouMeanList: [],
+            errorMessage: null,
+            estimatedMatchCount: 1,
+            expandedQuery: "",
+            nextPageRef: 0,
+            searchMatches: [{} as IMatchItem]
+        } as IMatches;
+
+        fetchMock.mockResponse(async () => {
+            jest.advanceTimersByTime(60);
+            return JSON.stringify(expectedMatches);
+        });
+
+        let results: IMatches;
+        let settings = {
+            baseUrl: "http://localhost:9950/",
+            cbSuccess: jest.fn(matches => {
+                results = matches;
+            })
+        } as IFindSettings;
+
+        let find = new Find(settings, null, fetch);
+        try {
+            find.fetch();
+            find.fetch();
+            find.fetch();
+            await find.fetch();
+            expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+            expect(results).toEqual(expectedMatches);
+        } catch (error) {
+            fail("Should not yield an error");
+        }
+        expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
+    });
+
     it("Should be notified that the results are outdated when find queryText is changed cbResultsOutdated", () => {
         fetchMock.resetMocks();
         // Not caring about the response, just to stop the fetch from completing.
@@ -200,7 +241,6 @@ describe("Find basics", () => {
             expect(typeof results).toBe("object");
         });
 
-
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbWarning,
@@ -219,4 +259,5 @@ describe("Find basics", () => {
         expect(settings.cbWarning).toHaveBeenCalledTimes(1);
         expect(settings.cbSuccess).toHaveBeenCalledTimes(1);
     });
+
 });

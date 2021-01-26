@@ -52,6 +52,10 @@ export class Autocomplete extends BaseCall<string[]> {
         let reqInit = this.requestObject();
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
+
+            // Indicate that we are now fetching
+            this.fetching = true;
+
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
@@ -70,9 +74,16 @@ export class Autocomplete extends BaseCall<string[]> {
                     );
                     return suggestions;
                 })
-                .catch(error => {
+                .catch((error: Error) => {
+                    if (error.name === 'AbortError') {
+                        return Promise.resolve(null);
+                    }
                     this.cbError(suppressCallbacks, error, url, reqInit);
                     throw error;
+                })
+                .finally(() => {
+                    // Make sure that the fetching state is reset
+                    this.fetching = false;
                 });
         } else {
             // TODO: When a fetch is stopped due to cbRequest returning false, should we:

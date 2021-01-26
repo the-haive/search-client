@@ -53,6 +53,13 @@ export abstract class BaseCall<TDataType> {
     protected fetchQuery: IQuery;
 
     /**
+     * Indicates whether or not a running fetch is running
+     */
+    protected fetching: boolean;
+
+    private abortController: AbortController;
+
+    /**
      * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
      * When turned back on the second param can be used to indicate whether pending updates should be executed or not.
      * @param state Turns on or off deferring of updates.
@@ -98,12 +105,20 @@ export abstract class BaseCall<TDataType> {
             headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
         }
 
+        // If a fetch is already running, abort it - if not already aborted
+        if (this.fetching && this.abortController && !this.abortController.signal.aborted) {
+            this.abortController.abort();
+        }
+        // Setup new abort-controller (to reset the existing - in case it has been aborted)
+        this.abortController = new AbortController();
+
         return {
             cache: "default",
             credentials: "include",
             headers,
             method: "GET",
-            mode: "cors"
+            mode: "cors",
+            signal: this.abortController.signal
         } as RequestInit;
     }
 
@@ -225,6 +240,8 @@ export abstract class BaseCall<TDataType> {
         this.settings = settings;
         this.auth = auth;
         this.fetchMethod = fetchMethod || fetch;
+        this.abortController = null;
+        this.fetching = false;
     }
 
     protected abstract fetch(
@@ -295,7 +312,7 @@ export abstract class BaseCall<TDataType> {
         if (
             this.settings.cbResultState &&
             this.settings.queryChangeSpecs &
-                QueryChangeSpecifications[fieldName]
+            QueryChangeSpecifications[fieldName]
         ) {
             let invalid = this.fetchQuery
                 ? !(this.fetchQuery as Query).equals(query, this.settings.queryChangeSpecs)

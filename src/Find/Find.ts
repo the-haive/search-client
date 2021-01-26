@@ -61,12 +61,15 @@ export class Find extends BaseCall<IMatches> {
 
         if (this.cbRequest(suppressCallbacks, url, reqInit)) {
             this.fetchQuery = new Query(query);
+
+            // Indicate that we are now fetching
+            this.fetching = true;
+
             return this.fetchMethod(url, reqInit)
                 .then((response: Response) => {
                     if (!response.ok) {
                         throw Error(
-                            `${response.status} ${
-                                response.statusText
+                            `${response.status} ${response.statusText
                             } for request url '${url}'`
                         );
                     }
@@ -75,7 +78,7 @@ export class Find extends BaseCall<IMatches> {
                 .then((matches: IMatches) => {
                     // Handle situations where parsing was ok, but we have an error in the returned message from the server
                     if (matches.errorMessage || matches.statusCode !== 0) {
-                        let  { errorMessage, statusCode } = matches;
+                        let { errorMessage, statusCode } = matches;
                         const warning = {
                             message: errorMessage || "Unspecified issue",
                             statusCode
@@ -85,9 +88,16 @@ export class Find extends BaseCall<IMatches> {
                     this.cbSuccess(suppressCallbacks, matches, url, reqInit);
                     return matches;
                 })
-                .catch((error: any) => {
+                .catch((error: Error) => {
+                    if (error.name === 'AbortError') {
+                        return Promise.resolve(null);
+                    }
                     this.cbError(suppressCallbacks, error, url, reqInit);
                     throw error;
+                })
+                .finally(() => {
+                    // Make sure that the fetching state is reset
+                    this.fetching = false;
                 });
         } else {
             // TODO: When a fetch is stopped due to cbRequest returning false, should we:
