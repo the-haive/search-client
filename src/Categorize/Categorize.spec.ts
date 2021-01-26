@@ -1,5 +1,6 @@
-import {FetchMock} from "jest-fetch-mock";
-const fetchMock = fetch as FetchMock;
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
+
 import {
     Categorize,
     CategorizeSettings,

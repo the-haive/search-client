@@ -1,5 +1,5 @@
-import {FetchMock} from "jest-fetch-mock";
-const fetchMock = fetch as FetchMock;
+import { enableFetchMocks } from 'jest-fetch-mock';
+enableFetchMocks();
 
 import { Autocomplete, IAutocompleteSettings, AutocompleteTriggers } from ".";
 import { Query } from "../Common";
@@ -96,19 +96,20 @@ describe("Autocomplete basics", () => {
         );
     });
 
-    it("Should be able to get some autocomplete suggestions", () => {
+    it("Should be able to get some autocomplete suggestions", async () => {
         fetchMock.resetMocks();
-        // Not caring about the response, just to allow the fetch to complete.
-        fetchMock.mockResponse(JSON.stringify(null));
+
+        fetchMock.mockResponse(JSON.stringify(["queryTextForMe", "queryTextForYou"]));
 
         let cbRequest = jest.fn((url, reqInit) => {
             expect(typeof url).toBe("string");
             expect(typeof reqInit).toBe("object");
         }) as unknown;
 
-        let cbSuccess = jest.fn((url, reqInit) => {
-            expect(typeof url).toBe("string");
-            expect(typeof reqInit).toBe("object");
+        let cbSuccess = jest.fn(suggestions => {
+            expect(suggestions.length).toBe(2);
+            expect(suggestions).toContain("queryTextForMe");
+            expect(suggestions).toContain("queryTextForYou");
         }) as unknown;
 
         let settings = {
@@ -118,24 +119,20 @@ describe("Autocomplete basics", () => {
         } as IAutocompleteSettings;
 
         let autocomplete = new Autocomplete(settings, null, fetch);
-        autocomplete
-            .fetch()
-            .then(response => {
-                expect(typeof response).toBe("object");
-            })
-            .catch(error => {
-                fail("Should not fail");
-            })
-            .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
-                expect(settings.cbSuccess).toHaveBeenCalled();
-            });
+        try {
+            await autocomplete.fetch();
+        } catch (error) {
+            fail(error);
+        }
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(settings.cbSuccess).toHaveBeenCalled();
     });
 
-    it("Should be able to stop an Autocomplete using cbRequest", () => {
+    it("Should be able to stop an Autocomplete using cbRequest", async () => {
         fetchMock.resetMocks();
-        // Not caring about the response, just to stop the fetch from completing.
-        fetchMock.mockResponse(JSON.stringify(null));
+
+        fetchMock.mockResponse(JSON.stringify(["queryTextForMe", "queryTextForYou"]));
+
         let settings = {
             baseUrl: "http://localhost:9950/",
             cbRequest: jest.fn((url, reqInit) => {
@@ -148,18 +145,13 @@ describe("Autocomplete basics", () => {
         } as IAutocompleteSettings;
 
         let autocomplete = new Autocomplete(settings, null, fetch);
-        autocomplete
-            .fetch()
-            .then(response => {
-                expect(response).toBeNull();
-            })
-            .catch(error => {
-                fail("Should not yield an error");
-            })
-            .then(() => {
-                expect(settings.cbRequest).toHaveBeenCalled();
-                expect(settings.cbSuccess).not.toHaveBeenCalled();
-            });
+        try {
+            autocomplete.fetch();
+        } catch (error) {
+            fail(error);
+        }
+        expect(settings.cbRequest).toHaveBeenCalled();
+        expect(settings.cbSuccess).not.toHaveBeenCalled();
     });
 
     it("Should be able to create response when changing queryText", () => {
@@ -170,6 +162,7 @@ describe("Autocomplete basics", () => {
             JSON.stringify(["queryTextForMe", "queryTextForYou"])
         );
         let cbSuccess = jest.fn(suggestions => {
+            expect(suggestions.length).toBe(2);
             expect(suggestions).toContain("queryTextForMe");
             expect(suggestions).toContain("queryTextForYou");
         }) as unknown;
