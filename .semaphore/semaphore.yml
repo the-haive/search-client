@@ -13,7 +13,7 @@ blocks:
             - sem-version node 10
             - checkout
             - yarn install
-            - yarn test
+            - yarn run test
   - name: Test
     task:
       jobs:
