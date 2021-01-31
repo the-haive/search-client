@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/the-haive/search-client/compare/v2.1.0...v2.1.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* cross-fetch major version upgrade to support AbortController. Minor upgrade for all other dependencies. Code-style refactoring. ([7fbd59f](https://github.com/the-haive/search-client/commit/7fbd59fee10f353396b201cd0a04c1ad0b89c2ac))
+
 ## [2.1.0](https://github.com/the-haive/search-client/compare/v2.0.0...v2.1.0) (2021-01-28)
 
 
