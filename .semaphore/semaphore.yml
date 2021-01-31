@@ -13,10 +13,9 @@ blocks:
             - sem-version node 10
             - checkout
             - yarn install
-            - yarn run test
-  - name: Test
+  - name: Run tests
     task:
       jobs:
         - name: 'Job #1'
           commands:
-            - yarn test
+            - yarn run test
