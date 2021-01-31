@@ -4,16 +4,17 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>HAIVE IntelliSearch SearchClient</title>
-	<meta name="description" content="">
+	<meta name="description" content="Documentation for HAIVE IntelliSearch SearchClient">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
 </head>
 <body>
 <header>
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -47,12 +48,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> HAIVE IntelliSearch SearchClient</h1>
+			<h1>HAIVE IntelliSearch SearchClient</h1>
 		</div>
 	</div>
 </header>
@@ -93,12 +89,16 @@
 					<h2>Use in NPM projects</h2>
 				</a>
 				<p>For projects that consumes npm packages natively you add this package as you would add any other npm-package:</p>
-				<pre><code>&gt; npm install --<span class="hljs-keyword">save</span> <span class="hljs-keyword">search</span>-client</code></pre><p>Since we have implemented the search-client in Typescript all the data-types and signatures are available for your IDE to use as intellisense. Please also use the documentation available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).</p>
+				<pre><code><span style="color: #000000">&gt; </span><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> --</span><span style="color: #001080">save</span><span style="color: #000000"> </span><span style="color: #001080">search</span><span style="color: #000000">-</span><span style="color: #001080">client</span>
+</code></pre>
+				<p>Since we have implemented the search-client in Typescript all the data-types and signatures are available for your IDE to use as intellisense. Please also use the documentation available in the generated API-documentation in the search-client doc-folder (typically ./node_modules/search-client/doc/index.html).</p>
 				<a href="#use-in-browser-via-script-tag" id="use-in-browser-via-script-tag" style="color: inherit; text-decoration: none;">
 					<h2>Use in browser (via script-tag)</h2>
 				</a>
 				<p>For web-pages that needs to have a script-tag embedded you can fetch the file(s) needed via the jsDelivr cdn, like this:</p>
-				<pre><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//cdn.jsdelivr.net/npm/search-client@</span></span></span><span class="hljs-template-variable">{version}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">/dist/IntelliSearch.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></code></pre><p>- where <code>{version}</code> is to be replaced with the actual version you want.</p>
+				<pre><code><span style="color: #000000">&lt;</span><span style="color: #001080">script</span><span style="color: #000000"> </span><span style="color: #001080">src</span><span style="color: #000000">=</span><span style="color: #A31515">&quot;//cdn.jsdelivr.net/npm/search-client@{version}/dist/IntelliSearch.min.js&quot;</span><span style="color: #000000">&gt;&lt;/</span><span style="color: #267F99">script</span><span style="color: #000000">&gt;</span>
+</code></pre>
+				<p>- where <code>{version}</code> is to be replaced with the actual version you want.</p>
 				<p><strong>CDN version aliases:</strong></p>
 				<p>We strongly recommend that you use the full version id for production sites. For development sites we do recommend the same, but we also see that using a version alias might be handy in some cases.</p>
 				<ul>
@@ -129,23 +129,23 @@
 				<a href="#searchclient" id="searchclient" style="color: inherit; text-decoration: none;">
 					<h3>SearchClient</h3>
 				</a>
-				<p>The central class is the <a href="classes/searchclient.html">SearchClient</a>. To start using it you will need to create a new instance of it.</p>
+				<p>The central class is the <a href="modules/searchclient.html">SearchClient</a>. To start using it you will need to create a new instance of it.</p>
 				<p><strong>Note: If you are embedding the library via a script-tag then all the library features are in the IntelliSearch namespace.</strong></p>
-				<p>The constructor takes one parameter (<code>settings</code>: <a href="interfaces/isettings.html">ISettings</a>), where at least the <a href="classes/settings.html#baseurl">Settings.baseUrl</a> must be set.</p>
+				<p>The constructor takes one parameter (<code>settings</code>: <a href="interfaces/settings.isettings.html">ISettings</a>), where at least the <a href="classes/settings.settings-1.html#baseurl">Settings.baseUrl</a> must be set.</p>
 				<p>The settings interface has properties that help you customize the solution to your needs. The <code>baseUrl</code> is typically <code>&quot;http://&lt;your-server&gt;:9950&quot;</code> for the Haive SearchManager.</p>
 				<p>We recommend using the automatic mode, where you only need to interface with the SearchClient class and it&#39;s settings.</p>
 				<a href="#settings" id="settings" style="color: inherit; text-decoration: none;">
 					<h3>Settings</h3>
 				</a>
-				<p>The <a href="classes/settings.html">Settings</a> class has the following properties:</p>
+				<p>The <a href="modules/settings.html">Settings</a> class has the following properties:</p>
 				<ul>
 					<li><code>baseUrl</code>: string - The base url for the endpoint (domain + port only).</li>
 					<li><code>basePath</code>: string - The path (default usually is correct: <code>&quot;RestService/v4)&quot;</code></li>
-					<li><code>authentication</code>: <a href="classes/authenticationsettings.html">AuthenticationSettings</a> - Defines how <code>authentication</code>-calls are handled</li>
-					<li><code>autocomplete</code>: <a href="classes/autocompletesettings.html">AutocompleteSettings</a> - Defines how <code>autocomplete</code>-calls are handled</li>
-					<li><code>categorize</code>: <a href="classes/categorizesettings.html">CategorizeSettings</a> - Defines how <code>categorize</code>-calls are handled</li>
-					<li><code>find</code>: <a href="classes/findsettings.html">FindSettings</a> - Defines how <code>find</code>-calls are handled</li>
-					<li><code>query</code>: <a href="classes/query.html">Query</a> - Defines the default query-options.\</li>
+					<li><code>authentication</code>: <a href="classes/authentication_authenticationsettings.authenticationsettings.html">AuthenticationSettings</a> - Defines how <code>authentication</code>-calls are handled</li>
+					<li><code>autocomplete</code>: <a href="classes/autocomplete_autocompletesettings.autocompletesettings.html">AutocompleteSettings</a> - Defines how <code>autocomplete</code>-calls are handled</li>
+					<li><code>categorize</code>: <a href="classes/categorize_categorizesettings.categorizesettings.html">CategorizeSettings</a> - Defines how <code>categorize</code>-calls are handled</li>
+					<li><code>find</code>: <a href="classes/find_findsettings.findsettings.html">FindSettings</a> - Defines how <code>find</code>-calls are handled</li>
+					<li><code>query</code>: <a href="classes/common_query.query.html">Query</a> - Defines the default query-options.\</li>
 				</ul>
 				<p>Please consult the documentation for specific details on each of them. Suffice to say that all the <code>*Settings</code> classes contains a boolean property called <code>enabled</code>, which by default is <code>true</code>.</p>
 				<a href="#automatic-mode" id="automatic-mode" style="color: inherit; text-decoration: none;">
@@ -157,10 +157,10 @@
 				</a>
 				<p>The <code>Autocomplete</code>, <code>Categorize</code>, <code>Find</code> (and optionally also the <code>authentication</code>) services are all essential parts of the automatic mode. Because of this their respective settings objects also contain a property called <code>trigger</code>:</p>
 				<ul>
-					<li><a href="classes/autocompletetriggers.html">AutocompleteTriggers</a></a></li>
-					<li><a href="classes/categorizetriggers.html">CategorizeTriggers</a></a></li>
-					<li><a href="classes/findtriggers.html">FindTriggers</a></a></li>
-					<li><a href="classes/authenticationtriggers.html">AuthenticationTriggers</a></a></li>
+					<li><a href="classes/autocomplete_autocompletetriggers.autocompletetriggers.html">AutocompleteTriggers</a></a></li>
+					<li><a href="classes/categorize_categorizetriggers.categorizetriggers.html">CategorizeTriggers</a></a></li>
+					<li><a href="classes/find_findtriggers.findtriggers.html">FindTriggers</a></a></li>
+					<li><a href="classes/authentication_authenticationtriggers.authenticationtriggers.html">AuthenticationTriggers</a></a></li>
 				</ul>
 				<p>We suggest spending time on examining the triggers for the respective services above.</p>
 				<a href="#set-up-callbacks" id="set-up-callbacks" style="color: inherit; text-decoration: none;">
@@ -190,36 +190,36 @@
 				<p>These are the <strong>properties</strong> on the SearchClient class that you can manipulate in order to change the query that the search-client is to execute. It is expected that you both <code>set</code> and <code>get</code> them directly:</p>
 				<ul>
 					<li><code>clientId</code>: string</li>
-					<li><code>dateFrom</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
-					<li><code>dateTo</code>: <a href="globals.html#datespecification">DateSpecification</a></li>
+					<li><code>dateFrom</code>: <a href="modules/common_query.html#datespecification">DateSpecification</a></li>
+					<li><code>dateTo</code>: <a href="modules/common_query.html#datespecification">DateSpecification</a></li>
 					<li><code>filters</code>: string[]</li>
 					<li><code>matchGenerateContent</code>: boolean</li>
 					<li><code>matchGenerateContentHighlights</code>: boolean</li>
 					<li><code>matchGrouping</code>: boolean</li>
-					<li><code>matchOrderBy</code>: <a href="enums/orderby.html">OrderBy</a></li>
+					<li><code>matchOrderBy</code>: <a href="enums/common_orderby.orderby.html">OrderBy</a></li>
 					<li><code>matchPage</code>: number</li>
 					<li><code>matchPageSize</code>: number</li>
 					<li><code>maxSuggestions</code>: number</li>
-					<li><code>query</code>: <a href="classes/query.html">Query</a></li>
+					<li><code>query</code>: <a href="classes/common_query.query.html">Query</a></li>
 					<li><code>queryText</code>: string</li>
-					<li><code>searchType</code>: <a href="enums/searchtype.html">SearchType</a></li>
+					<li><code>searchType</code>: <a href="enums/common_searchtype.searchtype.html">SearchType</a></li>
 					<li><code>uiLanguageCode</code>: string</li>
 				</ul>
 				<p>I.e. <code>searchClient.queryText = &quot;my query&quot;;</code>
 				The normal thing to do is to wire the UI events so that when the user changes the content of the query input field you immediately update the <code>queryText</code> property.</p>
 				<p>In addition the there are some additional methods that help manage changes in the UI:</p>
 				<ul>
-					<li><code>toggleCategoryExpansion(...)</code> <a href="classes/searchclient.html#togglecategoryexpansion">SearchClient.toggleCategoryExpansion</a> - To toggle expanded/collapsed state for a category in the category-tree.</li>
-					<li><code>filterAdd(...)</code> <a href="classes/searchclient.html#filteradd">SearchClient.filterAdd</a> - To add a category as a filter</li>
-					<li><code>filterRemove(...)</code> <a href="classes/searchclient.html#filterremove">SearchClient.filterRemove</a> - To remove a category as a filter</li>
-					<li><code>filterToggle(...)</code> <a href="classes/searchclient.html#filtertoggle">SearchClient.filterToggle</a> - To toggle a category as a filter</li>
-					<li><code>isFilter(...)</code> <a href="classes/searchclient.html#isfilter">SearchClient.isFilter</a> - To check whether a given category-node is also a filter</li>
-					<li><code>hasChildFilter()</code> <a href="classes/searchclient.html#haschildfilter">SearchClient.hasChildFilter</a> - To check whether any child of a given category-node is a filter</li>
-					<li><code>matchPageNext()</code> <a href="classes/searchclient.html#matchpagenext">SearchClient.matchPageNext</a> - To go to the next page of matches</li>
-					<li><code>matchPagePrev()</code> <a href="classes/searchclient.html#matchpageprev">SearchClient.matchPagePrev</a> - To fgo back to the previous page of matches</li>
-					<li><code>update(...)</code> <a href="classes/searchclient.html#update">SearchClient.update</a> - Typically called when the user clicks the search-button (or when i.e. the Enter-button has been pressed in the query-field). Will update the services according to changes in the query object (if any).</li>
-					<li><code>forceUpdate(...)</code> <a href="classes/searchclient.html#forceupdate">SearchClient.forceUpdate</a> - Used to force an update - even if there has been no changes in the query.</li>
-					<li><code>reset()</code> <a href="classes/searchclient.html#reset">SearchClient.reset</a> - Resets the search-client instance back to the original startup state (handy to reset filters, query++)</li>
+					<li><code>toggleCategoryExpansion(...)</code> <a href="classes/searchclient.searchclient-1.html#togglecategoryexpansion">SearchClient.toggleCategoryExpansion</a> - To toggle expanded/collapsed state for a category in the category-tree.</li>
+					<li><code>filterAdd(...)</code> <a href="classes/searchclient.searchclient-1.html#filteradd">SearchClient.filterAdd</a> - To add a category as a filter</li>
+					<li><code>filterRemove(...)</code> <a href="classes/searchclient.searchclient-1.html#filterremove">SearchClient.filterRemove</a> - To remove a category as a filter</li>
+					<li><code>filterToggle(...)</code> <a href="classes/searchclient.searchclient-1.html#filtertoggle">SearchClient.filterToggle</a> - To toggle a category as a filter</li>
+					<li><code>isFilter(...)</code> <a href="classes/searchclient.searchclient-1.html#isfilter">SearchClient.isFilter</a> - To check whether a given category-node is also a filter</li>
+					<li><code>hasChildFilter()</code> <a href="classes/searchclient.searchclient-1.html#haschildfilter">SearchClient.hasChildFilter</a> - To check whether any child of a given category-node is a filter</li>
+					<li><code>matchPageNext()</code> <a href="classes/searchclient.searchclient-1.html#matchpagenext">SearchClient.matchPageNext</a> - To go to the next page of matches</li>
+					<li><code>matchPagePrev()</code> <a href="classes/searchclient.searchclient-1.html#matchpageprev">SearchClient.matchPagePrev</a> - To fgo back to the previous page of matches</li>
+					<li><code>update(...)</code> <a href="classes/searchclient.searchclient-1.html#update">SearchClient.update</a> - Typically called when the user clicks the search-button (or when i.e. the Enter-button has been pressed in the query-field). Will update the services according to changes in the query object (if any).</li>
+					<li><code>forceUpdate(...)</code> <a href="classes/searchclient.searchclient-1.html#forceupdate">SearchClient.forceUpdate</a> - Used to force an update - even if there has been no changes in the query.</li>
+					<li><code>reset()</code> <a href="classes/searchclient.searchclient-1.html#reset">SearchClient.reset</a> - Resets the search-client instance back to the original startup state (handy to reset filters, query++)</li>
 				</ul>
 				<a href="#deferring-and-suppressing-registered-callbacks" id="deferring-and-suppressing-registered-callbacks" style="color: inherit; text-decoration: none;">
 					<h2>Deferring and suppressing registered callbacks</h2>
@@ -229,7 +229,7 @@
 					<li>For the SearchClient: Call <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. This will in turn call <code>deferUpdates(true)</code> for all services. When you want callbacks to again be activated, call <code>deferUpdate(false)</code> method. When first param is false it optionally takes a second parameter that can be used to indicate whether pending updates are to be skipped or not.</li>
 					<li>For a specific service: Call its specific <code>deferUpdates(true)</code> before you do anything that would normally trigger callbacks. And then afterwards, if you want the callbacks to again be active, call <code>deferUpdates(false)</code> and use the second parameter to indicate whether pending updates are to be skipped or not.</li>
 				</ol>
-				<p>Please see <a href="classes/searchclient.html#deferupdates">SearchClient.deferUpdates</a> for more information.</p>
+				<p>Please see <a href="classes/searchclient.searchclient-1.html#deferupdates">SearchClient.deferUpdates</a> for more information.</p>
 				<a href="#authentication" id="authentication" style="color: inherit; text-decoration: none;">
 					<h2>Authentication</h2>
 				</a>
@@ -345,187 +345,145 @@
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication.html">Authentication</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_authtoken.html">Authentication/<wbr>Auth<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_authentication.html">Authentication/<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_authenticationfactory.html">Authentication/<wbr>Authentication<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_authenticationsettings.html">Authentication/<wbr>Authentication<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_authenticationtriggers.html">Authentication/<wbr>Authentication<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_jwtauthentication.html">Authentication/<wbr>Jwt<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/authentication_oidcauthentication.html">Authentication/<wbr>Oidc<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/autocomplete.html">Autocomplete</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/autocomplete_autocomplete.html">Autocomplete/<wbr>Autocomplete</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/autocomplete_autocompletequeryconverter.html">Autocomplete/<wbr>Autocomplete<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/autocomplete_autocompletesettings.html">Autocomplete/<wbr>Autocomplete<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/autocomplete_autocompletetriggers.html">Autocomplete/<wbr>Autocomplete<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/categorize.html">Categorize</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/categorize_categorize.html">Categorize/<wbr>Categorize</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/categorize_categorizequeryconverter.html">Categorize/<wbr>Categorize<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/categorize_categorizesettings.html">Categorize/<wbr>Categorize<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/categorize_categorizetriggers.html">Categorize/<wbr>Categorize<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common.html">Common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_basecall.html">Common/<wbr>Base<wbr>Call</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_basequeryconverter.html">Common/<wbr>Base<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_basesettings.html">Common/<wbr>Base<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_categorizationtype.html">Common/<wbr>Categorization<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_categorypresentation.html">Common/<wbr>Category<wbr>Presentation</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_filter.html">Common/<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_orderby.html">Common/<wbr>Order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_query.html">Common/<wbr>Query</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_querychangespecifications.html">Common/<wbr>Query<wbr>Change<wbr>Specifications</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_searchtype.html">Common/<wbr>Search<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data.html">Data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_icategories.html">Data/ICategories</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_icategory.html">Data/ICategory</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_igroup.html">Data/IGroup</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_imatchitem.html">Data/IMatch<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_imatches.html">Data/IMatches</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/data_imetadata.html">Data/IMeta<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/find.html">Find</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/find_find.html">Find/<wbr>Find</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/find_findqueryconverter.html">Find/<wbr>Find<wbr>Query<wbr>Converter</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/find_findsettings.html">Find/<wbr>Find<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/find_findtriggers.html">Find/<wbr>Find<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/searchclient.html">Search<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/settings.html">Settings</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/test_data_categories_json.html">test-<wbr>data/categories.json</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="enums/casing.html" class="tsd-kind-icon">Casing</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/categorizationtype.html" class="tsd-kind-icon">Categorization<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/groupingmode.html" class="tsd-kind-icon">Grouping<wbr>Mode</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/matchmode.html" class="tsd-kind-icon">Match<wbr>Mode</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/orderby.html" class="tsd-kind-icon">Order<wbr>By</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/querychangespecifications.html" class="tsd-kind-icon">Query<wbr>Change<wbr>Specifications</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/searchtype.html" class="tsd-kind-icon">Search<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/sortmethod.html" class="tsd-kind-icon">Sort<wbr>Method</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/authtoken.html" class="tsd-kind-icon">Auth<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/authenticationfactory.html" class="tsd-kind-icon">Authentication<wbr>Factory</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/authenticationsettings.html" class="tsd-kind-icon">Authentication<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/authenticationtriggers.html" class="tsd-kind-icon">Authentication<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/autocomplete.html" class="tsd-kind-icon">Autocomplete</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/autocompletequeryconverter.html" class="tsd-kind-icon">Autocomplete<wbr>Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/autocompletesettings.html" class="tsd-kind-icon">Autocomplete<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/autocompletetriggers.html" class="tsd-kind-icon">Autocomplete<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/basecall.html" class="tsd-kind-icon">Base<wbr>Call</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/basequeryconverter.html" class="tsd-kind-icon">Base<wbr>Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/basesettings.html" class="tsd-kind-icon">Base<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/categorize.html" class="tsd-kind-icon">Categorize</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/categorizequeryconverter.html" class="tsd-kind-icon">Categorize<wbr>Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/categorizesettings.html" class="tsd-kind-icon">Categorize<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/categorizetriggers.html" class="tsd-kind-icon">Categorize<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/categorypresentation.html" class="tsd-kind-icon">Category<wbr>Presentation</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/filter.html" class="tsd-kind-icon">Filter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/filterconfiguration.html" class="tsd-kind-icon">Filter<wbr>Configuration</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/find.html" class="tsd-kind-icon">Find</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/findqueryconverter.html" class="tsd-kind-icon">Find<wbr>Query<wbr>Converter</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/findsettings.html" class="tsd-kind-icon">Find<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/findtriggers.html" class="tsd-kind-icon">Find<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/groupconfiguration.html" class="tsd-kind-icon">Group<wbr>Configuration</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/jwtauthentication.html" class="tsd-kind-icon">Jwt<wbr>Authentication</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/limitpageconfiguration.html" class="tsd-kind-icon">Limit<wbr>Page<wbr>Configuration</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/oidcauthentication.html" class="tsd-kind-icon">Oidc<wbr>Authentication</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/query.html" class="tsd-kind-icon">Query</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/searchclient.html" class="tsd-kind-icon">Search<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/settings.html" class="tsd-kind-icon">Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/sortconfiguration.html" class="tsd-kind-icon">Sort<wbr>Configuration</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/sortpartconfiguration.html" class="tsd-kind-icon">Sort<wbr>Part<wbr>Configuration</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/authentication.html" class="tsd-kind-icon">Authentication</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iauthenticationsettings.html" class="tsd-kind-icon">IAuthentication<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iautocompletesettings.html" class="tsd-kind-icon">IAutocomplete<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-has-type-parameter">
-						<a href="interfaces/ibasesettings.html" class="tsd-kind-icon">IBase<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/icategories.html" class="tsd-kind-icon">ICategories</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/icategorizesettings.html" class="tsd-kind-icon">ICategorize<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/icategory.html" class="tsd-kind-icon">ICategory</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ifilter.html" class="tsd-kind-icon">IFilter</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ifindsettings.html" class="tsd-kind-icon">IFind<wbr>Settings</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/igroup.html" class="tsd-kind-icon">IGroup</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/imatchitem.html" class="tsd-kind-icon">IMatch<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/imatches.html" class="tsd-kind-icon">IMatches</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/imetadata.html" class="tsd-kind-icon">IMeta<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iquery.html" class="tsd-kind-icon">IQuery</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/isettings.html" class="tsd-kind-icon">ISettings</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iwarning.html" class="tsd-kind-icon">IWarning</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#categorypresentationmap" class="tsd-kind-icon">Category<wbr>Presentation<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#datespecification" class="tsd-kind-icon">Date<wbr>Specification</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#fetch" class="tsd-kind-icon">Fetch</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
@@ -536,57 +494,18 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 		</div>
 	</div>
@@ -596,6 +515,5 @@
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
 </body>
 </html>

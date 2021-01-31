@@ -1,12 +1,12 @@
-import * as jwt from "jwt-simple";
+import * as jwt from 'jwt-simple'
 
-import { BaseCall, Fetch, Query } from "../Common";
+import { BaseCall, Fetch, Query } from '../Common'
+import { IAuthentication } from './Authentication'
 import {
     AuthenticationSettings,
-    IAuthenticationSettings
-} from "./AuthenticationSettings";
-import { Authentication } from "./Authentication";
-import { AuthToken } from "./AuthToken";
+    IAuthenticationSettings,
+} from './AuthenticationSettings'
+import { AuthToken } from './AuthToken'
 
 /**
  * The JwtAuthentication service is a supporting feature for the other services.
@@ -18,8 +18,10 @@ import { AuthToken } from "./AuthToken";
  * expired. When that happens a new token will be fetched from the end-point. The [[AuthenticationSettings.expiryOverlap]]
  * object controls how long before expiration the new token is to be fetched.
  */
-export class JwtAuthentication extends BaseCall<any> implements Authentication {
-    public settings: IAuthenticationSettings;
+export class JwtAuthentication
+    extends BaseCall<any>
+    implements IAuthentication {
+    public settings: IAuthenticationSettings
 
     /**
      * Creates an JwtAuthentication object that knows where to get the auth-token and when to refresh it.
@@ -31,86 +33,32 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super(); // dummy
+        super() // dummy
 
         // prepare for super.init
-        if (typeof settings === "string") {
-            settings = { baseUrl: settings, type: "jwt" } as IAuthenticationSettings;
+        if (typeof settings === 'string') {
+            settings = {
+                baseUrl: settings,
+                type: 'jwt',
+            } as IAuthenticationSettings
         } else {
-            settings.type = "jwt";
+            settings.type = 'jwt'
         }
 
-        settings = new AuthenticationSettings(settings);
-        auth = auth || new AuthToken();
-        super.init(settings, auth, fetchMethod);
+        settings = new AuthenticationSettings(settings)
+        auth = auth || new AuthToken()
+        super.init(settings, auth, fetchMethod)
 
         // Set own this props
         if (settings.token) {
-            //this.auth.authenticationToken = settings.token;
-            let token = settings.token;
-            this.auth.tokenResolver = () =>  token;
-            settings.token = undefined;
-            this.setupRefresh();
+            // this.auth.authenticationToken = settings.token;
+            const token = settings.token
+            this.auth.tokenResolver = () => token
+            settings.token = undefined
+            this.setupRefresh()
         } else if (settings.enabled) {
             // We authenticate immediately in order to have the token in place when the first calls come in.
-            this.update(null);
-        }
-    }
-
-    /**
-     * Fetches the authentication-token from the server.
-     * @param query - For the Authentication service this parameter is ignored.
-     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a promise that when resolved returns a jwt token.
-     */
-    public fetch(
-        query: Query = new Query(),
-        suppressCallbacks: boolean = false
-    ): Promise<string> {
-        const reqInit = this.requestObject(false);
-        if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {
-            return this.fetchMethod(this.settings.url, reqInit)
-                .then((response: Response) => {
-                    if (!response.ok) {
-                        throw Error(
-                            `${response.status} ${
-                                response.statusText
-                            } for request url '${this.settings.url}'`
-                        );
-                    }
-                    return response.json();
-                })
-                .then((data: any) => {
-                    // Find the auth token by using the settings for where it is in the structure.
-                    for (let i of this.settings.tokenPath) {
-                        data = data[i];
-                    }
-
-                    // Update the token
-                    this.auth.tokenResolver = () =>  data;
-
-                    // Set up a timer for refreshing the token before/if it expires.
-                    this.setupRefresh();
-
-                    this.cbSuccess(
-                        suppressCallbacks,
-                        this.auth.authenticationToken,
-                        this.settings.url,
-                        reqInit
-                    );
-                    return this.auth.authenticationToken;
-                })
-                .catch(error => {
-                    this.cbError(
-                        suppressCallbacks,
-                        error,
-                        this.settings.url,
-                        reqInit
-                    );
-                    throw error;
-                });
-        } else {
-            return Promise.resolve(null);
+            this.update(null)
         }
     }
 
@@ -123,46 +71,111 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
     public update(query: Query, delay?: number): void {
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
-            this.deferredQuery = query;
+            this.deferredQuery = query
         } else {
             // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-            clearTimeout(this.delay);
+            clearTimeout(this.delay)
 
             if (delay > 0) {
                 // Set up the delay
                 this.delay = setTimeout(() => {
-                    let fetchPromise = this.fetch(query);
+                    const fetchPromise = this.fetch(query)
                     if (fetchPromise) {
-                        fetchPromise.catch(error => Promise.resolve(null));
+                        fetchPromise.catch(error => Promise.resolve(null))
                     }
-                }, delay) as any;
+                }, delay) as any
             } else {
-                let fetchPromise = this.fetch(query);
+                const fetchPromise = this.fetch(query)
                 if (fetchPromise) {
-                    fetchPromise.catch(error => Promise.resolve(null));
+                    fetchPromise.catch(error => Promise.resolve(null))
                 }
             }
+        }
+    }
+
+    /**
+     * Fetches the authentication-token from the server.
+     * @param query - For the Authentication service this parameter is ignored.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
+     * @returns a promise that when resolved returns a jwt token.
+     */
+    protected async fetchInternal(
+        query: Query = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<string> {
+        const reqInit = this.requestObject(false)
+
+        try {
+            if (
+                !this.cbRequest(suppressCallbacks, this.settings.url, reqInit)
+            ) {
+                const err = new Error()
+                err.name = 'cbRequestCancelled'
+                throw err
+            }
+
+            const response: Response = await this.fetchMethod(
+                this.settings.url,
+                reqInit
+            )
+            if (!response.ok) {
+                throw Error(
+                    `${response.status} ${response.statusText} for request url '${this.settings.url}'`
+                )
+            }
+
+            let data: any = await response.json()
+
+            // Find the auth token by using the settings for where it is in the structure.
+            for (const i of this.settings.tokenPath) {
+                data = data[i]
+            }
+
+            // Update the token
+            this.auth.tokenResolver = () => data
+
+            // Set up a timer for refreshing the token before/if it expires.
+            this.setupRefresh()
+
+            this.cbSuccess(
+                suppressCallbacks,
+                this.auth.authenticationToken,
+                this.settings.url,
+                reqInit
+            )
+
+            return this.auth.authenticationToken
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                this.cbError(
+                    suppressCallbacks,
+                    error,
+                    this.settings.url,
+                    reqInit
+                )
+            }
+            throw error
         }
     }
 
     private setupRefresh() {
         try {
             if (this.auth && this.auth.authenticationToken) {
-                let token = jwt.decode(
+                const token = jwt.decode(
                     this.auth.authenticationToken,
                     null,
                     true
-                );
-                let expiration = token.exp
+                )
+                const expiration = token.exp
                     ? new Date(token.exp * 1000)
-                    : undefined;
+                    : undefined
                 if (expiration) {
                     let remainingSeconds =
-                        (expiration.valueOf() - new Date().valueOf()) / 1000;
+                        (expiration.valueOf() - new Date().valueOf()) / 1000
                     remainingSeconds = Math.max(
                         remainingSeconds - this.settings.triggers.expiryOverlap,
                         0
-                    );
+                    )
 
                     // console.log(
                     //     `Setting up JWT-token to refresh in ${remainingSeconds} seconds, at ${expiration}.`,
@@ -170,8 +183,8 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
                     //     token
                     // );
                     setTimeout(() => {
-                        this.update(null);
-                    }, remainingSeconds * 1000);
+                        this.update(null)
+                    }, remainingSeconds * 1000)
                 } else {
                     // console.log(
                     //     "The received JWT token does not expire.",
@@ -182,10 +195,8 @@ export class JwtAuthentication extends BaseCall<any> implements Authentication {
             }
         } catch (e) {
             console.error(
-                `Unable to parse the provided token '${
-                    this.auth.authenticationToken
-                }': ${e}`
-            );
+                `Unable to parse the provided token '${this.auth.authenticationToken}': ${e}`
+            )
         }
     }
 }

@@ -1,0 +1,1010 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BaseCall | HAIVE IntelliSearch SearchClient</title>
+	<meta name="description" content="Documentation for HAIVE IntelliSearch SearchClient">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">HAIVE IntelliSearch SearchClient</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">HAIVE IntelliSearch SearchClient</a>
+				</li>
+				<li>
+					<a href="../modules/searchclient.html">SearchClient</a>
+				</li>
+				<li>
+					<a href="searchclient.basecall.html">BaseCall</a>
+				</li>
+			</ul>
+			<h1>Class BaseCall&lt;TDataType&gt;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A common service base-class for the descending Autocomplete, Categorize and Find classes.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>TDataType</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Defines the data-type that the descendant service-class needs to return on lookups.</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">BaseCall</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter"><a href="searchclient.basecall.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#numaborted" class="tsd-kind-icon">num<wbr>Aborted</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#numcancelled" class="tsd-kind-icon">num<wbr>Cancelled</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#numcompleted" class="tsd-kind-icon">num<wbr>Completed</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#numfailed" class="tsd-kind-icon">num<wbr>Failed</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="searchclient.basecall.html#numrequested" class="tsd-kind-icon">num<wbr>Requested</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="searchclient.basecall.html#update" class="tsd-kind-icon">update</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Base<wbr>Call&lt;TDataType&gt;<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="common_basecall.basecall.html" class="tsd-signature-type" data-tsd-kind="Class">BaseCall</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TDataType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>TDataType</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="common_basecall.basecall.html" class="tsd-signature-type" data-tsd-kind="Class">BaseCall</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TDataType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="deferupdatestate" class="tsd-anchor"></a>
+					<h3>defer<wbr>Update<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> deferUpdateState<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L120">src/Common/BaseCall.ts:120</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Can be used to check the state of deferUpdates.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="numaborted" class="tsd-anchor"></a>
+					<h3>num<wbr>Aborted</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numAborted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L73">src/Common/BaseCall.ts:73</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of times this service-instance has aborted a request (typically as a result to starting a new request while the previous is still running and needs to be aborted).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="numcancelled" class="tsd-anchor"></a>
+					<h3>num<wbr>Cancelled</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numCancelled<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L80">src/Common/BaseCall.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of times this service-instance has cancelled a request (as directed from a user cbRequest rejection).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="numcompleted" class="tsd-anchor"></a>
+					<h3>num<wbr>Completed</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numCompleted<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L94">src/Common/BaseCall.ts:94</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of times this service-instance has completed a request (not counting aborted or cancelled requests).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="numfailed" class="tsd-anchor"></a>
+					<h3>num<wbr>Failed</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numFailed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L87">src/Common/BaseCall.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of times this service-instance has failed during a request (not counting aborted or cancelled requests).</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="numrequested" class="tsd-anchor"></a>
+					<h3>num<wbr>Requested</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> numRequested<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L66">src/Common/BaseCall.ts:66</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The number of times this service-instance has started a request.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="categorizationtypechanged" class="tsd-anchor"></a>
+					<h3>categorization<wbr>Type<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">categorization<wbr>Type<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="../enums/common_categorizationtype.categorizationtype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">CategorizationType</a>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L248">src/Common/BaseCall.ts:248</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="../enums/common_categorizationtype.categorizationtype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">CategorizationType</a></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clientidchanged" class="tsd-anchor"></a>
+					<h3>client<wbr>IdChanged</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">client<wbr>IdChanged<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L245">src/Common/BaseCall.ts:245</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="datefromchanged" class="tsd-anchor"></a>
+					<h3>date<wbr>From<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">date<wbr>From<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="../modules/common_query.html#datespecification" class="tsd-signature-type" data-tsd-kind="Type alias">DateSpecification</a>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L254">src/Common/BaseCall.ts:254</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="../modules/common_query.html#datespecification" class="tsd-signature-type" data-tsd-kind="Type alias">DateSpecification</a></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="datetochanged" class="tsd-anchor"></a>
+					<h3>date<wbr>ToChanged</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">date<wbr>ToChanged<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="../modules/common_query.html#datespecification" class="tsd-signature-type" data-tsd-kind="Type alias">DateSpecification</a>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L257">src/Common/BaseCall.ts:257</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="../modules/common_query.html#datespecification" class="tsd-signature-type" data-tsd-kind="Type alias">DateSpecification</a></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deferupdates" class="tsd-anchor"></a>
+					<h3>defer<wbr>Updates</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">defer<wbr>Updates<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, skipPending<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L104">src/Common/BaseCall.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
+									When turned back on the second param can be used to indicate whether pending updates should be executed or not.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>state: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Turns on or off deferring of updates.</p>
+									</div>
+								</li>
+								<li>
+									<h5>skipPending: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a>, suppressCallbacks<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TDataType</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L130">src/Common/BaseCall.ts:130</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches the results from the server.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The query-object that controls which results that are to be returned.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> suppressCallbacks: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Set to true if you have defined callbacks, but somehow don&#39;t want them to be called.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TDataType</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>a promise that when resolved returns the data.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="filterschanged" class="tsd-anchor"></a>
+					<h3>filters<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">filters<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="common_filter.filter.html" class="tsd-signature-type" data-tsd-kind="Class">Filter</a><span class="tsd-signature-symbol">[]</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L260">src/Common/BaseCall.ts:260</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="common_filter.filter.html" class="tsd-signature-type" data-tsd-kind="Class">Filter</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchgeneratecontentchanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Generate<wbr>Content<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L263">src/Common/BaseCall.ts:263</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchgeneratecontenthighlightschanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L266">src/Common/BaseCall.ts:266</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchgroupingchanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Grouping<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Grouping<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L272">src/Common/BaseCall.ts:272</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchorderbychanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Order<wbr>ByChanged</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Order<wbr>ByChanged<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="../enums/common_orderby.orderby.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderBy</a>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L275">src/Common/BaseCall.ts:275</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="../enums/common_orderby.orderby.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderBy</a></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchpagechanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Page<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Page<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L278">src/Common/BaseCall.ts:278</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="matchpagesizechanged" class="tsd-anchor"></a>
+					<h3>match<wbr>Page<wbr>Size<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L281">src/Common/BaseCall.ts:281</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="maxsuggestionschanged" class="tsd-anchor"></a>
+					<h3>max<wbr>Suggestions<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">max<wbr>Suggestions<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L284">src/Common/BaseCall.ts:284</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="querytextchanged" class="tsd-anchor"></a>
+					<h3>query<wbr>Text<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">query<wbr>Text<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L287">src/Common/BaseCall.ts:287</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="requestobject" class="tsd-anchor"></a>
+					<h3>request<wbr>Object</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">request<wbr>Object<span class="tsd-signature-symbol">(</span>includeAuthorizationHeader<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestInit</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L158">src/Common/BaseCall.ts:158</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets up the Request that is to be executed, with headers and auth as needed.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>includeAuthorizationHeader: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Set to false to not include the auth jwt token in the request headers. Default=true</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">RequestInit</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="searchtypechanged" class="tsd-anchor"></a>
+					<h3>search<wbr>Type<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">search<wbr>Type<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><a href="../enums/common_searchtype.searchtype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">SearchType</a>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L290">src/Common/BaseCall.ts:290</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <a href="../enums/common_searchtype.searchtype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">SearchType</a></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="shouldupdate" class="tsd-anchor"></a>
+					<h3>should<wbr>Update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">should<wbr>Update<span class="tsd-signature-symbol">(</span>fieldName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">?: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L233">src/Common/BaseCall.ts:233</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fieldName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="uilanguagecodechanged" class="tsd-anchor"></a>
+					<h3>ui<wbr>Language<wbr>Code<wbr>Changed</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed<span class="tsd-signature-symbol">(</span>oldValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L293">src/Common/BaseCall.ts:293</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>oldValue: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a>, delay<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, useQueryMatchPage<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/the-haive/search-client/blob/master/src/Common/BaseCall.ts#L200">src/Common/BaseCall.ts:200</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Call the service, but take into account deferredUpdates.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>query: <a href="../interfaces/common_query.iquery.html" class="tsd-signature-type" data-tsd-kind="Interface">IQuery</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The query object to create the fetch for.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> delay: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A delay for when to execute the update, in milliseconds. Defaults to undefined.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> useQueryMatchPage: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true then the query match-page number will not be reset to 1. Otherwise it is by default always 1.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/searchclient.html">Search<wbr>Client</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="searchclient.basecall.html" class="tsd-kind-icon">Base<wbr>Call</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="searchclient.basecall.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#deferupdatestate" class="tsd-kind-icon">defer<wbr>Update<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#numaborted" class="tsd-kind-icon">num<wbr>Aborted</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#numcancelled" class="tsd-kind-icon">num<wbr>Cancelled</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#numcompleted" class="tsd-kind-icon">num<wbr>Completed</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#numfailed" class="tsd-kind-icon">num<wbr>Failed</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#numrequested" class="tsd-kind-icon">num<wbr>Requested</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#categorizationtypechanged" class="tsd-kind-icon">categorization<wbr>Type<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#clientidchanged" class="tsd-kind-icon">client<wbr>IdChanged</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#datefromchanged" class="tsd-kind-icon">date<wbr>From<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#datetochanged" class="tsd-kind-icon">date<wbr>ToChanged</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#deferupdates" class="tsd-kind-icon">defer<wbr>Updates</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#fetch" class="tsd-kind-icon">fetch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#filterschanged" class="tsd-kind-icon">filters<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchgeneratecontentchanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchgeneratecontenthighlightschanged" class="tsd-kind-icon">match<wbr>Generate<wbr>Content<wbr>Highlights<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchgroupingchanged" class="tsd-kind-icon">match<wbr>Grouping<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchorderbychanged" class="tsd-kind-icon">match<wbr>Order<wbr>ByChanged</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchpagechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#matchpagesizechanged" class="tsd-kind-icon">match<wbr>Page<wbr>Size<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#maxsuggestionschanged" class="tsd-kind-icon">max<wbr>Suggestions<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#querytextchanged" class="tsd-kind-icon">query<wbr>Text<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#requestobject" class="tsd-kind-icon">request<wbr>Object</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#searchtypechanged" class="tsd-kind-icon">search<wbr>Type<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#shouldupdate" class="tsd-kind-icon">should<wbr>Update</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#uilanguagecodechanged" class="tsd-kind-icon">ui<wbr>Language<wbr>Code<wbr>Changed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="searchclient.basecall.html#update" class="tsd-kind-icon">update</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

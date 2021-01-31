@@ -1,10 +1,10 @@
-import { AuthToken } from "../Authentication";
-import { BaseCall, Fetch, IQuery, Query } from "../Common";
-import { AutocompleteQueryConverter } from "./AutocompleteQueryConverter";
+import { AuthToken } from '../Authentication'
+import { BaseCall, Fetch, IQuery, Query } from '../Common'
+import { AutocompleteQueryConverter } from './AutocompleteQueryConverter'
 import {
     AutocompleteSettings,
-    IAutocompleteSettings
-} from "./AutocompleteSettings";
+    IAutocompleteSettings,
+} from './AutocompleteSettings'
 
 /**
  * This class allows you to create a service that executes autocomplete lookups for the Haive SearchManager service.
@@ -12,9 +12,9 @@ import {
  * Note: Typically you will not instantiate this class. Instead you will use it indirectly via the SearchClient class.
  */
 export class Autocomplete extends BaseCall<string[]> {
-    public settings: IAutocompleteSettings;
+    public settings: IAutocompleteSettings
 
-    private queryConverter: AutocompleteQueryConverter;
+    private queryConverter: AutocompleteQueryConverter
 
     /**
      * Creates an Autocomplete instance that knows how to get query-suggestions.
@@ -26,88 +26,26 @@ export class Autocomplete extends BaseCall<string[]> {
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super(); // dummy
+        super() // dummy
         // prepare for super.init
-        settings = new AutocompleteSettings(settings);
-        auth = auth || new AuthToken();
-        super.init(settings, auth, fetchMethod);
-        this.queryConverter = new AutocompleteQueryConverter();
-    }
-
-    /**
-     * When called it will execute a rest-call to the base-url and fetch autocomplete suggestions based on the query passed.
-     * Note that if a request callback has been setup then if it returns false the request is skipped.
-     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved.
-     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
-     */
-    public fetch(
-        query: IQuery = new Query(),
-        suppressCallbacks: boolean = false
-    ): Promise<string[]> {
-        let url = this.queryConverter.getUrl(
-            this.settings.url,
-            new Query(query)
-        );
-        let reqInit = this.requestObject();
-
-        if (this.cbRequest(suppressCallbacks, url, reqInit)) {
-
-            // Indicate that we are now fetching
-            this.fetching = true;
-
-            return this.fetchMethod(url, reqInit)
-                .then((response: Response) => {
-                    if (!response.ok) {
-                        throw Error(
-                            `${response.status} ${response.statusText} for request url '${url}'`
-                        );
-                    }
-                    return response.json();
-                })
-                .then((suggestions: string[]) => {
-                    this.cbSuccess(
-                        suppressCallbacks,
-                        suggestions,
-                        url,
-                        reqInit
-                    );
-                    return suggestions;
-                })
-                .catch((error: Error) => {
-                    if (error.name === 'AbortError') {
-                        return Promise.resolve(null);
-                    }
-                    this.cbError(suppressCallbacks, error, url, reqInit);
-                    throw error;
-                })
-                .finally(() => {
-                    // Make sure that the fetching state is reset
-                    this.fetching = false;
-                });
-        } else {
-            // TODO: When a fetch is stopped due to cbRequest returning false, should we:
-            // 1) Reject the promise (will then be returned as an error).
-            // or
-            // 2) Resolve the promise (will then be returned as a success).
-            // or
-            // 3) should we do something else (old code returned undefined...)
-            return Promise.resolve(null);
-        }
+        settings = new AutocompleteSettings(settings)
+        auth = auth || new AuthToken()
+        super.init(settings, auth, fetchMethod)
+        this.queryConverter = new AutocompleteQueryConverter()
     }
 
     public maxSuggestionsChanged(oldValue: number, query: IQuery) {
-        if (!this.shouldUpdate("maxSuggestions", query)) {
-            return;
+        if (!this.shouldUpdate('maxSuggestions', query)) {
+            return
         }
         if (this.settings.triggers.maxSuggestionsChanged) {
-            this.update(query);
+            this.update(query)
         }
     }
 
     public queryTextChanged(oldValue: string, query: IQuery) {
-        if (!this.shouldUpdate("queryText", query)) {
-            return;
+        if (!this.shouldUpdate('queryText', query)) {
+            return
         }
         if (this.settings.triggers.queryChange) {
             if (
@@ -120,19 +58,63 @@ export class Autocomplete extends BaseCall<string[]> {
                         query.queryText
                     )
                 ) {
-                    this.update(query);
-                    return;
+                    this.update(query)
+                    return
                 } else {
                     if (this.settings.triggers.queryChangeDelay > -1) {
                         this.update(
                             query,
                             this.settings.triggers.queryChangeDelay
-                        );
-                        return;
+                        )
+                        return
                     }
                 }
             }
         }
-        clearTimeout(this.delay);
+        clearTimeout(this.delay)
+    }
+
+    /**
+     * When called it will execute a rest-call to the base-url and fetch autocomplete suggestions based on the query passed.
+     * Note that if a request callback has been setup then if it returns false the request is skipped.
+     * @param query - Is used to find out which autocomplete suggestions and from what sources they should be retrieved.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
+     * @returns a Promise that when resolved returns a string array of suggestions (or undefined if a callback stops the request).
+     */
+    protected async fetchInternal(
+        query: IQuery = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<string[]> {
+        const reqInit = this.requestObject()
+        this.fetchQuery = new Query(query)
+        const url = this.queryConverter.getUrl(
+            this.settings.url,
+            this.fetchQuery
+        )
+
+        try {
+            if (!this.cbRequest(suppressCallbacks, url, reqInit)) {
+                const err = new Error()
+                err.name = 'cbRequestCancelled'
+                throw err
+            }
+
+            const response = await this.fetchMethod(url, reqInit)
+            if (!response.ok) {
+                throw Error(
+                    `${response.status} ${response.statusText} for request url '${url}'`
+                )
+            }
+
+            const suggestions: string[] = await response.json()
+
+            this.cbSuccess(suppressCallbacks, suggestions, url, reqInit)
+            return suggestions
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                this.cbError(suppressCallbacks, error, url, reqInit)
+            }
+            throw error
+        }
     }
 }

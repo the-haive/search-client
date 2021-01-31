@@ -1,0 +1,8 @@
+{
+    "tabWidth": 4,
+    "arrowParens": "avoid",
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "htmlWhitespaceSensitivity": "css",
+    "semi": false
+}

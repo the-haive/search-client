@@ -1,48 +1,48 @@
 import {
     AuthenticationSettings,
-    IAuthenticationSettings
-} from "./Authentication";
-import { AutocompleteSettings, IAutocompleteSettings } from "./Autocomplete";
-import { CategorizeSettings, ICategorizeSettings } from "./Categorize";
-import { IQuery, Query } from "./Common";
-import { FindSettings, IFindSettings } from "./Find";
+    IAuthenticationSettings,
+} from './Authentication'
+import { AutocompleteSettings, IAutocompleteSettings } from './Autocomplete'
+import { CategorizeSettings, ICategorizeSettings } from './Categorize'
+import { IQuery, Query } from './Common'
+import { FindSettings, IFindSettings } from './Find'
 
 export interface ISettings {
     /**
      * The JWT authentication token to use.
      */
-    authentication?: IAuthenticationSettings;
+    authentication?: IAuthenticationSettings
 
     /**
      * Settings for autocomplete().
      */
-    autocomplete?: IAutocompleteSettings;
+    autocomplete?: IAutocompleteSettings
 
     /**
      * Settings for categorize().
      */
-    categorize?: ICategorizeSettings;
+    categorize?: ICategorizeSettings
 
     /**
      * Settings for find().
      */
-    find?: IFindSettings;
+    find?: IFindSettings
 
     /**
      * You can use this path to override the path to the rest-service.
      * If not set, it will default to "RestService/v4".
      */
-    basePath?: string;
+    basePath?: string
 
     /**
      * Settings for the common query (autocomplete/find/categorize)
      */
-    query?: IQuery;
+    query?: IQuery
 
     /**
      * BaseUrl for the SearchClient service (can be overriden in specific services)
      */
-    baseUrl?: string;
+    baseUrl?: string
 }
 
 /**
@@ -54,77 +54,77 @@ export class Settings implements ISettings {
     /**
      * The JWT authentication token to use.
      */
-    public authentication?: IAuthenticationSettings;
+    public authentication?: IAuthenticationSettings
 
     /**
      * Settings for autocomplete().
      */
-    public autocomplete?: IAutocompleteSettings;
+    public autocomplete?: IAutocompleteSettings
 
     /**
      * Settings for categorize().
      */
-    public categorize?: ICategorizeSettings;
+    public categorize?: ICategorizeSettings
 
     /**
      * Settings for find().
      */
-    public find?: IFindSettings;
+    public find?: IFindSettings
 
     /**
      * You can use this path to override the path to the rest-service.
      * Default: RestService/v4
      */
-    public basePath?: string;
+    public basePath?: string
 
     /**
      * Settings for the common query (autocomplete/find/categorize)
      */
-    public query?: IQuery;
+    public query?: IQuery
 
     /**
      * BaseUrl for the SearchClient service (can be overridden in specific services)
      */
-    public baseUrl?: string;
+    public baseUrl?: string
 
     /**
      * Creates a Settings object for you, based on Settings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default Settings.
      */
     constructor(settings: ISettings | string) {
-        if (typeof settings === "string") {
-            settings = { baseUrl: settings };
+        if (typeof settings === 'string') {
+            settings = { baseUrl: settings }
         }
 
-        this.baseUrl = settings.baseUrl;
+        this.baseUrl = settings.baseUrl
 
         this.basePath =
-            typeof settings.basePath !== "undefined"
+            typeof settings.basePath !== 'undefined'
                 ? settings.basePath
-                : "RestService/v4";
+                : 'RestService/v4'
 
         // The baseUrl is to be used by all services, unless they have a specified baseUrl themselves.
-        let common = { basePath: this.basePath, baseUrl: this.baseUrl };
+        const common = { basePath: this.basePath, baseUrl: this.baseUrl }
         if (
             settings.authentication &&
-            typeof settings.authentication.basePath === "undefined"
+            typeof settings.authentication.basePath === 'undefined'
         ) {
-            settings.authentication.basePath = "";
+            settings.authentication.basePath = ''
         }
 
         this.authentication = new AuthenticationSettings({
             ...common,
-            ...settings.authentication
-        });
+            ...settings.authentication,
+        })
         this.autocomplete = new AutocompleteSettings({
             ...common,
-            ...settings.autocomplete
-        });
+            ...settings.autocomplete,
+        })
         this.categorize = new CategorizeSettings({
             ...common,
-            ...settings.categorize
-        });
-        this.find = new FindSettings({ ...common, ...settings.find });
-        this.query = new Query(settings.query);
+            ...settings.categorize,
+        })
+        this.find = new FindSettings({ ...common, ...settings.find })
+        this.query = new Query(settings.query)
     }
 }

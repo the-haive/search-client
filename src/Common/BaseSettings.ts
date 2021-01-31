@@ -1,7 +1,7 @@
-import 'url-polyfill';
-import { QueryChangeSpecifications } from './QueryChangeSpecifications';
-import { IQuery } from './Query';
-import { IWarning } from './BaseCall';
+import 'url-polyfill'
+import { IWarning } from './BaseCall'
+import { IQuery } from './Query'
+import { QueryChangeSpecifications } from './QueryChangeSpecifications'
 
 export interface IBaseSettings<TDataType> {
     /**
@@ -33,7 +33,7 @@ export interface IBaseSettings<TDataType> {
      *
      * @param error - An error object as given by the fetch operation.
      */
-    cbError?: (error?: any) => void;
+    cbError?: (error?: any) => void
 
     /**
      * A notifier method to call when the lookup succeeds, but the received data from the backend indicates a problem.
@@ -51,7 +51,7 @@ export interface IBaseSettings<TDataType> {
      *
      * @param warning - A warning object containing a message and a statusCode.
      */
-    cbWarning?: (warning?: IWarning) => void;
+    cbWarning?: (warning?: IWarning) => void
 
     /**
      * A notifier method that is called just before the fetch operation is started. When the request
@@ -64,14 +64,14 @@ export interface IBaseSettings<TDataType> {
      * @param url - This is the url that is/was fetched. Good for debugging purposes.
      * @param reqInit - This is the RequestInit object that was used for the fetch operation.
      */
-    cbRequest?: (url?: string, reqInit?: RequestInit) => boolean;
+    cbRequest?: (url?: string, reqInit?: RequestInit) => boolean
 
     /**
      * A notifier method that is called whenever the lookup results have been received.
      *
      * @param data - The lookup results.
      */
-    cbSuccess?: (data?: TDataType) => void;
+    cbSuccess?: (data?: TDataType) => void
 
     /**
      * A notifier method that is called whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
@@ -85,18 +85,18 @@ export interface IBaseSettings<TDataType> {
     cbResultState?: (
         invalid: boolean,
         fetchedQuery: IQuery,
-        futureQuery: IQuery,
-    ) => void;
+        futureQuery: IQuery
+    ) => void
 
     /**
      * Whether or not this setting-feature is enabled or not.
      */
-    enabled?: boolean;
+    enabled?: boolean
 
     /**
      * The baseUrl for the rest-service.
      */
-    baseUrl?: string;
+    baseUrl?: string
 
     /**
      * You can use this path to override the path to the rest-service.
@@ -104,19 +104,19 @@ export interface IBaseSettings<TDataType> {
      * If it is set it will use the set path verbatim, without appending `this.version`.
      */
 
-    basePath?: string;
+    basePath?: string
 
     /**
      * The service-specific path added to the base-path.
      */
-    servicePath?: string;
+    servicePath?: string
 
     /**
      * Defines the enum bit-field flags that signifies which query-fields that may resolve in changed results (both Categorize and Find).
      */
-    queryChangeSpecs?: QueryChangeSpecifications;
+    queryChangeSpecs?: QueryChangeSpecifications
 
-    url?: string;
+    url?: string
 }
 
 /**
@@ -155,7 +155,7 @@ export abstract class BaseSettings<TDataType>
      *
      * @param error - An error object as given by the fetch operation.
      */
-    public cbError?: (error?: any) => void;
+    public cbError?: (error?: any) => void
 
     /**
      * A notifier method to call when the lookup succeeds, but the received data from the backend indicates a problem.
@@ -173,7 +173,7 @@ export abstract class BaseSettings<TDataType>
      *
      * @param warning - A warning object containing a message and a statusCode.
      */
-    cbWarning?: (warning?: IWarning) => void;
+    public cbWarning?: (warning?: IWarning) => void
 
     /**
      * A notifier method that is called just before the fetch operation is started. When the request
@@ -186,14 +186,14 @@ export abstract class BaseSettings<TDataType>
      * @param url - This is the url that is/was fetched. Good for debugging purposes.
      * @param reqInit - This is the RequestInit object that was used for the fetch operation.
      */
-    public cbRequest?: (url?: string, reqInit?: RequestInit) => boolean;
+    public cbRequest?: (url?: string, reqInit?: RequestInit) => boolean
 
     /**
      * A notifier method that is called whenever the lookup results have been received.
      *
      * @param data - The lookup results.
      */
-    public cbSuccess?: (data?: TDataType) => void;
+    public cbSuccess?: (data?: TDataType) => void
 
     /**
      * A notifier method to call whenever significant parts of the query has changed, and due to trigger settings, new results has yet not been requested.
@@ -204,53 +204,53 @@ export abstract class BaseSettings<TDataType>
      * @param fetchedQuery - This is the query that was used to create the current results.
      * @param futureQuery - This is the query that has not yet resulted in an update of the results.
      */
-    cbResultState?: (
+    public cbResultState?: (
         valid: boolean,
         fetchedQuery: IQuery,
-        futureQuery: IQuery,
-    ) => void;
+        futureQuery: IQuery
+    ) => void
 
     /**
      * Whether or not this setting-feature is enabled or not.
      */
-    public enabled: boolean;
+    public enabled: boolean
 
     /**
      * The baseUrl for the rest-service.
      */
-    public baseUrl: string;
+    public baseUrl: string
 
     /**
      * You can use this path to override the path to the rest-service.
      * If not set, it will default to "RestService/v4".
      */
 
-    public basePath: string;
+    public basePath: string
 
     /**
      * The service-specific path added to the base-path.
      */
-    public servicePath: string;
+    public servicePath: string
 
     /**
      * Defines the enum bit-field flags that signifies which query-fields that may resolve in changed results (both Categorize and Find).
      */
-    public queryChangeSpecs: QueryChangeSpecifications;
+    public queryChangeSpecs: QueryChangeSpecifications
 
     /**
      * Returns the actual url for the service.
      */
     public get url(): string {
-        let parts: string[] = [];
-        parts.push(this.baseUrl);
+        const parts: string[] = []
+        parts.push(this.baseUrl)
         if (this.basePath) {
-            parts.push(this.basePath);
+            parts.push(this.basePath)
         }
         if (this.servicePath) {
-            parts.push(this.servicePath);
+            parts.push(this.servicePath)
         }
-        let url = new URL(parts.join('/'));
-        return url.toString();
+        const url = new URL(parts.join('/'))
+        return url.toString()
     }
     public set url(value: string) {
         // Do nothing
@@ -266,25 +266,25 @@ export abstract class BaseSettings<TDataType>
             typeof settings.servicePath === 'undefined'
         ) {
             throw Error(
-                'Must have settings, with baseUrl, basePath and servicePath.',
-            );
+                'Must have settings, with baseUrl, basePath and servicePath.'
+            )
         }
         this.enabled =
-            typeof settings.enabled !== 'undefined' ? settings.enabled : true;
+            typeof settings.enabled !== 'undefined' ? settings.enabled : true
 
-        this.baseUrl = settings.baseUrl.replace(/\/+$/, '');
+        this.baseUrl = settings.baseUrl.replace(/\/+$/, '')
 
         this.basePath =
             typeof settings.basePath !== 'undefined'
                 ? settings.basePath.replace(/(^\/+)|(\/+$)/g, '')
-                : 'RestService/v4';
+                : 'RestService/v4'
 
-        this.servicePath = settings.servicePath.replace(/(^\/+)|(\/+$)/g, '');
+        this.servicePath = settings.servicePath.replace(/(^\/+)|(\/+$)/g, '')
 
-        this.cbWarning = settings.cbWarning;
-        this.cbError = settings.cbError;
-        this.cbRequest = settings.cbRequest;
-        this.cbSuccess = settings.cbSuccess;
-        this.cbResultState = settings.cbResultState;
+        this.cbWarning = settings.cbWarning
+        this.cbError = settings.cbError
+        this.cbRequest = settings.cbRequest
+        this.cbSuccess = settings.cbSuccess
+        this.cbResultState = settings.cbResultState
     }
 }

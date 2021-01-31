@@ -1,23 +1,19 @@
-import fetch from "cross-fetch";
+import fetch from 'cross-fetch'
+import { AuthToken } from '../Authentication/AuthToken'
+import { IBaseSettings } from './BaseSettings'
+import { OrderBy } from './OrderBy'
+import { DateSpecification, IQuery, Query } from './Query'
+import { SearchType } from './SearchType'
 
-import { DateSpecification, IQuery, Query } from "./Query";
-import { OrderBy } from "./OrderBy";
-import { SearchType } from "./SearchType";
-import { IBaseSettings } from "./BaseSettings";
-import { AuthToken } from "../Authentication/AuthToken";
+import { CategorizationType } from './CategorizationType'
+import { Filter } from './Filter'
+import { QueryChangeSpecifications } from './QueryChangeSpecifications'
 
-import { Filter } from "./Filter";
-import { CategorizationType } from "./CategorizationType";
-import { QueryChangeSpecifications } from "./QueryChangeSpecifications";
-
-export type Fetch = (
-    input?: Request | string,
-    init?: RequestInit
-) => Promise<Response>;
+export type Fetch = typeof fetch
 
 export interface IWarning {
-    message: string;
-    statusCode: number;
+    message: string
+    statusCode?: number
 }
 
 /**
@@ -26,19 +22,19 @@ export interface IWarning {
  * @param TDataType Defines the data-type that the descendant service-class needs to return on lookups.
  */
 export abstract class BaseCall<TDataType> {
-    protected fetchMethod: Fetch;
+    protected fetchMethod: Fetch
 
-    protected settings?: IBaseSettings<TDataType>;
+    protected settings?: IBaseSettings<TDataType>
 
-    protected auth?: AuthToken;
+    protected auth?: AuthToken
 
-    protected deferUpdate: boolean;
+    protected deferUpdate: boolean
 
-    protected deferredQuery: IQuery | null;
+    protected deferredQuery: IQuery | null
 
-    protected deferredUseMatchPage: boolean | null;
+    protected deferredUseMatchPage: boolean | null
 
-    protected delay: number;
+    protected delay: number
 
     /**
      * The query used for the last fetch operation.
@@ -46,18 +42,58 @@ export abstract class BaseCall<TDataType> {
      * not representative for the current query. It should then call a callback to notify
      * on this state.
      * The UI can then decide what to do with the no-longer representative results, for instance:
-     *   - Remove the results)
+     *   - Remove the results
      *   - "Disable" the results
      *   - "Ghost" the results (but allow operating on them)
      */
-    protected fetchQuery: IQuery;
+    protected fetchQuery: IQuery
+
+    protected requested: number = 0
+
+    protected aborted: number = 0
+
+    protected cancelled: number = 0
+
+    protected failed: number = 0
+
+    protected completed: number = 0
+
+    private abortController: AbortController
 
     /**
-     * Indicates whether or not a running fetch is running
+     * The number of times this service-instance has started a request.
      */
-    protected fetching: boolean;
+    get numRequested(): number {
+        return this.requested
+    }
 
-    private abortController: AbortController;
+    /**
+     * The number of times this service-instance has aborted a request (typically as a result to starting a new request while the previous is still running and needs to be aborted).
+     */
+    get numAborted(): number {
+        return this.aborted
+    }
+
+    /**
+     * The number of times this service-instance has cancelled a request (as directed from a user cbRequest rejection).
+     */
+    get numCancelled(): number {
+        return this.cancelled
+    }
+
+    /**
+     * The number of times this service-instance has failed during a request (not counting aborted or cancelled requests).
+     */
+    get numFailed(): number {
+        return this.failed
+    }
+
+    /**
+     * The number of times this service-instance has completed a request (not counting aborted or cancelled requests).
+     */
+    get numCompleted(): number {
+        return this.completed
+    }
 
     /**
      * Decides whether an update should be executed or not. Typically used to temporarily turn off update-execution.
@@ -66,14 +102,14 @@ export abstract class BaseCall<TDataType> {
      * @param skipPending Used to indicate if a pending update is to be executed or skipped when deferring is turned off. The param is ignored for state=true.
      */
     public deferUpdates(state: boolean, skipPending: boolean = false) {
-        this.deferUpdate = state;
+        this.deferUpdate = state
         if (!state && this.deferredQuery) {
-            const query = this.deferredQuery;
-            const useMatchPage = this.deferredUseMatchPage;
-            this.deferredQuery = null;
-            this.deferredUseMatchPage = null;
+            const query = this.deferredQuery
+            const useMatchPage = this.deferredUseMatchPage
+            this.deferredQuery = null
+            this.deferredUseMatchPage = null
             if (!skipPending && this.shouldUpdate()) {
-                this.update(query, null, useMatchPage);
+                this.update(query, null, useMatchPage)
             }
         }
     }
@@ -82,7 +118,36 @@ export abstract class BaseCall<TDataType> {
      * Can be used to check the state of deferUpdates.
      */
     get deferUpdateState(): boolean {
-        return this.deferUpdate;
+        return this.deferUpdate
+    }
+
+    /**
+     * Fetches the results from the server.
+     * @param query - The query-object that controls which results that are to be returned.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
+     * @returns a promise that when resolved returns the data.
+     */
+    public async fetch(
+        query?: IQuery,
+        suppressCallbacks?: boolean
+    ): Promise<TDataType> {
+        try {
+            const data = await this.fetchInternal(query, suppressCallbacks)
+            this.completed++
+            return data
+        } catch (err) {
+            if (err?.name === 'AbortError') {
+                this.aborted++
+            } else if (err?.name === 'cbRequestCancelled') {
+                this.cancelled++
+            } else {
+                this.failed++
+                console.error(err)
+            }
+            return null
+        } finally {
+            this.abortController = null
+        }
     }
 
     /**
@@ -94,32 +159,35 @@ export abstract class BaseCall<TDataType> {
         includeAuthorizationHeader: boolean = true
     ): RequestInit {
         const headers: any = {
-            "Content-Type": "application/json"
-        };
+            'Content-Type': 'application/json',
+        }
 
         if (
             includeAuthorizationHeader &&
             this.auth &&
             this.auth.authenticationToken
         ) {
-            headers.Authorization = `Bearer ${this.auth.authenticationToken}`;
+            headers.Authorization = `Bearer ${this.auth.authenticationToken}`
         }
 
-        // If a fetch is already running, abort it - if not already aborted
-        if (this.fetching && this.abortController && !this.abortController.signal.aborted) {
-            this.abortController.abort();
+        if (this.abortController && !this.abortController.signal.aborted) {
+            // If the abortController exists, then the previous call is not completed yet. So, we should abort the current process
+            this.abortController.abort()
         }
-        // Setup new abort-controller (to reset the existing - in case it has been aborted)
-        this.abortController = new AbortController();
+
+        // Setup new abort-controller (to reset for each request)
+        this.abortController = new AbortController()
+
+        this.requested++
 
         return {
-            cache: "default",
-            credentials: "include",
+            cache: 'default',
+            credentials: 'include',
             headers,
-            method: "GET",
-            mode: "cors",
-            signal: this.abortController.signal
-        } as RequestInit;
+            method: 'GET',
+            mode: 'cors',
+            signal: this.abortController.signal,
+        } as RequestInit
     }
 
     /**
@@ -127,7 +195,7 @@ export abstract class BaseCall<TDataType> {
      *
      * @param query The query object to create the fetch for.
      * @param delay A delay for when to execute the update, in milliseconds. Defaults to undefined.
-     * @param useQueryMatchPage If true then the query matchpage number will not be reset to 1. Otherwise it is by default always 1.
+     * @param useQueryMatchPage If true then the query match-page number will not be reset to 1. Otherwise it is by default always 1.
      */
     public update(
         query: IQuery,
@@ -135,28 +203,28 @@ export abstract class BaseCall<TDataType> {
         useQueryMatchPage?: boolean
     ): void {
         if (!useQueryMatchPage) {
-            query.matchPage = 1;
+            query.matchPage = 1
         }
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
-            this.deferredQuery = query;
-            this.deferredUseMatchPage = useQueryMatchPage;
+            this.deferredQuery = query
+            this.deferredUseMatchPage = useQueryMatchPage
         } else {
             // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-            clearTimeout(this.delay);
+            clearTimeout(this.delay)
 
             if (delay > 0) {
                 // Set up the delay
                 this.delay = setTimeout(() => {
-                    let fetchPromise = this.fetch(query);
+                    const fetchPromise = this.fetch(query)
                     if (fetchPromise) {
-                        fetchPromise.catch(error => Promise.resolve(null));
+                        fetchPromise.catch(error => Promise.resolve(null))
                     }
-                }, delay) as any;
+                }, delay) as any
             } else {
-                let fetchPromise = this.fetch(query);
+                const fetchPromise = this.fetch(query)
                 if (fetchPromise) {
-                    fetchPromise.catch(error => Promise.resolve(null));
+                    fetchPromise.catch(error => Promise.resolve(null))
                 }
             }
         }
@@ -169,9 +237,9 @@ export abstract class BaseCall<TDataType> {
             fieldName &&
             query
         ) {
-            this.outdatedWarning(fieldName, query);
+            this.outdatedWarning(fieldName, query)
         }
-        return this.settings.cbSuccess && this.settings.enabled;
+        return this.settings.cbSuccess && this.settings.enabled
     }
 
     public clientIdChanged(oldValue: string, query: IQuery): void {
@@ -237,17 +305,16 @@ export abstract class BaseCall<TDataType> {
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        this.settings = settings;
-        this.auth = auth;
-        this.fetchMethod = fetchMethod || fetch;
-        this.abortController = null;
-        this.fetching = false;
+        this.settings = settings
+        this.auth = auth
+        this.fetchMethod = fetchMethod || fetch
+        this.abortController = null
     }
 
-    protected abstract fetch(
+    protected abstract fetchInternal(
         query?: IQuery,
         suppressCallbacks?: boolean
-    ): Promise<any>;
+    ): Promise<TDataType>
 
     protected cbRequest(
         suppressCallbacks: boolean,
@@ -255,13 +322,18 @@ export abstract class BaseCall<TDataType> {
         reqInit: RequestInit
     ): boolean {
         if (!this.settings) {
-            throw new Error("Settings cannot be empty.");
+            throw new Error('Settings cannot be empty.')
         }
-        if (this.settings.cbRequest && !suppressCallbacks) {
-            return this.settings.cbRequest(url, reqInit) !== false;
+
+        const shouldFetch =
+            this.settings.cbRequest && !suppressCallbacks
+                ? this.settings.cbRequest(url, reqInit) !== false
+                : true
+
+        if (!shouldFetch) {
+            this.abortController = null
         }
-        // If no request-callback is set up we return true to allow the fetch to be executed
-        return true;
+        return shouldFetch
     }
 
     protected cbError(
@@ -271,10 +343,10 @@ export abstract class BaseCall<TDataType> {
         reqInit: RequestInit
     ): void {
         if (!this.settings) {
-            throw new Error("Settings cannot be empty.");
+            throw new Error('Settings cannot be empty.')
         }
         if (this.settings.cbError && !suppressCallbacks) {
-            this.settings.cbError(error);
+            this.settings.cbError(error)
         }
     }
     protected cbWarning(
@@ -284,10 +356,10 @@ export abstract class BaseCall<TDataType> {
         reqInit: RequestInit
     ): void {
         if (!this.settings) {
-            throw new Error("Settings cannot be empty.");
+            throw new Error('Settings cannot be empty.')
         }
         if (this.settings.cbWarning && !suppressCallbacks) {
-            this.settings.cbWarning(warning);
+            this.settings.cbWarning(warning)
         }
     }
 
@@ -298,10 +370,10 @@ export abstract class BaseCall<TDataType> {
         reqInit: RequestInit
     ): void {
         if (!this.settings) {
-            throw new Error("Settings cannot be empty.");
+            throw new Error('Settings cannot be empty.')
         }
         if (this.settings.cbSuccess && !suppressCallbacks) {
-            this.settings.cbSuccess(data);
+            this.settings.cbSuccess(data)
         }
     }
 
@@ -312,13 +384,16 @@ export abstract class BaseCall<TDataType> {
         if (
             this.settings.cbResultState &&
             this.settings.queryChangeSpecs &
-            QueryChangeSpecifications[fieldName]
+                QueryChangeSpecifications[fieldName]
         ) {
-            let invalid = this.fetchQuery
-                ? !(this.fetchQuery as Query).equals(query, this.settings.queryChangeSpecs)
-                : false;
+            const invalid = this.fetchQuery
+                ? !(this.fetchQuery as Query).equals(
+                      query,
+                      this.settings.queryChangeSpecs
+                  )
+                : false
 
-            this.settings.cbResultState(invalid, this.fetchQuery, query);
+            this.settings.cbResultState(invalid, this.fetchQuery, query)
         }
     }
 }

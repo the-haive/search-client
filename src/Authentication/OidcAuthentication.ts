@@ -1,12 +1,11 @@
-import OIDC, { UserManagerSettings } from "oidc-client";
-
-import { BaseCall, Fetch, Query } from "../Common";
+import OIDC, { UserManagerSettings } from 'oidc-client'
+import { BaseCall, Fetch, Query } from '../Common'
+import { IAuthentication } from './Authentication'
 import {
     AuthenticationSettings,
-    IAuthenticationSettings
-} from "./AuthenticationSettings";
-import { Authentication } from "./Authentication";
-import { AuthToken } from "./AuthToken";
+    IAuthenticationSettings,
+} from './AuthenticationSettings'
+import { AuthToken } from './AuthToken'
 
 /**
  * The OidcAuthentication service is a supporting feature for the other services.
@@ -17,28 +16,46 @@ import { AuthToken } from "./AuthToken";
  * oidc flows. This service will be monitoring the token-value to see if it is either missing or
  * expired. When that happens a new token will be fetched from the oidc end-point.
  */
-export class OidcAuthentication extends BaseCall<any> implements Authentication {
-
-    static handleSilentSignin(responseMode: string): void {              
-        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: responseMode, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
-        mgr.signinSilentCallback();
-        mgr.clearStaleState();
+export class OidcAuthentication
+    extends BaseCall<any>
+    implements IAuthentication {
+    public static handleSilentSignin(responseMode: string): void {
+        const mgr = new OIDC.UserManager({
+            loadUserInfo: true,
+            filterProtocolClaims: true,
+            response_mode: responseMode,
+            userStore: new OIDC.WebStorageStateStore({
+                store: window.sessionStorage,
+            }),
+        })
+        mgr.signinSilentCallback()
+        mgr.clearStaleState()
     }
 
-    static handleSigninRedirect(responseMode: string, callback: (state: any) => any): void {            
-        let mgr = new OIDC.UserManager({ loadUserInfo: true, filterProtocolClaims: true, response_mode: responseMode, userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage }) });
+    public static handleSigninRedirect(
+        responseMode: string,
+        callback: (state: any) => any
+    ): void {
+        const mgr = new OIDC.UserManager({
+            loadUserInfo: true,
+            filterProtocolClaims: true,
+            response_mode: responseMode,
+            userStore: new OIDC.WebStorageStateStore({
+                store: window.sessionStorage,
+            }),
+        })
 
-        mgr.signinRedirectCallback().then(user => {       
-            callback(user.state);
-            mgr.clearStaleState();
-        });
+        mgr.signinRedirectCallback().then(user => {
+            callback(user.state)
+            mgr.clearStaleState()
+        })
     }
 
-    public settings: IAuthenticationSettings;   
+    public settings: IAuthenticationSettings
 
-    private user: OIDC.UserManager;
+    private user: OIDC.UserManager
 
-    private oidcSettings: UserManagerSettings;
+    private oidcSettings: UserManagerSettings
 
     /**
      * Creates an OidcAuthentication object that knows where to get the auth-token and when to refresh it.
@@ -50,20 +67,23 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
         auth?: AuthToken,
         fetchMethod?: Fetch
     ) {
-        super(); // dummy
-       
+        super() // dummy
+
         // prepare for super.init
-        if (typeof settings === "string") {
-            settings = { baseUrl: settings, type: "oidc" } as IAuthenticationSettings;
+        if (typeof settings === 'string') {
+            settings = {
+                baseUrl: settings,
+                type: 'oidc',
+            } as IAuthenticationSettings
         } else {
-            settings.type = "oidc";
+            settings.type = 'oidc'
         }
 
-        settings = new AuthenticationSettings(settings);
-        auth = auth || new AuthToken();
-        super.init(settings, auth, fetchMethod);
+        settings = new AuthenticationSettings(settings)
+        auth = auth || new AuthToken()
+        super.init(settings, auth, fetchMethod)
 
-        this.oidcSettings = {            
+        this.oidcSettings = {
             authority: settings.url,
             client_id: settings.clientId,
             response_type: settings.responseType,
@@ -73,77 +93,34 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
             post_logout_redirect_uri: settings.postLogoutRedirectUri,
             automaticSilentRenew: true,
             loadUserInfo: true,
-            userStore: new OIDC.WebStorageStateStore({ store: window.sessionStorage })
-        };
-        
-        this.user = new OIDC.UserManager(this.oidcSettings);
-        
+            userStore: new OIDC.WebStorageStateStore({
+                store: window.sessionStorage,
+            }),
+        }
+
+        this.user = new OIDC.UserManager(this.oidcSettings)
+
         this.user.events.addSilentRenewError(() => {
-            this.login(this.user);           
-        });
+            this.login(this.user)
+        })
 
         this.user.events.addAccessTokenExpired(() => {
-            this.login(this.user);
-        });
+            this.login(this.user)
+        })
 
-        this.user.events.addUserSignedOut(() => {    
-            this.login(this.user);
-        });
-        
+        this.user.events.addUserSignedOut(() => {
+            this.login(this.user)
+        })
+
         if (this.settings.enableLogging) {
-            OIDC.Log.logger = console;
-            OIDC.Log.level = OIDC.Log.INFO;
+            OIDC.Log.logger = console
+            OIDC.Log.level = OIDC.Log.INFO
         }
 
         if (settings.enabled) {
             // We authenticate immediately in order to have the token in place when the first calls come in.
-            this.update(null);
+            this.update(null)
         }
-    }
-        
-    /**
-     * Fetches the authentication-token from the oidc server.
-     * @param query - For the Authentication service this parameter is ignored.
-     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
-     * @returns a promise that when resolved returns a jwt token.
-     */
-    public fetch(
-        query: Query = new Query(),
-        suppressCallbacks: boolean = false
-    ): Promise<string> {       
-        const reqInit = this.requestObject(false);
-        if (this.cbRequest(suppressCallbacks, this.settings.url, reqInit)) {            
-            return this.user.getUser().then(user => {                  
-                if (!user) {
-                    this.login(this.user);
-                } else {
-                    // Update the token
-                    this.auth.tokenResolver = () => {                         
-                       let oidcKey = `oidc.user:${this.oidcSettings.authority}:${this.oidcSettings.client_id}`;                       
-                       return JSON.parse(window.sessionStorage.getItem(oidcKey)).access_token;                        
-                    };
-                    
-                    this.cbSuccess(
-                        suppressCallbacks,
-                        this.auth.authenticationToken,
-                        this.settings.url,
-                        reqInit
-                    );
-                  
-                    return user.access_token;
-                }          
-            }).catch(error => {
-                this.cbError(
-                    suppressCallbacks,
-                    error,
-                    this.settings.url,
-                    reqInit
-                );
-                throw error;
-            });
-        } else {
-            return Promise.resolve(null);    
-        }                     
     }
 
     /**
@@ -155,32 +132,87 @@ export class OidcAuthentication extends BaseCall<any> implements Authentication 
     public update(query: Query, delay?: number): void {
         if (this.deferUpdate) {
             // Save the query, so that when the deferUpdate is again false we can then execute it.
-            this.deferredQuery = query;
+            this.deferredQuery = query
         } else {
             // In case this action is triggered when a delayed execution is already pending, clear that pending timeout.
-            clearTimeout(this.delay);
+            clearTimeout(this.delay)
 
             if (delay > 0) {
                 // Set up the delay
                 this.delay = setTimeout(() => {
-                    let fetchPromise = this.fetch(query);
+                    const fetchPromise = this.fetch(query)
                     if (fetchPromise) {
-                        fetchPromise.catch(error => Promise.resolve(null));
+                        fetchPromise.catch(error => Promise.resolve(null))
                     }
-                }, delay) as any;
+                }, delay) as any
             } else {
-                let fetchPromise = this.fetch(query);
+                const fetchPromise = this.fetch(query)
                 if (fetchPromise) {
-                    fetchPromise.catch(error => Promise.resolve(null));
+                    fetchPromise.catch(error => Promise.resolve(null))
                 }
             }
         }
     }
-    
+
+    /**
+     * Fetches the authentication-token from the oidc server.
+     * @param query - For the Authentication service this parameter is ignored.
+     * @param suppressCallbacks - Set to true if you have defined callbacks, but somehow don't want them to be called.
+     * @returns a promise that when resolved returns a jwt token.
+     */
+    protected async fetchInternal(
+        query: Query = new Query(),
+        suppressCallbacks: boolean = false
+    ): Promise<string> {
+        const reqInit = this.requestObject(false)
+
+        try {
+            if (
+                !this.cbRequest(suppressCallbacks, this.settings.url, reqInit)
+            ) {
+                const err = new Error()
+                err.name = 'cbRequestCancelled'
+                throw err
+            }
+
+            const user = await this.user.getUser()
+            if (!user) {
+                this.login(this.user)
+            } else {
+                // Update the token
+                this.auth.tokenResolver = () => {
+                    const oidcKey = `oidc.user:${this.oidcSettings.authority}:${this.oidcSettings.client_id}`
+                    return JSON.parse(window.sessionStorage.getItem(oidcKey))
+                        .access_token
+                }
+
+                this.cbSuccess(
+                    suppressCallbacks,
+                    this.auth.authenticationToken,
+                    this.settings.url,
+                    reqInit
+                )
+
+                return user.access_token
+            }
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                this.cbError(
+                    suppressCallbacks,
+                    error,
+                    this.settings.url,
+                    reqInit
+                )
+            }
+            throw error
+        }
+    }
+
     private login(userManager: OIDC.UserManager) {
-        userManager.createSigninRequest({ data: { currentUrl: window.location.href } })
-        .then((response) => {
-            window.location.href = response.url;
-        });     
+        userManager
+            .createSigninRequest({ data: { currentUrl: window.location.href } })
+            .then(response => {
+                window.location.href = response.url
+            })
     }
 }

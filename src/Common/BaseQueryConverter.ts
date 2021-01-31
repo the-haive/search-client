@@ -1,6 +1,5 @@
-import moment from "moment";
-
-import { IQuery } from ".";
+import moment from 'moment'
+import { IQuery } from '.'
 
 export abstract class BaseQueryConverter {
     /**
@@ -11,19 +10,19 @@ export abstract class BaseQueryConverter {
      * @returns The url to use for fetching the date, represented as a string.
      */
     public getUrl(url: string, query: IQuery): string {
-        let params = this.getUrlParams(query).sort();
-        return `${url}?${params.join("&")}`;
+        const params = this.getUrlParams(query).sort()
+        return `${url}?${params.join('&')}`
     }
 
     /**
      * Converts the query params to an array of key=value segments.
      */
-    protected abstract getUrlParams(query: IQuery): string[];
+    protected abstract getUrlParams(query: IQuery): string[]
 
     protected addParamIfSet(params: string[], key: string, param: any) {
-        let value = param.toString();
+        const value = param.toString()
         if (value) {
-            params.push(`${key}=${encodeURIComponent(value)}`);
+            params.push(`${key}=${encodeURIComponent(value)}`)
         }
     }
 
@@ -31,21 +30,13 @@ export abstract class BaseQueryConverter {
         date: Date | string | number | moment.DurationInputObject
     ): string {
         if (!date) {
-            return "";
+            return ''
         }
 
-        let dateString: string;
-        if (
-            typeof date === "object" &&
+        return typeof date === 'object' &&
             !(date instanceof String) &&
             !(date instanceof Date)
-        ) {
-            dateString = moment()
-                .add(date)
-                .toISOString();
-        } else {
-            dateString = moment(date).toISOString();
-        }
-        return dateString;
+            ? moment().add(date).toISOString()
+            : moment(date).toISOString()
     }
 }

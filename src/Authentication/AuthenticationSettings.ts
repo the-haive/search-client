@@ -1,29 +1,29 @@
-import { BaseSettings, IBaseSettings } from "../Common/BaseSettings";
+import { BaseSettings, IBaseSettings } from '../Common/BaseSettings'
 
-import { AuthenticationTriggers } from "./AuthenticationTriggers";
-import { QueryChangeSpecifications } from "../Common/QueryChangeSpecifications";
+import { QueryChangeSpecifications } from '../Common/QueryChangeSpecifications'
+import { AuthenticationTriggers } from './AuthenticationTriggers'
 
 export interface IAuthenticationSettings extends IBaseSettings<any> {
     /**
      * Sets authentication type - jwt or oidc.
      */
-    type?: string;
+    type?: string
 
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      */
-    token?: string;
+    token?: string
 
     /**
      * The trigger-settings for when a new auth-token is to be requested.
      */
-    triggers?: AuthenticationTriggers;
+    triggers?: AuthenticationTriggers
 
     /**
      * This is the path to the value returned by the authentication-call.
      * Should be a name-based lookup array, pointing to where the resulting auth-token is to be found.
      */
-    tokenPath?: string[];
+    tokenPath?: string[]
 
     /**
      * OpenId Connect specific settings
@@ -32,42 +32,42 @@ export interface IAuthenticationSettings extends IBaseSettings<any> {
     /**
      * Sets id of the client registered in identity server
      */
-    clientId?: string;
+    clientId?: string
 
     /**
      * Sets response type which describes response type to be returned by identity server
      */
-    responseType?: string;
+    responseType?: string
 
     /**
      * Sets response mode which describes mode of returning data by identity server
      */
-    responseMode?: string;
+    responseMode?: string
 
     /**
      * Sets url for redirect after silent token renew operation
      */
-    silentRedirectUri?: string;
+    silentRedirectUri?: string
 
     /**
      * Sets url for redirect after login operation
      */
-    redirectUri?: string;
+    redirectUri?: string
 
     /**
      * Sets url for redirect after logout operation
      */
-    postLogoutRedirectUri?: string;
+    postLogoutRedirectUri?: string
 
     /**
      * Sets list of scopes requested by client.
      */
-    scope?: string;
+    scope?: string
 
     /**
      * Enables logging of OpenId Connect client.
      */
-    enableLogging?: boolean;
+    enableLogging?: boolean
 }
 
 /**
@@ -77,25 +77,25 @@ export class AuthenticationSettings extends BaseSettings<any> {
     /**
      * Sets authentication type - jwt or oidc.
      */
-    public type?: string;
+    public type?: string
 
     /**
      * This is the token, if you need to set an initial value (i.e. if you already have the token)
      * Default: Undefined
      */
-    public token?: string;
+    public token?: string
 
     /**
      * This is the path to the value returned by the authentication-call.
      * Should be a name-based lookup array, pointing to where the resulting auth-token is to be found.
      * Default: ["jwtToken"]
      */
-    public tokenPath?: string[];
+    public tokenPath?: string[]
 
     /**
      * The trigger-settings for when a new auth-token is to be requested.
      */
-    public triggers: AuthenticationTriggers;
+    public triggers: AuthenticationTriggers
 
     /**
      * OpenId Connect specific settings
@@ -104,95 +104,94 @@ export class AuthenticationSettings extends BaseSettings<any> {
     /**
      * Sets id of the client registered in identity server
      */
-    public clientId?: string;
+    public clientId?: string
 
     /**
      * Sets response type which describes response type to be returned by identity server
      */
-    public responseType?: string;
+    public responseType?: string
 
     /**
      * Sets url for redirect after silent token renew operation
      */
-    public silentRedirectUri?: string;
+    public silentRedirectUri?: string
 
     /**
      * Sets url for redirect after login operation
      */
-    public redirectUri?: string;
+    public redirectUri?: string
 
     /**
      * Sets url for redirect after logout operation
      */
-    public postLogoutRedirectUri?: string;
+    public postLogoutRedirectUri?: string
 
     /**
      * Sets list of scopes requested by client.
      */
-    public scope?: string;
+    public scope?: string
 
     /**
      * Enables logging of OpenId Connect client.
      */
-    public enableLogging?: boolean;
+    public enableLogging?: boolean
 
     /**
      * Creates an AuthenticationSettings object for you, based on AuthenticationSettings defaults and the overrides provided as a param.
      * @param settings - The settings defined here will override the default AuthenticationSettings.
      */
     constructor(settings: IAuthenticationSettings | string) {
-        super(); // dummy (using init instead)
+        super() // dummy (using init instead)
 
         // Setup settings object before calling super.init with it.
-        if (typeof settings === "string") {
-            settings = { baseUrl: settings } as IAuthenticationSettings;
+        if (typeof settings === 'string') {
+            settings = { baseUrl: settings } as IAuthenticationSettings
         }
 
         settings.enabled =
-            typeof settings.enabled !== "undefined" ? settings.enabled : false;
+            typeof settings.enabled !== 'undefined' ? settings.enabled : false
 
         settings.basePath =
-            typeof settings.basePath !== "undefined" ? settings.basePath : "";
+            typeof settings.basePath !== 'undefined' ? settings.basePath : ''
 
         settings.servicePath =
-            typeof settings.servicePath !== "undefined"
+            typeof settings.servicePath !== 'undefined'
                 ? settings.servicePath
-                : "auth/login";
+                : 'auth/login'
 
-        super.init(settings);
+        super.init(settings)
 
-        this.type =
-            typeof settings.type !== "undefined" ? settings.type : "jwt";
+        this.type = typeof settings.type !== 'undefined' ? settings.type : 'jwt'
 
         // Setup our own stuff (props not in the base class).
         this.token =
-            typeof settings.token !== "undefined" ? settings.token : undefined;
+            typeof settings.token !== 'undefined' ? settings.token : undefined
 
         this.tokenPath =
-            typeof settings.tokenPath !== "undefined"
+            typeof settings.tokenPath !== 'undefined'
                 ? settings.tokenPath
-                : ["jwtToken"];
+                : ['jwtToken']
 
-        this.triggers = new AuthenticationTriggers(settings.triggers);
+        this.triggers = new AuthenticationTriggers(settings.triggers)
 
         // No query changes will trigger outdated warnings
-        this.queryChangeSpecs = QueryChangeSpecifications.none;
+        this.queryChangeSpecs = QueryChangeSpecifications.none
 
         this.enableLogging =
             typeof settings.enableLogging !== 'undefined'
                 ? settings.enableLogging
-                : false;
+                : false
 
-        this.clientId = settings.clientId;
+        this.clientId = settings.clientId
 
-        this.responseType = settings.responseType;
+        this.responseType = settings.responseType
 
-        this.scope = settings.scope;
+        this.scope = settings.scope
 
-        this.silentRedirectUri = settings.silentRedirectUri;
+        this.silentRedirectUri = settings.silentRedirectUri
 
-        this.redirectUri = settings.redirectUri;
+        this.redirectUri = settings.redirectUri
 
-        this.postLogoutRedirectUri = settings.postLogoutRedirectUri;
+        this.postLogoutRedirectUri = settings.postLogoutRedirectUri
     }
 }
