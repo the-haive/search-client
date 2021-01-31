@@ -370,6 +370,22 @@ describe('SearchClient filter interface', () => {
         )
     })
 
+    it('Should reset the categories too, on reset', () => {
+        const client = new SearchClient({
+            baseUrl: 'http://dummy/',
+            basePath: '',
+            query: {
+                clientId: 'test',
+            },
+        })
+
+        client.categorize.categories = catRef
+
+        client.reset()
+
+        expect(client.categorize.categories).toBeUndefined()
+    })
+
     it('Should have working match*, queryText, searchType, findAndCategorize and date interfaces', () => {
         const client = new SearchClient('http://localhost:9950')
         client.categorize.categories = catRef
