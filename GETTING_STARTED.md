@@ -10,7 +10,7 @@ The two central classes are SearchClient and Settings:
 
 The central class is the [[SearchClient]]. To start using it you will need to create a new instance of it.
 
-**Note: If you are embedding the library via a script-tag then all the library features are in the IntelliSearch namespace.**
+**Note: If you are embedding the library via a script-tag then all the library features are in the Haive namespace.**
 
 The constructor takes one parameter (`settings`: [[ISettings]]), where at least the [[Settings.baseUrl]] must be set.
 
@@ -192,7 +192,7 @@ Implicit flow example:
   "redirectUri": "localhost:9000/callback.html",
   "postLogoutRedirectUri": "localhost:9000",
   "servicePath": "",
-  "clientId": "intellisearch.webclient.implicit",
+  "clientId": "haive.webclient.implicit",
   "scope": "openid profile",
   "responseType": "id_token token",
   "responseMode": "fragment",
@@ -209,7 +209,7 @@ Implicit flow example:
   "redirectUri": "localhost:9000/callback.html",
   "postLogoutRedirectUri": "localhost:9000",
   "servicePath": "",
-  "clientId": "intellisearch.webclient.implicit",
+  "clientId": "haive.webclient.implicit",
   "scope": "openid profile",
   "responseType": "id_token token",
   "responseMode": "query",

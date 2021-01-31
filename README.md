@@ -17,6 +17,8 @@
 
 The SearchClient library makes it easy to hook up your search-UI to a Haive SearchManager instance (see the app-search features of [Haive App Search here](https://haive.ai/solutions/application-search/)).
 
+Note: in v2+ the package namespace is Haive (instead of IntelliSearch)
+
 The package handles all the backend web-services so that you can focus on the user interface instead.
 
 The SearchClient wraps and manages all the Haive SearchManager REST web-services:
@@ -39,7 +41,7 @@ Since we have implemented the search-client in Typescript all the data-types and
 
 For web-pages that needs to have a script-tag embedded you can fetch the file(s) needed via the jsDelivr cdn, like this:
 
-    <script src="//cdn.jsdelivr.net/npm/search-client@{version}/dist/IntelliSearch.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/search-client@{version}/dist/Haive.min.js"></script>
 
 \- where `{version}` is to be replaced with the actual version you want.
 

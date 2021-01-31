@@ -1,5 +1,5 @@
 {
-    "name": "HAIVE IntelliSearch SearchClient",
+    "name": "HAIVE SearchClient",
     "out": "docs",
     "exclude": "**/*.+(spec.ts|json)",
     "theme": "default",

@@ -105,9 +105,9 @@ typings/
 \.rpt2_cache/
 
 temp/
-samples/plain/IntelliSearch\.js
+samples/plain/Haive\.js
 
-samples/plain/IntelliSearch\.min\.js
+samples/plain/Haive\.min\.js
 
 package-lock.json
 

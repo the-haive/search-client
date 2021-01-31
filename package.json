@@ -1,7 +1,7 @@
 {
     "name": "search-client",
     "version": "2.1.1",
-    "description": "Javascript library for executing searches in the HAIVE IntelliSearch search-index via the SearchManager REST interface.",
+    "description": "Javascript library for executing searches in the Haive search-index via the SearchManager REST interface.",
     "author": "Ronny Hanssen <ronny@haive.ai> (http://haive.ai/)",
     "license": "MIT",
     "repository": {
@@ -12,7 +12,7 @@
     "bugs": {
         "url": "https://github.com/the-haive/search-client/issues"
     },
-    "main": "dist/IntelliSearch.min.js",
+    "main": "dist/Haive.min.js",
     "module": "es/SearchClient.js",
     "types": "es/SearchClient.d.ts",
     "scripts": {
