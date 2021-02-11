@@ -23,6 +23,7 @@ export class OidcAuthentication
         const mgr = new OIDC.UserManager({
             loadUserInfo: true,
             filterProtocolClaims: true,
+            automaticSilentRenew: true,
             response_mode: responseMode,
             userStore: new OIDC.WebStorageStateStore({
                 store: window.sessionStorage,
@@ -40,6 +41,7 @@ export class OidcAuthentication
             loadUserInfo: true,
             filterProtocolClaims: true,
             response_mode: responseMode,
+            automaticSilentRenew: true,
             userStore: new OIDC.WebStorageStateStore({
                 store: window.sessionStorage,
             }),
@@ -119,7 +121,13 @@ export class OidcAuthentication
 
         if (settings.enabled) {
             // We authenticate immediately in order to have the token in place when the first calls come in.
-            this.update(null)
+            var oauth = this; 
+
+            // Perform silent signin first, then update token if succesful. If not succesful run full redirect flow.
+            this.user.signinSilent()
+            .finally (function () {
+                oauth.update(null);
+            });;            
         }
     }
 
@@ -208,7 +216,7 @@ export class OidcAuthentication
         }
     }
 
-    private login(userManager: OIDC.UserManager) {
+    private login(userManager: OIDC.UserManager) {        
         userManager
             .createSigninRequest({ data: { currentUrl: window.location.href } })
             .then(response => {
