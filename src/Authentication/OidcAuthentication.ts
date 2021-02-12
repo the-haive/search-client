@@ -121,12 +121,10 @@ export class OidcAuthentication
 
         if (settings.enabled) {
             // We authenticate immediately in order to have the token in place when the first calls come in.
-            var oauth = this; 
-
             // Perform silent signin first, then update token if succesful. If not succesful run full redirect flow.
             this.user.signinSilent()
-            .finally (function () {
-                oauth.update(null);
+            .finally (() => {
+                this.update(null);
             });;            
         }
     }
