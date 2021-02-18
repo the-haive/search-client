@@ -14,7 +14,7 @@ export class FindQueryConverter extends BaseQueryConverter {
         this.addParamIfSet(params, 'df', this.createDate(query.dateFrom))
         this.addParamIfSet(params, 'dt', this.createDate(query.dateTo))
         const filters: string[] = query.filters.map(f =>
-            f.category.categoryName.join('|')
+            f.category.categoryName.join('|').replace(';','/;')
         )
         this.addParamIfSet(params, 'f', filters.join(';'))
         this.addParamIfSet(params, 'q', query.queryText)
