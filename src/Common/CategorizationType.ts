@@ -29,5 +29,12 @@ export enum CategorizationType {
      * 
      * Server-side execution does *not* apply category-filters in the categorize() call.
      */
-    Normal = "Normal"
+    Normal = "Normal",
+    
+    /**     
+     * Returns categories with hits only.
+     * 
+     * @deprecated DocumentHitsOnly is deprecated. Drilldown type replaces DocumentHitsOnly categorization type.
+     */
+    DocumentHitsOnly = "DocumentHitsOnly"
 }
