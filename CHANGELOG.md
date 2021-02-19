@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/the-haive/search-client/compare/v2.1.1...v2.2.0) (2021-02-19)
+
+
+### Features
+
+* performs silent signin when user has active authentication server session ([c0c7fef](https://github.com/the-haive/search-client/commit/c0c7fefb0aedf05e6353766912ca2fed82bebde0))
+
+
+### Bug Fixes
+
+* escapes delimiter character in filters param, restores drilldown categorization type (deprecated) ([27c6edd](https://github.com/the-haive/search-client/commit/27c6edd7c5084256a6b63d74cb8653f87ab8dae0))
+
 ### [2.1.2](https://github.com/the-haive/search-client/compare/v2.1.1...v2.1.2) (2021-01-31)
 
 ### [2.1.1](https://github.com/the-haive/search-client/compare/v2.1.0...v2.1.1) (2021-01-31)
